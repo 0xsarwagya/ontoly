@@ -534,14 +534,25 @@ async function architectureCommand(cli: ParsedCli): Promise<void> {
   const graph = await loadOrBuildGraph(cli);
   const query = createQueryEngine(graph);
   const summary = architectureSummary(query);
+  const format = flagString(cli, "format", "");
 
   if (flagBoolean(cli, "json")) {
     logger.write(JSON.stringify(summary, null, 2));
     return;
   }
 
-  if (flagString(cli, "format", "") === "mermaid") {
+  if (format === "mermaid") {
     logger.write(architectureMermaid(query));
+    return;
+  }
+
+  if (format === "html") {
+    logger.write(createInteractiveHtmlGraph(architectureGraph(query), {
+      title: `${graph.repository.name} Architecture Graph`,
+      maxNodes: flagNumber(cli, "max-nodes", 1200),
+      maxEdges: flagNumber(cli, "max-edges", 2400),
+      includeIsolatedNodes: false,
+    }));
     return;
   }
 
@@ -1506,16 +1517,19 @@ function formatNodeList(nodes: readonly JsonObject[]): string {
 }
 
 function architectureMermaid(query: ReturnType<typeof createQueryEngine>): string {
+  return exportMermaid(architectureGraph(query));
+}
+
+function architectureGraph(query: ReturnType<typeof createQueryEngine>): SoftwareGraph {
   const relevantTypes = new Set(["Workspace", "Package", "Framework", "Service", "Repository", "Route", "Configuration"]);
   const nodes = query.findNodes().filter((node) => relevantTypes.has(node.type));
   const nodeIds = new Set(nodes.map((node) => node.id));
-  const graph: SoftwareGraph = {
+
+  return {
     ...query.graph,
     nodes,
     edges: query.graph.edges.filter((edge) => nodeIds.has(edge.from) && nodeIds.has(edge.to)),
   };
-
-  return exportMermaid(graph);
 }
 
 function reportMermaid(query: ReturnType<typeof createQueryEngine>, target: string): string {
@@ -1708,6 +1722,11 @@ function parseCli(args: readonly string[]): ParsedCli {
 function flagString(cli: ParsedCli, name: string, fallback: string): string {
   const value = cli.flags.get(name);
   return typeof value === "string" ? value : fallback;
+}
+
+function flagNumber(cli: ParsedCli, name: string, fallback: number): number {
+  const value = Number(flagString(cli, name, String(fallback)));
+  return Number.isFinite(value) && value >= 0 ? value : fallback;
 }
 
 function flagBoolean(cli: ParsedCli, name: string): boolean {
@@ -1954,9 +1973,14 @@ function commandHelp(): Record<string, CommandHelp> {
   architecture: {
     title: "ontoly architecture",
     description: "Print an architecture summary from graph entities.",
-    usage: ["ontoly architecture [root] [--format mermaid] [--json]"],
-    options: ["--format mermaid  Render Mermaid.", "--json            Print JSON."],
-    examples: ["ontoly architecture", "ontoly architecture --format mermaid"],
+    usage: ["ontoly architecture [root] [--format mermaid|html] [--json]"],
+    options: [
+      "--format kind  mermaid or html.",
+      "--max-nodes n  Maximum nodes for HTML output. Default: 1200.",
+      "--max-edges n  Maximum edges for HTML output. Default: 2400.",
+      "--json         Print JSON.",
+    ],
+    examples: ["ontoly architecture", "ontoly architecture --format mermaid", "ontoly architecture --format html > architecture.html"],
   },
   evaluate: {
     title: "ontoly evaluate",
@@ -2075,7 +2099,7 @@ Usage:
   ontoly inspect [file-or-node] [--root path] [--json]
   ontoly trace <node-id-or-name> [--depth 3] [--format mermaid] [--json]
   ontoly stats [root] [--root path] [--json]
-  ontoly architecture [root] [--root path] [--format mermaid] [--json]
+  ontoly architecture [root] [--root path] [--format mermaid|html] [--json]
   ontoly coverage [root] [--root path] [--format human|markdown|json] [--json]
   ontoly report [summary|api|dependencies|configuration|framework|frameworks|controllers|routes|modules|providers|workspace] [--root path] [--format markdown|json|mermaid]
   ontoly graph [root] [--root path] [--format summary|json|mermaid|dot|graphml|html]
@@ -2103,6 +2127,7 @@ Examples:
   ontoly graph --format mermaid
   ontoly graph --format html > graph.html
   ontoly architecture
+  ontoly architecture --format html > architecture.html
   ontoly coverage
   ontoly report api
   ontoly report routes

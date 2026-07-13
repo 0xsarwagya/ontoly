@@ -9,6 +9,7 @@ They do not parse source code or read repository files directly.
 ```sh
 ontoly architecture
 ontoly architecture --format mermaid
+ontoly architecture --format html > architecture.html
 ontoly report
 ontoly report api
 ontoly report dependencies
@@ -22,6 +23,7 @@ ontoly report workspace
 - Markdown
 - JSON
 - Mermaid
+- Interactive HTML
 
 ## Report Types
 

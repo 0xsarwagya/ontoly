@@ -78,7 +78,7 @@ export function createInteractiveHtmlPlugin(
 ): OntolyPlugin {
   return {
     name: "@0xsarwagya/ontoly-plugin-html",
-    version: "0.1.0-alpha.1",
+    version: "0.1.0-alpha.2",
     run: ({ graph }) => ({
       artifacts: [createInteractiveHtmlArtifact(graph, options)],
     }),
@@ -356,8 +356,9 @@ function renderHtml(payload: HtmlGraphPayload): string {
     }
 
     .edge {
-      stroke: #98a2b3;
-      stroke-width: 1.5;
+      stroke: #111827;
+      stroke-opacity: 0.42;
+      stroke-width: 1.25;
       marker-end: url(#arrow);
     }
 
@@ -371,9 +372,9 @@ function renderHtml(payload: HtmlGraphPayload): string {
     }
 
     .node circle {
-      stroke: rgba(23, 32, 51, 0.2);
+      stroke: rgba(17, 24, 39, 0.35);
       stroke-width: 1.5;
-      filter: drop-shadow(0 8px 12px rgba(23, 32, 51, 0.14));
+      filter: drop-shadow(0 3px 6px rgba(23, 32, 51, 0.18));
     }
 
     .node text {
@@ -523,16 +524,9 @@ function renderHtml(payload: HtmlGraphPayload): string {
     (function () {
       "use strict";
 
-      var palette = ["#14b8a6", "#2563eb", "#db2777", "#ca8a04", "#7c3aed", "#dc2626", "#0891b2", "#16a34a", "#ea580c", "#475569"];
+      var palette = ["#111827", "#0f766e", "#2563eb", "#db2777", "#ca8a04", "#7c3aed", "#dc2626", "#0891b2", "#16a34a", "#ea580c", "#475569"];
       var payload = JSON.parse(document.getElementById("graph-data").textContent);
-      var nodes = payload.nodes.map(function (node, index) {
-        var angle = index * 2.399963229728653;
-        var radius = 90 + Math.sqrt(index + 1) * 54;
-        return Object.assign({}, node, {
-          x: Math.cos(angle) * radius,
-          y: Math.sin(angle) * radius
-        });
-      });
+      var nodes = layoutNodes(payload.nodes, payload.edges);
       var nodeById = new Map(nodes.map(function (node) { return [node.id, node]; }));
       var edges = payload.edges.filter(function (edge) { return nodeById.has(edge.from) && nodeById.has(edge.to); });
       var enabledTypes = new Set(payload.filters.nodeTypes);
@@ -600,6 +594,9 @@ function renderHtml(payload: HtmlGraphPayload): string {
         var visibleEdges = edges.filter(function (edge) {
           return enabledRelationships.has(edge.type) && visibleNodeIds.has(edge.from) && visibleNodeIds.has(edge.to);
         });
+        var showNodeLabels = visibleNodes.length <= 180;
+        var showEdgeLabels = visibleEdges.length <= 250;
+        var nodeRadius = radiusFor(visibleNodes.length);
 
         document.getElementById("visible-nodes").textContent = String(visibleNodes.length);
         document.getElementById("visible-edges").textContent = String(visibleEdges.length);
@@ -623,13 +620,15 @@ function renderHtml(payload: HtmlGraphPayload): string {
           });
           edgeLayer.append(line);
 
-          var label = svgElement("text", {
-            class: "edge-label",
-            x: (from.x + to.x) / 2,
-            y: (from.y + to.y) / 2
-          });
-          label.textContent = edge.type;
-          edgeLabelLayer.append(label);
+          if (showEdgeLabels) {
+            var label = svgElement("text", {
+              class: "edge-label",
+              x: (from.x + to.x) / 2,
+              y: (from.y + to.y) / 2
+            });
+            label.textContent = edge.type;
+            edgeLabelLayer.append(label);
+          }
         });
 
         visibleNodes.forEach(function (node) {
@@ -639,16 +638,21 @@ function renderHtml(payload: HtmlGraphPayload): string {
             "data-node-id": node.id
           });
           group.append(svgElement("circle", {
-            r: 18,
+            r: nodeRadius,
             fill: colorFor(node.type)
           }));
-          var label = svgElement("text", {
-            x: 0,
-            y: 32,
-            "text-anchor": "middle"
-          });
-          label.textContent = compactLabel(node.name);
-          group.append(label);
+          var title = svgElement("title", {});
+          title.textContent = node.type + ": " + node.name;
+          group.append(title);
+          if (showNodeLabels || node.id === selectedNodeId) {
+            var label = svgElement("text", {
+              x: 0,
+              y: nodeRadius + 14,
+              "text-anchor": "middle"
+            });
+            label.textContent = compactLabel(node.name);
+            group.append(label);
+          }
           group.addEventListener("click", function (event) {
             event.stopPropagation();
             selectedNodeId = node.id;
@@ -659,6 +663,107 @@ function renderHtml(payload: HtmlGraphPayload): string {
         });
 
         updateTransform();
+      }
+
+      function layoutNodes(inputNodes, inputEdges) {
+        var positions = inputNodes.map(function (node) { return Object.assign({}, node, { x: 0, y: 0 }); });
+        var positionById = new Map(positions.map(function (node) { return [node.id, node]; }));
+        var adjacency = new Map(positions.map(function (node) { return [node.id, new Set()]; }));
+
+        inputEdges.forEach(function (edge) {
+          if (!adjacency.has(edge.from) || !adjacency.has(edge.to)) {
+            return;
+          }
+          adjacency.get(edge.from).add(edge.to);
+          adjacency.get(edge.to).add(edge.from);
+        });
+
+        var visited = new Set();
+        var components = [];
+        positions.forEach(function (node) {
+          if (visited.has(node.id)) {
+            return;
+          }
+          var queue = [node.id];
+          var component = [];
+          visited.add(node.id);
+
+          for (var index = 0; index < queue.length; index += 1) {
+            var id = queue[index];
+            var current = positionById.get(id);
+            if (current) {
+              component.push(current);
+            }
+            Array.from(adjacency.get(id) || []).sort().forEach(function (next) {
+              if (!visited.has(next)) {
+                visited.add(next);
+                queue.push(next);
+              }
+            });
+          }
+
+          component.sort(function (left, right) {
+            var degreeDelta = (adjacency.get(right.id) || new Set()).size - (adjacency.get(left.id) || new Set()).size;
+            return degreeDelta || left.id.localeCompare(right.id);
+          });
+          components.push(component);
+        });
+
+        components.sort(function (left, right) {
+          return right.length - left.length || left[0].id.localeCompare(right[0].id);
+        });
+
+        var cursorX = 0;
+        var cursorY = 0;
+        var rowHeight = 0;
+        var maxRowWidth = Math.max(900, Math.ceil(Math.sqrt(Math.max(positions.length, 1))) * 170);
+
+        components.forEach(function (component) {
+          var componentRadius = Math.max(70, Math.sqrt(component.length) * 34);
+          if (cursorX > 0 && cursorX + componentRadius * 2 > maxRowWidth) {
+            cursorX = 0;
+            cursorY += rowHeight + 140;
+            rowHeight = 0;
+          }
+          var centerX = cursorX + componentRadius;
+          var centerY = cursorY + componentRadius;
+
+          component.forEach(function (node, index) {
+            if (component.length === 1) {
+              node.x = centerX;
+              node.y = centerY;
+              return;
+            }
+            var ring = Math.floor(Math.sqrt(index));
+            var ringStart = ring * ring;
+            var ringSize = Math.max(1, (ring + 1) * (ring + 1) - ringStart);
+            var angle = ((index - ringStart) / ringSize) * Math.PI * 2 + ring * 0.41;
+            var radius = Math.min(componentRadius - 16, 28 + ring * 32);
+            node.x = centerX + Math.cos(angle) * radius;
+            node.y = centerY + Math.sin(angle) * radius;
+          });
+
+          cursorX += componentRadius * 2 + 140;
+          rowHeight = Math.max(rowHeight, componentRadius * 2);
+        });
+
+        return positions;
+      }
+
+      function radiusFor(count) {
+        if (count > 5000) {
+          return 2.5;
+        }
+        if (count > 1500) {
+          return 3.5;
+        }
+        if (count > 400) {
+          return 5;
+        }
+        if (count > 180) {
+          return 7;
+        }
+        return 14;
       }
 
       function matchesNode(node) {

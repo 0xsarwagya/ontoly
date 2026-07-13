@@ -31,6 +31,7 @@ ontoly inspect AuthService
 ontoly query find AuthService
 ontoly graph --format mermaid
 ontoly graph --format html > graph.html
+ontoly architecture --format html > architecture.html
 ```
 
 ## How do I run validation?

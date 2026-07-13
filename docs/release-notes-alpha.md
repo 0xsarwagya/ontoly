@@ -1,5 +1,21 @@
 # Alpha Release Notes
 
+## v0.1.0-alpha.3
+
+This CLI release adds interactive HTML architecture exports.
+
+- `ontoly architecture --format html` emits a self-contained architecture graph.
+- Large graph rendering now uses connected node-link layouts with reduced label noise.
+- `--max-nodes` and `--max-edges` bound architecture HTML output for large repositories.
+
+## v0.1.0-alpha.2
+
+This CLI release adds interactive Software Graph HTML export.
+
+- `ontoly graph --format html` emits a searchable, filterable graph artifact.
+- `@0xsarwagya/ontoly-plugin-html` ships as an independently installable plugin.
+- HTML output works offline without CDN assets.
+
 ## v0.1.0-alpha.1
 
 This release candidate prepares Ontoly for its first public alpha.

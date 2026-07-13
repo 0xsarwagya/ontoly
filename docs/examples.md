@@ -6,6 +6,7 @@ Run the Sprint 3 workflow from a repository root:
 ontoly build .
 ontoly stats
 ontoly architecture
+ontoly architecture --format html > architecture.html
 ontoly report
 ontoly inspect src/auth.ts
 ontoly trace fn:src/index.ts:main

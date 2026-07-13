@@ -36,6 +36,14 @@ describe("cli developer experience helpers", () => {
     expect(help).toContain("ontoly graph --format html > graph.html");
   });
 
+  it("documents interactive HTML architecture export", () => {
+    const help = renderCommandHelp(commandHelp().architecture);
+
+    expect(help).toContain("--format mermaid|html");
+    expect(help).toContain("--max-nodes n");
+    expect(help).toContain("ontoly architecture --format html > architecture.html");
+  });
+
   it("formats structured CLI errors with codes, suggestions, and docs", () => {
     const message = formatCliError(new OntolyCliError({
       code: "ONTOLY0001",

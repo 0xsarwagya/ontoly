@@ -131,6 +131,9 @@ graph coverage.
 
 - `--json`
 - `--format mermaid`
+- `--format html`
+- `--max-nodes`
+- `--max-edges`
 
 `ontoly coverage` supports:
 
