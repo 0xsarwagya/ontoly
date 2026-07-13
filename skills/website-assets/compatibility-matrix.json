@@ -1,0 +1,89 @@
+{
+  "minimumOntolyVersion": "0.1.0-alpha.1",
+  "skills": [
+    {
+      "id": "architecture-review",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "deprecated": false
+    },
+    {
+      "id": "codebase-onboarding",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "deprecated": false
+    },
+    {
+      "id": "configuration-analysis",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "deprecated": false
+    },
+    {
+      "id": "dead-code-analysis",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "deprecated": false
+    },
+    {
+      "id": "dependency-analysis",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "deprecated": false
+    },
+    {
+      "id": "documentation",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "deprecated": false
+    },
+    {
+      "id": "framework-analysis",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "deprecated": false
+    },
+    {
+      "id": "impact-analysis",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "deprecated": false
+    },
+    {
+      "id": "migration-analysis",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "deprecated": false
+    },
+    {
+      "id": "performance-analysis",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "deprecated": false
+    },
+    {
+      "id": "refactoring",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "deprecated": false
+    },
+    {
+      "id": "request-tracing",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "deprecated": false
+    },
+    {
+      "id": "sdk-generation",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "deprecated": false
+    },
+    {
+      "id": "security-review",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "deprecated": false
+    }
+  ]
+}

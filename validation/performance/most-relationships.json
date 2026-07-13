@@ -1,0 +1,105 @@
+[
+  {
+    "id": "ovok-core",
+    "name": "Ovok Core",
+    "frameworks": [
+      "nestjs",
+      "express"
+    ],
+    "category": "monorepo",
+    "status": "PASS",
+    "coverage": 98,
+    "trust": 98,
+    "nodes": 21696,
+    "edges": 47312,
+    "packages": 120,
+    "files": 21612,
+    "graphSizeBytes": 63096325,
+    "totalDurationMs": 25104.054,
+    "peakMemoryBytes": 2574237696,
+    "queryLatencyMs": 2.7208
+  },
+  {
+    "id": "innosphere",
+    "name": "Innosphere",
+    "frameworks": [
+      "nestjs",
+      "react",
+      "turborepo",
+      "vite"
+    ],
+    "category": "monorepo",
+    "status": "PASS",
+    "coverage": 100,
+    "trust": 100,
+    "nodes": 6771,
+    "edges": 12164,
+    "packages": 124,
+    "files": 856,
+    "graphSizeBytes": 16634388,
+    "totalDurationMs": 10477.266,
+    "peakMemoryBytes": 2825895936,
+    "queryLatencyMs": 0.6583
+  },
+  {
+    "id": "0xsarwagya",
+    "name": "0xsarwagya",
+    "frameworks": [
+      "nextjs",
+      "react",
+      "turborepo"
+    ],
+    "category": "monorepo",
+    "status": "PASS",
+    "coverage": 95,
+    "trust": 95,
+    "nodes": 1202,
+    "edges": 2082,
+    "packages": 29,
+    "files": 6842,
+    "graphSizeBytes": 2671467,
+    "totalDurationMs": 8432.221,
+    "peakMemoryBytes": 2719399936,
+    "queryLatencyMs": 0.1295
+  },
+  {
+    "id": "ghost",
+    "name": "Ghost",
+    "frameworks": [
+      "react",
+      "vite"
+    ],
+    "category": "library",
+    "status": "PASS",
+    "coverage": 100,
+    "trust": 100,
+    "nodes": 350,
+    "edges": 655,
+    "packages": 7,
+    "files": 56,
+    "graphSizeBytes": 783053,
+    "totalDurationMs": 613.647,
+    "peakMemoryBytes": 2003746816,
+    "queryLatencyMs": 0.0326
+  },
+  {
+    "id": "durable-local",
+    "name": "durable-local",
+    "frameworks": [
+      "react",
+      "vite"
+    ],
+    "category": "library",
+    "status": "PASS",
+    "coverage": 100,
+    "trust": 100,
+    "nodes": 226,
+    "edges": 381,
+    "packages": 8,
+    "files": 55,
+    "graphSizeBytes": 468196,
+    "totalDurationMs": 601.752,
+    "peakMemoryBytes": 2005319680,
+    "queryLatencyMs": 0.0521
+  }
+]

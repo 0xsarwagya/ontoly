@@ -1,0 +1,23 @@
+repository: ghost
+name: Ghost
+path: /Users/shrey/Desktop/personal/ghost
+frameworks:
+  - React
+  - Vite
+questions: questions/ghost.yaml
+expectedGraph:
+  minNodes: 300
+  minEdges: 600
+  requiredNodeTypes:
+    - Function
+    - Interface
+    - Class
+    - Package
+    - Configuration
+  requiredRelationships:
+    - CALLS
+    - IMPORTS
+    - DEPENDS_ON
+coverageExpectations:
+  semanticCoverage: 95
+  trustScore: 95

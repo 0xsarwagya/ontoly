@@ -1,0 +1,13 @@
+{
+  "id": "zod",
+  "name": "Zod",
+  "source": "https://github.com/colinhacks/zod.git",
+  "corpusPath": "libraries/zod",
+  "frameworks": [
+    "zod"
+  ],
+  "language": "typescript",
+  "repositoryType": "library",
+  "expectedAnalyzer": "typescript",
+  "default": false
+}

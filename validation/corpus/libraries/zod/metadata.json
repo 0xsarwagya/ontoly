@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "priority": "medium",
+  "category": "library",
+  "expected": {
+    "analyzer": "typescript",
+    "semanticCoverage": 70,
+    "trust": 80,
+    "graphSizeBytes": {
+      "min": 100000,
+      "max": 50000000
+    },
+    "nodeRange": {
+      "min": 100,
+      "max": 50000
+    },
+    "edgeRange": {
+      "min": 100,
+      "max": 100000
+    },
+    "diagnosticsMax": 200
+  }
+}

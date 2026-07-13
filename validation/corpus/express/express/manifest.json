@@ -1,0 +1,13 @@
+{
+  "id": "express",
+  "name": "Express",
+  "source": "https://github.com/expressjs/express.git",
+  "corpusPath": "express/express",
+  "frameworks": [
+    "express"
+  ],
+  "language": "javascript",
+  "repositoryType": "framework",
+  "expectedAnalyzer": "express",
+  "default": false
+}

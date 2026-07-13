@@ -1,0 +1,44 @@
+---
+name: performance-analysis
+description: Investigate performance-sensitive architecture using Ontoly call, dependency, and graph statistics evidence. Use when asked about hot paths, expensive flows, or performance investigation starting points.
+license: MIT
+compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
+metadata:
+  ontoly.skill.version: "0.1.0-alpha.1"
+  ontoly.min.version: "0.1.0-alpha.1"
+  ontoly.capabilities: "TraceExecution, TraceRequestLifecycle, FindDependencies, GraphStatistics"
+  ontoly.category: "performance"
+  ontoly.deprecated: "false"
+---
+
+# Performance Analysis
+
+Use this skill when the user asks for performance analysis using Ontoly evidence.
+
+## Required Workflow
+
+Follow [the shared Ontoly workflow](reference/workflow.md). Also read [graph evidence rules](reference/graph.md), [MCP usage](reference/mcp.md), [best practices](reference/best-practices.md), and [fallback rules](reference/fallbacks.md) when the task requires detail.
+
+## Ontoly Capabilities
+
+Use these capabilities first: `TraceExecution`, `TraceRequestLifecycle`, `FindDependencies`, `GraphStatistics`.
+
+## Output Contract
+
+Return:
+
+- answer or plan
+- capabilities invoked
+- graph evidence with node ids, edge types, source spans, and graph hash when available
+- confidence: high, medium, or low
+- fallback reason if repository files were inspected
+
+## Boundaries
+
+Do not implement compiler, query, MCP, SDK, or business logic in the skill. Do not search repository files until Ontoly cannot answer or evidence must be confirmed.
+
+## Resources
+
+- [Examples](examples.md)
+- [Prompt template](templates/performance-investigation.md)
+- [Capability notes](reference/capabilities.md)

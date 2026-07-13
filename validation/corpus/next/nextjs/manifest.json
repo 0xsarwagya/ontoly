@@ -1,0 +1,14 @@
+{
+  "id": "nextjs",
+  "name": "Next.js",
+  "source": "https://github.com/vercel/next.js.git",
+  "corpusPath": "next/nextjs",
+  "frameworks": [
+    "nextjs",
+    "react"
+  ],
+  "language": "typescript",
+  "repositoryType": "framework",
+  "expectedAnalyzer": "nextjs",
+  "default": false
+}

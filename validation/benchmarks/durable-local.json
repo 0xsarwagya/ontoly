@@ -1,0 +1,299 @@
+{
+  "repository": "durable-local",
+  "ontoly": {
+    "tool": "ontoly",
+    "command": {
+      "executable": "/Users/shrey/.nvm/versions/node/v24.16.0/bin/node",
+      "args": [
+        "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/tools/run-validation.mjs",
+        "--ontoly-one",
+        "durable-local",
+        "/Users/shrey/Desktop/personal/durable-local",
+        "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/ontoly"
+      ],
+      "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository",
+      "note": "Runs Ontoly through its built package APIs with write:false so source repositories are not modified."
+    },
+    "exitCode": 0,
+    "durationMs": 956.0260410000046,
+    "time": {
+      "realSeconds": 0.95,
+      "maxResidentSetBytes": 488554496,
+      "peakMemoryFootprintBytes": 476775240,
+      "peakMemoryBytes": 488554496,
+      "source": "/usr/bin/time -l"
+    },
+    "graphHash": "0qkaj80",
+    "outputFiles": [
+      "command.json",
+      "coverage.json",
+      "diagnostics.json",
+      "frameworks.json",
+      "graph-validation.json",
+      "indexes.json",
+      "metadata.json",
+      "quality.json",
+      "result.json",
+      "semantic-entities.json",
+      "semantic-model-summary.json",
+      "semantic-model.json",
+      "SoftwareGraph.json",
+      "statistics.json",
+      "stderr.log",
+      "stdout.log"
+    ],
+    "graphDurationMs": null,
+    "statistics": {
+      "files": 55,
+      "nodes": 226,
+      "edges": 381,
+      "diagnostics": 0,
+      "nodesByType": {
+        "BuildTarget": 1,
+        "Class": 1,
+        "Configuration": 5,
+        "Dependency": 7,
+        "EnvironmentVariable": 1,
+        "Export": 54,
+        "Framework": 1,
+        "Function": 35,
+        "Import": 38,
+        "Interface": 9,
+        "Job": 4,
+        "Module": 21,
+        "Namespace": 1,
+        "Package": 8,
+        "Script": 9,
+        "Step": 6,
+        "Task": 9,
+        "TypeAlias": 12,
+        "Workflow": 3,
+        "Workspace": 1
+      },
+      "edgesByType": {
+        "CALLS": 38,
+        "CONFIGURES": 5,
+        "CONTAINS": 175,
+        "CREATES": 7,
+        "DEPENDS_ON": 7,
+        "EXECUTES": 9,
+        "EXPORTS": 54,
+        "EXTENDS": 1,
+        "IMPORTS": 38,
+        "INJECTS": 2,
+        "READS": 1,
+        "RETURNS": 11,
+        "THROWS": 5,
+        "USES": 28
+      },
+      "parserVersions": {
+        "openapi": "1.0.0",
+        "typescript": "5.9.2",
+        "repository": "1.0.0"
+      },
+      "deterministicHash": "0qkaj80"
+    },
+    "coverage": {
+      "coverage": 100,
+      "confidence": 100,
+      "completeness": 100,
+      "consistency": 100,
+      "trustworthiness": 100
+    },
+    "diagnostics": 0
+  },
+  "graphify": {
+    "tool": "graphify",
+    "mode": "structural-code-projection",
+    "command": {
+      "executable": "graphify",
+      "args": [
+        "extract",
+        "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/code-projection",
+        "--out",
+        "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/structural",
+        "--no-cluster",
+        "--max-workers",
+        "8",
+        "--max-concurrency",
+        "1"
+      ],
+      "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/structural",
+      "note": "Structural fallback: full Graphify extraction required an LLM backend for docs/images, so this run analyzes a validation-side code projection only. Source repositories remain untouched."
+    },
+    "fullRun": {
+      "command": {
+        "executable": "graphify",
+        "args": [
+          "extract",
+          "/Users/shrey/Desktop/personal/durable-local",
+          "--out",
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/full",
+          "--no-cluster",
+          "--max-workers",
+          "8",
+          "--max-concurrency",
+          "1"
+        ],
+        "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/full",
+        "note": "Uses graphify extract with --out to avoid writing into the source repository. --no-cluster keeps the run headless and deterministic for release validation."
+      },
+      "exitCode": 1,
+      "durationMs": 120.10712500000955,
+      "time": {
+        "realSeconds": 0.11,
+        "maxResidentSetBytes": 27934720,
+        "peakMemoryFootprintBytes": 17646024,
+        "peakMemoryBytes": 27934720,
+        "source": "/usr/bin/time -l"
+      },
+      "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/full/stdout.log",
+      "stderr": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/full/stderr.log"
+    },
+    "fallbackRun": {
+      "command": {
+        "executable": "graphify",
+        "args": [
+          "extract",
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/code-projection",
+          "--out",
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/structural",
+          "--no-cluster",
+          "--max-workers",
+          "8",
+          "--max-concurrency",
+          "1"
+        ],
+        "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/structural",
+        "note": "Structural fallback: full Graphify extraction required an LLM backend for docs/images, so this run analyzes a validation-side code projection only. Source repositories remain untouched."
+      },
+      "exitCode": 0,
+      "durationMs": 512.9914589999971,
+      "time": {
+        "realSeconds": 0.51,
+        "maxResidentSetBytes": 48742400,
+        "peakMemoryFootprintBytes": 36422232,
+        "peakMemoryBytes": 48742400,
+        "source": "/usr/bin/time -l"
+      },
+      "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/structural/stdout.log",
+      "stderr": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/structural/stderr.log",
+      "projection": {
+        "repository": "durable-local",
+        "sourceRoot": "/Users/shrey/Desktop/personal/durable-local",
+        "projectionRoot": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/code-projection",
+        "mode": "code-only projection for Graphify structural fallback",
+        "includedFiles": 26,
+        "excludedFiles": 29,
+        "includedExtensions": {
+          ".json": 4,
+          ".ts": 21,
+          ".tsx": 1
+        },
+        "files": [
+          "package.json",
+          "playwright.config.ts",
+          "site/demo/index.tsx",
+          "site/manifest.json",
+          "src/coordination/broadcast.ts",
+          "src/core/durable.ts",
+          "src/core/slot.ts",
+          "src/errors.ts",
+          "src/index.ts",
+          "src/protocol/constants.ts",
+          "src/protocol/state.ts",
+          "src/protocol/types.ts",
+          "src/storage/idb.ts",
+          "src/storage/persistence.ts",
+          "tests/e2e/cross-tab.spec.ts",
+          "tests/e2e/fixtures/vite.config.ts",
+          "tests/e2e/globals.d.ts",
+          "tests/e2e/lifecycle.spec.ts",
+          "tests/e2e/unsupported.spec.ts",
+          "tests/setup.ts",
+          "tests/slot.test.ts",
+          "tests/state.test.ts",
+          "tsconfig.build.json",
+          "tsconfig.json",
+          "tsup.config.ts",
+          "vitest.config.ts"
+        ]
+      }
+    },
+    "exitCode": 0,
+    "durationMs": 512.9914589999971,
+    "time": {
+      "realSeconds": 0.51,
+      "maxResidentSetBytes": 48742400,
+      "peakMemoryFootprintBytes": 36422232,
+      "peakMemoryBytes": 48742400,
+      "source": "/usr/bin/time -l"
+    },
+    "graphHash": "46165ffa306d24feeff254b2d9b69b78a9851f0ad70d73c0b5decb13d1fa1dd2",
+    "outputFiles": [
+      "cache/ast/v0.9.2/2204edc23971f89dd7a821149650a0cf0f8e720279ea3cecc9d1d5cce12fb19c.json",
+      "cache/ast/v0.9.2/71e269799fc4b93abe619280ed804f1f6e7a6ad92d1aea18e6f715583a05e793.json",
+      "cache/ast/v0.9.2/f2be906a94c4c0118573e107a2f912785390ad61b6dd83084180f4d4b21a0582.json",
+      "cache/ast/v0.9.2/f8811e562521708f441b6844cc5e2148efb91711f5d8634621ced4333265170a.json",
+      "cache/stat-index.json",
+      "graph.json",
+      "manifest.json"
+    ],
+    "statistics": {
+      "nodes": 167,
+      "edges": 304,
+      "hyperedges": 0,
+      "directed": null,
+      "multigraph": null,
+      "nodesByFileType": {
+        "code": 167
+      },
+      "concepts": {
+        "Classes": 24,
+        "Configuration": 3,
+        "Functions": 35,
+        "Interfaces": 2,
+        "Methods": 1,
+        "Modules": 22
+      },
+      "relations": {
+        "calls": 25,
+        "contains": 140,
+        "extends": 20,
+        "imports": 47,
+        "imports_from": 43,
+        "inherits": 1,
+        "method": 1,
+        "re_exports": 23,
+        "references": 4
+      },
+      "semanticRelationships": {
+        "CALLS": 25,
+        "CONTAINS": 140,
+        "EXTENDS": 20,
+        "IMPORTS": 47,
+        "REFERENCES": 4
+      }
+    },
+    "diagnostics": [
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_EXIT_NONZERO",
+        "message": "Graphify exited with code 1.",
+        "source": "graphify"
+      },
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_FULL_REQUIRES_LLM",
+        "message": "Full Graphify extraction required an LLM backend for repository docs/images.",
+        "source": "graphify"
+      },
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
+        "message": "Graphify comparison uses a code-only projection with 26 files.",
+        "source": "validation harness"
+      }
+    ]
+  }
+}

@@ -1,0 +1,361 @@
+{
+  "repository": "0xsarwagya",
+  "name": "0xsarwagya",
+  "frameworks": [
+    "Next.js",
+    "React",
+    "Turborepo"
+  ],
+  "expectedGraph": {
+    "minNodes": 1000,
+    "minEdges": 1800,
+    "requiredNodeTypes": [
+      "Package",
+      "Module",
+      "Configuration",
+      "Framework"
+    ],
+    "requiredRelationships": [
+      "IMPORTS",
+      "DEPENDS_ON",
+      "CONTAINS"
+    ]
+  },
+  "coverageExpectations": {
+    "semanticCoverage": 90,
+    "trustScore": 90
+  },
+  "questionCount": 5,
+  "score": {
+    "ontoly": {
+      "questions": 5,
+      "pass": 5,
+      "partial": 0,
+      "fail": 0,
+      "exactMatchRate": 100,
+      "precision": 100,
+      "recall": 100,
+      "confidence": 100,
+      "latencyMs": 1.035,
+      "semanticUnderstandingScore": 100
+    },
+    "graphify": {
+      "questions": 5,
+      "pass": 3,
+      "partial": 0,
+      "fail": 2,
+      "exactMatchRate": 60,
+      "precision": 60,
+      "recall": 60,
+      "confidence": 60,
+      "latencyMs": 0.065,
+      "semanticUnderstandingScore": 60
+    },
+    "winner": "Ontoly"
+  },
+  "questions": [
+    {
+      "id": "personal-ghost-package",
+      "repository": "0xsarwagya",
+      "category": "Packages",
+      "evaluator": "FindRepository",
+      "question": "Is the Ghost package represented in the monorepo?",
+      "expected": {
+        "exact": [
+          "@0xsarwagya/ghost"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.21,
+        "answers": [
+          {
+            "label": "@0xsarwagya/ghost",
+            "type": "Package",
+            "id": "pkg:@0xsarwagya/ghost",
+            "file": null,
+            "explanation": "Matched Package node @0xsarwagya/ghost."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched Package with terms @0xsarwagya/ghost."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.084,
+        "answers": [
+          {
+            "label": "@0xsarwagya/ghost",
+            "type": "Package",
+            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_0xsarwagya_graphify_code_projection_apps_oss_package_dependencies_0xsarwagya_ghost",
+            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/code-projection/apps/oss/package.json",
+            "explanation": "Matched Package node @0xsarwagya/ghost."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched Package with terms @0xsarwagya/ghost."
+      },
+      "winner": "Tie"
+    },
+    {
+      "id": "personal-durable-package",
+      "repository": "0xsarwagya",
+      "category": "Packages",
+      "evaluator": "FindRepository",
+      "question": "Is the durable-local package represented in the monorepo?",
+      "expected": {
+        "exact": [
+          "@0xsarwagya/durable-local"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.025,
+        "answers": [
+          {
+            "label": "@0xsarwagya/durable-local",
+            "type": "Package",
+            "id": "pkg:@0xsarwagya/durable-local",
+            "file": null,
+            "explanation": "Matched Package node @0xsarwagya/durable-local."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched Package with terms @0xsarwagya/durable-local."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.059,
+        "answers": [
+          {
+            "label": "@0xsarwagya/durable-local",
+            "type": "Package",
+            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_0xsarwagya_graphify_code_projection_apps_oss_package_dependencies_0xsarwagya_durable_local",
+            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/code-projection/apps/oss/package.json",
+            "explanation": "Matched Package node @0xsarwagya/durable-local."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched Package with terms @0xsarwagya/durable-local."
+      },
+      "winner": "Tie"
+    },
+    {
+      "id": "personal-next-framework",
+      "repository": "0xsarwagya",
+      "category": "Architecture",
+      "evaluator": "ArchitectureSummary",
+      "question": "Does the architecture identify Next.js?",
+      "expected": {
+        "exact": [
+          "Next.js"
+        ],
+        "acceptable": [
+          "next"
+        ],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.081,
+        "answers": [
+          {
+            "label": "Next.js",
+            "type": "Framework",
+            "id": "framework:Next.js",
+            "file": null,
+            "explanation": "Included in architecture summary as Framework."
+          }
+        ],
+        "explanation": "Architecture summary searched Framework, Package."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
+        "falsePositives": [],
+        "falseNegatives": [
+          "Next.js"
+        ],
+        "confidence": 0,
+        "latencyMs": 0.062,
+        "answers": [],
+        "explanation": "Architecture summary searched Framework, Package."
+      },
+      "winner": "Ontoly"
+    },
+    {
+      "id": "personal-react-framework",
+      "repository": "0xsarwagya",
+      "category": "Architecture",
+      "evaluator": "ArchitectureSummary",
+      "question": "Does the architecture identify React?",
+      "expected": {
+        "exact": [
+          "React"
+        ],
+        "acceptable": [
+          "react"
+        ],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 4.833,
+        "answers": [
+          {
+            "label": "React",
+            "type": "Framework",
+            "id": "framework:React",
+            "file": null,
+            "explanation": "Included in architecture summary as Framework."
+          },
+          {
+            "label": "react",
+            "type": "Package",
+            "id": "pkg:react",
+            "file": null,
+            "explanation": "Included in architecture summary as Package."
+          }
+        ],
+        "explanation": "Architecture summary searched Framework, Package."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.087,
+        "answers": [
+          {
+            "label": "react",
+            "type": "Package",
+            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_0xsarwagya_graphify_code_projection_apps_bakaiti_package_dependencies_react",
+            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/code-projection/apps/bakaiti/package.json",
+            "explanation": "Included in architecture summary as Package."
+          }
+        ],
+        "explanation": "Architecture summary searched Framework, Package."
+      },
+      "winner": "Tie"
+    },
+    {
+      "id": "personal-turbo-config",
+      "repository": "0xsarwagya",
+      "category": "Workspace",
+      "evaluator": "FindConfiguration",
+      "question": "Is the Turborepo pipeline configuration represented?",
+      "expected": {
+        "exact": [
+          "turbo"
+        ],
+        "acceptable": [
+          "turbo.json"
+        ],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.028,
+        "answers": [
+          {
+            "label": "turbo",
+            "type": "Configuration",
+            "id": "config:turbo.json:turbo",
+            "file": "turbo.json",
+            "explanation": "Matched Configuration node turbo."
+          },
+          {
+            "label": "turbo",
+            "type": "Pipeline",
+            "id": "pipeline:turbo.json:turbo",
+            "file": "turbo.json",
+            "explanation": "Matched Pipeline node turbo."
+          }
+        ],
+        "explanation": "2 candidate node(s) matched Configuration, Pipeline with terms turbo."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
+        "falsePositives": [],
+        "falseNegatives": [
+          "turbo"
+        ],
+        "confidence": 0,
+        "latencyMs": 0.034,
+        "answers": [],
+        "explanation": "0 candidate node(s) matched Configuration, Pipeline with terms turbo."
+      },
+      "winner": "Ontoly"
+    }
+  ]
+}

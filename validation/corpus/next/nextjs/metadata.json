@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "priority": "high",
+  "category": "next",
+  "expected": {
+    "analyzer": "nextjs",
+    "semanticCoverage": 75,
+    "trust": 80,
+    "graphSizeBytes": {
+      "min": 1000000,
+      "max": 250000000
+    },
+    "nodeRange": {
+      "min": 1000,
+      "max": 250000
+    },
+    "edgeRange": {
+      "min": 1000,
+      "max": 500000
+    },
+    "diagnosticsMax": 500
+  }
+}

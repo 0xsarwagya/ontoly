@@ -1,0 +1,75 @@
+[
+  {
+    "id": "ovok-core",
+    "name": "Ovok Core",
+    "status": "PASS",
+    "frameworks": [
+      "nestjs",
+      "express"
+    ],
+    "coverage": 98,
+    "trust": 98,
+    "nodes": 21696,
+    "edges": 47312,
+    "durationMs": 25104.054
+  },
+  {
+    "id": "0xsarwagya",
+    "name": "0xsarwagya",
+    "status": "PASS",
+    "frameworks": [
+      "nextjs",
+      "react",
+      "turborepo"
+    ],
+    "coverage": 95,
+    "trust": 95,
+    "nodes": 1202,
+    "edges": 2082,
+    "durationMs": 8432.221
+  },
+  {
+    "id": "innosphere",
+    "name": "Innosphere",
+    "status": "PASS",
+    "frameworks": [
+      "nestjs",
+      "react",
+      "turborepo",
+      "vite"
+    ],
+    "coverage": 100,
+    "trust": 100,
+    "nodes": 6771,
+    "edges": 12164,
+    "durationMs": 10477.266
+  },
+  {
+    "id": "ghost",
+    "name": "Ghost",
+    "status": "PASS",
+    "frameworks": [
+      "react",
+      "vite"
+    ],
+    "coverage": 100,
+    "trust": 100,
+    "nodes": 350,
+    "edges": 655,
+    "durationMs": 613.647
+  },
+  {
+    "id": "durable-local",
+    "name": "durable-local",
+    "status": "PASS",
+    "frameworks": [
+      "react",
+      "vite"
+    ],
+    "coverage": 100,
+    "trust": 100,
+    "nodes": 226,
+    "edges": 381,
+    "durationMs": 601.752
+  }
+]

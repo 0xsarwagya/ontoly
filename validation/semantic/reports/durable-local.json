@@ -1,0 +1,399 @@
+{
+  "repository": "durable-local",
+  "name": "durable-local",
+  "frameworks": [
+    "React",
+    "Vite"
+  ],
+  "expectedGraph": {
+    "minNodes": 200,
+    "minEdges": 350,
+    "requiredNodeTypes": [
+      "Function",
+      "Interface",
+      "Package",
+      "Configuration"
+    ],
+    "requiredRelationships": [
+      "CALLS",
+      "IMPORTS",
+      "DEPENDS_ON"
+    ]
+  },
+  "coverageExpectations": {
+    "semanticCoverage": 95,
+    "trustScore": 95
+  },
+  "questionCount": 6,
+  "score": {
+    "ontoly": {
+      "questions": 6,
+      "pass": 6,
+      "partial": 0,
+      "fail": 0,
+      "exactMatchRate": 100,
+      "precision": 100,
+      "recall": 100,
+      "confidence": 100,
+      "latencyMs": 0.026,
+      "semanticUnderstandingScore": 100
+    },
+    "graphify": {
+      "questions": 6,
+      "pass": 2,
+      "partial": 0,
+      "fail": 4,
+      "exactMatchRate": 33.33,
+      "precision": 33.33,
+      "recall": 33.33,
+      "confidence": 33.33,
+      "latencyMs": 0.009,
+      "semanticUnderstandingScore": 33.33
+    },
+    "winner": "Ontoly"
+  },
+  "questions": [
+    {
+      "id": "durable-create-entrypoint",
+      "repository": "durable-local",
+      "category": "Functions",
+      "evaluator": "FindEntrypoint",
+      "question": "What function creates a durable local store?",
+      "expected": {
+        "exact": [
+          "createDurable"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.029,
+        "answers": [
+          {
+            "label": "createDurable",
+            "type": "Function",
+            "id": "fn:src/core/durable.ts:createDurable",
+            "file": "src/core/durable.ts",
+            "explanation": "Matched Function node createDurable."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched Function with terms createDurable."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
+        "falsePositives": [],
+        "falseNegatives": [
+          "createDurable"
+        ],
+        "confidence": 0,
+        "latencyMs": 0.004,
+        "answers": [],
+        "explanation": "0 candidate node(s) matched Function with terms createDurable."
+      },
+      "winner": "Ontoly"
+    },
+    {
+      "id": "durable-interface",
+      "repository": "durable-local",
+      "category": "Interfaces",
+      "evaluator": "ArchitectureSummary",
+      "question": "Which public interface represents the durable store?",
+      "expected": {
+        "exact": [
+          "Durable"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.009,
+        "answers": [
+          {
+            "label": "Durable",
+            "type": "Interface",
+            "id": "iface:src/core/durable.ts:Durable",
+            "file": "src/core/durable.ts",
+            "explanation": "Included in architecture summary as Interface."
+          }
+        ],
+        "explanation": "Architecture summary searched Interface, Class."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.013,
+        "answers": [
+          {
+            "label": "Durable",
+            "type": "Class",
+            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_durable_local_graphify_code_projection_src_core_durable_durable",
+            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/code-projection/src/core/durable.ts",
+            "explanation": "Included in architecture summary as Class."
+          }
+        ],
+        "explanation": "Architecture summary searched Interface, Class."
+      },
+      "winner": "Tie"
+    },
+    {
+      "id": "durable-package",
+      "repository": "durable-local",
+      "category": "Packages",
+      "evaluator": "FindRepository",
+      "question": "What is the package name?",
+      "expected": {
+        "exact": [
+          "@0xsarwagya/durable-local"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.009,
+        "answers": [
+          {
+            "label": "@0xsarwagya/durable-local",
+            "type": "Package",
+            "id": "pkg:@0xsarwagya/durable-local",
+            "file": "package.json",
+            "explanation": "Matched Package node @0xsarwagya/durable-local."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched Package with terms @0xsarwagya/durable-local."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
+        "falsePositives": [],
+        "falseNegatives": [
+          "@0xsarwagya/durable-local"
+        ],
+        "confidence": 0,
+        "latencyMs": 0.009,
+        "answers": [],
+        "explanation": "0 candidate node(s) matched Package with terms @0xsarwagya/durable-local."
+      },
+      "winner": "Ontoly"
+    },
+    {
+      "id": "durable-ci-env",
+      "repository": "durable-local",
+      "category": "Environment Variables",
+      "evaluator": "FindEnvironmentVariable",
+      "question": "Which CI environment variable is read?",
+      "expected": {
+        "exact": [
+          "CI"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.006,
+        "answers": [
+          {
+            "label": "CI",
+            "type": "EnvironmentVariable",
+            "id": "env:CI",
+            "file": null,
+            "explanation": "Matched EnvironmentVariable node CI."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched EnvironmentVariable with terms CI."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
+        "falsePositives": [],
+        "falseNegatives": [
+          "CI"
+        ],
+        "confidence": 0,
+        "latencyMs": 0.003,
+        "answers": [],
+        "explanation": "0 candidate node(s) matched EnvironmentVariable with terms CI."
+      },
+      "winner": "Ontoly"
+    },
+    {
+      "id": "durable-indexeddb-dependency",
+      "repository": "durable-local",
+      "category": "Dependency Injection",
+      "evaluator": "TraceDependency",
+      "question": "Which dependency provides IndexedDB tests?",
+      "expected": {
+        "exact": [
+          "@0xsarwagya/durable-local -> fake-indexeddb"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [
+          {
+            "type": "DEPENDS_ON",
+            "from": "@0xsarwagya/durable-local",
+            "to": "fake-indexeddb"
+          }
+        ],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.079,
+        "answers": [
+          {
+            "label": "@0xsarwagya/durable-local -> fake-indexeddb",
+            "type": "DEPENDS_ON",
+            "id": "edge:depends_on:14m9pxn",
+            "file": null,
+            "explanation": "Matched DEPENDS_ON relationship."
+          }
+        ],
+        "explanation": "1 candidate edge-derived answer(s) matched DEPENDS_ON."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
+        "falsePositives": [],
+        "falseNegatives": [
+          "@0xsarwagya/durable-local -> fake-indexeddb"
+        ],
+        "confidence": 0,
+        "latencyMs": 0.012,
+        "answers": [],
+        "explanation": "0 candidate edge-derived answer(s) matched DEPENDS_ON."
+      },
+      "winner": "Ontoly"
+    },
+    {
+      "id": "durable-open-database-call",
+      "repository": "durable-local",
+      "category": "Call Graph",
+      "evaluator": "FindCallChain",
+      "question": "Does withReadWrite call openDatabase?",
+      "expected": {
+        "exact": [
+          "withReadWrite -> openDatabase"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [
+          {
+            "type": "CALLS",
+            "from": "withReadWrite",
+            "to": "openDatabase"
+          }
+        ],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.026,
+        "answers": [
+          {
+            "label": "withReadWrite -> openDatabase",
+            "type": "CALLS",
+            "id": "edge:calls:0cr41nu",
+            "file": null,
+            "explanation": "Matched CALLS relationship."
+          }
+        ],
+        "explanation": "1 candidate edge-derived answer(s) matched CALLS."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.013,
+        "answers": [
+          {
+            "label": "withReadWrite -> openDatabase",
+            "type": "CALLS",
+            "id": "graphify-edge:203",
+            "file": null,
+            "explanation": "Matched CALLS relationship."
+          }
+        ],
+        "explanation": "1 candidate edge-derived answer(s) matched CALLS."
+      },
+      "winner": "Tie"
+    }
+  ]
+}

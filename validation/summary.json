@@ -1,0 +1,762 @@
+{
+  "generatedAt": "2026-07-13T12:13:41.318Z",
+  "startedAt": "2026-07-13T12:12:18.433Z",
+  "repositoriesAnalyzed": 5,
+  "repositoriesRequested": 5,
+  "repositories": [
+    {
+      "slug": "ovok-core",
+      "name": "Ovok Core",
+      "status": "partial",
+      "requestedPath": "/Users/shrey/Desktop/work/ovok-core",
+      "actualPath": "/Users/shrey/Desktop/work/ovok-core",
+      "frameworks": [
+        "Express",
+        "NestJS"
+      ],
+      "files": 11407,
+      "packages": 1,
+      "ontoly": {
+        "nodes": 21696,
+        "edges": 47312,
+        "diagnostics": 13,
+        "trust": 98,
+        "coverage": 98,
+        "durationMs": 13865.611916999995
+      },
+      "graphify": {
+        "nodes": 27444,
+        "edges": 57572,
+        "diagnostics": 3,
+        "durationMs": 31782.687291000002
+      }
+    },
+    {
+      "slug": "0xsarwagya",
+      "name": "0xsarwagya",
+      "status": "partial",
+      "requestedPath": "/Users/shrey/Desktop/personal/0xsarwagya",
+      "actualPath": "/Users/shrey/Desktop/personal/0xsarwagya",
+      "frameworks": [
+        "Next.js",
+        "React",
+        "Turborepo"
+      ],
+      "files": 446,
+      "packages": 10,
+      "ontoly": {
+        "nodes": 1202,
+        "edges": 2082,
+        "diagnostics": 13,
+        "trust": 95,
+        "coverage": 95,
+        "durationMs": 5026.105749999995
+      },
+      "graphify": {
+        "nodes": 1071,
+        "edges": 1811,
+        "diagnostics": 3,
+        "durationMs": 1449.7775000000038
+      }
+    },
+    {
+      "slug": "innosphere",
+      "name": "Innosphere",
+      "status": "partial",
+      "requestedPath": "/Users/shrey/Desktop/work/innosphere",
+      "actualPath": "/Users/shrey/Desktop/work/innosphere",
+      "frameworks": [
+        "NestJS",
+        "React",
+        "Turborepo",
+        "Vite"
+      ],
+      "files": 846,
+      "packages": 8,
+      "ontoly": {
+        "nodes": 6744,
+        "edges": 12091,
+        "diagnostics": 12,
+        "trust": 100,
+        "coverage": 100,
+        "durationMs": 8249.796290999991
+      },
+      "graphify": {
+        "nodes": 4178,
+        "edges": 9594,
+        "diagnostics": 3,
+        "durationMs": 3963.019459000003
+      }
+    },
+    {
+      "slug": "ghost",
+      "name": "Ghost",
+      "status": "partial",
+      "requestedPath": "/Users/shrey/Desktop/personal/ghost",
+      "actualPath": "/Users/shrey/Desktop/personal/ghost",
+      "frameworks": [
+        "Vite"
+      ],
+      "files": 58,
+      "packages": 1,
+      "ontoly": {
+        "nodes": 350,
+        "edges": 655,
+        "diagnostics": 0,
+        "trust": 100,
+        "coverage": 100,
+        "durationMs": 1171.8272080000024
+      },
+      "graphify": {
+        "nodes": 211,
+        "edges": 553,
+        "diagnostics": 3,
+        "durationMs": 609.0390830000106
+      }
+    },
+    {
+      "slug": "durable-local",
+      "name": "durable-local",
+      "status": "partial",
+      "requestedPath": "/Users/shrey/Desktop/personal/durable-local",
+      "actualPath": "/Users/shrey/Desktop/personal/durable-local",
+      "frameworks": [
+        "Vite"
+      ],
+      "files": 55,
+      "packages": 1,
+      "ontoly": {
+        "nodes": 226,
+        "edges": 381,
+        "diagnostics": 0,
+        "trust": 100,
+        "coverage": 100,
+        "durationMs": 956.0260410000046
+      },
+      "graphify": {
+        "nodes": 167,
+        "edges": 304,
+        "diagnostics": 3,
+        "durationMs": 512.9914589999971
+      }
+    }
+  ],
+  "totals": {
+    "files": 12812,
+    "sourceFiles": 10138,
+    "ontolyNodes": 30218,
+    "ontolyEdges": 62521,
+    "graphifyNodes": 33071,
+    "graphifyEdges": 69834,
+    "ontolyDurationMs": 29269.36720699999,
+    "graphifyDurationMs": 38317.514792000016
+  },
+  "averages": {
+    "semanticCoverage": 98.6,
+    "trustScore": 98.6,
+    "graphQuality": 98.6,
+    "frameworkCoverage": 71.36,
+    "ontolyAnalysisTimeMs": 5853.87,
+    "graphifyAnalysisTimeMs": 7663.5
+  },
+  "graphSize": {
+    "ontoly": {
+      "nodes": 30218,
+      "edges": 62521
+    },
+    "graphify": {
+      "nodes": 33071,
+      "edges": 69834
+    }
+  },
+  "memory": {
+    "ontolyPeakBytes": 8120822656,
+    "graphifyPeakBytes": 2167980032
+  },
+  "performance": {
+    "ontolyTotalMs": 29269.37,
+    "graphifyTotalMs": 38317.51
+  },
+  "relationshipCoverage": [
+    {
+      "relationship": "CALLS",
+      "repositoriesObserved": 5,
+      "ontolyTotal": 3613,
+      "graphifyTotal": 5838,
+      "supportedRepositories": 5
+    },
+    {
+      "relationship": "IMPORTS",
+      "repositoriesObserved": 5,
+      "ontolyTotal": 11730,
+      "graphifyTotal": 11790,
+      "supportedRepositories": 5
+    },
+    {
+      "relationship": "EXPORTS",
+      "repositoriesObserved": 5,
+      "ontolyTotal": 4410,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
+    },
+    {
+      "relationship": "CONTAINS",
+      "repositoriesObserved": 5,
+      "ontolyTotal": 25605,
+      "graphifyTotal": 25599,
+      "supportedRepositories": 5
+    },
+    {
+      "relationship": "HANDLES",
+      "repositoriesObserved": 2,
+      "ontolyTotal": 499,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
+    },
+    {
+      "relationship": "MOUNTS",
+      "repositoriesObserved": 2,
+      "ontolyTotal": 496,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
+    },
+    {
+      "relationship": "INJECTS",
+      "repositoriesObserved": 4,
+      "ontolyTotal": 1007,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
+    },
+    {
+      "relationship": "READS",
+      "repositoriesObserved": 4,
+      "ontolyTotal": 236,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
+    },
+    {
+      "relationship": "WRITES",
+      "repositoriesObserved": 0,
+      "ontolyTotal": 0,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
+    },
+    {
+      "relationship": "USES",
+      "repositoriesObserved": 5,
+      "ontolyTotal": 4060,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
+    },
+    {
+      "relationship": "DEPENDS_ON",
+      "repositoriesObserved": 5,
+      "ontolyTotal": 586,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
+    },
+    {
+      "relationship": "AUTHORIZES",
+      "repositoriesObserved": 2,
+      "ontolyTotal": 254,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
+    },
+    {
+      "relationship": "REGISTERED_IN",
+      "repositoriesObserved": 2,
+      "ontolyTotal": 645,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
+    },
+    {
+      "relationship": "IMPLEMENTS",
+      "repositoriesObserved": 3,
+      "ontolyTotal": 126,
+      "graphifyTotal": 64,
+      "supportedRepositories": 2
+    },
+    {
+      "relationship": "EXTENDS",
+      "repositoriesObserved": 5,
+      "ontolyTotal": 508,
+      "graphifyTotal": 259,
+      "supportedRepositories": 3
+    },
+    {
+      "relationship": "REFERENCES",
+      "repositoriesObserved": 4,
+      "ontolyTotal": 864,
+      "graphifyTotal": 2888,
+      "supportedRepositories": 2
+    },
+    {
+      "relationship": "CREATES",
+      "repositoriesObserved": 5,
+      "ontolyTotal": 617,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
+    },
+    {
+      "relationship": "THROWS",
+      "repositoriesObserved": 5,
+      "ontolyTotal": 549,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
+    },
+    {
+      "relationship": "RETURNS",
+      "repositoriesObserved": 5,
+      "ontolyTotal": 1862,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
+    },
+    {
+      "relationship": "PUBLISHES",
+      "repositoriesObserved": 0,
+      "ontolyTotal": 0,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
+    },
+    {
+      "relationship": "SUBSCRIBES",
+      "repositoriesObserved": 0,
+      "ontolyTotal": 0,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
+    }
+  ],
+  "frameworkCoverage": [
+    {
+      "framework": "Express",
+      "repositories": 1,
+      "ontolyDetected": 1,
+      "graphifyInferred": 1,
+      "averageCoverage": 60
+    },
+    {
+      "framework": "NestJS",
+      "repositories": 2,
+      "ontolyDetected": 2,
+      "graphifyInferred": 2,
+      "averageCoverage": 100
+    },
+    {
+      "framework": "Next.js",
+      "repositories": 1,
+      "ontolyDetected": 1,
+      "graphifyInferred": 1,
+      "averageCoverage": 10
+    },
+    {
+      "framework": "React",
+      "repositories": 2,
+      "ontolyDetected": 2,
+      "graphifyInferred": 2,
+      "averageCoverage": 10
+    },
+    {
+      "framework": "Turborepo",
+      "repositories": 2,
+      "ontolyDetected": 0,
+      "graphifyInferred": 2,
+      "averageCoverage": 97.5
+    },
+    {
+      "framework": "Vite",
+      "repositories": 3,
+      "ontolyDetected": 0,
+      "graphifyInferred": 0,
+      "averageCoverage": 100
+    }
+  ],
+  "topStrengths": [
+    {
+      "name": "Deterministic graph validation",
+      "count": 5
+    },
+    {
+      "name": "Packages",
+      "count": 5
+    },
+    {
+      "name": "INJECTS",
+      "count": 4
+    },
+    {
+      "name": "AUTHORIZES",
+      "count": 2
+    },
+    {
+      "name": "HANDLES",
+      "count": 2
+    },
+    {
+      "name": "MOUNTS",
+      "count": 2
+    },
+    {
+      "name": "REGISTERED_IN",
+      "count": 2
+    },
+    {
+      "name": "Routes",
+      "count": 2
+    },
+    {
+      "name": "Environment Variables",
+      "count": 1
+    },
+    {
+      "name": "Interfaces",
+      "count": 1
+    }
+  ],
+  "topWeaknesses": [
+    {
+      "name": "Graphify full semantic extraction",
+      "count": 5
+    },
+    {
+      "name": "Graph validation warnings",
+      "count": 3
+    },
+    {
+      "name": "Vite detection",
+      "count": 3
+    },
+    {
+      "name": "EXTENDS",
+      "count": 2
+    },
+    {
+      "name": "REFERENCES",
+      "count": 2
+    },
+    {
+      "name": "Turborepo detection",
+      "count": 2
+    },
+    {
+      "name": "Classes",
+      "count": 1
+    },
+    {
+      "name": "Environment Variables",
+      "count": 1
+    },
+    {
+      "name": "Interfaces",
+      "count": 1
+    },
+    {
+      "name": "Methods",
+      "count": 1
+    }
+  ],
+  "highestPriorityImprovements": [
+    {
+      "repository": "0xsarwagya",
+      "priority": "High",
+      "description": "3 graph validation issue(s) with code SELF_RELATIONSHIP.",
+      "suggestedFix": "Add a deterministic fixture for this validation issue and repair the graph construction invariant.",
+      "evidence": [
+        "Edge edge:depends_on:1a5l19k creates a DEPENDS_ON relationship from a node to itself.",
+        "Edge edge:depends_on:1o7e7rg creates a DEPENDS_ON relationship from a node to itself.",
+        "Edge edge:depends_on:1vlp350 creates a DEPENDS_ON relationship from a node to itself."
+      ]
+    },
+    {
+      "repository": "Innosphere",
+      "priority": "High",
+      "description": "1 graph validation issue(s) with code PROVIDER_WITHOUT_CONSUMERS.",
+      "suggestedFix": "Improve provider consumer detection or mark intentionally public/root providers with explicit metadata.",
+      "evidence": [
+        "Provider provider:{ provide: APP_GUARD, useClass: ThrottlerGuard } has no graph-visible consumers."
+      ]
+    },
+    {
+      "repository": "Innosphere",
+      "priority": "High",
+      "description": "1 graph validation issue(s) with code SELF_RELATIONSHIP.",
+      "suggestedFix": "Add a deterministic fixture for this validation issue and repair the graph construction invariant.",
+      "evidence": [
+        "Edge edge:depends_on:1a5l19k creates a DEPENDS_ON relationship from a node to itself."
+      ]
+    },
+    {
+      "repository": "Ovok Core",
+      "priority": "High",
+      "description": "11 graph validation issue(s) with code CONTROLLER_MISSING_MODULE.",
+      "suggestedFix": "Resolve framework module declarations and register controllers under their declaring module.",
+      "evidence": [
+        "Controller controller:src/admin/admin.controller.ts:AdminController is not declared by a module.",
+        "Controller controller:src/auth/auth.controller.ts:AuthController is not declared by a module.",
+        "Controller controller:src/deprecated/observation/observation.controller.ts:ObservationController is not declared by a module.",
+        "Controller controller:src/deprecated/patient/patient.controller.ts:PatientController is not declared by a module.",
+        "Controller controller:src/deprecated/questionnaire/questionnaire.controller.ts:QuestionnaireController is not declared by a module."
+      ]
+    },
+    {
+      "repository": "Ovok Core",
+      "priority": "High",
+      "description": "4 graph validation issue(s) with code DUPLICATE_CONTROLLER.",
+      "suggestedFix": "Add a deterministic fixture for this validation issue and repair the graph construction invariant.",
+      "evidence": [
+        "Multiple controllers share name AuthController.",
+        "Multiple controllers share name ObservationController.",
+        "Multiple controllers share name PatientController.",
+        "Multiple controllers share name QuestionnaireController."
+      ]
+    },
+    {
+      "repository": "Ovok Core",
+      "priority": "High",
+      "description": "69 graph validation issue(s) with code PROVIDER_WITHOUT_CONSUMERS.",
+      "suggestedFix": "Improve provider consumer detection or mark intentionally public/root providers with explicit metadata.",
+      "evidence": [
+        "Provider provider:{\n      provide: IOT_NODE_HANDLERS,\n      useFactory: (\n        store: StoreInOvokNode,\n        signals: SendToSignalsNode,\n        enrich: EnrichNode,\n        dedup: DedupNode,\n        setLive: SetLiveKeyNode,\n        switchNode: SwitchNode,\n        raiseCr: RaiseCommunicationRequestNode,\n        lua: LuaScriptNode,\n        webhook: ExternalWebhookNode,\n        bot: ExecuteBotNode,\n        threshold: ThresholdNode,\n        exists: ExistsNode,\n        fetchRes: FetchResourceNode,\n      ) => [store, signals, enrich, dedup, setLive, switchNode, raiseCr, lua, webhook, bot, threshold, exists, fetchRes],\n      inject: [\n        StoreInOvokNode,\n        SendToSignalsNode,\n        EnrichNode,\n        DedupNode,\n        SetLiveKeyNode,\n        SwitchNode,\n        RaiseCommunicationRequestNode,\n        LuaScriptNode,\n        ExternalWebhookNode,\n        ExecuteBotNode,\n        ThresholdNode,\n        ExistsNode,\n        FetchResourceNode,\n      ],\n    } has no graph-visible consumers.",
+        "Provider provider:// b1/b2/b3 additive — admin surface for device+token management +\n    // transport-config discovery has no graph-visible consumers.",
+        "Provider provider:// Existing (untouched)\n    IotDeviceService has no graph-visible consumers.",
+        "Provider provider:// Registry collects handlers via a factory over the concrete\n    // classes above so DI resolves them once has no graph-visible consumers.",
+        "Provider provider:// Slice 3 additive\n    IotDeviceTokenService has no graph-visible consumers."
+      ]
+    },
+    {
+      "repository": "0xsarwagya",
+      "priority": "Medium",
+      "description": "Graphify full semantic extraction was unavailable without an LLM backend.",
+      "suggestedFix": "For release validation, configure a deterministic Graphify semantic backend or keep the structural fallback as a separate benchmark lane.",
+      "evidence": [
+        "Graphify exited with code 1.",
+        "Full Graphify extraction required an LLM backend for repository docs/images.",
+        "Graphify comparison uses a code-only projection with 185 files."
+      ]
+    },
+    {
+      "repository": "0xsarwagya",
+      "priority": "Medium",
+      "description": "Ontoly did not emit EXTENDS, while Graphify emitted 55.",
+      "suggestedFix": "Add or extend relationship extraction for EXTENDS and cover it with deterministic snapshots.",
+      "evidence": [
+        "Normalized Graphify EXTENDS count: 55"
+      ]
+    },
+    {
+      "repository": "0xsarwagya",
+      "priority": "Medium",
+      "description": "Turborepo was inferred from repository metadata but not detected by Ontoly.",
+      "suggestedFix": "Add a Turborepo framework detector or map existing package evidence to a Framework node.",
+      "evidence": [
+        "turbo",
+        "turbo.json"
+      ]
+    },
+    {
+      "repository": "durable-local",
+      "priority": "Medium",
+      "description": "Graphify full semantic extraction was unavailable without an LLM backend.",
+      "suggestedFix": "For release validation, configure a deterministic Graphify semantic backend or keep the structural fallback as a separate benchmark lane.",
+      "evidence": [
+        "Graphify exited with code 1.",
+        "Full Graphify extraction required an LLM backend for repository docs/images.",
+        "Graphify comparison uses a code-only projection with 26 files."
+      ]
+    },
+    {
+      "repository": "durable-local",
+      "priority": "Medium",
+      "description": "Ontoly did not emit REFERENCES, while Graphify emitted 4.",
+      "suggestedFix": "Add or extend relationship extraction for REFERENCES and cover it with deterministic snapshots.",
+      "evidence": [
+        "Normalized Graphify REFERENCES count: 4"
+      ]
+    },
+    {
+      "repository": "durable-local",
+      "priority": "Medium",
+      "description": "Vite was inferred from repository metadata but not detected by Ontoly.",
+      "suggestedFix": "Add a Vite framework detector or map existing package evidence to a Framework node.",
+      "evidence": [
+        "vite"
+      ]
+    },
+    {
+      "repository": "Ghost",
+      "priority": "Medium",
+      "description": "Graphify full semantic extraction was unavailable without an LLM backend.",
+      "suggestedFix": "For release validation, configure a deterministic Graphify semantic backend or keep the structural fallback as a separate benchmark lane.",
+      "evidence": [
+        "Graphify exited with code 1.",
+        "Full Graphify extraction required an LLM backend for repository docs/images.",
+        "Graphify comparison uses a code-only projection with 33 files."
+      ]
+    },
+    {
+      "repository": "Ghost",
+      "priority": "Medium",
+      "description": "Ontoly did not emit EXTENDS, while Graphify emitted 20.",
+      "suggestedFix": "Add or extend relationship extraction for EXTENDS and cover it with deterministic snapshots.",
+      "evidence": [
+        "Normalized Graphify EXTENDS count: 20"
+      ]
+    },
+    {
+      "repository": "Ghost",
+      "priority": "Medium",
+      "description": "Ontoly did not emit REFERENCES, while Graphify emitted 10.",
+      "suggestedFix": "Add or extend relationship extraction for REFERENCES and cover it with deterministic snapshots.",
+      "evidence": [
+        "Normalized Graphify REFERENCES count: 10"
+      ]
+    },
+    {
+      "repository": "Ghost",
+      "priority": "Medium",
+      "description": "Vite was inferred from repository metadata but not detected by Ontoly.",
+      "suggestedFix": "Add a Vite framework detector or map existing package evidence to a Framework node.",
+      "evidence": [
+        "vite"
+      ]
+    },
+    {
+      "repository": "Innosphere",
+      "priority": "Medium",
+      "description": "Graphify full semantic extraction was unavailable without an LLM backend.",
+      "suggestedFix": "For release validation, configure a deterministic Graphify semantic backend or keep the structural fallback as a separate benchmark lane.",
+      "evidence": [
+        "Graphify exited with code 1.",
+        "Full Graphify extraction required an LLM backend for repository docs/images.",
+        "Graphify comparison uses a code-only projection with 550 files."
+      ]
+    },
+    {
+      "repository": "Innosphere",
+      "priority": "Medium",
+      "description": "Turborepo was inferred from repository metadata but not detected by Ontoly.",
+      "suggestedFix": "Add a Turborepo framework detector or map existing package evidence to a Framework node.",
+      "evidence": [
+        "turbo",
+        "turbo.json"
+      ]
+    },
+    {
+      "repository": "Innosphere",
+      "priority": "Medium",
+      "description": "Vite was inferred from repository metadata but not detected by Ontoly.",
+      "suggestedFix": "Add a Vite framework detector or map existing package evidence to a Framework node.",
+      "evidence": [
+        "vite"
+      ]
+    },
+    {
+      "repository": "Ovok Core",
+      "priority": "Medium",
+      "description": "Graphify full semantic extraction was unavailable without an LLM backend.",
+      "suggestedFix": "For release validation, configure a deterministic Graphify semantic backend or keep the structural fallback as a separate benchmark lane.",
+      "evidence": [
+        "Graphify exited with code 1.",
+        "Full Graphify extraction required an LLM backend for repository docs/images.",
+        "Graphify comparison uses a code-only projection with 9313 files."
+      ]
+    }
+  ],
+  "regression": {
+    "status": "PASS",
+    "baseline": "initialized",
+    "failures": [],
+    "warnings": [
+      "No previous baseline existed. Current results were written as regression-baseline.json."
+    ],
+    "current": {
+      "generatedAt": "2026-07-13T12:13:41.317Z",
+      "repositories": [
+        {
+          "slug": "ovok-core",
+          "status": "partial",
+          "ontoly": {
+            "nodes": 21696,
+            "edges": 47312,
+            "coverage": 98,
+            "trustworthiness": 98,
+            "durationMs": 13865.611916999995
+          },
+          "graphify": {
+            "nodes": 27444,
+            "edges": 57572,
+            "durationMs": 31782.687291000002
+          },
+          "graphHash": "17ibur0"
+        },
+        {
+          "slug": "0xsarwagya",
+          "status": "partial",
+          "ontoly": {
+            "nodes": 1202,
+            "edges": 2082,
+            "coverage": 95,
+            "trustworthiness": 95,
+            "durationMs": 5026.105749999995
+          },
+          "graphify": {
+            "nodes": 1071,
+            "edges": 1811,
+            "durationMs": 1449.7775000000038
+          },
+          "graphHash": "02tafm2"
+        },
+        {
+          "slug": "innosphere",
+          "status": "partial",
+          "ontoly": {
+            "nodes": 6744,
+            "edges": 12091,
+            "coverage": 100,
+            "trustworthiness": 100,
+            "durationMs": 8249.796290999991
+          },
+          "graphify": {
+            "nodes": 4178,
+            "edges": 9594,
+            "durationMs": 3963.019459000003
+          },
+          "graphHash": "0e26ua1"
+        },
+        {
+          "slug": "ghost",
+          "status": "partial",
+          "ontoly": {
+            "nodes": 350,
+            "edges": 655,
+            "coverage": 100,
+            "trustworthiness": 100,
+            "durationMs": 1171.8272080000024
+          },
+          "graphify": {
+            "nodes": 211,
+            "edges": 553,
+            "durationMs": 609.0390830000106
+          },
+          "graphHash": "1hv7tll"
+        },
+        {
+          "slug": "durable-local",
+          "status": "partial",
+          "ontoly": {
+            "nodes": 226,
+            "edges": 381,
+            "coverage": 100,
+            "trustworthiness": 100,
+            "durationMs": 956.0260410000046
+          },
+          "graphify": {
+            "nodes": 167,
+            "edges": 304,
+            "durationMs": 512.9914589999971
+          },
+          "graphHash": "0qkaj80"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "medusa",
+  "name": "Medusa",
+  "source": "https://github.com/medusajs/medusa.git",
+  "corpusPath": "monorepos/medusa",
+  "frameworks": [
+    "express"
+  ],
+  "language": "typescript",
+  "repositoryType": "monorepo",
+  "expectedAnalyzer": "workspace",
+  "default": false
+}

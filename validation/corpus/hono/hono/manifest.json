@@ -1,0 +1,13 @@
+{
+  "id": "hono",
+  "name": "Hono",
+  "source": "https://github.com/honojs/hono.git",
+  "corpusPath": "hono/hono",
+  "frameworks": [
+    "hono"
+  ],
+  "language": "typescript",
+  "repositoryType": "framework",
+  "expectedAnalyzer": "hono",
+  "default": false
+}

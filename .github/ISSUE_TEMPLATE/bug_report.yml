@@ -1,0 +1,47 @@
+name: Bug report
+description: Report a reproducible Ontoly defect.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Exact commands and repository shape needed to reproduce.
+      value: |
+        1. Run `...`
+        2. Observe `...`
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Evidence
+      description: Attach diagnostics, statistics, validation reports, or MCP request and response JSON.
+  - type: input
+    id: version
+    attributes:
+      label: Ontoly version
+      placeholder: 0.1.0-alpha.1
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: Node 22, pnpm 11, macOS/Linux/Windows
+    validations:
+      required: true

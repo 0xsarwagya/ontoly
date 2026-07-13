@@ -1,0 +1,26 @@
+repository: innosphere
+name: Innosphere
+path: /Users/shrey/Desktop/work/innosphere
+frameworks:
+  - NestJS
+  - React
+  - Turborepo
+  - Vite
+questions: questions/innosphere.yaml
+expectedGraph:
+  minNodes: 6000
+  minEdges: 10000
+  requiredNodeTypes:
+    - Controller
+    - Route
+    - Service
+    - Module
+    - EnvironmentVariable
+  requiredRelationships:
+    - HANDLES
+    - MOUNTS
+    - INJECTS
+    - DEPENDS_ON
+coverageExpectations:
+  semanticCoverage: 95
+  trustScore: 95

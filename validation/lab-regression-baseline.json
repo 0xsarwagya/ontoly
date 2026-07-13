@@ -1,0 +1,165 @@
+{
+  "generatedAt": "2026-07-13T14:19:31.758Z",
+  "repositories": [
+    {
+      "id": "ovok-core",
+      "status": "PASS",
+      "graphHash": "17ibur0",
+      "coverage": 98,
+      "trust": 98,
+      "diagnostics": {
+        "compiler": 97,
+        "graph": 13,
+        "validationIssues": 84,
+        "coverageWarnings": 17
+      },
+      "performance": {
+        "totalDurationMs": 23141.988,
+        "peakMemoryBytes": 2515517440,
+        "queryLatencyMs": 2.0275
+      },
+      "graph": {
+        "nodes": 21696,
+        "edges": 47312,
+        "graphSizeBytes": 63096325
+      },
+      "deterministic": {
+        "status": "PASS",
+        "firstHash": "17ibur0",
+        "secondHash": "17ibur0",
+        "rebuildMs": 7474.138
+      }
+    },
+    {
+      "id": "0xsarwagya",
+      "status": "PASS",
+      "graphHash": "02tafm2",
+      "coverage": 95,
+      "trust": 95,
+      "diagnostics": {
+        "compiler": 16,
+        "graph": 13,
+        "validationIssues": 3,
+        "coverageWarnings": 7
+      },
+      "performance": {
+        "totalDurationMs": 7736.297,
+        "peakMemoryBytes": 3059089408,
+        "queryLatencyMs": 0.1291
+      },
+      "graph": {
+        "nodes": 1202,
+        "edges": 2082,
+        "graphSizeBytes": 2671467
+      },
+      "deterministic": {
+        "status": "PASS",
+        "firstHash": "02tafm2",
+        "secondHash": "02tafm2",
+        "rebuildMs": 3688.473
+      }
+    },
+    {
+      "id": "innosphere",
+      "status": "PASS",
+      "graphHash": "0fy6x07",
+      "coverage": 100,
+      "trust": 100,
+      "diagnostics": {
+        "compiler": 14,
+        "graph": 12,
+        "validationIssues": 2,
+        "coverageWarnings": 0
+      },
+      "performance": {
+        "totalDurationMs": 9221.576,
+        "peakMemoryBytes": 3148709888,
+        "queryLatencyMs": 0.6382
+      },
+      "graph": {
+        "nodes": 6744,
+        "edges": 12091,
+        "graphSizeBytes": 16548838
+      },
+      "deterministic": {
+        "status": "PASS",
+        "firstHash": "0fy6x07",
+        "secondHash": "0fy6x07",
+        "rebuildMs": 3557.594
+      }
+    },
+    {
+      "id": "ghost",
+      "status": "PASS",
+      "graphHash": "1hv7tll",
+      "coverage": 100,
+      "trust": 100,
+      "diagnostics": {
+        "compiler": 0,
+        "graph": 0,
+        "validationIssues": 0,
+        "coverageWarnings": 0
+      },
+      "performance": {
+        "totalDurationMs": 564.193,
+        "peakMemoryBytes": 2903769088,
+        "queryLatencyMs": 0.0311
+      },
+      "graph": {
+        "nodes": 350,
+        "edges": 655,
+        "graphSizeBytes": 783053
+      },
+      "deterministic": {
+        "status": "PASS",
+        "firstHash": "1hv7tll",
+        "secondHash": "1hv7tll",
+        "rebuildMs": 169.873
+      }
+    },
+    {
+      "id": "durable-local",
+      "status": "PASS",
+      "graphHash": "0qkaj80",
+      "coverage": 100,
+      "trust": 100,
+      "diagnostics": {
+        "compiler": 0,
+        "graph": 0,
+        "validationIssues": 0,
+        "coverageWarnings": 0
+      },
+      "performance": {
+        "totalDurationMs": 556.224,
+        "peakMemoryBytes": 2156773376,
+        "queryLatencyMs": 0.0458
+      },
+      "graph": {
+        "nodes": 226,
+        "edges": 381,
+        "graphSizeBytes": 468196
+      },
+      "deterministic": {
+        "status": "PASS",
+        "firstHash": "0qkaj80",
+        "secondHash": "0qkaj80",
+        "rebuildMs": 184.463
+      }
+    }
+  ],
+  "aggregate": {
+    "performance": {
+      "repositories": 5,
+      "measured": 5,
+      "skipped": 0,
+      "failed": 0,
+      "averageDurationMs": 8244.06,
+      "averageCoverage": 98.6,
+      "averageTrust": 98.6,
+      "totalNodes": 30218,
+      "totalEdges": 62521,
+      "totalGraphSizeBytes": 83567879,
+      "maxMemoryBytes": 3148709888
+    }
+  }
+}

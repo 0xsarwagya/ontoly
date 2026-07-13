@@ -1,0 +1,14 @@
+{
+  "id": "tanstack-query",
+  "name": "TanStack Query",
+  "source": "https://github.com/TanStack/query.git",
+  "corpusPath": "react/tanstack-query",
+  "frameworks": [
+    "react",
+    "tanstack-query"
+  ],
+  "language": "typescript",
+  "repositoryType": "library",
+  "expectedAnalyzer": "typescript",
+  "default": false
+}

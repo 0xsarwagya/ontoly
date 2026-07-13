@@ -1,0 +1,216 @@
+{
+  "version": "0.1.0-alpha.1",
+  "generatedAt": "1970-01-01T00:00:00.000Z",
+  "skills": [
+    {
+      "id": "architecture-review",
+      "title": "Architecture Review",
+      "category": "architecture",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "capabilities": [
+        "ExplainArchitecture",
+        "GraphStatistics",
+        "FindCycles",
+        "FindDependencies"
+      ],
+      "deprecated": false,
+      "description": "Review repository architecture using Ontoly Software Graph and MCP capabilities. Use when asked to explain architecture, module boundaries, package topology, service ownership, or architectural risk."
+    },
+    {
+      "id": "impact-analysis",
+      "title": "Impact Analysis",
+      "category": "change-analysis",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "capabilities": [
+        "ImpactAnalysis",
+        "FindDependents",
+        "FindDependencies",
+        "FindNode"
+      ],
+      "deprecated": false,
+      "description": "Analyze change impact using Ontoly dependency and dependent traversal. Use when asked what breaks if a symbol, service, route, package, or repository node changes or is removed."
+    },
+    {
+      "id": "codebase-onboarding",
+      "title": "Codebase Onboarding",
+      "category": "onboarding",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "capabilities": [
+        "ExplainArchitecture",
+        "FindEntrypoints",
+        "GraphStatistics",
+        "FindFeatureOwner"
+      ],
+      "deprecated": false,
+      "description": "Onboard a developer to a repository using Ontoly graph summaries. Use when asked to explain a new codebase, identify entrypoints, map packages, or suggest first files to inspect."
+    },
+    {
+      "id": "request-tracing",
+      "title": "Request Tracing",
+      "category": "request-flow",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "capabilities": [
+        "TraceRequestLifecycle",
+        "FindResponsibleFunction",
+        "TraceExecution",
+        "FindNode"
+      ],
+      "deprecated": false,
+      "description": "Trace request lifecycle behavior through Ontoly route, handler, and call graph capabilities. Use when asked to trace login, API, controller, route, or request execution flow."
+    },
+    {
+      "id": "dependency-analysis",
+      "title": "Dependency Analysis",
+      "category": "dependencies",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "capabilities": [
+        "FindDependencies",
+        "FindDependents",
+        "FindCycles",
+        "GraphStatistics"
+      ],
+      "deprecated": false,
+      "description": "Analyze internal and package dependencies using Ontoly graph traversal. Use when asked which modules, packages, services, or files depend on each other."
+    },
+    {
+      "id": "security-review",
+      "title": "Security Review",
+      "category": "security",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "capabilities": [
+        "FindAuthenticationFlow",
+        "FindResponsibleFunction",
+        "TraceRequestLifecycle",
+        "FindConfigurationUsage"
+      ],
+      "deprecated": false,
+      "description": "Review authentication, authorization, and security-sensitive flows using Ontoly graph evidence. Use when asked about auth ownership, protected routes, permissions, guards, or security risk."
+    },
+    {
+      "id": "configuration-analysis",
+      "title": "Configuration Analysis",
+      "category": "configuration",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "capabilities": [
+        "FindConfiguration",
+        "FindConfigurationUsage",
+        "FindDependencies",
+        "GraphStatistics"
+      ],
+      "deprecated": false,
+      "description": "Audit configuration and environment variable usage through Ontoly configuration capabilities. Use when asked where env vars, build config, runtime config, or feature flags are read."
+    },
+    {
+      "id": "framework-analysis",
+      "title": "Framework Analysis",
+      "category": "frameworks",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "capabilities": [
+        "ExplainArchitecture",
+        "GraphStatistics",
+        "FindNode",
+        "FindFeatureOwner"
+      ],
+      "deprecated": false,
+      "description": "Explain detected frameworks and framework-specific graph coverage using Ontoly framework reports. Use when asked whether a repository uses NestJS, Next.js, React, Turborepo, or other supported framework concepts."
+    },
+    {
+      "id": "documentation",
+      "title": "Documentation",
+      "category": "documentation",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "capabilities": [
+        "ExplainArchitecture",
+        "TraceRequestLifecycle",
+        "InspectModule",
+        "GraphStatistics"
+      ],
+      "deprecated": false,
+      "description": "Draft graph-backed documentation from Ontoly summaries and traces. Use when asked to document architecture, APIs, modules, packages, or request lifecycles without re-parsing source files."
+    },
+    {
+      "id": "refactoring",
+      "title": "Refactoring",
+      "category": "refactoring",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "capabilities": [
+        "ImpactAnalysis",
+        "FindDependencies",
+        "FindDependents",
+        "FindCycles"
+      ],
+      "deprecated": false,
+      "description": "Plan refactors with Ontoly impact and dependency evidence. Use when asked to move, rename, split, extract, or remove code while preserving behavior."
+    },
+    {
+      "id": "performance-analysis",
+      "title": "Performance Analysis",
+      "category": "performance",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "capabilities": [
+        "TraceExecution",
+        "TraceRequestLifecycle",
+        "FindDependencies",
+        "GraphStatistics"
+      ],
+      "deprecated": false,
+      "description": "Investigate performance-sensitive architecture using Ontoly call, dependency, and graph statistics evidence. Use when asked about hot paths, expensive flows, or performance investigation starting points."
+    },
+    {
+      "id": "dead-code-analysis",
+      "title": "Dead Code Analysis",
+      "category": "static-analysis",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "capabilities": [
+        "FindDeadCode",
+        "FindUnusedFeature",
+        "FindEntrypoints",
+        "FindDependents"
+      ],
+      "deprecated": false,
+      "description": "Find potentially unused functions, methods, services, routes, or features using Ontoly dead-code and entrypoint capabilities. Use when asked what code appears unreachable or safe to remove."
+    },
+    {
+      "id": "migration-analysis",
+      "title": "Migration Analysis",
+      "category": "migration",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "capabilities": [
+        "ExplainArchitecture",
+        "ImpactAnalysis",
+        "FindConfigurationUsage",
+        "FindDependencies"
+      ],
+      "deprecated": false,
+      "description": "Plan migrations using Ontoly architecture, dependency, impact, and configuration evidence. Use when asked to migrate frameworks, packages, APIs, modules, or runtime configuration."
+    },
+    {
+      "id": "sdk-generation",
+      "title": "SDK Generation",
+      "category": "sdk-planning",
+      "version": "0.1.0-alpha.1",
+      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "capabilities": [
+        "ExplainArchitecture",
+        "TraceRequestLifecycle",
+        "FindResponsibleFunction",
+        "GraphStatistics"
+      ],
+      "deprecated": false,
+      "description": "Plan SDK generation from Ontoly API, route, model, and operation evidence. Use when asked to design or scope SDK generation without implementing code generation in the skill layer."
+    }
+  ]
+}

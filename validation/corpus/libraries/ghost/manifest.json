@@ -1,0 +1,14 @@
+{
+  "id": "ghost",
+  "name": "Ghost",
+  "source": "/Users/shrey/Desktop/personal/ghost",
+  "corpusPath": "libraries/ghost",
+  "frameworks": [
+    "react",
+    "vite"
+  ],
+  "language": "typescript",
+  "repositoryType": "library",
+  "expectedAnalyzer": "typescript",
+  "default": true
+}

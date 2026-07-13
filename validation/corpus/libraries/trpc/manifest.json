@@ -1,0 +1,13 @@
+{
+  "id": "trpc",
+  "name": "tRPC",
+  "source": "https://github.com/trpc/trpc.git",
+  "corpusPath": "libraries/trpc",
+  "frameworks": [
+    "trpc"
+  ],
+  "language": "typescript",
+  "repositoryType": "library",
+  "expectedAnalyzer": "typescript",
+  "default": false
+}

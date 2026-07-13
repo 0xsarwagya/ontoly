@@ -1,0 +1,16 @@
+{
+  "name": "ontoly-example-turborepo",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "graph": "node ../../packages/cli/dist/cli.js build .",
+    "workspace": "node ../../packages/cli/dist/cli.js report workspace --root .",
+    "mcp": "node ../../packages/cli/dist/cli.js mcp --list --root .",
+    "skills": "cd ../.. && node packages/cli/dist/cli.js skills validate --ci"
+  },
+  "devDependencies": {}
+}

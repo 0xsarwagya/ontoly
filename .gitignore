@@ -1,0 +1,22 @@
+node_modules
+dist
+.ontoly
+.agents
+.turbo
+.DS_Store
+coverage
+playwright-report
+test-results
+*.tsbuildinfo
+pnpm-debug.log*
+*.log
+
+# Generated validation captures from local/private repositories.
+validation/*/ontoly/
+validation/*/graphify/
+validation/*/benchmarks/
+validation/*/comparison/
+validation/ontoly/
+validation/graphify/
+validation/corpus/**/results/*
+!validation/corpus/**/results/.gitkeep

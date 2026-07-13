@@ -1,0 +1,22 @@
+repository: durable-local
+name: durable-local
+path: /Users/shrey/Desktop/personal/durable-local
+frameworks:
+  - React
+  - Vite
+questions: questions/durable-local.yaml
+expectedGraph:
+  minNodes: 200
+  minEdges: 350
+  requiredNodeTypes:
+    - Function
+    - Interface
+    - Package
+    - Configuration
+  requiredRelationships:
+    - CALLS
+    - IMPORTS
+    - DEPENDS_ON
+coverageExpectations:
+  semanticCoverage: 95
+  trustScore: 95

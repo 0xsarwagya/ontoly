@@ -1,0 +1,98 @@
+- id: durable-create-entrypoint
+  repository: durable-local
+  category: Functions
+  evaluator: FindEntrypoint
+  question: What function creates a durable local store?
+  selector:
+    nodeTypes:
+      - Function
+    terms:
+      - createDurable
+    exactTerms: true
+  expected:
+    exact:
+      - createDurable
+
+- id: durable-interface
+  repository: durable-local
+  category: Interfaces
+  evaluator: ArchitectureSummary
+  question: Which public interface represents the durable store?
+  selector:
+    nodeTypes:
+      - Interface
+      - Class
+    terms:
+      - Durable
+    exactTerms: true
+  expected:
+    exact:
+      - Durable
+
+- id: durable-package
+  repository: durable-local
+  category: Packages
+  evaluator: FindRepository
+  question: What is the package name?
+  selector:
+    nodeTypes:
+      - Package
+    terms:
+      - @0xsarwagya/durable-local
+    exactTerms: true
+  expected:
+    exact:
+      - @0xsarwagya/durable-local
+
+- id: durable-ci-env
+  repository: durable-local
+  category: Environment Variables
+  evaluator: FindEnvironmentVariable
+  question: Which CI environment variable is read?
+  selector:
+    nodeTypes:
+      - EnvironmentVariable
+    terms:
+      - CI
+    exactTerms: true
+  expected:
+    exact:
+      - CI
+
+- id: durable-indexeddb-dependency
+  repository: durable-local
+  category: Dependency Injection
+  evaluator: TraceDependency
+  question: Which dependency provides IndexedDB tests?
+  selector:
+    edgeTypes:
+      - DEPENDS_ON
+    from: @0xsarwagya/durable-local
+    to: fake-indexeddb
+    exactTerms: true
+  expected:
+    exact:
+      - @0xsarwagya/durable-local -> fake-indexeddb
+    edges:
+      - type: DEPENDS_ON
+        from: @0xsarwagya/durable-local
+        to: fake-indexeddb
+
+- id: durable-open-database-call
+  repository: durable-local
+  category: Call Graph
+  evaluator: FindCallChain
+  question: Does withReadWrite call openDatabase?
+  selector:
+    edgeTypes:
+      - CALLS
+    from: withReadWrite
+    to: openDatabase
+    exactTerms: true
+  expected:
+    exact:
+      - withReadWrite -> openDatabase
+    edges:
+      - type: CALLS
+        from: withReadWrite
+        to: openDatabase

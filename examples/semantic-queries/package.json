@@ -1,0 +1,11 @@
+{
+  "name": "ontoly-example-semantic-queries",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "query": "node query.mjs",
+    "mcp": "node ../../packages/cli/dist/cli.js mcp --list --root ../typescript-library",
+    "skills": "cd ../.. && node packages/cli/dist/cli.js skills validate --ci",
+    "graph": "node ../../packages/cli/dist/cli.js build ../typescript-library"
+  }
+}

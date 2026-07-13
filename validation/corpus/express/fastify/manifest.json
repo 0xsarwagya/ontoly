@@ -1,0 +1,13 @@
+{
+  "id": "fastify",
+  "name": "Fastify",
+  "source": "https://github.com/fastify/fastify.git",
+  "corpusPath": "express/fastify",
+  "frameworks": [
+    "fastify"
+  ],
+  "language": "typescript",
+  "repositoryType": "framework",
+  "expectedAnalyzer": "fastify",
+  "default": false
+}

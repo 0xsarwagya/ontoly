@@ -1,0 +1,18 @@
+{
+  "name": "Ontoly",
+  "description": "TypeScript-native software intelligence engine that builds a deterministic Software Graph.",
+  "docs": "docs/index.mdx",
+  "repo": "https://github.com/0xsarwagya/ontoly",
+  "assets": [
+    "site/assets/logo.svg",
+    "site/assets/social-preview.svg",
+    "site/assets/architecture-diagram.svg",
+    "site/assets/software-graph-diagram.svg",
+    "site/assets/query-engine-diagram.svg",
+    "site/assets/agent-skills-diagram.svg",
+    "site/assets/mcp-workflow-diagram.svg",
+    "site/assets/validation-pipeline-diagram.svg",
+    "site/assets/feature-comparison-table.svg",
+    "site/assets/benchmark-table.svg"
+  ]
+}

@@ -1,0 +1,416 @@
+{
+  "repository": "ovok-core",
+  "name": "Ovok Core",
+  "frameworks": [
+    "NestJS",
+    "Express"
+  ],
+  "expectedGraph": {
+    "minNodes": 20000,
+    "minEdges": 45000,
+    "requiredNodeTypes": [
+      "Controller",
+      "Route",
+      "Service",
+      "Module",
+      "EnvironmentVariable"
+    ],
+    "requiredRelationships": [
+      "HANDLES",
+      "MOUNTS",
+      "INJECTS",
+      "AUTHORIZES"
+    ]
+  },
+  "coverageExpectations": {
+    "semanticCoverage": 95,
+    "trustScore": 95
+  },
+  "questionCount": 6,
+  "score": {
+    "ontoly": {
+      "questions": 6,
+      "pass": 6,
+      "partial": 0,
+      "fail": 0,
+      "exactMatchRate": 100,
+      "precision": 100,
+      "recall": 100,
+      "confidence": 100,
+      "latencyMs": 0.545,
+      "semanticUnderstandingScore": 100
+    },
+    "graphify": {
+      "questions": 6,
+      "pass": 3,
+      "partial": 0,
+      "fail": 3,
+      "exactMatchRate": 50,
+      "precision": 50,
+      "recall": 50,
+      "confidence": 50,
+      "latencyMs": 0.635,
+      "semanticUnderstandingScore": 50
+    },
+    "winner": "Ontoly"
+  },
+  "questions": [
+    {
+      "id": "ovok-auth-controller",
+      "repository": "ovok-core",
+      "category": "Controllers",
+      "evaluator": "FindController",
+      "question": "Which controller handles authentication?",
+      "expected": {
+        "exact": [
+          "AuthController"
+        ],
+        "acceptable": [],
+        "nodes": [
+          {
+            "type": "Controller",
+            "name": "AuthController"
+          }
+        ],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.753,
+        "answers": [
+          {
+            "label": "AuthController",
+            "type": "Controller",
+            "id": "controller:src/actimi/partner/auth/auth.contoller.ts:AuthController",
+            "file": "src/actimi/partner/auth/auth.contoller.ts",
+            "explanation": "Matched Controller node AuthController."
+          }
+        ],
+        "explanation": "2 candidate node(s) matched Controller with terms AuthController."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.314,
+        "answers": [
+          {
+            "label": "AuthController",
+            "type": "Controller",
+            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_ovok_core_graphify_code_projection_src_actimi_partner_auth_auth_contoller_authcontroller",
+            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ovok-core/graphify/code-projection/src/actimi/partner/auth/auth.contoller.ts",
+            "explanation": "Matched Controller node AuthController."
+          }
+        ],
+        "explanation": "2 candidate node(s) matched Controller with terms AuthController."
+      },
+      "winner": "Tie"
+    },
+    {
+      "id": "ovok-auth-service",
+      "repository": "ovok-core",
+      "category": "Services",
+      "evaluator": "FindProvider",
+      "question": "Which service backs the authentication controller?",
+      "expected": {
+        "exact": [
+          "AuthService"
+        ],
+        "acceptable": [],
+        "nodes": [
+          {
+            "type": "Service",
+            "name": "AuthService"
+          }
+        ],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.269,
+        "answers": [
+          {
+            "label": "AuthService",
+            "type": "Service",
+            "id": "service:src/actimi/partner/auth/auth.service.ts:AuthService",
+            "file": "src/actimi/partner/auth/auth.service.ts",
+            "explanation": "Matched Service node AuthService."
+          }
+        ],
+        "explanation": "2 candidate node(s) matched Service with terms AuthService."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.364,
+        "answers": [
+          {
+            "label": "AuthService",
+            "type": "Service",
+            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_ovok_core_graphify_code_projection_src_actimi_partner_auth_auth_service_authservice",
+            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ovok-core/graphify/code-projection/src/actimi/partner/auth/auth.service.ts",
+            "explanation": "Matched Service node AuthService."
+          }
+        ],
+        "explanation": "2 candidate node(s) matched Service with terms AuthService."
+      },
+      "winner": "Tie"
+    },
+    {
+      "id": "ovok-auth-di",
+      "repository": "ovok-core",
+      "category": "Dependency Injection",
+      "evaluator": "FindDependency",
+      "question": "Is AuthService injected into AuthController?",
+      "expected": {
+        "exact": [
+          "AuthController -> AuthService"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [
+          {
+            "type": "INJECTS",
+            "from": "AuthController",
+            "to": "AuthService"
+          }
+        ],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.746,
+        "answers": [
+          {
+            "label": "AuthController -> AuthService",
+            "type": "INJECTS",
+            "id": "edge:injects:065brkc",
+            "file": null,
+            "explanation": "Matched INJECTS relationship."
+          }
+        ],
+        "explanation": "2 candidate edge-derived answer(s) matched INJECTS."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
+        "falsePositives": [],
+        "falseNegatives": [
+          "AuthController -> AuthService"
+        ],
+        "confidence": 0,
+        "latencyMs": 1.06,
+        "answers": [],
+        "explanation": "0 candidate edge-derived answer(s) matched INJECTS."
+      },
+      "winner": "Ontoly"
+    },
+    {
+      "id": "ovok-fhir-route",
+      "repository": "ovok-core",
+      "category": "Routes",
+      "evaluator": "FindRoute",
+      "question": "Which route handles the FHIR R4 proxy?",
+      "expected": {
+        "exact": [
+          "ALL:/fhir/R4"
+        ],
+        "acceptable": [],
+        "nodes": [
+          {
+            "type": "Route",
+            "name": "ALL:/fhir/R4"
+          }
+        ],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.409,
+        "answers": [
+          {
+            "label": "ALL:/fhir/R4",
+            "type": "Route",
+            "id": "route:ALL:/fhir/R4",
+            "file": "src/fhir/fhir.controller.ts",
+            "explanation": "Matched Route node ALL:/fhir/R4."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched Route with terms ALL:/fhir/R4."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
+        "falsePositives": [],
+        "falseNegatives": [
+          "ALL:/fhir/R4"
+        ],
+        "confidence": 0,
+        "latencyMs": 0.244,
+        "answers": [],
+        "explanation": "0 candidate node(s) matched Route with terms ALL:/fhir/R4."
+      },
+      "winner": "Ontoly"
+    },
+    {
+      "id": "ovok-auth-module",
+      "repository": "ovok-core",
+      "category": "Modules",
+      "evaluator": "FindModule",
+      "question": "Which Nest module owns the authentication area?",
+      "expected": {
+        "exact": [
+          "AuthModule"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.639,
+        "answers": [
+          {
+            "label": "AuthModule",
+            "type": "Module",
+            "id": "mod:src/actimi/partner/auth/auth.module.ts:AuthModule",
+            "file": "src/actimi/partner/auth/auth.module.ts",
+            "explanation": "Matched Module node AuthModule."
+          }
+        ],
+        "explanation": "2 candidate node(s) matched Module with terms AuthModule."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 1.296,
+        "answers": [
+          {
+            "label": "AuthModule",
+            "type": "Module",
+            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_ovok_core_graphify_code_projection_src_actimi_partner_auth_auth_module_authmodule",
+            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ovok-core/graphify/code-projection/src/actimi/partner/auth/auth.module.ts",
+            "explanation": "Matched Module node AuthModule."
+          }
+        ],
+        "explanation": "2 candidate node(s) matched Module with terms AuthModule."
+      },
+      "winner": "Tie"
+    },
+    {
+      "id": "ovok-fhir-default-env",
+      "repository": "ovok-core",
+      "category": "Environment Variables",
+      "evaluator": "FindEnvironmentVariable",
+      "question": "Which environment variable controls the default FHIR version?",
+      "expected": {
+        "exact": [
+          "FHIR_DEFAULT_VERSION"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.451,
+        "answers": [
+          {
+            "label": "FHIR_DEFAULT_VERSION",
+            "type": "EnvironmentVariable",
+            "id": "env:FHIR_DEFAULT_VERSION",
+            "file": null,
+            "explanation": "Matched EnvironmentVariable node FHIR_DEFAULT_VERSION."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched EnvironmentVariable with terms FHIR_DEFAULT_VERSION."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
+        "falsePositives": [],
+        "falseNegatives": [
+          "FHIR_DEFAULT_VERSION"
+        ],
+        "confidence": 0,
+        "latencyMs": 0.532,
+        "answers": [],
+        "explanation": "0 candidate node(s) matched EnvironmentVariable with terms FHIR_DEFAULT_VERSION."
+      },
+      "winner": "Ontoly"
+    }
+  ]
+}

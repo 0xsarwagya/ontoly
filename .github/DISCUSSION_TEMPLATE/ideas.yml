@@ -1,0 +1,17 @@
+name: Idea
+description: Share an idea before turning it into an issue or RFC.
+title: "[Idea]: "
+labels: ["idea"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: Idea
+      description: Describe the proposed improvement.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: What graph, validation, or workflow evidence supports this idea?

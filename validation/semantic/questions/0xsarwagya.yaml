@@ -1,0 +1,83 @@
+- id: personal-ghost-package
+  repository: 0xsarwagya
+  category: Packages
+  evaluator: FindRepository
+  question: Is the Ghost package represented in the monorepo?
+  selector:
+    nodeTypes:
+      - Package
+    terms:
+      - @0xsarwagya/ghost
+    exactTerms: true
+  expected:
+    exact:
+      - @0xsarwagya/ghost
+
+- id: personal-durable-package
+  repository: 0xsarwagya
+  category: Packages
+  evaluator: FindRepository
+  question: Is the durable-local package represented in the monorepo?
+  selector:
+    nodeTypes:
+      - Package
+    terms:
+      - @0xsarwagya/durable-local
+    exactTerms: true
+  expected:
+    exact:
+      - @0xsarwagya/durable-local
+
+- id: personal-next-framework
+  repository: 0xsarwagya
+  category: Architecture
+  evaluator: ArchitectureSummary
+  question: Does the architecture identify Next.js?
+  selector:
+    nodeTypes:
+      - Framework
+      - Package
+    terms:
+      - Next.js
+    exactTerms: true
+  expected:
+    exact:
+      - Next.js
+    acceptable:
+      - next
+
+- id: personal-react-framework
+  repository: 0xsarwagya
+  category: Architecture
+  evaluator: ArchitectureSummary
+  question: Does the architecture identify React?
+  selector:
+    nodeTypes:
+      - Framework
+      - Package
+    terms:
+      - React
+    exactTerms: true
+  expected:
+    exact:
+      - React
+    acceptable:
+      - react
+
+- id: personal-turbo-config
+  repository: 0xsarwagya
+  category: Workspace
+  evaluator: FindConfiguration
+  question: Is the Turborepo pipeline configuration represented?
+  selector:
+    nodeTypes:
+      - Configuration
+      - Pipeline
+    terms:
+      - turbo
+    exactTerms: true
+  expected:
+    exact:
+      - turbo
+    acceptable:
+      - turbo.json

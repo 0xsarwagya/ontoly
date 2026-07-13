@@ -1,0 +1,18 @@
+{
+  "analyzer": "fastify",
+  "semanticCoverage": 60,
+  "trust": 75,
+  "graphSizeBytes": {
+    "min": 100000,
+    "max": 50000000
+  },
+  "nodeRange": {
+    "min": 100,
+    "max": 50000
+  },
+  "edgeRange": {
+    "min": 100,
+    "max": 100000
+  },
+  "diagnosticsMax": 200
+}

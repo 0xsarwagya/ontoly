@@ -1,0 +1,65 @@
+name: Validation Lab
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  validation-lab:
+    name: Validation Lab
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.5.3
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm check-types
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Check documentation links
+        run: pnpm docs:check-links
+
+      - name: Lint Markdown release docs
+        run: pnpm docs:lint
+
+      - name: Check licenses
+        run: pnpm license:check
+
+      - name: Validate package metadata
+        run: pnpm validate:packages
+
+      - name: Validate agent skills
+        run: node packages/cli/dist/cli.js skills validate --ci
+
+      - name: Validate installed agent skills
+        run: node validation/tools/validate-installed-skills.mjs
+
+      - name: Run semantic release gate
+        run: node validation/semantic/evaluators/run-semantic-evaluation.mjs --ci
+
+      - name: Run validation lab release gates
+        run: node validation/tools/run-validation-lab.mjs gates --ci
+
+      - name: Run performance benchmark dashboard
+        run: node validation/tools/run-validation-lab.mjs benchmark performance

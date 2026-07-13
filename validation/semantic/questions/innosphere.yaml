@@ -1,0 +1,89 @@
+- id: innosphere-auth-controller
+  repository: innosphere
+  category: Controllers
+  evaluator: FindController
+  question: Which controller handles auth?
+  selector:
+    nodeTypes:
+      - Controller
+    terms:
+      - AuthController
+    exactTerms: true
+  expected:
+    exact:
+      - AuthController
+
+- id: innosphere-auth-me-route
+  repository: innosphere
+  category: Routes
+  evaluator: FindRoute
+  question: Which route returns the current authenticated user?
+  selector:
+    nodeTypes:
+      - Route
+    terms:
+      - GET:/auth/me
+    exactTerms: true
+  expected:
+    exact:
+      - GET:/auth/me
+
+- id: innosphere-auth-module
+  repository: innosphere
+  category: Modules
+  evaluator: FindModule
+  question: Which module owns auth behavior?
+  selector:
+    nodeTypes:
+      - Module
+    terms:
+      - AuthModule
+    exactTerms: true
+  expected:
+    exact:
+      - AuthModule
+
+- id: innosphere-database-url
+  repository: innosphere
+  category: Database
+  evaluator: FindDatabaseAccess
+  question: Which environment variable points to the database?
+  selector:
+    nodeTypes:
+      - EnvironmentVariable
+    terms:
+      - DATABASE_URL
+    exactTerms: true
+  expected:
+    exact:
+      - DATABASE_URL
+
+- id: innosphere-ovok-service
+  repository: innosphere
+  category: Services
+  evaluator: FindProvider
+  question: Which service models Ovok integration?
+  selector:
+    nodeTypes:
+      - Service
+    terms:
+      - OvokService
+    exactTerms: true
+  expected:
+    exact:
+      - OvokService
+
+- id: innosphere-app-module
+  repository: innosphere
+  category: Modules
+  evaluator: FindModule
+  question: Which module is the Nest application root?
+  selector:
+    nodeTypes:
+      - Module
+    terms:
+      - AppModule
+    exactTerms: true
+  expected:
+    exact:
+      - AppModule

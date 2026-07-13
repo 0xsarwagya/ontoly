@@ -1,0 +1,94 @@
+- id: ghost-create-entrypoint
+  repository: ghost
+  category: Functions
+  evaluator: FindEntrypoint
+  question: What is the browser entrypoint for creating a Ghost identity?
+  selector:
+    nodeTypes:
+      - Function
+    terms:
+      - createGhost
+    exactTerms: true
+  expected:
+    exact:
+      - createGhost
+
+- id: ghost-interface
+  repository: ghost
+  category: Interfaces
+  evaluator: ArchitectureSummary
+  question: Which public interface represents a Ghost client?
+  selector:
+    nodeTypes:
+      - Interface
+      - Class
+    terms:
+      - Ghost
+    exactTerms: true
+  expected:
+    exact:
+      - Ghost
+
+- id: ghost-error-class
+  repository: ghost
+  category: Classes
+  evaluator: ArchitectureSummary
+  question: Which error class represents Ghost failures?
+  selector:
+    nodeTypes:
+      - Class
+    terms:
+      - GhostError
+    exactTerms: true
+  expected:
+    exact:
+      - GhostError
+
+- id: ghost-ci-env
+  repository: ghost
+  category: Environment Variables
+  evaluator: FindEnvironmentVariable
+  question: Which CI environment variable is read?
+  selector:
+    nodeTypes:
+      - EnvironmentVariable
+    terms:
+      - CI
+    exactTerms: true
+  expected:
+    exact:
+      - CI
+
+- id: ghost-package
+  repository: ghost
+  category: Packages
+  evaluator: FindRepository
+  question: What is the package name?
+  selector:
+    nodeTypes:
+      - Package
+    terms:
+      - @0xsarwagya/ghost
+    exactTerms: true
+  expected:
+    exact:
+      - @0xsarwagya/ghost
+
+- id: ghost-load-create-call
+  repository: ghost
+  category: Call Graph
+  evaluator: FindCallChain
+  question: Does loading or creating a record call createGhostId?
+  selector:
+    edgeTypes:
+      - CALLS
+    from: loadOrCreateRecord
+    to: createGhostId
+    exactTerms: true
+  expected:
+    exact:
+      - loadOrCreateRecord -> createGhostId
+    edges:
+      - type: CALLS
+        from: loadOrCreateRecord
+        to: createGhostId

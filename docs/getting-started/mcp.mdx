@@ -1,0 +1,25 @@
+---
+title: "MCP"
+description: "Expose graph-backed capabilities to AI agents."
+order: 4
+---
+
+Start the local capability runtime:
+
+```sh
+ontoly mcp
+```
+
+Ontoly exposes structured capabilities backed by the query engine:
+
+- `FindResponsibleFunction`
+- `TraceRoute`
+- `DependencyTree`
+- `ImpactAnalysis`
+- `AuthenticationFlow`
+- `ExplainModule`
+- `FindConfiguration`
+- `FindDeadCode`
+
+The MCP layer consumes the Software Graph. It does not rebuild repository
+context, search files, or use AI to infer relationships.

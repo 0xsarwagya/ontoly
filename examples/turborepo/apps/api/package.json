@@ -1,0 +1,5 @@
+{
+  "name": "@ontoly-example/api",
+  "private": true,
+  "type": "module"
+}

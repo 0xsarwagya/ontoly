@@ -1,0 +1,98 @@
+{
+  "status": "PASS",
+  "baseline": "initialized",
+  "failures": [],
+  "warnings": [
+    "No previous baseline existed. Current results were written as regression-baseline.json."
+  ],
+  "current": {
+    "generatedAt": "2026-07-13T12:13:41.317Z",
+    "repositories": [
+      {
+        "slug": "ovok-core",
+        "status": "partial",
+        "ontoly": {
+          "nodes": 21696,
+          "edges": 47312,
+          "coverage": 98,
+          "trustworthiness": 98,
+          "durationMs": 13865.611916999995
+        },
+        "graphify": {
+          "nodes": 27444,
+          "edges": 57572,
+          "durationMs": 31782.687291000002
+        },
+        "graphHash": "17ibur0"
+      },
+      {
+        "slug": "0xsarwagya",
+        "status": "partial",
+        "ontoly": {
+          "nodes": 1202,
+          "edges": 2082,
+          "coverage": 95,
+          "trustworthiness": 95,
+          "durationMs": 5026.105749999995
+        },
+        "graphify": {
+          "nodes": 1071,
+          "edges": 1811,
+          "durationMs": 1449.7775000000038
+        },
+        "graphHash": "02tafm2"
+      },
+      {
+        "slug": "innosphere",
+        "status": "partial",
+        "ontoly": {
+          "nodes": 6744,
+          "edges": 12091,
+          "coverage": 100,
+          "trustworthiness": 100,
+          "durationMs": 8249.796290999991
+        },
+        "graphify": {
+          "nodes": 4178,
+          "edges": 9594,
+          "durationMs": 3963.019459000003
+        },
+        "graphHash": "0e26ua1"
+      },
+      {
+        "slug": "ghost",
+        "status": "partial",
+        "ontoly": {
+          "nodes": 350,
+          "edges": 655,
+          "coverage": 100,
+          "trustworthiness": 100,
+          "durationMs": 1171.8272080000024
+        },
+        "graphify": {
+          "nodes": 211,
+          "edges": 553,
+          "durationMs": 609.0390830000106
+        },
+        "graphHash": "1hv7tll"
+      },
+      {
+        "slug": "durable-local",
+        "status": "partial",
+        "ontoly": {
+          "nodes": 226,
+          "edges": 381,
+          "coverage": 100,
+          "trustworthiness": 100,
+          "durationMs": 956.0260410000046
+        },
+        "graphify": {
+          "nodes": 167,
+          "edges": 304,
+          "durationMs": 512.9914589999971
+        },
+        "graphHash": "0qkaj80"
+      }
+    ]
+  }
+}

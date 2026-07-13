@@ -1,0 +1,4183 @@
+{
+  "generatedAt": "2026-07-13T15:37:42.032Z",
+  "startedAt": "2026-07-13T15:36:56.512Z",
+  "repositories": [
+    {
+      "id": "ovok-core",
+      "name": "Ovok Core",
+      "category": "monorepo",
+      "corpusPath": "monorepos/ovok-core",
+      "frameworks": [
+        "nestjs",
+        "express"
+      ],
+      "priority": "critical",
+      "expected": {
+        "analyzer": "nestjs",
+        "semanticCoverage": 95,
+        "trust": 95,
+        "graphSizeBytes": {
+          "min": 12000000,
+          "max": 30000000
+        },
+        "nodeRange": {
+          "min": 20000,
+          "max": 26000
+        },
+        "edgeRange": {
+          "min": 45000,
+          "max": 55000
+        },
+        "diagnosticsMax": 50
+      },
+      "startedAt": "2026-07-13T15:36:56.513Z",
+      "status": "PASS",
+      "source": {
+        "status": "available",
+        "source": "local",
+        "path": "/Users/shrey/Desktop/work/ovok-core",
+        "cloned": false
+      },
+      "install": {
+        "status": "SKIPPED",
+        "reason": "Dependency installation is opt-in for validation runs. The compiler does not require installed dependencies."
+      },
+      "graph": {
+        "files": 21612,
+        "nodes": 21696,
+        "edges": 47312,
+        "diagnostics": 13,
+        "graphSizeBytes": 63096325,
+        "deterministicHash": "17ibur0",
+        "nodesByType": {
+          "Application": 1,
+          "BuildTarget": 1,
+          "Class": 1055,
+          "Configuration": 10,
+          "Container": 4,
+          "Controller": 118,
+          "Decorator": 45,
+          "Dependency": 142,
+          "Enum": 70,
+          "EnvironmentVariable": 162,
+          "Exception": 1,
+          "Export": 2532,
+          "Framework": 2,
+          "Function": 1272,
+          "Guard": 231,
+          "Import": 9602,
+          "Interface": 266,
+          "Job": 13,
+          "Method": 2457,
+          "Module": 1970,
+          "Namespace": 1,
+          "Package": 120,
+          "Provider": 382,
+          "Route": 418,
+          "Script": 23,
+          "Service": 237,
+          "Step": 51,
+          "Task": 23,
+          "TypeAlias": 482,
+          "Workflow": 4,
+          "Workspace": 1
+        },
+        "edgesByType": {
+          "AUTHORIZES": 231,
+          "CALLS": 2064,
+          "CONFIGURES": 98,
+          "CONTAINS": 18486,
+          "CREATES": 512,
+          "DECLARES": 117,
+          "DECORATES": 2440,
+          "DEPENDS_ON": 142,
+          "EXECUTES": 23,
+          "EXPORTS": 2707,
+          "EXPOSES": 420,
+          "EXTENDS": 490,
+          "HANDLES": 423,
+          "IMPLEMENTS": 122,
+          "IMPORTS": 10083,
+          "INJECTS": 992,
+          "MOUNTS": 420,
+          "PROVIDES": 672,
+          "READS": 159,
+          "REFERENCES": 795,
+          "REGISTERED_IN": 555,
+          "REGISTERS": 538,
+          "RETURNS": 1353,
+          "THROWS": 433,
+          "USES": 3037
+        }
+      },
+      "graphHash": "17ibur0",
+      "graphValidation": {
+        "ok": true,
+        "issues": [
+          {
+            "code": "CONTROLLER_MISSING_MODULE",
+            "message": "Controller controller:src/admin/admin.controller.ts:AdminController is not declared by a module.",
+            "severity": "warning"
+          },
+          {
+            "code": "CONTROLLER_MISSING_MODULE",
+            "message": "Controller controller:src/auth/auth.controller.ts:AuthController is not declared by a module.",
+            "severity": "warning"
+          },
+          {
+            "code": "CONTROLLER_MISSING_MODULE",
+            "message": "Controller controller:src/deprecated/observation/observation.controller.ts:ObservationController is not declared by a module.",
+            "severity": "warning"
+          },
+          {
+            "code": "CONTROLLER_MISSING_MODULE",
+            "message": "Controller controller:src/deprecated/patient/patient.controller.ts:PatientController is not declared by a module.",
+            "severity": "warning"
+          },
+          {
+            "code": "CONTROLLER_MISSING_MODULE",
+            "message": "Controller controller:src/deprecated/questionnaire/questionnaire.controller.ts:QuestionnaireController is not declared by a module.",
+            "severity": "warning"
+          },
+          {
+            "code": "CONTROLLER_MISSING_MODULE",
+            "message": "Controller controller:src/patient/patient.controller.ts:PatientController is not declared by a module.",
+            "severity": "warning"
+          },
+          {
+            "code": "CONTROLLER_MISSING_MODULE",
+            "message": "Controller controller:src/payload-cms/payload-cms-cache.controller.ts:PayloadCmsCachePurgeController is not declared by a module.",
+            "severity": "warning"
+          },
+          {
+            "code": "CONTROLLER_MISSING_MODULE",
+            "message": "Controller controller:src/payload-cms/payload-cms-content.controller.ts:PayloadCmsContentProxyController is not declared by a module.",
+            "severity": "warning"
+          },
+          {
+            "code": "CONTROLLER_MISSING_MODULE",
+            "message": "Controller controller:src/payload-cms/payload-cms-content.controller.ts:PayloadCmsPublicController is not declared by a module.",
+            "severity": "warning"
+          },
+          {
+            "code": "CONTROLLER_MISSING_MODULE",
+            "message": "Controller controller:src/payload-cms/payload-cms-projects.controller.ts:PayloadCmsProjectsProxyController is not declared by a module.",
+            "severity": "warning"
+          },
+          {
+            "code": "CONTROLLER_MISSING_MODULE",
+            "message": "Controller controller:src/signals/signals-observations.controller.ts:SignalsObservationsController is not declared by a module.",
+            "severity": "warning"
+          },
+          {
+            "code": "DUPLICATE_CONTROLLER",
+            "message": "Multiple controllers share name AuthController.",
+            "severity": "warning"
+          },
+          {
+            "code": "DUPLICATE_CONTROLLER",
+            "message": "Multiple controllers share name ObservationController.",
+            "severity": "warning"
+          },
+          {
+            "code": "DUPLICATE_CONTROLLER",
+            "message": "Multiple controllers share name PatientController.",
+            "severity": "warning"
+          },
+          {
+            "code": "DUPLICATE_CONTROLLER",
+            "message": "Multiple controllers share name QuestionnaireController.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:{\n      provide: IOT_NODE_HANDLERS,\n      useFactory: (\n        store: StoreInOvokNode,\n        signals: SendToSignalsNode,\n        enrich: EnrichNode,\n        dedup: DedupNode,\n        setLive: SetLiveKeyNode,\n        switchNode: SwitchNode,\n        raiseCr: RaiseCommunicationRequestNode,\n        lua: LuaScriptNode,\n        webhook: ExternalWebhookNode,\n        bot: ExecuteBotNode,\n        threshold: ThresholdNode,\n        exists: ExistsNode,\n        fetchRes: FetchResourceNode,\n      ) => [store, signals, enrich, dedup, setLive, switchNode, raiseCr, lua, webhook, bot, threshold, exists, fetchRes],\n      inject: [\n        StoreInOvokNode,\n        SendToSignalsNode,\n        EnrichNode,\n        DedupNode,\n        SetLiveKeyNode,\n        SwitchNode,\n        RaiseCommunicationRequestNode,\n        LuaScriptNode,\n        ExternalWebhookNode,\n        ExecuteBotNode,\n        ThresholdNode,\n        ExistsNode,\n        FetchResourceNode,\n      ],\n    } has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:// b1/b2/b3 additive — admin surface for device+token management +\n    // transport-config discovery has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:// Existing (untouched)\n    IotDeviceService has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:// Registry collects handlers via a factory over the concrete\n    // classes above so DI resolves them once has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:// Slice 3 additive\n    IotDeviceTokenService has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:// Slice 3b additive — MQTT ingress adapter\n    IotMqttMessageHandler has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:// Slice 3c additive — WebSocket ingress adapter\n    IotWsConnectionRegistry has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:// Zapier-style expansion — threshold (selector-aware) has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:APP_FILTER has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:APP_GUARD has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:APP_INTERCEPTOR has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:APP_PIPE has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:ChainLoaderService has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:EgressLimiterService has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:EventEmitter2 has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:ExternalWebhookNode has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:field-exists\n    // condition has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:IotAdmissionService has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:IotDedupService has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:IotDeviceAdminService has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:IotDeviceHeartbeatService has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:IotEgressRegistryService has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:IotKillswitchService has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:IotRuleEngineShardProcessors has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:IotSafetyBatchCheckService has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:IotShardRouterService has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:Logger has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:LuaWorkerPoolService has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:MedplumS3ServiceProvider has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:ObservationBatcherService has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:OobShardProcessors has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:PublicResourceService has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:SignalRuleDispatcherService has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/context/context.module.ts:ContextModule has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.active-users.processor.ts:ActiveUsersProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.ai-chat-message.processor.ts:AiChatMessageProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.audit-provenance-record.processor.ts:AuditProvenanceRecordProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.billing.processor.ts:BillingProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.cms-duplicate-remover.processor.ts:CMSDuplicateRemoverProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.cms-update.processor.ts:CMSUpdateProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.create-project-code-cronjob.ts:CreateProjectCodeCronJobProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.create-project-code.ts:CreateProjectCodeProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.delete-users.processor.ts:DeleteUsersProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.device-creation-ingest.processor.ts:DeviceCreationIngestProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.device-inactivity.processor.ts:DeviceInactivityProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.discharged-patient-archive.processor.ts:DischargedPatientArchiveProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.iot-rule-engine.processor.ts:IotRuleEngineProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.localization-duplicate-remover.processor.ts:LocalizationDuplicateRemoverProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.localization-update.processor.ts:LocalizationUpdateProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.medplum-retry.processor.ts:MedplumRetryProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.org-threshold-fanout-audit.processor.ts:OrgThresholdFanoutAuditProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.payment-project-setup.processor.ts:PaymentProjectSetupProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.save-sleep-radar.processor.ts:AeroSenseWavveRadarObservationSaveProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.send-project-codes.ts:SendProjectCodesProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.signals-alert-project.processor.ts:SignalsAlertProjectProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.signals-alert.processor.ts:SignalsAlertProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.signals-notification-backfill.processor.ts:SignalsNotificationBackfillProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.sleepiz-fhir-ingest-priority.processor.ts:SleepizFhirIngestPriorityProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.sleepiz-fhir-ingest-retry.processor.ts:SleepizFhirIngestRetryProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.sleepiz-fhir-ingest.processor.ts:SleepizFhirIngestProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.sleepiz-fhir-signals.processor.ts:SleepizFhirSignalsProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.thresholds-update-for-project.processor.ts:ThresholdsUpdateForProjectProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.video-call.active-call.processor.ts:VideoCallActiveCallProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.video-call.delete-communication-requests.processor.ts:VideoCallDeleteCommunicationRequestsProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/job/processors/job.withings-batch-data.processor.ts:WithingsBatchDataProcessor has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:src/medplum/medplum.module.ts:MedplumModule has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:StoreInOvokNode has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:SubProjectAccessPolicyReconciliationService has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:ThresholdNode has no graph-visible consumers.",
+            "severity": "warning"
+          }
+        ]
+      },
+      "diagnostics": {
+        "compiler": 97,
+        "graph": 13,
+        "validationIssues": 84,
+        "coverageWarnings": 17
+      },
+      "coverage": 98,
+      "trust": 98,
+      "semantic": {
+        "questions": 6,
+        "ontoly": {
+          "questions": 6,
+          "pass": 6,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.494,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 6,
+          "pass": 3,
+          "partial": 0,
+          "fail": 3,
+          "exactMatchRate": 50,
+          "precision": 50,
+          "recall": 50,
+          "confidence": 50,
+          "latencyMs": 0.599,
+          "semanticUnderstandingScore": 50
+        }
+      },
+      "frameworkDetections": {
+        "expected": [
+          "nestjs",
+          "express"
+        ],
+        "detected": [
+          "Express",
+          "NestJS"
+        ]
+      },
+      "deterministic": {
+        "status": "PASS",
+        "firstHash": "17ibur0",
+        "secondHash": "17ibur0",
+        "rebuildMs": 7965.235
+      },
+      "performance": {
+        "repositoryDiscoveryMs": 139.273,
+        "semanticModelGenerationMs": 3706.221,
+        "frameworkAnalysisMs": 9.744,
+        "semanticGenerationMs": 8615.137,
+        "graphSerializationMs": 137.069,
+        "validationMs": 29.618,
+        "coverageAnalysisMs": 26.181,
+        "queryIndexingMs": 4475.162,
+        "queryLatencyMs": 2.7208,
+        "traversalLatencyMs": 2.2872,
+        "totalDurationMs": 25104.054,
+        "peakMemoryBytes": 2574237696,
+        "memoryCheckpoints": [
+          {
+            "label": "start",
+            "rssBytes": 129908736,
+            "heapUsedBytes": 15171960,
+            "externalBytes": 20484438
+          },
+          {
+            "label": "after-discovery",
+            "rssBytes": 151158784,
+            "heapUsedBytes": 19077936,
+            "externalBytes": 20491550
+          },
+          {
+            "label": "after-semantic-model",
+            "rssBytes": 1339703296,
+            "heapUsedBytes": 1049572736,
+            "externalBytes": 21041626
+          },
+          {
+            "label": "after-framework-analysis",
+            "rssBytes": 1339752448,
+            "heapUsedBytes": 1061859056,
+            "externalBytes": 21041626
+          },
+          {
+            "label": "after-graph-build",
+            "rssBytes": 2219343872,
+            "heapUsedBytes": 1600752264,
+            "externalBytes": 21576188
+          },
+          {
+            "label": "after-serialization",
+            "rssBytes": 2574237696,
+            "heapUsedBytes": 1612805416,
+            "externalBytes": 20490130
+          }
+        ],
+        "cpu": {
+          "userMicros": 25777612,
+          "systemMicros": 5838014,
+          "coresAvailable": 10
+        },
+        "graphSizeBytes": 63096325
+      },
+      "completedAt": "2026-07-13T15:37:21.840Z",
+      "releaseGate": {
+        "status": "PASS",
+        "failures": [],
+        "warnings": []
+      }
+    },
+    {
+      "id": "0xsarwagya",
+      "name": "0xsarwagya",
+      "category": "monorepo",
+      "corpusPath": "monorepos/0xsarwagya",
+      "frameworks": [
+        "nextjs",
+        "react",
+        "turborepo"
+      ],
+      "priority": "critical",
+      "expected": {
+        "analyzer": "workspace",
+        "semanticCoverage": 95,
+        "trust": 95,
+        "graphSizeBytes": {
+          "min": 1200000,
+          "max": 4000000
+        },
+        "nodeRange": {
+          "min": 1000,
+          "max": 1800
+        },
+        "edgeRange": {
+          "min": 1800,
+          "max": 3000
+        },
+        "diagnosticsMax": 20
+      },
+      "startedAt": "2026-07-13T15:37:21.840Z",
+      "status": "PASS",
+      "source": {
+        "status": "available",
+        "source": "local",
+        "path": "/Users/shrey/Desktop/personal/0xsarwagya",
+        "cloned": false
+      },
+      "install": {
+        "status": "SKIPPED",
+        "reason": "Dependency installation is opt-in for validation runs. The compiler does not require installed dependencies."
+      },
+      "graph": {
+        "files": 6842,
+        "nodes": 1202,
+        "edges": 2082,
+        "diagnostics": 13,
+        "graphSizeBytes": 2671467,
+        "deterministicHash": "02tafm2",
+        "nodesByType": {
+          "BuildTarget": 7,
+          "Configuration": 44,
+          "Dependency": 46,
+          "Exception": 1,
+          "Export": 187,
+          "Framework": 2,
+          "Function": 205,
+          "Import": 370,
+          "Job": 3,
+          "Module": 140,
+          "Package": 29,
+          "Pipeline": 1,
+          "Script": 35,
+          "Step": 8,
+          "Task": 39,
+          "TypeAlias": 82,
+          "Workflow": 2,
+          "Workspace": 1
+        },
+        "edgesByType": {
+          "CALLS": 201,
+          "CONFIGURES": 37,
+          "CONTAINS": 951,
+          "CREATES": 4,
+          "DEPENDS_ON": 156,
+          "EXECUTES": 35,
+          "EXPORTS": 186,
+          "IMPORTS": 300,
+          "PROVIDES": 2,
+          "RETURNS": 53,
+          "THROWS": 2,
+          "USES": 155
+        }
+      },
+      "graphHash": "02tafm2",
+      "graphValidation": {
+        "ok": true,
+        "issues": [
+          {
+            "code": "SELF_RELATIONSHIP",
+            "message": "Edge edge:depends_on:1a5l19k creates a DEPENDS_ON relationship from a node to itself.",
+            "severity": "warning"
+          },
+          {
+            "code": "SELF_RELATIONSHIP",
+            "message": "Edge edge:depends_on:1o7e7rg creates a DEPENDS_ON relationship from a node to itself.",
+            "severity": "warning"
+          },
+          {
+            "code": "SELF_RELATIONSHIP",
+            "message": "Edge edge:depends_on:1vlp350 creates a DEPENDS_ON relationship from a node to itself.",
+            "severity": "warning"
+          }
+        ]
+      },
+      "diagnostics": {
+        "compiler": 16,
+        "graph": 13,
+        "validationIssues": 3,
+        "coverageWarnings": 7
+      },
+      "coverage": 95,
+      "trust": 95,
+      "semantic": {
+        "questions": 5,
+        "ontoly": {
+          "questions": 5,
+          "pass": 5,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.973,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 5,
+          "pass": 3,
+          "partial": 0,
+          "fail": 2,
+          "exactMatchRate": 60,
+          "precision": 60,
+          "recall": 60,
+          "confidence": 60,
+          "latencyMs": 0.065,
+          "semanticUnderstandingScore": 60
+        }
+      },
+      "frameworkDetections": {
+        "expected": [
+          "nextjs",
+          "react",
+          "turborepo"
+        ],
+        "detected": [
+          "Next.js",
+          "React"
+        ]
+      },
+      "deterministic": {
+        "status": "PASS",
+        "firstHash": "02tafm2",
+        "secondHash": "02tafm2",
+        "rebuildMs": 3936.804
+      },
+      "performance": {
+        "repositoryDiscoveryMs": 120.309,
+        "semanticModelGenerationMs": 586.472,
+        "frameworkAnalysisMs": 0.365,
+        "semanticGenerationMs": 3767.449,
+        "graphSerializationMs": 5.845,
+        "validationMs": 1.058,
+        "coverageAnalysisMs": 1.4,
+        "queryIndexingMs": 12.276,
+        "queryLatencyMs": 0.1295,
+        "traversalLatencyMs": 0.0978,
+        "totalDurationMs": 8432.221,
+        "peakMemoryBytes": 2719399936,
+        "memoryCheckpoints": [
+          {
+            "label": "start",
+            "rssBytes": 2701148160,
+            "heapUsedBytes": 1740524744,
+            "externalBytes": 83724752
+          },
+          {
+            "label": "after-discovery",
+            "rssBytes": 2701164544,
+            "heapUsedBytes": 1791319656,
+            "externalBytes": 83991280
+          },
+          {
+            "label": "after-semantic-model",
+            "rssBytes": 2719399936,
+            "heapUsedBytes": 1852855368,
+            "externalBytes": 26313594
+          },
+          {
+            "label": "after-framework-analysis",
+            "rssBytes": 2719399936,
+            "heapUsedBytes": 1853217680,
+            "externalBytes": 26313594
+          },
+          {
+            "label": "after-graph-build",
+            "rssBytes": 2062073856,
+            "heapUsedBytes": 229983112,
+            "externalBytes": 24489012
+          },
+          {
+            "label": "after-serialization",
+            "rssBytes": 2432073728,
+            "heapUsedBytes": 891084768,
+            "externalBytes": 24811011
+          }
+        ],
+        "cpu": {
+          "userMicros": 8199297,
+          "systemMicros": 1800634,
+          "coresAvailable": 10
+        },
+        "graphSizeBytes": 2671467
+      },
+      "completedAt": "2026-07-13T15:37:30.275Z",
+      "releaseGate": {
+        "status": "PASS",
+        "failures": [],
+        "warnings": []
+      }
+    },
+    {
+      "id": "innosphere",
+      "name": "Innosphere",
+      "category": "monorepo",
+      "corpusPath": "monorepos/innosphere",
+      "frameworks": [
+        "nestjs",
+        "react",
+        "turborepo",
+        "vite"
+      ],
+      "priority": "critical",
+      "expected": {
+        "analyzer": "nestjs",
+        "semanticCoverage": 95,
+        "trust": 95,
+        "graphSizeBytes": {
+          "min": 3500000,
+          "max": 9000000
+        },
+        "nodeRange": {
+          "min": 6000,
+          "max": 10000
+        },
+        "edgeRange": {
+          "min": 10000,
+          "max": 20000
+        },
+        "diagnosticsMax": 30
+      },
+      "startedAt": "2026-07-13T15:37:30.276Z",
+      "status": "PASS",
+      "source": {
+        "status": "available",
+        "source": "local",
+        "path": "/Users/shrey/Desktop/work/innosphere",
+        "cloned": false
+      },
+      "install": {
+        "status": "SKIPPED",
+        "reason": "Dependency installation is opt-in for validation runs. The compiler does not require installed dependencies."
+      },
+      "graph": {
+        "files": 856,
+        "nodes": 6771,
+        "edges": 12164,
+        "diagnostics": 12,
+        "graphSizeBytes": 16634388,
+        "deterministicHash": "00swv87",
+        "nodesByType": {
+          "Application": 1,
+          "BuildTarget": 6,
+          "Class": 66,
+          "Configuration": 23,
+          "Container": 3,
+          "Controller": 16,
+          "Decorator": 13,
+          "Dependency": 198,
+          "EnvironmentVariable": 78,
+          "Exception": 1,
+          "Export": 1347,
+          "Framework": 5,
+          "Function": 1305,
+          "Guard": 24,
+          "Import": 1778,
+          "Interface": 514,
+          "Job": 3,
+          "Method": 275,
+          "Module": 515,
+          "Namespace": 3,
+          "Package": 124,
+          "Pipeline": 1,
+          "Provider": 24,
+          "Route": 78,
+          "Script": 53,
+          "Service": 20,
+          "Step": 26,
+          "Task": 59,
+          "TypeAlias": 208,
+          "Workflow": 3,
+          "Workspace": 1
+        },
+        "edgesByType": {
+          "AUTHORIZES": 24,
+          "CALLS": 1233,
+          "CONFIGURES": 56,
+          "CONTAINS": 5723,
+          "CREATES": 77,
+          "DECLARES": 16,
+          "DECORATES": 162,
+          "DEPENDS_ON": 275,
+          "EXECUTES": 53,
+          "EXPORTS": 1362,
+          "EXPOSES": 78,
+          "EXTENDS": 17,
+          "HANDLES": 78,
+          "IMPLEMENTS": 2,
+          "IMPORTS": 1245,
+          "INJECTS": 11,
+          "MOUNTS": 78,
+          "PROVIDES": 50,
+          "READS": 77,
+          "REFERENCES": 73,
+          "REGISTERED_IN": 93,
+          "REGISTERS": 41,
+          "RETURNS": 430,
+          "THROWS": 97,
+          "USES": 813
+        }
+      },
+      "graphHash": "00swv87",
+      "graphValidation": {
+        "ok": true,
+        "issues": [
+          {
+            "code": "PROVIDER_WITHOUT_CONSUMERS",
+            "message": "Provider provider:{ provide: APP_GUARD, useClass: ThrottlerGuard } has no graph-visible consumers.",
+            "severity": "warning"
+          },
+          {
+            "code": "SELF_RELATIONSHIP",
+            "message": "Edge edge:depends_on:1a5l19k creates a DEPENDS_ON relationship from a node to itself.",
+            "severity": "warning"
+          }
+        ]
+      },
+      "diagnostics": {
+        "compiler": 14,
+        "graph": 12,
+        "validationIssues": 2,
+        "coverageWarnings": 0
+      },
+      "coverage": 100,
+      "trust": 100,
+      "semantic": {
+        "questions": 6,
+        "ontoly": {
+          "questions": 6,
+          "pass": 6,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.153,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 6,
+          "pass": 5,
+          "partial": 0,
+          "fail": 1,
+          "exactMatchRate": 83.33,
+          "precision": 83.33,
+          "recall": 83.33,
+          "confidence": 83.33,
+          "latencyMs": 0.115,
+          "semanticUnderstandingScore": 83.33
+        }
+      },
+      "frameworkDetections": {
+        "expected": [
+          "nestjs",
+          "react",
+          "turborepo",
+          "vite"
+        ],
+        "detected": [
+          "Express",
+          "NestJS",
+          "React"
+        ]
+      },
+      "deterministic": {
+        "status": "PASS",
+        "firstHash": "00swv87",
+        "secondHash": "00swv87",
+        "rebuildMs": 3871.218
+      },
+      "performance": {
+        "repositoryDiscoveryMs": 19.374,
+        "semanticModelGenerationMs": 2252.734,
+        "frameworkAnalysisMs": 1.623,
+        "semanticGenerationMs": 4090.268,
+        "graphSerializationMs": 38.363,
+        "validationMs": 7.264,
+        "coverageAnalysisMs": 7.067,
+        "queryIndexingMs": 189.183,
+        "queryLatencyMs": 0.6583,
+        "traversalLatencyMs": 0.5987,
+        "totalDurationMs": 10477.266,
+        "peakMemoryBytes": 2825895936,
+        "memoryCheckpoints": [
+          {
+            "label": "start",
+            "rssBytes": 2434760704,
+            "heapUsedBytes": 894187032,
+            "externalBytes": 27499698
+          },
+          {
+            "label": "after-discovery",
+            "rssBytes": 2434777088,
+            "heapUsedBytes": 900582592,
+            "externalBytes": 27557819
+          },
+          {
+            "label": "after-semantic-model",
+            "rssBytes": 1989640192,
+            "heapUsedBytes": 773793584,
+            "externalBytes": 26171710
+          },
+          {
+            "label": "after-framework-analysis",
+            "rssBytes": 1989640192,
+            "heapUsedBytes": 775412424,
+            "externalBytes": 26171710
+          },
+          {
+            "label": "after-graph-build",
+            "rssBytes": 1972240384,
+            "heapUsedBytes": 188331416,
+            "externalBytes": 20482354
+          },
+          {
+            "label": "after-serialization",
+            "rssBytes": 2825895936,
+            "heapUsedBytes": 1631704904,
+            "externalBytes": 29335320
+          }
+        ],
+        "cpu": {
+          "userMicros": 10954166,
+          "systemMicros": 1203076,
+          "coresAvailable": 10
+        },
+        "graphSizeBytes": 16634388
+      },
+      "completedAt": "2026-07-13T15:37:40.809Z",
+      "releaseGate": {
+        "status": "PASS",
+        "failures": [],
+        "warnings": []
+      }
+    },
+    {
+      "id": "ghost",
+      "name": "Ghost",
+      "category": "library",
+      "corpusPath": "libraries/ghost",
+      "frameworks": [
+        "react",
+        "vite"
+      ],
+      "priority": "critical",
+      "expected": {
+        "analyzer": "typescript",
+        "semanticCoverage": 95,
+        "trust": 95,
+        "graphSizeBytes": {
+          "min": 150000,
+          "max": 1000000
+        },
+        "nodeRange": {
+          "min": 300,
+          "max": 900
+        },
+        "edgeRange": {
+          "min": 600,
+          "max": 1500
+        },
+        "diagnosticsMax": 5
+      },
+      "startedAt": "2026-07-13T15:37:40.810Z",
+      "status": "PASS",
+      "source": {
+        "status": "available",
+        "source": "local",
+        "path": "/Users/shrey/Desktop/personal/ghost",
+        "cloned": false
+      },
+      "install": {
+        "status": "SKIPPED",
+        "reason": "Dependency installation is opt-in for validation runs. The compiler does not require installed dependencies."
+      },
+      "graph": {
+        "files": 56,
+        "nodes": 350,
+        "edges": 655,
+        "diagnostics": 0,
+        "graphSizeBytes": 783053,
+        "deterministicHash": "1hv7tll",
+        "nodesByType": {
+          "BuildTarget": 1,
+          "Class": 3,
+          "Configuration": 5,
+          "Dependency": 6,
+          "EnvironmentVariable": 1,
+          "Exception": 1,
+          "Export": 105,
+          "Framework": 1,
+          "Function": 57,
+          "Import": 70,
+          "Interface": 17,
+          "Job": 4,
+          "Method": 6,
+          "Module": 28,
+          "Namespace": 3,
+          "Package": 7,
+          "Script": 10,
+          "Step": 6,
+          "Task": 10,
+          "TypeAlias": 5,
+          "Workflow": 3,
+          "Workspace": 1
+        },
+        "edgesByType": {
+          "CALLS": 82,
+          "CONFIGURES": 5,
+          "CONTAINS": 292,
+          "CREATES": 17,
+          "DEPENDS_ON": 6,
+          "EXECUTES": 10,
+          "EXPORTS": 105,
+          "IMPLEMENTS": 2,
+          "IMPORTS": 69,
+          "INJECTS": 2,
+          "READS": 1,
+          "RETURNS": 20,
+          "THROWS": 14,
+          "USES": 30
+        }
+      },
+      "graphHash": "1hv7tll",
+      "graphValidation": {
+        "ok": true,
+        "issues": []
+      },
+      "diagnostics": {
+        "compiler": 0,
+        "graph": 0,
+        "validationIssues": 0,
+        "coverageWarnings": 0
+      },
+      "coverage": 100,
+      "trust": 100,
+      "semantic": {
+        "questions": 6,
+        "ontoly": {
+          "questions": 6,
+          "pass": 6,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.016,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 6,
+          "pass": 3,
+          "partial": 0,
+          "fail": 3,
+          "exactMatchRate": 50,
+          "precision": 50,
+          "recall": 50,
+          "confidence": 50,
+          "latencyMs": 0.011,
+          "semanticUnderstandingScore": 50
+        }
+      },
+      "frameworkDetections": {
+        "expected": [
+          "react",
+          "vite"
+        ],
+        "detected": [
+          "React"
+        ]
+      },
+      "deterministic": {
+        "status": "PASS",
+        "firstHash": "1hv7tll",
+        "secondHash": "1hv7tll",
+        "rebuildMs": 182.761
+      },
+      "performance": {
+        "repositoryDiscoveryMs": 5.23,
+        "semanticModelGenerationMs": 230.446,
+        "frameworkAnalysisMs": 0.087,
+        "semanticGenerationMs": 191.188,
+        "graphSerializationMs": 1.101,
+        "validationMs": 0.28,
+        "coverageAnalysisMs": 0.337,
+        "queryIndexingMs": 2.116,
+        "queryLatencyMs": 0.0326,
+        "traversalLatencyMs": 0.026,
+        "totalDurationMs": 613.647,
+        "peakMemoryBytes": 2003746816,
+        "memoryCheckpoints": [
+          {
+            "label": "start",
+            "rssBytes": 1973649408,
+            "heapUsedBytes": 104797528,
+            "externalBytes": 37173293
+          },
+          {
+            "label": "after-discovery",
+            "rssBytes": 1973649408,
+            "heapUsedBytes": 105152768,
+            "externalBytes": 37179540
+          },
+          {
+            "label": "after-semantic-model",
+            "rssBytes": 1982562304,
+            "heapUsedBytes": 227570872,
+            "externalBytes": 41011559
+          },
+          {
+            "label": "after-framework-analysis",
+            "rssBytes": 1982562304,
+            "heapUsedBytes": 227646712,
+            "externalBytes": 41011559
+          },
+          {
+            "label": "after-graph-build",
+            "rssBytes": 1991819264,
+            "heapUsedBytes": 340545816,
+            "externalBytes": 44643658
+          },
+          {
+            "label": "after-serialization",
+            "rssBytes": 2003746816,
+            "heapUsedBytes": 444304608,
+            "externalBytes": 48393288
+          }
+        ],
+        "cpu": {
+          "userMicros": 856887,
+          "systemMicros": 60294,
+          "coresAvailable": 10
+        },
+        "graphSizeBytes": 783053
+      },
+      "completedAt": "2026-07-13T15:37:41.425Z",
+      "releaseGate": {
+        "status": "PASS",
+        "failures": [],
+        "warnings": []
+      }
+    },
+    {
+      "id": "durable-local",
+      "name": "durable-local",
+      "category": "library",
+      "corpusPath": "libraries/durable-local",
+      "frameworks": [
+        "react",
+        "vite"
+      ],
+      "priority": "critical",
+      "expected": {
+        "analyzer": "typescript",
+        "semanticCoverage": 95,
+        "trust": 95,
+        "graphSizeBytes": {
+          "min": 100000,
+          "max": 800000
+        },
+        "nodeRange": {
+          "min": 200,
+          "max": 700
+        },
+        "edgeRange": {
+          "min": 350,
+          "max": 1200
+        },
+        "diagnosticsMax": 5
+      },
+      "startedAt": "2026-07-13T15:37:41.428Z",
+      "status": "PASS",
+      "source": {
+        "status": "available",
+        "source": "local",
+        "path": "/Users/shrey/Desktop/personal/durable-local",
+        "cloned": false
+      },
+      "install": {
+        "status": "SKIPPED",
+        "reason": "Dependency installation is opt-in for validation runs. The compiler does not require installed dependencies."
+      },
+      "graph": {
+        "files": 55,
+        "nodes": 226,
+        "edges": 381,
+        "diagnostics": 0,
+        "graphSizeBytes": 468196,
+        "deterministicHash": "0qkaj80",
+        "nodesByType": {
+          "BuildTarget": 1,
+          "Class": 1,
+          "Configuration": 5,
+          "Dependency": 7,
+          "EnvironmentVariable": 1,
+          "Export": 54,
+          "Framework": 1,
+          "Function": 35,
+          "Import": 38,
+          "Interface": 9,
+          "Job": 4,
+          "Module": 21,
+          "Namespace": 1,
+          "Package": 8,
+          "Script": 9,
+          "Step": 6,
+          "Task": 9,
+          "TypeAlias": 12,
+          "Workflow": 3,
+          "Workspace": 1
+        },
+        "edgesByType": {
+          "CALLS": 38,
+          "CONFIGURES": 5,
+          "CONTAINS": 175,
+          "CREATES": 7,
+          "DEPENDS_ON": 7,
+          "EXECUTES": 9,
+          "EXPORTS": 54,
+          "EXTENDS": 1,
+          "IMPORTS": 38,
+          "INJECTS": 2,
+          "READS": 1,
+          "RETURNS": 11,
+          "THROWS": 5,
+          "USES": 28
+        }
+      },
+      "graphHash": "0qkaj80",
+      "graphValidation": {
+        "ok": true,
+        "issues": []
+      },
+      "diagnostics": {
+        "compiler": 0,
+        "graph": 0,
+        "validationIssues": 0,
+        "coverageWarnings": 0
+      },
+      "coverage": 100,
+      "trust": 100,
+      "semantic": {
+        "questions": 6,
+        "ontoly": {
+          "questions": 6,
+          "pass": 6,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.027,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 6,
+          "pass": 2,
+          "partial": 0,
+          "fail": 4,
+          "exactMatchRate": 33.33,
+          "precision": 33.33,
+          "recall": 33.33,
+          "confidence": 33.33,
+          "latencyMs": 0.011,
+          "semanticUnderstandingScore": 33.33
+        }
+      },
+      "frameworkDetections": {
+        "expected": [
+          "react",
+          "vite"
+        ],
+        "detected": [
+          "React"
+        ]
+      },
+      "deterministic": {
+        "status": "PASS",
+        "firstHash": "0qkaj80",
+        "secondHash": "0qkaj80",
+        "rebuildMs": 200.825
+      },
+      "performance": {
+        "repositoryDiscoveryMs": 1.59,
+        "semanticModelGenerationMs": 204.066,
+        "frameworkAnalysisMs": 0.062,
+        "semanticGenerationMs": 173.063,
+        "graphSerializationMs": 0.712,
+        "validationMs": 0.207,
+        "coverageAnalysisMs": 0.24,
+        "queryIndexingMs": 20.922,
+        "queryLatencyMs": 0.0521,
+        "traversalLatencyMs": 0.0289,
+        "totalDurationMs": 601.752,
+        "peakMemoryBytes": 2005319680,
+        "memoryCheckpoints": [
+          {
+            "label": "start",
+            "rssBytes": 2005319680,
+            "heapUsedBytes": 446224848,
+            "externalBytes": 49221652
+          },
+          {
+            "label": "after-discovery",
+            "rssBytes": 2005319680,
+            "heapUsedBytes": 446596672,
+            "externalBytes": 49228625
+          },
+          {
+            "label": "after-semantic-model",
+            "rssBytes": 1951334400,
+            "heapUsedBytes": 146270000,
+            "externalBytes": 24360761
+          },
+          {
+            "label": "after-framework-analysis",
+            "rssBytes": 1951334400,
+            "heapUsedBytes": 146315064,
+            "externalBytes": 24360761
+          },
+          {
+            "label": "after-graph-build",
+            "rssBytes": 1958002688,
+            "heapUsedBytes": 243693904,
+            "externalBytes": 27999370
+          },
+          {
+            "label": "after-serialization",
+            "rssBytes": 1966047232,
+            "heapUsedBytes": 352166352,
+            "externalBytes": 31856375
+          }
+        ],
+        "cpu": {
+          "userMicros": 807563,
+          "systemMicros": 60630,
+          "coresAvailable": 10
+        },
+        "graphSizeBytes": 468196
+      },
+      "completedAt": "2026-07-13T15:37:42.031Z",
+      "releaseGate": {
+        "status": "PASS",
+        "failures": [],
+        "warnings": []
+      }
+    }
+  ],
+  "performance": {
+    "generatedAt": "2026-07-13T15:37:42.031Z",
+    "summary": {
+      "repositories": 5,
+      "measured": 5,
+      "skipped": 0,
+      "failed": 0,
+      "averageDurationMs": 9045.79,
+      "averageCoverage": 98.6,
+      "averageTrust": 98.6,
+      "totalNodes": 30245,
+      "totalEdges": 62594,
+      "totalGraphSizeBytes": 83653429,
+      "maxMemoryBytes": 2825895936
+    },
+    "rows": [
+      {
+        "id": "ovok-core",
+        "name": "Ovok Core",
+        "frameworks": [
+          "nestjs",
+          "express"
+        ],
+        "category": "monorepo",
+        "status": "PASS",
+        "coverage": 98,
+        "trust": 98,
+        "nodes": 21696,
+        "edges": 47312,
+        "packages": 120,
+        "files": 21612,
+        "graphSizeBytes": 63096325,
+        "totalDurationMs": 25104.054,
+        "peakMemoryBytes": 2574237696,
+        "queryLatencyMs": 2.7208
+      },
+      {
+        "id": "0xsarwagya",
+        "name": "0xsarwagya",
+        "frameworks": [
+          "nextjs",
+          "react",
+          "turborepo"
+        ],
+        "category": "monorepo",
+        "status": "PASS",
+        "coverage": 95,
+        "trust": 95,
+        "nodes": 1202,
+        "edges": 2082,
+        "packages": 29,
+        "files": 6842,
+        "graphSizeBytes": 2671467,
+        "totalDurationMs": 8432.221,
+        "peakMemoryBytes": 2719399936,
+        "queryLatencyMs": 0.1295
+      },
+      {
+        "id": "innosphere",
+        "name": "Innosphere",
+        "frameworks": [
+          "nestjs",
+          "react",
+          "turborepo",
+          "vite"
+        ],
+        "category": "monorepo",
+        "status": "PASS",
+        "coverage": 100,
+        "trust": 100,
+        "nodes": 6771,
+        "edges": 12164,
+        "packages": 124,
+        "files": 856,
+        "graphSizeBytes": 16634388,
+        "totalDurationMs": 10477.266,
+        "peakMemoryBytes": 2825895936,
+        "queryLatencyMs": 0.6583
+      },
+      {
+        "id": "ghost",
+        "name": "Ghost",
+        "frameworks": [
+          "react",
+          "vite"
+        ],
+        "category": "library",
+        "status": "PASS",
+        "coverage": 100,
+        "trust": 100,
+        "nodes": 350,
+        "edges": 655,
+        "packages": 7,
+        "files": 56,
+        "graphSizeBytes": 783053,
+        "totalDurationMs": 613.647,
+        "peakMemoryBytes": 2003746816,
+        "queryLatencyMs": 0.0326
+      },
+      {
+        "id": "durable-local",
+        "name": "durable-local",
+        "frameworks": [
+          "react",
+          "vite"
+        ],
+        "category": "library",
+        "status": "PASS",
+        "coverage": 100,
+        "trust": 100,
+        "nodes": 226,
+        "edges": 381,
+        "packages": 8,
+        "files": 55,
+        "graphSizeBytes": 468196,
+        "totalDurationMs": 601.752,
+        "peakMemoryBytes": 2005319680,
+        "queryLatencyMs": 0.0521
+      }
+    ],
+    "rankings": {
+      "fastest": [
+        {
+          "id": "durable-local",
+          "name": "durable-local",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 226,
+          "edges": 381,
+          "packages": 8,
+          "files": 55,
+          "graphSizeBytes": 468196,
+          "totalDurationMs": 601.752,
+          "peakMemoryBytes": 2005319680,
+          "queryLatencyMs": 0.0521
+        },
+        {
+          "id": "ghost",
+          "name": "Ghost",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 350,
+          "edges": 655,
+          "packages": 7,
+          "files": 56,
+          "graphSizeBytes": 783053,
+          "totalDurationMs": 613.647,
+          "peakMemoryBytes": 2003746816,
+          "queryLatencyMs": 0.0326
+        },
+        {
+          "id": "0xsarwagya",
+          "name": "0xsarwagya",
+          "frameworks": [
+            "nextjs",
+            "react",
+            "turborepo"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 95,
+          "trust": 95,
+          "nodes": 1202,
+          "edges": 2082,
+          "packages": 29,
+          "files": 6842,
+          "graphSizeBytes": 2671467,
+          "totalDurationMs": 8432.221,
+          "peakMemoryBytes": 2719399936,
+          "queryLatencyMs": 0.1295
+        },
+        {
+          "id": "innosphere",
+          "name": "Innosphere",
+          "frameworks": [
+            "nestjs",
+            "react",
+            "turborepo",
+            "vite"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 6771,
+          "edges": 12164,
+          "packages": 124,
+          "files": 856,
+          "graphSizeBytes": 16634388,
+          "totalDurationMs": 10477.266,
+          "peakMemoryBytes": 2825895936,
+          "queryLatencyMs": 0.6583
+        },
+        {
+          "id": "ovok-core",
+          "name": "Ovok Core",
+          "frameworks": [
+            "nestjs",
+            "express"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 98,
+          "trust": 98,
+          "nodes": 21696,
+          "edges": 47312,
+          "packages": 120,
+          "files": 21612,
+          "graphSizeBytes": 63096325,
+          "totalDurationMs": 25104.054,
+          "peakMemoryBytes": 2574237696,
+          "queryLatencyMs": 2.7208
+        }
+      ],
+      "largestGraphs": [
+        {
+          "id": "ovok-core",
+          "name": "Ovok Core",
+          "frameworks": [
+            "nestjs",
+            "express"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 98,
+          "trust": 98,
+          "nodes": 21696,
+          "edges": 47312,
+          "packages": 120,
+          "files": 21612,
+          "graphSizeBytes": 63096325,
+          "totalDurationMs": 25104.054,
+          "peakMemoryBytes": 2574237696,
+          "queryLatencyMs": 2.7208
+        },
+        {
+          "id": "innosphere",
+          "name": "Innosphere",
+          "frameworks": [
+            "nestjs",
+            "react",
+            "turborepo",
+            "vite"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 6771,
+          "edges": 12164,
+          "packages": 124,
+          "files": 856,
+          "graphSizeBytes": 16634388,
+          "totalDurationMs": 10477.266,
+          "peakMemoryBytes": 2825895936,
+          "queryLatencyMs": 0.6583
+        },
+        {
+          "id": "0xsarwagya",
+          "name": "0xsarwagya",
+          "frameworks": [
+            "nextjs",
+            "react",
+            "turborepo"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 95,
+          "trust": 95,
+          "nodes": 1202,
+          "edges": 2082,
+          "packages": 29,
+          "files": 6842,
+          "graphSizeBytes": 2671467,
+          "totalDurationMs": 8432.221,
+          "peakMemoryBytes": 2719399936,
+          "queryLatencyMs": 0.1295
+        },
+        {
+          "id": "ghost",
+          "name": "Ghost",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 350,
+          "edges": 655,
+          "packages": 7,
+          "files": 56,
+          "graphSizeBytes": 783053,
+          "totalDurationMs": 613.647,
+          "peakMemoryBytes": 2003746816,
+          "queryLatencyMs": 0.0326
+        },
+        {
+          "id": "durable-local",
+          "name": "durable-local",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 226,
+          "edges": 381,
+          "packages": 8,
+          "files": 55,
+          "graphSizeBytes": 468196,
+          "totalDurationMs": 601.752,
+          "peakMemoryBytes": 2005319680,
+          "queryLatencyMs": 0.0521
+        }
+      ],
+      "mostRelationships": [
+        {
+          "id": "ovok-core",
+          "name": "Ovok Core",
+          "frameworks": [
+            "nestjs",
+            "express"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 98,
+          "trust": 98,
+          "nodes": 21696,
+          "edges": 47312,
+          "packages": 120,
+          "files": 21612,
+          "graphSizeBytes": 63096325,
+          "totalDurationMs": 25104.054,
+          "peakMemoryBytes": 2574237696,
+          "queryLatencyMs": 2.7208
+        },
+        {
+          "id": "innosphere",
+          "name": "Innosphere",
+          "frameworks": [
+            "nestjs",
+            "react",
+            "turborepo",
+            "vite"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 6771,
+          "edges": 12164,
+          "packages": 124,
+          "files": 856,
+          "graphSizeBytes": 16634388,
+          "totalDurationMs": 10477.266,
+          "peakMemoryBytes": 2825895936,
+          "queryLatencyMs": 0.6583
+        },
+        {
+          "id": "0xsarwagya",
+          "name": "0xsarwagya",
+          "frameworks": [
+            "nextjs",
+            "react",
+            "turborepo"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 95,
+          "trust": 95,
+          "nodes": 1202,
+          "edges": 2082,
+          "packages": 29,
+          "files": 6842,
+          "graphSizeBytes": 2671467,
+          "totalDurationMs": 8432.221,
+          "peakMemoryBytes": 2719399936,
+          "queryLatencyMs": 0.1295
+        },
+        {
+          "id": "ghost",
+          "name": "Ghost",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 350,
+          "edges": 655,
+          "packages": 7,
+          "files": 56,
+          "graphSizeBytes": 783053,
+          "totalDurationMs": 613.647,
+          "peakMemoryBytes": 2003746816,
+          "queryLatencyMs": 0.0326
+        },
+        {
+          "id": "durable-local",
+          "name": "durable-local",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 226,
+          "edges": 381,
+          "packages": 8,
+          "files": 55,
+          "graphSizeBytes": 468196,
+          "totalDurationMs": 601.752,
+          "peakMemoryBytes": 2005319680,
+          "queryLatencyMs": 0.0521
+        }
+      ],
+      "mostPackages": [
+        {
+          "id": "innosphere",
+          "name": "Innosphere",
+          "frameworks": [
+            "nestjs",
+            "react",
+            "turborepo",
+            "vite"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 6771,
+          "edges": 12164,
+          "packages": 124,
+          "files": 856,
+          "graphSizeBytes": 16634388,
+          "totalDurationMs": 10477.266,
+          "peakMemoryBytes": 2825895936,
+          "queryLatencyMs": 0.6583
+        },
+        {
+          "id": "ovok-core",
+          "name": "Ovok Core",
+          "frameworks": [
+            "nestjs",
+            "express"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 98,
+          "trust": 98,
+          "nodes": 21696,
+          "edges": 47312,
+          "packages": 120,
+          "files": 21612,
+          "graphSizeBytes": 63096325,
+          "totalDurationMs": 25104.054,
+          "peakMemoryBytes": 2574237696,
+          "queryLatencyMs": 2.7208
+        },
+        {
+          "id": "0xsarwagya",
+          "name": "0xsarwagya",
+          "frameworks": [
+            "nextjs",
+            "react",
+            "turborepo"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 95,
+          "trust": 95,
+          "nodes": 1202,
+          "edges": 2082,
+          "packages": 29,
+          "files": 6842,
+          "graphSizeBytes": 2671467,
+          "totalDurationMs": 8432.221,
+          "peakMemoryBytes": 2719399936,
+          "queryLatencyMs": 0.1295
+        },
+        {
+          "id": "durable-local",
+          "name": "durable-local",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 226,
+          "edges": 381,
+          "packages": 8,
+          "files": 55,
+          "graphSizeBytes": 468196,
+          "totalDurationMs": 601.752,
+          "peakMemoryBytes": 2005319680,
+          "queryLatencyMs": 0.0521
+        },
+        {
+          "id": "ghost",
+          "name": "Ghost",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 350,
+          "edges": 655,
+          "packages": 7,
+          "files": 56,
+          "graphSizeBytes": 783053,
+          "totalDurationMs": 613.647,
+          "peakMemoryBytes": 2003746816,
+          "queryLatencyMs": 0.0326
+        }
+      ],
+      "largestWorkspaces": [
+        {
+          "id": "ovok-core",
+          "name": "Ovok Core",
+          "frameworks": [
+            "nestjs",
+            "express"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 98,
+          "trust": 98,
+          "nodes": 21696,
+          "edges": 47312,
+          "packages": 120,
+          "files": 21612,
+          "graphSizeBytes": 63096325,
+          "totalDurationMs": 25104.054,
+          "peakMemoryBytes": 2574237696,
+          "queryLatencyMs": 2.7208
+        },
+        {
+          "id": "0xsarwagya",
+          "name": "0xsarwagya",
+          "frameworks": [
+            "nextjs",
+            "react",
+            "turborepo"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 95,
+          "trust": 95,
+          "nodes": 1202,
+          "edges": 2082,
+          "packages": 29,
+          "files": 6842,
+          "graphSizeBytes": 2671467,
+          "totalDurationMs": 8432.221,
+          "peakMemoryBytes": 2719399936,
+          "queryLatencyMs": 0.1295
+        },
+        {
+          "id": "innosphere",
+          "name": "Innosphere",
+          "frameworks": [
+            "nestjs",
+            "react",
+            "turborepo",
+            "vite"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 6771,
+          "edges": 12164,
+          "packages": 124,
+          "files": 856,
+          "graphSizeBytes": 16634388,
+          "totalDurationMs": 10477.266,
+          "peakMemoryBytes": 2825895936,
+          "queryLatencyMs": 0.6583
+        },
+        {
+          "id": "ghost",
+          "name": "Ghost",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 350,
+          "edges": 655,
+          "packages": 7,
+          "files": 56,
+          "graphSizeBytes": 783053,
+          "totalDurationMs": 613.647,
+          "peakMemoryBytes": 2003746816,
+          "queryLatencyMs": 0.0326
+        },
+        {
+          "id": "durable-local",
+          "name": "durable-local",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 226,
+          "edges": 381,
+          "packages": 8,
+          "files": 55,
+          "graphSizeBytes": 468196,
+          "totalDurationMs": 601.752,
+          "peakMemoryBytes": 2005319680,
+          "queryLatencyMs": 0.0521
+        }
+      ],
+      "coverage": [
+        {
+          "id": "innosphere",
+          "name": "Innosphere",
+          "frameworks": [
+            "nestjs",
+            "react",
+            "turborepo",
+            "vite"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 6771,
+          "edges": 12164,
+          "packages": 124,
+          "files": 856,
+          "graphSizeBytes": 16634388,
+          "totalDurationMs": 10477.266,
+          "peakMemoryBytes": 2825895936,
+          "queryLatencyMs": 0.6583
+        },
+        {
+          "id": "ghost",
+          "name": "Ghost",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 350,
+          "edges": 655,
+          "packages": 7,
+          "files": 56,
+          "graphSizeBytes": 783053,
+          "totalDurationMs": 613.647,
+          "peakMemoryBytes": 2003746816,
+          "queryLatencyMs": 0.0326
+        },
+        {
+          "id": "durable-local",
+          "name": "durable-local",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 226,
+          "edges": 381,
+          "packages": 8,
+          "files": 55,
+          "graphSizeBytes": 468196,
+          "totalDurationMs": 601.752,
+          "peakMemoryBytes": 2005319680,
+          "queryLatencyMs": 0.0521
+        },
+        {
+          "id": "ovok-core",
+          "name": "Ovok Core",
+          "frameworks": [
+            "nestjs",
+            "express"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 98,
+          "trust": 98,
+          "nodes": 21696,
+          "edges": 47312,
+          "packages": 120,
+          "files": 21612,
+          "graphSizeBytes": 63096325,
+          "totalDurationMs": 25104.054,
+          "peakMemoryBytes": 2574237696,
+          "queryLatencyMs": 2.7208
+        },
+        {
+          "id": "0xsarwagya",
+          "name": "0xsarwagya",
+          "frameworks": [
+            "nextjs",
+            "react",
+            "turborepo"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 95,
+          "trust": 95,
+          "nodes": 1202,
+          "edges": 2082,
+          "packages": 29,
+          "files": 6842,
+          "graphSizeBytes": 2671467,
+          "totalDurationMs": 8432.221,
+          "peakMemoryBytes": 2719399936,
+          "queryLatencyMs": 0.1295
+        }
+      ],
+      "lowestCoverage": [
+        {
+          "id": "0xsarwagya",
+          "name": "0xsarwagya",
+          "frameworks": [
+            "nextjs",
+            "react",
+            "turborepo"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 95,
+          "trust": 95,
+          "nodes": 1202,
+          "edges": 2082,
+          "packages": 29,
+          "files": 6842,
+          "graphSizeBytes": 2671467,
+          "totalDurationMs": 8432.221,
+          "peakMemoryBytes": 2719399936,
+          "queryLatencyMs": 0.1295
+        },
+        {
+          "id": "ovok-core",
+          "name": "Ovok Core",
+          "frameworks": [
+            "nestjs",
+            "express"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 98,
+          "trust": 98,
+          "nodes": 21696,
+          "edges": 47312,
+          "packages": 120,
+          "files": 21612,
+          "graphSizeBytes": 63096325,
+          "totalDurationMs": 25104.054,
+          "peakMemoryBytes": 2574237696,
+          "queryLatencyMs": 2.7208
+        },
+        {
+          "id": "innosphere",
+          "name": "Innosphere",
+          "frameworks": [
+            "nestjs",
+            "react",
+            "turborepo",
+            "vite"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 6771,
+          "edges": 12164,
+          "packages": 124,
+          "files": 856,
+          "graphSizeBytes": 16634388,
+          "totalDurationMs": 10477.266,
+          "peakMemoryBytes": 2825895936,
+          "queryLatencyMs": 0.6583
+        },
+        {
+          "id": "ghost",
+          "name": "Ghost",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 350,
+          "edges": 655,
+          "packages": 7,
+          "files": 56,
+          "graphSizeBytes": 783053,
+          "totalDurationMs": 613.647,
+          "peakMemoryBytes": 2003746816,
+          "queryLatencyMs": 0.0326
+        },
+        {
+          "id": "durable-local",
+          "name": "durable-local",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 226,
+          "edges": 381,
+          "packages": 8,
+          "files": 55,
+          "graphSizeBytes": 468196,
+          "totalDurationMs": 601.752,
+          "peakMemoryBytes": 2005319680,
+          "queryLatencyMs": 0.0521
+        }
+      ],
+      "memory": [
+        {
+          "id": "innosphere",
+          "name": "Innosphere",
+          "frameworks": [
+            "nestjs",
+            "react",
+            "turborepo",
+            "vite"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 6771,
+          "edges": 12164,
+          "packages": 124,
+          "files": 856,
+          "graphSizeBytes": 16634388,
+          "totalDurationMs": 10477.266,
+          "peakMemoryBytes": 2825895936,
+          "queryLatencyMs": 0.6583
+        },
+        {
+          "id": "0xsarwagya",
+          "name": "0xsarwagya",
+          "frameworks": [
+            "nextjs",
+            "react",
+            "turborepo"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 95,
+          "trust": 95,
+          "nodes": 1202,
+          "edges": 2082,
+          "packages": 29,
+          "files": 6842,
+          "graphSizeBytes": 2671467,
+          "totalDurationMs": 8432.221,
+          "peakMemoryBytes": 2719399936,
+          "queryLatencyMs": 0.1295
+        },
+        {
+          "id": "ovok-core",
+          "name": "Ovok Core",
+          "frameworks": [
+            "nestjs",
+            "express"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 98,
+          "trust": 98,
+          "nodes": 21696,
+          "edges": 47312,
+          "packages": 120,
+          "files": 21612,
+          "graphSizeBytes": 63096325,
+          "totalDurationMs": 25104.054,
+          "peakMemoryBytes": 2574237696,
+          "queryLatencyMs": 2.7208
+        },
+        {
+          "id": "durable-local",
+          "name": "durable-local",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 226,
+          "edges": 381,
+          "packages": 8,
+          "files": 55,
+          "graphSizeBytes": 468196,
+          "totalDurationMs": 601.752,
+          "peakMemoryBytes": 2005319680,
+          "queryLatencyMs": 0.0521
+        },
+        {
+          "id": "ghost",
+          "name": "Ghost",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 350,
+          "edges": 655,
+          "packages": 7,
+          "files": 56,
+          "graphSizeBytes": 783053,
+          "totalDurationMs": 613.647,
+          "peakMemoryBytes": 2003746816,
+          "queryLatencyMs": 0.0326
+        }
+      ]
+    },
+    "stress": null
+  },
+  "releaseGates": {
+    "status": "PASS",
+    "failures": [],
+    "warnings": [],
+    "improvements": []
+  },
+  "regression": {
+    "status": "PASS",
+    "baseline": "compared",
+    "failures": [],
+    "warnings": [],
+    "improvements": [],
+    "current": {
+      "generatedAt": "2026-07-13T15:37:42.032Z",
+      "repositories": [
+        {
+          "id": "ovok-core",
+          "status": "PASS",
+          "graphHash": "17ibur0",
+          "coverage": 98,
+          "trust": 98,
+          "diagnostics": {
+            "compiler": 97,
+            "graph": 13,
+            "validationIssues": 84,
+            "coverageWarnings": 17
+          },
+          "performance": {
+            "totalDurationMs": 25104.054,
+            "peakMemoryBytes": 2574237696,
+            "queryLatencyMs": 2.7208
+          },
+          "graph": {
+            "nodes": 21696,
+            "edges": 47312,
+            "graphSizeBytes": 63096325
+          },
+          "deterministic": {
+            "status": "PASS",
+            "firstHash": "17ibur0",
+            "secondHash": "17ibur0",
+            "rebuildMs": 7965.235
+          }
+        },
+        {
+          "id": "0xsarwagya",
+          "status": "PASS",
+          "graphHash": "02tafm2",
+          "coverage": 95,
+          "trust": 95,
+          "diagnostics": {
+            "compiler": 16,
+            "graph": 13,
+            "validationIssues": 3,
+            "coverageWarnings": 7
+          },
+          "performance": {
+            "totalDurationMs": 8432.221,
+            "peakMemoryBytes": 2719399936,
+            "queryLatencyMs": 0.1295
+          },
+          "graph": {
+            "nodes": 1202,
+            "edges": 2082,
+            "graphSizeBytes": 2671467
+          },
+          "deterministic": {
+            "status": "PASS",
+            "firstHash": "02tafm2",
+            "secondHash": "02tafm2",
+            "rebuildMs": 3936.804
+          }
+        },
+        {
+          "id": "innosphere",
+          "status": "PASS",
+          "graphHash": "00swv87",
+          "coverage": 100,
+          "trust": 100,
+          "diagnostics": {
+            "compiler": 14,
+            "graph": 12,
+            "validationIssues": 2,
+            "coverageWarnings": 0
+          },
+          "performance": {
+            "totalDurationMs": 10477.266,
+            "peakMemoryBytes": 2825895936,
+            "queryLatencyMs": 0.6583
+          },
+          "graph": {
+            "nodes": 6771,
+            "edges": 12164,
+            "graphSizeBytes": 16634388
+          },
+          "deterministic": {
+            "status": "PASS",
+            "firstHash": "00swv87",
+            "secondHash": "00swv87",
+            "rebuildMs": 3871.218
+          }
+        },
+        {
+          "id": "ghost",
+          "status": "PASS",
+          "graphHash": "1hv7tll",
+          "coverage": 100,
+          "trust": 100,
+          "diagnostics": {
+            "compiler": 0,
+            "graph": 0,
+            "validationIssues": 0,
+            "coverageWarnings": 0
+          },
+          "performance": {
+            "totalDurationMs": 613.647,
+            "peakMemoryBytes": 2003746816,
+            "queryLatencyMs": 0.0326
+          },
+          "graph": {
+            "nodes": 350,
+            "edges": 655,
+            "graphSizeBytes": 783053
+          },
+          "deterministic": {
+            "status": "PASS",
+            "firstHash": "1hv7tll",
+            "secondHash": "1hv7tll",
+            "rebuildMs": 182.761
+          }
+        },
+        {
+          "id": "durable-local",
+          "status": "PASS",
+          "graphHash": "0qkaj80",
+          "coverage": 100,
+          "trust": 100,
+          "diagnostics": {
+            "compiler": 0,
+            "graph": 0,
+            "validationIssues": 0,
+            "coverageWarnings": 0
+          },
+          "performance": {
+            "totalDurationMs": 601.752,
+            "peakMemoryBytes": 2005319680,
+            "queryLatencyMs": 0.0521
+          },
+          "graph": {
+            "nodes": 226,
+            "edges": 381,
+            "graphSizeBytes": 468196
+          },
+          "deterministic": {
+            "status": "PASS",
+            "firstHash": "0qkaj80",
+            "secondHash": "0qkaj80",
+            "rebuildMs": 200.825
+          }
+        }
+      ],
+      "aggregate": {
+        "performance": {
+          "repositories": 5,
+          "measured": 5,
+          "skipped": 0,
+          "failed": 0,
+          "averageDurationMs": 9045.79,
+          "averageCoverage": 98.6,
+          "averageTrust": 98.6,
+          "totalNodes": 30245,
+          "totalEdges": 62594,
+          "totalGraphSizeBytes": 83653429,
+          "maxMemoryBytes": 2825895936
+        }
+      }
+    }
+  },
+  "dashboard": {
+    "generatedAt": "2026-07-13T15:37:42.031Z",
+    "releaseGate": "PASS",
+    "history": {
+      "current": {
+        "repositories": 5,
+        "measured": 5,
+        "skipped": 0,
+        "failed": 0,
+        "averageDurationMs": 9045.79,
+        "averageCoverage": 98.6,
+        "averageTrust": 98.6,
+        "totalNodes": 30245,
+        "totalEdges": 62594,
+        "totalGraphSizeBytes": 83653429,
+        "maxMemoryBytes": 2825895936
+      },
+      "baselinePath": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/lab-regression-baseline.json"
+    },
+    "repositoryCards": [
+      {
+        "id": "ovok-core",
+        "name": "Ovok Core",
+        "status": "PASS",
+        "frameworks": [
+          "nestjs",
+          "express"
+        ],
+        "coverage": 98,
+        "trust": 98,
+        "nodes": 21696,
+        "edges": 47312,
+        "durationMs": 25104.054
+      },
+      {
+        "id": "0xsarwagya",
+        "name": "0xsarwagya",
+        "status": "PASS",
+        "frameworks": [
+          "nextjs",
+          "react",
+          "turborepo"
+        ],
+        "coverage": 95,
+        "trust": 95,
+        "nodes": 1202,
+        "edges": 2082,
+        "durationMs": 8432.221
+      },
+      {
+        "id": "innosphere",
+        "name": "Innosphere",
+        "status": "PASS",
+        "frameworks": [
+          "nestjs",
+          "react",
+          "turborepo",
+          "vite"
+        ],
+        "coverage": 100,
+        "trust": 100,
+        "nodes": 6771,
+        "edges": 12164,
+        "durationMs": 10477.266
+      },
+      {
+        "id": "ghost",
+        "name": "Ghost",
+        "status": "PASS",
+        "frameworks": [
+          "react",
+          "vite"
+        ],
+        "coverage": 100,
+        "trust": 100,
+        "nodes": 350,
+        "edges": 655,
+        "durationMs": 613.647
+      },
+      {
+        "id": "durable-local",
+        "name": "durable-local",
+        "status": "PASS",
+        "frameworks": [
+          "react",
+          "vite"
+        ],
+        "coverage": 100,
+        "trust": 100,
+        "nodes": 226,
+        "edges": 381,
+        "durationMs": 601.752
+      }
+    ],
+    "coverageCharts": [
+      {
+        "id": "ovok-core",
+        "coverage": 98,
+        "trust": 98
+      },
+      {
+        "id": "0xsarwagya",
+        "coverage": 95,
+        "trust": 95
+      },
+      {
+        "id": "innosphere",
+        "coverage": 100,
+        "trust": 100
+      },
+      {
+        "id": "ghost",
+        "coverage": 100,
+        "trust": 100
+      },
+      {
+        "id": "durable-local",
+        "coverage": 100,
+        "trust": 100
+      }
+    ],
+    "performanceCharts": [
+      {
+        "id": "ovok-core",
+        "durationMs": 25104.054,
+        "memoryBytes": 2574237696,
+        "queryLatencyMs": 2.7208
+      },
+      {
+        "id": "0xsarwagya",
+        "durationMs": 8432.221,
+        "memoryBytes": 2719399936,
+        "queryLatencyMs": 0.1295
+      },
+      {
+        "id": "innosphere",
+        "durationMs": 10477.266,
+        "memoryBytes": 2825895936,
+        "queryLatencyMs": 0.6583
+      },
+      {
+        "id": "ghost",
+        "durationMs": 613.647,
+        "memoryBytes": 2003746816,
+        "queryLatencyMs": 0.0326
+      },
+      {
+        "id": "durable-local",
+        "durationMs": 601.752,
+        "memoryBytes": 2005319680,
+        "queryLatencyMs": 0.0521
+      }
+    ],
+    "validationTables": {
+      "repositories": [
+        {
+          "id": "ovok-core",
+          "status": "PASS",
+          "gate": "PASS",
+          "failures": [],
+          "warnings": []
+        },
+        {
+          "id": "0xsarwagya",
+          "status": "PASS",
+          "gate": "PASS",
+          "failures": [],
+          "warnings": []
+        },
+        {
+          "id": "innosphere",
+          "status": "PASS",
+          "gate": "PASS",
+          "failures": [],
+          "warnings": []
+        },
+        {
+          "id": "ghost",
+          "status": "PASS",
+          "gate": "PASS",
+          "failures": [],
+          "warnings": []
+        },
+        {
+          "id": "durable-local",
+          "status": "PASS",
+          "gate": "PASS",
+          "failures": [],
+          "warnings": []
+        }
+      ]
+    },
+    "benchmarkTables": {
+      "fastest": [
+        {
+          "id": "durable-local",
+          "name": "durable-local",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 226,
+          "edges": 381,
+          "packages": 8,
+          "files": 55,
+          "graphSizeBytes": 468196,
+          "totalDurationMs": 601.752,
+          "peakMemoryBytes": 2005319680,
+          "queryLatencyMs": 0.0521
+        },
+        {
+          "id": "ghost",
+          "name": "Ghost",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 350,
+          "edges": 655,
+          "packages": 7,
+          "files": 56,
+          "graphSizeBytes": 783053,
+          "totalDurationMs": 613.647,
+          "peakMemoryBytes": 2003746816,
+          "queryLatencyMs": 0.0326
+        },
+        {
+          "id": "0xsarwagya",
+          "name": "0xsarwagya",
+          "frameworks": [
+            "nextjs",
+            "react",
+            "turborepo"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 95,
+          "trust": 95,
+          "nodes": 1202,
+          "edges": 2082,
+          "packages": 29,
+          "files": 6842,
+          "graphSizeBytes": 2671467,
+          "totalDurationMs": 8432.221,
+          "peakMemoryBytes": 2719399936,
+          "queryLatencyMs": 0.1295
+        },
+        {
+          "id": "innosphere",
+          "name": "Innosphere",
+          "frameworks": [
+            "nestjs",
+            "react",
+            "turborepo",
+            "vite"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 6771,
+          "edges": 12164,
+          "packages": 124,
+          "files": 856,
+          "graphSizeBytes": 16634388,
+          "totalDurationMs": 10477.266,
+          "peakMemoryBytes": 2825895936,
+          "queryLatencyMs": 0.6583
+        },
+        {
+          "id": "ovok-core",
+          "name": "Ovok Core",
+          "frameworks": [
+            "nestjs",
+            "express"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 98,
+          "trust": 98,
+          "nodes": 21696,
+          "edges": 47312,
+          "packages": 120,
+          "files": 21612,
+          "graphSizeBytes": 63096325,
+          "totalDurationMs": 25104.054,
+          "peakMemoryBytes": 2574237696,
+          "queryLatencyMs": 2.7208
+        }
+      ],
+      "largestGraphs": [
+        {
+          "id": "ovok-core",
+          "name": "Ovok Core",
+          "frameworks": [
+            "nestjs",
+            "express"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 98,
+          "trust": 98,
+          "nodes": 21696,
+          "edges": 47312,
+          "packages": 120,
+          "files": 21612,
+          "graphSizeBytes": 63096325,
+          "totalDurationMs": 25104.054,
+          "peakMemoryBytes": 2574237696,
+          "queryLatencyMs": 2.7208
+        },
+        {
+          "id": "innosphere",
+          "name": "Innosphere",
+          "frameworks": [
+            "nestjs",
+            "react",
+            "turborepo",
+            "vite"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 6771,
+          "edges": 12164,
+          "packages": 124,
+          "files": 856,
+          "graphSizeBytes": 16634388,
+          "totalDurationMs": 10477.266,
+          "peakMemoryBytes": 2825895936,
+          "queryLatencyMs": 0.6583
+        },
+        {
+          "id": "0xsarwagya",
+          "name": "0xsarwagya",
+          "frameworks": [
+            "nextjs",
+            "react",
+            "turborepo"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 95,
+          "trust": 95,
+          "nodes": 1202,
+          "edges": 2082,
+          "packages": 29,
+          "files": 6842,
+          "graphSizeBytes": 2671467,
+          "totalDurationMs": 8432.221,
+          "peakMemoryBytes": 2719399936,
+          "queryLatencyMs": 0.1295
+        },
+        {
+          "id": "ghost",
+          "name": "Ghost",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 350,
+          "edges": 655,
+          "packages": 7,
+          "files": 56,
+          "graphSizeBytes": 783053,
+          "totalDurationMs": 613.647,
+          "peakMemoryBytes": 2003746816,
+          "queryLatencyMs": 0.0326
+        },
+        {
+          "id": "durable-local",
+          "name": "durable-local",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 226,
+          "edges": 381,
+          "packages": 8,
+          "files": 55,
+          "graphSizeBytes": 468196,
+          "totalDurationMs": 601.752,
+          "peakMemoryBytes": 2005319680,
+          "queryLatencyMs": 0.0521
+        }
+      ],
+      "mostRelationships": [
+        {
+          "id": "ovok-core",
+          "name": "Ovok Core",
+          "frameworks": [
+            "nestjs",
+            "express"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 98,
+          "trust": 98,
+          "nodes": 21696,
+          "edges": 47312,
+          "packages": 120,
+          "files": 21612,
+          "graphSizeBytes": 63096325,
+          "totalDurationMs": 25104.054,
+          "peakMemoryBytes": 2574237696,
+          "queryLatencyMs": 2.7208
+        },
+        {
+          "id": "innosphere",
+          "name": "Innosphere",
+          "frameworks": [
+            "nestjs",
+            "react",
+            "turborepo",
+            "vite"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 6771,
+          "edges": 12164,
+          "packages": 124,
+          "files": 856,
+          "graphSizeBytes": 16634388,
+          "totalDurationMs": 10477.266,
+          "peakMemoryBytes": 2825895936,
+          "queryLatencyMs": 0.6583
+        },
+        {
+          "id": "0xsarwagya",
+          "name": "0xsarwagya",
+          "frameworks": [
+            "nextjs",
+            "react",
+            "turborepo"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 95,
+          "trust": 95,
+          "nodes": 1202,
+          "edges": 2082,
+          "packages": 29,
+          "files": 6842,
+          "graphSizeBytes": 2671467,
+          "totalDurationMs": 8432.221,
+          "peakMemoryBytes": 2719399936,
+          "queryLatencyMs": 0.1295
+        },
+        {
+          "id": "ghost",
+          "name": "Ghost",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 350,
+          "edges": 655,
+          "packages": 7,
+          "files": 56,
+          "graphSizeBytes": 783053,
+          "totalDurationMs": 613.647,
+          "peakMemoryBytes": 2003746816,
+          "queryLatencyMs": 0.0326
+        },
+        {
+          "id": "durable-local",
+          "name": "durable-local",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 226,
+          "edges": 381,
+          "packages": 8,
+          "files": 55,
+          "graphSizeBytes": 468196,
+          "totalDurationMs": 601.752,
+          "peakMemoryBytes": 2005319680,
+          "queryLatencyMs": 0.0521
+        }
+      ],
+      "mostPackages": [
+        {
+          "id": "innosphere",
+          "name": "Innosphere",
+          "frameworks": [
+            "nestjs",
+            "react",
+            "turborepo",
+            "vite"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 6771,
+          "edges": 12164,
+          "packages": 124,
+          "files": 856,
+          "graphSizeBytes": 16634388,
+          "totalDurationMs": 10477.266,
+          "peakMemoryBytes": 2825895936,
+          "queryLatencyMs": 0.6583
+        },
+        {
+          "id": "ovok-core",
+          "name": "Ovok Core",
+          "frameworks": [
+            "nestjs",
+            "express"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 98,
+          "trust": 98,
+          "nodes": 21696,
+          "edges": 47312,
+          "packages": 120,
+          "files": 21612,
+          "graphSizeBytes": 63096325,
+          "totalDurationMs": 25104.054,
+          "peakMemoryBytes": 2574237696,
+          "queryLatencyMs": 2.7208
+        },
+        {
+          "id": "0xsarwagya",
+          "name": "0xsarwagya",
+          "frameworks": [
+            "nextjs",
+            "react",
+            "turborepo"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 95,
+          "trust": 95,
+          "nodes": 1202,
+          "edges": 2082,
+          "packages": 29,
+          "files": 6842,
+          "graphSizeBytes": 2671467,
+          "totalDurationMs": 8432.221,
+          "peakMemoryBytes": 2719399936,
+          "queryLatencyMs": 0.1295
+        },
+        {
+          "id": "durable-local",
+          "name": "durable-local",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 226,
+          "edges": 381,
+          "packages": 8,
+          "files": 55,
+          "graphSizeBytes": 468196,
+          "totalDurationMs": 601.752,
+          "peakMemoryBytes": 2005319680,
+          "queryLatencyMs": 0.0521
+        },
+        {
+          "id": "ghost",
+          "name": "Ghost",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 350,
+          "edges": 655,
+          "packages": 7,
+          "files": 56,
+          "graphSizeBytes": 783053,
+          "totalDurationMs": 613.647,
+          "peakMemoryBytes": 2003746816,
+          "queryLatencyMs": 0.0326
+        }
+      ],
+      "largestWorkspaces": [
+        {
+          "id": "ovok-core",
+          "name": "Ovok Core",
+          "frameworks": [
+            "nestjs",
+            "express"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 98,
+          "trust": 98,
+          "nodes": 21696,
+          "edges": 47312,
+          "packages": 120,
+          "files": 21612,
+          "graphSizeBytes": 63096325,
+          "totalDurationMs": 25104.054,
+          "peakMemoryBytes": 2574237696,
+          "queryLatencyMs": 2.7208
+        },
+        {
+          "id": "0xsarwagya",
+          "name": "0xsarwagya",
+          "frameworks": [
+            "nextjs",
+            "react",
+            "turborepo"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 95,
+          "trust": 95,
+          "nodes": 1202,
+          "edges": 2082,
+          "packages": 29,
+          "files": 6842,
+          "graphSizeBytes": 2671467,
+          "totalDurationMs": 8432.221,
+          "peakMemoryBytes": 2719399936,
+          "queryLatencyMs": 0.1295
+        },
+        {
+          "id": "innosphere",
+          "name": "Innosphere",
+          "frameworks": [
+            "nestjs",
+            "react",
+            "turborepo",
+            "vite"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 6771,
+          "edges": 12164,
+          "packages": 124,
+          "files": 856,
+          "graphSizeBytes": 16634388,
+          "totalDurationMs": 10477.266,
+          "peakMemoryBytes": 2825895936,
+          "queryLatencyMs": 0.6583
+        },
+        {
+          "id": "ghost",
+          "name": "Ghost",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 350,
+          "edges": 655,
+          "packages": 7,
+          "files": 56,
+          "graphSizeBytes": 783053,
+          "totalDurationMs": 613.647,
+          "peakMemoryBytes": 2003746816,
+          "queryLatencyMs": 0.0326
+        },
+        {
+          "id": "durable-local",
+          "name": "durable-local",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 226,
+          "edges": 381,
+          "packages": 8,
+          "files": 55,
+          "graphSizeBytes": 468196,
+          "totalDurationMs": 601.752,
+          "peakMemoryBytes": 2005319680,
+          "queryLatencyMs": 0.0521
+        }
+      ],
+      "coverage": [
+        {
+          "id": "innosphere",
+          "name": "Innosphere",
+          "frameworks": [
+            "nestjs",
+            "react",
+            "turborepo",
+            "vite"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 6771,
+          "edges": 12164,
+          "packages": 124,
+          "files": 856,
+          "graphSizeBytes": 16634388,
+          "totalDurationMs": 10477.266,
+          "peakMemoryBytes": 2825895936,
+          "queryLatencyMs": 0.6583
+        },
+        {
+          "id": "ghost",
+          "name": "Ghost",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 350,
+          "edges": 655,
+          "packages": 7,
+          "files": 56,
+          "graphSizeBytes": 783053,
+          "totalDurationMs": 613.647,
+          "peakMemoryBytes": 2003746816,
+          "queryLatencyMs": 0.0326
+        },
+        {
+          "id": "durable-local",
+          "name": "durable-local",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 226,
+          "edges": 381,
+          "packages": 8,
+          "files": 55,
+          "graphSizeBytes": 468196,
+          "totalDurationMs": 601.752,
+          "peakMemoryBytes": 2005319680,
+          "queryLatencyMs": 0.0521
+        },
+        {
+          "id": "ovok-core",
+          "name": "Ovok Core",
+          "frameworks": [
+            "nestjs",
+            "express"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 98,
+          "trust": 98,
+          "nodes": 21696,
+          "edges": 47312,
+          "packages": 120,
+          "files": 21612,
+          "graphSizeBytes": 63096325,
+          "totalDurationMs": 25104.054,
+          "peakMemoryBytes": 2574237696,
+          "queryLatencyMs": 2.7208
+        },
+        {
+          "id": "0xsarwagya",
+          "name": "0xsarwagya",
+          "frameworks": [
+            "nextjs",
+            "react",
+            "turborepo"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 95,
+          "trust": 95,
+          "nodes": 1202,
+          "edges": 2082,
+          "packages": 29,
+          "files": 6842,
+          "graphSizeBytes": 2671467,
+          "totalDurationMs": 8432.221,
+          "peakMemoryBytes": 2719399936,
+          "queryLatencyMs": 0.1295
+        }
+      ],
+      "lowestCoverage": [
+        {
+          "id": "0xsarwagya",
+          "name": "0xsarwagya",
+          "frameworks": [
+            "nextjs",
+            "react",
+            "turborepo"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 95,
+          "trust": 95,
+          "nodes": 1202,
+          "edges": 2082,
+          "packages": 29,
+          "files": 6842,
+          "graphSizeBytes": 2671467,
+          "totalDurationMs": 8432.221,
+          "peakMemoryBytes": 2719399936,
+          "queryLatencyMs": 0.1295
+        },
+        {
+          "id": "ovok-core",
+          "name": "Ovok Core",
+          "frameworks": [
+            "nestjs",
+            "express"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 98,
+          "trust": 98,
+          "nodes": 21696,
+          "edges": 47312,
+          "packages": 120,
+          "files": 21612,
+          "graphSizeBytes": 63096325,
+          "totalDurationMs": 25104.054,
+          "peakMemoryBytes": 2574237696,
+          "queryLatencyMs": 2.7208
+        },
+        {
+          "id": "innosphere",
+          "name": "Innosphere",
+          "frameworks": [
+            "nestjs",
+            "react",
+            "turborepo",
+            "vite"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 6771,
+          "edges": 12164,
+          "packages": 124,
+          "files": 856,
+          "graphSizeBytes": 16634388,
+          "totalDurationMs": 10477.266,
+          "peakMemoryBytes": 2825895936,
+          "queryLatencyMs": 0.6583
+        },
+        {
+          "id": "ghost",
+          "name": "Ghost",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 350,
+          "edges": 655,
+          "packages": 7,
+          "files": 56,
+          "graphSizeBytes": 783053,
+          "totalDurationMs": 613.647,
+          "peakMemoryBytes": 2003746816,
+          "queryLatencyMs": 0.0326
+        },
+        {
+          "id": "durable-local",
+          "name": "durable-local",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 226,
+          "edges": 381,
+          "packages": 8,
+          "files": 55,
+          "graphSizeBytes": 468196,
+          "totalDurationMs": 601.752,
+          "peakMemoryBytes": 2005319680,
+          "queryLatencyMs": 0.0521
+        }
+      ],
+      "memory": [
+        {
+          "id": "innosphere",
+          "name": "Innosphere",
+          "frameworks": [
+            "nestjs",
+            "react",
+            "turborepo",
+            "vite"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 6771,
+          "edges": 12164,
+          "packages": 124,
+          "files": 856,
+          "graphSizeBytes": 16634388,
+          "totalDurationMs": 10477.266,
+          "peakMemoryBytes": 2825895936,
+          "queryLatencyMs": 0.6583
+        },
+        {
+          "id": "0xsarwagya",
+          "name": "0xsarwagya",
+          "frameworks": [
+            "nextjs",
+            "react",
+            "turborepo"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 95,
+          "trust": 95,
+          "nodes": 1202,
+          "edges": 2082,
+          "packages": 29,
+          "files": 6842,
+          "graphSizeBytes": 2671467,
+          "totalDurationMs": 8432.221,
+          "peakMemoryBytes": 2719399936,
+          "queryLatencyMs": 0.1295
+        },
+        {
+          "id": "ovok-core",
+          "name": "Ovok Core",
+          "frameworks": [
+            "nestjs",
+            "express"
+          ],
+          "category": "monorepo",
+          "status": "PASS",
+          "coverage": 98,
+          "trust": 98,
+          "nodes": 21696,
+          "edges": 47312,
+          "packages": 120,
+          "files": 21612,
+          "graphSizeBytes": 63096325,
+          "totalDurationMs": 25104.054,
+          "peakMemoryBytes": 2574237696,
+          "queryLatencyMs": 2.7208
+        },
+        {
+          "id": "durable-local",
+          "name": "durable-local",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 226,
+          "edges": 381,
+          "packages": 8,
+          "files": 55,
+          "graphSizeBytes": 468196,
+          "totalDurationMs": 601.752,
+          "peakMemoryBytes": 2005319680,
+          "queryLatencyMs": 0.0521
+        },
+        {
+          "id": "ghost",
+          "name": "Ghost",
+          "frameworks": [
+            "react",
+            "vite"
+          ],
+          "category": "library",
+          "status": "PASS",
+          "coverage": 100,
+          "trust": 100,
+          "nodes": 350,
+          "edges": 655,
+          "packages": 7,
+          "files": 56,
+          "graphSizeBytes": 783053,
+          "totalDurationMs": 613.647,
+          "peakMemoryBytes": 2003746816,
+          "queryLatencyMs": 0.0326
+        }
+      ]
+    },
+    "frameworkSupportMatrix": [
+      {
+        "framework": "drizzle",
+        "repositories": [
+          {
+            "id": "drizzle",
+            "default": false,
+            "expectedAnalyzer": "typescript",
+            "latestStatus": "not-run"
+          }
+        ]
+      },
+      {
+        "framework": "express",
+        "repositories": [
+          {
+            "id": "ovok-core",
+            "default": true,
+            "expectedAnalyzer": "nestjs",
+            "latestStatus": "PASS"
+          },
+          {
+            "id": "nestjs",
+            "default": false,
+            "expectedAnalyzer": "nestjs",
+            "latestStatus": "not-run"
+          },
+          {
+            "id": "express",
+            "default": false,
+            "expectedAnalyzer": "express",
+            "latestStatus": "not-run"
+          },
+          {
+            "id": "medusa",
+            "default": false,
+            "expectedAnalyzer": "workspace",
+            "latestStatus": "not-run"
+          },
+          {
+            "id": "directus",
+            "default": false,
+            "expectedAnalyzer": "workspace",
+            "latestStatus": "not-run"
+          }
+        ]
+      },
+      {
+        "framework": "fastify",
+        "repositories": [
+          {
+            "id": "nestjs",
+            "default": false,
+            "expectedAnalyzer": "nestjs",
+            "latestStatus": "not-run"
+          },
+          {
+            "id": "fastify",
+            "default": false,
+            "expectedAnalyzer": "fastify",
+            "latestStatus": "not-run"
+          }
+        ]
+      },
+      {
+        "framework": "graphql",
+        "repositories": [
+          {
+            "id": "vendure",
+            "default": false,
+            "expectedAnalyzer": "nestjs",
+            "latestStatus": "not-run"
+          }
+        ]
+      },
+      {
+        "framework": "hono",
+        "repositories": [
+          {
+            "id": "hono",
+            "default": false,
+            "expectedAnalyzer": "hono",
+            "latestStatus": "not-run"
+          }
+        ]
+      },
+      {
+        "framework": "nestjs",
+        "repositories": [
+          {
+            "id": "ovok-core",
+            "default": true,
+            "expectedAnalyzer": "nestjs",
+            "latestStatus": "PASS"
+          },
+          {
+            "id": "innosphere",
+            "default": true,
+            "expectedAnalyzer": "nestjs",
+            "latestStatus": "PASS"
+          },
+          {
+            "id": "nestjs",
+            "default": false,
+            "expectedAnalyzer": "nestjs",
+            "latestStatus": "not-run"
+          },
+          {
+            "id": "nx",
+            "default": false,
+            "expectedAnalyzer": "workspace",
+            "latestStatus": "not-run"
+          },
+          {
+            "id": "vendure",
+            "default": false,
+            "expectedAnalyzer": "nestjs",
+            "latestStatus": "not-run"
+          }
+        ]
+      },
+      {
+        "framework": "nextjs",
+        "repositories": [
+          {
+            "id": "0xsarwagya",
+            "default": true,
+            "expectedAnalyzer": "workspace",
+            "latestStatus": "PASS"
+          },
+          {
+            "id": "nextjs",
+            "default": false,
+            "expectedAnalyzer": "nextjs",
+            "latestStatus": "not-run"
+          },
+          {
+            "id": "payload",
+            "default": false,
+            "expectedAnalyzer": "workspace",
+            "latestStatus": "not-run"
+          }
+        ]
+      },
+      {
+        "framework": "nx",
+        "repositories": [
+          {
+            "id": "nx",
+            "default": false,
+            "expectedAnalyzer": "workspace",
+            "latestStatus": "not-run"
+          }
+        ]
+      },
+      {
+        "framework": "prisma",
+        "repositories": [
+          {
+            "id": "prisma",
+            "default": false,
+            "expectedAnalyzer": "typescript",
+            "latestStatus": "not-run"
+          }
+        ]
+      },
+      {
+        "framework": "react",
+        "repositories": [
+          {
+            "id": "0xsarwagya",
+            "default": true,
+            "expectedAnalyzer": "workspace",
+            "latestStatus": "PASS"
+          },
+          {
+            "id": "innosphere",
+            "default": true,
+            "expectedAnalyzer": "nestjs",
+            "latestStatus": "PASS"
+          },
+          {
+            "id": "ghost",
+            "default": true,
+            "expectedAnalyzer": "typescript",
+            "latestStatus": "PASS"
+          },
+          {
+            "id": "durable-local",
+            "default": true,
+            "expectedAnalyzer": "typescript",
+            "latestStatus": "PASS"
+          },
+          {
+            "id": "nextjs",
+            "default": false,
+            "expectedAnalyzer": "nextjs",
+            "latestStatus": "not-run"
+          },
+          {
+            "id": "react",
+            "default": false,
+            "expectedAnalyzer": "react",
+            "latestStatus": "not-run"
+          },
+          {
+            "id": "tanstack-query",
+            "default": false,
+            "expectedAnalyzer": "typescript",
+            "latestStatus": "not-run"
+          },
+          {
+            "id": "nx",
+            "default": false,
+            "expectedAnalyzer": "workspace",
+            "latestStatus": "not-run"
+          },
+          {
+            "id": "payload",
+            "default": false,
+            "expectedAnalyzer": "workspace",
+            "latestStatus": "not-run"
+          }
+        ]
+      },
+      {
+        "framework": "tanstack-query",
+        "repositories": [
+          {
+            "id": "tanstack-query",
+            "default": false,
+            "expectedAnalyzer": "typescript",
+            "latestStatus": "not-run"
+          }
+        ]
+      },
+      {
+        "framework": "trpc",
+        "repositories": [
+          {
+            "id": "trpc",
+            "default": false,
+            "expectedAnalyzer": "typescript",
+            "latestStatus": "not-run"
+          }
+        ]
+      },
+      {
+        "framework": "turborepo",
+        "repositories": [
+          {
+            "id": "0xsarwagya",
+            "default": true,
+            "expectedAnalyzer": "workspace",
+            "latestStatus": "PASS"
+          },
+          {
+            "id": "innosphere",
+            "default": true,
+            "expectedAnalyzer": "nestjs",
+            "latestStatus": "PASS"
+          }
+        ]
+      },
+      {
+        "framework": "typescript",
+        "repositories": [
+          {
+            "id": "typescript",
+            "default": false,
+            "expectedAnalyzer": "typescript",
+            "latestStatus": "not-run"
+          },
+          {
+            "id": "ts-morph",
+            "default": false,
+            "expectedAnalyzer": "typescript",
+            "latestStatus": "not-run"
+          },
+          {
+            "id": "biome",
+            "default": false,
+            "expectedAnalyzer": "typescript",
+            "latestStatus": "not-run"
+          }
+        ]
+      },
+      {
+        "framework": "vite",
+        "repositories": [
+          {
+            "id": "innosphere",
+            "default": true,
+            "expectedAnalyzer": "nestjs",
+            "latestStatus": "PASS"
+          },
+          {
+            "id": "ghost",
+            "default": true,
+            "expectedAnalyzer": "typescript",
+            "latestStatus": "PASS"
+          },
+          {
+            "id": "durable-local",
+            "default": true,
+            "expectedAnalyzer": "typescript",
+            "latestStatus": "PASS"
+          }
+        ]
+      },
+      {
+        "framework": "vue",
+        "repositories": [
+          {
+            "id": "directus",
+            "default": false,
+            "expectedAnalyzer": "workspace",
+            "latestStatus": "not-run"
+          }
+        ]
+      },
+      {
+        "framework": "zod",
+        "repositories": [
+          {
+            "id": "zod",
+            "default": false,
+            "expectedAnalyzer": "typescript",
+            "latestStatus": "not-run"
+          }
+        ]
+      }
+    ]
+  },
+  "badges": {
+    "generatedAt": "2026-07-13T15:37:42.032Z",
+    "items": [
+      {
+        "id": "validation",
+        "label": "validation",
+        "message": "PASS",
+        "color": "2ea44f"
+      },
+      {
+        "id": "regression",
+        "label": "regression",
+        "message": "PASS",
+        "color": "2ea44f"
+      },
+      {
+        "id": "ovok-core-coverage",
+        "label": "ovok-core coverage",
+        "message": "98%",
+        "color": "2ea44f"
+      },
+      {
+        "id": "ovok-core-trust",
+        "label": "ovok-core trust",
+        "message": "98%",
+        "color": "2ea44f"
+      },
+      {
+        "id": "ovok-core-performance",
+        "label": "ovok-core perf",
+        "message": "25104.05ms",
+        "color": "0969da"
+      },
+      {
+        "id": "ovok-core-framework",
+        "label": "ovok-core frameworks",
+        "message": "nestjs,express",
+        "color": "8250df"
+      },
+      {
+        "id": "0xsarwagya-coverage",
+        "label": "0xsarwagya coverage",
+        "message": "95%",
+        "color": "2ea44f"
+      },
+      {
+        "id": "0xsarwagya-trust",
+        "label": "0xsarwagya trust",
+        "message": "95%",
+        "color": "2ea44f"
+      },
+      {
+        "id": "0xsarwagya-performance",
+        "label": "0xsarwagya perf",
+        "message": "8432.22ms",
+        "color": "0969da"
+      },
+      {
+        "id": "0xsarwagya-framework",
+        "label": "0xsarwagya frameworks",
+        "message": "nextjs,react,turborepo",
+        "color": "8250df"
+      },
+      {
+        "id": "innosphere-coverage",
+        "label": "innosphere coverage",
+        "message": "100%",
+        "color": "2ea44f"
+      },
+      {
+        "id": "innosphere-trust",
+        "label": "innosphere trust",
+        "message": "100%",
+        "color": "2ea44f"
+      },
+      {
+        "id": "innosphere-performance",
+        "label": "innosphere perf",
+        "message": "10477.27ms",
+        "color": "0969da"
+      },
+      {
+        "id": "innosphere-framework",
+        "label": "innosphere frameworks",
+        "message": "nestjs,react,turborepo,vite",
+        "color": "8250df"
+      },
+      {
+        "id": "ghost-coverage",
+        "label": "ghost coverage",
+        "message": "100%",
+        "color": "2ea44f"
+      },
+      {
+        "id": "ghost-trust",
+        "label": "ghost trust",
+        "message": "100%",
+        "color": "2ea44f"
+      },
+      {
+        "id": "ghost-performance",
+        "label": "ghost perf",
+        "message": "613.65ms",
+        "color": "0969da"
+      },
+      {
+        "id": "ghost-framework",
+        "label": "ghost frameworks",
+        "message": "react,vite",
+        "color": "8250df"
+      },
+      {
+        "id": "durable-local-coverage",
+        "label": "durable-local coverage",
+        "message": "100%",
+        "color": "2ea44f"
+      },
+      {
+        "id": "durable-local-trust",
+        "label": "durable-local trust",
+        "message": "100%",
+        "color": "2ea44f"
+      },
+      {
+        "id": "durable-local-performance",
+        "label": "durable-local perf",
+        "message": "601.75ms",
+        "color": "0969da"
+      },
+      {
+        "id": "durable-local-framework",
+        "label": "durable-local frameworks",
+        "message": "react,vite",
+        "color": "8250df"
+      }
+    ]
+  }
+}

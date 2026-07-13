@@ -1,0 +1,13 @@
+{
+  "id": "ts-morph",
+  "name": "ts-morph",
+  "source": "https://github.com/dsherret/ts-morph.git",
+  "corpusPath": "libraries/ts-morph",
+  "frameworks": [
+    "typescript"
+  ],
+  "language": "typescript",
+  "repositoryType": "library",
+  "expectedAnalyzer": "typescript",
+  "default": false
+}

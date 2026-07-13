@@ -1,0 +1,87 @@
+{
+  "generatedAt": "2026-07-13T15:37:49.723Z",
+  "mode": "virtual-deterministic",
+  "note": "Stress profiles use deterministic virtual graph workloads so release validation can run without writing hundreds of thousands of files.",
+  "profiles": [
+    {
+      "id": "files-50k",
+      "files": 50000,
+      "nodes": 100000,
+      "edges": 180000,
+      "materializedNodes": 100000,
+      "graphGenerationMs": 10.824,
+      "indexGenerationMs": 10.858,
+      "queryLatencyMs": 0.00009,
+      "peakMemoryBytes": 71974912,
+      "cpu": {
+        "user": 14279,
+        "system": 848
+      },
+      "hash": 3686109669
+    },
+    {
+      "id": "files-100k",
+      "files": 100000,
+      "nodes": 200000,
+      "edges": 360000,
+      "materializedNodes": 100000,
+      "graphGenerationMs": 16.682,
+      "indexGenerationMs": 8.345,
+      "queryLatencyMs": 0.00009,
+      "peakMemoryBytes": 83836928,
+      "cpu": {
+        "user": 8569,
+        "system": 786
+      },
+      "hash": 3686109669
+    },
+    {
+      "id": "files-250k",
+      "files": 250000,
+      "nodes": 500000,
+      "edges": 900000,
+      "materializedNodes": 100000,
+      "graphGenerationMs": 57.226,
+      "indexGenerationMs": 11.449,
+      "queryLatencyMs": 0.00008,
+      "peakMemoryBytes": 81854464,
+      "cpu": {
+        "user": 19249,
+        "system": 1335
+      },
+      "hash": 3686109669
+    },
+    {
+      "id": "files-500k",
+      "files": 500000,
+      "nodes": 1000000,
+      "edges": 1800000,
+      "materializedNodes": 100000,
+      "graphGenerationMs": 60.349,
+      "indexGenerationMs": 6.039,
+      "queryLatencyMs": 0.00007,
+      "peakMemoryBytes": 89047040,
+      "cpu": {
+        "user": 5720,
+        "system": 310
+      },
+      "hash": 3686109669
+    },
+    {
+      "id": "nodes-1m",
+      "files": 125000,
+      "nodes": 1000000,
+      "edges": 2000000,
+      "materializedNodes": 100000,
+      "graphGenerationMs": 64.731,
+      "indexGenerationMs": 6.474,
+      "queryLatencyMs": 0.00008,
+      "peakMemoryBytes": 100925440,
+      "cpu": {
+        "user": 5911,
+        "system": 537
+      },
+      "hash": 3686109669
+    }
+  ]
+}

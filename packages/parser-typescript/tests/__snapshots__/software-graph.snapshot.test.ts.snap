@@ -1,0 +1,1295 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`software graph snapshots > produces a deterministic graph for the basic example 1`] = `
+{
+  "diagnostics": [],
+  "edges": [
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "calls target",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 67,
+            "endLine": 6,
+            "file": "src/index.ts",
+            "startColumn": 10,
+            "startLine": 6,
+          },
+        },
+      ],
+      "from": "fn:src/index.ts:main",
+      "id": "edge:calls:0to27tf",
+      "to": "method:src/service.ts:UserService.load",
+      "type": "CALLS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "calls target",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 36,
+            "endLine": 5,
+            "file": "src/service.ts",
+            "startColumn": 12,
+            "startLine": 5,
+          },
+        },
+      ],
+      "from": "method:src/service.ts:UserService.load",
+      "id": "edge:calls:1c8riig",
+      "to": "fn:src/auth.ts:requireUser",
+      "type": "CALLS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "module contains export",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 4,
+            "file": "src/auth.ts",
+            "startColumn": 1,
+            "startLine": 1,
+          },
+        },
+      ],
+      "from": "mod:src/auth.ts",
+      "id": "edge:contains:05rl8cb",
+      "to": "export:src/auth.ts:User",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "module contains import",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 49,
+            "endLine": 1,
+            "file": "src/service.ts",
+            "startColumn": 1,
+            "startLine": 1,
+          },
+        },
+      ],
+      "from": "mod:src/service.ts",
+      "id": "edge:contains:06w1zak",
+      "to": "import:src/service.ts:./auth:0gnx4yh",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "module contains import",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 41,
+            "endLine": 1,
+            "file": "src/index.ts",
+            "startColumn": 1,
+            "startLine": 1,
+          },
+        },
+      ],
+      "from": "mod:src/index.ts",
+      "id": "edge:contains:07hmxxw",
+      "to": "import:src/index.ts:./service:04s3y31",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "module contains Function",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 12,
+            "file": "src/auth.ts",
+            "startColumn": 1,
+            "startLine": 6,
+          },
+        },
+      ],
+      "from": "mod:src/auth.ts",
+      "id": "edge:contains:0i3rfju",
+      "metadata": {
+        "ownerKind": "Module",
+      },
+      "to": "fn:src/auth.ts:requireUser",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "module contains export",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 7,
+            "file": "src/service.ts",
+            "startColumn": 1,
+            "startLine": 3,
+          },
+        },
+      ],
+      "from": "mod:src/service.ts",
+      "id": "edge:contains:0n0xh9m",
+      "to": "export:src/service.ts:UserService",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "module contains Class",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 7,
+            "file": "src/service.ts",
+            "startColumn": 1,
+            "startLine": 3,
+          },
+        },
+      ],
+      "from": "mod:src/service.ts",
+      "id": "edge:contains:0n618au",
+      "metadata": {
+        "ownerKind": "Module",
+      },
+      "to": "class:src/service.ts:UserService",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "module contains Function",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 7,
+            "file": "src/index.ts",
+            "startColumn": 1,
+            "startLine": 5,
+          },
+        },
+      ],
+      "from": "mod:src/index.ts",
+      "id": "edge:contains:0xvcjrv",
+      "metadata": {
+        "ownerKind": "Module",
+      },
+      "to": "fn:src/index.ts:main",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "module contains export",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 12,
+            "file": "src/auth.ts",
+            "startColumn": 1,
+            "startLine": 6,
+          },
+        },
+      ],
+      "from": "mod:src/auth.ts",
+      "id": "edge:contains:146rmxo",
+      "to": "export:src/auth.ts:requireUser",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "module contains export",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 7,
+            "file": "src/index.ts",
+            "startColumn": 1,
+            "startLine": 5,
+          },
+        },
+      ],
+      "from": "mod:src/index.ts",
+      "id": "edge:contains:1rcks5p",
+      "to": "export:src/index.ts:main",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "module contains Interface",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 4,
+            "file": "src/auth.ts",
+            "startColumn": 1,
+            "startLine": 1,
+          },
+        },
+      ],
+      "from": "mod:src/auth.ts",
+      "id": "edge:contains:1vdf5tv",
+      "metadata": {
+        "ownerKind": "Module",
+      },
+      "to": "iface:src/auth.ts:User",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "class contains method",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 4,
+            "endLine": 6,
+            "file": "src/service.ts",
+            "startColumn": 3,
+            "startLine": 4,
+          },
+        },
+      ],
+      "from": "class:src/service.ts:UserService",
+      "id": "edge:contains:1y9mzvf",
+      "metadata": {
+        "ownerKind": "Class",
+      },
+      "to": "method:src/service.ts:UserService.load",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "creates instance",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 34,
+            "endLine": 3,
+            "file": "src/index.ts",
+            "startColumn": 17,
+            "startLine": 3,
+          },
+        },
+      ],
+      "from": "mod:src/index.ts",
+      "id": "edge:creates:0gw89jf",
+      "to": "class:src/service.ts:UserService",
+      "type": "CREATES",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "exports User",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 4,
+            "file": "src/auth.ts",
+            "startColumn": 1,
+            "startLine": 1,
+          },
+        },
+      ],
+      "from": "mod:src/auth.ts",
+      "id": "edge:exports:020gsd7",
+      "metadata": {
+        "exportNodeId": "export:src/auth.ts:User",
+        "name": "User",
+      },
+      "to": "iface:src/auth.ts:User",
+      "type": "EXPORTS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "exports main",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 7,
+            "file": "src/index.ts",
+            "startColumn": 1,
+            "startLine": 5,
+          },
+        },
+      ],
+      "from": "mod:src/index.ts",
+      "id": "edge:exports:035i92r",
+      "metadata": {
+        "exportNodeId": "export:src/index.ts:main",
+        "name": "main",
+      },
+      "to": "fn:src/index.ts:main",
+      "type": "EXPORTS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "exports requireUser",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 12,
+            "file": "src/auth.ts",
+            "startColumn": 1,
+            "startLine": 6,
+          },
+        },
+      ],
+      "from": "mod:src/auth.ts",
+      "id": "edge:exports:09b5jlu",
+      "metadata": {
+        "exportNodeId": "export:src/auth.ts:requireUser",
+        "name": "requireUser",
+      },
+      "to": "fn:src/auth.ts:requireUser",
+      "type": "EXPORTS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "exports UserService",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 7,
+            "file": "src/service.ts",
+            "startColumn": 1,
+            "startLine": 3,
+          },
+        },
+      ],
+      "from": "mod:src/service.ts",
+      "id": "edge:exports:0bfgavy",
+      "metadata": {
+        "exportNodeId": "export:src/service.ts:UserService",
+        "name": "UserService",
+      },
+      "to": "class:src/service.ts:UserService",
+      "type": "EXPORTS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "imports ./service",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 41,
+            "endLine": 1,
+            "file": "src/index.ts",
+            "startColumn": 1,
+            "startLine": 1,
+          },
+        },
+      ],
+      "from": "mod:src/index.ts",
+      "id": "edge:imports:01cxmtc",
+      "metadata": {
+        "importNodeId": "import:src/index.ts:./service:04s3y31",
+        "specifier": "./service",
+      },
+      "to": "mod:src/service.ts",
+      "type": "IMPORTS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "imports ./auth",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 49,
+            "endLine": 1,
+            "file": "src/service.ts",
+            "startColumn": 1,
+            "startLine": 1,
+          },
+        },
+      ],
+      "from": "mod:src/service.ts",
+      "id": "edge:imports:17139sq",
+      "metadata": {
+        "importNodeId": "import:src/service.ts:./auth:0gnx4yh",
+        "specifier": "./auth",
+      },
+      "to": "mod:src/auth.ts",
+      "type": "IMPORTS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "inferred",
+          "description": "module provides Service",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 7,
+            "file": "src/service.ts",
+            "startColumn": 1,
+            "startLine": 3,
+          },
+        },
+      ],
+      "from": "mod:src/service.ts",
+      "id": "edge:provides:1tgbk38",
+      "metadata": {
+        "roleKind": "Service",
+      },
+      "to": "service:src/service.ts:UserService",
+      "type": "PROVIDES",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "inferred",
+          "description": "Service role is implemented by class name suffix",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 7,
+            "file": "src/service.ts",
+            "startColumn": 1,
+            "startLine": 3,
+          },
+        },
+      ],
+      "from": "service:src/service.ts:UserService",
+      "id": "edge:references:136pqlu",
+      "metadata": {
+        "roleKind": "Service",
+      },
+      "to": "class:src/service.ts:UserService",
+      "type": "REFERENCES",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "return-type references type",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 44,
+            "endLine": 4,
+            "file": "src/service.ts",
+            "startColumn": 40,
+            "startLine": 4,
+          },
+        },
+      ],
+      "from": "method:src/service.ts:UserService.load",
+      "id": "edge:returns:0kq59oj",
+      "metadata": {
+        "usage": "return-type",
+      },
+      "to": "iface:src/auth.ts:User",
+      "type": "RETURNS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "return-type references type",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 58,
+            "endLine": 6,
+            "file": "src/auth.ts",
+            "startColumn": 54,
+            "startLine": 6,
+          },
+        },
+      ],
+      "from": "fn:src/auth.ts:requireUser",
+      "id": "edge:returns:15frxyl",
+      "metadata": {
+        "usage": "return-type",
+      },
+      "to": "iface:src/auth.ts:User",
+      "type": "RETURNS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "throws exception",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 37,
+            "endLine": 8,
+            "file": "src/auth.ts",
+            "startColumn": 5,
+            "startLine": 8,
+          },
+        },
+      ],
+      "from": "fn:src/auth.ts:requireUser",
+      "id": "edge:throws:1e4nfl9",
+      "to": "exception:Error",
+      "type": "THROWS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "parameter-type references type",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 39,
+            "endLine": 6,
+            "file": "src/auth.ts",
+            "startColumn": 35,
+            "startLine": 6,
+          },
+        },
+      ],
+      "from": "fn:src/auth.ts:requireUser",
+      "id": "edge:uses:056jt5w",
+      "metadata": {
+        "usage": "parameter-type",
+      },
+      "to": "iface:src/auth.ts:User",
+      "type": "USES",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "parameter-type references type",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 25,
+            "endLine": 4,
+            "file": "src/service.ts",
+            "startColumn": 21,
+            "startLine": 4,
+          },
+        },
+      ],
+      "from": "method:src/service.ts:UserService.load",
+      "id": "edge:uses:06s6fpu",
+      "metadata": {
+        "usage": "parameter-type",
+      },
+      "to": "iface:src/auth.ts:User",
+      "type": "USES",
+    },
+  ],
+  "indexes": {
+    "edgeIdsBySourceAndType": {
+      "class:src/service.ts:UserService:CONTAINS": [
+        "edge:contains:1y9mzvf",
+      ],
+      "fn:src/auth.ts:requireUser:RETURNS": [
+        "edge:returns:15frxyl",
+      ],
+      "fn:src/auth.ts:requireUser:THROWS": [
+        "edge:throws:1e4nfl9",
+      ],
+      "fn:src/auth.ts:requireUser:USES": [
+        "edge:uses:056jt5w",
+      ],
+      "fn:src/index.ts:main:CALLS": [
+        "edge:calls:0to27tf",
+      ],
+      "method:src/service.ts:UserService.load:CALLS": [
+        "edge:calls:1c8riig",
+      ],
+      "method:src/service.ts:UserService.load:RETURNS": [
+        "edge:returns:0kq59oj",
+      ],
+      "method:src/service.ts:UserService.load:USES": [
+        "edge:uses:06s6fpu",
+      ],
+      "mod:src/auth.ts:CONTAINS": [
+        "edge:contains:05rl8cb",
+        "edge:contains:0i3rfju",
+        "edge:contains:146rmxo",
+        "edge:contains:1vdf5tv",
+      ],
+      "mod:src/auth.ts:EXPORTS": [
+        "edge:exports:020gsd7",
+        "edge:exports:09b5jlu",
+      ],
+      "mod:src/index.ts:CONTAINS": [
+        "edge:contains:07hmxxw",
+        "edge:contains:0xvcjrv",
+        "edge:contains:1rcks5p",
+      ],
+      "mod:src/index.ts:CREATES": [
+        "edge:creates:0gw89jf",
+      ],
+      "mod:src/index.ts:EXPORTS": [
+        "edge:exports:035i92r",
+      ],
+      "mod:src/index.ts:IMPORTS": [
+        "edge:imports:01cxmtc",
+      ],
+      "mod:src/service.ts:CONTAINS": [
+        "edge:contains:06w1zak",
+        "edge:contains:0n0xh9m",
+        "edge:contains:0n618au",
+      ],
+      "mod:src/service.ts:EXPORTS": [
+        "edge:exports:0bfgavy",
+      ],
+      "mod:src/service.ts:IMPORTS": [
+        "edge:imports:17139sq",
+      ],
+      "mod:src/service.ts:PROVIDES": [
+        "edge:provides:1tgbk38",
+      ],
+      "service:src/service.ts:UserService:REFERENCES": [
+        "edge:references:136pqlu",
+      ],
+    },
+    "edgeIdsByType": {
+      "CALLS": [
+        "edge:calls:0to27tf",
+        "edge:calls:1c8riig",
+      ],
+      "CONTAINS": [
+        "edge:contains:05rl8cb",
+        "edge:contains:06w1zak",
+        "edge:contains:07hmxxw",
+        "edge:contains:0i3rfju",
+        "edge:contains:0n0xh9m",
+        "edge:contains:0n618au",
+        "edge:contains:0xvcjrv",
+        "edge:contains:146rmxo",
+        "edge:contains:1rcks5p",
+        "edge:contains:1vdf5tv",
+        "edge:contains:1y9mzvf",
+      ],
+      "CREATES": [
+        "edge:creates:0gw89jf",
+      ],
+      "EXPORTS": [
+        "edge:exports:020gsd7",
+        "edge:exports:035i92r",
+        "edge:exports:09b5jlu",
+        "edge:exports:0bfgavy",
+      ],
+      "IMPORTS": [
+        "edge:imports:01cxmtc",
+        "edge:imports:17139sq",
+      ],
+      "PROVIDES": [
+        "edge:provides:1tgbk38",
+      ],
+      "REFERENCES": [
+        "edge:references:136pqlu",
+      ],
+      "RETURNS": [
+        "edge:returns:0kq59oj",
+        "edge:returns:15frxyl",
+      ],
+      "THROWS": [
+        "edge:throws:1e4nfl9",
+      ],
+      "USES": [
+        "edge:uses:056jt5w",
+        "edge:uses:06s6fpu",
+      ],
+    },
+    "inboundEdgeIdsByNodeId": {
+      "class:src/service.ts:UserService": [
+        "edge:contains:0n618au",
+        "edge:creates:0gw89jf",
+        "edge:exports:0bfgavy",
+        "edge:references:136pqlu",
+      ],
+      "exception:Error": [
+        "edge:throws:1e4nfl9",
+      ],
+      "export:src/auth.ts:User": [
+        "edge:contains:05rl8cb",
+      ],
+      "export:src/auth.ts:requireUser": [
+        "edge:contains:146rmxo",
+      ],
+      "export:src/index.ts:main": [
+        "edge:contains:1rcks5p",
+      ],
+      "export:src/service.ts:UserService": [
+        "edge:contains:0n0xh9m",
+      ],
+      "fn:src/auth.ts:requireUser": [
+        "edge:calls:1c8riig",
+        "edge:contains:0i3rfju",
+        "edge:exports:09b5jlu",
+      ],
+      "fn:src/index.ts:main": [
+        "edge:contains:0xvcjrv",
+        "edge:exports:035i92r",
+      ],
+      "iface:src/auth.ts:User": [
+        "edge:contains:1vdf5tv",
+        "edge:exports:020gsd7",
+        "edge:returns:0kq59oj",
+        "edge:returns:15frxyl",
+        "edge:uses:056jt5w",
+        "edge:uses:06s6fpu",
+      ],
+      "import:src/index.ts:./service:04s3y31": [
+        "edge:contains:07hmxxw",
+      ],
+      "import:src/service.ts:./auth:0gnx4yh": [
+        "edge:contains:06w1zak",
+      ],
+      "method:src/service.ts:UserService.load": [
+        "edge:calls:0to27tf",
+        "edge:contains:1y9mzvf",
+      ],
+      "mod:src/auth.ts": [
+        "edge:imports:17139sq",
+      ],
+      "mod:src/service.ts": [
+        "edge:imports:01cxmtc",
+      ],
+      "service:src/service.ts:UserService": [
+        "edge:provides:1tgbk38",
+      ],
+    },
+    "nodeIdsByType": {
+      "Class": [
+        "class:src/service.ts:UserService",
+      ],
+      "Exception": [
+        "exception:Error",
+      ],
+      "Export": [
+        "export:src/auth.ts:User",
+        "export:src/auth.ts:requireUser",
+        "export:src/index.ts:main",
+        "export:src/service.ts:UserService",
+      ],
+      "Function": [
+        "fn:src/auth.ts:requireUser",
+        "fn:src/index.ts:main",
+      ],
+      "Import": [
+        "import:src/index.ts:./service:04s3y31",
+        "import:src/service.ts:./auth:0gnx4yh",
+      ],
+      "Interface": [
+        "iface:src/auth.ts:User",
+      ],
+      "Method": [
+        "method:src/service.ts:UserService.load",
+      ],
+      "Module": [
+        "mod:src/auth.ts",
+        "mod:src/index.ts",
+        "mod:src/service.ts",
+      ],
+      "Service": [
+        "service:src/service.ts:UserService",
+      ],
+    },
+    "outboundEdgeIdsByNodeId": {
+      "class:src/service.ts:UserService": [
+        "edge:contains:1y9mzvf",
+      ],
+      "fn:src/auth.ts:requireUser": [
+        "edge:returns:15frxyl",
+        "edge:throws:1e4nfl9",
+        "edge:uses:056jt5w",
+      ],
+      "fn:src/index.ts:main": [
+        "edge:calls:0to27tf",
+      ],
+      "method:src/service.ts:UserService.load": [
+        "edge:calls:1c8riig",
+        "edge:returns:0kq59oj",
+        "edge:uses:06s6fpu",
+      ],
+      "mod:src/auth.ts": [
+        "edge:contains:05rl8cb",
+        "edge:contains:0i3rfju",
+        "edge:contains:146rmxo",
+        "edge:contains:1vdf5tv",
+        "edge:exports:020gsd7",
+        "edge:exports:09b5jlu",
+      ],
+      "mod:src/index.ts": [
+        "edge:contains:07hmxxw",
+        "edge:contains:0xvcjrv",
+        "edge:contains:1rcks5p",
+        "edge:creates:0gw89jf",
+        "edge:exports:035i92r",
+        "edge:imports:01cxmtc",
+      ],
+      "mod:src/service.ts": [
+        "edge:contains:06w1zak",
+        "edge:contains:0n0xh9m",
+        "edge:contains:0n618au",
+        "edge:exports:0bfgavy",
+        "edge:imports:17139sq",
+        "edge:provides:1tgbk38",
+      ],
+      "service:src/service.ts:UserService": [
+        "edge:references:136pqlu",
+      ],
+    },
+  },
+  "metadata": {
+    "deterministicHash": "<deterministicHash>",
+    "edgeCount": 27,
+    "fileCount": 6,
+    "generatedAt": "1970-01-01T00:00:00.000Z",
+    "nodeCount": 16,
+    "parserVersions": {
+      "typescript": "5.9.2",
+    },
+  },
+  "nodes": [
+    {
+      "file": "src/service.ts",
+      "id": "class:src/service.ts:UserService",
+      "metadata": {
+        "abstract": false,
+        "declarationKind": "class",
+        "default": false,
+        "exported": true,
+        "language": "typescript",
+        "provenance": {
+          "parser": "typescript",
+          "parserVersion": "5.9.2",
+          "passId": "@0xsarwagya/ontoly-parser-typescript:frontend",
+          "source": "typescript",
+        },
+        "typeParameters": 0,
+      },
+      "name": "UserService",
+      "span": {
+        "endColumn": 2,
+        "endLine": 7,
+        "file": "src/service.ts",
+        "startColumn": 1,
+        "startLine": 3,
+      },
+      "type": "Class",
+    },
+    {
+      "id": "exception:Error",
+      "metadata": {
+        "language": "typescript",
+        "provenance": {
+          "parser": "typescript",
+          "parserVersion": "5.9.2",
+          "passId": "@0xsarwagya/ontoly-parser-typescript:frontend",
+          "source": "typescript",
+        },
+        "thrownConstructor": "Error",
+      },
+      "name": "Error",
+      "span": {
+        "endColumn": 36,
+        "endLine": 8,
+        "file": "src/auth.ts",
+        "startColumn": 11,
+        "startLine": 8,
+      },
+      "type": "Exception",
+    },
+    {
+      "file": "src/auth.ts",
+      "id": "export:src/auth.ts:requireUser",
+      "metadata": {
+        "declarationKind": "function",
+        "exportKind": "value",
+        "language": "typescript",
+        "localName": "requireUser",
+        "provenance": {
+          "parser": "typescript",
+          "parserVersion": "5.9.2",
+          "passId": "@0xsarwagya/ontoly-parser-typescript:frontend",
+          "source": "typescript",
+        },
+      },
+      "name": "requireUser",
+      "span": {
+        "endColumn": 2,
+        "endLine": 12,
+        "file": "src/auth.ts",
+        "startColumn": 1,
+        "startLine": 6,
+      },
+      "type": "Export",
+    },
+    {
+      "file": "src/auth.ts",
+      "id": "export:src/auth.ts:User",
+      "metadata": {
+        "declarationKind": "interface",
+        "exportKind": "type",
+        "language": "typescript",
+        "localName": "User",
+        "provenance": {
+          "parser": "typescript",
+          "parserVersion": "5.9.2",
+          "passId": "@0xsarwagya/ontoly-parser-typescript:frontend",
+          "source": "typescript",
+        },
+      },
+      "name": "User",
+      "span": {
+        "endColumn": 2,
+        "endLine": 4,
+        "file": "src/auth.ts",
+        "startColumn": 1,
+        "startLine": 1,
+      },
+      "type": "Export",
+    },
+    {
+      "file": "src/index.ts",
+      "id": "export:src/index.ts:main",
+      "metadata": {
+        "declarationKind": "function",
+        "exportKind": "value",
+        "language": "typescript",
+        "localName": "main",
+        "provenance": {
+          "parser": "typescript",
+          "parserVersion": "5.9.2",
+          "passId": "@0xsarwagya/ontoly-parser-typescript:frontend",
+          "source": "typescript",
+        },
+      },
+      "name": "main",
+      "span": {
+        "endColumn": 2,
+        "endLine": 7,
+        "file": "src/index.ts",
+        "startColumn": 1,
+        "startLine": 5,
+      },
+      "type": "Export",
+    },
+    {
+      "file": "src/service.ts",
+      "id": "export:src/service.ts:UserService",
+      "metadata": {
+        "declarationKind": "class",
+        "exportKind": "value",
+        "language": "typescript",
+        "localName": "UserService",
+        "provenance": {
+          "parser": "typescript",
+          "parserVersion": "5.9.2",
+          "passId": "@0xsarwagya/ontoly-parser-typescript:frontend",
+          "source": "typescript",
+        },
+      },
+      "name": "UserService",
+      "span": {
+        "endColumn": 2,
+        "endLine": 7,
+        "file": "src/service.ts",
+        "startColumn": 1,
+        "startLine": 3,
+      },
+      "type": "Export",
+    },
+    {
+      "file": "src/auth.ts",
+      "id": "fn:src/auth.ts:requireUser",
+      "metadata": {
+        "async": false,
+        "declarationKind": "function",
+        "default": false,
+        "exported": true,
+        "generator": false,
+        "language": "typescript",
+        "parameters": 1,
+        "provenance": {
+          "parser": "typescript",
+          "parserVersion": "5.9.2",
+          "passId": "@0xsarwagya/ontoly-parser-typescript:frontend",
+          "source": "typescript",
+        },
+        "typeParameters": 0,
+      },
+      "name": "requireUser",
+      "span": {
+        "endColumn": 2,
+        "endLine": 12,
+        "file": "src/auth.ts",
+        "startColumn": 1,
+        "startLine": 6,
+      },
+      "type": "Function",
+    },
+    {
+      "file": "src/index.ts",
+      "id": "fn:src/index.ts:main",
+      "metadata": {
+        "async": false,
+        "declarationKind": "function",
+        "default": false,
+        "exported": true,
+        "generator": false,
+        "language": "typescript",
+        "parameters": 0,
+        "provenance": {
+          "parser": "typescript",
+          "parserVersion": "5.9.2",
+          "passId": "@0xsarwagya/ontoly-parser-typescript:frontend",
+          "source": "typescript",
+        },
+        "typeParameters": 0,
+      },
+      "name": "main",
+      "span": {
+        "endColumn": 2,
+        "endLine": 7,
+        "file": "src/index.ts",
+        "startColumn": 1,
+        "startLine": 5,
+      },
+      "type": "Function",
+    },
+    {
+      "file": "src/auth.ts",
+      "id": "iface:src/auth.ts:User",
+      "metadata": {
+        "declarationKind": "interface",
+        "default": false,
+        "exported": true,
+        "language": "typescript",
+        "provenance": {
+          "parser": "typescript",
+          "parserVersion": "5.9.2",
+          "passId": "@0xsarwagya/ontoly-parser-typescript:frontend",
+          "source": "typescript",
+        },
+        "typeParameters": 0,
+      },
+      "name": "User",
+      "span": {
+        "endColumn": 2,
+        "endLine": 4,
+        "file": "src/auth.ts",
+        "startColumn": 1,
+        "startLine": 1,
+      },
+      "type": "Interface",
+    },
+    {
+      "file": "src/index.ts",
+      "id": "import:src/index.ts:./service:04s3y31",
+      "metadata": {
+        "importKind": "value",
+        "language": "typescript",
+        "namedBindings": [
+          "UserService",
+        ],
+        "provenance": {
+          "parser": "typescript",
+          "parserVersion": "5.9.2",
+          "passId": "@0xsarwagya/ontoly-parser-typescript:frontend",
+          "source": "typescript",
+        },
+        "sideEffectOnly": false,
+        "specifier": "./service",
+        "targetFile": "src/service.ts",
+      },
+      "name": "./service",
+      "span": {
+        "endColumn": 41,
+        "endLine": 1,
+        "file": "src/index.ts",
+        "startColumn": 1,
+        "startLine": 1,
+      },
+      "type": "Import",
+    },
+    {
+      "file": "src/service.ts",
+      "id": "import:src/service.ts:./auth:0gnx4yh",
+      "metadata": {
+        "importKind": "value",
+        "language": "typescript",
+        "namedBindings": [
+          "requireUser",
+          "type User",
+        ],
+        "provenance": {
+          "parser": "typescript",
+          "parserVersion": "5.9.2",
+          "passId": "@0xsarwagya/ontoly-parser-typescript:frontend",
+          "source": "typescript",
+        },
+        "sideEffectOnly": false,
+        "specifier": "./auth",
+        "targetFile": "src/auth.ts",
+      },
+      "name": "./auth",
+      "span": {
+        "endColumn": 49,
+        "endLine": 1,
+        "file": "src/service.ts",
+        "startColumn": 1,
+        "startLine": 1,
+      },
+      "type": "Import",
+    },
+    {
+      "file": "src/service.ts",
+      "id": "method:src/service.ts:UserService.load",
+      "metadata": {
+        "abstract": false,
+        "async": false,
+        "declarationKind": "method",
+        "language": "typescript",
+        "parameters": 1,
+        "provenance": {
+          "parser": "typescript",
+          "parserVersion": "5.9.2",
+          "passId": "@0xsarwagya/ontoly-parser-typescript:frontend",
+          "source": "typescript",
+        },
+        "static": false,
+        "typeParameters": 0,
+      },
+      "name": "UserService.load",
+      "span": {
+        "endColumn": 4,
+        "endLine": 6,
+        "file": "src/service.ts",
+        "startColumn": 3,
+        "startLine": 4,
+      },
+      "type": "Method",
+    },
+    {
+      "file": "src/auth.ts",
+      "id": "mod:src/auth.ts",
+      "metadata": {
+        "extension": ".ts",
+        "language": "typescript",
+        "provenance": {
+          "parser": "typescript",
+          "parserVersion": "5.9.2",
+          "passId": "@0xsarwagya/ontoly-parser-typescript:frontend",
+          "source": "typescript",
+        },
+      },
+      "name": "src/auth.ts",
+      "span": {
+        "endColumn": 1,
+        "endLine": 13,
+        "file": "src/auth.ts",
+        "startColumn": 1,
+        "startLine": 1,
+      },
+      "type": "Module",
+    },
+    {
+      "file": "src/index.ts",
+      "id": "mod:src/index.ts",
+      "metadata": {
+        "extension": ".ts",
+        "language": "typescript",
+        "provenance": {
+          "parser": "typescript",
+          "parserVersion": "5.9.2",
+          "passId": "@0xsarwagya/ontoly-parser-typescript:frontend",
+          "source": "typescript",
+        },
+      },
+      "name": "src/index.ts",
+      "span": {
+        "endColumn": 1,
+        "endLine": 8,
+        "file": "src/index.ts",
+        "startColumn": 1,
+        "startLine": 1,
+      },
+      "type": "Module",
+    },
+    {
+      "file": "src/service.ts",
+      "id": "mod:src/service.ts",
+      "metadata": {
+        "extension": ".ts",
+        "language": "typescript",
+        "provenance": {
+          "parser": "typescript",
+          "parserVersion": "5.9.2",
+          "passId": "@0xsarwagya/ontoly-parser-typescript:frontend",
+          "source": "typescript",
+        },
+      },
+      "name": "src/service.ts",
+      "span": {
+        "endColumn": 1,
+        "endLine": 8,
+        "file": "src/service.ts",
+        "startColumn": 1,
+        "startLine": 1,
+      },
+      "type": "Module",
+    },
+    {
+      "file": "src/service.ts",
+      "id": "service:src/service.ts:UserService",
+      "metadata": {
+        "classId": "class:src/service.ts:UserService",
+        "deterministicSignature": "class-name-suffix:Service",
+        "language": "typescript",
+        "provenance": {
+          "parser": "typescript",
+          "parserVersion": "5.9.2",
+          "passId": "@0xsarwagya/ontoly-parser-typescript:frontend",
+          "source": "typescript",
+        },
+      },
+      "name": "UserService",
+      "span": {
+        "endColumn": 2,
+        "endLine": 7,
+        "file": "src/service.ts",
+        "startColumn": 1,
+        "startLine": 3,
+      },
+      "type": "Service",
+    },
+  ],
+  "repository": {
+    "name": "@0xsarwagya/ontoly-example-basic",
+    "packageName": "@0xsarwagya/ontoly-example-basic",
+    "root": "<root>",
+  },
+  "version": "1.0.0",
+}
+`;

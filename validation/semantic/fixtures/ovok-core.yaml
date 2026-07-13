@@ -1,0 +1,24 @@
+repository: ovok-core
+name: Ovok Core
+path: /Users/shrey/Desktop/work/ovok-core
+frameworks:
+  - NestJS
+  - Express
+questions: questions/ovok-core.yaml
+expectedGraph:
+  minNodes: 20000
+  minEdges: 45000
+  requiredNodeTypes:
+    - Controller
+    - Route
+    - Service
+    - Module
+    - EnvironmentVariable
+  requiredRelationships:
+    - HANDLES
+    - MOUNTS
+    - INJECTS
+    - AUTHORIZES
+coverageExpectations:
+  semanticCoverage: 95
+  trustScore: 95

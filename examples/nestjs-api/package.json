@@ -1,0 +1,12 @@
+{
+  "name": "ontoly-example-nestjs-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "graph": "node ../../packages/cli/dist/cli.js build .",
+    "routes": "node ../../packages/cli/dist/cli.js report routes --root .",
+    "mcp": "node ../../packages/cli/dist/cli.js mcp --list --root .",
+    "skills": "cd ../.. && node packages/cli/dist/cli.js skills validate --ci"
+  },
+  "devDependencies": {}
+}

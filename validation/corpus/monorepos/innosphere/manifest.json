@@ -1,0 +1,16 @@
+{
+  "id": "innosphere",
+  "name": "Innosphere",
+  "source": "/Users/shrey/Desktop/work/innosphere",
+  "corpusPath": "monorepos/innosphere",
+  "frameworks": [
+    "nestjs",
+    "react",
+    "turborepo",
+    "vite"
+  ],
+  "language": "typescript",
+  "repositoryType": "monorepo",
+  "expectedAnalyzer": "nestjs",
+  "default": true
+}

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="420" viewBox="0 0 1100 420" role="img">
+  <rect width="1100" height="420" fill="#F8FAFC"/>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#C9D3DE"/></marker></defs>
+<text x="60" y="88" font-family="Inter, Arial, sans-serif" font-size="38" font-weight="700" fill="#17202A">Architecture</text>
+<text x="62" y="125" font-family="Inter, Arial, sans-serif" font-size="17" fill="#5B6673">Release-ready Ontoly asset</text>
+<rect x="60" y="190" width="178" height="72" rx="8" fill="#FFFFFF" stroke="#C9D3DE"/>
+<text x="76" y="231" font-family="Inter, Arial, sans-serif" font-size="15" fill="#17202A">Discovery</text>
+<path d="M 242 226 L 256 226" stroke="#C9D3DE" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<rect x="260" y="190" width="178" height="72" rx="8" fill="#FFFFFF" stroke="#C9D3DE"/>
+<text x="276" y="231" font-family="Inter, Arial, sans-serif" font-size="15" fill="#17202A">Frontend</text>
+<path d="M 442 226 L 456 226" stroke="#C9D3DE" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<rect x="460" y="190" width="178" height="72" rx="8" fill="#FFFFFF" stroke="#C9D3DE"/>
+<text x="476" y="231" font-family="Inter, Arial, sans-serif" font-size="15" fill="#17202A">Passes</text>
+<path d="M 642 226 L 656 226" stroke="#C9D3DE" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<rect x="660" y="190" width="178" height="72" rx="8" fill="#FFFFFF" stroke="#C9D3DE"/>
+<text x="676" y="231" font-family="Inter, Arial, sans-serif" font-size="15" fill="#17202A">Graph</text>
+<path d="M 842 226 L 856 226" stroke="#C9D3DE" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<rect x="860" y="190" width="178" height="72" rx="8" fill="#EEF6FF" stroke="#2F80ED"/>
+<text x="876" y="231" font-family="Inter, Arial, sans-serif" font-size="15" fill="#17202A">Consumers</text>
+</svg>

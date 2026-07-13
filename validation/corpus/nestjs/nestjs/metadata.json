@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "priority": "high",
+  "category": "nestjs",
+  "expected": {
+    "analyzer": "nestjs",
+    "semanticCoverage": 85,
+    "trust": 85,
+    "graphSizeBytes": {
+      "min": 1000000,
+      "max": 100000000
+    },
+    "nodeRange": {
+      "min": 1000,
+      "max": 100000
+    },
+    "edgeRange": {
+      "min": 1000,
+      "max": 200000
+    },
+    "diagnosticsMax": 300
+  }
+}

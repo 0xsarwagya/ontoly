@@ -1,0 +1,13 @@
+{
+  "id": "typescript",
+  "name": "TypeScript Compiler",
+  "source": "https://github.com/microsoft/TypeScript.git",
+  "corpusPath": "typescript/typescript",
+  "frameworks": [
+    "typescript"
+  ],
+  "language": "typescript",
+  "repositoryType": "compiler",
+  "expectedAnalyzer": "typescript",
+  "default": false
+}

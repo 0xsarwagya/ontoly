@@ -1,0 +1,18 @@
+{
+  "analyzer": "typescript",
+  "semanticCoverage": 80,
+  "trust": 85,
+  "graphSizeBytes": {
+    "min": 1000000,
+    "max": 80000000
+  },
+  "nodeRange": {
+    "min": 1000,
+    "max": 80000
+  },
+  "edgeRange": {
+    "min": 1000,
+    "max": 160000
+  },
+  "diagnosticsMax": 200
+}

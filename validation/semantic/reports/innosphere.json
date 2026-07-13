@@ -1,0 +1,409 @@
+{
+  "repository": "innosphere",
+  "name": "Innosphere",
+  "frameworks": [
+    "NestJS",
+    "React",
+    "Turborepo",
+    "Vite"
+  ],
+  "expectedGraph": {
+    "minNodes": 6000,
+    "minEdges": 10000,
+    "requiredNodeTypes": [
+      "Controller",
+      "Route",
+      "Service",
+      "Module",
+      "EnvironmentVariable"
+    ],
+    "requiredRelationships": [
+      "HANDLES",
+      "MOUNTS",
+      "INJECTS",
+      "DEPENDS_ON"
+    ]
+  },
+  "coverageExpectations": {
+    "semanticCoverage": 95,
+    "trustScore": 95
+  },
+  "questionCount": 6,
+  "score": {
+    "ontoly": {
+      "questions": 6,
+      "pass": 6,
+      "partial": 0,
+      "fail": 0,
+      "exactMatchRate": 100,
+      "precision": 100,
+      "recall": 100,
+      "confidence": 100,
+      "latencyMs": 0.178,
+      "semanticUnderstandingScore": 100
+    },
+    "graphify": {
+      "questions": 6,
+      "pass": 5,
+      "partial": 0,
+      "fail": 1,
+      "exactMatchRate": 83.33,
+      "precision": 83.33,
+      "recall": 83.33,
+      "confidence": 83.33,
+      "latencyMs": 0.122,
+      "semanticUnderstandingScore": 83.33
+    },
+    "winner": "Ontoly"
+  },
+  "questions": [
+    {
+      "id": "innosphere-auth-controller",
+      "repository": "innosphere",
+      "category": "Controllers",
+      "evaluator": "FindController",
+      "question": "Which controller handles auth?",
+      "expected": {
+        "exact": [
+          "AuthController"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.315,
+        "answers": [
+          {
+            "label": "AuthController",
+            "type": "Controller",
+            "id": "controller:apps/api/src/auth/auth.controller.ts:AuthController",
+            "file": "apps/api/src/auth/auth.controller.ts",
+            "explanation": "Matched Controller node AuthController."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched Controller with terms AuthController."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.089,
+        "answers": [
+          {
+            "label": "AuthController",
+            "type": "Controller",
+            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_apps_api_src_auth_auth_controller_authcontroller",
+            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/apps/api/src/auth/auth.controller.ts",
+            "explanation": "Matched Controller node AuthController."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched Controller with terms AuthController."
+      },
+      "winner": "Tie"
+    },
+    {
+      "id": "innosphere-auth-me-route",
+      "repository": "innosphere",
+      "category": "Routes",
+      "evaluator": "FindRoute",
+      "question": "Which route returns the current authenticated user?",
+      "expected": {
+        "exact": [
+          "GET:/auth/me"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.124,
+        "answers": [
+          {
+            "label": "GET:/auth/me",
+            "type": "Route",
+            "id": "route:GET:/auth/me",
+            "file": "apps/api/src/auth/auth.controller.ts",
+            "explanation": "Matched Route node GET:/auth/me."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched Route with terms GET:/auth/me."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
+        "falsePositives": [],
+        "falseNegatives": [
+          "GET:/auth/me"
+        ],
+        "confidence": 0,
+        "latencyMs": 0.052,
+        "answers": [],
+        "explanation": "0 candidate node(s) matched Route with terms GET:/auth/me."
+      },
+      "winner": "Ontoly"
+    },
+    {
+      "id": "innosphere-auth-module",
+      "repository": "innosphere",
+      "category": "Modules",
+      "evaluator": "FindModule",
+      "question": "Which module owns auth behavior?",
+      "expected": {
+        "exact": [
+          "AuthModule"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.261,
+        "answers": [
+          {
+            "label": "AuthModule",
+            "type": "Module",
+            "id": "mod:apps/api/src/auth/auth.module.ts:AuthModule",
+            "file": "apps/api/src/auth/auth.module.ts",
+            "explanation": "Matched Module node AuthModule."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched Module with terms AuthModule."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.222,
+        "answers": [
+          {
+            "label": "AuthModule",
+            "type": "Module",
+            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_apps_api_src_auth_auth_module_authmodule",
+            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/apps/api/src/auth/auth.module.ts",
+            "explanation": "Matched Module node AuthModule."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched Module with terms AuthModule."
+      },
+      "winner": "Tie"
+    },
+    {
+      "id": "innosphere-database-url",
+      "repository": "innosphere",
+      "category": "Database",
+      "evaluator": "FindDatabaseAccess",
+      "question": "Which environment variable points to the database?",
+      "expected": {
+        "exact": [
+          "DATABASE_URL"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.072,
+        "answers": [
+          {
+            "label": "DATABASE_URL",
+            "type": "EnvironmentVariable",
+            "id": "env:DATABASE_URL",
+            "file": null,
+            "explanation": "Matched EnvironmentVariable node DATABASE_URL."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched EnvironmentVariable with terms DATABASE_URL."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.135,
+        "answers": [
+          {
+            "label": "DATABASE_URL",
+            "type": "EnvironmentVariable",
+            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_scripts_seed_demo_chat_database_url",
+            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/scripts/seed-demo-chat.mjs",
+            "explanation": "Matched EnvironmentVariable node DATABASE_URL."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched EnvironmentVariable with terms DATABASE_URL."
+      },
+      "winner": "Tie"
+    },
+    {
+      "id": "innosphere-ovok-service",
+      "repository": "innosphere",
+      "category": "Services",
+      "evaluator": "FindProvider",
+      "question": "Which service models Ovok integration?",
+      "expected": {
+        "exact": [
+          "OvokService"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.053,
+        "answers": [
+          {
+            "label": "OvokService",
+            "type": "Service",
+            "id": "service:apps/api/src/ovok/ovok.service.ts:OvokService",
+            "file": "apps/api/src/ovok/ovok.service.ts",
+            "explanation": "Matched Service node OvokService."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched Service with terms OvokService."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.051,
+        "answers": [
+          {
+            "label": "OvokService",
+            "type": "Service",
+            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_apps_api_src_ovok_ovok_service_ovokservice",
+            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/apps/api/src/ovok/ovok.service.ts",
+            "explanation": "Matched Service node OvokService."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched Service with terms OvokService."
+      },
+      "winner": "Tie"
+    },
+    {
+      "id": "innosphere-app-module",
+      "repository": "innosphere",
+      "category": "Modules",
+      "evaluator": "FindModule",
+      "question": "Which module is the Nest application root?",
+      "expected": {
+        "exact": [
+          "AppModule"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.241,
+        "answers": [
+          {
+            "label": "AppModule",
+            "type": "Module",
+            "id": "mod:apps/api/src/app.module.ts:AppModule",
+            "file": "apps/api/src/app.module.ts",
+            "explanation": "Matched Module node AppModule."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched Module with terms AppModule."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.183,
+        "answers": [
+          {
+            "label": "AppModule",
+            "type": "Module",
+            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_apps_api_src_app_module_appmodule",
+            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/apps/api/src/app.module.ts",
+            "explanation": "Matched Module node AppModule."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched Module with terms AppModule."
+      },
+      "winner": "Tie"
+    }
+  ]
+}

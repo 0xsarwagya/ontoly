@@ -1,0 +1,701 @@
+{
+  "generatedAt": "2026-07-13T15:37:42.502Z",
+  "repositories": [
+    {
+      "repository": "0xsarwagya",
+      "ontoly": {
+        "questions": 5,
+        "pass": 5,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 1.035,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 5,
+        "pass": 3,
+        "partial": 0,
+        "fail": 2,
+        "exactMatchRate": 60,
+        "precision": 60,
+        "recall": 60,
+        "confidence": 60,
+        "latencyMs": 0.065,
+        "semanticUnderstandingScore": 60
+      },
+      "questions": [
+        {
+          "id": "personal-ghost-package",
+          "ontoly": "PASS",
+          "graphify": "PASS"
+        },
+        {
+          "id": "personal-durable-package",
+          "ontoly": "PASS",
+          "graphify": "PASS"
+        },
+        {
+          "id": "personal-next-framework",
+          "ontoly": "PASS",
+          "graphify": "FAIL"
+        },
+        {
+          "id": "personal-react-framework",
+          "ontoly": "PASS",
+          "graphify": "PASS"
+        },
+        {
+          "id": "personal-turbo-config",
+          "ontoly": "PASS",
+          "graphify": "FAIL"
+        }
+      ]
+    },
+    {
+      "repository": "durable-local",
+      "ontoly": {
+        "questions": 6,
+        "pass": 6,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.026,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 6,
+        "pass": 2,
+        "partial": 0,
+        "fail": 4,
+        "exactMatchRate": 33.33,
+        "precision": 33.33,
+        "recall": 33.33,
+        "confidence": 33.33,
+        "latencyMs": 0.009,
+        "semanticUnderstandingScore": 33.33
+      },
+      "questions": [
+        {
+          "id": "durable-create-entrypoint",
+          "ontoly": "PASS",
+          "graphify": "FAIL"
+        },
+        {
+          "id": "durable-interface",
+          "ontoly": "PASS",
+          "graphify": "PASS"
+        },
+        {
+          "id": "durable-package",
+          "ontoly": "PASS",
+          "graphify": "FAIL"
+        },
+        {
+          "id": "durable-ci-env",
+          "ontoly": "PASS",
+          "graphify": "FAIL"
+        },
+        {
+          "id": "durable-indexeddb-dependency",
+          "ontoly": "PASS",
+          "graphify": "FAIL"
+        },
+        {
+          "id": "durable-open-database-call",
+          "ontoly": "PASS",
+          "graphify": "PASS"
+        }
+      ]
+    },
+    {
+      "repository": "ghost",
+      "ontoly": {
+        "questions": 6,
+        "pass": 6,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.018,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 6,
+        "pass": 3,
+        "partial": 0,
+        "fail": 3,
+        "exactMatchRate": 50,
+        "precision": 50,
+        "recall": 50,
+        "confidence": 50,
+        "latencyMs": 0.012,
+        "semanticUnderstandingScore": 50
+      },
+      "questions": [
+        {
+          "id": "ghost-create-entrypoint",
+          "ontoly": "PASS",
+          "graphify": "FAIL"
+        },
+        {
+          "id": "ghost-interface",
+          "ontoly": "PASS",
+          "graphify": "PASS"
+        },
+        {
+          "id": "ghost-error-class",
+          "ontoly": "PASS",
+          "graphify": "PASS"
+        },
+        {
+          "id": "ghost-ci-env",
+          "ontoly": "PASS",
+          "graphify": "FAIL"
+        },
+        {
+          "id": "ghost-package",
+          "ontoly": "PASS",
+          "graphify": "FAIL"
+        },
+        {
+          "id": "ghost-load-create-call",
+          "ontoly": "PASS",
+          "graphify": "PASS"
+        }
+      ]
+    },
+    {
+      "repository": "innosphere",
+      "ontoly": {
+        "questions": 6,
+        "pass": 6,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.178,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 6,
+        "pass": 5,
+        "partial": 0,
+        "fail": 1,
+        "exactMatchRate": 83.33,
+        "precision": 83.33,
+        "recall": 83.33,
+        "confidence": 83.33,
+        "latencyMs": 0.122,
+        "semanticUnderstandingScore": 83.33
+      },
+      "questions": [
+        {
+          "id": "innosphere-auth-controller",
+          "ontoly": "PASS",
+          "graphify": "PASS"
+        },
+        {
+          "id": "innosphere-auth-me-route",
+          "ontoly": "PASS",
+          "graphify": "FAIL"
+        },
+        {
+          "id": "innosphere-auth-module",
+          "ontoly": "PASS",
+          "graphify": "PASS"
+        },
+        {
+          "id": "innosphere-database-url",
+          "ontoly": "PASS",
+          "graphify": "PASS"
+        },
+        {
+          "id": "innosphere-ovok-service",
+          "ontoly": "PASS",
+          "graphify": "PASS"
+        },
+        {
+          "id": "innosphere-app-module",
+          "ontoly": "PASS",
+          "graphify": "PASS"
+        }
+      ]
+    },
+    {
+      "repository": "ovok-core",
+      "ontoly": {
+        "questions": 6,
+        "pass": 6,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.545,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 6,
+        "pass": 3,
+        "partial": 0,
+        "fail": 3,
+        "exactMatchRate": 50,
+        "precision": 50,
+        "recall": 50,
+        "confidence": 50,
+        "latencyMs": 0.635,
+        "semanticUnderstandingScore": 50
+      },
+      "questions": [
+        {
+          "id": "ovok-auth-controller",
+          "ontoly": "PASS",
+          "graphify": "PASS"
+        },
+        {
+          "id": "ovok-auth-service",
+          "ontoly": "PASS",
+          "graphify": "PASS"
+        },
+        {
+          "id": "ovok-auth-di",
+          "ontoly": "PASS",
+          "graphify": "FAIL"
+        },
+        {
+          "id": "ovok-fhir-route",
+          "ontoly": "PASS",
+          "graphify": "FAIL"
+        },
+        {
+          "id": "ovok-auth-module",
+          "ontoly": "PASS",
+          "graphify": "PASS"
+        },
+        {
+          "id": "ovok-fhir-default-env",
+          "ontoly": "PASS",
+          "graphify": "FAIL"
+        }
+      ]
+    }
+  ],
+  "aggregate": {
+    "ontoly": {
+      "questions": 29,
+      "pass": 29,
+      "partial": 0,
+      "fail": 0,
+      "exactMatchRate": 100,
+      "precision": 100,
+      "recall": 100,
+      "confidence": 100,
+      "latencyMs": 0.337,
+      "semanticUnderstandingScore": 100
+    },
+    "graphify": {
+      "questions": 29,
+      "pass": 16,
+      "partial": 0,
+      "fail": 13,
+      "exactMatchRate": 55.17,
+      "precision": 55.17,
+      "recall": 55.17,
+      "confidence": 55.17,
+      "latencyMs": 0.172,
+      "semanticUnderstandingScore": 55.17
+    },
+    "categoryScores": [
+      {
+        "category": "Functions",
+        "ontoly": {
+          "questions": 2,
+          "pass": 2,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.031,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 2,
+          "pass": 0,
+          "partial": 0,
+          "fail": 2,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.004,
+          "semanticUnderstandingScore": 0
+        }
+      },
+      {
+        "category": "Classes",
+        "ontoly": {
+          "questions": 1,
+          "pass": 1,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.006,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 1,
+          "pass": 1,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.015,
+          "semanticUnderstandingScore": 100
+        }
+      },
+      {
+        "category": "Interfaces",
+        "ontoly": {
+          "questions": 2,
+          "pass": 2,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.011,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 2,
+          "pass": 2,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.014,
+          "semanticUnderstandingScore": 100
+        }
+      },
+      {
+        "category": "Routes",
+        "ontoly": {
+          "questions": 2,
+          "pass": 2,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.266,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 2,
+          "pass": 0,
+          "partial": 0,
+          "fail": 2,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.148,
+          "semanticUnderstandingScore": 0
+        }
+      },
+      {
+        "category": "Controllers",
+        "ontoly": {
+          "questions": 2,
+          "pass": 2,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.534,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 2,
+          "pass": 2,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.202,
+          "semanticUnderstandingScore": 100
+        }
+      },
+      {
+        "category": "Services",
+        "ontoly": {
+          "questions": 2,
+          "pass": 2,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.161,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 2,
+          "pass": 2,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.208,
+          "semanticUnderstandingScore": 100
+        }
+      },
+      {
+        "category": "Modules",
+        "ontoly": {
+          "questions": 3,
+          "pass": 3,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.38,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 3,
+          "pass": 3,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.567,
+          "semanticUnderstandingScore": 100
+        }
+      },
+      {
+        "category": "Packages",
+        "ontoly": {
+          "questions": 4,
+          "pass": 4,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.063,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 4,
+          "pass": 2,
+          "partial": 0,
+          "fail": 2,
+          "exactMatchRate": 50,
+          "precision": 50,
+          "recall": 50,
+          "confidence": 50,
+          "latencyMs": 0.039,
+          "semanticUnderstandingScore": 50
+        }
+      },
+      {
+        "category": "Dependency Injection",
+        "ontoly": {
+          "questions": 2,
+          "pass": 2,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.413,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 2,
+          "pass": 0,
+          "partial": 0,
+          "fail": 2,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.536,
+          "semanticUnderstandingScore": 0
+        }
+      },
+      {
+        "category": "Environment Variables",
+        "ontoly": {
+          "questions": 3,
+          "pass": 3,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.154,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 3,
+          "pass": 0,
+          "partial": 0,
+          "fail": 3,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.18,
+          "semanticUnderstandingScore": 0
+        }
+      },
+      {
+        "category": "Call Graph",
+        "ontoly": {
+          "questions": 2,
+          "pass": 2,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.036,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 2,
+          "pass": 2,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.022,
+          "semanticUnderstandingScore": 100
+        }
+      },
+      {
+        "category": "Workspace",
+        "ontoly": {
+          "questions": 1,
+          "pass": 1,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.028,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 1,
+          "pass": 0,
+          "partial": 0,
+          "fail": 1,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.034,
+          "semanticUnderstandingScore": 0
+        }
+      },
+      {
+        "category": "Database",
+        "ontoly": {
+          "questions": 1,
+          "pass": 1,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.072,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 1,
+          "pass": 1,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.135,
+          "semanticUnderstandingScore": 100
+        }
+      },
+      {
+        "category": "Architecture",
+        "ontoly": {
+          "questions": 2,
+          "pass": 2,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 2.457,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 2,
+          "pass": 1,
+          "partial": 0,
+          "fail": 1,
+          "exactMatchRate": 50,
+          "precision": 50,
+          "recall": 50,
+          "confidence": 50,
+          "latencyMs": 0.075,
+          "semanticUnderstandingScore": 50
+        }
+      }
+    ]
+  }
+}

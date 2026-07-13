@@ -1,0 +1,18 @@
+{
+  "analyzer": "workspace",
+  "semanticCoverage": 70,
+  "trust": 80,
+  "graphSizeBytes": {
+    "min": 1000000,
+    "max": 250000000
+  },
+  "nodeRange": {
+    "min": 1000,
+    "max": 250000
+  },
+  "edgeRange": {
+    "min": 1000,
+    "max": 500000
+  },
+  "diagnosticsMax": 500
+}

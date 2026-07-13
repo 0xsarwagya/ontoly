@@ -1,0 +1,102 @@
+- id: ovok-auth-controller
+  repository: ovok-core
+  category: Controllers
+  evaluator: FindController
+  question: Which controller handles authentication?
+  selector:
+    nodeTypes:
+      - Controller
+    terms:
+      - AuthController
+    exactTerms: true
+  expected:
+    exact:
+      - AuthController
+    nodes:
+      - type: Controller
+        name: AuthController
+
+- id: ovok-auth-service
+  repository: ovok-core
+  category: Services
+  evaluator: FindProvider
+  question: Which service backs the authentication controller?
+  selector:
+    nodeTypes:
+      - Service
+    terms:
+      - AuthService
+    exactTerms: true
+  expected:
+    exact:
+      - AuthService
+    nodes:
+      - type: Service
+        name: AuthService
+
+- id: ovok-auth-di
+  repository: ovok-core
+  category: Dependency Injection
+  evaluator: FindDependency
+  question: Is AuthService injected into AuthController?
+  selector:
+    edgeTypes:
+      - INJECTS
+    from: AuthController
+    to: AuthService
+    exactTerms: true
+  expected:
+    exact:
+      - AuthController -> AuthService
+    edges:
+      - type: INJECTS
+        from: AuthController
+        to: AuthService
+
+- id: ovok-fhir-route
+  repository: ovok-core
+  category: Routes
+  evaluator: FindRoute
+  question: Which route handles the FHIR R4 proxy?
+  selector:
+    nodeTypes:
+      - Route
+    terms:
+      - ALL:/fhir/R4
+    exactTerms: true
+  expected:
+    exact:
+      - ALL:/fhir/R4
+    nodes:
+      - type: Route
+        name: ALL:/fhir/R4
+
+- id: ovok-auth-module
+  repository: ovok-core
+  category: Modules
+  evaluator: FindModule
+  question: Which Nest module owns the authentication area?
+  selector:
+    nodeTypes:
+      - Module
+    terms:
+      - AuthModule
+    exactTerms: true
+  expected:
+    exact:
+      - AuthModule
+
+- id: ovok-fhir-default-env
+  repository: ovok-core
+  category: Environment Variables
+  evaluator: FindEnvironmentVariable
+  question: Which environment variable controls the default FHIR version?
+  selector:
+    nodeTypes:
+      - EnvironmentVariable
+    terms:
+      - FHIR_DEFAULT_VERSION
+    exactTerms: true
+  expected:
+    exact:
+      - FHIR_DEFAULT_VERSION

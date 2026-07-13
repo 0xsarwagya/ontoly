@@ -1,0 +1,39 @@
+{
+  "repositories": [
+    {
+      "id": "ovok-core",
+      "status": "PASS",
+      "gate": "PASS",
+      "failures": [],
+      "warnings": []
+    },
+    {
+      "id": "0xsarwagya",
+      "status": "PASS",
+      "gate": "PASS",
+      "failures": [],
+      "warnings": []
+    },
+    {
+      "id": "innosphere",
+      "status": "PASS",
+      "gate": "PASS",
+      "failures": [],
+      "warnings": []
+    },
+    {
+      "id": "ghost",
+      "status": "PASS",
+      "gate": "PASS",
+      "failures": [],
+      "warnings": []
+    },
+    {
+      "id": "durable-local",
+      "status": "PASS",
+      "gate": "PASS",
+      "failures": [],
+      "warnings": []
+    }
+  ]
+}

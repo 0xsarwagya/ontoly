@@ -1,0 +1,212 @@
+{
+  "status": "PASS",
+  "generatedAt": "2026-07-13T15:36:54.265Z",
+  "totalSkills": 14,
+  "passedSkills": 14,
+  "aggregate": {
+    "usesOntoly": 100,
+    "usesMcp": 100,
+    "avoidsUnnecessarySearch": 100,
+    "producesEvidence": 100,
+    "producesConfidence": 100,
+    "fallsBackGracefully": 100
+  },
+  "skills": [
+    {
+      "skill": "architecture-review",
+      "status": "PASS",
+      "score": 100,
+      "checks": {
+        "usesOntoly": true,
+        "usesMcp": true,
+        "avoidsUnnecessarySearch": true,
+        "producesEvidence": true,
+        "producesConfidence": true,
+        "fallsBackGracefully": true
+      }
+    },
+    {
+      "skill": "codebase-onboarding",
+      "status": "PASS",
+      "score": 100,
+      "checks": {
+        "usesOntoly": true,
+        "usesMcp": true,
+        "avoidsUnnecessarySearch": true,
+        "producesEvidence": true,
+        "producesConfidence": true,
+        "fallsBackGracefully": true
+      }
+    },
+    {
+      "skill": "configuration-analysis",
+      "status": "PASS",
+      "score": 100,
+      "checks": {
+        "usesOntoly": true,
+        "usesMcp": true,
+        "avoidsUnnecessarySearch": true,
+        "producesEvidence": true,
+        "producesConfidence": true,
+        "fallsBackGracefully": true
+      }
+    },
+    {
+      "skill": "dead-code-analysis",
+      "status": "PASS",
+      "score": 100,
+      "checks": {
+        "usesOntoly": true,
+        "usesMcp": true,
+        "avoidsUnnecessarySearch": true,
+        "producesEvidence": true,
+        "producesConfidence": true,
+        "fallsBackGracefully": true
+      }
+    },
+    {
+      "skill": "dependency-analysis",
+      "status": "PASS",
+      "score": 100,
+      "checks": {
+        "usesOntoly": true,
+        "usesMcp": true,
+        "avoidsUnnecessarySearch": true,
+        "producesEvidence": true,
+        "producesConfidence": true,
+        "fallsBackGracefully": true
+      }
+    },
+    {
+      "skill": "documentation",
+      "status": "PASS",
+      "score": 100,
+      "checks": {
+        "usesOntoly": true,
+        "usesMcp": true,
+        "avoidsUnnecessarySearch": true,
+        "producesEvidence": true,
+        "producesConfidence": true,
+        "fallsBackGracefully": true
+      }
+    },
+    {
+      "skill": "framework-analysis",
+      "status": "PASS",
+      "score": 100,
+      "checks": {
+        "usesOntoly": true,
+        "usesMcp": true,
+        "avoidsUnnecessarySearch": true,
+        "producesEvidence": true,
+        "producesConfidence": true,
+        "fallsBackGracefully": true
+      }
+    },
+    {
+      "skill": "impact-analysis",
+      "status": "PASS",
+      "score": 100,
+      "checks": {
+        "usesOntoly": true,
+        "usesMcp": true,
+        "avoidsUnnecessarySearch": true,
+        "producesEvidence": true,
+        "producesConfidence": true,
+        "fallsBackGracefully": true
+      }
+    },
+    {
+      "skill": "migration-analysis",
+      "status": "PASS",
+      "score": 100,
+      "checks": {
+        "usesOntoly": true,
+        "usesMcp": true,
+        "avoidsUnnecessarySearch": true,
+        "producesEvidence": true,
+        "producesConfidence": true,
+        "fallsBackGracefully": true
+      }
+    },
+    {
+      "skill": "performance-analysis",
+      "status": "PASS",
+      "score": 100,
+      "checks": {
+        "usesOntoly": true,
+        "usesMcp": true,
+        "avoidsUnnecessarySearch": true,
+        "producesEvidence": true,
+        "producesConfidence": true,
+        "fallsBackGracefully": true
+      }
+    },
+    {
+      "skill": "refactoring",
+      "status": "PASS",
+      "score": 100,
+      "checks": {
+        "usesOntoly": true,
+        "usesMcp": true,
+        "avoidsUnnecessarySearch": true,
+        "producesEvidence": true,
+        "producesConfidence": true,
+        "fallsBackGracefully": true
+      }
+    },
+    {
+      "skill": "request-tracing",
+      "status": "PASS",
+      "score": 100,
+      "checks": {
+        "usesOntoly": true,
+        "usesMcp": true,
+        "avoidsUnnecessarySearch": true,
+        "producesEvidence": true,
+        "producesConfidence": true,
+        "fallsBackGracefully": true
+      }
+    },
+    {
+      "skill": "sdk-generation",
+      "status": "PASS",
+      "score": 100,
+      "checks": {
+        "usesOntoly": true,
+        "usesMcp": true,
+        "avoidsUnnecessarySearch": true,
+        "producesEvidence": true,
+        "producesConfidence": true,
+        "fallsBackGracefully": true
+      }
+    },
+    {
+      "skill": "security-review",
+      "status": "PASS",
+      "score": 100,
+      "checks": {
+        "usesOntoly": true,
+        "usesMcp": true,
+        "avoidsUnnecessarySearch": true,
+        "producesEvidence": true,
+        "producesConfidence": true,
+        "fallsBackGracefully": true
+      }
+    }
+  ],
+  "regression": {
+    "status": "PASS",
+    "previous": {
+      "totalSkills": 14,
+      "passedSkills": 14,
+      "averageScore": 100
+    },
+    "current": {
+      "totalSkills": 14,
+      "passedSkills": 14,
+      "averageScore": 100
+    },
+    "changes": []
+  }
+}

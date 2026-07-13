@@ -1,0 +1,2096 @@
+{
+  "repository": {
+    "slug": "0xsarwagya",
+    "name": "0xsarwagya",
+    "requestedPath": "/Users/shrey/Desktop/personal/0xsarwagya",
+    "actualPath": "/Users/shrey/Desktop/personal/0xsarwagya",
+    "pathSubstitution": null
+  },
+  "status": "partial",
+  "generatedAt": "2026-07-13T12:13:23.182Z",
+  "measured": {
+    "note": "Counts and timings are measured from generated artifacts. Strengths, weaknesses, and recommendations are inferred from normalized counts, diagnostics, and coverage metrics.",
+    "ontolyStatus": "success",
+    "graphifyStatus": "success_with_fallback",
+    "graphifyMode": "structural-code-projection"
+  },
+  "repositorySummary": {
+    "slug": "0xsarwagya",
+    "name": "0xsarwagya",
+    "requestedPath": "/Users/shrey/Desktop/personal/0xsarwagya",
+    "actualPath": "/Users/shrey/Desktop/personal/0xsarwagya",
+    "pathSubstitution": null,
+    "packageName": "internet",
+    "packageManager": "pnpm",
+    "packageJsonCount": 10,
+    "workspacePackages": [],
+    "files": {
+      "total": 446,
+      "source": 189,
+      "typescript": 124,
+      "documentation": 206,
+      "byExtension": {
+        ".css": 7,
+        ".ico": 5,
+        ".jpg": 9,
+        ".js": 13,
+        ".json": 39,
+        ".local": 1,
+        ".md": 6,
+        ".mdx": 200,
+        ".mjs": 9,
+        ".svg": 17,
+        ".ts": 44,
+        ".tsx": 80,
+        ".woff": 5,
+        ".yaml": 2,
+        ".yml": 2,
+        "(none)": 7
+      }
+    },
+    "frameworks": [
+      {
+        "name": "Next.js",
+        "confidence": "exact",
+        "evidence": [
+          "next"
+        ]
+      },
+      {
+        "name": "React",
+        "confidence": "exact",
+        "evidence": [
+          "react",
+          "react-dom"
+        ]
+      },
+      {
+        "name": "Turborepo",
+        "confidence": "exact",
+        "evidence": [
+          "turbo",
+          "turbo.json"
+        ]
+      }
+    ],
+    "dependencies": [
+      "@0xsarwagya/agnostic-web-ble",
+      "@0xsarwagya/durable-local",
+      "@0xsarwagya/ghost",
+      "@0xsarwagya/handoff",
+      "@0xsarwagya/ui",
+      "@eslint/js",
+      "@mdx-js/loader",
+      "@mdx-js/react",
+      "@next/eslint-plugin-next",
+      "@next/mdx",
+      "@react-three/drei",
+      "@react-three/fiber",
+      "@repo/eslint-config",
+      "@repo/seo",
+      "@repo/typescript-config",
+      "@tailwindcss/postcss",
+      "@types/mdx",
+      "@types/node",
+      "@types/react",
+      "@types/react-dom",
+      "@types/three",
+      "eslint",
+      "eslint-config-prettier",
+      "eslint-plugin-only-warn",
+      "eslint-plugin-react",
+      "eslint-plugin-react-hooks",
+      "eslint-plugin-turbo",
+      "framer-motion",
+      "globals",
+      "gray-matter",
+      "lenis",
+      "next",
+      "postcss",
+      "prettier",
+      "react",
+      "react-dom",
+      "rehype-pretty-code",
+      "remark-frontmatter",
+      "remark-gfm",
+      "shiki",
+      "tailwindcss",
+      "three",
+      "turbo",
+      "typescript",
+      "typescript-eslint",
+      "uqr"
+    ]
+  },
+  "graphStatistics": {
+    "ontoly": {
+      "files": 6842,
+      "nodes": 1202,
+      "edges": 2082,
+      "diagnostics": 13,
+      "nodesByType": {
+        "BuildTarget": 7,
+        "Configuration": 44,
+        "Dependency": 46,
+        "Exception": 1,
+        "Export": 187,
+        "Framework": 2,
+        "Function": 205,
+        "Import": 370,
+        "Job": 3,
+        "Module": 140,
+        "Package": 29,
+        "Pipeline": 1,
+        "Script": 35,
+        "Step": 8,
+        "Task": 39,
+        "TypeAlias": 82,
+        "Workflow": 2,
+        "Workspace": 1
+      },
+      "edgesByType": {
+        "CALLS": 201,
+        "CONFIGURES": 37,
+        "CONTAINS": 951,
+        "CREATES": 4,
+        "DEPENDS_ON": 156,
+        "EXECUTES": 35,
+        "EXPORTS": 186,
+        "IMPORTS": 300,
+        "PROVIDES": 2,
+        "RETURNS": 53,
+        "THROWS": 2,
+        "USES": 155
+      },
+      "parserVersions": {
+        "openapi": "1.0.0",
+        "typescript": "5.9.2",
+        "repository": "1.0.0"
+      },
+      "deterministicHash": "02tafm2"
+    },
+    "graphify": {
+      "nodes": 1071,
+      "edges": 1811,
+      "hyperedges": 0,
+      "directed": null,
+      "multigraph": null,
+      "nodesByFileType": {
+        "code": 1071
+      },
+      "concepts": {
+        "Classes": 86,
+        "Configuration": 31,
+        "Environment Variables": 27,
+        "Functions": 215,
+        "Interfaces": 1,
+        "Modules": 146
+      },
+      "relations": {
+        "calls": 104,
+        "contains": 882,
+        "extends": 55,
+        "imports": 353,
+        "imports_from": 399,
+        "re_exports": 18
+      },
+      "semanticRelationships": {
+        "CALLS": 104,
+        "CONTAINS": 882,
+        "EXTENDS": 55,
+        "IMPORTS": 353
+      }
+    },
+    "ontolyCoverage": {
+      "coverage": 95,
+      "confidence": 90,
+      "completeness": 95,
+      "consistency": 100,
+      "trustworthiness": 95
+    },
+    "ontolyQuality": {
+      "coverage": 95,
+      "confidence": 90,
+      "completeness": 95,
+      "consistency": 100,
+      "trustworthiness": 95
+    },
+    "graphifyDiagnostics": [
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_EXIT_NONZERO",
+        "message": "Graphify exited with code 1.",
+        "source": "graphify"
+      },
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_FULL_REQUIRES_LLM",
+        "message": "Full Graphify extraction required an LLM backend for repository docs/images.",
+        "source": "graphify"
+      },
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
+        "message": "Graphify comparison uses a code-only projection with 185 files.",
+        "source": "validation harness"
+      }
+    ],
+    "ontolyDiagnostics": [
+      {
+        "id": "diag:typescript_broken_import:046u067",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./routes.js\" from apps/oss/.next/dev/types/validator.ts.",
+        "span": {
+          "file": "apps/oss/.next/dev/types/validator.ts",
+          "startLine": 5,
+          "startColumn": 1,
+          "endLine": 5,
+          "endColumn": 92
+        },
+        "metadata": {
+          "file": "apps/oss/.next/dev/types/validator.ts",
+          "specifier": "./routes.js",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:073t1yx",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./globals.css\" from apps/oss/app/layout.tsx.",
+        "span": {
+          "file": "apps/oss/app/layout.tsx",
+          "startLine": 5,
+          "startColumn": 1,
+          "endLine": 5,
+          "endColumn": 24
+        },
+        "metadata": {
+          "file": "apps/oss/app/layout.tsx",
+          "specifier": "./globals.css",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:0agw9xr",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./routes.js\" from apps/me/.next/dev/types/validator.ts.",
+        "span": {
+          "file": "apps/me/.next/dev/types/validator.ts",
+          "startLine": 5,
+          "startColumn": 1,
+          "endLine": 5,
+          "endColumn": 69
+        },
+        "metadata": {
+          "file": "apps/me/.next/dev/types/validator.ts",
+          "specifier": "./routes.js",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:0d6b9lp",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./routes.js\" from apps/web/.next/dev/types/validator.ts.",
+        "span": {
+          "file": "apps/web/.next/dev/types/validator.ts",
+          "startLine": 5,
+          "startColumn": 1,
+          "endLine": 5,
+          "endColumn": 69
+        },
+        "metadata": {
+          "file": "apps/web/.next/dev/types/validator.ts",
+          "specifier": "./routes.js",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:0g71jix",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./routes.js\" from apps/web/.next/types/validator.ts.",
+        "span": {
+          "file": "apps/web/.next/types/validator.ts",
+          "startLine": 5,
+          "startColumn": 1,
+          "endLine": 5,
+          "endColumn": 69
+        },
+        "metadata": {
+          "file": "apps/web/.next/types/validator.ts",
+          "specifier": "./routes.js",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:0m3pxx7",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./routes.js\" from apps/bakaiti/.next/types/validator.ts.",
+        "span": {
+          "file": "apps/bakaiti/.next/types/validator.ts",
+          "startLine": 5,
+          "startColumn": 1,
+          "endLine": 5,
+          "endColumn": 92
+        },
+        "metadata": {
+          "file": "apps/bakaiti/.next/types/validator.ts",
+          "specifier": "./routes.js",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:107u8qp",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./routes.js\" from apps/eng/.next/types/validator.ts.",
+        "span": {
+          "file": "apps/eng/.next/types/validator.ts",
+          "startLine": 5,
+          "startColumn": 1,
+          "endLine": 5,
+          "endColumn": 92
+        },
+        "metadata": {
+          "file": "apps/eng/.next/types/validator.ts",
+          "specifier": "./routes.js",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:13u7qyf",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./routes.js\" from apps/oss/.next/types/validator.ts.",
+        "span": {
+          "file": "apps/oss/.next/types/validator.ts",
+          "startLine": 5,
+          "startColumn": 1,
+          "endLine": 5,
+          "endColumn": 92
+        },
+        "metadata": {
+          "file": "apps/oss/.next/types/validator.ts",
+          "specifier": "./routes.js",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:17vrw2z",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./routes.js\" from apps/me/.next/types/validator.ts.",
+        "span": {
+          "file": "apps/me/.next/types/validator.ts",
+          "startLine": 5,
+          "startColumn": 1,
+          "endLine": 5,
+          "endColumn": 69
+        },
+        "metadata": {
+          "file": "apps/me/.next/types/validator.ts",
+          "specifier": "./routes.js",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:1arth57",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./globals.css\" from apps/eng/app/layout.tsx.",
+        "span": {
+          "file": "apps/eng/app/layout.tsx",
+          "startLine": 5,
+          "startColumn": 1,
+          "endLine": 5,
+          "endColumn": 24
+        },
+        "metadata": {
+          "file": "apps/eng/app/layout.tsx",
+          "specifier": "./globals.css",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:1g4qd5n",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./globals.css\" from apps/web/app/layout.tsx.",
+        "span": {
+          "file": "apps/web/app/layout.tsx",
+          "startLine": 5,
+          "startColumn": 1,
+          "endLine": 5,
+          "endColumn": 24
+        },
+        "metadata": {
+          "file": "apps/web/app/layout.tsx",
+          "specifier": "./globals.css",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:1jgl3b9",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./globals.css\" from apps/bakaiti/app/layout.tsx.",
+        "span": {
+          "file": "apps/bakaiti/app/layout.tsx",
+          "startLine": 5,
+          "startColumn": 1,
+          "endLine": 5,
+          "endColumn": 24
+        },
+        "metadata": {
+          "file": "apps/bakaiti/app/layout.tsx",
+          "specifier": "./globals.css",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:1vd2yfx",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./globals.css\" from apps/me/app/layout.tsx.",
+        "span": {
+          "file": "apps/me/app/layout.tsx",
+          "startLine": 5,
+          "startColumn": 1,
+          "endLine": 5,
+          "endColumn": 24
+        },
+        "metadata": {
+          "file": "apps/me/app/layout.tsx",
+          "specifier": "./globals.css",
+          "analyzer": "typescript"
+        }
+      }
+    ],
+    "ontolyGraphValidation": {
+      "ok": true,
+      "issues": [
+        {
+          "code": "SELF_RELATIONSHIP",
+          "message": "Edge edge:depends_on:1a5l19k creates a DEPENDS_ON relationship from a node to itself.",
+          "severity": "warning"
+        },
+        {
+          "code": "SELF_RELATIONSHIP",
+          "message": "Edge edge:depends_on:1o7e7rg creates a DEPENDS_ON relationship from a node to itself.",
+          "severity": "warning"
+        },
+        {
+          "code": "SELF_RELATIONSHIP",
+          "message": "Edge edge:depends_on:1vlp350 creates a DEPENDS_ON relationship from a node to itself.",
+          "severity": "warning"
+        }
+      ]
+    }
+  },
+  "normalized": {
+    "ontoly": {
+      "concepts": {
+        "Configuration": 44,
+        "Functions": 205,
+        "Modules": 140,
+        "Packages": 29
+      },
+      "relationships": {
+        "CALLS": 201,
+        "CONTAINS": 951,
+        "CREATES": 4,
+        "DEPENDS_ON": 156,
+        "EXPORTS": 186,
+        "IMPORTS": 300,
+        "RETURNS": 53,
+        "THROWS": 2,
+        "USES": 155
+      },
+      "frameworks": [
+        {
+          "name": "Next.js",
+          "confidence": "exact",
+          "coverage": 10,
+          "evidence": [
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next",
+            "next/dynamic",
+            "next/dynamic",
+            "next/font/google",
+            "next/font/google",
+            "next/font/google",
+            "next/font/google",
+            "next/font/google",
+            "next/font/local",
+            "next/font/local",
+            "next/font/local",
+            "next/font/local",
+            "next/font/local",
+            "next/image",
+            "next/link",
+            "next/link",
+            "next/link",
+            "next/link",
+            "next/link",
+            "next/link",
+            "next/link",
+            "next/link",
+            "next/link",
+            "next/link",
+            "next/link",
+            "next/link",
+            "next/link",
+            "next/link",
+            "next/link",
+            "next/link",
+            "next/link",
+            "next/navigation",
+            "next/navigation",
+            "next/navigation",
+            "next/navigation",
+            "next/navigation",
+            "next/navigation",
+            "next/navigation",
+            "next/navigation",
+            "next/og",
+            "next/og",
+            "next/server.js",
+            "next/server.js",
+            "next/server.js",
+            "next/server.js",
+            "next/types.js",
+            "next/types.js",
+            "next/types.js",
+            "next/types.js",
+            "next/types.js",
+            "next/types.js",
+            "next/types.js",
+            "next/types.js"
+          ]
+        },
+        {
+          "name": "React",
+          "confidence": "exact",
+          "coverage": 10,
+          "evidence": [
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react"
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "id": "diag:typescript_broken_import:046u067",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./routes.js\" from apps/oss/.next/dev/types/validator.ts.",
+          "span": {
+            "file": "apps/oss/.next/dev/types/validator.ts",
+            "startLine": 5,
+            "startColumn": 1,
+            "endLine": 5,
+            "endColumn": 92
+          },
+          "metadata": {
+            "file": "apps/oss/.next/dev/types/validator.ts",
+            "specifier": "./routes.js",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:073t1yx",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./globals.css\" from apps/oss/app/layout.tsx.",
+          "span": {
+            "file": "apps/oss/app/layout.tsx",
+            "startLine": 5,
+            "startColumn": 1,
+            "endLine": 5,
+            "endColumn": 24
+          },
+          "metadata": {
+            "file": "apps/oss/app/layout.tsx",
+            "specifier": "./globals.css",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:0agw9xr",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./routes.js\" from apps/me/.next/dev/types/validator.ts.",
+          "span": {
+            "file": "apps/me/.next/dev/types/validator.ts",
+            "startLine": 5,
+            "startColumn": 1,
+            "endLine": 5,
+            "endColumn": 69
+          },
+          "metadata": {
+            "file": "apps/me/.next/dev/types/validator.ts",
+            "specifier": "./routes.js",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:0d6b9lp",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./routes.js\" from apps/web/.next/dev/types/validator.ts.",
+          "span": {
+            "file": "apps/web/.next/dev/types/validator.ts",
+            "startLine": 5,
+            "startColumn": 1,
+            "endLine": 5,
+            "endColumn": 69
+          },
+          "metadata": {
+            "file": "apps/web/.next/dev/types/validator.ts",
+            "specifier": "./routes.js",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:0g71jix",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./routes.js\" from apps/web/.next/types/validator.ts.",
+          "span": {
+            "file": "apps/web/.next/types/validator.ts",
+            "startLine": 5,
+            "startColumn": 1,
+            "endLine": 5,
+            "endColumn": 69
+          },
+          "metadata": {
+            "file": "apps/web/.next/types/validator.ts",
+            "specifier": "./routes.js",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:0m3pxx7",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./routes.js\" from apps/bakaiti/.next/types/validator.ts.",
+          "span": {
+            "file": "apps/bakaiti/.next/types/validator.ts",
+            "startLine": 5,
+            "startColumn": 1,
+            "endLine": 5,
+            "endColumn": 92
+          },
+          "metadata": {
+            "file": "apps/bakaiti/.next/types/validator.ts",
+            "specifier": "./routes.js",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:107u8qp",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./routes.js\" from apps/eng/.next/types/validator.ts.",
+          "span": {
+            "file": "apps/eng/.next/types/validator.ts",
+            "startLine": 5,
+            "startColumn": 1,
+            "endLine": 5,
+            "endColumn": 92
+          },
+          "metadata": {
+            "file": "apps/eng/.next/types/validator.ts",
+            "specifier": "./routes.js",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:13u7qyf",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./routes.js\" from apps/oss/.next/types/validator.ts.",
+          "span": {
+            "file": "apps/oss/.next/types/validator.ts",
+            "startLine": 5,
+            "startColumn": 1,
+            "endLine": 5,
+            "endColumn": 92
+          },
+          "metadata": {
+            "file": "apps/oss/.next/types/validator.ts",
+            "specifier": "./routes.js",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:17vrw2z",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./routes.js\" from apps/me/.next/types/validator.ts.",
+          "span": {
+            "file": "apps/me/.next/types/validator.ts",
+            "startLine": 5,
+            "startColumn": 1,
+            "endLine": 5,
+            "endColumn": 69
+          },
+          "metadata": {
+            "file": "apps/me/.next/types/validator.ts",
+            "specifier": "./routes.js",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:1arth57",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./globals.css\" from apps/eng/app/layout.tsx.",
+          "span": {
+            "file": "apps/eng/app/layout.tsx",
+            "startLine": 5,
+            "startColumn": 1,
+            "endLine": 5,
+            "endColumn": 24
+          },
+          "metadata": {
+            "file": "apps/eng/app/layout.tsx",
+            "specifier": "./globals.css",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:1g4qd5n",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./globals.css\" from apps/web/app/layout.tsx.",
+          "span": {
+            "file": "apps/web/app/layout.tsx",
+            "startLine": 5,
+            "startColumn": 1,
+            "endLine": 5,
+            "endColumn": 24
+          },
+          "metadata": {
+            "file": "apps/web/app/layout.tsx",
+            "specifier": "./globals.css",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:1jgl3b9",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./globals.css\" from apps/bakaiti/app/layout.tsx.",
+          "span": {
+            "file": "apps/bakaiti/app/layout.tsx",
+            "startLine": 5,
+            "startColumn": 1,
+            "endLine": 5,
+            "endColumn": 24
+          },
+          "metadata": {
+            "file": "apps/bakaiti/app/layout.tsx",
+            "specifier": "./globals.css",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:1vd2yfx",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./globals.css\" from apps/me/app/layout.tsx.",
+          "span": {
+            "file": "apps/me/app/layout.tsx",
+            "startLine": 5,
+            "startColumn": 1,
+            "endLine": 5,
+            "endColumn": 24
+          },
+          "metadata": {
+            "file": "apps/me/app/layout.tsx",
+            "specifier": "./globals.css",
+            "analyzer": "typescript"
+          }
+        }
+      ]
+    },
+    "graphify": {
+      "concepts": {
+        "Classes": 86,
+        "Configuration": 31,
+        "Environment Variables": 27,
+        "Functions": 215,
+        "Interfaces": 1,
+        "Modules": 146
+      },
+      "relationships": {
+        "CALLS": 104,
+        "CONTAINS": 882,
+        "EXTENDS": 55,
+        "IMPORTS": 353
+      },
+      "frameworks": [
+        {
+          "name": "Next.js",
+          "confidence": "inferred",
+          "evidence": [
+            "next.config",
+            "nextjs",
+            "next.js"
+          ]
+        },
+        {
+          "name": "React",
+          "confidence": "inferred",
+          "evidence": [
+            "react",
+            ".tsx"
+          ]
+        },
+        {
+          "name": "Turborepo",
+          "confidence": "low",
+          "evidence": [
+            "turbo.json"
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_EXIT_NONZERO",
+          "message": "Graphify exited with code 1.",
+          "source": "graphify"
+        },
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_FULL_REQUIRES_LLM",
+          "message": "Full Graphify extraction required an LLM backend for repository docs/images.",
+          "source": "graphify"
+        },
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
+          "message": "Graphify comparison uses a code-only projection with 185 files.",
+          "source": "validation harness"
+        }
+      ]
+    }
+  },
+  "semanticComparison": [
+    {
+      "concept": "Functions",
+      "relationship": "Functions",
+      "ontoly": 205,
+      "graphify": 215,
+      "delta": -10,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "supported"
+    },
+    {
+      "concept": "Methods",
+      "relationship": "Methods",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "Classes",
+      "relationship": "Classes",
+      "ontoly": 0,
+      "graphify": 86,
+      "delta": -86,
+      "supported": false,
+      "missing": [
+        "ontoly"
+      ],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "ontoly_missing"
+    },
+    {
+      "concept": "Interfaces",
+      "relationship": "Interfaces",
+      "ontoly": 0,
+      "graphify": 1,
+      "delta": -1,
+      "supported": false,
+      "missing": [
+        "ontoly"
+      ],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "ontoly_missing"
+    },
+    {
+      "concept": "Routes",
+      "relationship": "Routes",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "Controllers",
+      "relationship": "Controllers",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "Modules",
+      "relationship": "Modules",
+      "ontoly": 140,
+      "graphify": 146,
+      "delta": -6,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "supported"
+    },
+    {
+      "concept": "Services",
+      "relationship": "Services",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "Providers",
+      "relationship": "Providers",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "Repositories",
+      "relationship": "Repositories",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "Packages",
+      "relationship": "Packages",
+      "ontoly": 29,
+      "graphify": 0,
+      "delta": 29,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "Configuration",
+      "relationship": "Configuration",
+      "ontoly": 44,
+      "graphify": 31,
+      "delta": 13,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "Environment Variables",
+      "relationship": "Environment Variables",
+      "ontoly": 0,
+      "graphify": 27,
+      "delta": -27,
+      "supported": false,
+      "missing": [
+        "ontoly"
+      ],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "ontoly_missing"
+    }
+  ],
+  "relationshipComparison": [
+    {
+      "concept": "CALLS",
+      "relationship": "CALLS",
+      "ontoly": 201,
+      "graphify": 104,
+      "delta": 97,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "IMPORTS",
+      "relationship": "IMPORTS",
+      "ontoly": 300,
+      "graphify": 353,
+      "delta": -53,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "supported"
+    },
+    {
+      "concept": "EXPORTS",
+      "relationship": "EXPORTS",
+      "ontoly": 186,
+      "graphify": 0,
+      "delta": 186,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "CONTAINS",
+      "relationship": "CONTAINS",
+      "ontoly": 951,
+      "graphify": 882,
+      "delta": 69,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "supported"
+    },
+    {
+      "concept": "HANDLES",
+      "relationship": "HANDLES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "MOUNTS",
+      "relationship": "MOUNTS",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "INJECTS",
+      "relationship": "INJECTS",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "READS",
+      "relationship": "READS",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "WRITES",
+      "relationship": "WRITES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "USES",
+      "relationship": "USES",
+      "ontoly": 155,
+      "graphify": 0,
+      "delta": 155,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "DEPENDS_ON",
+      "relationship": "DEPENDS_ON",
+      "ontoly": 156,
+      "graphify": 0,
+      "delta": 156,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "AUTHORIZES",
+      "relationship": "AUTHORIZES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "REGISTERED_IN",
+      "relationship": "REGISTERED_IN",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "IMPLEMENTS",
+      "relationship": "IMPLEMENTS",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "EXTENDS",
+      "relationship": "EXTENDS",
+      "ontoly": 0,
+      "graphify": 55,
+      "delta": -55,
+      "supported": false,
+      "missing": [
+        "ontoly"
+      ],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "ontoly_missing"
+    },
+    {
+      "concept": "REFERENCES",
+      "relationship": "REFERENCES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "CREATES",
+      "relationship": "CREATES",
+      "ontoly": 4,
+      "graphify": 0,
+      "delta": 4,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "THROWS",
+      "relationship": "THROWS",
+      "ontoly": 2,
+      "graphify": 0,
+      "delta": 2,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "RETURNS",
+      "relationship": "RETURNS",
+      "ontoly": 53,
+      "graphify": 0,
+      "delta": 53,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "PUBLISHES",
+      "relationship": "PUBLISHES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "SUBSCRIBES",
+      "relationship": "SUBSCRIBES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    }
+  ],
+  "frameworkUnderstanding": [
+    {
+      "framework": "Next.js",
+      "measured": {
+        "expectedFromRepository": [
+          "next"
+        ],
+        "ontolyDetected": true,
+        "graphifyInferred": true
+      },
+      "coverage": 10,
+      "confidence": "exact",
+      "missingConcepts": [
+        "Routes",
+        "Controllers",
+        "Services",
+        "Providers"
+      ],
+      "incorrectConcepts": "not measured",
+      "relationshipGaps": [
+        "HANDLES",
+        "MOUNTS",
+        "INJECTS",
+        "AUTHORIZES",
+        "REGISTERED_IN"
+      ]
+    },
+    {
+      "framework": "React",
+      "measured": {
+        "expectedFromRepository": [
+          "react",
+          "react-dom"
+        ],
+        "ontolyDetected": true,
+        "graphifyInferred": true
+      },
+      "coverage": 10,
+      "confidence": "exact",
+      "missingConcepts": [
+        "Routes",
+        "Controllers",
+        "Services",
+        "Providers"
+      ],
+      "incorrectConcepts": "not measured",
+      "relationshipGaps": [
+        "HANDLES",
+        "MOUNTS",
+        "INJECTS",
+        "AUTHORIZES",
+        "REGISTERED_IN"
+      ]
+    },
+    {
+      "framework": "Turborepo",
+      "measured": {
+        "expectedFromRepository": [
+          "turbo",
+          "turbo.json"
+        ],
+        "ontolyDetected": false,
+        "graphifyInferred": true
+      },
+      "coverage": 95,
+      "confidence": null,
+      "missingConcepts": [
+        "Routes",
+        "Controllers",
+        "Services",
+        "Providers"
+      ],
+      "incorrectConcepts": "not measured",
+      "relationshipGaps": [
+        "HANDLES",
+        "MOUNTS",
+        "INJECTS",
+        "AUTHORIZES",
+        "REGISTERED_IN"
+      ]
+    }
+  ],
+  "performance": {
+    "ontoly": {
+      "tool": "ontoly",
+      "command": {
+        "executable": "/Users/shrey/.nvm/versions/node/v24.16.0/bin/node",
+        "args": [
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/tools/run-validation.mjs",
+          "--ontoly-one",
+          "0xsarwagya",
+          "/Users/shrey/Desktop/personal/0xsarwagya",
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/ontoly"
+        ],
+        "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository",
+        "note": "Runs Ontoly through its built package APIs with write:false so source repositories are not modified."
+      },
+      "exitCode": 0,
+      "durationMs": 5026.105749999995,
+      "time": {
+        "realSeconds": 5.02,
+        "maxResidentSetBytes": 1687044096,
+        "peakMemoryFootprintBytes": 1597002272,
+        "peakMemoryBytes": 1687044096,
+        "source": "/usr/bin/time -l"
+      },
+      "graphHash": "02tafm2",
+      "outputFiles": [
+        "command.json",
+        "coverage.json",
+        "diagnostics.json",
+        "frameworks.json",
+        "graph-validation.json",
+        "indexes.json",
+        "metadata.json",
+        "quality.json",
+        "result.json",
+        "semantic-entities.json",
+        "semantic-model-summary.json",
+        "semantic-model.json",
+        "SoftwareGraph.json",
+        "statistics.json",
+        "stderr.log",
+        "stdout.log"
+      ],
+      "graphDurationMs": null,
+      "statistics": {
+        "files": 6842,
+        "nodes": 1202,
+        "edges": 2082,
+        "diagnostics": 13,
+        "nodesByType": {
+          "BuildTarget": 7,
+          "Configuration": 44,
+          "Dependency": 46,
+          "Exception": 1,
+          "Export": 187,
+          "Framework": 2,
+          "Function": 205,
+          "Import": 370,
+          "Job": 3,
+          "Module": 140,
+          "Package": 29,
+          "Pipeline": 1,
+          "Script": 35,
+          "Step": 8,
+          "Task": 39,
+          "TypeAlias": 82,
+          "Workflow": 2,
+          "Workspace": 1
+        },
+        "edgesByType": {
+          "CALLS": 201,
+          "CONFIGURES": 37,
+          "CONTAINS": 951,
+          "CREATES": 4,
+          "DEPENDS_ON": 156,
+          "EXECUTES": 35,
+          "EXPORTS": 186,
+          "IMPORTS": 300,
+          "PROVIDES": 2,
+          "RETURNS": 53,
+          "THROWS": 2,
+          "USES": 155
+        },
+        "parserVersions": {
+          "openapi": "1.0.0",
+          "typescript": "5.9.2",
+          "repository": "1.0.0"
+        },
+        "deterministicHash": "02tafm2"
+      },
+      "coverage": {
+        "coverage": 95,
+        "confidence": 90,
+        "completeness": 95,
+        "consistency": 100,
+        "trustworthiness": 95
+      },
+      "diagnostics": 13
+    },
+    "graphify": {
+      "tool": "graphify",
+      "mode": "structural-code-projection",
+      "command": {
+        "executable": "graphify",
+        "args": [
+          "extract",
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/code-projection",
+          "--out",
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/structural",
+          "--no-cluster",
+          "--max-workers",
+          "8",
+          "--max-concurrency",
+          "1"
+        ],
+        "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/structural",
+        "note": "Structural fallback: full Graphify extraction required an LLM backend for docs/images, so this run analyzes a validation-side code projection only. Source repositories remain untouched."
+      },
+      "fullRun": {
+        "command": {
+          "executable": "graphify",
+          "args": [
+            "extract",
+            "/Users/shrey/Desktop/personal/0xsarwagya",
+            "--out",
+            "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/full",
+            "--no-cluster",
+            "--max-workers",
+            "8",
+            "--max-concurrency",
+            "1"
+          ],
+          "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/full",
+          "note": "Uses graphify extract with --out to avoid writing into the source repository. --no-cluster keeps the run headless and deterministic for release validation."
+        },
+        "exitCode": 1,
+        "durationMs": 625.2987920000014,
+        "time": {
+          "realSeconds": 0.62,
+          "maxResidentSetBytes": 41910272,
+          "peakMemoryFootprintBytes": 31637984,
+          "peakMemoryBytes": 41910272,
+          "source": "/usr/bin/time -l"
+        },
+        "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/full/stdout.log",
+        "stderr": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/full/stderr.log"
+      },
+      "fallbackRun": {
+        "command": {
+          "executable": "graphify",
+          "args": [
+            "extract",
+            "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/code-projection",
+            "--out",
+            "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/structural",
+            "--no-cluster",
+            "--max-workers",
+            "8",
+            "--max-concurrency",
+            "1"
+          ],
+          "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/structural",
+          "note": "Structural fallback: full Graphify extraction required an LLM backend for docs/images, so this run analyzes a validation-side code projection only. Source repositories remain untouched."
+        },
+        "exitCode": 0,
+        "durationMs": 1449.7775000000038,
+        "time": {
+          "realSeconds": 1.44,
+          "maxResidentSetBytes": 69943296,
+          "peakMemoryFootprintBytes": 57213600,
+          "peakMemoryBytes": 69943296,
+          "source": "/usr/bin/time -l"
+        },
+        "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/structural/stdout.log",
+        "stderr": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/structural/stderr.log",
+        "projection": {
+          "repository": "0xsarwagya",
+          "sourceRoot": "/Users/shrey/Desktop/personal/0xsarwagya",
+          "projectionRoot": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/code-projection",
+          "mode": "code-only projection for Graphify structural fallback",
+          "includedFiles": 185,
+          "excludedFiles": 261,
+          "includedExtensions": {
+            ".js": 13,
+            ".json": 39,
+            ".mjs": 9,
+            ".ts": 44,
+            ".tsx": 80
+          },
+          "files": [
+            ".claude/launch.json",
+            ".vercel/project.json",
+            "apps/bakaiti/.vercel/node/package-manifest.json",
+            "apps/bakaiti/app/feed.xml/route.ts",
+            "apps/bakaiti/app/layout.tsx",
+            "apps/bakaiti/app/opengraph-image.tsx",
+            "apps/bakaiti/app/page.tsx",
+            "apps/bakaiti/app/robots.ts",
+            "apps/bakaiti/app/sitemap.ts",
+            "apps/bakaiti/app/takes/[slug]/opengraph-image.tsx",
+            "apps/bakaiti/app/takes/[slug]/page.tsx",
+            "apps/bakaiti/app/takes/page.tsx",
+            "apps/bakaiti/components/site-footer.tsx",
+            "apps/bakaiti/components/site-header.tsx",
+            "apps/bakaiti/eslint.config.js",
+            "apps/bakaiti/lib/site.ts",
+            "apps/bakaiti/lib/takes.ts",
+            "apps/bakaiti/mdx-components.tsx",
+            "apps/bakaiti/next-env.d.ts",
+            "apps/bakaiti/next.config.js",
+            "apps/bakaiti/package.json",
+            "apps/bakaiti/postcss.config.mjs",
+            "apps/bakaiti/tsconfig.json",
+            "apps/eng/.vercel/node/package-manifest.json",
+            "apps/eng/app/feed.xml/route.ts",
+            "apps/eng/app/layout.tsx",
+            "apps/eng/app/learnings/[slug]/opengraph-image.tsx",
+            "apps/eng/app/learnings/[slug]/page.tsx",
+            "apps/eng/app/learnings/page.tsx",
+            "apps/eng/app/opengraph-image.tsx",
+            "apps/eng/app/page.tsx",
+            "apps/eng/app/robots.ts",
+            "apps/eng/app/sitemap.ts",
+            "apps/eng/components/site-footer.tsx",
+            "apps/eng/components/site-header.tsx",
+            "apps/eng/content/profile.ts",
+            "apps/eng/eslint.config.js",
+            "apps/eng/lib/learnings.ts",
+            "apps/eng/lib/site.ts",
+            "apps/eng/mdx-components.tsx",
+            "apps/eng/next-env.d.ts",
+            "apps/eng/next.config.js",
+            "apps/eng/package.json",
+            "apps/eng/postcss.config.mjs",
+            "apps/eng/tsconfig.json",
+            "apps/me/app/layout.tsx",
+            "apps/me/app/opengraph-image.tsx",
+            "apps/me/app/page.tsx",
+            "apps/me/app/robots.ts",
+            "apps/me/app/sitemap.ts",
+            "apps/me/eslint.config.js",
+            "apps/me/lib/site.ts",
+            "apps/me/next-env.d.ts",
+            "apps/me/next.config.js",
+            "apps/me/package.json",
+            "apps/me/postcss.config.mjs",
+            "apps/me/tsconfig.json",
+            "apps/me/vercel.json",
+            "apps/oss/.vercel/node/package-manifest.json",
+            "apps/oss/app/[slug]/demo/page.tsx",
+            "apps/oss/app/[slug]/docs/[...path]/page.tsx",
+            "apps/oss/app/[slug]/docs/page.tsx",
+            "apps/oss/app/[slug]/opengraph-image.tsx",
+            "apps/oss/app/[slug]/page.tsx",
+            "apps/oss/app/layout.tsx",
+            "apps/oss/app/opengraph-image.tsx",
+            "apps/oss/app/oss-assets/[slug]/[...path]/route.ts",
+            "apps/oss/app/page.tsx",
+            "apps/oss/app/robots.ts",
+            "apps/oss/app/sitemap.ts",
+            "apps/oss/components/docs-shell.tsx",
+            "apps/oss/components/site-footer.tsx",
+            "apps/oss/components/site-header.tsx",
+            "apps/oss/content/projects/agnostic-web-ble/.provenance.json",
+            "apps/oss/content/projects/agnostic-web-ble/demo/index.tsx",
+            "apps/oss/content/projects/agnostic-web-ble/manifest.json",
+            "apps/oss/content/projects/clinical-receipt/.provenance.json",
+            "apps/oss/content/projects/clinical-receipt/manifest.json",
+            "apps/oss/content/projects/durable-local/.provenance.json",
+            "apps/oss/content/projects/durable-local/demo/index.tsx",
+            "apps/oss/content/projects/durable-local/manifest.json",
+            "apps/oss/content/projects/ghost/.provenance.json",
+            "apps/oss/content/projects/ghost/demo/index.tsx",
+            "apps/oss/content/projects/ghost/manifest.json",
+            "apps/oss/content/projects/handoff/.provenance.json",
+            "apps/oss/content/projects/handoff/demo/index.tsx",
+            "apps/oss/content/projects/handoff/manifest.json",
+            "apps/oss/eslint.config.js",
+            "apps/oss/lib/npm-downloads.ts",
+            "apps/oss/lib/projects.ts",
+            "apps/oss/lib/remark-oss-assets.mjs",
+            "apps/oss/lib/site.ts",
+            "apps/oss/mdx-components.tsx",
+            "apps/oss/next-env.d.ts",
+            "apps/oss/next.config.js",
+            "apps/oss/package.json",
+            "apps/oss/postcss.config.mjs",
+            "apps/oss/tsconfig.json",
+            "apps/web/.vercel/node/package-manifest.json",
+            "apps/web/app/about/page.tsx",
+            "apps/web/app/layout.tsx",
+            "apps/web/app/map/page.tsx",
+            "apps/web/app/margins/[slug]/opengraph-image.tsx",
+            "apps/web/app/margins/[slug]/page.tsx",
+            "apps/web/app/margins/opengraph-image.tsx",
+            "apps/web/app/margins/page.tsx",
+            "apps/web/app/opengraph-image.tsx",
+            "apps/web/app/page.tsx",
+            "apps/web/app/robots.ts",
+            "apps/web/app/sitemap.ts",
+            "apps/web/components/chrome/ambient-dust.tsx",
+            "apps/web/components/chrome/chrome-index.tsx",
+            "apps/web/components/chrome/cursor-halo.tsx",
+            "apps/web/components/chrome/grain.tsx",
+            "apps/web/components/chrome/konami-listener.tsx",
+            "apps/web/components/chrome/shooting-star.tsx",
+            "apps/web/components/chrome/smooth-scroll.tsx",
+            "apps/web/components/internet-map-scene.tsx",
+            "apps/web/components/internet-map.tsx",
+            "apps/web/components/margins/margins-link.tsx",
+            "apps/web/components/margins/margins-list.tsx",
+            "apps/web/components/section.tsx",
+            "apps/web/components/sections/bookshelf.tsx",
+            "apps/web/components/sections/cassette.tsx",
+            "apps/web/components/sections/coordinates.tsx",
+            "apps/web/components/sections/epilogue.tsx",
+            "apps/web/components/sections/fragments.tsx",
+            "apps/web/components/sections/hero.tsx",
+            "apps/web/components/sections/photography.tsx",
+            "apps/web/components/sections/terminal.tsx",
+            "apps/web/content/books.ts",
+            "apps/web/content/fragments.ts",
+            "apps/web/content/music.ts",
+            "apps/web/content/photography.ts",
+            "apps/web/eslint.config.js",
+            "apps/web/lib/margins-shared.ts",
+            "apps/web/lib/margins.ts",
+            "apps/web/lib/oss-projects.ts",
+            "apps/web/lib/site.ts",
+            "apps/web/mdx-components.tsx",
+            "apps/web/next-env.d.ts",
+            "apps/web/next.config.js",
+            "apps/web/package.json",
+            "apps/web/postcss.config.mjs",
+            "apps/web/tsconfig.json",
+            "package.json",
+            "packages/eslint-config/base.js",
+            "packages/eslint-config/next.js",
+            "packages/eslint-config/package.json",
+            "packages/eslint-config/react-internal.js",
+            "packages/seo/eslint.config.mjs",
+            "packages/seo/package.json",
+            "packages/seo/src/author.ts",
+            "packages/seo/src/canonical.ts",
+            "packages/seo/src/feed.ts",
+            "packages/seo/src/json-ld.tsx",
+            "packages/seo/src/metadata.ts",
+            "packages/seo/src/types.ts",
+            "packages/seo/tsconfig.json",
+            "packages/typescript-config/base.json",
+            "packages/typescript-config/nextjs.json",
+            "packages/typescript-config/package.json",
+            "packages/typescript-config/react-library.json",
+            "packages/ui/eslint.config.mjs",
+            "packages/ui/package.json",
+            "packages/ui/src/content.ts",
+            "packages/ui/src/footer-link.tsx",
+            "packages/ui/src/graph3d/graph3d-scene.tsx",
+            "packages/ui/src/graph3d/graph3d.tsx",
+            "packages/ui/src/graph3d/layout.ts",
+            "packages/ui/src/graph3d/tokens.ts",
+            "packages/ui/src/graph3d/types.ts",
+            "packages/ui/src/mdx/callout.tsx",
+            "packages/ui/src/mdx/compatibility-matrix.tsx",
+            "packages/ui/src/mdx/install.tsx",
+            "packages/ui/src/mdx/project-hero.tsx",
+            "packages/ui/src/mdx/project-links.tsx",
+            "packages/ui/src/mdx/registry.tsx",
+            "packages/ui/src/og.tsx",
+            "packages/ui/src/prose.tsx",
+            "packages/ui/src/reading-progress.tsx",
+            "packages/ui/tsconfig.json",
+            "scripts/oss-sync.mjs",
+            "turbo.json",
+            "vercel.json"
+          ]
+        }
+      },
+      "exitCode": 0,
+      "durationMs": 1449.7775000000038,
+      "time": {
+        "realSeconds": 1.44,
+        "maxResidentSetBytes": 69943296,
+        "peakMemoryFootprintBytes": 57213600,
+        "peakMemoryBytes": 69943296,
+        "source": "/usr/bin/time -l"
+      },
+      "graphHash": "9320c522532a9d05da5b4963dd90eadd96facf9f29587db8d0acb95f8a0f7204",
+      "outputFiles": [
+        "cache/ast/v0.9.2/00466cf2be030b0c737826388e3c89cd65fd62cded686548f42f2bdc483a6a4a.json",
+        "cache/ast/v0.9.2/062c97ee77eebe10b2495a988480dcf1027c16ae56b7b4896c629a568e0bc03e.json",
+        "cache/ast/v0.9.2/08bf2a4792beedbc3296c5dc632bb302b878334fdd6ce16b9e3654f8c6deaf80.json",
+        "cache/ast/v0.9.2/08c4ff391f3513b42dc6754b671b8d7f69c91e449a8d62f2f0757731c89a1f38.json",
+        "cache/ast/v0.9.2/2ab4e0ed21cae613af08eafeaf935ed46a028c5e63e730e751d7c67b1b810f6d.json",
+        "cache/ast/v0.9.2/4436bcaaf3e589af3a0210591eb425debd3e4a3caea8749d6c3bf17ab7089ba3.json",
+        "cache/ast/v0.9.2/4924a3fc41615f66336561232aab0b661e5a1b5b11a1b1efd1db99db0920ad79.json",
+        "cache/ast/v0.9.2/4eda46a989ee4bd00bf69eaca3957b92f58913103040068231977715f8c40e09.json",
+        "cache/ast/v0.9.2/4f8ba1914c29a27bbdaad45d6e5d94a680c7a9cb2646a9bd3a64539278dd3cfa.json",
+        "cache/ast/v0.9.2/5823cd9603fbceed1a56a62352ba474caba3f3c571f097a6c4fdb132e122dfbb.json",
+        "cache/ast/v0.9.2/591fec29c8d8affce2f9408871524dc6ff5ecb1c3a27527f26c17d190c342519.json",
+        "cache/ast/v0.9.2/59562a1137d08dc3e885b917099d776da77a0d998c8ad7e09ffab53de8f02c9a.json",
+        "cache/ast/v0.9.2/636e783efa1a7ac06b769feee8847c33bf66b20d8dcec835fdf1f4fbde3b2245.json",
+        "cache/ast/v0.9.2/6ea6822ced8c7657c99c11b8f76a938eabfd28d1aa85be12ad98d5e92aaf8230.json",
+        "cache/ast/v0.9.2/6ec1e2f595995ca5bc91a0aeb5ab1140378bdf27dbe3ae5cfb368833e5fe5f34.json",
+        "cache/ast/v0.9.2/7772c9f09e483dc7d89215f20cf52367ddda8bac9991cc571ce062a8ea0b2e82.json",
+        "cache/ast/v0.9.2/8767dec3182a2b809560a76453f2c491d88123fc99f167c7f089c127b24a593c.json",
+        "cache/ast/v0.9.2/89dd4540e875606b088de9be7c045d32c948a110c01114682a1cbeb083b9a533.json",
+        "cache/ast/v0.9.2/8b57d5065d6f8cfe05584f2dd619ca64a669103af221ec6fb07846acd32773a1.json",
+        "cache/ast/v0.9.2/9a958aabe112b70426364141796b74a307646416ad1b443e1ea2155abc1d108f.json",
+        "cache/ast/v0.9.2/9d45a0dcfad1d5c302a26d109900f57e7f3ff20bb66af6f352ecf9adc2958c63.json",
+        "cache/ast/v0.9.2/9dac6f7d804ecba63709959afd728b980cda64464e50b60737de7999a6a86db9.json",
+        "cache/ast/v0.9.2/a99fcbcb173a1fb79263fec42c2290e16f891d8f923f6ac09f9b15a731cd1ded.json",
+        "cache/ast/v0.9.2/ab1a89d0b7d29997d2e50bf1b7cc9bb188cd5c4be83b8a60cc092e9bb0eeeabb.json",
+        "cache/ast/v0.9.2/acd6e3fe1ba39f38c828be3d5c5739760b484a1c0158e3cf5cd3f2e53ac1664a.json",
+        "cache/ast/v0.9.2/aea739b2b61cd736f9b7b5a3cb15d73bb0f176d11bf24f22747dd3ba42fc5b0c.json",
+        "cache/ast/v0.9.2/b46ddf3aee273dfa64997fdf91944b60d2e6c014504699cff05ab6ef61038164.json",
+        "cache/ast/v0.9.2/bc44735b6ab3d4e0b808f755ac87e1eb7f18c1a479d03d0e8054c5f101958b35.json",
+        "cache/ast/v0.9.2/bc4adc0e21ddb2ad381f72fba76bcdac50ee65bff89e8170a77be188cbe9d629.json",
+        "cache/ast/v0.9.2/cad773d29ce867051f56fb13e873c4e950f1e753c9d8bf0ca20e394e4310f5e3.json",
+        "cache/ast/v0.9.2/d4e0aa0190144054a206b1143a2adf299bf6c4faccd3541327b560ce331a66af.json",
+        "cache/ast/v0.9.2/dbc5234e7ec769057c7968570d1f6f591301e90b585311cac3261f25a29cd1ce.json",
+        "cache/ast/v0.9.2/df92998533df5b4da9773e3a2a494943504de9db5c42d1f9627537ddcc8dfb61.json",
+        "cache/ast/v0.9.2/e0acae291ea3a40531dda06f5c81ef68b62c65933d87560b4a11d36171c6b40a.json",
+        "cache/ast/v0.9.2/e12230bd875ceb4f89292186679f398d9442e9ffc3931017208261b5d1c9ce39.json",
+        "cache/ast/v0.9.2/ee484a4c1656de99d04fa523b956c4324a0930d482b69f0b253c2a86f9330eb8.json",
+        "cache/ast/v0.9.2/f9bebb9d131e581af9afa96231c0917c81ee393336754a5822ee62748450f6d8.json",
+        "cache/ast/v0.9.2/fc75875dd45c23d1026b8cbd8c52ab672afa2bde0536758df9c78b73f7f7a255.json",
+        "cache/ast/v0.9.2/fdcea620cd144f34b23a7001c4a81cddbdb039c0db01f412fc9821d68790be25.json",
+        "cache/stat-index.json",
+        "graph.json",
+        "manifest.json"
+      ],
+      "statistics": {
+        "nodes": 1071,
+        "edges": 1811,
+        "hyperedges": 0,
+        "directed": null,
+        "multigraph": null,
+        "nodesByFileType": {
+          "code": 1071
+        },
+        "concepts": {
+          "Classes": 86,
+          "Configuration": 31,
+          "Environment Variables": 27,
+          "Functions": 215,
+          "Interfaces": 1,
+          "Modules": 146
+        },
+        "relations": {
+          "calls": 104,
+          "contains": 882,
+          "extends": 55,
+          "imports": 353,
+          "imports_from": 399,
+          "re_exports": 18
+        },
+        "semanticRelationships": {
+          "CALLS": 104,
+          "CONTAINS": 882,
+          "EXTENDS": 55,
+          "IMPORTS": 353
+        }
+      },
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_EXIT_NONZERO",
+          "message": "Graphify exited with code 1.",
+          "source": "graphify"
+        },
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_FULL_REQUIRES_LLM",
+          "message": "Full Graphify extraction required an LLM backend for repository docs/images.",
+          "source": "graphify"
+        },
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
+          "message": "Graphify comparison uses a code-only projection with 185 files.",
+          "source": "validation harness"
+        }
+      ]
+    }
+  },
+  "diagnostics": {
+    "ontoly": {
+      "compilerDiagnostics": 13,
+      "graphValidation": {
+        "ok": true,
+        "issues": 3,
+        "errors": 0,
+        "warnings": 3,
+        "byCode": {
+          "SELF_RELATIONSHIP": 3
+        }
+      },
+      "coverageWarnings": 7
+    },
+    "graphify": [
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_EXIT_NONZERO",
+        "message": "Graphify exited with code 1.",
+        "source": "graphify"
+      },
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_FULL_REQUIRES_LLM",
+        "message": "Full Graphify extraction required an LLM backend for repository docs/images.",
+        "source": "graphify"
+      },
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
+        "message": "Graphify comparison uses a code-only projection with 185 files.",
+        "source": "validation harness"
+      }
+    ]
+  },
+  "strengths": [
+    {
+      "area": "Deterministic graph validation",
+      "evidence": "Ontoly trustworthiness is 95 with consistency 100.",
+      "basis": "measured"
+    },
+    {
+      "area": "Packages",
+      "evidence": "Ontoly produced 29 Packages; Graphify produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    }
+  ],
+  "weaknesses": [
+    {
+      "area": "Graphify full semantic extraction",
+      "evidence": "Graphify required an LLM backend for docs/images, so the comparison uses a structural code-only fallback graph.",
+      "basis": "measured"
+    },
+    {
+      "area": "Graph validation warnings",
+      "evidence": "3 validation warnings were reported.",
+      "basis": "measured"
+    },
+    {
+      "area": "Classes",
+      "evidence": "Graphify produced 86 Classes; Ontoly produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "Interfaces",
+      "evidence": "Graphify produced 1 Interfaces; Ontoly produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "Environment Variables",
+      "evidence": "Graphify produced 27 Environment Variables; Ontoly produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "EXTENDS",
+      "evidence": "Graphify produced 55 EXTENDS relationships; Ontoly produced 0.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "Turborepo detection",
+      "evidence": "Repository evidence suggests Turborepo, but Ontoly did not explicitly detect it.",
+      "basis": "inferred from package metadata"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "High",
+      "description": "3 graph validation issue(s) with code SELF_RELATIONSHIP.",
+      "suggestedFix": "Add a deterministic fixture for this validation issue and repair the graph construction invariant.",
+      "evidence": [
+        "Edge edge:depends_on:1a5l19k creates a DEPENDS_ON relationship from a node to itself.",
+        "Edge edge:depends_on:1o7e7rg creates a DEPENDS_ON relationship from a node to itself.",
+        "Edge edge:depends_on:1vlp350 creates a DEPENDS_ON relationship from a node to itself."
+      ]
+    },
+    {
+      "priority": "Medium",
+      "description": "Ontoly did not emit EXTENDS, while Graphify emitted 55.",
+      "suggestedFix": "Add or extend relationship extraction for EXTENDS and cover it with deterministic snapshots.",
+      "evidence": [
+        "Normalized Graphify EXTENDS count: 55"
+      ]
+    },
+    {
+      "priority": "Medium",
+      "description": "Turborepo was inferred from repository metadata but not detected by Ontoly.",
+      "suggestedFix": "Add a Turborepo framework detector or map existing package evidence to a Framework node.",
+      "evidence": [
+        "turbo",
+        "turbo.json"
+      ]
+    },
+    {
+      "priority": "Medium",
+      "description": "Graphify full semantic extraction was unavailable without an LLM backend.",
+      "suggestedFix": "For release validation, configure a deterministic Graphify semantic backend or keep the structural fallback as a separate benchmark lane.",
+      "evidence": [
+        "Graphify exited with code 1.",
+        "Full Graphify extraction required an LLM backend for repository docs/images.",
+        "Graphify comparison uses a code-only projection with 185 files."
+      ]
+    }
+  ]
+}

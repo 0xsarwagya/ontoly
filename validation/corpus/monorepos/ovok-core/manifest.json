@@ -1,0 +1,14 @@
+{
+  "id": "ovok-core",
+  "name": "Ovok Core",
+  "source": "/Users/shrey/Desktop/work/ovok-core",
+  "corpusPath": "monorepos/ovok-core",
+  "frameworks": [
+    "nestjs",
+    "express"
+  ],
+  "language": "typescript",
+  "repositoryType": "application",
+  "expectedAnalyzer": "nestjs",
+  "default": true
+}

@@ -1,0 +1,400 @@
+{
+  "repository": "ghost",
+  "name": "Ghost",
+  "frameworks": [
+    "React",
+    "Vite"
+  ],
+  "expectedGraph": {
+    "minNodes": 300,
+    "minEdges": 600,
+    "requiredNodeTypes": [
+      "Function",
+      "Interface",
+      "Class",
+      "Package",
+      "Configuration"
+    ],
+    "requiredRelationships": [
+      "CALLS",
+      "IMPORTS",
+      "DEPENDS_ON"
+    ]
+  },
+  "coverageExpectations": {
+    "semanticCoverage": 95,
+    "trustScore": 95
+  },
+  "questionCount": 6,
+  "score": {
+    "ontoly": {
+      "questions": 6,
+      "pass": 6,
+      "partial": 0,
+      "fail": 0,
+      "exactMatchRate": 100,
+      "precision": 100,
+      "recall": 100,
+      "confidence": 100,
+      "latencyMs": 0.018,
+      "semanticUnderstandingScore": 100
+    },
+    "graphify": {
+      "questions": 6,
+      "pass": 3,
+      "partial": 0,
+      "fail": 3,
+      "exactMatchRate": 50,
+      "precision": 50,
+      "recall": 50,
+      "confidence": 50,
+      "latencyMs": 0.012,
+      "semanticUnderstandingScore": 50
+    },
+    "winner": "Ontoly"
+  },
+  "questions": [
+    {
+      "id": "ghost-create-entrypoint",
+      "repository": "ghost",
+      "category": "Functions",
+      "evaluator": "FindEntrypoint",
+      "question": "What is the browser entrypoint for creating a Ghost identity?",
+      "expected": {
+        "exact": [
+          "createGhost"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.032,
+        "answers": [
+          {
+            "label": "createGhost",
+            "type": "Function",
+            "id": "fn:src/browser/ghost.ts:createGhost",
+            "file": "src/browser/ghost.ts",
+            "explanation": "Matched Function node createGhost."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched Function with terms createGhost."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
+        "falsePositives": [],
+        "falseNegatives": [
+          "createGhost"
+        ],
+        "confidence": 0,
+        "latencyMs": 0.004,
+        "answers": [],
+        "explanation": "0 candidate node(s) matched Function with terms createGhost."
+      },
+      "winner": "Ontoly"
+    },
+    {
+      "id": "ghost-interface",
+      "repository": "ghost",
+      "category": "Interfaces",
+      "evaluator": "ArchitectureSummary",
+      "question": "Which public interface represents a Ghost client?",
+      "expected": {
+        "exact": [
+          "Ghost"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.013,
+        "answers": [
+          {
+            "label": "Ghost",
+            "type": "Interface",
+            "id": "iface:src/browser/ghost.ts:Ghost",
+            "file": "src/browser/ghost.ts",
+            "explanation": "Included in architecture summary as Interface."
+          }
+        ],
+        "explanation": "Architecture summary searched Interface, Class."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.014,
+        "answers": [
+          {
+            "label": "Ghost",
+            "type": "Class",
+            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_ghost_graphify_code_projection_src_browser_ghost_ghost",
+            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/code-projection/src/browser/ghost.ts",
+            "explanation": "Included in architecture summary as Class."
+          }
+        ],
+        "explanation": "Architecture summary searched Interface, Class."
+      },
+      "winner": "Tie"
+    },
+    {
+      "id": "ghost-error-class",
+      "repository": "ghost",
+      "category": "Classes",
+      "evaluator": "ArchitectureSummary",
+      "question": "Which error class represents Ghost failures?",
+      "expected": {
+        "exact": [
+          "GhostError"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.006,
+        "answers": [
+          {
+            "label": "GhostError",
+            "type": "Class",
+            "id": "class:src/errors.ts:GhostError",
+            "file": "src/errors.ts",
+            "explanation": "Included in architecture summary as Class."
+          }
+        ],
+        "explanation": "Architecture summary searched Class."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.015,
+        "answers": [
+          {
+            "label": "GhostError",
+            "type": "Class",
+            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_ghost_graphify_code_projection_src_errors_ghosterror",
+            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/code-projection/src/errors.ts",
+            "explanation": "Included in architecture summary as Class."
+          }
+        ],
+        "explanation": "Architecture summary searched Class."
+      },
+      "winner": "Tie"
+    },
+    {
+      "id": "ghost-ci-env",
+      "repository": "ghost",
+      "category": "Environment Variables",
+      "evaluator": "FindEnvironmentVariable",
+      "question": "Which CI environment variable is read?",
+      "expected": {
+        "exact": [
+          "CI"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.005,
+        "answers": [
+          {
+            "label": "CI",
+            "type": "EnvironmentVariable",
+            "id": "env:CI",
+            "file": null,
+            "explanation": "Matched EnvironmentVariable node CI."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched EnvironmentVariable with terms CI."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
+        "falsePositives": [],
+        "falseNegatives": [
+          "CI"
+        ],
+        "confidence": 0,
+        "latencyMs": 0.004,
+        "answers": [],
+        "explanation": "0 candidate node(s) matched EnvironmentVariable with terms CI."
+      },
+      "winner": "Ontoly"
+    },
+    {
+      "id": "ghost-package",
+      "repository": "ghost",
+      "category": "Packages",
+      "evaluator": "FindRepository",
+      "question": "What is the package name?",
+      "expected": {
+        "exact": [
+          "@0xsarwagya/ghost"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.008,
+        "answers": [
+          {
+            "label": "@0xsarwagya/ghost",
+            "type": "Package",
+            "id": "pkg:@0xsarwagya/ghost",
+            "file": "package.json",
+            "explanation": "Matched Package node @0xsarwagya/ghost."
+          }
+        ],
+        "explanation": "1 candidate node(s) matched Package with terms @0xsarwagya/ghost."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
+        "falsePositives": [],
+        "falseNegatives": [
+          "@0xsarwagya/ghost"
+        ],
+        "confidence": 0,
+        "latencyMs": 0.005,
+        "answers": [],
+        "explanation": "0 candidate node(s) matched Package with terms @0xsarwagya/ghost."
+      },
+      "winner": "Ontoly"
+    },
+    {
+      "id": "ghost-load-create-call",
+      "repository": "ghost",
+      "category": "Call Graph",
+      "evaluator": "FindCallChain",
+      "question": "Does loading or creating a record call createGhostId?",
+      "expected": {
+        "exact": [
+          "loadOrCreateRecord -> createGhostId"
+        ],
+        "acceptable": [],
+        "nodes": [],
+        "edges": [
+          {
+            "type": "CALLS",
+            "from": "loadOrCreateRecord",
+            "to": "createGhostId"
+          }
+        ],
+        "relationships": []
+      },
+      "ontoly": {
+        "system": "ontoly",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.046,
+        "answers": [
+          {
+            "label": "loadOrCreateRecord -> createGhostId",
+            "type": "CALLS",
+            "id": "edge:calls:0098tol",
+            "file": null,
+            "explanation": "Matched CALLS relationship."
+          }
+        ],
+        "explanation": "1 candidate edge-derived answer(s) matched CALLS."
+      },
+      "graphify": {
+        "system": "graphify",
+        "status": "PASS",
+        "exactMatch": true,
+        "precision": 1,
+        "recall": 1,
+        "falsePositives": [],
+        "falseNegatives": [],
+        "confidence": 100,
+        "latencyMs": 0.031,
+        "answers": [
+          {
+            "label": "loadOrCreateRecord -> createGhostId",
+            "type": "CALLS",
+            "id": "graphify-edge:503",
+            "file": null,
+            "explanation": "Matched CALLS relationship."
+          }
+        ],
+        "explanation": "1 candidate edge-derived answer(s) matched CALLS."
+      },
+      "winner": "Tie"
+    }
+  ]
+}

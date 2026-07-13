@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "noEmit": true,
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@0xsarwagya/ontoly-cache": ["packages/cache/src/index.ts"],
+      "@0xsarwagya/ontoly-analyzers": ["packages/analyzers/src/index.ts"],
+      "@0xsarwagya/ontoly-compiler": ["packages/compiler/src/index.ts"],
+      "@0xsarwagya/ontoly-core": ["packages/core/src/index.ts"],
+      "@0xsarwagya/ontoly-diagnostics": ["packages/diagnostics/src/index.ts"],
+      "@0xsarwagya/ontoly-mcp": ["packages/mcp/src/index.ts"],
+      "@0xsarwagya/ontoly-parser-openapi": ["packages/parser-openapi/src/index.ts"],
+      "@0xsarwagya/ontoly-parser-typescript": ["packages/parser-typescript/src/index.ts"],
+      "@0xsarwagya/ontoly-plugin-mermaid": ["plugins/mermaid/src/index.ts"],
+      "@0xsarwagya/ontoly-query": ["packages/query/src/index.ts"],
+      "@0xsarwagya/ontoly-semantic": ["packages/semantic/src/index.ts"],
+      "@0xsarwagya/ontoly-typescript": ["packages/typescript/src/index.ts"],
+      "@0xsarwagya/ontoly-cli": ["packages/cli/src/index.ts"]
+    }
+  }
+}

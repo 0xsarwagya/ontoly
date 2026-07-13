@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "priority": "critical",
+  "category": "monorepo",
+  "expected": {
+    "analyzer": "nestjs",
+    "semanticCoverage": 95,
+    "trust": 95,
+    "graphSizeBytes": {
+      "min": 12000000,
+      "max": 30000000
+    },
+    "nodeRange": {
+      "min": 20000,
+      "max": 26000
+    },
+    "edgeRange": {
+      "min": 45000,
+      "max": 55000
+    },
+    "diagnosticsMax": 50
+  }
+}

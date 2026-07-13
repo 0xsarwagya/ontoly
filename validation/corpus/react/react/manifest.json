@@ -1,0 +1,13 @@
+{
+  "id": "react",
+  "name": "React",
+  "source": "https://github.com/facebook/react.git",
+  "corpusPath": "react/react",
+  "frameworks": [
+    "react"
+  ],
+  "language": "typescript",
+  "repositoryType": "library",
+  "expectedAnalyzer": "react",
+  "default": false
+}

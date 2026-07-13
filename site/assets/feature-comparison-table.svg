@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="374" viewBox="0 0 1000 374" role="img">
+  <rect width="1000" height="374" fill="#F8FAFC"/>
+<text x="50" y="70" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700" fill="#17202A">Feature Comparison</text>
+<rect x="50" y="105" width="900" height="224" rx="10" fill="#FFFFFF" stroke="#C9D3DE"/>
+<text x="70" y="140" font-family="Inter, Arial, sans-serif" font-size="14" fill="#17202A">Surface</text>
+<text x="370" y="140" font-family="Inter, Arial, sans-serif" font-size="14" fill="#17202A">Ontoly Alpha</text>
+<text x="670" y="140" font-family="Inter, Arial, sans-serif" font-size="14" fill="#17202A">Non-goal</text>
+<path d="M50 161 H950" stroke="#C9D3DE"/>
+<text x="70" y="196" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">Graph</text>
+<text x="370" y="196" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">Deterministic</text>
+<text x="670" y="196" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">Embeddings</text>
+<path d="M50 217 H950" stroke="#C9D3DE"/>
+<text x="70" y="252" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">MCP</text>
+<text x="370" y="252" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">Structured evidence</text>
+<text x="670" y="252" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">Chat UI</text>
+<path d="M50 273 H950" stroke="#C9D3DE"/>
+<text x="70" y="308" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">Skills</text>
+<text x="370" y="308" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">Workflow only</text>
+<text x="670" y="308" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">Reasoning logic</text>
+</svg>

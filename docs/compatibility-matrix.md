@@ -1,0 +1,25 @@
+# Compatibility Matrix
+
+| Surface | Version | Status |
+| ------- | ------- | ------ |
+| Node.js | 22+ | Supported |
+| pnpm | 11+ | Supported |
+| TypeScript | 5.9 | Supported |
+| Package module format | ESM | Supported |
+| Software Graph Spec | 1.0 draft | Supported |
+| Agent Skills | Vercel-style `SKILL.md` folders | Supported |
+| MCP transport | JSON lines through CLI runtime | Alpha |
+
+## Package Compatibility
+
+All public packages are published under `@0xsarwagya/ontoly-*`.
+
+## Skill Compatibility
+
+Skills declare:
+
+- Skill version.
+- Minimum Ontoly version.
+- Capability requirements.
+
+See [skills/COMPATIBILITY_MATRIX.md](../skills/COMPATIBILITY_MATRIX.md).

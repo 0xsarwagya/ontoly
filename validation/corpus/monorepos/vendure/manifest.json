@@ -1,0 +1,14 @@
+{
+  "id": "vendure",
+  "name": "Vendure",
+  "source": "https://github.com/vendure-ecommerce/vendure.git",
+  "corpusPath": "monorepos/vendure",
+  "frameworks": [
+    "nestjs",
+    "graphql"
+  ],
+  "language": "typescript",
+  "repositoryType": "monorepo",
+  "expectedAnalyzer": "nestjs",
+  "default": false
+}

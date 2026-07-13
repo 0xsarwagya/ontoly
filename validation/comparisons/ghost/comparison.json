@@ -1,0 +1,1203 @@
+{
+  "repository": {
+    "slug": "ghost",
+    "name": "Ghost",
+    "requestedPath": "/Users/shrey/Desktop/personal/ghost",
+    "actualPath": "/Users/shrey/Desktop/personal/ghost",
+    "pathSubstitution": null
+  },
+  "status": "partial",
+  "generatedAt": "2026-07-13T12:13:39.464Z",
+  "measured": {
+    "note": "Counts and timings are measured from generated artifacts. Strengths, weaknesses, and recommendations are inferred from normalized counts, diagnostics, and coverage metrics.",
+    "ontolyStatus": "success",
+    "graphifyStatus": "success_with_fallback",
+    "graphifyMode": "structural-code-projection"
+  },
+  "repositorySummary": {
+    "slug": "ghost",
+    "name": "Ghost",
+    "requestedPath": "/Users/shrey/Desktop/personal/ghost",
+    "actualPath": "/Users/shrey/Desktop/personal/ghost",
+    "pathSubstitution": null,
+    "packageName": "@0xsarwagya/ghost",
+    "packageManager": "pnpm",
+    "packageJsonCount": 1,
+    "workspacePackages": [],
+    "files": {
+      "total": 58,
+      "source": 37,
+      "typescript": 28,
+      "documentation": 14,
+      "byExtension": {
+        ".html": 4,
+        ".json": 5,
+        ".md": 2,
+        ".mdx": 12,
+        ".svg": 1,
+        ".ts": 27,
+        ".tsx": 1,
+        ".yaml": 1,
+        ".yml": 3,
+        "(none)": 2
+      }
+    },
+    "frameworks": [
+      {
+        "name": "Vite",
+        "confidence": "exact",
+        "evidence": [
+          "vite"
+        ]
+      }
+    ],
+    "dependencies": [
+      "@playwright/test",
+      "@types/node",
+      "tsup",
+      "typescript",
+      "vite",
+      "vitest"
+    ]
+  },
+  "graphStatistics": {
+    "ontoly": {
+      "files": 56,
+      "nodes": 350,
+      "edges": 655,
+      "diagnostics": 0,
+      "nodesByType": {
+        "BuildTarget": 1,
+        "Class": 3,
+        "Configuration": 5,
+        "Dependency": 6,
+        "EnvironmentVariable": 1,
+        "Exception": 1,
+        "Export": 105,
+        "Framework": 1,
+        "Function": 57,
+        "Import": 70,
+        "Interface": 17,
+        "Job": 4,
+        "Method": 6,
+        "Module": 28,
+        "Namespace": 3,
+        "Package": 7,
+        "Script": 10,
+        "Step": 6,
+        "Task": 10,
+        "TypeAlias": 5,
+        "Workflow": 3,
+        "Workspace": 1
+      },
+      "edgesByType": {
+        "CALLS": 82,
+        "CONFIGURES": 5,
+        "CONTAINS": 292,
+        "CREATES": 17,
+        "DEPENDS_ON": 6,
+        "EXECUTES": 10,
+        "EXPORTS": 105,
+        "IMPLEMENTS": 2,
+        "IMPORTS": 69,
+        "INJECTS": 2,
+        "READS": 1,
+        "RETURNS": 20,
+        "THROWS": 14,
+        "USES": 30
+      },
+      "parserVersions": {
+        "openapi": "1.0.0",
+        "typescript": "5.9.2",
+        "repository": "1.0.0"
+      },
+      "deterministicHash": "1hv7tll"
+    },
+    "graphify": {
+      "nodes": 211,
+      "edges": 553,
+      "hyperedges": 0,
+      "directed": null,
+      "multigraph": null,
+      "nodesByFileType": {
+        "code": 211
+      },
+      "concepts": {
+        "Classes": 29,
+        "Configuration": 3,
+        "Environment Variables": 4,
+        "Functions": 59,
+        "Methods": 9,
+        "Modules": 28
+      },
+      "relations": {
+        "calls": 76,
+        "contains": 170,
+        "extends": 20,
+        "implements": 2,
+        "imports": 123,
+        "imports_from": 83,
+        "method": 9,
+        "re_exports": 60,
+        "references": 10
+      },
+      "semanticRelationships": {
+        "CALLS": 76,
+        "CONTAINS": 170,
+        "EXTENDS": 20,
+        "IMPLEMENTS": 2,
+        "IMPORTS": 123,
+        "REFERENCES": 10
+      }
+    },
+    "ontolyCoverage": {
+      "coverage": 100,
+      "confidence": 100,
+      "completeness": 100,
+      "consistency": 100,
+      "trustworthiness": 100
+    },
+    "ontolyQuality": {
+      "coverage": 100,
+      "confidence": 100,
+      "completeness": 100,
+      "consistency": 100,
+      "trustworthiness": 100
+    },
+    "graphifyDiagnostics": [
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_EXIT_NONZERO",
+        "message": "Graphify exited with code 1.",
+        "source": "graphify"
+      },
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_FULL_REQUIRES_LLM",
+        "message": "Full Graphify extraction required an LLM backend for repository docs/images.",
+        "source": "graphify"
+      },
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
+        "message": "Graphify comparison uses a code-only projection with 33 files.",
+        "source": "validation harness"
+      }
+    ],
+    "ontolyDiagnostics": [],
+    "ontolyGraphValidation": {
+      "ok": true,
+      "issues": []
+    }
+  },
+  "normalized": {
+    "ontoly": {
+      "concepts": {
+        "Classes": 3,
+        "Configuration": 5,
+        "Environment Variables": 1,
+        "Functions": 57,
+        "Interfaces": 17,
+        "Methods": 6,
+        "Modules": 28,
+        "Packages": 7
+      },
+      "relationships": {
+        "CALLS": 82,
+        "CONTAINS": 292,
+        "CREATES": 17,
+        "DEPENDS_ON": 6,
+        "EXPORTS": 105,
+        "IMPLEMENTS": 2,
+        "IMPORTS": 69,
+        "INJECTS": 2,
+        "READS": 1,
+        "RETURNS": 20,
+        "THROWS": 14,
+        "USES": 30
+      },
+      "frameworks": [
+        {
+          "name": "React",
+          "confidence": "exact",
+          "coverage": 10,
+          "evidence": [
+            "react"
+          ]
+        }
+      ],
+      "diagnostics": []
+    },
+    "graphify": {
+      "concepts": {
+        "Classes": 29,
+        "Configuration": 3,
+        "Environment Variables": 4,
+        "Functions": 59,
+        "Methods": 9,
+        "Modules": 28
+      },
+      "relationships": {
+        "CALLS": 76,
+        "CONTAINS": 170,
+        "EXTENDS": 20,
+        "IMPLEMENTS": 2,
+        "IMPORTS": 123,
+        "REFERENCES": 10
+      },
+      "frameworks": [
+        {
+          "name": "React",
+          "confidence": "low",
+          "evidence": [
+            ".tsx"
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_EXIT_NONZERO",
+          "message": "Graphify exited with code 1.",
+          "source": "graphify"
+        },
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_FULL_REQUIRES_LLM",
+          "message": "Full Graphify extraction required an LLM backend for repository docs/images.",
+          "source": "graphify"
+        },
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
+          "message": "Graphify comparison uses a code-only projection with 33 files.",
+          "source": "validation harness"
+        }
+      ]
+    }
+  },
+  "semanticComparison": [
+    {
+      "concept": "Functions",
+      "relationship": "Functions",
+      "ontoly": 57,
+      "graphify": 59,
+      "delta": -2,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "supported"
+    },
+    {
+      "concept": "Methods",
+      "relationship": "Methods",
+      "ontoly": 6,
+      "graphify": 9,
+      "delta": -3,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "Classes",
+      "relationship": "Classes",
+      "ontoly": 3,
+      "graphify": 29,
+      "delta": -26,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "Interfaces",
+      "relationship": "Interfaces",
+      "ontoly": 17,
+      "graphify": 0,
+      "delta": 17,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "Routes",
+      "relationship": "Routes",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "Controllers",
+      "relationship": "Controllers",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "Modules",
+      "relationship": "Modules",
+      "ontoly": 28,
+      "graphify": 28,
+      "delta": 0,
+      "supported": true,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "supported"
+    },
+    {
+      "concept": "Services",
+      "relationship": "Services",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "Providers",
+      "relationship": "Providers",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "Repositories",
+      "relationship": "Repositories",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "Packages",
+      "relationship": "Packages",
+      "ontoly": 7,
+      "graphify": 0,
+      "delta": 7,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "Configuration",
+      "relationship": "Configuration",
+      "ontoly": 5,
+      "graphify": 3,
+      "delta": 2,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "Environment Variables",
+      "relationship": "Environment Variables",
+      "ontoly": 1,
+      "graphify": 4,
+      "delta": -3,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    }
+  ],
+  "relationshipComparison": [
+    {
+      "concept": "CALLS",
+      "relationship": "CALLS",
+      "ontoly": 82,
+      "graphify": 76,
+      "delta": 6,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "supported"
+    },
+    {
+      "concept": "IMPORTS",
+      "relationship": "IMPORTS",
+      "ontoly": 69,
+      "graphify": 123,
+      "delta": -54,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "EXPORTS",
+      "relationship": "EXPORTS",
+      "ontoly": 105,
+      "graphify": 0,
+      "delta": 105,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "CONTAINS",
+      "relationship": "CONTAINS",
+      "ontoly": 292,
+      "graphify": 170,
+      "delta": 122,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "HANDLES",
+      "relationship": "HANDLES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "MOUNTS",
+      "relationship": "MOUNTS",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "INJECTS",
+      "relationship": "INJECTS",
+      "ontoly": 2,
+      "graphify": 0,
+      "delta": 2,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "READS",
+      "relationship": "READS",
+      "ontoly": 1,
+      "graphify": 0,
+      "delta": 1,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "WRITES",
+      "relationship": "WRITES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "USES",
+      "relationship": "USES",
+      "ontoly": 30,
+      "graphify": 0,
+      "delta": 30,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "DEPENDS_ON",
+      "relationship": "DEPENDS_ON",
+      "ontoly": 6,
+      "graphify": 0,
+      "delta": 6,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "AUTHORIZES",
+      "relationship": "AUTHORIZES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "REGISTERED_IN",
+      "relationship": "REGISTERED_IN",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "IMPLEMENTS",
+      "relationship": "IMPLEMENTS",
+      "ontoly": 2,
+      "graphify": 2,
+      "delta": 0,
+      "supported": true,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "supported"
+    },
+    {
+      "concept": "EXTENDS",
+      "relationship": "EXTENDS",
+      "ontoly": 0,
+      "graphify": 20,
+      "delta": -20,
+      "supported": false,
+      "missing": [
+        "ontoly"
+      ],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "ontoly_missing"
+    },
+    {
+      "concept": "REFERENCES",
+      "relationship": "REFERENCES",
+      "ontoly": 0,
+      "graphify": 10,
+      "delta": -10,
+      "supported": false,
+      "missing": [
+        "ontoly"
+      ],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "ontoly_missing"
+    },
+    {
+      "concept": "CREATES",
+      "relationship": "CREATES",
+      "ontoly": 17,
+      "graphify": 0,
+      "delta": 17,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "THROWS",
+      "relationship": "THROWS",
+      "ontoly": 14,
+      "graphify": 0,
+      "delta": 14,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "RETURNS",
+      "relationship": "RETURNS",
+      "ontoly": 20,
+      "graphify": 0,
+      "delta": 20,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "PUBLISHES",
+      "relationship": "PUBLISHES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "SUBSCRIBES",
+      "relationship": "SUBSCRIBES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    }
+  ],
+  "frameworkUnderstanding": [
+    {
+      "framework": "Vite",
+      "measured": {
+        "expectedFromRepository": [
+          "vite"
+        ],
+        "ontolyDetected": false,
+        "graphifyInferred": false
+      },
+      "coverage": 100,
+      "confidence": null,
+      "missingConcepts": [
+        "Routes",
+        "Controllers",
+        "Services",
+        "Providers"
+      ],
+      "incorrectConcepts": "not measured",
+      "relationshipGaps": [
+        "HANDLES",
+        "MOUNTS",
+        "AUTHORIZES",
+        "REGISTERED_IN"
+      ]
+    }
+  ],
+  "performance": {
+    "ontoly": {
+      "tool": "ontoly",
+      "command": {
+        "executable": "/Users/shrey/.nvm/versions/node/v24.16.0/bin/node",
+        "args": [
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/tools/run-validation.mjs",
+          "--ontoly-one",
+          "ghost",
+          "/Users/shrey/Desktop/personal/ghost",
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/ontoly"
+        ],
+        "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository",
+        "note": "Runs Ontoly through its built package APIs with write:false so source repositories are not modified."
+      },
+      "exitCode": 0,
+      "durationMs": 1171.8272080000024,
+      "time": {
+        "realSeconds": 1.16,
+        "maxResidentSetBytes": 490209280,
+        "peakMemoryFootprintBytes": 478036448,
+        "peakMemoryBytes": 490209280,
+        "source": "/usr/bin/time -l"
+      },
+      "graphHash": "1hv7tll",
+      "outputFiles": [
+        "command.json",
+        "coverage.json",
+        "diagnostics.json",
+        "frameworks.json",
+        "graph-validation.json",
+        "indexes.json",
+        "metadata.json",
+        "quality.json",
+        "result.json",
+        "semantic-entities.json",
+        "semantic-model-summary.json",
+        "semantic-model.json",
+        "SoftwareGraph.json",
+        "statistics.json",
+        "stderr.log",
+        "stdout.log"
+      ],
+      "graphDurationMs": null,
+      "statistics": {
+        "files": 56,
+        "nodes": 350,
+        "edges": 655,
+        "diagnostics": 0,
+        "nodesByType": {
+          "BuildTarget": 1,
+          "Class": 3,
+          "Configuration": 5,
+          "Dependency": 6,
+          "EnvironmentVariable": 1,
+          "Exception": 1,
+          "Export": 105,
+          "Framework": 1,
+          "Function": 57,
+          "Import": 70,
+          "Interface": 17,
+          "Job": 4,
+          "Method": 6,
+          "Module": 28,
+          "Namespace": 3,
+          "Package": 7,
+          "Script": 10,
+          "Step": 6,
+          "Task": 10,
+          "TypeAlias": 5,
+          "Workflow": 3,
+          "Workspace": 1
+        },
+        "edgesByType": {
+          "CALLS": 82,
+          "CONFIGURES": 5,
+          "CONTAINS": 292,
+          "CREATES": 17,
+          "DEPENDS_ON": 6,
+          "EXECUTES": 10,
+          "EXPORTS": 105,
+          "IMPLEMENTS": 2,
+          "IMPORTS": 69,
+          "INJECTS": 2,
+          "READS": 1,
+          "RETURNS": 20,
+          "THROWS": 14,
+          "USES": 30
+        },
+        "parserVersions": {
+          "openapi": "1.0.0",
+          "typescript": "5.9.2",
+          "repository": "1.0.0"
+        },
+        "deterministicHash": "1hv7tll"
+      },
+      "coverage": {
+        "coverage": 100,
+        "confidence": 100,
+        "completeness": 100,
+        "consistency": 100,
+        "trustworthiness": 100
+      },
+      "diagnostics": 0
+    },
+    "graphify": {
+      "tool": "graphify",
+      "mode": "structural-code-projection",
+      "command": {
+        "executable": "graphify",
+        "args": [
+          "extract",
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/code-projection",
+          "--out",
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/structural",
+          "--no-cluster",
+          "--max-workers",
+          "8",
+          "--max-concurrency",
+          "1"
+        ],
+        "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/structural",
+        "note": "Structural fallback: full Graphify extraction required an LLM backend for docs/images, so this run analyzes a validation-side code projection only. Source repositories remain untouched."
+      },
+      "fullRun": {
+        "command": {
+          "executable": "graphify",
+          "args": [
+            "extract",
+            "/Users/shrey/Desktop/personal/ghost",
+            "--out",
+            "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/full",
+            "--no-cluster",
+            "--max-workers",
+            "8",
+            "--max-concurrency",
+            "1"
+          ],
+          "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/full",
+          "note": "Uses graphify extract with --out to avoid writing into the source repository. --no-cluster keeps the run headless and deterministic for release validation."
+        },
+        "exitCode": 1,
+        "durationMs": 125.20570899998711,
+        "time": {
+          "realSeconds": 0.11,
+          "maxResidentSetBytes": 28016640,
+          "peakMemoryFootprintBytes": 17727944,
+          "peakMemoryBytes": 28016640,
+          "source": "/usr/bin/time -l"
+        },
+        "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/full/stdout.log",
+        "stderr": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/full/stderr.log"
+      },
+      "fallbackRun": {
+        "command": {
+          "executable": "graphify",
+          "args": [
+            "extract",
+            "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/code-projection",
+            "--out",
+            "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/structural",
+            "--no-cluster",
+            "--max-workers",
+            "8",
+            "--max-concurrency",
+            "1"
+          ],
+          "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/structural",
+          "note": "Structural fallback: full Graphify extraction required an LLM backend for docs/images, so this run analyzes a validation-side code projection only. Source repositories remain untouched."
+        },
+        "exitCode": 0,
+        "durationMs": 609.0390830000106,
+        "time": {
+          "realSeconds": 0.6,
+          "maxResidentSetBytes": 50003968,
+          "peakMemoryFootprintBytes": 37716616,
+          "peakMemoryBytes": 50003968,
+          "source": "/usr/bin/time -l"
+        },
+        "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/structural/stdout.log",
+        "stderr": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/structural/stderr.log",
+        "projection": {
+          "repository": "Ghost",
+          "sourceRoot": "/Users/shrey/Desktop/personal/ghost",
+          "projectionRoot": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/code-projection",
+          "mode": "code-only projection for Graphify structural fallback",
+          "includedFiles": 33,
+          "excludedFiles": 25,
+          "includedExtensions": {
+            ".json": 5,
+            ".ts": 27,
+            ".tsx": 1
+          },
+          "files": [
+            "package.json",
+            "playwright.config.ts",
+            "site/demo/index.tsx",
+            "site/manifest.json",
+            "src/browser/capabilities.ts",
+            "src/browser/ghost.ts",
+            "src/browser/storage.ts",
+            "src/errors.ts",
+            "src/index.ts",
+            "src/protocol/challenge.ts",
+            "src/protocol/constants.ts",
+            "src/protocol/encoding.ts",
+            "src/protocol/identity.ts",
+            "src/protocol/proof.ts",
+            "src/server.ts",
+            "src/server/challenge.ts",
+            "src/server/store.ts",
+            "src/server/verify.ts",
+            "test-results/.last-run.json",
+            "tests/challenge.test.ts",
+            "tests/e2e/fixtures/vite.config.ts",
+            "tests/e2e/identity.spec.ts",
+            "tests/e2e/protocol.spec.ts",
+            "tests/e2e/unsupported.spec.ts",
+            "tests/encoding.test.ts",
+            "tests/identity.test.ts",
+            "tests/protocol-vectors.ts",
+            "tests/server.test.ts",
+            "tests/vectors.test.ts",
+            "tsconfig.build.json",
+            "tsconfig.json",
+            "tsup.config.ts",
+            "vitest.config.ts"
+          ]
+        }
+      },
+      "exitCode": 0,
+      "durationMs": 609.0390830000106,
+      "time": {
+        "realSeconds": 0.6,
+        "maxResidentSetBytes": 50003968,
+        "peakMemoryFootprintBytes": 37716616,
+        "peakMemoryBytes": 50003968,
+        "source": "/usr/bin/time -l"
+      },
+      "graphHash": "77725fa7e50ab4b018959aa78f8bc439e5f3acf57b0c1324cce927ebb4c0fd7e",
+      "outputFiles": [
+        "cache/ast/v0.9.2/287a8367e06fae219f5fd060b4cb3ac4a96c37b2068d22073bf4c19d4936ef7b.json",
+        "cache/ast/v0.9.2/ce2c961214ed60fc8a7983113739adf6fa85bea595e4151601a0d5bcbec6f1bd.json",
+        "cache/ast/v0.9.2/d2a69ef0a1bad916ccaac5ff7b7e8791ae517ae0b24cb8fc4a817399daafc979.json",
+        "cache/ast/v0.9.2/f5235612d8edc34a47a82d777cbad05e3fb0c274178a7e75ef957e382feb9375.json",
+        "cache/stat-index.json",
+        "graph.json",
+        "manifest.json"
+      ],
+      "statistics": {
+        "nodes": 211,
+        "edges": 553,
+        "hyperedges": 0,
+        "directed": null,
+        "multigraph": null,
+        "nodesByFileType": {
+          "code": 211
+        },
+        "concepts": {
+          "Classes": 29,
+          "Configuration": 3,
+          "Environment Variables": 4,
+          "Functions": 59,
+          "Methods": 9,
+          "Modules": 28
+        },
+        "relations": {
+          "calls": 76,
+          "contains": 170,
+          "extends": 20,
+          "implements": 2,
+          "imports": 123,
+          "imports_from": 83,
+          "method": 9,
+          "re_exports": 60,
+          "references": 10
+        },
+        "semanticRelationships": {
+          "CALLS": 76,
+          "CONTAINS": 170,
+          "EXTENDS": 20,
+          "IMPLEMENTS": 2,
+          "IMPORTS": 123,
+          "REFERENCES": 10
+        }
+      },
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_EXIT_NONZERO",
+          "message": "Graphify exited with code 1.",
+          "source": "graphify"
+        },
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_FULL_REQUIRES_LLM",
+          "message": "Full Graphify extraction required an LLM backend for repository docs/images.",
+          "source": "graphify"
+        },
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
+          "message": "Graphify comparison uses a code-only projection with 33 files.",
+          "source": "validation harness"
+        }
+      ]
+    }
+  },
+  "diagnostics": {
+    "ontoly": {
+      "compilerDiagnostics": 0,
+      "graphValidation": {
+        "ok": true,
+        "issues": 0,
+        "errors": 0,
+        "warnings": 0,
+        "byCode": {}
+      },
+      "coverageWarnings": 0
+    },
+    "graphify": [
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_EXIT_NONZERO",
+        "message": "Graphify exited with code 1.",
+        "source": "graphify"
+      },
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_FULL_REQUIRES_LLM",
+        "message": "Full Graphify extraction required an LLM backend for repository docs/images.",
+        "source": "graphify"
+      },
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
+        "message": "Graphify comparison uses a code-only projection with 33 files.",
+        "source": "validation harness"
+      }
+    ]
+  },
+  "strengths": [
+    {
+      "area": "Deterministic graph validation",
+      "evidence": "Ontoly trustworthiness is 100 with consistency 100.",
+      "basis": "measured"
+    },
+    {
+      "area": "Interfaces",
+      "evidence": "Ontoly produced 17 Interfaces; Graphify produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "Packages",
+      "evidence": "Ontoly produced 7 Packages; Graphify produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "INJECTS",
+      "evidence": "Ontoly produced 2 INJECTS relationships; Graphify produced 0.",
+      "basis": "inferred from normalized counts"
+    }
+  ],
+  "weaknesses": [
+    {
+      "area": "Graphify full semantic extraction",
+      "evidence": "Graphify required an LLM backend for docs/images, so the comparison uses a structural code-only fallback graph.",
+      "basis": "measured"
+    },
+    {
+      "area": "EXTENDS",
+      "evidence": "Graphify produced 20 EXTENDS relationships; Ontoly produced 0.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "REFERENCES",
+      "evidence": "Graphify produced 10 REFERENCES relationships; Ontoly produced 0.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "Vite detection",
+      "evidence": "Repository evidence suggests Vite, but Ontoly did not explicitly detect it.",
+      "basis": "inferred from package metadata"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "Medium",
+      "description": "Ontoly did not emit EXTENDS, while Graphify emitted 20.",
+      "suggestedFix": "Add or extend relationship extraction for EXTENDS and cover it with deterministic snapshots.",
+      "evidence": [
+        "Normalized Graphify EXTENDS count: 20"
+      ]
+    },
+    {
+      "priority": "Medium",
+      "description": "Ontoly did not emit REFERENCES, while Graphify emitted 10.",
+      "suggestedFix": "Add or extend relationship extraction for REFERENCES and cover it with deterministic snapshots.",
+      "evidence": [
+        "Normalized Graphify REFERENCES count: 10"
+      ]
+    },
+    {
+      "priority": "Medium",
+      "description": "Vite was inferred from repository metadata but not detected by Ontoly.",
+      "suggestedFix": "Add a Vite framework detector or map existing package evidence to a Framework node.",
+      "evidence": [
+        "vite"
+      ]
+    },
+    {
+      "priority": "Medium",
+      "description": "Graphify full semantic extraction was unavailable without an LLM backend.",
+      "suggestedFix": "For release validation, configure a deterministic Graphify semantic backend or keep the structural fallback as a separate benchmark lane.",
+      "evidence": [
+        "Graphify exited with code 1.",
+        "Full Graphify extraction required an LLM backend for repository docs/images.",
+        "Graphify comparison uses a code-only projection with 33 files."
+      ]
+    }
+  ]
+}

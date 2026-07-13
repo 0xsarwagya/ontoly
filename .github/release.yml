@@ -1,0 +1,24 @@
+changelog:
+  exclude:
+    labels:
+      - ignore-for-release
+  categories:
+    - title: Release blockers
+      labels:
+        - release-blocker
+    - title: Graph and compiler
+      labels:
+        - graph-spec
+        - compiler
+    - title: Query, MCP, and skills
+      labels:
+        - query-engine
+        - mcp
+        - agent-skills
+    - title: Validation and docs
+      labels:
+        - validation-lab
+        - documentation
+    - title: Other changes
+      labels:
+        - "*"

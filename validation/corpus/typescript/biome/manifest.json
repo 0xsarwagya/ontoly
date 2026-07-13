@@ -1,0 +1,13 @@
+{
+  "id": "biome",
+  "name": "Biome",
+  "source": "https://github.com/biomejs/biome.git",
+  "corpusPath": "typescript/biome",
+  "frameworks": [
+    "typescript"
+  ],
+  "language": "typescript",
+  "repositoryType": "tooling",
+  "expectedAnalyzer": "typescript",
+  "default": false
+}

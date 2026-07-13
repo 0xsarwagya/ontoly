@@ -1,0 +1,15 @@
+{
+  "id": "nestjs",
+  "name": "NestJS",
+  "source": "https://github.com/nestjs/nest.git",
+  "corpusPath": "nestjs/nestjs",
+  "frameworks": [
+    "nestjs",
+    "express",
+    "fastify"
+  ],
+  "language": "typescript",
+  "repositoryType": "framework",
+  "expectedAnalyzer": "nestjs",
+  "default": false
+}

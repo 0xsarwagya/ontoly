@@ -1,0 +1,17 @@
+name: Question
+description: Ask for help using Ontoly.
+title: "[Question]: "
+labels: ["question"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What are you trying to understand or accomplish?
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Include commands, repository type, framework, or generated diagnostics.

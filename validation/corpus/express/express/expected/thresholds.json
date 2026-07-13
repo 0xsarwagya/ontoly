@@ -1,0 +1,18 @@
+{
+  "analyzer": "express",
+  "semanticCoverage": 50,
+  "trust": 70,
+  "graphSizeBytes": {
+    "min": 100000,
+    "max": 20000000
+  },
+  "nodeRange": {
+    "min": 100,
+    "max": 20000
+  },
+  "edgeRange": {
+    "min": 100,
+    "max": 40000
+  },
+  "diagnosticsMax": 200
+}

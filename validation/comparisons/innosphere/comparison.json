@@ -1,0 +1,2847 @@
+{
+  "repository": {
+    "slug": "innosphere",
+    "name": "Innosphere",
+    "requestedPath": "/Users/shrey/Desktop/work/innosphere",
+    "actualPath": "/Users/shrey/Desktop/work/innosphere",
+    "pathSubstitution": null
+  },
+  "status": "partial",
+  "generatedAt": "2026-07-13T12:13:37.251Z",
+  "measured": {
+    "note": "Counts and timings are measured from generated artifacts. Strengths, weaknesses, and recommendations are inferred from normalized counts, diagnostics, and coverage metrics.",
+    "ontolyStatus": "success",
+    "graphifyStatus": "success_with_fallback",
+    "graphifyMode": "structural-code-projection"
+  },
+  "repositorySummary": {
+    "slug": "innosphere",
+    "name": "Innosphere",
+    "requestedPath": "/Users/shrey/Desktop/work/innosphere",
+    "actualPath": "/Users/shrey/Desktop/work/innosphere",
+    "pathSubstitution": null,
+    "packageName": "ovok-builder",
+    "packageManager": "pnpm",
+    "packageJsonCount": 8,
+    "workspacePackages": [],
+    "files": {
+      "total": 846,
+      "source": 561,
+      "typescript": 488,
+      "documentation": 251,
+      "byExtension": {
+        ".css": 1,
+        ".example": 2,
+        ".html": 1,
+        ".ipa": 6,
+        ".js": 8,
+        ".json": 40,
+        ".local": 3,
+        ".md": 238,
+        ".mdx": 1,
+        ".mjs": 10,
+        ".mobileprovision": 1,
+        ".mts": 2,
+        ".p12": 1,
+        ".pdf": 1,
+        ".png": 4,
+        ".py": 1,
+        ".sh": 1,
+        ".svg": 1,
+        ".toml": 2,
+        ".ts": 328,
+        ".tsx": 158,
+        ".txt": 12,
+        ".yaml": 9,
+        ".yml": 6,
+        "(none)": 9
+      }
+    },
+    "frameworks": [
+      {
+        "name": "NestJS",
+        "confidence": "exact",
+        "evidence": [
+          "@nestjs/cli",
+          "@nestjs/common",
+          "@nestjs/config",
+          "@nestjs/core",
+          "@nestjs/platform-express",
+          "@nestjs/schedule",
+          "@nestjs/schematics",
+          "@nestjs/serve-static",
+          "@nestjs/testing",
+          "@nestjs/throttler"
+        ]
+      },
+      {
+        "name": "React",
+        "confidence": "exact",
+        "evidence": [
+          "react",
+          "react-dom"
+        ]
+      },
+      {
+        "name": "Turborepo",
+        "confidence": "exact",
+        "evidence": [
+          "turbo",
+          "turbo.json"
+        ]
+      },
+      {
+        "name": "Vite",
+        "confidence": "exact",
+        "evidence": [
+          "vite"
+        ]
+      }
+    ],
+    "dependencies": [
+      "@ai-sdk/cohere",
+      "@ai-sdk/groq",
+      "@ai-sdk/openai",
+      "@ai-sdk/openai-compatible",
+      "@ai-sdk/react",
+      "@babel/core",
+      "@babel/plugin-transform-export-namespace-from",
+      "@babel/runtime",
+      "@expo-google-fonts/dm-sans",
+      "@expo/metro-runtime",
+      "@expo/styleguide-native",
+      "@expo/vector-icons",
+      "@gorhom/bottom-sheet",
+      "@huggingface/transformers",
+      "@kingstinct/react-native-healthkit",
+      "@nestjs/cli",
+      "@nestjs/common",
+      "@nestjs/config",
+      "@nestjs/core",
+      "@nestjs/platform-express",
+      "@nestjs/schedule",
+      "@nestjs/schematics",
+      "@nestjs/serve-static",
+      "@nestjs/testing",
+      "@nestjs/throttler",
+      "@opentelemetry/api",
+      "@opentelemetry/auto-instrumentations-node",
+      "@opentelemetry/context-zone",
+      "@opentelemetry/core",
+      "@opentelemetry/exporter-logs-otlp-http",
+      "@opentelemetry/exporter-metrics-otlp-http",
+      "@opentelemetry/exporter-trace-otlp-http",
+      "@opentelemetry/instrumentation",
+      "@opentelemetry/instrumentation-document-load",
+      "@opentelemetry/instrumentation-express",
+      "@opentelemetry/instrumentation-fetch",
+      "@opentelemetry/instrumentation-nestjs-core",
+      "@opentelemetry/instrumentation-pino",
+      "@opentelemetry/instrumentation-user-interaction",
+      "@opentelemetry/resources",
+      "@opentelemetry/sdk-logs",
+      "@opentelemetry/sdk-metrics",
+      "@opentelemetry/sdk-node",
+      "@opentelemetry/sdk-trace-base",
+      "@opentelemetry/sdk-trace-web",
+      "@opentelemetry/semantic-conventions",
+      "@ovok-builder/ovok-tools",
+      "@ovok-builder/shared",
+      "@ovok-builder/tsconfig",
+      "@ovok/core",
+      "@ovok/native",
+      "@qdrant/js-client-rest",
+      "@radix-ui/react-accordion",
+      "@radix-ui/react-avatar",
+      "@radix-ui/react-dialog",
+      "@radix-ui/react-dropdown-menu",
+      "@radix-ui/react-label",
+      "@radix-ui/react-popover",
+      "@radix-ui/react-progress",
+      "@radix-ui/react-scroll-area",
+      "@radix-ui/react-separator",
+      "@radix-ui/react-slot",
+      "@radix-ui/react-switch",
+      "@radix-ui/react-tabs",
+      "@radix-ui/react-toast",
+      "@radix-ui/react-tooltip",
+      "@react-native-async-storage/async-storage",
+      "@react-native-community/datetimepicker",
+      "@react-native-community/netinfo",
+      "@react-native-google-signin/google-signin",
+      "@react-navigation/native",
+      "@react-navigation/native-stack",
+      "@sentry/react-native",
+      "@shopify/flash-list",
+      "@testing-library/jest-native",
+      "@testing-library/react-native",
+      "@types/cookie-parser",
+      "@types/express",
+      "@types/jest",
+      "@types/node",
+      "@types/react",
+      "@types/react-dom",
+      "@types/react-syntax-highlighter",
+      "@vitejs/plugin-react",
+      "@webcontainer/api",
+      "@webcontainer/snapshot",
+      "@xterm/addon-fit",
+      "@xterm/addon-search",
+      "@xterm/addon-web-links",
+      "@xterm/xterm",
+      "ai",
+      "autoprefixer",
+      "babel-plugin-module-resolver",
+      "babel-preset-expo",
+      "class-variance-authority",
+      "clsx",
+      "cookie-parser",
+      "date-fns",
+      "dotenv",
+      "drizzle-kit",
+      "drizzle-orm",
+      "eslint",
+      "eslint-config-expo",
+      "expo",
+      "expo-apple-authentication",
+      "expo-asset",
+      "expo-auth-session",
+      "expo-build-properties",
+      "expo-camera",
+      "expo-constants",
+      "expo-crypto",
+      "expo-dev-client",
+      "expo-dev-client-components",
+      "expo-device",
+      "expo-file-system",
+      "expo-font",
+      "expo-health-connect",
+      "expo-image",
+      "expo-linear-gradient",
+      "expo-linking",
+      "expo-media-library",
+      "expo-module-scripts",
+      "expo-network",
+      "expo-notifications",
+      "expo-router",
+      "expo-secure-store",
+      "expo-splash-screen",
+      "expo-standard-web-crypto",
+      "expo-status-bar",
+      "expo-system-ui",
+      "expo-updates",
+      "expo-web-browser",
+      "formik",
+      "graphql-request",
+      "helmet",
+      "i18next",
+      "iconsax-react-nativejs",
+      "ioredis",
+      "isomorphic-git",
+      "jest",
+      "jest-expo",
+      "lottie-react-native",
+      "lucide-react",
+      "nestjs-pino",
+      "pino",
+      "pino-http",
+      "pino-pretty",
+      "postcss",
+      "postgres",
+      "posthog-js",
+      "react",
+      "react-dom",
+      "react-i18next",
+      "react-markdown",
+      "react-native",
+      "react-native-ble-plx",
+      "react-native-blob-util",
+      "react-native-element-dropdown",
+      "react-native-gesture-handler",
+      "react-native-health-connect",
+      "react-native-keyboard-controller",
+      "react-native-modal-datetime-picker",
+      "react-native-paper",
+      "react-native-pdf",
+      "react-native-permissions",
+      "react-native-reanimated",
+      "react-native-render-html",
+      "react-native-safe-area-context",
+      "react-native-screens",
+      "react-native-svg",
+      "react-native-web",
+      "react-native-webview",
+      "react-qr-code",
+      "react-query",
+      "react-router-dom",
+      "react-syntax-highlighter",
+      "react-test-renderer",
+      "reflect-metadata",
+      "remark-gfm",
+      "rxjs",
+      "socket.io-client",
+      "stripe",
+      "tailwind-merge",
+      "tailwindcss",
+      "tailwindcss-animate",
+      "ts-jest",
+      "ts-loader",
+      "ts-node",
+      "tsconfig-paths",
+      "tsx",
+      "turbo",
+      "typescript",
+      "use-sync-external-store",
+      "vite",
+      "whatwg-fetch",
+      "yup",
+      "zod",
+      "zustand"
+    ]
+  },
+  "graphStatistics": {
+    "ontoly": {
+      "files": 854,
+      "nodes": 6744,
+      "edges": 12091,
+      "diagnostics": 12,
+      "nodesByType": {
+        "Application": 1,
+        "BuildTarget": 6,
+        "Class": 63,
+        "Configuration": 23,
+        "Container": 3,
+        "Controller": 15,
+        "Decorator": 13,
+        "Dependency": 198,
+        "EnvironmentVariable": 76,
+        "Exception": 1,
+        "Export": 1344,
+        "Framework": 5,
+        "Function": 1307,
+        "Guard": 23,
+        "Import": 1772,
+        "Interface": 512,
+        "Job": 3,
+        "Method": 269,
+        "Module": 514,
+        "Namespace": 3,
+        "Package": 124,
+        "Pipeline": 1,
+        "Provider": 23,
+        "Route": 76,
+        "Script": 53,
+        "Service": 19,
+        "Step": 26,
+        "Task": 59,
+        "TypeAlias": 208,
+        "Workflow": 3,
+        "Workspace": 1
+      },
+      "edgesByType": {
+        "AUTHORIZES": 23,
+        "CALLS": 1228,
+        "CONFIGURES": 56,
+        "CONTAINS": 5701,
+        "CREATES": 77,
+        "DECLARES": 15,
+        "DECORATES": 156,
+        "DEPENDS_ON": 275,
+        "EXECUTES": 53,
+        "EXPORTS": 1358,
+        "EXPOSES": 76,
+        "EXTENDS": 17,
+        "HANDLES": 76,
+        "IMPLEMENTS": 2,
+        "IMPORTS": 1240,
+        "INJECTS": 11,
+        "MOUNTS": 76,
+        "PROVIDES": 48,
+        "READS": 75,
+        "REFERENCES": 69,
+        "REGISTERED_IN": 90,
+        "REGISTERS": 39,
+        "RETURNS": 425,
+        "THROWS": 95,
+        "USES": 810
+      },
+      "parserVersions": {
+        "openapi": "1.0.0",
+        "typescript": "5.9.2",
+        "repository": "1.0.0"
+      },
+      "deterministicHash": "0e26ua1"
+    },
+    "graphify": {
+      "nodes": 4178,
+      "edges": 9594,
+      "hyperedges": 0,
+      "directed": null,
+      "multigraph": null,
+      "nodesByFileType": {
+        "code": 4177,
+        "rationale": 1
+      },
+      "concepts": {
+        "Classes": 850,
+        "Configuration": 36,
+        "Controllers": 15,
+        "Environment Variables": 272,
+        "Functions": 1357,
+        "Interfaces": 1,
+        "Methods": 291,
+        "Modules": 520,
+        "Services": 18
+      },
+      "relations": {
+        "calls": 1355,
+        "contains": 3350,
+        "extends": 101,
+        "imports": 2319,
+        "imports_from": 1817,
+        "inherits": 12,
+        "method": 296,
+        "rationale_for": 1,
+        "re_exports": 202,
+        "references": 141
+      },
+      "semanticRelationships": {
+        "CALLS": 1355,
+        "CONTAINS": 3350,
+        "EXTENDS": 101,
+        "IMPORTS": 2319,
+        "REFERENCES": 141
+      }
+    },
+    "ontolyCoverage": {
+      "coverage": 100,
+      "confidence": 100,
+      "completeness": 100,
+      "consistency": 100,
+      "trustworthiness": 100
+    },
+    "ontolyQuality": {
+      "coverage": 100,
+      "confidence": 100,
+      "completeness": 100,
+      "consistency": 100,
+      "trustworthiness": 100
+    },
+    "graphifyDiagnostics": [
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_EXIT_NONZERO",
+        "message": "Graphify exited with code 1.",
+        "source": "graphify"
+      },
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_FULL_REQUIRES_LLM",
+        "message": "Full Graphify extraction required an LLM backend for repository docs/images.",
+        "source": "graphify"
+      },
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
+        "message": "Graphify comparison uses a code-only projection with 550 files.",
+        "source": "validation harness"
+      }
+    ],
+    "ontolyDiagnostics": [
+      {
+        "id": "diag:repository_json_parse_failed:1bhwapt",
+        "code": "REPOSITORY_JSON_PARSE_FAILED",
+        "severity": "warning",
+        "message": "Could not parse apps/companion-app/tsconfig.json as JSON.",
+        "span": {
+          "file": "apps/companion-app/tsconfig.json",
+          "startLine": 1,
+          "startColumn": 1,
+          "endLine": 1,
+          "endColumn": 1
+        },
+        "metadata": {
+          "file": "apps/companion-app/tsconfig.json",
+          "error": "Expected double-quoted property name in JSON at position 414 (line 16 column 7)"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:026r3rf",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./templates/vitals-page.tsx.txt?raw\" from apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts.",
+        "span": {
+          "file": "apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts",
+          "startLine": 4,
+          "startColumn": 1,
+          "endLine": 4,
+          "endColumn": 62
+        },
+        "metadata": {
+          "file": "apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts",
+          "specifier": "./templates/vitals-page.tsx.txt?raw",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:036zkhc",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./templates/devices-screen.tsx.txt?raw\" from apps/web/src/lib/webcontainer/capabilities/devices-wearables.ts.",
+        "span": {
+          "file": "apps/web/src/lib/webcontainer/capabilities/devices-wearables.ts",
+          "startLine": 2,
+          "startColumn": 1,
+          "endLine": 2,
+          "endColumn": 68
+        },
+        "metadata": {
+          "file": "apps/web/src/lib/webcontainer/capabilities/devices-wearables.ts",
+          "specifier": "./templates/devices-screen.tsx.txt?raw",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:04jysw2",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./templates/questionnaire-runner.tsx.txt?raw\" from apps/web/src/lib/webcontainer/capabilities/questionnaires.ts.",
+        "span": {
+          "file": "apps/web/src/lib/webcontainer/capabilities/questionnaires.ts",
+          "startLine": 3,
+          "startColumn": 1,
+          "endLine": 3,
+          "endColumn": 67
+        },
+        "metadata": {
+          "file": "apps/web/src/lib/webcontainer/capabilities/questionnaires.ts",
+          "specifier": "./templates/questionnaire-runner.tsx.txt?raw",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:04lx387",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"../with-ovok-dev-launcher-brand\" from apps/companion-app/plugins/__tests__/with-ovok-dev-launcher-brand.test.ts.",
+        "span": {
+          "file": "apps/companion-app/plugins/__tests__/with-ovok-dev-launcher-brand.test.ts",
+          "startLine": 7,
+          "startColumn": 1,
+          "endLine": 7,
+          "endColumn": 72
+        },
+        "metadata": {
+          "file": "apps/companion-app/plugins/__tests__/with-ovok-dev-launcher-brand.test.ts",
+          "specifier": "../with-ovok-dev-launcher-brand",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:04p6xcw",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"../source-patches\" from apps/companion-app/plugins/__tests__/source-patches.test.ts.",
+        "span": {
+          "file": "apps/companion-app/plugins/__tests__/source-patches.test.ts",
+          "startLine": 3,
+          "startColumn": 1,
+          "endLine": 11,
+          "endColumn": 28
+        },
+        "metadata": {
+          "file": "apps/companion-app/plugins/__tests__/source-patches.test.ts",
+          "specifier": "../source-patches",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:0igtzju",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./templates/fhir-hooks.ts.txt?raw\" from apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts.",
+        "span": {
+          "file": "apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts",
+          "startLine": 2,
+          "startColumn": 1,
+          "endLine": 2,
+          "endColumn": 59
+        },
+        "metadata": {
+          "file": "apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts",
+          "specifier": "./templates/fhir-hooks.ts.txt?raw",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:0nxxgfv",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"../../../../CHANGELOG.md?raw\" from apps/web/src/components/ChangelogModal.tsx.",
+        "span": {
+          "file": "apps/web/src/components/ChangelogModal.tsx",
+          "startLine": 2,
+          "startColumn": 1,
+          "endLine": 2,
+          "endColumn": 58
+        },
+        "metadata": {
+          "file": "apps/web/src/components/ChangelogModal.tsx",
+          "specifier": "../../../../CHANGELOG.md?raw",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:13psjoe",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./templates/questionnaire-results.tsx.txt?raw\" from apps/web/src/lib/webcontainer/capabilities/questionnaires.ts.",
+        "span": {
+          "file": "apps/web/src/lib/webcontainer/capabilities/questionnaires.ts",
+          "startLine": 4,
+          "startColumn": 1,
+          "endLine": 4,
+          "endColumn": 69
+        },
+        "metadata": {
+          "file": "apps/web/src/lib/webcontainer/capabilities/questionnaires.ts",
+          "specifier": "./templates/questionnaire-results.tsx.txt?raw",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:17qeyqd",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./templates/loinc.ts.txt?raw\" from apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts.",
+        "span": {
+          "file": "apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts",
+          "startLine": 3,
+          "startColumn": 1,
+          "endLine": 3,
+          "endColumn": 50
+        },
+        "metadata": {
+          "file": "apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts",
+          "specifier": "./templates/loinc.ts.txt?raw",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:1th9ww6",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./templates/fhir-hooks.ts.txt?raw\" from apps/web/src/lib/webcontainer/capabilities/questionnaires.ts.",
+        "span": {
+          "file": "apps/web/src/lib/webcontainer/capabilities/questionnaires.ts",
+          "startLine": 2,
+          "startColumn": 1,
+          "endLine": 2,
+          "endColumn": 59
+        },
+        "metadata": {
+          "file": "apps/web/src/lib/webcontainer/capabilities/questionnaires.ts",
+          "specifier": "./templates/fhir-hooks.ts.txt?raw",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:1urhmy3",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./index.css\" from apps/web/src/main.tsx.",
+        "span": {
+          "file": "apps/web/src/main.tsx",
+          "startLine": 14,
+          "startColumn": 1,
+          "endLine": 14,
+          "endColumn": 22
+        },
+        "metadata": {
+          "file": "apps/web/src/main.tsx",
+          "specifier": "./index.css",
+          "analyzer": "typescript"
+        }
+      }
+    ],
+    "ontolyGraphValidation": {
+      "ok": true,
+      "issues": [
+        {
+          "code": "PROVIDER_WITHOUT_CONSUMERS",
+          "message": "Provider provider:{ provide: APP_GUARD, useClass: ThrottlerGuard } has no graph-visible consumers.",
+          "severity": "warning"
+        },
+        {
+          "code": "SELF_RELATIONSHIP",
+          "message": "Edge edge:depends_on:1a5l19k creates a DEPENDS_ON relationship from a node to itself.",
+          "severity": "warning"
+        }
+      ]
+    }
+  },
+  "normalized": {
+    "ontoly": {
+      "concepts": {
+        "Classes": 63,
+        "Configuration": 23,
+        "Controllers": 15,
+        "Environment Variables": 76,
+        "Functions": 1307,
+        "Interfaces": 512,
+        "Methods": 269,
+        "Modules": 514,
+        "Packages": 124,
+        "Providers": 23,
+        "Routes": 76,
+        "Services": 19
+      },
+      "relationships": {
+        "AUTHORIZES": 23,
+        "CALLS": 1228,
+        "CONTAINS": 5701,
+        "CREATES": 77,
+        "DEPENDS_ON": 275,
+        "EXPORTS": 1358,
+        "EXTENDS": 17,
+        "HANDLES": 76,
+        "IMPLEMENTS": 2,
+        "IMPORTS": 1240,
+        "INJECTS": 11,
+        "MOUNTS": 76,
+        "READS": 75,
+        "REFERENCES": 69,
+        "REGISTERED_IN": 90,
+        "RETURNS": 425,
+        "THROWS": 95,
+        "USES": 810
+      },
+      "frameworks": [
+        {
+          "name": "Express",
+          "confidence": "exact",
+          "coverage": 60,
+          "evidence": [
+            "express",
+            "express",
+            "express",
+            "express",
+            "express",
+            "express",
+            "express",
+            "express",
+            "express",
+            "express",
+            "express",
+            "express",
+            "express",
+            "express"
+          ]
+        },
+        {
+          "name": "NestJS",
+          "confidence": "exact",
+          "coverage": 100,
+          "evidence": [
+            "@Controller",
+            "@Injectable",
+            "@Module",
+            "@nestjs/common",
+            "@nestjs/core"
+          ]
+        },
+        {
+          "name": "React",
+          "confidence": "exact",
+          "coverage": 10,
+          "evidence": [
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react",
+            "react"
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "id": "diag:repository_json_parse_failed:1bhwapt",
+          "code": "REPOSITORY_JSON_PARSE_FAILED",
+          "severity": "warning",
+          "message": "Could not parse apps/companion-app/tsconfig.json as JSON.",
+          "span": {
+            "file": "apps/companion-app/tsconfig.json",
+            "startLine": 1,
+            "startColumn": 1,
+            "endLine": 1,
+            "endColumn": 1
+          },
+          "metadata": {
+            "file": "apps/companion-app/tsconfig.json",
+            "error": "Expected double-quoted property name in JSON at position 414 (line 16 column 7)"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:026r3rf",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./templates/vitals-page.tsx.txt?raw\" from apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts.",
+          "span": {
+            "file": "apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts",
+            "startLine": 4,
+            "startColumn": 1,
+            "endLine": 4,
+            "endColumn": 62
+          },
+          "metadata": {
+            "file": "apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts",
+            "specifier": "./templates/vitals-page.tsx.txt?raw",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:036zkhc",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./templates/devices-screen.tsx.txt?raw\" from apps/web/src/lib/webcontainer/capabilities/devices-wearables.ts.",
+          "span": {
+            "file": "apps/web/src/lib/webcontainer/capabilities/devices-wearables.ts",
+            "startLine": 2,
+            "startColumn": 1,
+            "endLine": 2,
+            "endColumn": 68
+          },
+          "metadata": {
+            "file": "apps/web/src/lib/webcontainer/capabilities/devices-wearables.ts",
+            "specifier": "./templates/devices-screen.tsx.txt?raw",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:04jysw2",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./templates/questionnaire-runner.tsx.txt?raw\" from apps/web/src/lib/webcontainer/capabilities/questionnaires.ts.",
+          "span": {
+            "file": "apps/web/src/lib/webcontainer/capabilities/questionnaires.ts",
+            "startLine": 3,
+            "startColumn": 1,
+            "endLine": 3,
+            "endColumn": 67
+          },
+          "metadata": {
+            "file": "apps/web/src/lib/webcontainer/capabilities/questionnaires.ts",
+            "specifier": "./templates/questionnaire-runner.tsx.txt?raw",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:04lx387",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"../with-ovok-dev-launcher-brand\" from apps/companion-app/plugins/__tests__/with-ovok-dev-launcher-brand.test.ts.",
+          "span": {
+            "file": "apps/companion-app/plugins/__tests__/with-ovok-dev-launcher-brand.test.ts",
+            "startLine": 7,
+            "startColumn": 1,
+            "endLine": 7,
+            "endColumn": 72
+          },
+          "metadata": {
+            "file": "apps/companion-app/plugins/__tests__/with-ovok-dev-launcher-brand.test.ts",
+            "specifier": "../with-ovok-dev-launcher-brand",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:04p6xcw",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"../source-patches\" from apps/companion-app/plugins/__tests__/source-patches.test.ts.",
+          "span": {
+            "file": "apps/companion-app/plugins/__tests__/source-patches.test.ts",
+            "startLine": 3,
+            "startColumn": 1,
+            "endLine": 11,
+            "endColumn": 28
+          },
+          "metadata": {
+            "file": "apps/companion-app/plugins/__tests__/source-patches.test.ts",
+            "specifier": "../source-patches",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:0igtzju",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./templates/fhir-hooks.ts.txt?raw\" from apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts.",
+          "span": {
+            "file": "apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts",
+            "startLine": 2,
+            "startColumn": 1,
+            "endLine": 2,
+            "endColumn": 59
+          },
+          "metadata": {
+            "file": "apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts",
+            "specifier": "./templates/fhir-hooks.ts.txt?raw",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:0nxxgfv",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"../../../../CHANGELOG.md?raw\" from apps/web/src/components/ChangelogModal.tsx.",
+          "span": {
+            "file": "apps/web/src/components/ChangelogModal.tsx",
+            "startLine": 2,
+            "startColumn": 1,
+            "endLine": 2,
+            "endColumn": 58
+          },
+          "metadata": {
+            "file": "apps/web/src/components/ChangelogModal.tsx",
+            "specifier": "../../../../CHANGELOG.md?raw",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:13psjoe",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./templates/questionnaire-results.tsx.txt?raw\" from apps/web/src/lib/webcontainer/capabilities/questionnaires.ts.",
+          "span": {
+            "file": "apps/web/src/lib/webcontainer/capabilities/questionnaires.ts",
+            "startLine": 4,
+            "startColumn": 1,
+            "endLine": 4,
+            "endColumn": 69
+          },
+          "metadata": {
+            "file": "apps/web/src/lib/webcontainer/capabilities/questionnaires.ts",
+            "specifier": "./templates/questionnaire-results.tsx.txt?raw",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:17qeyqd",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./templates/loinc.ts.txt?raw\" from apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts.",
+          "span": {
+            "file": "apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts",
+            "startLine": 3,
+            "startColumn": 1,
+            "endLine": 3,
+            "endColumn": 50
+          },
+          "metadata": {
+            "file": "apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts",
+            "specifier": "./templates/loinc.ts.txt?raw",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:1th9ww6",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./templates/fhir-hooks.ts.txt?raw\" from apps/web/src/lib/webcontainer/capabilities/questionnaires.ts.",
+          "span": {
+            "file": "apps/web/src/lib/webcontainer/capabilities/questionnaires.ts",
+            "startLine": 2,
+            "startColumn": 1,
+            "endLine": 2,
+            "endColumn": 59
+          },
+          "metadata": {
+            "file": "apps/web/src/lib/webcontainer/capabilities/questionnaires.ts",
+            "specifier": "./templates/fhir-hooks.ts.txt?raw",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:1urhmy3",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./index.css\" from apps/web/src/main.tsx.",
+          "span": {
+            "file": "apps/web/src/main.tsx",
+            "startLine": 14,
+            "startColumn": 1,
+            "endLine": 14,
+            "endColumn": 22
+          },
+          "metadata": {
+            "file": "apps/web/src/main.tsx",
+            "specifier": "./index.css",
+            "analyzer": "typescript"
+          }
+        }
+      ]
+    },
+    "graphify": {
+      "concepts": {
+        "Classes": 850,
+        "Configuration": 36,
+        "Controllers": 15,
+        "Environment Variables": 272,
+        "Functions": 1357,
+        "Interfaces": 1,
+        "Methods": 291,
+        "Modules": 520,
+        "Services": 18
+      },
+      "relationships": {
+        "CALLS": 1355,
+        "CONTAINS": 3350,
+        "EXTENDS": 101,
+        "IMPORTS": 2319,
+        "REFERENCES": 141
+      },
+      "frameworks": [
+        {
+          "name": "NestJS",
+          "confidence": "inferred",
+          "evidence": [
+            "nestjs",
+            "@nestjs",
+            "controller"
+          ]
+        },
+        {
+          "name": "React",
+          "confidence": "inferred",
+          "evidence": [
+            "react",
+            ".tsx"
+          ]
+        },
+        {
+          "name": "Express",
+          "confidence": "low",
+          "evidence": [
+            "express"
+          ]
+        },
+        {
+          "name": "Turborepo",
+          "confidence": "inferred",
+          "evidence": [
+            "turbo.json",
+            "turborepo"
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_EXIT_NONZERO",
+          "message": "Graphify exited with code 1.",
+          "source": "graphify"
+        },
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_FULL_REQUIRES_LLM",
+          "message": "Full Graphify extraction required an LLM backend for repository docs/images.",
+          "source": "graphify"
+        },
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
+          "message": "Graphify comparison uses a code-only projection with 550 files.",
+          "source": "validation harness"
+        }
+      ]
+    }
+  },
+  "semanticComparison": [
+    {
+      "concept": "Functions",
+      "relationship": "Functions",
+      "ontoly": 1307,
+      "graphify": 1357,
+      "delta": -50,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "supported"
+    },
+    {
+      "concept": "Methods",
+      "relationship": "Methods",
+      "ontoly": 269,
+      "graphify": 291,
+      "delta": -22,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "supported"
+    },
+    {
+      "concept": "Classes",
+      "relationship": "Classes",
+      "ontoly": 63,
+      "graphify": 850,
+      "delta": -787,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "Interfaces",
+      "relationship": "Interfaces",
+      "ontoly": 512,
+      "graphify": 1,
+      "delta": 511,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "Routes",
+      "relationship": "Routes",
+      "ontoly": 76,
+      "graphify": 0,
+      "delta": 76,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "Controllers",
+      "relationship": "Controllers",
+      "ontoly": 15,
+      "graphify": 15,
+      "delta": 0,
+      "supported": true,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "supported"
+    },
+    {
+      "concept": "Modules",
+      "relationship": "Modules",
+      "ontoly": 514,
+      "graphify": 520,
+      "delta": -6,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "supported"
+    },
+    {
+      "concept": "Services",
+      "relationship": "Services",
+      "ontoly": 19,
+      "graphify": 18,
+      "delta": 1,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "supported"
+    },
+    {
+      "concept": "Providers",
+      "relationship": "Providers",
+      "ontoly": 23,
+      "graphify": 0,
+      "delta": 23,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "Repositories",
+      "relationship": "Repositories",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "Packages",
+      "relationship": "Packages",
+      "ontoly": 124,
+      "graphify": 0,
+      "delta": 124,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "Configuration",
+      "relationship": "Configuration",
+      "ontoly": 23,
+      "graphify": 36,
+      "delta": -13,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "Environment Variables",
+      "relationship": "Environment Variables",
+      "ontoly": 76,
+      "graphify": 272,
+      "delta": -196,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    }
+  ],
+  "relationshipComparison": [
+    {
+      "concept": "CALLS",
+      "relationship": "CALLS",
+      "ontoly": 1228,
+      "graphify": 1355,
+      "delta": -127,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "supported"
+    },
+    {
+      "concept": "IMPORTS",
+      "relationship": "IMPORTS",
+      "ontoly": 1240,
+      "graphify": 2319,
+      "delta": -1079,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "EXPORTS",
+      "relationship": "EXPORTS",
+      "ontoly": 1358,
+      "graphify": 0,
+      "delta": 1358,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "CONTAINS",
+      "relationship": "CONTAINS",
+      "ontoly": 5701,
+      "graphify": 3350,
+      "delta": 2351,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "HANDLES",
+      "relationship": "HANDLES",
+      "ontoly": 76,
+      "graphify": 0,
+      "delta": 76,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "MOUNTS",
+      "relationship": "MOUNTS",
+      "ontoly": 76,
+      "graphify": 0,
+      "delta": 76,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "INJECTS",
+      "relationship": "INJECTS",
+      "ontoly": 11,
+      "graphify": 0,
+      "delta": 11,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "READS",
+      "relationship": "READS",
+      "ontoly": 75,
+      "graphify": 0,
+      "delta": 75,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "WRITES",
+      "relationship": "WRITES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "USES",
+      "relationship": "USES",
+      "ontoly": 810,
+      "graphify": 0,
+      "delta": 810,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "DEPENDS_ON",
+      "relationship": "DEPENDS_ON",
+      "ontoly": 275,
+      "graphify": 0,
+      "delta": 275,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "AUTHORIZES",
+      "relationship": "AUTHORIZES",
+      "ontoly": 23,
+      "graphify": 0,
+      "delta": 23,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "REGISTERED_IN",
+      "relationship": "REGISTERED_IN",
+      "ontoly": 90,
+      "graphify": 0,
+      "delta": 90,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "IMPLEMENTS",
+      "relationship": "IMPLEMENTS",
+      "ontoly": 2,
+      "graphify": 0,
+      "delta": 2,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "EXTENDS",
+      "relationship": "EXTENDS",
+      "ontoly": 17,
+      "graphify": 101,
+      "delta": -84,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "REFERENCES",
+      "relationship": "REFERENCES",
+      "ontoly": 69,
+      "graphify": 141,
+      "delta": -72,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "CREATES",
+      "relationship": "CREATES",
+      "ontoly": 77,
+      "graphify": 0,
+      "delta": 77,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "THROWS",
+      "relationship": "THROWS",
+      "ontoly": 95,
+      "graphify": 0,
+      "delta": 95,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "RETURNS",
+      "relationship": "RETURNS",
+      "ontoly": 425,
+      "graphify": 0,
+      "delta": 425,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "PUBLISHES",
+      "relationship": "PUBLISHES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "SUBSCRIBES",
+      "relationship": "SUBSCRIBES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    }
+  ],
+  "frameworkUnderstanding": [
+    {
+      "framework": "NestJS",
+      "measured": {
+        "expectedFromRepository": [
+          "@nestjs/cli",
+          "@nestjs/common",
+          "@nestjs/config",
+          "@nestjs/core",
+          "@nestjs/platform-express",
+          "@nestjs/schedule",
+          "@nestjs/schematics",
+          "@nestjs/serve-static",
+          "@nestjs/testing",
+          "@nestjs/throttler"
+        ],
+        "ontolyDetected": true,
+        "graphifyInferred": true
+      },
+      "coverage": 100,
+      "confidence": "exact",
+      "missingConcepts": [],
+      "incorrectConcepts": "not measured",
+      "relationshipGaps": []
+    },
+    {
+      "framework": "React",
+      "measured": {
+        "expectedFromRepository": [
+          "react",
+          "react-dom"
+        ],
+        "ontolyDetected": true,
+        "graphifyInferred": true
+      },
+      "coverage": 10,
+      "confidence": "exact",
+      "missingConcepts": [],
+      "incorrectConcepts": "not measured",
+      "relationshipGaps": []
+    },
+    {
+      "framework": "Turborepo",
+      "measured": {
+        "expectedFromRepository": [
+          "turbo",
+          "turbo.json"
+        ],
+        "ontolyDetected": false,
+        "graphifyInferred": true
+      },
+      "coverage": 100,
+      "confidence": null,
+      "missingConcepts": [],
+      "incorrectConcepts": "not measured",
+      "relationshipGaps": []
+    },
+    {
+      "framework": "Vite",
+      "measured": {
+        "expectedFromRepository": [
+          "vite"
+        ],
+        "ontolyDetected": false,
+        "graphifyInferred": false
+      },
+      "coverage": 100,
+      "confidence": null,
+      "missingConcepts": [],
+      "incorrectConcepts": "not measured",
+      "relationshipGaps": []
+    }
+  ],
+  "performance": {
+    "ontoly": {
+      "tool": "ontoly",
+      "command": {
+        "executable": "/Users/shrey/.nvm/versions/node/v24.16.0/bin/node",
+        "args": [
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/tools/run-validation.mjs",
+          "--ontoly-one",
+          "innosphere",
+          "/Users/shrey/Desktop/work/innosphere",
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/ontoly"
+        ],
+        "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository",
+        "note": "Runs Ontoly through its built package APIs with write:false so source repositories are not modified."
+      },
+      "exitCode": 0,
+      "durationMs": 8249.796290999991,
+      "time": {
+        "realSeconds": 8.24,
+        "maxResidentSetBytes": 1926709248,
+        "peakMemoryFootprintBytes": 1987831000,
+        "peakMemoryBytes": 1987831000,
+        "source": "/usr/bin/time -l"
+      },
+      "graphHash": "0e26ua1",
+      "outputFiles": [
+        "command.json",
+        "coverage.json",
+        "diagnostics.json",
+        "frameworks.json",
+        "graph-validation.json",
+        "indexes.json",
+        "metadata.json",
+        "quality.json",
+        "result.json",
+        "semantic-entities.json",
+        "semantic-model-summary.json",
+        "semantic-model.json",
+        "SoftwareGraph.json",
+        "statistics.json",
+        "stderr.log",
+        "stdout.log"
+      ],
+      "graphDurationMs": null,
+      "statistics": {
+        "files": 854,
+        "nodes": 6744,
+        "edges": 12091,
+        "diagnostics": 12,
+        "nodesByType": {
+          "Application": 1,
+          "BuildTarget": 6,
+          "Class": 63,
+          "Configuration": 23,
+          "Container": 3,
+          "Controller": 15,
+          "Decorator": 13,
+          "Dependency": 198,
+          "EnvironmentVariable": 76,
+          "Exception": 1,
+          "Export": 1344,
+          "Framework": 5,
+          "Function": 1307,
+          "Guard": 23,
+          "Import": 1772,
+          "Interface": 512,
+          "Job": 3,
+          "Method": 269,
+          "Module": 514,
+          "Namespace": 3,
+          "Package": 124,
+          "Pipeline": 1,
+          "Provider": 23,
+          "Route": 76,
+          "Script": 53,
+          "Service": 19,
+          "Step": 26,
+          "Task": 59,
+          "TypeAlias": 208,
+          "Workflow": 3,
+          "Workspace": 1
+        },
+        "edgesByType": {
+          "AUTHORIZES": 23,
+          "CALLS": 1228,
+          "CONFIGURES": 56,
+          "CONTAINS": 5701,
+          "CREATES": 77,
+          "DECLARES": 15,
+          "DECORATES": 156,
+          "DEPENDS_ON": 275,
+          "EXECUTES": 53,
+          "EXPORTS": 1358,
+          "EXPOSES": 76,
+          "EXTENDS": 17,
+          "HANDLES": 76,
+          "IMPLEMENTS": 2,
+          "IMPORTS": 1240,
+          "INJECTS": 11,
+          "MOUNTS": 76,
+          "PROVIDES": 48,
+          "READS": 75,
+          "REFERENCES": 69,
+          "REGISTERED_IN": 90,
+          "REGISTERS": 39,
+          "RETURNS": 425,
+          "THROWS": 95,
+          "USES": 810
+        },
+        "parserVersions": {
+          "openapi": "1.0.0",
+          "typescript": "5.9.2",
+          "repository": "1.0.0"
+        },
+        "deterministicHash": "0e26ua1"
+      },
+      "coverage": {
+        "coverage": 100,
+        "confidence": 100,
+        "completeness": 100,
+        "consistency": 100,
+        "trustworthiness": 100
+      },
+      "diagnostics": 12
+    },
+    "graphify": {
+      "tool": "graphify",
+      "mode": "structural-code-projection",
+      "command": {
+        "executable": "graphify",
+        "args": [
+          "extract",
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection",
+          "--out",
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/structural",
+          "--no-cluster",
+          "--max-workers",
+          "8",
+          "--max-concurrency",
+          "1"
+        ],
+        "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/structural",
+        "note": "Structural fallback: full Graphify extraction required an LLM backend for docs/images, so this run analyzes a validation-side code projection only. Source repositories remain untouched."
+      },
+      "fullRun": {
+        "command": {
+          "executable": "graphify",
+          "args": [
+            "extract",
+            "/Users/shrey/Desktop/work/innosphere",
+            "--out",
+            "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/full",
+            "--no-cluster",
+            "--max-workers",
+            "8",
+            "--max-concurrency",
+            "1"
+          ],
+          "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/full",
+          "note": "Uses graphify extract with --out to avoid writing into the source repository. --no-cluster keeps the run headless and deterministic for release validation."
+        },
+        "exitCode": 1,
+        "durationMs": 885.3879170000073,
+        "time": {
+          "realSeconds": 0.88,
+          "maxResidentSetBytes": 30343168,
+          "peakMemoryFootprintBytes": 20038088,
+          "peakMemoryBytes": 30343168,
+          "source": "/usr/bin/time -l"
+        },
+        "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/full/stdout.log",
+        "stderr": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/full/stderr.log"
+      },
+      "fallbackRun": {
+        "command": {
+          "executable": "graphify",
+          "args": [
+            "extract",
+            "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection",
+            "--out",
+            "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/structural",
+            "--no-cluster",
+            "--max-workers",
+            "8",
+            "--max-concurrency",
+            "1"
+          ],
+          "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/structural",
+          "note": "Structural fallback: full Graphify extraction required an LLM backend for docs/images, so this run analyzes a validation-side code projection only. Source repositories remain untouched."
+        },
+        "exitCode": 0,
+        "durationMs": 3963.019459000003,
+        "time": {
+          "realSeconds": 3.96,
+          "maxResidentSetBytes": 224722944,
+          "peakMemoryFootprintBytes": 211583768,
+          "peakMemoryBytes": 224722944,
+          "source": "/usr/bin/time -l"
+        },
+        "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/structural/stdout.log",
+        "stderr": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/structural/stderr.log",
+        "projection": {
+          "repository": "Innosphere",
+          "sourceRoot": "/Users/shrey/Desktop/work/innosphere",
+          "projectionRoot": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection",
+          "mode": "code-only projection for Graphify structural fallback",
+          "includedFiles": 550,
+          "excludedFiles": 296,
+          "includedExtensions": {
+            ".example": 2,
+            ".js": 8,
+            ".json": 40,
+            ".mjs": 10,
+            ".mts": 2,
+            ".py": 1,
+            ".ts": 328,
+            ".tsx": 158,
+            "Dockerfile": 1
+          },
+          "files": [
+            ".claude/launch.json",
+            "apps/api/.env.example",
+            "apps/api/nest-cli.json",
+            "apps/api/package.json",
+            "apps/api/scripts/planner-smoke.ts",
+            "apps/api/scripts/rag-smoke.ts",
+            "apps/api/src/app.module.ts",
+            "apps/api/src/auth/auth.controller.ts",
+            "apps/api/src/auth/auth.guard.ts",
+            "apps/api/src/auth/auth.module.ts",
+            "apps/api/src/auth/redis.ts",
+            "apps/api/src/auth/sessions.service.ts",
+            "apps/api/src/chats/chats.controller.ts",
+            "apps/api/src/chats/chats.execution.ts",
+            "apps/api/src/chats/chats.heuristics.ts",
+            "apps/api/src/chats/chats.module.ts",
+            "apps/api/src/chats/chats.planning.ts",
+            "apps/api/src/chats/chats.repo.ts",
+            "apps/api/src/chats/chats.tools.ts",
+            "apps/api/src/chats/security-review.controller.ts",
+            "apps/api/src/cluster/cluster-fork-count.ts",
+            "apps/api/src/cluster/cluster.service.ts",
+            "apps/api/src/compliance/checks/access-control-fhir-search-scoped.ts",
+            "apps/api/src/compliance/checks/access-control-has-role-gate.ts",
+            "apps/api/src/compliance/checks/audit-has-read-trace.ts",
+            "apps/api/src/compliance/checks/audit-has-write-trace.ts",
+            "apps/api/src/compliance/checks/consent-has-capture-flow.ts",
+            "apps/api/src/compliance/checks/consent-has-withdraw-flow.ts",
+            "apps/api/src/compliance/checks/data-subject-rights-has-export.ts",
+            "apps/api/src/compliance/checks/encryption-no-fixed-iv.ts",
+            "apps/api/src/compliance/checks/encryption-password-hashed.ts",
+            "apps/api/src/compliance/checks/encryption-uses-tls.ts",
+            "apps/api/src/compliance/checks/index.ts",
+            "apps/api/src/compliance/checks/logging-no-phi-in-logs.ts",
+            "apps/api/src/compliance/checks/mdr2a-backend-cert-scope.ts",
+            "apps/api/src/compliance/checks/retention-has-ttl-on-cache.ts",
+            "apps/api/src/compliance/checks/util.ts",
+            "apps/api/src/compliance/compliance.controller.ts",
+            "apps/api/src/compliance/compliance.module.ts",
+            "apps/api/src/compliance/compliance.service.ts",
+            "apps/api/src/compliance/types.ts",
+            "apps/api/src/db/db.ts",
+            "apps/api/src/db/schema.ts",
+            "apps/api/src/figma/figma.controller.ts",
+            "apps/api/src/figma/figma.module.ts",
+            "apps/api/src/figma/figma.service.ts",
+            "apps/api/src/github-integration/github-integration.controller.ts",
+            "apps/api/src/github-integration/github-integration.module.ts",
+            "apps/api/src/github-integration/github-integration.service.ts",
+            "apps/api/src/github/github.controller.ts",
+            "apps/api/src/github/github.module.ts",
+            "apps/api/src/github/github.service.ts",
+            "apps/api/src/health/build.controller.ts",
+            "apps/api/src/health/health.controller.ts",
+            "apps/api/src/llm/blueprint-compliance.ts",
+            "apps/api/src/llm/build-pipeline/derive-brief.ts",
+            "apps/api/src/llm/build-pipeline/feature-catalog.ts",
+            "apps/api/src/llm/build-tools.ts",
+            "apps/api/src/llm/compact-messages.ts",
+            "apps/api/src/llm/fhir-doc-fetcher.ts",
+            "apps/api/src/llm/fhir-doc-paths.ts",
+            "apps/api/src/llm/fhir-payload-examples.ts",
+            "apps/api/src/llm/json-repair.ts",
+            "apps/api/src/llm/llm.module.ts",
+            "apps/api/src/llm/llm.service.ts",
+            "apps/api/src/llm/nvidia.provider.ts",
+            "apps/api/src/llm/openai.provider.ts",
+            "apps/api/src/llm/planner/check-completeness-v2.ts",
+            "apps/api/src/llm/planner/plan-schema.ts",
+            "apps/api/src/llm/planner/planner.service.ts",
+            "apps/api/src/llm/planner/verify-design-v2.ts",
+            "apps/api/src/llm/planning.ts",
+            "apps/api/src/llm/prompt-loader.ts",
+            "apps/api/src/llm/sanitize-stream.ts",
+            "apps/api/src/llm/scaffold-validators.ts",
+            "apps/api/src/llm/usage-log.ts",
+            "apps/api/src/llm/verify-design.ts",
+            "apps/api/src/logger/boot-logger.ts",
+            "apps/api/src/logger/logger.config.ts",
+            "apps/api/src/logger/logger.module.ts",
+            "apps/api/src/logger/logger.service.ts",
+            "apps/api/src/main.ts",
+            "apps/api/src/ovok/ovok-builder-auth.controller.ts",
+            "apps/api/src/ovok/ovok-refresh.cron.ts",
+            "apps/api/src/ovok/ovok.controller.ts",
+            "apps/api/src/ovok/ovok.module.ts",
+            "apps/api/src/ovok/ovok.service.ts",
+            "apps/api/src/rag/chunker.ts",
+            "apps/api/src/rag/corpus.ts",
+            "apps/api/src/rag/embed.service.ts",
+            "apps/api/src/rag/indexer.service.ts",
+            "apps/api/src/rag/qdrant.service.ts",
+            "apps/api/src/rag/rag.controller.ts",
+            "apps/api/src/rag/rag.module.ts",
+            "apps/api/src/rag/rerank.service.ts",
+            "apps/api/src/rag/search.service.ts",
+            "apps/api/src/security/semgrep.service.ts",
+            "apps/api/src/snapshots/snapshots.controller.ts",
+            "apps/api/src/snapshots/snapshots.module.ts",
+            "apps/api/src/snapshots/snapshots.service.ts",
+            "apps/api/src/stripe/stripe.controller.ts",
+            "apps/api/src/stripe/stripe.module.ts",
+            "apps/api/src/stripe/stripe.service.ts",
+            "apps/api/src/telemetry/otel.ts",
+            "apps/api/src/telemetry/redact.ts",
+            "apps/api/src/telemetry/trace-helpers.ts",
+            "apps/api/src/utils/dotenv.ts",
+            "apps/api/src/vercel/vercel.controller.ts",
+            "apps/api/src/vercel/vercel.module.ts",
+            "apps/api/src/vercel/vercel.service.ts",
+            "apps/api/tsconfig.json",
+            "apps/companion-app/app.config.ts",
+            "apps/companion-app/babel.config.js",
+            "apps/companion-app/credentials.json",
+            "apps/companion-app/eas.json",
+            "apps/companion-app/expo-env.d.ts",
+            "apps/companion-app/metro.config.js",
+            "apps/companion-app/package.json",
+            "apps/companion-app/plugins/__tests__/source-patches.test.ts",
+            "apps/companion-app/plugins/__tests__/with-ios-store-upload-compat.test.ts",
+            "apps/companion-app/plugins/__tests__/with-ovok-dev-launcher-brand.test.ts",
+            "apps/companion-app/plugins/source-patches.js",
+            "apps/companion-app/plugins/with-ios-store-upload-compat.js",
+            "apps/companion-app/plugins/with-ovok-dev-launcher-brand.js",
+            "apps/companion-app/src/app/_layout.tsx",
+            "apps/companion-app/src/app/index.tsx",
+            "apps/companion-app/src/app/recent.tsx",
+            "apps/companion-app/src/app/scan.tsx",
+            "apps/companion-app/src/launcher/__tests__/createDispatchLoad.test.ts",
+            "apps/companion-app/src/launcher/__tests__/deepLinks.test.ts",
+            "apps/companion-app/src/launcher/__tests__/dispatchHistory.test.ts",
+            "apps/companion-app/src/launcher/__tests__/loadBundle.test.ts",
+            "apps/companion-app/src/launcher/__tests__/recentProjects.test.ts",
+            "apps/companion-app/src/launcher/__tests__/startupGuards.test.ts",
+            "apps/companion-app/src/launcher/__tests__/validateBundleUrl.test.ts",
+            "apps/companion-app/src/launcher/createDispatchLoad.ts",
+            "apps/companion-app/src/launcher/deepLinks.ts",
+            "apps/companion-app/src/launcher/dispatchHistory.ts",
+            "apps/companion-app/src/launcher/LauncherContext.tsx",
+            "apps/companion-app/src/launcher/loadBundle.ts",
+            "apps/companion-app/src/launcher/recentProjects.ts",
+            "apps/companion-app/src/launcher/startupGuards.ts",
+            "apps/companion-app/src/launcher/validateBundleUrl.ts",
+            "apps/companion-app/src/theme/colors.ts",
+            "apps/companion-app/src/theme/spacing.ts",
+            "apps/companion-app/src/theme/typography.ts",
+            "apps/companion-app/src/ui/ActionCard.tsx",
+            "apps/companion-app/src/ui/BrandMark.tsx",
+            "apps/companion-app/src/ui/Button.tsx",
+            "apps/companion-app/src/ui/GradientBackdrop.tsx",
+            "apps/companion-app/src/ui/StatusPill.tsx",
+            "apps/companion-app/tsconfig.json",
+            "apps/web/.env.example",
+            "apps/web/components.json",
+            "apps/web/package.json",
+            "apps/web/postcss.config.js",
+            "apps/web/public/.well-known/assetlinks.json",
+            "apps/web/scripts/build-scaffold-snapshot.mts",
+            "apps/web/src/App.tsx",
+            "apps/web/src/components/AccessPoliciesView.tsx",
+            "apps/web/src/components/AssistantMarkdown.tsx",
+            "apps/web/src/components/BuildQuestion.tsx",
+            "apps/web/src/components/ChangelogModal.tsx",
+            "apps/web/src/components/ChatSidebar.tsx",
+            "apps/web/src/components/CodeBlock.tsx",
+            "apps/web/src/components/compliance/ComplianceCheckCard.tsx",
+            "apps/web/src/components/compliance/ComplianceMetaStrip.tsx",
+            "apps/web/src/components/compliance/ComplianceView.tsx",
+            "apps/web/src/components/compliance/RegulationPill.tsx",
+            "apps/web/src/components/compliance/StatusBadge.tsx",
+            "apps/web/src/components/compliance/types.ts",
+            "apps/web/src/components/ConnectorsModal.tsx",
+            "apps/web/src/components/CookieConsent.tsx",
+            "apps/web/src/components/ErrorBoundary.tsx",
+            "apps/web/src/components/forms/FormField.tsx",
+            "apps/web/src/components/hosting/AutoPublishEffect.tsx",
+            "apps/web/src/components/hosting/DeploymentCard.tsx",
+            "apps/web/src/components/hosting/GitHubCard.tsx",
+            "apps/web/src/components/hosting/PrivacyCard.tsx",
+            "apps/web/src/components/hosting/StatusPill.tsx",
+            "apps/web/src/components/hosting/StripeReturnDetector.tsx",
+            "apps/web/src/components/HostingView.tsx",
+            "apps/web/src/components/LoginDialog.tsx",
+            "apps/web/src/components/MobilePreview.tsx",
+            "apps/web/src/components/ovok-project/BoundCard.tsx",
+            "apps/web/src/components/ovok-project/constants.ts",
+            "apps/web/src/components/ovok-project/CreateProjectForm.tsx",
+            "apps/web/src/components/ovok-project/helpers.ts",
+            "apps/web/src/components/ovok-project/Loading.tsx",
+            "apps/web/src/components/ovok-project/MfaForm.tsx",
+            "apps/web/src/components/ovok-project/ProjectPurposePicker.tsx",
+            "apps/web/src/components/ovok-project/SignedIn.tsx",
+            "apps/web/src/components/ovok-project/SignedOut.tsx",
+            "apps/web/src/components/ovok-project/SignupForm.tsx",
+            "apps/web/src/components/ovok-project/TenantPicker.tsx",
+            "apps/web/src/components/ovok-project/UnboundPicker.tsx",
+            "apps/web/src/components/ovok-project/useOvokAuthPhase.ts",
+            "apps/web/src/components/OvokLogo.tsx",
+            "apps/web/src/components/OvokProjectView.tsx",
+            "apps/web/src/components/OvokResourcesView.tsx",
+            "apps/web/src/components/OvokSettingsView.tsx",
+            "apps/web/src/components/Pipeline.tsx",
+            "apps/web/src/components/RouteFallback.tsx",
+            "apps/web/src/components/security/AiReviewSection.tsx",
+            "apps/web/src/components/security/AiScoreBanner.tsx",
+            "apps/web/src/components/security/CategoryChip.tsx",
+            "apps/web/src/components/security/CheckIdPill.tsx",
+            "apps/web/src/components/security/FhirPermissionsSection.tsx",
+            "apps/web/src/components/security/RemediationPriorityBadge.tsx",
+            "apps/web/src/components/security/SecurityIssueCard.tsx",
+            "apps/web/src/components/security/SecurityMetaStrip.tsx",
+            "apps/web/src/components/security/SeverityBadge.tsx",
+            "apps/web/src/components/SecurityView.tsx",
+            "apps/web/src/components/ui/accordion.tsx",
+            "apps/web/src/components/ui/avatar.tsx",
+            "apps/web/src/components/ui/badge.tsx",
+            "apps/web/src/components/ui/button.tsx",
+            "apps/web/src/components/ui/card.tsx",
+            "apps/web/src/components/ui/dialog.tsx",
+            "apps/web/src/components/ui/dropdown-menu.tsx",
+            "apps/web/src/components/ui/input.tsx",
+            "apps/web/src/components/ui/label.tsx",
+            "apps/web/src/components/ui/popover.tsx",
+            "apps/web/src/components/ui/progress.tsx",
+            "apps/web/src/components/ui/scroll-area.tsx",
+            "apps/web/src/components/ui/separator.tsx",
+            "apps/web/src/components/ui/switch.tsx",
+            "apps/web/src/components/ui/tabs.tsx",
+            "apps/web/src/components/ui/toast.tsx",
+            "apps/web/src/components/ui/toaster.tsx",
+            "apps/web/src/components/ui/tooltip.tsx",
+            "apps/web/src/components/Workbench.tsx",
+            "apps/web/src/features/chat/ActivityTicker.tsx",
+            "apps/web/src/features/chat/AttachmentBlock.tsx",
+            "apps/web/src/features/chat/attachments.ts",
+            "apps/web/src/features/chat/BackendBanners.tsx",
+            "apps/web/src/features/chat/ChatApp.tsx",
+            "apps/web/src/features/chat/ChatBootstrapped.tsx",
+            "apps/web/src/features/chat/Chatbox.tsx",
+            "apps/web/src/features/chat/ChatPane.tsx",
+            "apps/web/src/features/chat/ChatTopBar.tsx",
+            "apps/web/src/features/chat/ChatView.tsx",
+            "apps/web/src/features/chat/ClarifyToolRow.tsx",
+            "apps/web/src/features/chat/constants.ts",
+            "apps/web/src/features/chat/CyclingStatus.tsx",
+            "apps/web/src/features/chat/DevIssueBanner.tsx",
+            "apps/web/src/features/chat/hooks/useReplayMessage.ts",
+            "apps/web/src/features/chat/hooks/useRestorePhase.ts",
+            "apps/web/src/features/chat/hooks/useTypingPlaceholder.ts",
+            "apps/web/src/features/chat/MessageRow.tsx",
+            "apps/web/src/features/chat/PendingClarifyBanner.tsx",
+            "apps/web/src/features/chat/PreviewLink.tsx",
+            "apps/web/src/features/chat/ReasoningBlock.tsx",
+            "apps/web/src/features/chat/ReplayBanner.tsx",
+            "apps/web/src/features/chat/RestoreVersionButton.tsx",
+            "apps/web/src/features/chat/RunningIndicator.tsx",
+            "apps/web/src/features/chat/segments.ts",
+            "apps/web/src/features/chat/StreamingStrip.tsx",
+            "apps/web/src/features/chat/ThinkingBubble.tsx",
+            "apps/web/src/features/chat/ToolGlyph.tsx",
+            "apps/web/src/features/chat/ToolGroup.tsx",
+            "apps/web/src/features/chat/ToolPart.tsx",
+            "apps/web/src/features/chat/types.ts",
+            "apps/web/src/features/chat/utils.ts",
+            "apps/web/src/features/chat/whisper-stt.ts",
+            "apps/web/src/features/dashboard/constants.ts",
+            "apps/web/src/features/dashboard/DashboardPage.tsx",
+            "apps/web/src/features/dashboard/DashboardProjects.tsx",
+            "apps/web/src/features/dashboard/DashboardSidebar.tsx",
+            "apps/web/src/features/dashboard/DashSideIcon.tsx",
+            "apps/web/src/features/dashboard/DashSideNavLink.tsx",
+            "apps/web/src/features/dashboard/demo-apps.ts",
+            "apps/web/src/features/dashboard/format-time.ts",
+            "apps/web/src/features/dashboard/LoginDialogHost.tsx",
+            "apps/web/src/features/dashboard/sidebar-collapsed.ts",
+            "apps/web/src/features/dashboard/SignInButton.tsx",
+            "apps/web/src/features/dashboard/TopBar.tsx",
+            "apps/web/src/features/dashboard/user-name.ts",
+            "apps/web/src/features/dashboard/UserMenu.tsx",
+            "apps/web/src/features/workbench/BackendPane.tsx",
+            "apps/web/src/features/workbench/CodePane.tsx",
+            "apps/web/src/features/workbench/constants.ts",
+            "apps/web/src/features/workbench/GithubView.tsx",
+            "apps/web/src/features/workbench/HistoryTree.tsx",
+            "apps/web/src/features/workbench/hooks/useDevServerUrl.ts",
+            "apps/web/src/features/workbench/hooks/usePersistedDeploymentUrl.ts",
+            "apps/web/src/features/workbench/hooks/useTerminalInstance.ts",
+            "apps/web/src/features/workbench/hooks/useViewportSize.ts",
+            "apps/web/src/features/workbench/hooks/useWorkbenchBusRouting.ts",
+            "apps/web/src/features/workbench/MoreNav.tsx",
+            "apps/web/src/features/workbench/PreviewPane.tsx",
+            "apps/web/src/features/workbench/TabBar.tsx",
+            "apps/web/src/features/workbench/TabButton.tsx",
+            "apps/web/src/features/workbench/TerminalInstance.tsx",
+            "apps/web/src/features/workbench/TerminalPane.tsx",
+            "apps/web/src/features/workbench/ThinkingDots.tsx",
+            "apps/web/src/features/workbench/types.ts",
+            "apps/web/src/features/workbench/utils.ts",
+            "apps/web/src/features/workbench/Workbench.tsx",
+            "apps/web/src/hooks/use-toast.ts",
+            "apps/web/src/hooks/useCompanionInstalled.ts",
+            "apps/web/src/hooks/useFigmaStatus.ts",
+            "apps/web/src/lib/auth-store.ts",
+            "apps/web/src/lib/chat-route.ts",
+            "apps/web/src/lib/chats-client.ts",
+            "apps/web/src/lib/clarify-sound.ts",
+            "apps/web/src/lib/cms.ts",
+            "apps/web/src/lib/compliance/review-client.ts",
+            "apps/web/src/lib/constants.ts",
+            "apps/web/src/lib/dev-issue-store.ts",
+            "apps/web/src/lib/figma-client.ts",
+            "apps/web/src/lib/file-utils.ts",
+            "apps/web/src/lib/github-export.ts",
+            "apps/web/src/lib/github-integration-client.ts",
+            "apps/web/src/lib/hosting/constants.ts",
+            "apps/web/src/lib/hosting/deploy-files.ts",
+            "apps/web/src/lib/hosting/poll.ts",
+            "apps/web/src/lib/hosting/types.ts",
+            "apps/web/src/lib/hosting/useAutoPublish.ts",
+            "apps/web/src/lib/hosting/useHostingController.ts",
+            "apps/web/src/lib/hosting/useStripeReturnPoll.ts",
+            "apps/web/src/lib/hosting/useTenantRedeployPrompt.ts",
+            "apps/web/src/lib/http-status.ts",
+            "apps/web/src/lib/i18n.tsx",
+            "apps/web/src/lib/ovok-client.ts",
+            "apps/web/src/lib/ovok-cms.ts",
+            "apps/web/src/lib/posthog.ts",
+            "apps/web/src/lib/scaffold-env.ts",
+            "apps/web/src/lib/security/fhir-detector.ts",
+            "apps/web/src/lib/security/review-client.ts",
+            "apps/web/src/lib/security/useAiReview.ts",
+            "apps/web/src/lib/security/useSecurityScan.ts",
+            "apps/web/src/lib/silktide.ts",
+            "apps/web/src/lib/snapshots.ts",
+            "apps/web/src/lib/telemetry/otel.ts",
+            "apps/web/src/lib/telemetry/trace.ts",
+            "apps/web/src/lib/time-units.ts",
+            "apps/web/src/lib/types/consent.ts",
+            "apps/web/src/lib/useCmsLanding.ts",
+            "apps/web/src/lib/userback.ts",
+            "apps/web/src/lib/utils.ts",
+            "apps/web/src/lib/webcontainer/capabilities/devices-wearables.ts",
+            "apps/web/src/lib/webcontainer/capabilities/index.ts",
+            "apps/web/src/lib/webcontainer/capabilities/questionnaires.ts",
+            "apps/web/src/lib/webcontainer/capabilities/vitals-visualization.ts",
+            "apps/web/src/lib/webcontainer/chat-snapshots.ts",
+            "apps/web/src/lib/webcontainer/dispatchers.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/add-capability.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/apply-access-policy.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/apply-questionnaire.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/ask-build-question.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/check-ovok-compliance.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/clarify-with-user.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/delete-file.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/edit-file.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/github-export-tools.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/index.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/list-files.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/lookup-fhir-resource.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/lookup-ovok-docs.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/lookup-primitive-usage.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/read-dev-logs.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/read-file.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/run-shell-guards/heredoc-and-inline.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/run-shell-guards/long-running.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/run-shell-guards/package-allowlist-data.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/run-shell-guards/package-allowlist.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/run-shell-guards/shell-anti-patterns.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/run-shell-guards/tool-name-as-command.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/run-shell.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/seed-demo-patient.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/shared-network.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/shared.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/start-dev-server-guards.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/start-dev-server-typecheck.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/start-dev-server.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/state.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/tool-call.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/verify-access-policy-intent.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/agent-thinking.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/app-json-plugins.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/app-shell.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/ble-state-enum.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/canonical-app-tsx.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/diff-and-jsx.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/empty-source.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/expo-import-not-installed.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/expo-public-on-web.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/fhir-fanout.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/i18n-shadow.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/index-css.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/login-page.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/navigation-container-duplicate.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/process-env-vite-on-mobile.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/rn-text-wrap.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/scaffold-core-files.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/sdk-auth-callbacks.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/sdk-component-screens.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/sdk-imports.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/shared.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/slice-a-ovok.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/throwaway-script.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/ts-suppress.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/user-shape-invented.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/vite-config.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file.ts",
+            "apps/web/src/lib/webcontainer/file-tree.ts",
+            "apps/web/src/lib/webcontainer/instance.ts",
+            "apps/web/src/lib/webcontainer/log-channel.ts",
+            "apps/web/src/lib/webcontainer/previews.ts",
+            "apps/web/src/lib/webcontainer/primitive-usage.ts",
+            "apps/web/src/lib/webcontainer/primitive-usage/coding-hygiene.ts",
+            "apps/web/src/lib/webcontainer/primitive-usage/plan-definition-apply.ts",
+            "apps/web/src/lib/webcontainer/primitive-usage/questionnaire-extract.ts",
+            "apps/web/src/lib/webcontainer/primitive-usage/request-group-task.ts",
+            "apps/web/src/lib/webcontainer/primitive-usage/scheduling.ts",
+            "apps/web/src/lib/webcontainer/primitive-usage/status-state-machine.ts",
+            "apps/web/src/lib/webcontainer/primitive-usage/subscription.ts",
+            "apps/web/src/lib/webcontainer/replay.ts",
+            "apps/web/src/lib/webcontainer/scaffold-app-root.ts",
+            "apps/web/src/lib/webcontainer/scaffold.ts",
+            "apps/web/src/lib/webcontainer/snapshot-mount.ts",
+            "apps/web/src/lib/webcontainer/terminals.ts",
+            "apps/web/src/lib/workbench-bus.ts",
+            "apps/web/src/main.tsx",
+            "apps/web/src/marketing/builder-landing/BuilderLanding.tsx",
+            "apps/web/src/marketing/builder-landing/hooks.ts",
+            "apps/web/src/marketing/builder-landing/Icon.tsx",
+            "apps/web/src/marketing/builder-landing/mocks.tsx",
+            "apps/web/src/marketing/builder-landing/Nav.tsx",
+            "apps/web/src/marketing/builder-landing/PromptBox.tsx",
+            "apps/web/src/marketing/builder-landing/sections/ComplianceBand.tsx",
+            "apps/web/src/marketing/builder-landing/sections/FaqAccordion.tsx",
+            "apps/web/src/marketing/builder-landing/sections/FeatureGrid.tsx",
+            "apps/web/src/marketing/builder-landing/sections/FinalCta.tsx",
+            "apps/web/src/marketing/builder-landing/sections/FooterSection.tsx",
+            "apps/web/src/marketing/builder-landing/sections/HeroSection.tsx",
+            "apps/web/src/marketing/builder-landing/sections/HowItWorksSection.tsx",
+            "apps/web/src/marketing/builder-landing/sections/PricingSection.tsx",
+            "apps/web/src/marketing/builder-landing/sections/ShowcaseSection.tsx",
+            "apps/web/src/marketing/builder-landing/shared.ts",
+            "apps/web/src/marketing/content.ts",
+            "apps/web/src/marketing/MarketingPage.tsx",
+            "apps/web/src/marketing/SiteHeader.tsx",
+            "apps/web/src/PreviewRoute.tsx",
+            "apps/web/src/routes/ChatRoute.tsx",
+            "apps/web/src/routes/CompanionOpenRoute.tsx",
+            "apps/web/src/routes/DashboardRoute.tsx",
+            "apps/web/src/routes/LandingRoute.tsx",
+            "apps/web/src/vite-env.d.ts",
+            "apps/web/tailwind.config.ts",
+            "apps/web/tsconfig.json",
+            "apps/web/vite.config.ts",
+            "Dockerfile",
+            "docs/cms-seed-content/de.json",
+            "docs/cms-seed-content/en.json",
+            "docs/cms-seed-content/es.json",
+            "docs/cms-seed-content/fr.json",
+            "docs/cms-seed-content/hi.json",
+            "docs/cms-seed-content/it.json",
+            "docs/cms-seed-content/nl.json",
+            "docs/cms-seed-content/pl.json",
+            "docs/cms-seed-content/pt.json",
+            "docs/cms-seed-content/sv.json",
+            "docs/cms-seed-content/tr.json",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/.expo/devices.json",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/.expo/settings.json",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/app.json",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/App.tsx",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/babel.config.js",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/metro.config.js",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/package.json",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/src/lib/fhir-hooks.ts",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/src/lib/ovok-auth.mobile.ts",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/src/lib/ovok-config.ts",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/src/lib/pkce.ts",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/src/screens/ConnectOvokScreen.tsx",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/src/screens/DevicesScreen.tsx",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/src/screens/ForgotPasswordScreen.tsx",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/src/screens/HomeScreen.tsx",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/src/screens/MfaScreen.tsx",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/src/screens/ProfileScreen.tsx",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/src/screens/ResetPasswordScreen.tsx",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/src/screens/SignInScreen.tsx",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/src/screens/SignUpScreen.tsx",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/src/store/authStore.ts",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/src/store/measurementStore.ts",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/src/types/ovok-native.d.ts",
+            "downloads/chat-dd5489e7-cad6-4d7f-a0bc-e5680d13c18e/tsconfig.json",
+            "package.json",
+            "packages/ovok-tools/package.json",
+            "packages/ovok-tools/scripts/smoke-test.mjs",
+            "packages/ovok-tools/scripts/workflow-primitives-smoke.mjs",
+            "packages/ovok-tools/src/access-policies.ts",
+            "packages/ovok-tools/src/fhir-schemas/allergy-intolerance.ts",
+            "packages/ovok-tools/src/fhir-schemas/appointment.ts",
+            "packages/ovok-tools/src/fhir-schemas/care-plan.ts",
+            "packages/ovok-tools/src/fhir-schemas/communication.ts",
+            "packages/ovok-tools/src/fhir-schemas/condition.ts",
+            "packages/ovok-tools/src/fhir-schemas/consent.ts",
+            "packages/ovok-tools/src/fhir-schemas/diagnostic-report.ts",
+            "packages/ovok-tools/src/fhir-schemas/document-reference.ts",
+            "packages/ovok-tools/src/fhir-schemas/encounter.ts",
+            "packages/ovok-tools/src/fhir-schemas/goal.ts",
+            "packages/ovok-tools/src/fhir-schemas/index.ts",
+            "packages/ovok-tools/src/fhir-schemas/medication-statement.ts",
+            "packages/ovok-tools/src/fhir-schemas/medication.ts",
+            "packages/ovok-tools/src/fhir-schemas/observation.ts",
+            "packages/ovok-tools/src/fhir-schemas/patient.ts",
+            "packages/ovok-tools/src/fhir-schemas/primitives.ts",
+            "packages/ovok-tools/src/fhir-schemas/questionnaire-response.ts",
+            "packages/ovok-tools/src/fhir-schemas/request-group.ts",
+            "packages/ovok-tools/src/fhir-schemas/schedule.ts",
+            "packages/ovok-tools/src/fhir-schemas/slot.ts",
+            "packages/ovok-tools/src/fhir-schemas/task.ts",
+            "packages/ovok-tools/src/index.ts",
+            "packages/ovok-tools/src/ovok-settings.ts",
+            "packages/ovok-tools/src/validate-fhir.ts",
+            "packages/ovok-tools/src/workflow-primitives.ts",
+            "packages/ovok-tools/tsconfig.json",
+            "packages/shared/guides/ovok-guide.ts",
+            "packages/shared/guides/ovok-native-guide.ts",
+            "packages/shared/package.json",
+            "packages/shared/scripts/check-native-pin-parity.mjs",
+            "packages/shared/scripts/check-scaffold-companion-native-parity.mjs",
+            "packages/shared/scripts/test-synthesizer.mjs",
+            "packages/shared/src/index.ts",
+            "packages/shared/src/scaffold/constants/app-template-files.ts",
+            "packages/shared/src/scaffold/constants/root-files.ts",
+            "packages/shared/src/scaffold/index.ts",
+            "packages/shared/src/scaffold/mobile-files.ts",
+            "packages/shared/src/scaffold/next/next-files.ts",
+            "packages/shared/src/scaffold/path-context.ts",
+            "packages/shared/src/scaffold/types.ts",
+            "packages/shared/src/scaffold/web-files.ts",
+            "packages/shared/tsconfig.cjs.json",
+            "packages/shared/tsconfig.esm.json",
+            "packages/shared/tsconfig.json",
+            "packages/tsconfig/base.json",
+            "packages/tsconfig/nest.json",
+            "packages/tsconfig/package.json",
+            "packages/tsconfig/vite.json",
+            "scripts/build_user_pdf.py",
+            "scripts/extract-scaffold.mts",
+            "scripts/harness/architecture-fitness.mjs",
+            "scripts/harness/drift-summary.mjs",
+            "scripts/harness/metrics-report.mjs",
+            "scripts/seed-cms-content.mjs",
+            "scripts/seed-demo-chat.mjs",
+            "turbo.json"
+          ]
+        }
+      },
+      "exitCode": 0,
+      "durationMs": 3963.019459000003,
+      "time": {
+        "realSeconds": 3.96,
+        "maxResidentSetBytes": 224722944,
+        "peakMemoryFootprintBytes": 211583768,
+        "peakMemoryBytes": 224722944,
+        "source": "/usr/bin/time -l"
+      },
+      "graphHash": "2f69ca2830543e71bc79a188fa37107b4220f8687d7e66b1598ea82482948273",
+      "outputFiles": [
+        "cache/ast/v0.9.2/19d69147f6e971556ba004bb0854b55400a26c34b07bf4ff25b1ae7d57930999.json",
+        "cache/ast/v0.9.2/23c8239db55c442818c42e990b591ea2007496a1fd5582dd3f8d75c06dc56acd.json",
+        "cache/ast/v0.9.2/3707381dad3f09aa13fac5f66ac41f1ef9cbc90d2f848f68b506f398cb8ccc38.json",
+        "cache/ast/v0.9.2/3b76b0e9e6bd3ce907156e0a3937a6a1aedb24dabb7bb6f6acf6d00b19bf0a58.json",
+        "cache/ast/v0.9.2/3b77f83fae399f26edd5d7a31a7039c5844b5b8ae47be56da5b16f5e1a443c66.json",
+        "cache/ast/v0.9.2/3cf97344678ce042b1fb1e67d4353185948060249cbb0ac3d1664a96708566e2.json",
+        "cache/ast/v0.9.2/45a694f17b5726f17476d2ab2f138076e353a602dd61dc5eac3ffd4419fd514c.json",
+        "cache/ast/v0.9.2/50640f3d7ab695fd08475e190c151356e2b507d33e05606878d23a27df5f9a25.json",
+        "cache/ast/v0.9.2/51ca7700940b4605fa22386e8375747aba18f216dc17f6d7ec48898dab306959.json",
+        "cache/ast/v0.9.2/570aaea410b905c90c6a0f89154fb1c4b41a763bb9f9ddc87d98e6ed6a628a74.json",
+        "cache/ast/v0.9.2/5b0e29b1e6ba052b23c8e38c08a849569c544bf75145b9b9fc78bb970c10993f.json",
+        "cache/ast/v0.9.2/5e3ef2b0c25d2345c5a752a7d0cf4b33de693ff9da7093e4bd281fd5ef81c1dc.json",
+        "cache/ast/v0.9.2/5fc27a1da67510da045f159e23f1313f81b4fd02691236ebd945ee9c186c49c5.json",
+        "cache/ast/v0.9.2/6e296b75734021068731bd5403ee12db3212f640996c9ad1991f126bac4fcccc.json",
+        "cache/ast/v0.9.2/6ed0d63a4141a0eaf666bc4413de4738946362e0171559eccca27b0c6ece23b4.json",
+        "cache/ast/v0.9.2/753bb46295d5058de27ec69b3b90174554a4688f53c45e130c52097ef9f407a5.json",
+        "cache/ast/v0.9.2/765d1fd2eb1895023587a8b0fcd3c88ef345f98fa8b3afb908d4b00b41951a32.json",
+        "cache/ast/v0.9.2/7a476f062ec6953a010032dfe6c44b0c369b7d5a7655343f31142faa3fecc0b1.json",
+        "cache/ast/v0.9.2/86dc5a99345ad763c7f4941bb31cbec4a260c680bba430b2a3cc6b43bbb4d672.json",
+        "cache/ast/v0.9.2/8adee48cc44c50db70260b65dffef2e5b62c6f75636dcb7eb8cc03306a1594e7.json",
+        "cache/ast/v0.9.2/8cb0ed13dfee602cb49aa554762437524892fdae64e27cac2842975dcfdb9c92.json",
+        "cache/ast/v0.9.2/8e58a8434fec72bc6ddabe0521ee7275b3b69c461397a963b7269a20d482bc6c.json",
+        "cache/ast/v0.9.2/9197aabd2c651c9928bba2f2891abe6a6d2c5ea6716714f85b55c71d980a3272.json",
+        "cache/ast/v0.9.2/9653c2a7a618ac50dd26cd8bb637f05a9daa97300f928b283c71dc927e8b7556.json",
+        "cache/ast/v0.9.2/97e81e40df73b441c8f6631d2d284b51929cee5f40141c97d2ffde411587d2ae.json",
+        "cache/ast/v0.9.2/a67bd3f9e9c8a6e197d3a133629bd1cde5fdb68fa1bda7c4a6a42699d75c98c5.json",
+        "cache/ast/v0.9.2/ad408cc6f536455582373aaeb5c7b9ee9d4ccbfa7605e04917a56301bdd528e0.json",
+        "cache/ast/v0.9.2/adc94baab02115f8789963d7ebb3b3f31506f02ec6a1e02d841c3c05cbad28e8.json",
+        "cache/ast/v0.9.2/c25870c065cd2695b44ac755bfc11ada0e24050033fa7227f1bd986e35641ef9.json",
+        "cache/ast/v0.9.2/c3598f16eac887ba75275c444df151fe207de1a8b4315bb066d879fc2e1a2a1b.json",
+        "cache/ast/v0.9.2/c6b67386e7277fc5acf70f01ce993ff276a43c5eb081b6e3959cb2d3ee6e65fc.json",
+        "cache/ast/v0.9.2/c98ce6edc751cfb4df15ed9651f4ac4aa683d65d49f0d00185b1383db9b63ff5.json",
+        "cache/ast/v0.9.2/d0c74b1fb16badf39a2ece8ee7371f50f8b446d081b209b5578a59889829eedb.json",
+        "cache/ast/v0.9.2/dddf59883fed27b2ee23249d597e2f3e12000cc10c25b7746fee421592a9b566.json",
+        "cache/ast/v0.9.2/e2fe440621aa8cb887197b9ac2e58adeab1b7fa1db386a8fa476bce94a084f5c.json",
+        "cache/ast/v0.9.2/ec7a7d6d9d6f5464239fb741f3ee14cd2fe6695821af90d8cb5002e1a0bdc6c2.json",
+        "cache/ast/v0.9.2/ed59160eb46f4778f74ab6c9084080da9eaabdebc5f2f1b45363d3ef9da37fd2.json",
+        "cache/ast/v0.9.2/f5ae84203ead95812ed6db4bdabb3dd6ccd3706740262485f6bdd0e3302bcceb.json",
+        "cache/ast/v0.9.2/f69c8e0c8f8fcb171c77f9debc7f2df64c71fc0b3a90c81aac500600ad69fc4a.json",
+        "cache/ast/v0.9.2/f81bc8ae556176f3d8f0ed6eba49c000037262d71d961fb6ed3b894774fe5ca5.json",
+        "cache/stat-index.json",
+        "graph.json",
+        "manifest.json"
+      ],
+      "statistics": {
+        "nodes": 4178,
+        "edges": 9594,
+        "hyperedges": 0,
+        "directed": null,
+        "multigraph": null,
+        "nodesByFileType": {
+          "code": 4177,
+          "rationale": 1
+        },
+        "concepts": {
+          "Classes": 850,
+          "Configuration": 36,
+          "Controllers": 15,
+          "Environment Variables": 272,
+          "Functions": 1357,
+          "Interfaces": 1,
+          "Methods": 291,
+          "Modules": 520,
+          "Services": 18
+        },
+        "relations": {
+          "calls": 1355,
+          "contains": 3350,
+          "extends": 101,
+          "imports": 2319,
+          "imports_from": 1817,
+          "inherits": 12,
+          "method": 296,
+          "rationale_for": 1,
+          "re_exports": 202,
+          "references": 141
+        },
+        "semanticRelationships": {
+          "CALLS": 1355,
+          "CONTAINS": 3350,
+          "EXTENDS": 101,
+          "IMPORTS": 2319,
+          "REFERENCES": 141
+        }
+      },
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_EXIT_NONZERO",
+          "message": "Graphify exited with code 1.",
+          "source": "graphify"
+        },
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_FULL_REQUIRES_LLM",
+          "message": "Full Graphify extraction required an LLM backend for repository docs/images.",
+          "source": "graphify"
+        },
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
+          "message": "Graphify comparison uses a code-only projection with 550 files.",
+          "source": "validation harness"
+        }
+      ]
+    }
+  },
+  "diagnostics": {
+    "ontoly": {
+      "compilerDiagnostics": 12,
+      "graphValidation": {
+        "ok": true,
+        "issues": 2,
+        "errors": 0,
+        "warnings": 2,
+        "byCode": {
+          "PROVIDER_WITHOUT_CONSUMERS": 1,
+          "SELF_RELATIONSHIP": 1
+        }
+      },
+      "coverageWarnings": 0
+    },
+    "graphify": [
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_EXIT_NONZERO",
+        "message": "Graphify exited with code 1.",
+        "source": "graphify"
+      },
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_FULL_REQUIRES_LLM",
+        "message": "Full Graphify extraction required an LLM backend for repository docs/images.",
+        "source": "graphify"
+      },
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
+        "message": "Graphify comparison uses a code-only projection with 550 files.",
+        "source": "validation harness"
+      }
+    ]
+  },
+  "strengths": [
+    {
+      "area": "Deterministic graph validation",
+      "evidence": "Ontoly trustworthiness is 100 with consistency 100.",
+      "basis": "measured"
+    },
+    {
+      "area": "Routes",
+      "evidence": "Ontoly produced 76 Routes; Graphify produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "Providers",
+      "evidence": "Ontoly produced 23 Providers; Graphify produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "Packages",
+      "evidence": "Ontoly produced 124 Packages; Graphify produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "HANDLES",
+      "evidence": "Ontoly produced 76 HANDLES relationships; Graphify produced 0.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "MOUNTS",
+      "evidence": "Ontoly produced 76 MOUNTS relationships; Graphify produced 0.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "INJECTS",
+      "evidence": "Ontoly produced 11 INJECTS relationships; Graphify produced 0.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "AUTHORIZES",
+      "evidence": "Ontoly produced 23 AUTHORIZES relationships; Graphify produced 0.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "REGISTERED_IN",
+      "evidence": "Ontoly produced 90 REGISTERED_IN relationships; Graphify produced 0.",
+      "basis": "inferred from normalized counts"
+    }
+  ],
+  "weaknesses": [
+    {
+      "area": "Graphify full semantic extraction",
+      "evidence": "Graphify required an LLM backend for docs/images, so the comparison uses a structural code-only fallback graph.",
+      "basis": "measured"
+    },
+    {
+      "area": "Graph validation warnings",
+      "evidence": "2 validation warnings were reported.",
+      "basis": "measured"
+    },
+    {
+      "area": "Turborepo detection",
+      "evidence": "Repository evidence suggests Turborepo, but Ontoly did not explicitly detect it.",
+      "basis": "inferred from package metadata"
+    },
+    {
+      "area": "Vite detection",
+      "evidence": "Repository evidence suggests Vite, but Ontoly did not explicitly detect it.",
+      "basis": "inferred from package metadata"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "High",
+      "description": "1 graph validation issue(s) with code PROVIDER_WITHOUT_CONSUMERS.",
+      "suggestedFix": "Improve provider consumer detection or mark intentionally public/root providers with explicit metadata.",
+      "evidence": [
+        "Provider provider:{ provide: APP_GUARD, useClass: ThrottlerGuard } has no graph-visible consumers."
+      ]
+    },
+    {
+      "priority": "High",
+      "description": "1 graph validation issue(s) with code SELF_RELATIONSHIP.",
+      "suggestedFix": "Add a deterministic fixture for this validation issue and repair the graph construction invariant.",
+      "evidence": [
+        "Edge edge:depends_on:1a5l19k creates a DEPENDS_ON relationship from a node to itself."
+      ]
+    },
+    {
+      "priority": "Medium",
+      "description": "Turborepo was inferred from repository metadata but not detected by Ontoly.",
+      "suggestedFix": "Add a Turborepo framework detector or map existing package evidence to a Framework node.",
+      "evidence": [
+        "turbo",
+        "turbo.json"
+      ]
+    },
+    {
+      "priority": "Medium",
+      "description": "Vite was inferred from repository metadata but not detected by Ontoly.",
+      "suggestedFix": "Add a Vite framework detector or map existing package evidence to a Framework node.",
+      "evidence": [
+        "vite"
+      ]
+    },
+    {
+      "priority": "Medium",
+      "description": "Graphify full semantic extraction was unavailable without an LLM backend.",
+      "suggestedFix": "For release validation, configure a deterministic Graphify semantic backend or keep the structural fallback as a separate benchmark lane.",
+      "evidence": [
+        "Graphify exited with code 1.",
+        "Full Graphify extraction required an LLM backend for repository docs/images.",
+        "Graphify comparison uses a code-only projection with 550 files."
+      ]
+    }
+  ]
+}

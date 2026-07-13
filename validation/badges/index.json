@@ -1,0 +1,137 @@
+{
+  "generatedAt": "2026-07-13T15:37:42.032Z",
+  "items": [
+    {
+      "id": "validation",
+      "label": "validation",
+      "message": "PASS",
+      "color": "2ea44f"
+    },
+    {
+      "id": "regression",
+      "label": "regression",
+      "message": "PASS",
+      "color": "2ea44f"
+    },
+    {
+      "id": "ovok-core-coverage",
+      "label": "ovok-core coverage",
+      "message": "98%",
+      "color": "2ea44f"
+    },
+    {
+      "id": "ovok-core-trust",
+      "label": "ovok-core trust",
+      "message": "98%",
+      "color": "2ea44f"
+    },
+    {
+      "id": "ovok-core-performance",
+      "label": "ovok-core perf",
+      "message": "25104.05ms",
+      "color": "0969da"
+    },
+    {
+      "id": "ovok-core-framework",
+      "label": "ovok-core frameworks",
+      "message": "nestjs,express",
+      "color": "8250df"
+    },
+    {
+      "id": "0xsarwagya-coverage",
+      "label": "0xsarwagya coverage",
+      "message": "95%",
+      "color": "2ea44f"
+    },
+    {
+      "id": "0xsarwagya-trust",
+      "label": "0xsarwagya trust",
+      "message": "95%",
+      "color": "2ea44f"
+    },
+    {
+      "id": "0xsarwagya-performance",
+      "label": "0xsarwagya perf",
+      "message": "8432.22ms",
+      "color": "0969da"
+    },
+    {
+      "id": "0xsarwagya-framework",
+      "label": "0xsarwagya frameworks",
+      "message": "nextjs,react,turborepo",
+      "color": "8250df"
+    },
+    {
+      "id": "innosphere-coverage",
+      "label": "innosphere coverage",
+      "message": "100%",
+      "color": "2ea44f"
+    },
+    {
+      "id": "innosphere-trust",
+      "label": "innosphere trust",
+      "message": "100%",
+      "color": "2ea44f"
+    },
+    {
+      "id": "innosphere-performance",
+      "label": "innosphere perf",
+      "message": "10477.27ms",
+      "color": "0969da"
+    },
+    {
+      "id": "innosphere-framework",
+      "label": "innosphere frameworks",
+      "message": "nestjs,react,turborepo,vite",
+      "color": "8250df"
+    },
+    {
+      "id": "ghost-coverage",
+      "label": "ghost coverage",
+      "message": "100%",
+      "color": "2ea44f"
+    },
+    {
+      "id": "ghost-trust",
+      "label": "ghost trust",
+      "message": "100%",
+      "color": "2ea44f"
+    },
+    {
+      "id": "ghost-performance",
+      "label": "ghost perf",
+      "message": "613.65ms",
+      "color": "0969da"
+    },
+    {
+      "id": "ghost-framework",
+      "label": "ghost frameworks",
+      "message": "react,vite",
+      "color": "8250df"
+    },
+    {
+      "id": "durable-local-coverage",
+      "label": "durable-local coverage",
+      "message": "100%",
+      "color": "2ea44f"
+    },
+    {
+      "id": "durable-local-trust",
+      "label": "durable-local trust",
+      "message": "100%",
+      "color": "2ea44f"
+    },
+    {
+      "id": "durable-local-performance",
+      "label": "durable-local perf",
+      "message": "601.75ms",
+      "color": "0969da"
+    },
+    {
+      "id": "durable-local-framework",
+      "label": "durable-local frameworks",
+      "message": "react,vite",
+      "color": "8250df"
+    }
+  ]
+}

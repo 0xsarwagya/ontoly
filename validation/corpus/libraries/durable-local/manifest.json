@@ -1,0 +1,14 @@
+{
+  "id": "durable-local",
+  "name": "durable-local",
+  "source": "/Users/shrey/Desktop/personal/durable-local",
+  "corpusPath": "libraries/durable-local",
+  "frameworks": [
+    "react",
+    "vite"
+  ],
+  "language": "typescript",
+  "repositoryType": "library",
+  "expectedAnalyzer": "typescript",
+  "default": true
+}

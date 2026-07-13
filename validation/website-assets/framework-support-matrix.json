@@ -1,0 +1,333 @@
+[
+  {
+    "framework": "drizzle",
+    "repositories": [
+      {
+        "id": "drizzle",
+        "default": false,
+        "expectedAnalyzer": "typescript",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "express",
+    "repositories": [
+      {
+        "id": "ovok-core",
+        "default": true,
+        "expectedAnalyzer": "nestjs",
+        "latestStatus": "PASS"
+      },
+      {
+        "id": "nestjs",
+        "default": false,
+        "expectedAnalyzer": "nestjs",
+        "latestStatus": "not-run"
+      },
+      {
+        "id": "express",
+        "default": false,
+        "expectedAnalyzer": "express",
+        "latestStatus": "not-run"
+      },
+      {
+        "id": "medusa",
+        "default": false,
+        "expectedAnalyzer": "workspace",
+        "latestStatus": "not-run"
+      },
+      {
+        "id": "directus",
+        "default": false,
+        "expectedAnalyzer": "workspace",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "fastify",
+    "repositories": [
+      {
+        "id": "nestjs",
+        "default": false,
+        "expectedAnalyzer": "nestjs",
+        "latestStatus": "not-run"
+      },
+      {
+        "id": "fastify",
+        "default": false,
+        "expectedAnalyzer": "fastify",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "graphql",
+    "repositories": [
+      {
+        "id": "vendure",
+        "default": false,
+        "expectedAnalyzer": "nestjs",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "hono",
+    "repositories": [
+      {
+        "id": "hono",
+        "default": false,
+        "expectedAnalyzer": "hono",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "nestjs",
+    "repositories": [
+      {
+        "id": "ovok-core",
+        "default": true,
+        "expectedAnalyzer": "nestjs",
+        "latestStatus": "PASS"
+      },
+      {
+        "id": "innosphere",
+        "default": true,
+        "expectedAnalyzer": "nestjs",
+        "latestStatus": "PASS"
+      },
+      {
+        "id": "nestjs",
+        "default": false,
+        "expectedAnalyzer": "nestjs",
+        "latestStatus": "not-run"
+      },
+      {
+        "id": "nx",
+        "default": false,
+        "expectedAnalyzer": "workspace",
+        "latestStatus": "not-run"
+      },
+      {
+        "id": "vendure",
+        "default": false,
+        "expectedAnalyzer": "nestjs",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "nextjs",
+    "repositories": [
+      {
+        "id": "0xsarwagya",
+        "default": true,
+        "expectedAnalyzer": "workspace",
+        "latestStatus": "PASS"
+      },
+      {
+        "id": "nextjs",
+        "default": false,
+        "expectedAnalyzer": "nextjs",
+        "latestStatus": "not-run"
+      },
+      {
+        "id": "payload",
+        "default": false,
+        "expectedAnalyzer": "workspace",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "nx",
+    "repositories": [
+      {
+        "id": "nx",
+        "default": false,
+        "expectedAnalyzer": "workspace",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "prisma",
+    "repositories": [
+      {
+        "id": "prisma",
+        "default": false,
+        "expectedAnalyzer": "typescript",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "react",
+    "repositories": [
+      {
+        "id": "0xsarwagya",
+        "default": true,
+        "expectedAnalyzer": "workspace",
+        "latestStatus": "PASS"
+      },
+      {
+        "id": "innosphere",
+        "default": true,
+        "expectedAnalyzer": "nestjs",
+        "latestStatus": "PASS"
+      },
+      {
+        "id": "ghost",
+        "default": true,
+        "expectedAnalyzer": "typescript",
+        "latestStatus": "PASS"
+      },
+      {
+        "id": "durable-local",
+        "default": true,
+        "expectedAnalyzer": "typescript",
+        "latestStatus": "PASS"
+      },
+      {
+        "id": "nextjs",
+        "default": false,
+        "expectedAnalyzer": "nextjs",
+        "latestStatus": "not-run"
+      },
+      {
+        "id": "react",
+        "default": false,
+        "expectedAnalyzer": "react",
+        "latestStatus": "not-run"
+      },
+      {
+        "id": "tanstack-query",
+        "default": false,
+        "expectedAnalyzer": "typescript",
+        "latestStatus": "not-run"
+      },
+      {
+        "id": "nx",
+        "default": false,
+        "expectedAnalyzer": "workspace",
+        "latestStatus": "not-run"
+      },
+      {
+        "id": "payload",
+        "default": false,
+        "expectedAnalyzer": "workspace",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "tanstack-query",
+    "repositories": [
+      {
+        "id": "tanstack-query",
+        "default": false,
+        "expectedAnalyzer": "typescript",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "trpc",
+    "repositories": [
+      {
+        "id": "trpc",
+        "default": false,
+        "expectedAnalyzer": "typescript",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "turborepo",
+    "repositories": [
+      {
+        "id": "0xsarwagya",
+        "default": true,
+        "expectedAnalyzer": "workspace",
+        "latestStatus": "PASS"
+      },
+      {
+        "id": "innosphere",
+        "default": true,
+        "expectedAnalyzer": "nestjs",
+        "latestStatus": "PASS"
+      }
+    ]
+  },
+  {
+    "framework": "typescript",
+    "repositories": [
+      {
+        "id": "typescript",
+        "default": false,
+        "expectedAnalyzer": "typescript",
+        "latestStatus": "not-run"
+      },
+      {
+        "id": "ts-morph",
+        "default": false,
+        "expectedAnalyzer": "typescript",
+        "latestStatus": "not-run"
+      },
+      {
+        "id": "biome",
+        "default": false,
+        "expectedAnalyzer": "typescript",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "vite",
+    "repositories": [
+      {
+        "id": "innosphere",
+        "default": true,
+        "expectedAnalyzer": "nestjs",
+        "latestStatus": "PASS"
+      },
+      {
+        "id": "ghost",
+        "default": true,
+        "expectedAnalyzer": "typescript",
+        "latestStatus": "PASS"
+      },
+      {
+        "id": "durable-local",
+        "default": true,
+        "expectedAnalyzer": "typescript",
+        "latestStatus": "PASS"
+      }
+    ]
+  },
+  {
+    "framework": "vue",
+    "repositories": [
+      {
+        "id": "directus",
+        "default": false,
+        "expectedAnalyzer": "workspace",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "zod",
+    "repositories": [
+      {
+        "id": "zod",
+        "default": false,
+        "expectedAnalyzer": "typescript",
+        "latestStatus": "not-run"
+      }
+    ]
+  }
+]

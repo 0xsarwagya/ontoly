@@ -1,0 +1,15 @@
+{
+  "id": "nx",
+  "name": "Nx",
+  "source": "https://github.com/nrwl/nx.git",
+  "corpusPath": "monorepos/nx",
+  "frameworks": [
+    "nx",
+    "react",
+    "nestjs"
+  ],
+  "language": "typescript",
+  "repositoryType": "monorepo",
+  "expectedAnalyzer": "workspace",
+  "default": false
+}

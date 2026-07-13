@@ -1,0 +1,1181 @@
+{
+  "repository": {
+    "slug": "durable-local",
+    "name": "durable-local",
+    "requestedPath": "/Users/shrey/Desktop/personal/durable-local",
+    "actualPath": "/Users/shrey/Desktop/personal/durable-local",
+    "pathSubstitution": null
+  },
+  "status": "partial",
+  "generatedAt": "2026-07-13T12:13:41.315Z",
+  "measured": {
+    "note": "Counts and timings are measured from generated artifacts. Strengths, weaknesses, and recommendations are inferred from normalized counts, diagnostics, and coverage metrics.",
+    "ontolyStatus": "success",
+    "graphifyStatus": "success_with_fallback",
+    "graphifyMode": "structural-code-projection"
+  },
+  "repositorySummary": {
+    "slug": "durable-local",
+    "name": "durable-local",
+    "requestedPath": "/Users/shrey/Desktop/personal/durable-local",
+    "actualPath": "/Users/shrey/Desktop/personal/durable-local",
+    "pathSubstitution": null,
+    "packageName": "@0xsarwagya/durable-local",
+    "packageManager": "pnpm",
+    "packageJsonCount": 1,
+    "workspacePackages": [],
+    "files": {
+      "total": 55,
+      "source": 30,
+      "typescript": 22,
+      "documentation": 19,
+      "byExtension": {
+        ".html": 3,
+        ".json": 4,
+        ".md": 2,
+        ".mdx": 17,
+        ".svg": 1,
+        ".ts": 21,
+        ".tsx": 1,
+        ".yaml": 1,
+        ".yml": 3,
+        "(none)": 2
+      }
+    },
+    "frameworks": [
+      {
+        "name": "Vite",
+        "confidence": "exact",
+        "evidence": [
+          "vite"
+        ]
+      }
+    ],
+    "dependencies": [
+      "@playwright/test",
+      "@types/node",
+      "fake-indexeddb",
+      "tsup",
+      "typescript",
+      "vite",
+      "vitest"
+    ]
+  },
+  "graphStatistics": {
+    "ontoly": {
+      "files": 55,
+      "nodes": 226,
+      "edges": 381,
+      "diagnostics": 0,
+      "nodesByType": {
+        "BuildTarget": 1,
+        "Class": 1,
+        "Configuration": 5,
+        "Dependency": 7,
+        "EnvironmentVariable": 1,
+        "Export": 54,
+        "Framework": 1,
+        "Function": 35,
+        "Import": 38,
+        "Interface": 9,
+        "Job": 4,
+        "Module": 21,
+        "Namespace": 1,
+        "Package": 8,
+        "Script": 9,
+        "Step": 6,
+        "Task": 9,
+        "TypeAlias": 12,
+        "Workflow": 3,
+        "Workspace": 1
+      },
+      "edgesByType": {
+        "CALLS": 38,
+        "CONFIGURES": 5,
+        "CONTAINS": 175,
+        "CREATES": 7,
+        "DEPENDS_ON": 7,
+        "EXECUTES": 9,
+        "EXPORTS": 54,
+        "EXTENDS": 1,
+        "IMPORTS": 38,
+        "INJECTS": 2,
+        "READS": 1,
+        "RETURNS": 11,
+        "THROWS": 5,
+        "USES": 28
+      },
+      "parserVersions": {
+        "openapi": "1.0.0",
+        "typescript": "5.9.2",
+        "repository": "1.0.0"
+      },
+      "deterministicHash": "0qkaj80"
+    },
+    "graphify": {
+      "nodes": 167,
+      "edges": 304,
+      "hyperedges": 0,
+      "directed": null,
+      "multigraph": null,
+      "nodesByFileType": {
+        "code": 167
+      },
+      "concepts": {
+        "Classes": 24,
+        "Configuration": 3,
+        "Functions": 35,
+        "Interfaces": 2,
+        "Methods": 1,
+        "Modules": 22
+      },
+      "relations": {
+        "calls": 25,
+        "contains": 140,
+        "extends": 20,
+        "imports": 47,
+        "imports_from": 43,
+        "inherits": 1,
+        "method": 1,
+        "re_exports": 23,
+        "references": 4
+      },
+      "semanticRelationships": {
+        "CALLS": 25,
+        "CONTAINS": 140,
+        "EXTENDS": 20,
+        "IMPORTS": 47,
+        "REFERENCES": 4
+      }
+    },
+    "ontolyCoverage": {
+      "coverage": 100,
+      "confidence": 100,
+      "completeness": 100,
+      "consistency": 100,
+      "trustworthiness": 100
+    },
+    "ontolyQuality": {
+      "coverage": 100,
+      "confidence": 100,
+      "completeness": 100,
+      "consistency": 100,
+      "trustworthiness": 100
+    },
+    "graphifyDiagnostics": [
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_EXIT_NONZERO",
+        "message": "Graphify exited with code 1.",
+        "source": "graphify"
+      },
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_FULL_REQUIRES_LLM",
+        "message": "Full Graphify extraction required an LLM backend for repository docs/images.",
+        "source": "graphify"
+      },
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
+        "message": "Graphify comparison uses a code-only projection with 26 files.",
+        "source": "validation harness"
+      }
+    ],
+    "ontolyDiagnostics": [],
+    "ontolyGraphValidation": {
+      "ok": true,
+      "issues": []
+    }
+  },
+  "normalized": {
+    "ontoly": {
+      "concepts": {
+        "Classes": 1,
+        "Configuration": 5,
+        "Environment Variables": 1,
+        "Functions": 35,
+        "Interfaces": 9,
+        "Modules": 21,
+        "Packages": 8
+      },
+      "relationships": {
+        "CALLS": 38,
+        "CONTAINS": 175,
+        "CREATES": 7,
+        "DEPENDS_ON": 7,
+        "EXPORTS": 54,
+        "EXTENDS": 1,
+        "IMPORTS": 38,
+        "INJECTS": 2,
+        "READS": 1,
+        "RETURNS": 11,
+        "THROWS": 5,
+        "USES": 28
+      },
+      "frameworks": [
+        {
+          "name": "React",
+          "confidence": "exact",
+          "coverage": 10,
+          "evidence": [
+            "react"
+          ]
+        }
+      ],
+      "diagnostics": []
+    },
+    "graphify": {
+      "concepts": {
+        "Classes": 24,
+        "Configuration": 3,
+        "Functions": 35,
+        "Interfaces": 2,
+        "Methods": 1,
+        "Modules": 22
+      },
+      "relationships": {
+        "CALLS": 25,
+        "CONTAINS": 140,
+        "EXTENDS": 20,
+        "IMPORTS": 47,
+        "REFERENCES": 4
+      },
+      "frameworks": [
+        {
+          "name": "React",
+          "confidence": "low",
+          "evidence": [
+            ".tsx"
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_EXIT_NONZERO",
+          "message": "Graphify exited with code 1.",
+          "source": "graphify"
+        },
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_FULL_REQUIRES_LLM",
+          "message": "Full Graphify extraction required an LLM backend for repository docs/images.",
+          "source": "graphify"
+        },
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
+          "message": "Graphify comparison uses a code-only projection with 26 files.",
+          "source": "validation harness"
+        }
+      ]
+    }
+  },
+  "semanticComparison": [
+    {
+      "concept": "Functions",
+      "relationship": "Functions",
+      "ontoly": 35,
+      "graphify": 35,
+      "delta": 0,
+      "supported": true,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "supported"
+    },
+    {
+      "concept": "Methods",
+      "relationship": "Methods",
+      "ontoly": 0,
+      "graphify": 1,
+      "delta": -1,
+      "supported": false,
+      "missing": [
+        "ontoly"
+      ],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "ontoly_missing"
+    },
+    {
+      "concept": "Classes",
+      "relationship": "Classes",
+      "ontoly": 1,
+      "graphify": 24,
+      "delta": -23,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "Interfaces",
+      "relationship": "Interfaces",
+      "ontoly": 9,
+      "graphify": 2,
+      "delta": 7,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "Routes",
+      "relationship": "Routes",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "Controllers",
+      "relationship": "Controllers",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "Modules",
+      "relationship": "Modules",
+      "ontoly": 21,
+      "graphify": 22,
+      "delta": -1,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "supported"
+    },
+    {
+      "concept": "Services",
+      "relationship": "Services",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "Providers",
+      "relationship": "Providers",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "Repositories",
+      "relationship": "Repositories",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "Packages",
+      "relationship": "Packages",
+      "ontoly": 8,
+      "graphify": 0,
+      "delta": 8,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "Configuration",
+      "relationship": "Configuration",
+      "ontoly": 5,
+      "graphify": 3,
+      "delta": 2,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "Environment Variables",
+      "relationship": "Environment Variables",
+      "ontoly": 1,
+      "graphify": 0,
+      "delta": 1,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    }
+  ],
+  "relationshipComparison": [
+    {
+      "concept": "CALLS",
+      "relationship": "CALLS",
+      "ontoly": 38,
+      "graphify": 25,
+      "delta": 13,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "IMPORTS",
+      "relationship": "IMPORTS",
+      "ontoly": 38,
+      "graphify": 47,
+      "delta": -9,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "supported"
+    },
+    {
+      "concept": "EXPORTS",
+      "relationship": "EXPORTS",
+      "ontoly": 54,
+      "graphify": 0,
+      "delta": 54,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "CONTAINS",
+      "relationship": "CONTAINS",
+      "ontoly": 175,
+      "graphify": 140,
+      "delta": 35,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "supported"
+    },
+    {
+      "concept": "HANDLES",
+      "relationship": "HANDLES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "MOUNTS",
+      "relationship": "MOUNTS",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "INJECTS",
+      "relationship": "INJECTS",
+      "ontoly": 2,
+      "graphify": 0,
+      "delta": 2,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "READS",
+      "relationship": "READS",
+      "ontoly": 1,
+      "graphify": 0,
+      "delta": 1,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "WRITES",
+      "relationship": "WRITES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "USES",
+      "relationship": "USES",
+      "ontoly": 28,
+      "graphify": 0,
+      "delta": 28,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "DEPENDS_ON",
+      "relationship": "DEPENDS_ON",
+      "ontoly": 7,
+      "graphify": 0,
+      "delta": 7,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "AUTHORIZES",
+      "relationship": "AUTHORIZES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "REGISTERED_IN",
+      "relationship": "REGISTERED_IN",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "IMPLEMENTS",
+      "relationship": "IMPLEMENTS",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "EXTENDS",
+      "relationship": "EXTENDS",
+      "ontoly": 1,
+      "graphify": 20,
+      "delta": -19,
+      "supported": true,
+      "missing": [],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "divergent"
+    },
+    {
+      "concept": "REFERENCES",
+      "relationship": "REFERENCES",
+      "ontoly": 0,
+      "graphify": 4,
+      "delta": -4,
+      "supported": false,
+      "missing": [
+        "ontoly"
+      ],
+      "additional": [
+        "graphify"
+      ],
+      "incorrect": "not measured",
+      "status": "ontoly_missing"
+    },
+    {
+      "concept": "CREATES",
+      "relationship": "CREATES",
+      "ontoly": 7,
+      "graphify": 0,
+      "delta": 7,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "THROWS",
+      "relationship": "THROWS",
+      "ontoly": 5,
+      "graphify": 0,
+      "delta": 5,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "RETURNS",
+      "relationship": "RETURNS",
+      "ontoly": 11,
+      "graphify": 0,
+      "delta": 11,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "PUBLISHES",
+      "relationship": "PUBLISHES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    },
+    {
+      "concept": "SUBSCRIBES",
+      "relationship": "SUBSCRIBES",
+      "ontoly": 0,
+      "graphify": 0,
+      "delta": 0,
+      "supported": false,
+      "missing": [],
+      "additional": [],
+      "incorrect": "not measured",
+      "status": "not_observed"
+    }
+  ],
+  "frameworkUnderstanding": [
+    {
+      "framework": "Vite",
+      "measured": {
+        "expectedFromRepository": [
+          "vite"
+        ],
+        "ontolyDetected": false,
+        "graphifyInferred": false
+      },
+      "coverage": 100,
+      "confidence": null,
+      "missingConcepts": [
+        "Routes",
+        "Controllers",
+        "Services",
+        "Providers"
+      ],
+      "incorrectConcepts": "not measured",
+      "relationshipGaps": [
+        "HANDLES",
+        "MOUNTS",
+        "AUTHORIZES",
+        "REGISTERED_IN"
+      ]
+    }
+  ],
+  "performance": {
+    "ontoly": {
+      "tool": "ontoly",
+      "command": {
+        "executable": "/Users/shrey/.nvm/versions/node/v24.16.0/bin/node",
+        "args": [
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/tools/run-validation.mjs",
+          "--ontoly-one",
+          "durable-local",
+          "/Users/shrey/Desktop/personal/durable-local",
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/ontoly"
+        ],
+        "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository",
+        "note": "Runs Ontoly through its built package APIs with write:false so source repositories are not modified."
+      },
+      "exitCode": 0,
+      "durationMs": 956.0260410000046,
+      "time": {
+        "realSeconds": 0.95,
+        "maxResidentSetBytes": 488554496,
+        "peakMemoryFootprintBytes": 476775240,
+        "peakMemoryBytes": 488554496,
+        "source": "/usr/bin/time -l"
+      },
+      "graphHash": "0qkaj80",
+      "outputFiles": [
+        "command.json",
+        "coverage.json",
+        "diagnostics.json",
+        "frameworks.json",
+        "graph-validation.json",
+        "indexes.json",
+        "metadata.json",
+        "quality.json",
+        "result.json",
+        "semantic-entities.json",
+        "semantic-model-summary.json",
+        "semantic-model.json",
+        "SoftwareGraph.json",
+        "statistics.json",
+        "stderr.log",
+        "stdout.log"
+      ],
+      "graphDurationMs": null,
+      "statistics": {
+        "files": 55,
+        "nodes": 226,
+        "edges": 381,
+        "diagnostics": 0,
+        "nodesByType": {
+          "BuildTarget": 1,
+          "Class": 1,
+          "Configuration": 5,
+          "Dependency": 7,
+          "EnvironmentVariable": 1,
+          "Export": 54,
+          "Framework": 1,
+          "Function": 35,
+          "Import": 38,
+          "Interface": 9,
+          "Job": 4,
+          "Module": 21,
+          "Namespace": 1,
+          "Package": 8,
+          "Script": 9,
+          "Step": 6,
+          "Task": 9,
+          "TypeAlias": 12,
+          "Workflow": 3,
+          "Workspace": 1
+        },
+        "edgesByType": {
+          "CALLS": 38,
+          "CONFIGURES": 5,
+          "CONTAINS": 175,
+          "CREATES": 7,
+          "DEPENDS_ON": 7,
+          "EXECUTES": 9,
+          "EXPORTS": 54,
+          "EXTENDS": 1,
+          "IMPORTS": 38,
+          "INJECTS": 2,
+          "READS": 1,
+          "RETURNS": 11,
+          "THROWS": 5,
+          "USES": 28
+        },
+        "parserVersions": {
+          "openapi": "1.0.0",
+          "typescript": "5.9.2",
+          "repository": "1.0.0"
+        },
+        "deterministicHash": "0qkaj80"
+      },
+      "coverage": {
+        "coverage": 100,
+        "confidence": 100,
+        "completeness": 100,
+        "consistency": 100,
+        "trustworthiness": 100
+      },
+      "diagnostics": 0
+    },
+    "graphify": {
+      "tool": "graphify",
+      "mode": "structural-code-projection",
+      "command": {
+        "executable": "graphify",
+        "args": [
+          "extract",
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/code-projection",
+          "--out",
+          "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/structural",
+          "--no-cluster",
+          "--max-workers",
+          "8",
+          "--max-concurrency",
+          "1"
+        ],
+        "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/structural",
+        "note": "Structural fallback: full Graphify extraction required an LLM backend for docs/images, so this run analyzes a validation-side code projection only. Source repositories remain untouched."
+      },
+      "fullRun": {
+        "command": {
+          "executable": "graphify",
+          "args": [
+            "extract",
+            "/Users/shrey/Desktop/personal/durable-local",
+            "--out",
+            "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/full",
+            "--no-cluster",
+            "--max-workers",
+            "8",
+            "--max-concurrency",
+            "1"
+          ],
+          "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/full",
+          "note": "Uses graphify extract with --out to avoid writing into the source repository. --no-cluster keeps the run headless and deterministic for release validation."
+        },
+        "exitCode": 1,
+        "durationMs": 120.10712500000955,
+        "time": {
+          "realSeconds": 0.11,
+          "maxResidentSetBytes": 27934720,
+          "peakMemoryFootprintBytes": 17646024,
+          "peakMemoryBytes": 27934720,
+          "source": "/usr/bin/time -l"
+        },
+        "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/full/stdout.log",
+        "stderr": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/full/stderr.log"
+      },
+      "fallbackRun": {
+        "command": {
+          "executable": "graphify",
+          "args": [
+            "extract",
+            "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/code-projection",
+            "--out",
+            "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/structural",
+            "--no-cluster",
+            "--max-workers",
+            "8",
+            "--max-concurrency",
+            "1"
+          ],
+          "cwd": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/structural",
+          "note": "Structural fallback: full Graphify extraction required an LLM backend for docs/images, so this run analyzes a validation-side code projection only. Source repositories remain untouched."
+        },
+        "exitCode": 0,
+        "durationMs": 512.9914589999971,
+        "time": {
+          "realSeconds": 0.51,
+          "maxResidentSetBytes": 48742400,
+          "peakMemoryFootprintBytes": 36422232,
+          "peakMemoryBytes": 48742400,
+          "source": "/usr/bin/time -l"
+        },
+        "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/structural/stdout.log",
+        "stderr": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/structural/stderr.log",
+        "projection": {
+          "repository": "durable-local",
+          "sourceRoot": "/Users/shrey/Desktop/personal/durable-local",
+          "projectionRoot": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/code-projection",
+          "mode": "code-only projection for Graphify structural fallback",
+          "includedFiles": 26,
+          "excludedFiles": 29,
+          "includedExtensions": {
+            ".json": 4,
+            ".ts": 21,
+            ".tsx": 1
+          },
+          "files": [
+            "package.json",
+            "playwright.config.ts",
+            "site/demo/index.tsx",
+            "site/manifest.json",
+            "src/coordination/broadcast.ts",
+            "src/core/durable.ts",
+            "src/core/slot.ts",
+            "src/errors.ts",
+            "src/index.ts",
+            "src/protocol/constants.ts",
+            "src/protocol/state.ts",
+            "src/protocol/types.ts",
+            "src/storage/idb.ts",
+            "src/storage/persistence.ts",
+            "tests/e2e/cross-tab.spec.ts",
+            "tests/e2e/fixtures/vite.config.ts",
+            "tests/e2e/globals.d.ts",
+            "tests/e2e/lifecycle.spec.ts",
+            "tests/e2e/unsupported.spec.ts",
+            "tests/setup.ts",
+            "tests/slot.test.ts",
+            "tests/state.test.ts",
+            "tsconfig.build.json",
+            "tsconfig.json",
+            "tsup.config.ts",
+            "vitest.config.ts"
+          ]
+        }
+      },
+      "exitCode": 0,
+      "durationMs": 512.9914589999971,
+      "time": {
+        "realSeconds": 0.51,
+        "maxResidentSetBytes": 48742400,
+        "peakMemoryFootprintBytes": 36422232,
+        "peakMemoryBytes": 48742400,
+        "source": "/usr/bin/time -l"
+      },
+      "graphHash": "46165ffa306d24feeff254b2d9b69b78a9851f0ad70d73c0b5decb13d1fa1dd2",
+      "outputFiles": [
+        "cache/ast/v0.9.2/2204edc23971f89dd7a821149650a0cf0f8e720279ea3cecc9d1d5cce12fb19c.json",
+        "cache/ast/v0.9.2/71e269799fc4b93abe619280ed804f1f6e7a6ad92d1aea18e6f715583a05e793.json",
+        "cache/ast/v0.9.2/f2be906a94c4c0118573e107a2f912785390ad61b6dd83084180f4d4b21a0582.json",
+        "cache/ast/v0.9.2/f8811e562521708f441b6844cc5e2148efb91711f5d8634621ced4333265170a.json",
+        "cache/stat-index.json",
+        "graph.json",
+        "manifest.json"
+      ],
+      "statistics": {
+        "nodes": 167,
+        "edges": 304,
+        "hyperedges": 0,
+        "directed": null,
+        "multigraph": null,
+        "nodesByFileType": {
+          "code": 167
+        },
+        "concepts": {
+          "Classes": 24,
+          "Configuration": 3,
+          "Functions": 35,
+          "Interfaces": 2,
+          "Methods": 1,
+          "Modules": 22
+        },
+        "relations": {
+          "calls": 25,
+          "contains": 140,
+          "extends": 20,
+          "imports": 47,
+          "imports_from": 43,
+          "inherits": 1,
+          "method": 1,
+          "re_exports": 23,
+          "references": 4
+        },
+        "semanticRelationships": {
+          "CALLS": 25,
+          "CONTAINS": 140,
+          "EXTENDS": 20,
+          "IMPORTS": 47,
+          "REFERENCES": 4
+        }
+      },
+      "diagnostics": [
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_EXIT_NONZERO",
+          "message": "Graphify exited with code 1.",
+          "source": "graphify"
+        },
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_FULL_REQUIRES_LLM",
+          "message": "Full Graphify extraction required an LLM backend for repository docs/images.",
+          "source": "graphify"
+        },
+        {
+          "severity": "warning",
+          "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
+          "message": "Graphify comparison uses a code-only projection with 26 files.",
+          "source": "validation harness"
+        }
+      ]
+    }
+  },
+  "diagnostics": {
+    "ontoly": {
+      "compilerDiagnostics": 0,
+      "graphValidation": {
+        "ok": true,
+        "issues": 0,
+        "errors": 0,
+        "warnings": 0,
+        "byCode": {}
+      },
+      "coverageWarnings": 0
+    },
+    "graphify": [
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_EXIT_NONZERO",
+        "message": "Graphify exited with code 1.",
+        "source": "graphify"
+      },
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_FULL_REQUIRES_LLM",
+        "message": "Full Graphify extraction required an LLM backend for repository docs/images.",
+        "source": "graphify"
+      },
+      {
+        "severity": "warning",
+        "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
+        "message": "Graphify comparison uses a code-only projection with 26 files.",
+        "source": "validation harness"
+      }
+    ]
+  },
+  "strengths": [
+    {
+      "area": "Deterministic graph validation",
+      "evidence": "Ontoly trustworthiness is 100 with consistency 100.",
+      "basis": "measured"
+    },
+    {
+      "area": "Packages",
+      "evidence": "Ontoly produced 8 Packages; Graphify produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "Environment Variables",
+      "evidence": "Ontoly produced 1 Environment Variables; Graphify produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "INJECTS",
+      "evidence": "Ontoly produced 2 INJECTS relationships; Graphify produced 0.",
+      "basis": "inferred from normalized counts"
+    }
+  ],
+  "weaknesses": [
+    {
+      "area": "Graphify full semantic extraction",
+      "evidence": "Graphify required an LLM backend for docs/images, so the comparison uses a structural code-only fallback graph.",
+      "basis": "measured"
+    },
+    {
+      "area": "Methods",
+      "evidence": "Graphify produced 1 Methods; Ontoly produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "REFERENCES",
+      "evidence": "Graphify produced 4 REFERENCES relationships; Ontoly produced 0.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "Vite detection",
+      "evidence": "Repository evidence suggests Vite, but Ontoly did not explicitly detect it.",
+      "basis": "inferred from package metadata"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "Medium",
+      "description": "Ontoly did not emit REFERENCES, while Graphify emitted 4.",
+      "suggestedFix": "Add or extend relationship extraction for REFERENCES and cover it with deterministic snapshots.",
+      "evidence": [
+        "Normalized Graphify REFERENCES count: 4"
+      ]
+    },
+    {
+      "priority": "Medium",
+      "description": "Vite was inferred from repository metadata but not detected by Ontoly.",
+      "suggestedFix": "Add a Vite framework detector or map existing package evidence to a Framework node.",
+      "evidence": [
+        "vite"
+      ]
+    },
+    {
+      "priority": "Medium",
+      "description": "Graphify full semantic extraction was unavailable without an LLM backend.",
+      "suggestedFix": "For release validation, configure a deterministic Graphify semantic backend or keep the structural fallback as a separate benchmark lane.",
+      "evidence": [
+        "Graphify exited with code 1.",
+        "Full Graphify extraction required an LLM backend for repository docs/images.",
+        "Graphify comparison uses a code-only projection with 26 files."
+      ]
+    }
+  ]
+}

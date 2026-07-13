@@ -1,0 +1,15 @@
+{
+  "id": "0xsarwagya",
+  "name": "0xsarwagya",
+  "source": "/Users/shrey/Desktop/personal/0xsarwagya",
+  "corpusPath": "monorepos/0xsarwagya",
+  "frameworks": [
+    "nextjs",
+    "react",
+    "turborepo"
+  ],
+  "language": "typescript",
+  "repositoryType": "monorepo",
+  "expectedAnalyzer": "workspace",
+  "default": true
+}

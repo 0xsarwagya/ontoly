@@ -1,0 +1,5 @@
+{
+  "name": "@ontoly-example/domain",
+  "private": true,
+  "type": "module"
+}

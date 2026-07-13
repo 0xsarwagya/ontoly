@@ -1,0 +1,44 @@
+---
+name: configuration-analysis
+description: Audit configuration and environment variable usage through Ontoly configuration capabilities. Use when asked where env vars, build config, runtime config, or feature flags are read.
+license: MIT
+compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
+metadata:
+  ontoly.skill.version: "0.1.0-alpha.1"
+  ontoly.min.version: "0.1.0-alpha.1"
+  ontoly.capabilities: "FindConfiguration, FindConfigurationUsage, FindDependencies, GraphStatistics"
+  ontoly.category: "configuration"
+  ontoly.deprecated: "false"
+---
+
+# Configuration Analysis
+
+Use this skill when the user asks for configuration analysis using Ontoly evidence.
+
+## Required Workflow
+
+Follow [the shared Ontoly workflow](reference/workflow.md). Also read [graph evidence rules](reference/graph.md), [MCP usage](reference/mcp.md), [best practices](reference/best-practices.md), and [fallback rules](reference/fallbacks.md) when the task requires detail.
+
+## Ontoly Capabilities
+
+Use these capabilities first: `FindConfiguration`, `FindConfigurationUsage`, `FindDependencies`, `GraphStatistics`.
+
+## Output Contract
+
+Return:
+
+- answer or plan
+- capabilities invoked
+- graph evidence with node ids, edge types, source spans, and graph hash when available
+- confidence: high, medium, or low
+- fallback reason if repository files were inspected
+
+## Boundaries
+
+Do not implement compiler, query, MCP, SDK, or business logic in the skill. Do not search repository files until Ontoly cannot answer or evidence must be confirmed.
+
+## Resources
+
+- [Examples](examples.md)
+- [Prompt template](templates/configuration-audit.md)
+- [Capability notes](reference/capabilities.md)

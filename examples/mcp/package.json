@@ -1,0 +1,11 @@
+{
+  "name": "ontoly-example-mcp",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "capabilities": "node ../../packages/cli/dist/cli.js mcp --list --root ../basic",
+    "mcp": "node ../../packages/cli/dist/cli.js mcp --list --root ../basic",
+    "skills": "cd ../.. && node packages/cli/dist/cli.js skills validate --ci",
+    "graph": "node ../../packages/cli/dist/cli.js build ../basic"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "name": "@0xsarwagya/ontoly-repository",
+  "version": "0.1.0-alpha.1",
+  "description": "TypeScript-native software intelligence engine that builds a deterministic Software Graph.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xsarwagya/ontoly.git"
+  },
+  "homepage": "https://oss.sarwagya.wtf/ontoly",
+  "scripts": {
+    "build": "pnpm -r build",
+    "check-types": "pnpm -r check-types",
+    "test": "vitest run",
+    "test:unit": "vitest run",
+    "evaluate": "node validation/semantic/evaluators/run-semantic-evaluation.mjs",
+    "leaderboard": "node validation/semantic/evaluators/run-semantic-evaluation.mjs --leaderboard-only",
+    "benchmark:semantic": "node validation/semantic/evaluators/run-semantic-evaluation.mjs --benchmark",
+    "validate": "node validation/tools/run-validation-lab.mjs validate all",
+    "validate:ci": "node validation/tools/run-validation-lab.mjs validate all --ci",
+    "skills:list": "node packages/cli/dist/cli.js skills list",
+    "skills:validate": "node packages/cli/dist/cli.js skills validate",
+    "skills:validate-installed": "node validation/tools/validate-installed-skills.mjs",
+    "skills:doctor": "node packages/cli/dist/cli.js skills doctor",
+    "benchmark:performance": "node validation/tools/run-validation-lab.mjs benchmark performance",
+    "stress": "node validation/tools/run-validation-lab.mjs stress",
+    "clean": "pnpm -r exec rm -rf dist && rm -rf .ontoly",
+    "ontoly": "node packages/cli/dist/cli.js",
+    "benchmark": "node validation/tools/run-validation-lab.mjs benchmark performance",
+    "docs:check-links": "node validation/tools/check-markdown-links.mjs",
+    "docs:lint": "node validation/tools/check-markdown-style.mjs",
+    "license:check": "node validation/tools/check-licenses.mjs",
+    "validate:packages": "node validation/tools/validate-packages.mjs",
+    "release:gates": "pnpm check-types && pnpm test && pnpm build && pnpm skills:validate && pnpm skills:validate-installed && pnpm docs:check-links && pnpm docs:lint && pnpm license:check && pnpm validate:packages && pnpm validate:ci && node validation/semantic/evaluators/run-semantic-evaluation.mjs --ci && node validation/tools/run-validation-lab.mjs gates --ci"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "tsup": "^8.3.5",
+    "typescript": "5.9.2",
+    "vitest": "^3.0.0"
+  },
+  "packageManager": "pnpm@11.5.3",
+  "keywords": [
+    "ontoly",
+    "software-graph",
+    "typescript",
+    "static-analysis",
+    "developer-tools"
+  ],
+  "bugs": {
+    "url": "https://github.com/0xsarwagya/ontoly/issues"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/0xsarwagya"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=11.0.0"
+  }
+}

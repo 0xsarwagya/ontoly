@@ -1,0 +1,13 @@
+{
+  "name": "ontoly-example-cli-usage",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "help": "node ../../packages/cli/dist/cli.js --help",
+    "build-basic": "node ../../packages/cli/dist/cli.js build ../basic",
+    "coverage-basic": "node ../../packages/cli/dist/cli.js coverage ../basic",
+    "mcp": "node ../../packages/cli/dist/cli.js mcp --list --root ../basic",
+    "skills": "cd ../.. && node packages/cli/dist/cli.js skills validate --ci",
+    "graph": "node ../../packages/cli/dist/cli.js build ../basic"
+  }
+}

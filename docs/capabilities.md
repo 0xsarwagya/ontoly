@@ -1,0 +1,48 @@
+# Capabilities
+
+Capabilities are deterministic operations over a `SoftwareGraph`.
+
+They wrap Query Engine operations and form the public MCP surface. Future
+plugins can register new capabilities without changing the compiler or parser
+packages.
+
+Capability metadata includes:
+
+- name
+- version
+- description
+- input schema
+- output schema
+- examples
+
+Capabilities must not parse source code, mutate the graph, or depend on parser
+internals.
+
+## Built-in Capabilities
+
+- `FindFunction`
+- `FindNode`
+- `FindDependencies`
+- `FindDependents`
+- `TraceExecution`
+- `InspectFile`
+- `InspectModule`
+- `InspectClass`
+- `InspectFunction`
+- `FindCycles`
+- `FindDeadCode`
+- `FindEntrypoints`
+- `FindConfiguration`
+- `FindResponsibleFunction`
+- `ExplainArchitecture`
+- `TraceRequestLifecycle`
+- `FindFeatureOwner`
+- `FindAuthenticationFlow`
+- `ImpactAnalysis`
+- `FindDatabaseAccess`
+- `FindConfigurationUsage`
+- `FindUnusedFeature`
+- `GraphStatistics`
+
+Sprint 3 capabilities compose existing Query Engine operations. They do not
+perform AI reasoning and do not access parser ASTs.

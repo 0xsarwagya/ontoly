@@ -1,0 +1,3468 @@
+{
+  "generatedAt": "2026-07-13T15:37:42.502Z",
+  "startedAt": "2026-07-13T15:37:42.131Z",
+  "repositories": [
+    {
+      "repository": "0xsarwagya",
+      "name": "0xsarwagya",
+      "frameworks": [
+        "Next.js",
+        "React",
+        "Turborepo"
+      ],
+      "expectedGraph": {
+        "minNodes": 1000,
+        "minEdges": 1800,
+        "requiredNodeTypes": [
+          "Package",
+          "Module",
+          "Configuration",
+          "Framework"
+        ],
+        "requiredRelationships": [
+          "IMPORTS",
+          "DEPENDS_ON",
+          "CONTAINS"
+        ]
+      },
+      "coverageExpectations": {
+        "semanticCoverage": 90,
+        "trustScore": 90
+      },
+      "questionCount": 5,
+      "score": {
+        "ontoly": {
+          "questions": 5,
+          "pass": 5,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 1.035,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 5,
+          "pass": 3,
+          "partial": 0,
+          "fail": 2,
+          "exactMatchRate": 60,
+          "precision": 60,
+          "recall": 60,
+          "confidence": 60,
+          "latencyMs": 0.065,
+          "semanticUnderstandingScore": 60
+        },
+        "winner": "Ontoly"
+      },
+      "questions": [
+        {
+          "id": "personal-ghost-package",
+          "repository": "0xsarwagya",
+          "category": "Packages",
+          "evaluator": "FindRepository",
+          "question": "Is the Ghost package represented in the monorepo?",
+          "expected": {
+            "exact": [
+              "@0xsarwagya/ghost"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.21,
+            "answers": [
+              {
+                "label": "@0xsarwagya/ghost",
+                "type": "Package",
+                "id": "pkg:@0xsarwagya/ghost",
+                "file": null,
+                "explanation": "Matched Package node @0xsarwagya/ghost."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched Package with terms @0xsarwagya/ghost."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.084,
+            "answers": [
+              {
+                "label": "@0xsarwagya/ghost",
+                "type": "Package",
+                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_0xsarwagya_graphify_code_projection_apps_oss_package_dependencies_0xsarwagya_ghost",
+                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/code-projection/apps/oss/package.json",
+                "explanation": "Matched Package node @0xsarwagya/ghost."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched Package with terms @0xsarwagya/ghost."
+          },
+          "winner": "Tie"
+        },
+        {
+          "id": "personal-durable-package",
+          "repository": "0xsarwagya",
+          "category": "Packages",
+          "evaluator": "FindRepository",
+          "question": "Is the durable-local package represented in the monorepo?",
+          "expected": {
+            "exact": [
+              "@0xsarwagya/durable-local"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.025,
+            "answers": [
+              {
+                "label": "@0xsarwagya/durable-local",
+                "type": "Package",
+                "id": "pkg:@0xsarwagya/durable-local",
+                "file": null,
+                "explanation": "Matched Package node @0xsarwagya/durable-local."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched Package with terms @0xsarwagya/durable-local."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.059,
+            "answers": [
+              {
+                "label": "@0xsarwagya/durable-local",
+                "type": "Package",
+                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_0xsarwagya_graphify_code_projection_apps_oss_package_dependencies_0xsarwagya_durable_local",
+                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/code-projection/apps/oss/package.json",
+                "explanation": "Matched Package node @0xsarwagya/durable-local."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched Package with terms @0xsarwagya/durable-local."
+          },
+          "winner": "Tie"
+        },
+        {
+          "id": "personal-next-framework",
+          "repository": "0xsarwagya",
+          "category": "Architecture",
+          "evaluator": "ArchitectureSummary",
+          "question": "Does the architecture identify Next.js?",
+          "expected": {
+            "exact": [
+              "Next.js"
+            ],
+            "acceptable": [
+              "next"
+            ],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.081,
+            "answers": [
+              {
+                "label": "Next.js",
+                "type": "Framework",
+                "id": "framework:Next.js",
+                "file": null,
+                "explanation": "Included in architecture summary as Framework."
+              }
+            ],
+            "explanation": "Architecture summary searched Framework, Package."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
+            "falsePositives": [],
+            "falseNegatives": [
+              "Next.js"
+            ],
+            "confidence": 0,
+            "latencyMs": 0.062,
+            "answers": [],
+            "explanation": "Architecture summary searched Framework, Package."
+          },
+          "winner": "Ontoly"
+        },
+        {
+          "id": "personal-react-framework",
+          "repository": "0xsarwagya",
+          "category": "Architecture",
+          "evaluator": "ArchitectureSummary",
+          "question": "Does the architecture identify React?",
+          "expected": {
+            "exact": [
+              "React"
+            ],
+            "acceptable": [
+              "react"
+            ],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 4.833,
+            "answers": [
+              {
+                "label": "React",
+                "type": "Framework",
+                "id": "framework:React",
+                "file": null,
+                "explanation": "Included in architecture summary as Framework."
+              },
+              {
+                "label": "react",
+                "type": "Package",
+                "id": "pkg:react",
+                "file": null,
+                "explanation": "Included in architecture summary as Package."
+              }
+            ],
+            "explanation": "Architecture summary searched Framework, Package."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.087,
+            "answers": [
+              {
+                "label": "react",
+                "type": "Package",
+                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_0xsarwagya_graphify_code_projection_apps_bakaiti_package_dependencies_react",
+                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/code-projection/apps/bakaiti/package.json",
+                "explanation": "Included in architecture summary as Package."
+              }
+            ],
+            "explanation": "Architecture summary searched Framework, Package."
+          },
+          "winner": "Tie"
+        },
+        {
+          "id": "personal-turbo-config",
+          "repository": "0xsarwagya",
+          "category": "Workspace",
+          "evaluator": "FindConfiguration",
+          "question": "Is the Turborepo pipeline configuration represented?",
+          "expected": {
+            "exact": [
+              "turbo"
+            ],
+            "acceptable": [
+              "turbo.json"
+            ],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.028,
+            "answers": [
+              {
+                "label": "turbo",
+                "type": "Configuration",
+                "id": "config:turbo.json:turbo",
+                "file": "turbo.json",
+                "explanation": "Matched Configuration node turbo."
+              },
+              {
+                "label": "turbo",
+                "type": "Pipeline",
+                "id": "pipeline:turbo.json:turbo",
+                "file": "turbo.json",
+                "explanation": "Matched Pipeline node turbo."
+              }
+            ],
+            "explanation": "2 candidate node(s) matched Configuration, Pipeline with terms turbo."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
+            "falsePositives": [],
+            "falseNegatives": [
+              "turbo"
+            ],
+            "confidence": 0,
+            "latencyMs": 0.034,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched Configuration, Pipeline with terms turbo."
+          },
+          "winner": "Ontoly"
+        }
+      ]
+    },
+    {
+      "repository": "durable-local",
+      "name": "durable-local",
+      "frameworks": [
+        "React",
+        "Vite"
+      ],
+      "expectedGraph": {
+        "minNodes": 200,
+        "minEdges": 350,
+        "requiredNodeTypes": [
+          "Function",
+          "Interface",
+          "Package",
+          "Configuration"
+        ],
+        "requiredRelationships": [
+          "CALLS",
+          "IMPORTS",
+          "DEPENDS_ON"
+        ]
+      },
+      "coverageExpectations": {
+        "semanticCoverage": 95,
+        "trustScore": 95
+      },
+      "questionCount": 6,
+      "score": {
+        "ontoly": {
+          "questions": 6,
+          "pass": 6,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.026,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 6,
+          "pass": 2,
+          "partial": 0,
+          "fail": 4,
+          "exactMatchRate": 33.33,
+          "precision": 33.33,
+          "recall": 33.33,
+          "confidence": 33.33,
+          "latencyMs": 0.009,
+          "semanticUnderstandingScore": 33.33
+        },
+        "winner": "Ontoly"
+      },
+      "questions": [
+        {
+          "id": "durable-create-entrypoint",
+          "repository": "durable-local",
+          "category": "Functions",
+          "evaluator": "FindEntrypoint",
+          "question": "What function creates a durable local store?",
+          "expected": {
+            "exact": [
+              "createDurable"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.029,
+            "answers": [
+              {
+                "label": "createDurable",
+                "type": "Function",
+                "id": "fn:src/core/durable.ts:createDurable",
+                "file": "src/core/durable.ts",
+                "explanation": "Matched Function node createDurable."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched Function with terms createDurable."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
+            "falsePositives": [],
+            "falseNegatives": [
+              "createDurable"
+            ],
+            "confidence": 0,
+            "latencyMs": 0.004,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched Function with terms createDurable."
+          },
+          "winner": "Ontoly"
+        },
+        {
+          "id": "durable-interface",
+          "repository": "durable-local",
+          "category": "Interfaces",
+          "evaluator": "ArchitectureSummary",
+          "question": "Which public interface represents the durable store?",
+          "expected": {
+            "exact": [
+              "Durable"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.009,
+            "answers": [
+              {
+                "label": "Durable",
+                "type": "Interface",
+                "id": "iface:src/core/durable.ts:Durable",
+                "file": "src/core/durable.ts",
+                "explanation": "Included in architecture summary as Interface."
+              }
+            ],
+            "explanation": "Architecture summary searched Interface, Class."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.013,
+            "answers": [
+              {
+                "label": "Durable",
+                "type": "Class",
+                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_durable_local_graphify_code_projection_src_core_durable_durable",
+                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/code-projection/src/core/durable.ts",
+                "explanation": "Included in architecture summary as Class."
+              }
+            ],
+            "explanation": "Architecture summary searched Interface, Class."
+          },
+          "winner": "Tie"
+        },
+        {
+          "id": "durable-package",
+          "repository": "durable-local",
+          "category": "Packages",
+          "evaluator": "FindRepository",
+          "question": "What is the package name?",
+          "expected": {
+            "exact": [
+              "@0xsarwagya/durable-local"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.009,
+            "answers": [
+              {
+                "label": "@0xsarwagya/durable-local",
+                "type": "Package",
+                "id": "pkg:@0xsarwagya/durable-local",
+                "file": "package.json",
+                "explanation": "Matched Package node @0xsarwagya/durable-local."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched Package with terms @0xsarwagya/durable-local."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
+            "falsePositives": [],
+            "falseNegatives": [
+              "@0xsarwagya/durable-local"
+            ],
+            "confidence": 0,
+            "latencyMs": 0.009,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched Package with terms @0xsarwagya/durable-local."
+          },
+          "winner": "Ontoly"
+        },
+        {
+          "id": "durable-ci-env",
+          "repository": "durable-local",
+          "category": "Environment Variables",
+          "evaluator": "FindEnvironmentVariable",
+          "question": "Which CI environment variable is read?",
+          "expected": {
+            "exact": [
+              "CI"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.006,
+            "answers": [
+              {
+                "label": "CI",
+                "type": "EnvironmentVariable",
+                "id": "env:CI",
+                "file": null,
+                "explanation": "Matched EnvironmentVariable node CI."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched EnvironmentVariable with terms CI."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
+            "falsePositives": [],
+            "falseNegatives": [
+              "CI"
+            ],
+            "confidence": 0,
+            "latencyMs": 0.003,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched EnvironmentVariable with terms CI."
+          },
+          "winner": "Ontoly"
+        },
+        {
+          "id": "durable-indexeddb-dependency",
+          "repository": "durable-local",
+          "category": "Dependency Injection",
+          "evaluator": "TraceDependency",
+          "question": "Which dependency provides IndexedDB tests?",
+          "expected": {
+            "exact": [
+              "@0xsarwagya/durable-local -> fake-indexeddb"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [
+              {
+                "type": "DEPENDS_ON",
+                "from": "@0xsarwagya/durable-local",
+                "to": "fake-indexeddb"
+              }
+            ],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.079,
+            "answers": [
+              {
+                "label": "@0xsarwagya/durable-local -> fake-indexeddb",
+                "type": "DEPENDS_ON",
+                "id": "edge:depends_on:14m9pxn",
+                "file": null,
+                "explanation": "Matched DEPENDS_ON relationship."
+              }
+            ],
+            "explanation": "1 candidate edge-derived answer(s) matched DEPENDS_ON."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
+            "falsePositives": [],
+            "falseNegatives": [
+              "@0xsarwagya/durable-local -> fake-indexeddb"
+            ],
+            "confidence": 0,
+            "latencyMs": 0.012,
+            "answers": [],
+            "explanation": "0 candidate edge-derived answer(s) matched DEPENDS_ON."
+          },
+          "winner": "Ontoly"
+        },
+        {
+          "id": "durable-open-database-call",
+          "repository": "durable-local",
+          "category": "Call Graph",
+          "evaluator": "FindCallChain",
+          "question": "Does withReadWrite call openDatabase?",
+          "expected": {
+            "exact": [
+              "withReadWrite -> openDatabase"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [
+              {
+                "type": "CALLS",
+                "from": "withReadWrite",
+                "to": "openDatabase"
+              }
+            ],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.026,
+            "answers": [
+              {
+                "label": "withReadWrite -> openDatabase",
+                "type": "CALLS",
+                "id": "edge:calls:0cr41nu",
+                "file": null,
+                "explanation": "Matched CALLS relationship."
+              }
+            ],
+            "explanation": "1 candidate edge-derived answer(s) matched CALLS."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.013,
+            "answers": [
+              {
+                "label": "withReadWrite -> openDatabase",
+                "type": "CALLS",
+                "id": "graphify-edge:203",
+                "file": null,
+                "explanation": "Matched CALLS relationship."
+              }
+            ],
+            "explanation": "1 candidate edge-derived answer(s) matched CALLS."
+          },
+          "winner": "Tie"
+        }
+      ]
+    },
+    {
+      "repository": "ghost",
+      "name": "Ghost",
+      "frameworks": [
+        "React",
+        "Vite"
+      ],
+      "expectedGraph": {
+        "minNodes": 300,
+        "minEdges": 600,
+        "requiredNodeTypes": [
+          "Function",
+          "Interface",
+          "Class",
+          "Package",
+          "Configuration"
+        ],
+        "requiredRelationships": [
+          "CALLS",
+          "IMPORTS",
+          "DEPENDS_ON"
+        ]
+      },
+      "coverageExpectations": {
+        "semanticCoverage": 95,
+        "trustScore": 95
+      },
+      "questionCount": 6,
+      "score": {
+        "ontoly": {
+          "questions": 6,
+          "pass": 6,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.018,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 6,
+          "pass": 3,
+          "partial": 0,
+          "fail": 3,
+          "exactMatchRate": 50,
+          "precision": 50,
+          "recall": 50,
+          "confidence": 50,
+          "latencyMs": 0.012,
+          "semanticUnderstandingScore": 50
+        },
+        "winner": "Ontoly"
+      },
+      "questions": [
+        {
+          "id": "ghost-create-entrypoint",
+          "repository": "ghost",
+          "category": "Functions",
+          "evaluator": "FindEntrypoint",
+          "question": "What is the browser entrypoint for creating a Ghost identity?",
+          "expected": {
+            "exact": [
+              "createGhost"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.032,
+            "answers": [
+              {
+                "label": "createGhost",
+                "type": "Function",
+                "id": "fn:src/browser/ghost.ts:createGhost",
+                "file": "src/browser/ghost.ts",
+                "explanation": "Matched Function node createGhost."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched Function with terms createGhost."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
+            "falsePositives": [],
+            "falseNegatives": [
+              "createGhost"
+            ],
+            "confidence": 0,
+            "latencyMs": 0.004,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched Function with terms createGhost."
+          },
+          "winner": "Ontoly"
+        },
+        {
+          "id": "ghost-interface",
+          "repository": "ghost",
+          "category": "Interfaces",
+          "evaluator": "ArchitectureSummary",
+          "question": "Which public interface represents a Ghost client?",
+          "expected": {
+            "exact": [
+              "Ghost"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.013,
+            "answers": [
+              {
+                "label": "Ghost",
+                "type": "Interface",
+                "id": "iface:src/browser/ghost.ts:Ghost",
+                "file": "src/browser/ghost.ts",
+                "explanation": "Included in architecture summary as Interface."
+              }
+            ],
+            "explanation": "Architecture summary searched Interface, Class."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.014,
+            "answers": [
+              {
+                "label": "Ghost",
+                "type": "Class",
+                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_ghost_graphify_code_projection_src_browser_ghost_ghost",
+                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/code-projection/src/browser/ghost.ts",
+                "explanation": "Included in architecture summary as Class."
+              }
+            ],
+            "explanation": "Architecture summary searched Interface, Class."
+          },
+          "winner": "Tie"
+        },
+        {
+          "id": "ghost-error-class",
+          "repository": "ghost",
+          "category": "Classes",
+          "evaluator": "ArchitectureSummary",
+          "question": "Which error class represents Ghost failures?",
+          "expected": {
+            "exact": [
+              "GhostError"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.006,
+            "answers": [
+              {
+                "label": "GhostError",
+                "type": "Class",
+                "id": "class:src/errors.ts:GhostError",
+                "file": "src/errors.ts",
+                "explanation": "Included in architecture summary as Class."
+              }
+            ],
+            "explanation": "Architecture summary searched Class."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.015,
+            "answers": [
+              {
+                "label": "GhostError",
+                "type": "Class",
+                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_ghost_graphify_code_projection_src_errors_ghosterror",
+                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/code-projection/src/errors.ts",
+                "explanation": "Included in architecture summary as Class."
+              }
+            ],
+            "explanation": "Architecture summary searched Class."
+          },
+          "winner": "Tie"
+        },
+        {
+          "id": "ghost-ci-env",
+          "repository": "ghost",
+          "category": "Environment Variables",
+          "evaluator": "FindEnvironmentVariable",
+          "question": "Which CI environment variable is read?",
+          "expected": {
+            "exact": [
+              "CI"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.005,
+            "answers": [
+              {
+                "label": "CI",
+                "type": "EnvironmentVariable",
+                "id": "env:CI",
+                "file": null,
+                "explanation": "Matched EnvironmentVariable node CI."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched EnvironmentVariable with terms CI."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
+            "falsePositives": [],
+            "falseNegatives": [
+              "CI"
+            ],
+            "confidence": 0,
+            "latencyMs": 0.004,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched EnvironmentVariable with terms CI."
+          },
+          "winner": "Ontoly"
+        },
+        {
+          "id": "ghost-package",
+          "repository": "ghost",
+          "category": "Packages",
+          "evaluator": "FindRepository",
+          "question": "What is the package name?",
+          "expected": {
+            "exact": [
+              "@0xsarwagya/ghost"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.008,
+            "answers": [
+              {
+                "label": "@0xsarwagya/ghost",
+                "type": "Package",
+                "id": "pkg:@0xsarwagya/ghost",
+                "file": "package.json",
+                "explanation": "Matched Package node @0xsarwagya/ghost."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched Package with terms @0xsarwagya/ghost."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
+            "falsePositives": [],
+            "falseNegatives": [
+              "@0xsarwagya/ghost"
+            ],
+            "confidence": 0,
+            "latencyMs": 0.005,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched Package with terms @0xsarwagya/ghost."
+          },
+          "winner": "Ontoly"
+        },
+        {
+          "id": "ghost-load-create-call",
+          "repository": "ghost",
+          "category": "Call Graph",
+          "evaluator": "FindCallChain",
+          "question": "Does loading or creating a record call createGhostId?",
+          "expected": {
+            "exact": [
+              "loadOrCreateRecord -> createGhostId"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [
+              {
+                "type": "CALLS",
+                "from": "loadOrCreateRecord",
+                "to": "createGhostId"
+              }
+            ],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.046,
+            "answers": [
+              {
+                "label": "loadOrCreateRecord -> createGhostId",
+                "type": "CALLS",
+                "id": "edge:calls:0098tol",
+                "file": null,
+                "explanation": "Matched CALLS relationship."
+              }
+            ],
+            "explanation": "1 candidate edge-derived answer(s) matched CALLS."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.031,
+            "answers": [
+              {
+                "label": "loadOrCreateRecord -> createGhostId",
+                "type": "CALLS",
+                "id": "graphify-edge:503",
+                "file": null,
+                "explanation": "Matched CALLS relationship."
+              }
+            ],
+            "explanation": "1 candidate edge-derived answer(s) matched CALLS."
+          },
+          "winner": "Tie"
+        }
+      ]
+    },
+    {
+      "repository": "innosphere",
+      "name": "Innosphere",
+      "frameworks": [
+        "NestJS",
+        "React",
+        "Turborepo",
+        "Vite"
+      ],
+      "expectedGraph": {
+        "minNodes": 6000,
+        "minEdges": 10000,
+        "requiredNodeTypes": [
+          "Controller",
+          "Route",
+          "Service",
+          "Module",
+          "EnvironmentVariable"
+        ],
+        "requiredRelationships": [
+          "HANDLES",
+          "MOUNTS",
+          "INJECTS",
+          "DEPENDS_ON"
+        ]
+      },
+      "coverageExpectations": {
+        "semanticCoverage": 95,
+        "trustScore": 95
+      },
+      "questionCount": 6,
+      "score": {
+        "ontoly": {
+          "questions": 6,
+          "pass": 6,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.178,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 6,
+          "pass": 5,
+          "partial": 0,
+          "fail": 1,
+          "exactMatchRate": 83.33,
+          "precision": 83.33,
+          "recall": 83.33,
+          "confidence": 83.33,
+          "latencyMs": 0.122,
+          "semanticUnderstandingScore": 83.33
+        },
+        "winner": "Ontoly"
+      },
+      "questions": [
+        {
+          "id": "innosphere-auth-controller",
+          "repository": "innosphere",
+          "category": "Controllers",
+          "evaluator": "FindController",
+          "question": "Which controller handles auth?",
+          "expected": {
+            "exact": [
+              "AuthController"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.315,
+            "answers": [
+              {
+                "label": "AuthController",
+                "type": "Controller",
+                "id": "controller:apps/api/src/auth/auth.controller.ts:AuthController",
+                "file": "apps/api/src/auth/auth.controller.ts",
+                "explanation": "Matched Controller node AuthController."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched Controller with terms AuthController."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.089,
+            "answers": [
+              {
+                "label": "AuthController",
+                "type": "Controller",
+                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_apps_api_src_auth_auth_controller_authcontroller",
+                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/apps/api/src/auth/auth.controller.ts",
+                "explanation": "Matched Controller node AuthController."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched Controller with terms AuthController."
+          },
+          "winner": "Tie"
+        },
+        {
+          "id": "innosphere-auth-me-route",
+          "repository": "innosphere",
+          "category": "Routes",
+          "evaluator": "FindRoute",
+          "question": "Which route returns the current authenticated user?",
+          "expected": {
+            "exact": [
+              "GET:/auth/me"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.124,
+            "answers": [
+              {
+                "label": "GET:/auth/me",
+                "type": "Route",
+                "id": "route:GET:/auth/me",
+                "file": "apps/api/src/auth/auth.controller.ts",
+                "explanation": "Matched Route node GET:/auth/me."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched Route with terms GET:/auth/me."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
+            "falsePositives": [],
+            "falseNegatives": [
+              "GET:/auth/me"
+            ],
+            "confidence": 0,
+            "latencyMs": 0.052,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched Route with terms GET:/auth/me."
+          },
+          "winner": "Ontoly"
+        },
+        {
+          "id": "innosphere-auth-module",
+          "repository": "innosphere",
+          "category": "Modules",
+          "evaluator": "FindModule",
+          "question": "Which module owns auth behavior?",
+          "expected": {
+            "exact": [
+              "AuthModule"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.261,
+            "answers": [
+              {
+                "label": "AuthModule",
+                "type": "Module",
+                "id": "mod:apps/api/src/auth/auth.module.ts:AuthModule",
+                "file": "apps/api/src/auth/auth.module.ts",
+                "explanation": "Matched Module node AuthModule."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched Module with terms AuthModule."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.222,
+            "answers": [
+              {
+                "label": "AuthModule",
+                "type": "Module",
+                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_apps_api_src_auth_auth_module_authmodule",
+                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/apps/api/src/auth/auth.module.ts",
+                "explanation": "Matched Module node AuthModule."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched Module with terms AuthModule."
+          },
+          "winner": "Tie"
+        },
+        {
+          "id": "innosphere-database-url",
+          "repository": "innosphere",
+          "category": "Database",
+          "evaluator": "FindDatabaseAccess",
+          "question": "Which environment variable points to the database?",
+          "expected": {
+            "exact": [
+              "DATABASE_URL"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.072,
+            "answers": [
+              {
+                "label": "DATABASE_URL",
+                "type": "EnvironmentVariable",
+                "id": "env:DATABASE_URL",
+                "file": null,
+                "explanation": "Matched EnvironmentVariable node DATABASE_URL."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched EnvironmentVariable with terms DATABASE_URL."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.135,
+            "answers": [
+              {
+                "label": "DATABASE_URL",
+                "type": "EnvironmentVariable",
+                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_scripts_seed_demo_chat_database_url",
+                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/scripts/seed-demo-chat.mjs",
+                "explanation": "Matched EnvironmentVariable node DATABASE_URL."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched EnvironmentVariable with terms DATABASE_URL."
+          },
+          "winner": "Tie"
+        },
+        {
+          "id": "innosphere-ovok-service",
+          "repository": "innosphere",
+          "category": "Services",
+          "evaluator": "FindProvider",
+          "question": "Which service models Ovok integration?",
+          "expected": {
+            "exact": [
+              "OvokService"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.053,
+            "answers": [
+              {
+                "label": "OvokService",
+                "type": "Service",
+                "id": "service:apps/api/src/ovok/ovok.service.ts:OvokService",
+                "file": "apps/api/src/ovok/ovok.service.ts",
+                "explanation": "Matched Service node OvokService."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched Service with terms OvokService."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.051,
+            "answers": [
+              {
+                "label": "OvokService",
+                "type": "Service",
+                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_apps_api_src_ovok_ovok_service_ovokservice",
+                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/apps/api/src/ovok/ovok.service.ts",
+                "explanation": "Matched Service node OvokService."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched Service with terms OvokService."
+          },
+          "winner": "Tie"
+        },
+        {
+          "id": "innosphere-app-module",
+          "repository": "innosphere",
+          "category": "Modules",
+          "evaluator": "FindModule",
+          "question": "Which module is the Nest application root?",
+          "expected": {
+            "exact": [
+              "AppModule"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.241,
+            "answers": [
+              {
+                "label": "AppModule",
+                "type": "Module",
+                "id": "mod:apps/api/src/app.module.ts:AppModule",
+                "file": "apps/api/src/app.module.ts",
+                "explanation": "Matched Module node AppModule."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched Module with terms AppModule."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.183,
+            "answers": [
+              {
+                "label": "AppModule",
+                "type": "Module",
+                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_apps_api_src_app_module_appmodule",
+                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/apps/api/src/app.module.ts",
+                "explanation": "Matched Module node AppModule."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched Module with terms AppModule."
+          },
+          "winner": "Tie"
+        }
+      ]
+    },
+    {
+      "repository": "ovok-core",
+      "name": "Ovok Core",
+      "frameworks": [
+        "NestJS",
+        "Express"
+      ],
+      "expectedGraph": {
+        "minNodes": 20000,
+        "minEdges": 45000,
+        "requiredNodeTypes": [
+          "Controller",
+          "Route",
+          "Service",
+          "Module",
+          "EnvironmentVariable"
+        ],
+        "requiredRelationships": [
+          "HANDLES",
+          "MOUNTS",
+          "INJECTS",
+          "AUTHORIZES"
+        ]
+      },
+      "coverageExpectations": {
+        "semanticCoverage": 95,
+        "trustScore": 95
+      },
+      "questionCount": 6,
+      "score": {
+        "ontoly": {
+          "questions": 6,
+          "pass": 6,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.545,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 6,
+          "pass": 3,
+          "partial": 0,
+          "fail": 3,
+          "exactMatchRate": 50,
+          "precision": 50,
+          "recall": 50,
+          "confidence": 50,
+          "latencyMs": 0.635,
+          "semanticUnderstandingScore": 50
+        },
+        "winner": "Ontoly"
+      },
+      "questions": [
+        {
+          "id": "ovok-auth-controller",
+          "repository": "ovok-core",
+          "category": "Controllers",
+          "evaluator": "FindController",
+          "question": "Which controller handles authentication?",
+          "expected": {
+            "exact": [
+              "AuthController"
+            ],
+            "acceptable": [],
+            "nodes": [
+              {
+                "type": "Controller",
+                "name": "AuthController"
+              }
+            ],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.753,
+            "answers": [
+              {
+                "label": "AuthController",
+                "type": "Controller",
+                "id": "controller:src/actimi/partner/auth/auth.contoller.ts:AuthController",
+                "file": "src/actimi/partner/auth/auth.contoller.ts",
+                "explanation": "Matched Controller node AuthController."
+              }
+            ],
+            "explanation": "2 candidate node(s) matched Controller with terms AuthController."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.314,
+            "answers": [
+              {
+                "label": "AuthController",
+                "type": "Controller",
+                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_ovok_core_graphify_code_projection_src_actimi_partner_auth_auth_contoller_authcontroller",
+                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ovok-core/graphify/code-projection/src/actimi/partner/auth/auth.contoller.ts",
+                "explanation": "Matched Controller node AuthController."
+              }
+            ],
+            "explanation": "2 candidate node(s) matched Controller with terms AuthController."
+          },
+          "winner": "Tie"
+        },
+        {
+          "id": "ovok-auth-service",
+          "repository": "ovok-core",
+          "category": "Services",
+          "evaluator": "FindProvider",
+          "question": "Which service backs the authentication controller?",
+          "expected": {
+            "exact": [
+              "AuthService"
+            ],
+            "acceptable": [],
+            "nodes": [
+              {
+                "type": "Service",
+                "name": "AuthService"
+              }
+            ],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.269,
+            "answers": [
+              {
+                "label": "AuthService",
+                "type": "Service",
+                "id": "service:src/actimi/partner/auth/auth.service.ts:AuthService",
+                "file": "src/actimi/partner/auth/auth.service.ts",
+                "explanation": "Matched Service node AuthService."
+              }
+            ],
+            "explanation": "2 candidate node(s) matched Service with terms AuthService."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.364,
+            "answers": [
+              {
+                "label": "AuthService",
+                "type": "Service",
+                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_ovok_core_graphify_code_projection_src_actimi_partner_auth_auth_service_authservice",
+                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ovok-core/graphify/code-projection/src/actimi/partner/auth/auth.service.ts",
+                "explanation": "Matched Service node AuthService."
+              }
+            ],
+            "explanation": "2 candidate node(s) matched Service with terms AuthService."
+          },
+          "winner": "Tie"
+        },
+        {
+          "id": "ovok-auth-di",
+          "repository": "ovok-core",
+          "category": "Dependency Injection",
+          "evaluator": "FindDependency",
+          "question": "Is AuthService injected into AuthController?",
+          "expected": {
+            "exact": [
+              "AuthController -> AuthService"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [
+              {
+                "type": "INJECTS",
+                "from": "AuthController",
+                "to": "AuthService"
+              }
+            ],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.746,
+            "answers": [
+              {
+                "label": "AuthController -> AuthService",
+                "type": "INJECTS",
+                "id": "edge:injects:065brkc",
+                "file": null,
+                "explanation": "Matched INJECTS relationship."
+              }
+            ],
+            "explanation": "2 candidate edge-derived answer(s) matched INJECTS."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
+            "falsePositives": [],
+            "falseNegatives": [
+              "AuthController -> AuthService"
+            ],
+            "confidence": 0,
+            "latencyMs": 1.06,
+            "answers": [],
+            "explanation": "0 candidate edge-derived answer(s) matched INJECTS."
+          },
+          "winner": "Ontoly"
+        },
+        {
+          "id": "ovok-fhir-route",
+          "repository": "ovok-core",
+          "category": "Routes",
+          "evaluator": "FindRoute",
+          "question": "Which route handles the FHIR R4 proxy?",
+          "expected": {
+            "exact": [
+              "ALL:/fhir/R4"
+            ],
+            "acceptable": [],
+            "nodes": [
+              {
+                "type": "Route",
+                "name": "ALL:/fhir/R4"
+              }
+            ],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.409,
+            "answers": [
+              {
+                "label": "ALL:/fhir/R4",
+                "type": "Route",
+                "id": "route:ALL:/fhir/R4",
+                "file": "src/fhir/fhir.controller.ts",
+                "explanation": "Matched Route node ALL:/fhir/R4."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched Route with terms ALL:/fhir/R4."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
+            "falsePositives": [],
+            "falseNegatives": [
+              "ALL:/fhir/R4"
+            ],
+            "confidence": 0,
+            "latencyMs": 0.244,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched Route with terms ALL:/fhir/R4."
+          },
+          "winner": "Ontoly"
+        },
+        {
+          "id": "ovok-auth-module",
+          "repository": "ovok-core",
+          "category": "Modules",
+          "evaluator": "FindModule",
+          "question": "Which Nest module owns the authentication area?",
+          "expected": {
+            "exact": [
+              "AuthModule"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.639,
+            "answers": [
+              {
+                "label": "AuthModule",
+                "type": "Module",
+                "id": "mod:src/actimi/partner/auth/auth.module.ts:AuthModule",
+                "file": "src/actimi/partner/auth/auth.module.ts",
+                "explanation": "Matched Module node AuthModule."
+              }
+            ],
+            "explanation": "2 candidate node(s) matched Module with terms AuthModule."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 1.296,
+            "answers": [
+              {
+                "label": "AuthModule",
+                "type": "Module",
+                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_ovok_core_graphify_code_projection_src_actimi_partner_auth_auth_module_authmodule",
+                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ovok-core/graphify/code-projection/src/actimi/partner/auth/auth.module.ts",
+                "explanation": "Matched Module node AuthModule."
+              }
+            ],
+            "explanation": "2 candidate node(s) matched Module with terms AuthModule."
+          },
+          "winner": "Tie"
+        },
+        {
+          "id": "ovok-fhir-default-env",
+          "repository": "ovok-core",
+          "category": "Environment Variables",
+          "evaluator": "FindEnvironmentVariable",
+          "question": "Which environment variable controls the default FHIR version?",
+          "expected": {
+            "exact": [
+              "FHIR_DEFAULT_VERSION"
+            ],
+            "acceptable": [],
+            "nodes": [],
+            "edges": [],
+            "relationships": []
+          },
+          "ontoly": {
+            "system": "ontoly",
+            "status": "PASS",
+            "exactMatch": true,
+            "precision": 1,
+            "recall": 1,
+            "falsePositives": [],
+            "falseNegatives": [],
+            "confidence": 100,
+            "latencyMs": 0.451,
+            "answers": [
+              {
+                "label": "FHIR_DEFAULT_VERSION",
+                "type": "EnvironmentVariable",
+                "id": "env:FHIR_DEFAULT_VERSION",
+                "file": null,
+                "explanation": "Matched EnvironmentVariable node FHIR_DEFAULT_VERSION."
+              }
+            ],
+            "explanation": "1 candidate node(s) matched EnvironmentVariable with terms FHIR_DEFAULT_VERSION."
+          },
+          "graphify": {
+            "system": "graphify",
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
+            "falsePositives": [],
+            "falseNegatives": [
+              "FHIR_DEFAULT_VERSION"
+            ],
+            "confidence": 0,
+            "latencyMs": 0.532,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched EnvironmentVariable with terms FHIR_DEFAULT_VERSION."
+          },
+          "winner": "Ontoly"
+        }
+      ]
+    }
+  ],
+  "aggregateScores": {
+    "overallSemanticAccuracy": 100,
+    "controllerAccuracy": 100,
+    "routeAccuracy": 100,
+    "serviceAccuracy": 100,
+    "dependencyInjectionAccuracy": 100,
+    "configurationAccuracy": 0,
+    "callGraphAccuracy": 100,
+    "architectureAccuracy": 100,
+    "frameworkUnderstanding": 100,
+    "workspaceUnderstanding": 100,
+    "semanticUnderstandingScore": 100
+  },
+  "systems": {
+    "ontoly": {
+      "questions": 29,
+      "pass": 29,
+      "partial": 0,
+      "fail": 0,
+      "exactMatchRate": 100,
+      "precision": 100,
+      "recall": 100,
+      "confidence": 100,
+      "latencyMs": 0.337,
+      "semanticUnderstandingScore": 100
+    },
+    "graphify": {
+      "questions": 29,
+      "pass": 16,
+      "partial": 0,
+      "fail": 13,
+      "exactMatchRate": 55.17,
+      "precision": 55.17,
+      "recall": 55.17,
+      "confidence": 55.17,
+      "latencyMs": 0.172,
+      "semanticUnderstandingScore": 55.17
+    }
+  },
+  "categoryScores": [
+    {
+      "category": "Functions",
+      "ontoly": {
+        "questions": 2,
+        "pass": 2,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.031,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 2,
+        "pass": 0,
+        "partial": 0,
+        "fail": 2,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.004,
+        "semanticUnderstandingScore": 0
+      }
+    },
+    {
+      "category": "Classes",
+      "ontoly": {
+        "questions": 1,
+        "pass": 1,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.006,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 1,
+        "pass": 1,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.015,
+        "semanticUnderstandingScore": 100
+      }
+    },
+    {
+      "category": "Interfaces",
+      "ontoly": {
+        "questions": 2,
+        "pass": 2,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.011,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 2,
+        "pass": 2,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.014,
+        "semanticUnderstandingScore": 100
+      }
+    },
+    {
+      "category": "Routes",
+      "ontoly": {
+        "questions": 2,
+        "pass": 2,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.266,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 2,
+        "pass": 0,
+        "partial": 0,
+        "fail": 2,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.148,
+        "semanticUnderstandingScore": 0
+      }
+    },
+    {
+      "category": "Controllers",
+      "ontoly": {
+        "questions": 2,
+        "pass": 2,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.534,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 2,
+        "pass": 2,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.202,
+        "semanticUnderstandingScore": 100
+      }
+    },
+    {
+      "category": "Services",
+      "ontoly": {
+        "questions": 2,
+        "pass": 2,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.161,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 2,
+        "pass": 2,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.208,
+        "semanticUnderstandingScore": 100
+      }
+    },
+    {
+      "category": "Modules",
+      "ontoly": {
+        "questions": 3,
+        "pass": 3,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.38,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 3,
+        "pass": 3,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.567,
+        "semanticUnderstandingScore": 100
+      }
+    },
+    {
+      "category": "Packages",
+      "ontoly": {
+        "questions": 4,
+        "pass": 4,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.063,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 4,
+        "pass": 2,
+        "partial": 0,
+        "fail": 2,
+        "exactMatchRate": 50,
+        "precision": 50,
+        "recall": 50,
+        "confidence": 50,
+        "latencyMs": 0.039,
+        "semanticUnderstandingScore": 50
+      }
+    },
+    {
+      "category": "Dependency Injection",
+      "ontoly": {
+        "questions": 2,
+        "pass": 2,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.413,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 2,
+        "pass": 0,
+        "partial": 0,
+        "fail": 2,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.536,
+        "semanticUnderstandingScore": 0
+      }
+    },
+    {
+      "category": "Environment Variables",
+      "ontoly": {
+        "questions": 3,
+        "pass": 3,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.154,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 3,
+        "pass": 0,
+        "partial": 0,
+        "fail": 3,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.18,
+        "semanticUnderstandingScore": 0
+      }
+    },
+    {
+      "category": "Call Graph",
+      "ontoly": {
+        "questions": 2,
+        "pass": 2,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.036,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 2,
+        "pass": 2,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.022,
+        "semanticUnderstandingScore": 100
+      }
+    },
+    {
+      "category": "Workspace",
+      "ontoly": {
+        "questions": 1,
+        "pass": 1,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.028,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 1,
+        "pass": 0,
+        "partial": 0,
+        "fail": 1,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.034,
+        "semanticUnderstandingScore": 0
+      }
+    },
+    {
+      "category": "Database",
+      "ontoly": {
+        "questions": 1,
+        "pass": 1,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.072,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 1,
+        "pass": 1,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 0.135,
+        "semanticUnderstandingScore": 100
+      }
+    },
+    {
+      "category": "Architecture",
+      "ontoly": {
+        "questions": 2,
+        "pass": 2,
+        "partial": 0,
+        "fail": 0,
+        "exactMatchRate": 100,
+        "precision": 100,
+        "recall": 100,
+        "confidence": 100,
+        "latencyMs": 2.457,
+        "semanticUnderstandingScore": 100
+      },
+      "graphify": {
+        "questions": 2,
+        "pass": 1,
+        "partial": 0,
+        "fail": 1,
+        "exactMatchRate": 50,
+        "precision": 50,
+        "recall": 50,
+        "confidence": 50,
+        "latencyMs": 0.075,
+        "semanticUnderstandingScore": 50
+      }
+    }
+  ],
+  "leaderboard": [
+    {
+      "repository": "0xsarwagya",
+      "repositoryId": "0xsarwagya",
+      "questionId": "personal-ghost-package",
+      "question": "Is the Ghost package represented in the monorepo?",
+      "category": "Packages",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "PASS",
+      "graphifyConfidence": 100,
+      "winner": "Tie"
+    },
+    {
+      "repository": "0xsarwagya",
+      "repositoryId": "0xsarwagya",
+      "questionId": "personal-durable-package",
+      "question": "Is the durable-local package represented in the monorepo?",
+      "category": "Packages",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "PASS",
+      "graphifyConfidence": 100,
+      "winner": "Tie"
+    },
+    {
+      "repository": "0xsarwagya",
+      "repositoryId": "0xsarwagya",
+      "questionId": "personal-next-framework",
+      "question": "Does the architecture identify Next.js?",
+      "category": "Architecture",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
+    },
+    {
+      "repository": "0xsarwagya",
+      "repositoryId": "0xsarwagya",
+      "questionId": "personal-react-framework",
+      "question": "Does the architecture identify React?",
+      "category": "Architecture",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "PASS",
+      "graphifyConfidence": 100,
+      "winner": "Tie"
+    },
+    {
+      "repository": "0xsarwagya",
+      "repositoryId": "0xsarwagya",
+      "questionId": "personal-turbo-config",
+      "question": "Is the Turborepo pipeline configuration represented?",
+      "category": "Workspace",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
+    },
+    {
+      "repository": "durable-local",
+      "repositoryId": "durable-local",
+      "questionId": "durable-create-entrypoint",
+      "question": "What function creates a durable local store?",
+      "category": "Functions",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
+    },
+    {
+      "repository": "durable-local",
+      "repositoryId": "durable-local",
+      "questionId": "durable-interface",
+      "question": "Which public interface represents the durable store?",
+      "category": "Interfaces",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "PASS",
+      "graphifyConfidence": 100,
+      "winner": "Tie"
+    },
+    {
+      "repository": "durable-local",
+      "repositoryId": "durable-local",
+      "questionId": "durable-package",
+      "question": "What is the package name?",
+      "category": "Packages",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
+    },
+    {
+      "repository": "durable-local",
+      "repositoryId": "durable-local",
+      "questionId": "durable-ci-env",
+      "question": "Which CI environment variable is read?",
+      "category": "Environment Variables",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
+    },
+    {
+      "repository": "durable-local",
+      "repositoryId": "durable-local",
+      "questionId": "durable-indexeddb-dependency",
+      "question": "Which dependency provides IndexedDB tests?",
+      "category": "Dependency Injection",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
+    },
+    {
+      "repository": "durable-local",
+      "repositoryId": "durable-local",
+      "questionId": "durable-open-database-call",
+      "question": "Does withReadWrite call openDatabase?",
+      "category": "Call Graph",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "PASS",
+      "graphifyConfidence": 100,
+      "winner": "Tie"
+    },
+    {
+      "repository": "Ghost",
+      "repositoryId": "ghost",
+      "questionId": "ghost-create-entrypoint",
+      "question": "What is the browser entrypoint for creating a Ghost identity?",
+      "category": "Functions",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
+    },
+    {
+      "repository": "Ghost",
+      "repositoryId": "ghost",
+      "questionId": "ghost-interface",
+      "question": "Which public interface represents a Ghost client?",
+      "category": "Interfaces",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "PASS",
+      "graphifyConfidence": 100,
+      "winner": "Tie"
+    },
+    {
+      "repository": "Ghost",
+      "repositoryId": "ghost",
+      "questionId": "ghost-error-class",
+      "question": "Which error class represents Ghost failures?",
+      "category": "Classes",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "PASS",
+      "graphifyConfidence": 100,
+      "winner": "Tie"
+    },
+    {
+      "repository": "Ghost",
+      "repositoryId": "ghost",
+      "questionId": "ghost-ci-env",
+      "question": "Which CI environment variable is read?",
+      "category": "Environment Variables",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
+    },
+    {
+      "repository": "Ghost",
+      "repositoryId": "ghost",
+      "questionId": "ghost-package",
+      "question": "What is the package name?",
+      "category": "Packages",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
+    },
+    {
+      "repository": "Ghost",
+      "repositoryId": "ghost",
+      "questionId": "ghost-load-create-call",
+      "question": "Does loading or creating a record call createGhostId?",
+      "category": "Call Graph",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "PASS",
+      "graphifyConfidence": 100,
+      "winner": "Tie"
+    },
+    {
+      "repository": "Innosphere",
+      "repositoryId": "innosphere",
+      "questionId": "innosphere-auth-controller",
+      "question": "Which controller handles auth?",
+      "category": "Controllers",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "PASS",
+      "graphifyConfidence": 100,
+      "winner": "Tie"
+    },
+    {
+      "repository": "Innosphere",
+      "repositoryId": "innosphere",
+      "questionId": "innosphere-auth-me-route",
+      "question": "Which route returns the current authenticated user?",
+      "category": "Routes",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
+    },
+    {
+      "repository": "Innosphere",
+      "repositoryId": "innosphere",
+      "questionId": "innosphere-auth-module",
+      "question": "Which module owns auth behavior?",
+      "category": "Modules",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "PASS",
+      "graphifyConfidence": 100,
+      "winner": "Tie"
+    },
+    {
+      "repository": "Innosphere",
+      "repositoryId": "innosphere",
+      "questionId": "innosphere-database-url",
+      "question": "Which environment variable points to the database?",
+      "category": "Database",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "PASS",
+      "graphifyConfidence": 100,
+      "winner": "Tie"
+    },
+    {
+      "repository": "Innosphere",
+      "repositoryId": "innosphere",
+      "questionId": "innosphere-ovok-service",
+      "question": "Which service models Ovok integration?",
+      "category": "Services",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "PASS",
+      "graphifyConfidence": 100,
+      "winner": "Tie"
+    },
+    {
+      "repository": "Innosphere",
+      "repositoryId": "innosphere",
+      "questionId": "innosphere-app-module",
+      "question": "Which module is the Nest application root?",
+      "category": "Modules",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "PASS",
+      "graphifyConfidence": 100,
+      "winner": "Tie"
+    },
+    {
+      "repository": "Ovok Core",
+      "repositoryId": "ovok-core",
+      "questionId": "ovok-auth-controller",
+      "question": "Which controller handles authentication?",
+      "category": "Controllers",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "PASS",
+      "graphifyConfidence": 100,
+      "winner": "Tie"
+    },
+    {
+      "repository": "Ovok Core",
+      "repositoryId": "ovok-core",
+      "questionId": "ovok-auth-service",
+      "question": "Which service backs the authentication controller?",
+      "category": "Services",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "PASS",
+      "graphifyConfidence": 100,
+      "winner": "Tie"
+    },
+    {
+      "repository": "Ovok Core",
+      "repositoryId": "ovok-core",
+      "questionId": "ovok-auth-di",
+      "question": "Is AuthService injected into AuthController?",
+      "category": "Dependency Injection",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
+    },
+    {
+      "repository": "Ovok Core",
+      "repositoryId": "ovok-core",
+      "questionId": "ovok-fhir-route",
+      "question": "Which route handles the FHIR R4 proxy?",
+      "category": "Routes",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
+    },
+    {
+      "repository": "Ovok Core",
+      "repositoryId": "ovok-core",
+      "questionId": "ovok-auth-module",
+      "question": "Which Nest module owns the authentication area?",
+      "category": "Modules",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "PASS",
+      "graphifyConfidence": 100,
+      "winner": "Tie"
+    },
+    {
+      "repository": "Ovok Core",
+      "repositoryId": "ovok-core",
+      "questionId": "ovok-fhir-default-env",
+      "question": "Which environment variable controls the default FHIR version?",
+      "category": "Environment Variables",
+      "ontoly": "PASS",
+      "ontolyConfidence": 100,
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
+    }
+  ],
+  "regression": {
+    "status": "PASS",
+    "baseline": "compared",
+    "failures": [],
+    "improvements": [],
+    "warnings": [],
+    "current": {
+      "generatedAt": "2026-07-13T15:37:42.502Z",
+      "repositories": [
+        {
+          "repository": "0xsarwagya",
+          "ontoly": {
+            "questions": 5,
+            "pass": 5,
+            "partial": 0,
+            "fail": 0,
+            "exactMatchRate": 100,
+            "precision": 100,
+            "recall": 100,
+            "confidence": 100,
+            "latencyMs": 1.035,
+            "semanticUnderstandingScore": 100
+          },
+          "graphify": {
+            "questions": 5,
+            "pass": 3,
+            "partial": 0,
+            "fail": 2,
+            "exactMatchRate": 60,
+            "precision": 60,
+            "recall": 60,
+            "confidence": 60,
+            "latencyMs": 0.065,
+            "semanticUnderstandingScore": 60
+          },
+          "questions": [
+            {
+              "id": "personal-ghost-package",
+              "ontoly": "PASS",
+              "graphify": "PASS"
+            },
+            {
+              "id": "personal-durable-package",
+              "ontoly": "PASS",
+              "graphify": "PASS"
+            },
+            {
+              "id": "personal-next-framework",
+              "ontoly": "PASS",
+              "graphify": "FAIL"
+            },
+            {
+              "id": "personal-react-framework",
+              "ontoly": "PASS",
+              "graphify": "PASS"
+            },
+            {
+              "id": "personal-turbo-config",
+              "ontoly": "PASS",
+              "graphify": "FAIL"
+            }
+          ]
+        },
+        {
+          "repository": "durable-local",
+          "ontoly": {
+            "questions": 6,
+            "pass": 6,
+            "partial": 0,
+            "fail": 0,
+            "exactMatchRate": 100,
+            "precision": 100,
+            "recall": 100,
+            "confidence": 100,
+            "latencyMs": 0.026,
+            "semanticUnderstandingScore": 100
+          },
+          "graphify": {
+            "questions": 6,
+            "pass": 2,
+            "partial": 0,
+            "fail": 4,
+            "exactMatchRate": 33.33,
+            "precision": 33.33,
+            "recall": 33.33,
+            "confidence": 33.33,
+            "latencyMs": 0.009,
+            "semanticUnderstandingScore": 33.33
+          },
+          "questions": [
+            {
+              "id": "durable-create-entrypoint",
+              "ontoly": "PASS",
+              "graphify": "FAIL"
+            },
+            {
+              "id": "durable-interface",
+              "ontoly": "PASS",
+              "graphify": "PASS"
+            },
+            {
+              "id": "durable-package",
+              "ontoly": "PASS",
+              "graphify": "FAIL"
+            },
+            {
+              "id": "durable-ci-env",
+              "ontoly": "PASS",
+              "graphify": "FAIL"
+            },
+            {
+              "id": "durable-indexeddb-dependency",
+              "ontoly": "PASS",
+              "graphify": "FAIL"
+            },
+            {
+              "id": "durable-open-database-call",
+              "ontoly": "PASS",
+              "graphify": "PASS"
+            }
+          ]
+        },
+        {
+          "repository": "ghost",
+          "ontoly": {
+            "questions": 6,
+            "pass": 6,
+            "partial": 0,
+            "fail": 0,
+            "exactMatchRate": 100,
+            "precision": 100,
+            "recall": 100,
+            "confidence": 100,
+            "latencyMs": 0.018,
+            "semanticUnderstandingScore": 100
+          },
+          "graphify": {
+            "questions": 6,
+            "pass": 3,
+            "partial": 0,
+            "fail": 3,
+            "exactMatchRate": 50,
+            "precision": 50,
+            "recall": 50,
+            "confidence": 50,
+            "latencyMs": 0.012,
+            "semanticUnderstandingScore": 50
+          },
+          "questions": [
+            {
+              "id": "ghost-create-entrypoint",
+              "ontoly": "PASS",
+              "graphify": "FAIL"
+            },
+            {
+              "id": "ghost-interface",
+              "ontoly": "PASS",
+              "graphify": "PASS"
+            },
+            {
+              "id": "ghost-error-class",
+              "ontoly": "PASS",
+              "graphify": "PASS"
+            },
+            {
+              "id": "ghost-ci-env",
+              "ontoly": "PASS",
+              "graphify": "FAIL"
+            },
+            {
+              "id": "ghost-package",
+              "ontoly": "PASS",
+              "graphify": "FAIL"
+            },
+            {
+              "id": "ghost-load-create-call",
+              "ontoly": "PASS",
+              "graphify": "PASS"
+            }
+          ]
+        },
+        {
+          "repository": "innosphere",
+          "ontoly": {
+            "questions": 6,
+            "pass": 6,
+            "partial": 0,
+            "fail": 0,
+            "exactMatchRate": 100,
+            "precision": 100,
+            "recall": 100,
+            "confidence": 100,
+            "latencyMs": 0.178,
+            "semanticUnderstandingScore": 100
+          },
+          "graphify": {
+            "questions": 6,
+            "pass": 5,
+            "partial": 0,
+            "fail": 1,
+            "exactMatchRate": 83.33,
+            "precision": 83.33,
+            "recall": 83.33,
+            "confidence": 83.33,
+            "latencyMs": 0.122,
+            "semanticUnderstandingScore": 83.33
+          },
+          "questions": [
+            {
+              "id": "innosphere-auth-controller",
+              "ontoly": "PASS",
+              "graphify": "PASS"
+            },
+            {
+              "id": "innosphere-auth-me-route",
+              "ontoly": "PASS",
+              "graphify": "FAIL"
+            },
+            {
+              "id": "innosphere-auth-module",
+              "ontoly": "PASS",
+              "graphify": "PASS"
+            },
+            {
+              "id": "innosphere-database-url",
+              "ontoly": "PASS",
+              "graphify": "PASS"
+            },
+            {
+              "id": "innosphere-ovok-service",
+              "ontoly": "PASS",
+              "graphify": "PASS"
+            },
+            {
+              "id": "innosphere-app-module",
+              "ontoly": "PASS",
+              "graphify": "PASS"
+            }
+          ]
+        },
+        {
+          "repository": "ovok-core",
+          "ontoly": {
+            "questions": 6,
+            "pass": 6,
+            "partial": 0,
+            "fail": 0,
+            "exactMatchRate": 100,
+            "precision": 100,
+            "recall": 100,
+            "confidence": 100,
+            "latencyMs": 0.545,
+            "semanticUnderstandingScore": 100
+          },
+          "graphify": {
+            "questions": 6,
+            "pass": 3,
+            "partial": 0,
+            "fail": 3,
+            "exactMatchRate": 50,
+            "precision": 50,
+            "recall": 50,
+            "confidence": 50,
+            "latencyMs": 0.635,
+            "semanticUnderstandingScore": 50
+          },
+          "questions": [
+            {
+              "id": "ovok-auth-controller",
+              "ontoly": "PASS",
+              "graphify": "PASS"
+            },
+            {
+              "id": "ovok-auth-service",
+              "ontoly": "PASS",
+              "graphify": "PASS"
+            },
+            {
+              "id": "ovok-auth-di",
+              "ontoly": "PASS",
+              "graphify": "FAIL"
+            },
+            {
+              "id": "ovok-fhir-route",
+              "ontoly": "PASS",
+              "graphify": "FAIL"
+            },
+            {
+              "id": "ovok-auth-module",
+              "ontoly": "PASS",
+              "graphify": "PASS"
+            },
+            {
+              "id": "ovok-fhir-default-env",
+              "ontoly": "PASS",
+              "graphify": "FAIL"
+            }
+          ]
+        }
+      ],
+      "aggregate": {
+        "ontoly": {
+          "questions": 29,
+          "pass": 29,
+          "partial": 0,
+          "fail": 0,
+          "exactMatchRate": 100,
+          "precision": 100,
+          "recall": 100,
+          "confidence": 100,
+          "latencyMs": 0.337,
+          "semanticUnderstandingScore": 100
+        },
+        "graphify": {
+          "questions": 29,
+          "pass": 16,
+          "partial": 0,
+          "fail": 13,
+          "exactMatchRate": 55.17,
+          "precision": 55.17,
+          "recall": 55.17,
+          "confidence": 55.17,
+          "latencyMs": 0.172,
+          "semanticUnderstandingScore": 55.17
+        },
+        "categoryScores": [
+          {
+            "category": "Functions",
+            "ontoly": {
+              "questions": 2,
+              "pass": 2,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.031,
+              "semanticUnderstandingScore": 100
+            },
+            "graphify": {
+              "questions": 2,
+              "pass": 0,
+              "partial": 0,
+              "fail": 2,
+              "exactMatchRate": 0,
+              "precision": 0,
+              "recall": 0,
+              "confidence": 0,
+              "latencyMs": 0.004,
+              "semanticUnderstandingScore": 0
+            }
+          },
+          {
+            "category": "Classes",
+            "ontoly": {
+              "questions": 1,
+              "pass": 1,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.006,
+              "semanticUnderstandingScore": 100
+            },
+            "graphify": {
+              "questions": 1,
+              "pass": 1,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.015,
+              "semanticUnderstandingScore": 100
+            }
+          },
+          {
+            "category": "Interfaces",
+            "ontoly": {
+              "questions": 2,
+              "pass": 2,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.011,
+              "semanticUnderstandingScore": 100
+            },
+            "graphify": {
+              "questions": 2,
+              "pass": 2,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.014,
+              "semanticUnderstandingScore": 100
+            }
+          },
+          {
+            "category": "Routes",
+            "ontoly": {
+              "questions": 2,
+              "pass": 2,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.266,
+              "semanticUnderstandingScore": 100
+            },
+            "graphify": {
+              "questions": 2,
+              "pass": 0,
+              "partial": 0,
+              "fail": 2,
+              "exactMatchRate": 0,
+              "precision": 0,
+              "recall": 0,
+              "confidence": 0,
+              "latencyMs": 0.148,
+              "semanticUnderstandingScore": 0
+            }
+          },
+          {
+            "category": "Controllers",
+            "ontoly": {
+              "questions": 2,
+              "pass": 2,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.534,
+              "semanticUnderstandingScore": 100
+            },
+            "graphify": {
+              "questions": 2,
+              "pass": 2,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.202,
+              "semanticUnderstandingScore": 100
+            }
+          },
+          {
+            "category": "Services",
+            "ontoly": {
+              "questions": 2,
+              "pass": 2,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.161,
+              "semanticUnderstandingScore": 100
+            },
+            "graphify": {
+              "questions": 2,
+              "pass": 2,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.208,
+              "semanticUnderstandingScore": 100
+            }
+          },
+          {
+            "category": "Modules",
+            "ontoly": {
+              "questions": 3,
+              "pass": 3,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.38,
+              "semanticUnderstandingScore": 100
+            },
+            "graphify": {
+              "questions": 3,
+              "pass": 3,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.567,
+              "semanticUnderstandingScore": 100
+            }
+          },
+          {
+            "category": "Packages",
+            "ontoly": {
+              "questions": 4,
+              "pass": 4,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.063,
+              "semanticUnderstandingScore": 100
+            },
+            "graphify": {
+              "questions": 4,
+              "pass": 2,
+              "partial": 0,
+              "fail": 2,
+              "exactMatchRate": 50,
+              "precision": 50,
+              "recall": 50,
+              "confidence": 50,
+              "latencyMs": 0.039,
+              "semanticUnderstandingScore": 50
+            }
+          },
+          {
+            "category": "Dependency Injection",
+            "ontoly": {
+              "questions": 2,
+              "pass": 2,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.413,
+              "semanticUnderstandingScore": 100
+            },
+            "graphify": {
+              "questions": 2,
+              "pass": 0,
+              "partial": 0,
+              "fail": 2,
+              "exactMatchRate": 0,
+              "precision": 0,
+              "recall": 0,
+              "confidence": 0,
+              "latencyMs": 0.536,
+              "semanticUnderstandingScore": 0
+            }
+          },
+          {
+            "category": "Environment Variables",
+            "ontoly": {
+              "questions": 3,
+              "pass": 3,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.154,
+              "semanticUnderstandingScore": 100
+            },
+            "graphify": {
+              "questions": 3,
+              "pass": 0,
+              "partial": 0,
+              "fail": 3,
+              "exactMatchRate": 0,
+              "precision": 0,
+              "recall": 0,
+              "confidence": 0,
+              "latencyMs": 0.18,
+              "semanticUnderstandingScore": 0
+            }
+          },
+          {
+            "category": "Call Graph",
+            "ontoly": {
+              "questions": 2,
+              "pass": 2,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.036,
+              "semanticUnderstandingScore": 100
+            },
+            "graphify": {
+              "questions": 2,
+              "pass": 2,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.022,
+              "semanticUnderstandingScore": 100
+            }
+          },
+          {
+            "category": "Workspace",
+            "ontoly": {
+              "questions": 1,
+              "pass": 1,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.028,
+              "semanticUnderstandingScore": 100
+            },
+            "graphify": {
+              "questions": 1,
+              "pass": 0,
+              "partial": 0,
+              "fail": 1,
+              "exactMatchRate": 0,
+              "precision": 0,
+              "recall": 0,
+              "confidence": 0,
+              "latencyMs": 0.034,
+              "semanticUnderstandingScore": 0
+            }
+          },
+          {
+            "category": "Database",
+            "ontoly": {
+              "questions": 1,
+              "pass": 1,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.072,
+              "semanticUnderstandingScore": 100
+            },
+            "graphify": {
+              "questions": 1,
+              "pass": 1,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 0.135,
+              "semanticUnderstandingScore": 100
+            }
+          },
+          {
+            "category": "Architecture",
+            "ontoly": {
+              "questions": 2,
+              "pass": 2,
+              "partial": 0,
+              "fail": 0,
+              "exactMatchRate": 100,
+              "precision": 100,
+              "recall": 100,
+              "confidence": 100,
+              "latencyMs": 2.457,
+              "semanticUnderstandingScore": 100
+            },
+            "graphify": {
+              "questions": 2,
+              "pass": 1,
+              "partial": 0,
+              "fail": 1,
+              "exactMatchRate": 50,
+              "precision": 50,
+              "recall": 50,
+              "confidence": 50,
+              "latencyMs": 0.075,
+              "semanticUnderstandingScore": 50
+            }
+          }
+        ]
+      }
+    }
+  }
+}

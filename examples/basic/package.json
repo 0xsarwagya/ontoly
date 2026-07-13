@@ -1,0 +1,10 @@
+{
+  "name": "@0xsarwagya/ontoly-example-basic",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "graph": "node ../../packages/cli/dist/cli.js build .",
+    "mcp": "node ../../packages/cli/dist/cli.js mcp --list --root .",
+    "skills": "cd ../.. && node packages/cli/dist/cli.js skills validate --ci"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "prisma",
+  "name": "Prisma",
+  "source": "https://github.com/prisma/prisma.git",
+  "corpusPath": "libraries/prisma",
+  "frameworks": [
+    "prisma"
+  ],
+  "language": "typescript",
+  "repositoryType": "library",
+  "expectedAnalyzer": "typescript",
+  "default": false
+}

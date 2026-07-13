@@ -1,0 +1,23 @@
+repository: 0xsarwagya
+name: 0xsarwagya
+path: /Users/shrey/Desktop/personal/0xsarwagya
+frameworks:
+  - Next.js
+  - React
+  - Turborepo
+questions: questions/0xsarwagya.yaml
+expectedGraph:
+  minNodes: 1000
+  minEdges: 1800
+  requiredNodeTypes:
+    - Package
+    - Module
+    - Configuration
+    - Framework
+  requiredRelationships:
+    - IMPORTS
+    - DEPENDS_ON
+    - CONTAINS
+coverageExpectations:
+  semanticCoverage: 90
+  trustScore: 90

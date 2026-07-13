@@ -1,0 +1,40 @@
+name: Feature request
+description: Propose a scoped Ontoly improvement.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user or tooling problem does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Describe the desired behavior and evidence it should produce.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Software Graph
+        - Compiler
+        - Query Engine
+        - MCP
+        - Agent Skills
+        - Validation Lab
+        - Documentation
+    validations:
+      required: true
+  - type: checkboxes
+    id: rfc
+    attributes:
+      label: RFC check
+      options:
+        - label: I understand graph, compiler, query, plugin, and public type changes require an RFC.
+          required: true

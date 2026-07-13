@@ -1,0 +1,13 @@
+{
+  "id": "drizzle",
+  "name": "Drizzle ORM",
+  "source": "https://github.com/drizzle-team/drizzle-orm.git",
+  "corpusPath": "libraries/drizzle",
+  "frameworks": [
+    "drizzle"
+  ],
+  "language": "typescript",
+  "repositoryType": "library",
+  "expectedAnalyzer": "typescript",
+  "default": false
+}

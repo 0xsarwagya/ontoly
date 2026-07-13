@@ -1,0 +1,14 @@
+{
+  "id": "payload",
+  "name": "Payload CMS",
+  "source": "https://github.com/payloadcms/payload.git",
+  "corpusPath": "monorepos/payload",
+  "frameworks": [
+    "nextjs",
+    "react"
+  ],
+  "language": "typescript",
+  "repositoryType": "monorepo",
+  "expectedAnalyzer": "workspace",
+  "default": false
+}

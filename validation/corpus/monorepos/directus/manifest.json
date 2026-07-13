@@ -1,0 +1,14 @@
+{
+  "id": "directus",
+  "name": "Directus",
+  "source": "https://github.com/directus/directus.git",
+  "corpusPath": "monorepos/directus",
+  "frameworks": [
+    "express",
+    "vue"
+  ],
+  "language": "typescript",
+  "repositoryType": "monorepo",
+  "expectedAnalyzer": "workspace",
+  "default": false
+}
