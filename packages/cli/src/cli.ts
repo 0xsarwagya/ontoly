@@ -32,6 +32,7 @@ import {
 import { createMcpRuntime, McpCapabilityError, type McpCapabilityName } from "@0xsarwagya/ontoly-mcp";
 import { createOpenApiFrontendPass } from "@0xsarwagya/ontoly-parser-openapi";
 import { createTypeScriptFrontendPass } from "@0xsarwagya/ontoly-parser-typescript";
+import { createInteractiveHtmlGraph } from "@0xsarwagya/ontoly-plugin-html";
 import { createQueryEngine, type GraphStatistics, type GraphTraversal } from "@0xsarwagya/ontoly-query";
 import { createDefaultFrameworkRegistry } from "@0xsarwagya/ontoly-semantic";
 import {
@@ -475,6 +476,11 @@ async function graphCommand(cli: ParsedCli): Promise<void> {
 
   if (format === "graphml") {
     logger.write(exportGraphML(graph));
+    return;
+  }
+
+  if (format === "html") {
+    logger.write(createInteractiveHtmlGraph(graph));
     return;
   }
 
@@ -1934,9 +1940,9 @@ function commandHelp(): Record<string, CommandHelp> {
   graph: {
     title: "ontoly graph",
     description: "Print or export the current Software Graph.",
-    usage: ["ontoly graph [root] [--format summary|json|mermaid|dot|graphml]"],
-    options: ["--format kind  summary, json, mermaid, dot, or graphml.", "--json         Alias for --format json."],
-    examples: ["ontoly graph .", "ontoly graph --format mermaid", "ontoly graph --json"],
+    usage: ["ontoly graph [root] [--format summary|json|mermaid|dot|graphml|html]"],
+    options: ["--format kind  summary, json, mermaid, dot, graphml, or html.", "--json         Alias for --format json."],
+    examples: ["ontoly graph .", "ontoly graph --format mermaid", "ontoly graph --format html > graph.html", "ontoly graph --json"],
   },
   stats: {
     title: "ontoly stats",
@@ -2072,7 +2078,7 @@ Usage:
   ontoly architecture [root] [--root path] [--format mermaid] [--json]
   ontoly coverage [root] [--root path] [--format human|markdown|json] [--json]
   ontoly report [summary|api|dependencies|configuration|framework|frameworks|controllers|routes|modules|providers|workspace] [--root path] [--format markdown|json|mermaid]
-  ontoly graph [root] [--root path] [--format summary|json|mermaid|dot|graphml]
+  ontoly graph [root] [--root path] [--format summary|json|mermaid|dot|graphml|html]
   ontoly query <find|callers|callees|dependencies|dependents|related|impact|routes|frameworks|configuration|cycles> [target] [--json]
   ontoly doctor [root] [--root path] [--json]
   ontoly export [path]
@@ -2095,6 +2101,7 @@ Examples:
   ontoly inspect src/service.ts
   ontoly trace fn:src/index.ts:main
   ontoly graph --format mermaid
+  ontoly graph --format html > graph.html
   ontoly architecture
   ontoly coverage
   ontoly report api

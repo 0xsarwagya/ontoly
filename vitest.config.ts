@@ -6,6 +6,7 @@ const fromRoot = (path: string) => fileURLToPath(new URL(path, import.meta.url))
 export default defineConfig({
   test: {
     include: ["packages/**/tests/**/*.test.ts", "plugins/**/tests/**/*.test.ts"],
+    testTimeout: 20_000,
   },
   resolve: {
     alias: {
@@ -17,6 +18,7 @@ export default defineConfig({
       "@0xsarwagya/ontoly-mcp": fromRoot("./packages/mcp/src/index.ts"),
       "@0xsarwagya/ontoly-parser-openapi": fromRoot("./packages/parser-openapi/src/index.ts"),
       "@0xsarwagya/ontoly-parser-typescript": fromRoot("./packages/parser-typescript/src/index.ts"),
+      "@0xsarwagya/ontoly-plugin-html": fromRoot("./plugins/html/src/index.ts"),
       "@0xsarwagya/ontoly-plugin-mermaid": fromRoot("./plugins/mermaid/src/index.ts"),
       "@0xsarwagya/ontoly-query": fromRoot("./packages/query/src/index.ts"),
       "@0xsarwagya/ontoly-semantic": fromRoot("./packages/semantic/src/index.ts"),

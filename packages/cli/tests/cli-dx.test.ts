@@ -29,6 +29,13 @@ describe("cli developer experience helpers", () => {
     expect(help).toContain("ontoly build . --json");
   });
 
+  it("documents interactive HTML graph export", () => {
+    const help = renderCommandHelp(commandHelp().graph);
+
+    expect(help).toContain("--format summary|json|mermaid|dot|graphml|html");
+    expect(help).toContain("ontoly graph --format html > graph.html");
+  });
+
   it("formats structured CLI errors with codes, suggestions, and docs", () => {
     const message = formatCliError(new OntolyCliError({
       code: "ONTOLY0001",

@@ -412,6 +412,7 @@ suite, not marketing claims.
 | `@0xsarwagya/ontoly-cache` | Local graph artifact persistence. |
 | `@0xsarwagya/ontoly-mcp` | Structured graph capabilities for AI agents and tools. |
 | `@0xsarwagya/ontoly-plugin-mermaid` | Example graph visualization plugin. |
+| `@0xsarwagya/ontoly-plugin-html` | Interactive offline HTML graph visualization plugin. |
 
 Package names intentionally use `@0xsarwagya/ontoly-*`.
 
@@ -433,6 +434,7 @@ packages/
   cli/
 plugins/
   mermaid/
+  html/
 skills/
 docs/
 rfcs/

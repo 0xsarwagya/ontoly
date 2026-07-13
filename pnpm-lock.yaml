@@ -93,6 +93,9 @@ importers:
       '@0xsarwagya/ontoly-parser-typescript':
         specifier: workspace:*
         version: link:../parser-typescript
+      '@0xsarwagya/ontoly-plugin-html':
+        specifier: workspace:*
+        version: link:../../plugins/html
       '@0xsarwagya/ontoly-query':
         specifier: workspace:*
         version: link:../query
@@ -306,6 +309,22 @@ importers:
       vitest:
         specifier: ^3.0.0
         version: 3.2.7(@types/node@22.20.1)
+
+  plugins/html:
+    dependencies:
+      '@0xsarwagya/ontoly-core':
+        specifier: workspace:*
+        version: link:../../packages/core
+    devDependencies:
+      '@types/node':
+        specifier: ^22.15.3
+        version: 22.20.1
+      tsup:
+        specifier: ^8.3.5
+        version: 8.5.1(postcss@8.5.17)(typescript@5.9.2)
+      typescript:
+        specifier: 5.9.2
+        version: 5.9.2
 
   plugins/mermaid:
     dependencies:

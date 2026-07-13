@@ -111,6 +111,7 @@ graph coverage.
 - `--format mermaid`
 - `--format dot`
 - `--format graphml`
+- `--format html`
 
 `ontoly query` supports:
 

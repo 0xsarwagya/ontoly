@@ -21,6 +21,7 @@ const packageDirs = [
   "packages/semantic",
   "packages/parser-typescript",
   "plugins/mermaid",
+  "plugins/html",
   "packages/cli",
 ];
 

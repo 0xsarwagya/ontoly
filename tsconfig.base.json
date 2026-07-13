@@ -22,6 +22,7 @@
       "@0xsarwagya/ontoly-mcp": ["packages/mcp/src/index.ts"],
       "@0xsarwagya/ontoly-parser-openapi": ["packages/parser-openapi/src/index.ts"],
       "@0xsarwagya/ontoly-parser-typescript": ["packages/parser-typescript/src/index.ts"],
+      "@0xsarwagya/ontoly-plugin-html": ["plugins/html/src/index.ts"],
       "@0xsarwagya/ontoly-plugin-mermaid": ["plugins/mermaid/src/index.ts"],
       "@0xsarwagya/ontoly-query": ["packages/query/src/index.ts"],
       "@0xsarwagya/ontoly-semantic": ["packages/semantic/src/index.ts"],
