@@ -1,0 +1,86 @@
+#!/usr/bin/env node
+
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
+
+const __filename = fileURLToPath(import.meta.url);
+const root = resolve(dirname(__filename), "..");
+const publishTag = process.env.NPM_PUBLISH_TAG || "latest";
+const packageDirs = [
+  "packages/core",
+  "packages/cache",
+  "packages/diagnostics",
+  "packages/query",
+  "packages/typescript",
+  "packages/analyzers",
+  "packages/compiler",
+  "packages/mcp",
+  "packages/parser-openapi",
+  "packages/semantic",
+  "packages/parser-typescript",
+  "plugins/mermaid",
+  "packages/cli",
+];
+
+for (const directory of packageDirs) {
+  const packageJsonPath = join(root, directory, "package.json");
+  if (!existsSync(packageJsonPath)) {
+    throw new Error(`Missing package.json: ${directory}`);
+  }
+}
+
+for (const directory of packageDirs) {
+  const packageJsonPath = join(root, directory, "package.json");
+  const manifest = JSON.parse(readFileSync(packageJsonPath, "utf8"));
+
+  if (manifest.private) {
+    console.log(`Skipping private package ${manifest.name}`);
+    continue;
+  }
+
+  if (!manifest.name?.startsWith("@0xsarwagya/ontoly-")) {
+    console.log(`Skipping non-Ontoly package ${manifest.name}`);
+    continue;
+  }
+
+  if (isPublished(manifest.name, manifest.version)) {
+    console.log(`Skipping ${manifest.name}@${manifest.version}; already published.`);
+    continue;
+  }
+
+  console.log(`Publishing ${manifest.name}@${manifest.version} with dist-tag ${publishTag}...`);
+  run("pnpm", ["publish", "--access", "public", "--no-git-checks", "--tag", publishTag], join(root, directory));
+}
+
+function isPublished(name, version) {
+  const result = spawnSync("npm", ["view", `${name}@${version}`, "version", "--json"], {
+    cwd: root,
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+
+  if (result.status === 0) {
+    return true;
+  }
+
+  if (`${result.stderr}\n${result.stdout}`.includes("E404")) {
+    return false;
+  }
+
+  throw new Error(`Could not check npm version for ${name}@${version}:\n${result.stderr || result.stdout}`);
+}
+
+function run(command, args, cwd) {
+  const result = spawnSync(command, args, {
+    cwd,
+    encoding: "utf8",
+    stdio: "inherit",
+    env: process.env,
+  });
+
+  if (result.status !== 0) {
+    throw new Error(`${command} ${args.join(" ")} failed in ${cwd}`);
+  }
+}
