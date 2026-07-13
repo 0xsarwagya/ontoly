@@ -88,7 +88,21 @@ function firstParagraph(source) {
     return null;
   }
 
-  return stripMarkdown(paragraph).replace(/\s+/g, " ").slice(0, 150);
+  return summarizeDescription(stripMarkdown(paragraph).replace(/\s+/g, " "));
+}
+
+function summarizeDescription(value) {
+  const sentence = value.match(/^.{20,180}?[.!?](?:\s|$)/)?.[0]?.trim();
+  if (sentence) {
+    return sentence;
+  }
+
+  if (value.length <= 150) {
+    return value;
+  }
+
+  const truncated = value.slice(0, 150);
+  return truncated.replace(/\s+\S*$/, "").trim();
 }
 
 function titleFromPath(relativePath) {
