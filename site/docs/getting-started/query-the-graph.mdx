@@ -1,0 +1,34 @@
+---
+title: "Query the Graph"
+description: "Use Ontoly's deterministic query engine from TypeScript."
+order: 3
+---
+
+
+```ts
+import { buildSoftwareGraph } from "@0xsarwagya/ontoly-compiler";
+import { createQueryEngine } from "@0xsarwagya/ontoly-query";
+
+const graph = await buildSoftwareGraph({ root: process.cwd() });
+const query = createQueryEngine(graph);
+
+const login = query.find("login");
+const services = query.services();
+const dependencies = query.dependencies("mod:src/auth/login.ts");
+```
+
+Queries are structural and deterministic. They do not call language models,
+embedding indexes, or remote services.
+
+Core methods:
+
+- `find()`
+- `trace()`
+- `walk()`
+- `related()`
+- `dependencies()`
+- `callers()`
+- `callees()`
+- `routes()`
+- `models()`
+- `services()`

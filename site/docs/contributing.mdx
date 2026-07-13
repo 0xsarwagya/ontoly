@@ -1,0 +1,52 @@
+---
+title: "Contributing"
+description: "Ontoly changes should preserve determinism, explainability, and graph stability."
+---
+
+Ontoly changes should preserve determinism, explainability, and graph stability.
+
+## Before You Change Code
+
+Run:
+
+```sh
+pnpm install
+pnpm build
+pnpm test
+pnpm check-types
+```
+
+## Before You Open a PR
+
+Run:
+
+```sh
+ontoly evaluate --ci
+ontoly validate all --ci
+ontoly benchmark performance
+```
+
+## RFC Required
+
+Open an RFC before changing:
+
+- Software Graph schema
+- public node or edge semantics
+- compiler pipeline architecture
+- parser contracts
+- query API
+- plugin API
+
+## Style
+
+- Prefer existing package patterns.
+- Keep graph behavior deterministic.
+- Keep errors structured and actionable.
+- Keep docs first-time-user friendly.
+- Add focused tests for behavior changes.
+
+## Validation Artifacts
+
+Generated validation outputs live under `validation/`. When a change improves or
+intentionally changes behavior, regenerate the relevant baseline and explain why
+in the PR.

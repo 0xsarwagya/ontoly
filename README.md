@@ -458,6 +458,12 @@ Runnable examples live in [examples](examples):
 
 ## Documentation Map
 
+The website docs in `site/docs/` are generated from the root `docs/` tree:
+
+```sh
+pnpm site:docs
+```
+
 Start here:
 
 - [docs/index.mdx](docs/index.mdx)

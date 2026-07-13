@@ -1,0 +1,19 @@
+---
+title: "Security"
+description: "What Ontoly does and does not protect."
+order: 99
+---
+
+
+Ontoly analyzes local source code and writes local graph artifacts.
+
+It does not:
+
+- execute repository application code
+- upload source code
+- call hosted AI services
+- generate embeddings
+- provide access control
+
+Graph artifacts may contain file paths, symbol names, configuration names,
+and structural relationships. Treat `.ontoly/` as repository metadata.

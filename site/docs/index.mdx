@@ -1,40 +1,66 @@
 ---
-title: "Ontoly Docs"
-description: "Start here for Ontoly concepts, installation, graph builds, MCP, Skills, and validation."
+title: "Introduction"
+description: "What Ontoly builds, what it refuses to be, and where to start."
+order: 1
 ---
 
-Ontoly turns source code into a deterministic Software Graph.
 
-It is the semantic layer between a repository and every tool that needs to
-understand it: AI agents, MCP servers, SDK generators, documentation systems,
-IDEs, architecture visualization, dependency analysis, impact analysis, and
-static analysis.
+Ontoly turns a TypeScript repository into a deterministic Software Graph.
 
-## Start here
+Most developer tools keep rebuilding the same partial understanding of a
+codebase. Agents search files. Documentation tools parse declarations. SDK
+generators reconstruct schemas. Architecture tools rebuild dependency
+graphs. Ontoly gives those tools one shared semantic layer.
 
-- [Getting started](./getting-started)
-- [Software Graph](./software-graph)
-- [MCP and Agent Skills](./agent-skills)
-- [Validation](./validation)
+The product is the graph.
 
-## Core idea
+Ontoly does not answer questions, generate code, or reason with AI. It
+discovers files, parses source, resolves symbols, extracts relationships,
+builds indexes, and persists a graph that other tools can consume.
 
-Developer tools should not repeatedly rebuild the same code understanding.
-Ontoly builds one graph, validates it, serializes it, and exposes deterministic
-queries over it.
+## Where to start
+
+- [Installation](/ontoly/docs/getting-started/installation) - add the package and initialize a repository.
+- [Build your first graph](/ontoly/docs/getting-started/build-a-graph) - run the compiler and inspect artifacts.
+- [Query the graph](/ontoly/docs/getting-started/query-the-graph) - use the deterministic query engine.
+- [Software Graph](/ontoly/docs/concepts/software-graph) - understand the node and relationship model.
+- [TypeScript Semantic Model](/ontoly/docs/typescript-semantic-model) - inspect the pure language model.
+- [Framework Analyzer API](/ontoly/docs/framework-analyzer-api) - add deterministic framework analyzers.
+- [Semantic Generator](/ontoly/docs/semantic-generator) - understand how semantic facts become graph artifacts.
+- [Plugin system](/ontoly/docs/concepts/plugin-system) - extend Ontoly without changing the compiler.
+- [Semantic Coverage](/ontoly/docs/semantic-coverage) - measure graph completeness, confidence, and trustworthiness.
+- [Semantic Evaluation Harness](/ontoly/docs/semantic-evaluation-harness) - gate releases on deterministic software-understanding questions.
+- [Validation Lab](/ontoly/docs/validation-lab) - continuously measure correctness, determinism, performance, and regression resistance.
+- [Agent Skills](/ontoly/docs/agent-skills) - install workflow-only skills that teach agents to use Ontoly first.
+- [Skills Overview](/ontoly/docs/skills-overview) - browse the official skill and capability matrix.
+- [Skills Validation](/ontoly/docs/skills-validation) - validate skill structure, references, examples, and agent behavior.
+- [FAQ](/ontoly/docs/faq) - common first-time user questions.
+- [Troubleshooting](/ontoly/docs/troubleshooting) - actionable fixes for common failures.
+- [Contributing](/ontoly/docs/contributing) - project workflow and release-gate expectations.
+- [NestJS Support](/ontoly/docs/nestjs-support) - inspect framework-specific graph semantics.
+
+## Release references
+
+- [Alpha Release Notes](/ontoly/docs/release-notes-alpha) - what ships in v0.1.0-alpha.1.
+- [Known Limitations](/ontoly/docs/known-limitations) - what the alpha intentionally does not cover.
+- [Compatibility Matrix](/ontoly/docs/compatibility-matrix) - runtime, graph, skill, and MCP compatibility.
+- [Feature Matrix](/ontoly/docs/feature-matrix) - supported, alpha, and non-goal surfaces.
+- [Framework Matrix](/ontoly/docs/framework-matrix) - current framework validation status.
+- [Version Matrix](/ontoly/docs/version-matrix) - package and spec versions.
 
 ## Boundaries
 
-Ontoly does not provide a chat interface, embeddings, vector search, hosted
-cloud sync, or AI reasoning. It builds software understanding. Other tools
-consume it.
+- Not a chat interface.
+- Not an AI agent.
+- Not vector search.
+- Not hosted SaaS.
+- Not code generation.
 
-## Source documentation
+Plugins may build AI-facing tools, SDK generators, docs, diagrams, or
+reports. The compiler remains deterministic and AI-free.
 
-The full source documentation is in the repository:
+## Status
 
-- [README](https://github.com/0xsarwagya/ontoly)
-- [Architecture](https://github.com/0xsarwagya/ontoly/blob/main/ARCHITECTURE.md)
-- [RFC index](https://github.com/0xsarwagya/ontoly/blob/main/RFC_INDEX.md)
-- [Validation lab](https://github.com/0xsarwagya/ontoly/blob/main/docs/validation-lab.md)
-- [Agent Skills](https://github.com/0xsarwagya/ontoly/blob/main/docs/agent-skills.md)
+Experimental. The initial TypeScript parser and graph schema are usable for
+small projects, but the stable v1 graph contract must go through RFC before
+the public API is frozen.

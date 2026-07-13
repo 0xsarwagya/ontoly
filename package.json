@@ -29,6 +29,7 @@
     "clean": "pnpm -r exec rm -rf dist && rm -rf .ontoly",
     "ontoly": "node packages/cli/dist/cli.js",
     "benchmark": "node validation/tools/run-validation-lab.mjs benchmark performance",
+    "site:docs": "node scripts/build-site-docs.mjs",
     "docs:check-links": "node validation/tools/check-markdown-links.mjs",
     "docs:lint": "node validation/tools/check-markdown-style.mjs",
     "license:check": "node validation/tools/check-licenses.mjs",

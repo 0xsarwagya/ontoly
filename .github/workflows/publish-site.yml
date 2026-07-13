@@ -44,6 +44,7 @@ jobs:
           pnpm check-types
           pnpm test
           pnpm build
+          pnpm site:docs
           pnpm docs:check-links
 
       - name: Checkout internet
@@ -55,6 +56,7 @@ jobs:
 
       - name: Build snapshot
         run: |
+          pnpm site:docs
           node internet/scripts/oss-sync.mjs . --repo 0xsarwagya/ontoly --commit ${{ github.sha }} --out internet/apps/oss/content/projects
 
       - name: Open publication PR
