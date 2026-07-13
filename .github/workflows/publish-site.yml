@@ -1,0 +1,81 @@
+# Publishes this project's public content (manifest, landing, docs, assets,
+# demo) as a snapshot into 0xsarwagya/internet, as a pull request.
+#
+# Required repository secret:
+#   INTERNET_SYNC_TOKEN — a fine-grained GitHub token scoped ONLY to the
+#     0xsarwagya/internet repository with contents:write and
+#     pull-requests:write. Do not use a classic account-wide token.
+
+name: Publish Site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - "site/**"
+      - "README.md"
+      - "package.json"
+      - ".github/workflows/publish-site.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: publish-site
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.5.3
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Validate project
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm check-types
+          pnpm test
+          pnpm build
+          pnpm docs:check-links
+
+      - name: Checkout internet
+        uses: actions/checkout@v4
+        with:
+          repository: 0xsarwagya/internet
+          token: ${{ secrets.INTERNET_SYNC_TOKEN }}
+          path: internet
+
+      - name: Build snapshot
+        run: |
+          node internet/scripts/oss-sync.mjs . --repo 0xsarwagya/ontoly --commit ${{ github.sha }} --out internet/apps/oss/content/projects
+
+      - name: Open publication PR
+        working-directory: internet
+        env:
+          GH_TOKEN: ${{ secrets.INTERNET_SYNC_TOKEN }}
+        run: |
+          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+          BRANCH="publish/ontoly"
+          git config user.name "oss-publisher"
+          git config user.email "hello@sarwagya.wtf"
+          git checkout -B "$BRANCH"
+          git add apps/oss/content/projects/ontoly
+          if git diff --cached --quiet; then
+            echo "No content changes to publish."
+            exit 0
+          fi
+          git commit -m "content(ontoly): sync from $SHORT_SHA"
+          git push -f origin "$BRANCH"
+          gh pr create \
+            --title "publish(ontoly): sync $SHORT_SHA" \
+            --body "Automated content snapshot from 0xsarwagya/ontoly@${{ github.sha }}." \
+            --base main --head "$BRANCH" \
+            || gh pr edit "$BRANCH" --title "publish(ontoly): sync $SHORT_SHA"

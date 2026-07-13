@@ -502,6 +502,7 @@ Release gates include:
 - validation lab
 - semantic evaluation
 - regression gates
+- OSS site publication through `.github/workflows/publish-site.yml`
 
 Run everything with:
 
