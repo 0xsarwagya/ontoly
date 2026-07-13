@@ -1,0 +1,70 @@
+---
+title: "Getting Started"
+description: "Install Ontoly, build a graph, inspect artifacts, and run the first validation checks."
+---
+
+## Source install
+
+Use the source flow for the current alpha repository:
+
+```sh
+git clone https://github.com/0xsarwagya/ontoly.git
+cd ontoly
+corepack enable
+pnpm install --frozen-lockfile
+pnpm build
+```
+
+Build the included example:
+
+```sh
+pnpm ontoly build examples/basic
+```
+
+The graph is written to:
+
+```text
+examples/basic/.ontoly/SoftwareGraph.json
+```
+
+Related artifacts are written beside it:
+
+```text
+diagnostics.json
+indexes.json
+metadata.json
+statistics.json
+```
+
+## Package install
+
+After the alpha package is published:
+
+```sh
+pnpm add -D @0xsarwagya/ontoly-cli
+pnpm exec ontoly build .
+```
+
+If npm returns `404`, use the source install flow above.
+
+## Useful checks
+
+```sh
+pnpm check-types
+pnpm test
+pnpm docs:check-links
+pnpm skills:validate
+pnpm validate:packages
+```
+
+Run all release gates:
+
+```sh
+pnpm release:gates
+```
+
+## Next steps
+
+- Read the [Software Graph](./software-graph) model.
+- Start [MCP and Agent Skills](./agent-skills).
+- Run the [Validation](./validation) lab.

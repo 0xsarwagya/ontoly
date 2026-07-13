@@ -1,0 +1,71 @@
+---
+title: "MCP and Agent Skills"
+description: "Use Ontoly as deterministic evidence for AI coding agents without putting logic in the Skill layer."
+---
+
+Ontoly exposes software understanding through MCP capabilities and portable
+Agent Skills.
+
+The Skill layer teaches workflow. Ontoly provides the knowledge.
+
+## Standard workflow
+
+Every official Skill teaches the same core behavior:
+
+1. Verify that an Ontoly graph exists.
+2. Build one with `ontoly build .` if it is missing.
+3. Check graph trust and diagnostics.
+4. Use Ontoly MCP capabilities.
+5. Inspect repository files only when the graph cannot answer.
+6. Cite graph evidence and confidence.
+7. Explain fallbacks clearly.
+
+## MCP
+
+Start MCP from a source checkout:
+
+```sh
+pnpm ontoly mcp --list
+pnpm ontoly mcp
+```
+
+Representative capabilities include:
+
+- `GraphStatistics`
+- `ExplainModule`
+- `FindDependencies`
+- `ImpactAnalysis`
+- `TraceExecution`
+- `FindConfigurationUsage`
+- `FindAuthenticationFlow`
+- `FindAuthorization`
+- `FrameworkReport`
+
+## Skills
+
+Official Skills live in the repository under `skills/`:
+
+- architecture review
+- impact analysis
+- codebase onboarding
+- request tracing
+- dependency analysis
+- security review
+- configuration analysis
+- framework analysis
+- documentation
+- refactoring
+- performance analysis
+- dead-code analysis
+- migration analysis
+- SDK generation
+
+Validate them:
+
+```sh
+pnpm skills:validate
+pnpm skills:validate-installed
+```
+
+Read the full guide in
+[docs/agent-skills.md](https://github.com/0xsarwagya/ontoly/blob/main/docs/agent-skills.md).

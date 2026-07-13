@@ -1,47 +1,250 @@
 # Ontoly
 
-Ontoly is a TypeScript-native software intelligence engine.
+Ontoly is a TypeScript-native software intelligence engine that turns source
+code into a deterministic Software Graph.
 
-It turns a repository into a deterministic Software Graph that developer tools
-can query instead of repeatedly searching files, parsing ASTs, and rebuilding
-partial context.
+Developer tools should not have to rediscover the same repository structure over
+and over. Ontoly builds one shared semantic representation that agents, MCP
+servers, SDK generators, documentation tools, architecture tools, static
+analysis, and IDEs can query without repeatedly searching files or rebuilding
+partial AST context.
 
-Ontoly builds understanding. It does not answer questions, call AI models, or
-generate code.
+Ontoly builds understanding. It does not answer questions, call language models,
+generate embeddings, or make probabilistic guesses.
 
-## Quick Start
+## Status
+
+Ontoly is preparing for `v0.1.0-alpha.1`.
+
+The public contract is still experimental, but the repository already includes:
+
+- a Software Graph specification
+- a deterministic compiler pipeline
+- a TypeScript semantic frontend
+- a query engine
+- MCP capabilities
+- portable Agent Skills
+- validation and semantic evaluation infrastructure
+- release gates for docs, packaging, skills, examples, and regression checks
+
+## Links
+
+- Website: [oss.sarwagya.wtf/ontoly](https://oss.sarwagya.wtf/ontoly)
+- Repository: [github.com/0xsarwagya/ontoly](https://github.com/0xsarwagya/ontoly)
+- Changelog: [CHANGELOG.md](CHANGELOG.md)
+- Roadmap: [ROADMAP.md](ROADMAP.md)
+- Architecture: [ARCHITECTURE.md](ARCHITECTURE.md)
+- RFC index: [RFC_INDEX.md](RFC_INDEX.md)
+- Alpha checklist: [ALPHA_CHECKLIST.md](ALPHA_CHECKLIST.md)
+
+## What Ontoly Is
+
+Ontoly is the semantic layer between a software repository and every tool that
+needs to understand it.
+
+```text
+Repository
+  -> Compiler Frontends
+  -> Semantic Model
+  -> Software Graph
+  -> Query Engine
+  -> MCP, Skills, SDKs, Docs, IDEs, Analysis
+```
+
+The Software Graph is the product. Everything else is a consumer, plugin, pass,
+or validation layer around it.
+
+## What Ontoly Is Not
+
+- Not a chat interface.
+- Not a coding agent.
+- Not a copilot.
+- Not vector search.
+- Not an embeddings pipeline.
+- Not hosted SaaS.
+- Not a code generator by default.
+- Not a replacement for TypeScript, ESLint, or test suites.
+
+AI tools can consume Ontoly through MCP and Skills, but the graph never depends
+on AI output.
+
+## Why Software Graphs
+
+Most developer tools redo the same expensive work:
+
+- agents search files
+- documentation tools parse symbols
+- architecture tools rebuild dependency graphs
+- SDK generators infer API shapes
+- static analyzers rebuild call and import relationships
+
+Ontoly turns that repeated work into a reusable graph:
+
+- deterministic IDs
+- graph-native diagnostics
+- explicit provenance
+- stable serialization
+- query indexes
+- validation reports
+- extension metadata
+
+The goal is simple: every tool that needs software understanding should first
+ask whether Ontoly already knows.
+
+## Quick Start From Source
+
+Use this path when evaluating the alpha from GitHub.
+
+```sh
+git clone https://github.com/0xsarwagya/ontoly.git
+cd ontoly
+corepack enable
+pnpm install --frozen-lockfile
+pnpm build
+```
+
+Build a graph for the included basic example:
+
+```sh
+pnpm ontoly build examples/basic
+```
+
+Inspect generated artifacts:
+
+```sh
+ls examples/basic/.ontoly
+pnpm ontoly inspect src/service.ts --root examples/basic
+pnpm ontoly stats examples/basic
+```
+
+Run the main release gates:
+
+```sh
+pnpm check-types
+pnpm test
+pnpm docs:check-links
+pnpm skills:validate
+pnpm validate:packages
+```
+
+Run the full gate before a release:
+
+```sh
+pnpm release:gates
+```
+
+## Package Install
+
+The public package names are scoped under `@0xsarwagya`.
+
+After the alpha packages are published, a project can install the CLI with:
 
 ```sh
 pnpm add -D @0xsarwagya/ontoly-cli
+pnpm exec ontoly build .
 ```
 
-```sh
-ontoly init
-```
+If npm returns `404` before `v0.1.0-alpha.1` is published, use the source
+checkout flow above.
 
-```sh
-ontoly build .
-```
+## Build Artifacts
 
-```sh
-ontoly inspect AuthService
-```
-
-```sh
-ontoly coverage .
-```
-
-Build artifacts are written to `.ontoly/`:
+`ontoly build <repository>` writes graph artifacts to the target repository's
+`.ontoly/` directory:
 
 ```text
-SoftwareGraph.json
-diagnostics.json
-indexes.json
-metadata.json
-statistics.json
+.ontoly/
+  SoftwareGraph.json
+  diagnostics.json
+  indexes.json
+  metadata.json
+  statistics.json
 ```
 
-## Programmatic Usage
+The JSON graph is the canonical alpha serialization format. Binary formats are
+intentionally out of scope until the Software Graph specification is stable.
+
+## Software Graph
+
+The Software Graph is a versioned JSON model containing:
+
+- repository metadata
+- nodes
+- edges
+- diagnostics
+- indexes
+- statistics
+- provenance
+- extension metadata
+
+Core node families include modules, packages, functions, methods, classes,
+interfaces, type aliases, enums, routes, controllers, services, providers,
+configuration, environment variables, events, and resources.
+
+Core relationship families include `IMPORTS`, `EXPORTS`, `CONTAINS`, `CALLS`,
+`DEPENDS_ON`, `USES`, `READS`, `WRITES`, `IMPLEMENTS`, `EXTENDS`, `HANDLES`,
+`MOUNTS`, `INJECTS`, `AUTHORIZES`, `REGISTERED_IN`, `PUBLISHES`, and
+`SUBSCRIBES`.
+
+Read the canonical spec in [RFC-0001](rfcs/0001-software-graph.md).
+
+## Deterministic IDs
+
+Ontoly assigns stable IDs so graph output can be cached, diffed, tested, and
+compared across builds.
+
+Examples:
+
+```text
+module:src/auth/service.ts
+fn:src/auth/service.ts:login
+class:src/auth/user-service.ts:UserService
+route:POST:/login
+model:User
+```
+
+IDs should survive rebuilds whenever the semantic identity survives.
+
+## Compiler Pipeline
+
+The compiler is a deterministic multi-stage pipeline:
+
+```text
+Repository Discovery
+  -> Frontend Parsing
+  -> Symbol Emission
+  -> Semantic Model Generation
+  -> Relationship Extraction
+  -> Graph Construction
+  -> Diagnostics
+  -> Validation
+  -> Indexing
+  -> Serialization
+```
+
+Compiler frontends emit structured facts. The compiler owns graph construction.
+This keeps parser packages small and keeps graph compatibility centralized.
+
+Read the architecture in [RFC-0002](rfcs/0002-compiler-pipeline.md).
+
+## Query Engine
+
+The query engine provides deterministic graph reasoning primitives:
+
+- lookup by ID, name, type, file, and tag
+- neighborhood expansion
+- graph walks
+- dependency traversal
+- caller and callee lookup
+- path finding
+- impact analysis
+- filtering
+- pattern matching
+- index-backed traversal
+
+Read the query design in [RFC-0003](rfcs/0003-query-engine.md).
+
+Example:
 
 ```ts
 import { buildSoftwareGraph } from "@0xsarwagya/ontoly-compiler";
@@ -51,104 +254,299 @@ const graph = await buildSoftwareGraph({ root: process.cwd() });
 const query = createQueryEngine(graph);
 
 const services = query.services();
-const callers = query.callers("fn:src/auth/login.ts:login");
+const callers = query.callers("fn:src/auth/service.ts:login");
+const dependencies = query.dependencies("class:src/auth/user-service.ts:UserService");
 ```
 
 ## CLI
 
+The source checkout exposes the CLI through the root `ontoly` script:
+
 ```sh
-ontoly --help
-ontoly build --help
-ontoly inspect --help
-ontoly trace --help
-ontoly evaluate --help
+pnpm ontoly --help
 ```
 
-Useful commands:
+Common commands:
 
-- `ontoly build .`
-- `ontoly inspect AuthService`
-- `ontoly trace AuthController.login`
-- `ontoly coverage .`
-- `ontoly evaluate`
-- `ontoly leaderboard`
-- `ontoly skills validate`
-- `ontoly validate all`
-- `ontoly benchmark performance`
+| Command | Purpose |
+| --- | --- |
+| `pnpm ontoly build <repo>` | Build a Software Graph. |
+| `pnpm ontoly inspect <graph-or-query>` | Inspect graph artifacts or entities. |
+| `pnpm ontoly trace <symbol>` | Trace graph relationships. |
+| `pnpm ontoly coverage <repo>` | Report semantic coverage. |
+| `pnpm ontoly mcp` | Start MCP capabilities. |
+| `pnpm ontoly skills list` | List packaged Agent Skills. |
+| `pnpm ontoly skills validate` | Validate skill metadata, links, templates, and examples. |
+| `pnpm ontoly validate all` | Run the validation lab. |
+| `pnpm ontoly evaluate` | Run semantic evaluation. |
+| `pnpm ontoly leaderboard` | Generate semantic leaderboard output. |
+| `pnpm ontoly benchmark performance` | Run performance benchmark reporting. |
+| `pnpm ontoly diff old.graph new.graph` | Compare two graph outputs. |
+
+See [docs/cli.md](docs/cli.md) and [docs/reference/cli.mdx](docs/reference/cli.mdx).
 
 ## MCP
 
+Ontoly MCP exposes structured capabilities over the Software Graph. Capabilities
+validate inputs before execution and return structured diagnostics for missing,
+ambiguous, or unsupported requests.
+
 ```sh
-ontoly mcp --list
-ontoly mcp
+pnpm ontoly mcp --list
+pnpm ontoly mcp
 ```
 
-The MCP package exposes deterministic capabilities such as dependency trees,
-impact analysis, route tracing, and module explanation on top of the same query
-engine.
+Representative capabilities:
+
+- `GraphStatistics`
+- `ExplainModule`
+- `FindDependencies`
+- `ImpactAnalysis`
+- `TraceExecution`
+- `FindConfigurationUsage`
+- `FindAuthenticationFlow`
+- `FindAuthorization`
+- `FrameworkReport`
+
+Every capability is deterministic and evidence-backed. Confidence is derived
+from graph evidence, not guessed.
+
+See [docs/mcp.md](docs/mcp.md) and [docs/getting-started/mcp.mdx](docs/getting-started/mcp.mdx).
 
 ## Agent Skills
 
-Ontoly ships portable Agent Skills under `skills/`. They teach coding agents to
-build the graph, use Ontoly MCP, cite evidence, report confidence, and inspect
-files only as a fallback.
+Ontoly ships portable Agent Skills under [skills](skills). Skills teach coding
+agents how to use Ontoly before falling back to repository search.
+
+Each Skill follows the same workflow:
+
+1. Verify that an Ontoly graph exists.
+2. Build one with `ontoly build .` if it is missing.
+3. Check graph trust and diagnostics.
+4. Use Ontoly MCP capabilities first.
+5. Inspect source files only when the graph cannot answer.
+6. Cite evidence and confidence in the final response.
+
+Included Skills:
+
+- architecture review
+- impact analysis
+- codebase onboarding
+- request tracing
+- dependency analysis
+- security review
+- configuration analysis
+- framework analysis
+- documentation
+- refactoring
+- performance analysis
+- dead-code analysis
+- migration analysis
+- SDK generation
+
+Validate the shipped Skills:
 
 ```sh
-ontoly skills list
-ontoly skills validate
-ontoly skills doctor
+pnpm skills:validate
+pnpm skills:validate-installed
 ```
 
-Start with `skills/SKILL_CATALOG.md` and `docs/agent-skills.md`.
+Read [skills/SKILL_CATALOG.md](skills/SKILL_CATALOG.md), [docs/agent-skills.md](docs/agent-skills.md),
+and [docs/skills-validation.md](docs/skills-validation.md).
 
-## Examples
+## Validation Lab
 
-Runnable examples live in `examples/`:
+Ontoly includes a permanent validation lab. It measures correctness,
+determinism, graph quality, semantic coverage, trust, diagnostics, performance,
+and regressions across real repositories and fixtures.
 
-- `examples/typescript-library`
-- `examples/nestjs-api`
-- `examples/turborepo`
-- `examples/cli-usage`
-- `examples/mcp`
-- `examples/semantic-queries`
+```sh
+pnpm validate
+pnpm evaluate
+pnpm benchmark:performance
+```
 
-## Boundaries
+Validation outputs live under [validation](validation):
 
-- **Not a chat interface.** Ontoly does not talk to users.
-- **Not an AI agent.** Ontoly never uses model output to build the graph.
-- **Not vector search.** Ontoly produces structural data, not embeddings.
-- **Not code generation.** Plugins can generate things; the graph compiler does not.
+- repository registry
+- per-repository reports
+- semantic leaderboard
+- regression baselines
+- release gates
+- performance reports
+- website assets
+- badges
+
+Read [docs/validation-lab.md](docs/validation-lab.md) and
+[docs/semantic-evaluation-harness.md](docs/semantic-evaluation-harness.md).
+
+## Current Alpha Evidence
+
+The release readiness reports are generated artifacts from the local validation
+suite, not marketing claims.
+
+| Area | Evidence |
+| --- | --- |
+| Package health | [reports/publish-readiness.md](reports/publish-readiness.md) |
+| Alpha readiness | [reports/release-readiness.md](reports/release-readiness.md) |
+| Clean-room install | [reports/clean-room.md](reports/clean-room.md) |
+| Validation summary | [validation/lab-summary.md](validation/lab-summary.md) |
+| Semantic leaderboard | [validation/semantic/leaderboard.md](validation/semantic/leaderboard.md) |
+| Release gates | [validation/release-gates/report.md](validation/release-gates/report.md) |
+| Skills evaluation | [validation/skills/report.md](validation/skills/report.md) |
 
 ## Packages
 
-- `@0xsarwagya/ontoly-cli` - primary CLI and public convenience API.
-- `@0xsarwagya/ontoly-core` - Software Graph schema, IDs, indexes, graph helpers.
-- `@0xsarwagya/ontoly-parser-typescript` - TypeScript parser and relationship extractor.
-- `@0xsarwagya/ontoly-compiler` - repository discovery, graph build, watch mode.
-- `@0xsarwagya/ontoly-query` - deterministic graph query engine.
-- `@0xsarwagya/ontoly-cache` - local graph artifact persistence.
-- `@0xsarwagya/ontoly-diagnostics` - shared diagnostic constructors.
-- `@0xsarwagya/ontoly-mcp` - structured MCP-style capabilities.
-- `@0xsarwagya/ontoly-plugin-mermaid` - example plugin that renders graph diagrams.
+| Package | Purpose |
+| --- | --- |
+| `@0xsarwagya/ontoly-cli` | CLI and public convenience API. |
+| `@0xsarwagya/ontoly-core` | Software Graph schema, stable IDs, indexes, and graph helpers. |
+| `@0xsarwagya/ontoly-compiler` | Repository discovery, graph build pipeline, validation, and watch mode. |
+| `@0xsarwagya/ontoly-parser-typescript` | TypeScript frontend and relationship extraction. |
+| `@0xsarwagya/ontoly-parser-openapi` | OpenAPI frontend for Software Graph facts. |
+| `@0xsarwagya/ontoly-typescript` | Pure TypeScript semantic model analyzer. |
+| `@0xsarwagya/ontoly-semantic` | Semantic generator and framework analyzer registry. |
+| `@0xsarwagya/ontoly-analyzers` | Semantic coverage and graph quality analyzers. |
+| `@0xsarwagya/ontoly-query` | Deterministic Software Graph query engine. |
+| `@0xsarwagya/ontoly-diagnostics` | Shared diagnostic constructors. |
+| `@0xsarwagya/ontoly-cache` | Local graph artifact persistence. |
+| `@0xsarwagya/ontoly-mcp` | Structured graph capabilities for AI agents and tools. |
+| `@0xsarwagya/ontoly-plugin-mermaid` | Example graph visualization plugin. |
 
-## Documentation
+Package names intentionally use `@0xsarwagya/ontoly-*`.
+
+## Repository Layout
+
+```text
+packages/
+  core/
+  compiler/
+  parser-typescript/
+  parser-openapi/
+  typescript/
+  semantic/
+  analyzers/
+  query/
+  diagnostics/
+  cache/
+  mcp/
+  cli/
+plugins/
+  mermaid/
+skills/
+docs/
+rfcs/
+examples/
+validation/
+reports/
+site/
+```
+
+## Examples
+
+Runnable examples live in [examples](examples):
+
+| Example | Purpose |
+| --- | --- |
+| [examples/basic](examples/basic) | Small TypeScript graph build. |
+| [examples/typescript-library](examples/typescript-library) | Library-shaped TypeScript project. |
+| [examples/nestjs-api](examples/nestjs-api) | Framework-style API structure. |
+| [examples/turborepo](examples/turborepo) | Workspace and package graph behavior. |
+| [examples/cli-usage](examples/cli-usage) | CLI workflow examples. |
+| [examples/mcp](examples/mcp) | MCP capability usage. |
+| [examples/semantic-queries](examples/semantic-queries) | Query engine examples. |
+
+## Documentation Map
 
 Start here:
 
-- `docs/getting-started/installation.mdx`
-- `docs/getting-started/build-a-graph.mdx`
-- `docs/cli.md`
-- `docs/agent-skills.md`
-- `docs/skills-validation.md`
-- `docs/faq.md`
-- `docs/troubleshooting.md`
-- `docs/validation-lab.md`
+- [docs/index.mdx](docs/index.mdx)
+- [docs/getting-started/installation.mdx](docs/getting-started/installation.mdx)
+- [docs/getting-started/build-a-graph.mdx](docs/getting-started/build-a-graph.mdx)
+- [docs/getting-started/query-the-graph.mdx](docs/getting-started/query-the-graph.mdx)
+- [docs/getting-started/mcp.mdx](docs/getting-started/mcp.mdx)
+- [docs/concepts/software-graph.mdx](docs/concepts/software-graph.mdx)
+- [docs/concepts/compiler-pipeline.mdx](docs/concepts/compiler-pipeline.mdx)
+- [docs/concepts/plugin-system.mdx](docs/concepts/plugin-system.mdx)
+- [docs/query-engine.md](docs/query-engine.md)
+- [docs/typescript-semantic-model.md](docs/typescript-semantic-model.md)
+- [docs/framework-detection.md](docs/framework-detection.md)
+- [docs/agent-skills.md](docs/agent-skills.md)
+- [docs/validation-lab.md](docs/validation-lab.md)
+- [docs/faq.md](docs/faq.md)
+- [docs/troubleshooting.md](docs/troubleshooting.md)
 
-## Status
+## RFCs
 
-Alpha-ready validation infrastructure is in place. The Software Graph and public
-APIs are still experimental until the v1 specification is finalized.
+Ontoly uses RFCs for changes affecting public graph, compiler, plugin, query,
+and type contracts.
+
+- [RFC-0001: Software Graph](rfcs/0001-software-graph.md)
+- [RFC-0002: Compiler Pipeline](rfcs/0002-compiler-pipeline.md)
+- [RFC-0003: Query Engine](rfcs/0003-query-engine.md)
+- [RFC-0004: Plugin and Compiler Pass System](rfcs/0004-plugin-and-compiler-pass-system.md)
+
+## Release Engineering
+
+Release gates include:
+
+- build
+- typecheck
+- tests
+- package validation
+- docs link checking
+- markdown style checking
+- license checking
+- skill validation
+- installed artifact skill validation
+- validation lab
+- semantic evaluation
+- regression gates
+
+Run everything with:
+
+```sh
+pnpm release:gates
+```
+
+## Known Limitations
+
+Ontoly is alpha software.
+
+- TypeScript support is the primary implemented frontend.
+- Some framework analyzers are intentionally partial.
+- Binary graph formats are not implemented.
+- Hosted SaaS, vector search, and LLM reasoning are non-goals.
+- The Software Graph schema can still change before v1.
+- MCP capabilities only answer from available graph evidence.
+
+Read [docs/known-limitations.md](docs/known-limitations.md).
+
+## Contributing
+
+Contributions should preserve determinism and graph compatibility.
+
+Before opening a pull request:
+
+```sh
+pnpm install --frozen-lockfile
+pnpm build
+pnpm check-types
+pnpm test
+pnpm release:gates
+```
+
+Public contract changes require an RFC first. See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Security
+
+Please report security issues privately. See [SECURITY.md](SECURITY.md).
+
+## Support
+
+Use GitHub issues for bugs and GitHub discussions for design questions. See
+[SUPPORT.md](SUPPORT.md).
 
 ## License
 
-MIT.
+MIT. See [LICENSE](LICENSE).

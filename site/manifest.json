@@ -1,18 +1,19 @@
 {
+  "schemaVersion": 1,
+  "mdxVersion": 1,
+  "slug": "ontoly",
   "name": "Ontoly",
-  "description": "TypeScript-native software intelligence engine that builds a deterministic Software Graph.",
-  "docs": "docs/index.mdx",
-  "repo": "https://github.com/0xsarwagya/ontoly",
-  "assets": [
-    "site/assets/logo.svg",
-    "site/assets/social-preview.svg",
-    "site/assets/architecture-diagram.svg",
-    "site/assets/software-graph-diagram.svg",
-    "site/assets/query-engine-diagram.svg",
-    "site/assets/agent-skills-diagram.svg",
-    "site/assets/mcp-workflow-diagram.svg",
-    "site/assets/validation-pipeline-diagram.svg",
-    "site/assets/feature-comparison-table.svg",
-    "site/assets/benchmark-table.svg"
-  ]
+  "description": "TypeScript-native software intelligence engine that builds deterministic Software Graphs.",
+  "status": "alpha",
+  "packageName": "@0xsarwagya/ontoly-cli",
+  "repository": "https://github.com/0xsarwagya/ontoly",
+  "homepage": "https://oss.sarwagya.wtf/ontoly",
+  "landing": "site/landing.mdx",
+  "docs": "site/docs",
+  "assets": "site/assets",
+  "links": {
+    "github": "https://github.com/0xsarwagya/ontoly",
+    "docs": "https://oss.sarwagya.wtf/ontoly/docs",
+    "npm": "https://www.npmjs.com/package/@0xsarwagya/ontoly-cli"
+  }
 }
