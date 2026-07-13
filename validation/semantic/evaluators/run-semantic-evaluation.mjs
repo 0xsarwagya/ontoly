@@ -71,8 +71,35 @@ async function main() {
     throw new Error(`No semantic fixture found for ${args.repository}.`);
   }
 
-  if (args.refresh || await hasMissingValidationArtifacts(selectedFixtures)) {
+  const missingArtifacts = await hasMissingValidationArtifacts(selectedFixtures);
+  if (
+    missingArtifacts &&
+    args.ci &&
+    !args.refresh &&
+    (shouldUseCommittedArtifacts() || !allFixtureRepositoriesAvailable(selectedFixtures))
+  ) {
+    await printCommittedSemanticGate("External validation repositories are unavailable in this CI environment.");
+    return;
+  }
+
+  if (args.refresh || missingArtifacts) {
     runBaseValidation();
+  }
+
+  if (await hasMissingValidationArtifacts(selectedFixtures)) {
+    if (args.ci) {
+      await printCommittedSemanticGate("Base validation did not produce all graph artifacts.");
+      return;
+    }
+
+    const missing = selectedFixtures
+      .filter((fixture) => {
+        const paths = artifactPaths(fixture.repository);
+        return !existsSync(paths.ontolyGraph) || !existsSync(paths.graphifyGraph);
+      })
+      .map((fixture) => fixture.repository)
+      .join(", ");
+    throw new Error(`Missing semantic graph artifacts for: ${missing}. Run validation with the repository corpus mounted first.`);
   }
 
   const previousBaseline = await readJsonIfExists(join(SEMANTIC_ROOT, "regression-baseline.json"));
@@ -117,6 +144,61 @@ async function ensureSemanticLayout() {
     mkdir(join(SEMANTIC_ROOT, "leaderboard"), { recursive: true }),
     mkdir(join(SEMANTIC_ROOT, "reports"), { recursive: true }),
   ]);
+}
+
+function allFixtureRepositoriesAvailable(fixtures) {
+  return fixtures.every((fixture) => fixture.path && existsSync(fixture.path));
+}
+
+function shouldUseCommittedArtifacts() {
+  return process.env.ONTOLY_SEMANTIC_USE_COMMITTED_ARTIFACTS === "1";
+}
+
+async function printCommittedSemanticGate(reason) {
+  const regression = await readJsonIfExists(join(SEMANTIC_ROOT, "regression.json"));
+  const current = await readJsonIfExists(join(SEMANTIC_ROOT, "regression-current.json"));
+
+  if (!regression || !current) {
+    throw new Error(`${reason} No committed semantic regression artifacts are available.`);
+  }
+
+  const ontolyScore = current.aggregate?.ontoly?.semanticUnderstandingScore ?? "unknown";
+  const graphifyScore = current.aggregate?.graphify?.semanticUnderstandingScore ?? "unknown";
+  const repositoryCount = current.repositories?.length ?? 0;
+  const questionCount = (current.repositories ?? []).reduce((count, repo) => count + (repo.questions?.length ?? 0), 0);
+
+  if (args.json) {
+    writeOut(JSON.stringify({
+      mode: "committed-artifacts",
+      reason,
+      status: regression.status,
+      repositories: repositoryCount,
+      questions: questionCount,
+      ontolySemanticUnderstandingScore: ontolyScore,
+      graphifySemanticUnderstandingScore: graphifyScore,
+      failures: regression.failures ?? [],
+      warnings: [
+        reason,
+        "Fresh semantic evaluation requires the external validation corpus.",
+        ...(regression.warnings ?? []),
+      ],
+    }, null, 2));
+  } else {
+    writeOut([
+      "Semantic evaluation reused committed artifacts.",
+      `Reason: ${reason}`,
+      `Repositories: ${repositoryCount}`,
+      `Questions: ${questionCount}`,
+      `Ontoly Semantic Understanding Score: ${ontolyScore}`,
+      `Graphify Semantic Understanding Score: ${graphifyScore}`,
+      `Regression: ${regression.status}`,
+      "Fresh semantic evaluation requires the external validation corpus.",
+    ].join("\n"));
+  }
+
+  if (args.ci && regression.status === "FAIL") {
+    process.exitCode = 1;
+  }
 }
 
 async function printExistingLeaderboard(json) {
