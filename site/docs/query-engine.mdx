@@ -29,6 +29,12 @@ const trace = main ? query.trace(main.id) : undefined;
 The engine builds deterministic indexes for node ID, kind, name, file,
 relationship type, incoming edges, and outgoing edges.
 
+Free-text lookup is normalized for human concept phrases. A single lookup such
+as `Plan Definition Resource` can match graph facts named `PlanDefinition`,
+`plan-definition`, `planDefinition`, or metadata that contains the same concept.
+Callers should issue one lookup and handle Ontoly's deterministic matches,
+ambiguity, or not-found result instead of trying spelling variants manually.
+
 ## Traversal
 
 - `walk(startId, options)`

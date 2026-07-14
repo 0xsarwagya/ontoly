@@ -6,6 +6,7 @@ import {
   formatLogPrefix,
   parseCli,
   renderCommandHelp,
+  shouldPromptForRepositoryRoot,
 } from "../src/cli";
 
 describe("cli developer experience helpers", () => {
@@ -30,6 +31,8 @@ describe("cli developer experience helpers", () => {
     expect(help).toContain("--output path");
     expect(help).toContain("Default: ontoly-output");
     expect(help).toContain("--bundle");
+    expect(help).toContain("--no-prompt");
+    expect(help).toContain("--yes");
     expect(help).toContain("ontoly build --remote https://github.com/0xsarwagya/ontoly.git");
     expect(help).toContain("ontoly build . --json");
   });
@@ -41,8 +44,28 @@ describe("cli developer experience helpers", () => {
     expect(help).toContain("ontoly-output folder");
     expect(help).toContain("--remote git_repo");
     expect(help).toContain("--no-html");
+    expect(help).toContain("--no-prompt");
+    expect(help).toContain("--yes");
     expect(help).toContain("ontoly output --remote https://github.com/0xsarwagya/ontoly.git");
     expect(help).toContain("ontoly output .");
+  });
+
+  it("prompts for a repository folder only for bare interactive build commands", () => {
+    const tty = { stdinIsTTY: true, stdoutIsTTY: true };
+
+    expect(shouldPromptForRepositoryRoot(parseCli(["build"]), tty)).toBe(true);
+    expect(shouldPromptForRepositoryRoot(parseCli(["output"]), tty)).toBe(true);
+    expect(shouldPromptForRepositoryRoot(parseCli(["compile"]), tty)).toBe(true);
+    expect(shouldPromptForRepositoryRoot(parseCli(["build", "."]), tty)).toBe(false);
+    expect(shouldPromptForRepositoryRoot(parseCli(["build", "--root", "."]), tty)).toBe(false);
+    expect(shouldPromptForRepositoryRoot(parseCli(["build", "--remote", "https://github.com/0xsarwagya/ontoly.git"]), tty)).toBe(false);
+    expect(shouldPromptForRepositoryRoot(parseCli(["build", "--json"]), tty)).toBe(false);
+    expect(shouldPromptForRepositoryRoot(parseCli(["build", "--log-json"]), tty)).toBe(false);
+    expect(shouldPromptForRepositoryRoot(parseCli(["build", "--no-prompt"]), tty)).toBe(false);
+    expect(shouldPromptForRepositoryRoot(parseCli(["build", "--yes"]), tty)).toBe(false);
+    expect(shouldPromptForRepositoryRoot(parseCli(["inspect"]), tty)).toBe(false);
+    expect(shouldPromptForRepositoryRoot(parseCli(["build"]), { stdinIsTTY: false, stdoutIsTTY: true })).toBe(false);
+    expect(shouldPromptForRepositoryRoot(parseCli(["build"]), { stdinIsTTY: true, stdoutIsTTY: false })).toBe(false);
   });
 
   it("documents interactive HTML graph export", () => {

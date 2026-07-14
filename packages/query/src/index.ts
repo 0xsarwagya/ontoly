@@ -376,8 +376,7 @@ function findNodes(indexes: QueryIndexes, options?: string | FindOptions): reado
       return sortedNodes(byName);
     }
 
-    const query = options.toLowerCase();
-    return sortedNodes([...indexes.nodeById.values()].filter((node) => matchesQuery(node, query)));
+    return sortedNodes([...indexes.nodeById.values()].filter((node) => matchesQuery(node, options)));
   }
 
   const candidates = candidateNodes(indexes, options);
@@ -400,7 +399,7 @@ function findNodes(indexes: QueryIndexes, options?: string | FindOptions): reado
       return false;
     }
 
-    if (options.query && !matchesQuery(node, options.query.toLowerCase())) {
+    if (options.query && !matchesQuery(node, options.query)) {
       return false;
     }
 
@@ -1183,12 +1182,76 @@ function stableWalkKey(options: WalkOptions): string {
 }
 
 function matchesQuery(node: SoftwareGraphNode, query: string): boolean {
-  return (
-    node.id.toLowerCase().includes(query) ||
-    node.name.toLowerCase().includes(query) ||
-    node.type.toLowerCase().includes(query) ||
-    (node.file?.toLowerCase().includes(query) ?? false)
-  );
+  const normalizedQuery = normalizeSearchText(query);
+
+  if (!normalizedQuery) {
+    return true;
+  }
+
+  const haystacks = searchHaystacks(node);
+
+  if (haystacks.some((haystack) => haystack.includes(normalizedQuery))) {
+    return true;
+  }
+
+  const queryTokens = searchTokens(normalizedQuery);
+
+  if (queryTokens.length === 0) {
+    return false;
+  }
+
+  return haystacks.some((haystack) => queryTokens.every((token) => haystack.includes(token)));
+}
+
+function searchHaystacks(node: SoftwareGraphNode): readonly string[] {
+  return [
+    normalizeSearchText(node.id),
+    normalizeSearchText(node.name),
+    normalizeSearchText(node.type),
+    normalizeSearchText(node.file ?? ""),
+    normalizeSearchText(`${node.name} ${node.type}`),
+    normalizeSearchText(`${node.id} ${node.name} ${node.type} ${node.file ?? ""} ${metadataSearchText(node.metadata)}`),
+  ].filter(Boolean);
+}
+
+function normalizeSearchText(value: string): string {
+  return splitCamelCase(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .replace(/\s+/g, " ");
+}
+
+function splitCamelCase(value: string): string {
+  return value
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2");
+}
+
+function searchTokens(value: string): readonly string[] {
+  return [...new Set(value.split(" ").filter((token) => token.length > 0))].sort();
+}
+
+function metadataSearchText(value: unknown): string {
+  if (value === undefined || value === null) {
+    return "";
+  }
+
+  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(metadataSearchText).join(" ");
+  }
+
+  if (typeof value === "object") {
+    return Object.entries(value as Record<string, unknown>)
+      .map(([key, entry]) => `${key} ${metadataSearchText(entry)}`)
+      .join(" ");
+  }
+
+  return "";
 }
 
 function canonicalCycleKey(cycle: readonly string[]): string {

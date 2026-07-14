@@ -224,9 +224,9 @@ function defaultCapabilities(): readonly RegisteredCapability[] {
     capability("FindAuthenticationFlow", "Find authorization relationships and auth-named code paths.", objectInput(), objectOutput(), [
       { input: {} },
     ], (query) => findAuthenticationFlow(query)),
-    capability("ImpactAnalysis", "Trace dependents for a changed node.", idInput(), traversalOutput(), [
+    capability("ImpactAnalysis", "Trace dependents and affected graph boundaries for a changed node.", idInput(), objectOutput(), [
       { input: { id: "fn:src/auth.ts:requireUser", depth: 3 } },
-    ], (query, input) => serializeTraversal(query.dependents(resolveNode(query, input).id, readNumber(input, "depth", 3)))),
+    ], (query, input) => impactAnalysis(query, resolveNode(query, input), readNumber(input, "depth", 3))),
     capability("FindDatabaseAccess", "Find repository, database, and ORM/framework access nodes.", objectInput(), objectOutput(), [
       { input: {} },
     ], (query) => findDatabaseAccess(query)),
@@ -445,6 +445,67 @@ function findUnusedFeature(query: QueryEngine): readonly SoftwareGraphNode[] {
     .sort(compareNodes);
 }
 
+function impactAnalysis(query: QueryEngine, node: SoftwareGraphNode, depth: number): JsonObject {
+  const dependents = query.dependents(node.id, depth);
+  const dependencies = query.dependencies(node.id, Math.max(1, Math.min(depth, 2)));
+  const impactedNodes = uniqueNodes([...dependents.nodes, ...dependencies.nodes]);
+  const evidenceEdges = uniqueEdges([...dependents.edges, ...dependencies.edges]);
+  const traversal = serializeTraversal(dependents);
+
+  return {
+    ...traversal,
+    node: serializeNodeWithMetadata(node),
+    traversal,
+    dependents: traversal,
+    dependencies: serializeTraversal(dependencies),
+    affected: {
+      routes: serializeNodesByType(impactedNodes, ["Route"]),
+      controllers: serializeNodesByType(impactedNodes, ["Controller"]),
+      services: serializeNodesByType(impactedNodes, ["Service"]),
+      modules: serializeNodesByType(impactedNodes, ["Module"]),
+      repositories: serializeNodesByType(impactedNodes, ["Repository"]),
+      configuration: serializeNodesByType(impactedNodes, ["Configuration", "EnvironmentVariable"]),
+      permissions: serializeNodesByType(impactedNodes, ["Permission"]),
+      resources: serializeNodesByType(impactedNodes, ["Resource", "Model", "DatabaseTable"]),
+      externalBoundaries: impactedNodes
+        .filter(isExternalBoundaryNode)
+        .sort(compareNodes)
+        .map(serializeNodeWithMetadata),
+    },
+    evidence: evidenceEdges.map(serializeEdge),
+  };
+}
+
+function serializeNodesByType(
+  nodes: readonly SoftwareGraphNode[],
+  types: readonly SoftwareGraphNode["type"][],
+): JsonObject[] {
+  const typeSet = new Set(types);
+  return nodes.filter((node) => typeSet.has(node.type)).sort(compareNodes).map(serializeNodeWithMetadata);
+}
+
+function isExternalBoundaryNode(node: SoftwareGraphNode): boolean {
+  return (
+    node.metadata?.external === true ||
+    node.type === "Package" ||
+    node.type === "Dependency" ||
+    node.type === "Framework" ||
+    node.type === "Resource" ||
+    node.type === "DatabaseTable" ||
+    node.type === "EnvironmentVariable" ||
+    node.type === "Configuration"
+  );
+}
+
+function uniqueNodes(nodes: readonly SoftwareGraphNode[]): readonly SoftwareGraphNode[] {
+  return [...new Map(nodes.map((node) => [node.id, node] as const)).values()].sort(compareNodes);
+}
+
+function uniqueEdges(edges: readonly SoftwareGraphEdge[]): readonly SoftwareGraphEdge[] {
+  return [...new Map(edges.map((edge) => [edge.id, edge] as const)).values()]
+    .sort(compareEdges);
+}
+
 function findRoute(query: QueryEngine, value: string): SoftwareGraphNode | undefined {
   const direct = query.findNode(value);
 
@@ -522,6 +583,13 @@ function serializeNode(node: SoftwareGraphNode): JsonObject {
     name: node.name,
     file: node.file,
     span: node.span ? serializeSpan(node.span) : undefined,
+  };
+}
+
+function serializeNodeWithMetadata(node: SoftwareGraphNode): JsonObject {
+  return {
+    ...serializeNode(node),
+    metadata: node.metadata,
   };
 }
 

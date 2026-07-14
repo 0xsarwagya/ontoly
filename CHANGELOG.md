@@ -2,6 +2,20 @@
 
 All notable Ontoly changes are tracked here.
 
+## 0.1.0-alpha.5
+
+### Added
+
+- Interactive folder selection for bare `ontoly build` and `ontoly output` in TTY sessions.
+- Human phrase normalization for Query Engine lookup.
+- Grouped affected nodes and external boundaries in CLI `impact` and MCP `ImpactAnalysis`.
+- Deterministic external package boundary `CALLS` edges for imported package method calls.
+
+### Changed
+
+- Updated the Impact Analysis skill to avoid spelling-variant command fan-out.
+- Bumped changed runtime packages for npm publication.
+
 ## 0.1.0-alpha.1
 
 Initial public alpha release candidate.

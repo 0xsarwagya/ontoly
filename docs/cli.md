@@ -53,6 +53,31 @@ ontoly skills validate
 
 Most commands support `--json`.
 
+## Interactive Folder Selection
+
+When `ontoly build` or `ontoly output` runs in an interactive terminal without a
+root path, Ontoly asks which folder to index:
+
+```sh
+ontoly build
+# Folder to index [.]:
+```
+
+Press Enter to index the current directory. Pass the folder explicitly to skip
+the prompt:
+
+```sh
+ontoly build .
+ontoly build apps/api
+ontoly output packages/core
+```
+
+Prompt input supports relative paths, absolute paths, and `~/` paths.
+
+Automation never needs to answer prompts. Non-interactive shells, `--json`,
+`--log-json`, `--remote`, `--root`, `--no-prompt`, and `--yes` all keep the
+command deterministic and use the explicit root or current directory.
+
 ## Output Bundle
 
 `ontoly build .` creates a deterministic `ontoly-output/` folder for inspection,
@@ -187,6 +212,18 @@ Architecture, Dependency, Call Graph, and Full Graph modes.
 - `frameworks`
 - `configuration`
 - `cycles`
+
+`find` and target-taking operations normalize human concept phrases, so agents
+and scripts should avoid spelling fan-out:
+
+```sh
+ontoly query find "Plan Definition Resource" --json
+ontoly query impact "Plan Definition Resource" --json
+```
+
+`impact` returns dependent traversal plus grouped affected routes, controllers,
+services, modules, configuration, resources, permissions, and external boundary
+nodes when present in the graph.
 
 `ontoly architecture` supports:
 

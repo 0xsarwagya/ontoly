@@ -46,8 +46,8 @@ describe("mcp capabilities", () => {
       capability: "GraphStatistics",
       input: {},
     }).result).toMatchObject({
-      nodeCount: 3,
-      edgeCount: 1,
+      nodeCount: 4,
+      edgeCount: 2,
     });
     expect(runtime.execute({
       capability: "ExplainArchitecture",
@@ -60,6 +60,9 @@ describe("mcp capabilities", () => {
       input: { id: "fn:src/service.ts:load" },
     }).result).toMatchObject({
       order: ["fn:src/service.ts:load", "fn:src/index.ts:main"],
+      affected: {
+        externalBoundaries: [expect.objectContaining({ id: "pkg:external-sdk" })],
+      },
     });
   });
 
@@ -117,6 +120,7 @@ function graph() {
       { id: "fn:src/index.ts:main", type: "Function", name: "main", file: "src/index.ts" },
       { id: "fn:src/other.ts:main", type: "Function", name: "main", file: "src/other.ts" },
       { id: "fn:src/service.ts:load", type: "Function", name: "load", file: "src/service.ts" },
+      { id: "pkg:external-sdk", type: "Package", name: "external-sdk", metadata: { external: true } },
     ],
     edges: [
       {
@@ -124,6 +128,12 @@ function graph() {
         type: "CALLS",
         from: "fn:src/index.ts:main",
         to: "fn:src/service.ts:load",
+      },
+      {
+        id: createEdgeId("DEPENDS_ON", "fn:src/service.ts:load", "pkg:external-sdk"),
+        type: "DEPENDS_ON",
+        from: "fn:src/service.ts:load",
+        to: "pkg:external-sdk",
       },
     ],
     fileCount: 2,

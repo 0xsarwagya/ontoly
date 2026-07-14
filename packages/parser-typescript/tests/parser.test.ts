@@ -26,6 +26,8 @@ describe("typescript frontend", () => {
     expect(ids).toContain("class:src/service.ts:UserService");
     expect(ids).toContain("fn:src/index.ts:main");
     expect(ids).toContain("fn:src/index.ts:lazy");
+    expect(ids).toContain("fn:src/util.ts:schema");
+    expect(ids).toContain("pkg:zod");
     expect(ids).toContain("export:src/util.ts:helper");
     expect(ids).toContain("export:src/service.ts:UserService");
     expect(ids).toContain("method:src/service.ts:UserService.load");
@@ -38,7 +40,7 @@ describe("typescript frontend", () => {
       language: "typescript",
       span: {
         file: "src/util.ts",
-        startLine: 2,
+        startLine: 3,
         startColumn: 1,
       },
     });
@@ -118,6 +120,11 @@ describe("typescript frontend", () => {
       type: "CALLS",
       from: "method:src/service.ts:UserService.load",
       to: "fn:src/util.ts:helper",
+    });
+    expect(relationships).toContainEqual({
+      type: "CALLS",
+      from: "fn:src/util.ts:schema",
+      to: "pkg:zod",
     });
     expect(relationships).toContainEqual({
       type: "CONTAINS",
@@ -286,8 +293,12 @@ async function createFixture(): Promise<string> {
     join(root, "src", "util.ts"),
     [
       "export interface User { id: string }",
+      "import * as z from 'zod';",
       "export function helper(): User {",
       '  return { id: "1" };',
+      "}",
+      "export function schema() {",
+      "  return z.object({ id: z.string() });",
       "}",
       "",
     ].join("\n"),

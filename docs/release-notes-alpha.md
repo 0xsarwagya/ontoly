@@ -1,5 +1,16 @@
 # Alpha Release Notes
 
+## v0.1.0-alpha.5
+
+This release improves graph-first agent answers for impact analysis and
+first-run CLI indexing.
+
+- `ontoly build` and `ontoly output` ask which folder to index in interactive terminals when no root is provided.
+- Query Engine free-text lookup now normalizes human concept phrases such as `Plan Definition Resource`.
+- `ontoly query impact` and MCP `ImpactAnalysis` now include grouped affected routes, controllers, services, modules, configuration, resources, permissions, and external boundaries.
+- TypeScript external package method calls now preserve deterministic package boundary `CALLS` edges instead of disappearing from the graph.
+- The Impact Analysis skill now instructs agents to use Ontoly resolution once and report ambiguity or not-found evidence instead of manually trying spelling variants.
+
 ## v0.1.0-alpha.4
 
 This CLI release turns HTML graph output into the Software Graph Explorer.

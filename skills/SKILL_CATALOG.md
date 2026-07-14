@@ -3,7 +3,7 @@
 | Skill | Category | Version | Capabilities |
 | --- | --- | --- | --- |
 | [Architecture Review](architecture-review/README.md) | architecture | 0.1.0-alpha.1 | `ExplainArchitecture`, `GraphStatistics`, `FindCycles`, `FindDependencies` |
-| [Impact Analysis](impact-analysis/README.md) | change-analysis | 0.1.0-alpha.1 | `ImpactAnalysis`, `FindDependents`, `FindDependencies`, `FindNode` |
+| [Impact Analysis](impact-analysis/README.md) | change-analysis | 0.1.0-alpha.2 | `ImpactAnalysis`, `FindDependents`, `FindDependencies`, `FindNode` |
 | [Codebase Onboarding](codebase-onboarding/README.md) | onboarding | 0.1.0-alpha.1 | `ExplainArchitecture`, `FindEntrypoints`, `GraphStatistics`, `FindFeatureOwner` |
 | [Request Tracing](request-tracing/README.md) | request-flow | 0.1.0-alpha.1 | `TraceRequestLifecycle`, `FindResponsibleFunction`, `TraceExecution`, `FindNode` |
 | [Dependency Analysis](dependency-analysis/README.md) | dependencies | 0.1.0-alpha.1 | `FindDependencies`, `FindDependents`, `FindCycles`, `GraphStatistics` |

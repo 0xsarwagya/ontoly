@@ -14,7 +14,7 @@ generate embeddings, or make probabilistic guesses.
 
 ## Status
 
-Ontoly is preparing for `v0.1.0-alpha.1`.
+Ontoly is in public alpha. The current CLI release is `v0.1.0-alpha.5`.
 
 The public contract is still experimental, but the repository already includes:
 
@@ -144,8 +144,17 @@ pnpm add -D @0xsarwagya/ontoly-cli
 pnpm exec ontoly build .
 ```
 
-If npm returns `404` before `v0.1.0-alpha.1` is published, use the source
-checkout flow above.
+In an interactive terminal, `ontoly build` without a path asks which folder to
+index. Press Enter for the current directory, paste a relative, absolute, or
+`~/` path, or pass the path explicitly:
+
+```sh
+pnpm exec ontoly build
+pnpm exec ontoly build apps/api
+pnpm exec ontoly build --no-prompt
+```
+
+If npm is unavailable in your environment, use the source checkout flow above.
 
 ## Build Artifacts
 

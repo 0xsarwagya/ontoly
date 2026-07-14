@@ -122,8 +122,8 @@
       "id": "impact-analysis",
       "title": "Impact Analysis",
       "category": "change-analysis",
-      "version": "0.1.0-alpha.1",
-      "minimumOntolyVersion": "0.1.0-alpha.1",
+      "version": "0.1.0-alpha.2",
+      "minimumOntolyVersion": "0.1.0-alpha.5",
       "capabilities": [
         "ImpactAnalysis",
         "FindDependents",

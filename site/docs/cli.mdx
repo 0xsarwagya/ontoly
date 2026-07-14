@@ -10,6 +10,7 @@ Start with help:
 ```sh
 ontoly --help
 ontoly build --help
+ontoly output --help
 ontoly inspect --help
 ontoly trace --help
 ontoly evaluate --help
@@ -31,6 +32,7 @@ ontoly skills validate
 ## Commands
 
 - `ontoly build [root]`
+- `ontoly output [root]`
 - `ontoly analyze [root]`
 - `ontoly semantic [root]`
 - `ontoly frameworks [root]`
@@ -53,6 +55,87 @@ ontoly skills validate
 - `ontoly benchmark performance`
 
 Most commands support `--json`.
+
+## Interactive Folder Selection
+
+When `ontoly build` or `ontoly output` runs in an interactive terminal without a
+root path, Ontoly asks which folder to index:
+
+```sh
+ontoly build
+# Folder to index [.]:
+```
+
+Press Enter to index the current directory. Pass the folder explicitly to skip
+the prompt:
+
+```sh
+ontoly build .
+ontoly build apps/api
+ontoly output packages/core
+```
+
+Prompt input supports relative paths, absolute paths, and `~/` paths.
+
+Automation never needs to answer prompts. Non-interactive shells, `--json`,
+`--log-json`, `--remote`, `--root`, `--no-prompt`, and `--yes` all keep the
+command deterministic and use the explicit root or current directory.
+
+## Output Bundle
+
+`ontoly build .` creates a deterministic `ontoly-output/` folder for inspection,
+agent consumption, website assets, and release artifacts by default:
+
+```sh
+ontoly build .
+ontoly output .
+ontoly output . --output ontoly-output
+ontoly output . --json
+```
+
+The bundle includes canonical graph JSON, diagnostics, indexes, statistics,
+semantic coverage, quality, semantic model, report JSONs, node files split by
+type, relationship files split by type, graph community files, and offline HTML
+explorers:
+
+```text
+ontoly-output/
+  SoftwareGraph.json
+  manifest.json
+  reports/
+  nodes/by-type/
+  relationships/by-type/
+  communities/
+  html/graph.html
+  html/architecture.html
+```
+
+Use `ontoly build . --output .ontoly` when you only want the compact cache-style
+graph artifacts. Use `ontoly build . --output .ontoly --bundle` when you want
+both `.ontoly/` and `ontoly-output/`. Use `--no-html` to skip HTML files and
+`--no-semantic` to skip `semantic-model.json`.
+
+## Remote Repositories
+
+`ontoly build` and `ontoly output` can compile a git repository without a local
+checkout:
+
+```sh
+ontoly build --remote https://github.com/0xsarwagya/ontoly.git
+ontoly output --remote https://github.com/0xsarwagya/ontoly.git
+```
+
+Ontoly clones the repository into a temporary directory, builds the graph from
+that checkout, and removes the temporary checkout after the command completes.
+Relative output paths are resolved against the directory where you ran Ontoly,
+not against the temporary clone. The output manifest records the remote URL, and
+remote graph metadata uses the git URL as the repository root so hashes do not
+change because of temporary clone paths.
+
+```sh
+ontoly build --remote https://github.com/0xsarwagya/ontoly.git --output ontoly-output
+ontoly build --remote git@github.com:0xsarwagya/ontoly.git --output .ontoly
+```
 
 ## Logging
 
@@ -132,6 +215,18 @@ Architecture, Dependency, Call Graph, and Full Graph modes.
 - `frameworks`
 - `configuration`
 - `cycles`
+
+`find` and target-taking operations normalize human concept phrases, so agents
+and scripts should avoid spelling fan-out:
+
+```sh
+ontoly query find "Plan Definition Resource" --json
+ontoly query impact "Plan Definition Resource" --json
+```
+
+`impact` returns dependent traversal plus grouped affected routes, controllers,
+services, modules, configuration, resources, permissions, and external boundary
+nodes when present in the graph.
 
 `ontoly architecture` supports:
 

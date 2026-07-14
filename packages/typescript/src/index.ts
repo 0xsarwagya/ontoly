@@ -1485,6 +1485,16 @@ function resolveCallTarget(
     const methodName = expression.name.text;
     const receiverType = receiverName ? variableTypes.get(receiverName) : undefined;
 
+    if (receiverName) {
+      const importedReceiver = context.importedIdentifiers.get(receiverName) ??
+        context.importedIdentifiers.get(unqualifiedName(receiverName)) ??
+        context.importedIdentifiers.get(rootIdentifierName(expression.expression) ?? "");
+
+      if (importedReceiver?.startsWith("pkg:")) {
+        return importedReceiver;
+      }
+    }
+
     if (receiverType) {
       return context.projectMethodsByQualifiedName.get(`${receiverType}.${methodName}`);
     }

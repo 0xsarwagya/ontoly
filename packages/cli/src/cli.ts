@@ -1,8 +1,9 @@
 import { spawnSync } from "node:child_process";
 import { realpathSync } from "node:fs";
-import { access, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
+import { access, mkdir, mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
+import { homedir, tmpdir } from "node:os";
 import { dirname, isAbsolute, join, resolve } from "node:path";
+import { createInterface } from "node:readline/promises";
 import { fileURLToPath } from "node:url";
 import {
   analyzeSemanticCoverage,
@@ -66,6 +67,11 @@ interface PreparedRepository {
   readonly outputRoot: string;
   readonly source: RepositorySource;
   readonly cleanup: () => Promise<void>;
+}
+
+interface PromptEnvironment {
+  readonly stdinIsTTY?: boolean | undefined;
+  readonly stdoutIsTTY?: boolean | undefined;
 }
 
 type RepositorySource =
@@ -1055,7 +1061,7 @@ async function prepareRepository(cli: ParsedCli): Promise<PreparedRepository> {
   const remote = remoteFromCli(cli);
 
   if (!remote) {
-    const root = rootFromCli(cli);
+    const root = await rootFromCliOrPrompt(cli);
     return {
       root,
       outputRoot: root,
@@ -1222,6 +1228,95 @@ function normalizeRemoteCheckoutValue(value: unknown, source: Extract<Repository
   }
 
   return value;
+}
+
+async function rootFromCliOrPrompt(cli: ParsedCli): Promise<string> {
+  if (!shouldPromptForRepositoryRoot(cli)) {
+    return rootFromCli(cli);
+  }
+
+  const answer = await promptText("Folder to index", ".");
+  const root = resolveUserPath(answer);
+  await assertIndexableDirectory(root);
+  return root;
+}
+
+function shouldPromptForRepositoryRoot(
+  cli: ParsedCli,
+  env: PromptEnvironment = {
+    stdinIsTTY: process.stdin.isTTY,
+    stdoutIsTTY: process.stdout.isTTY,
+  },
+): boolean {
+  return (
+    (cli.command === "build" || cli.command === "output" || cli.command === "compile") &&
+    !cli.flags.has("remote") &&
+    !cli.flags.has("root") &&
+    cli.positional.length === 0 &&
+    !flagBoolean(cli, "json") &&
+    !flagBoolean(cli, "log-json") &&
+    !flagBoolean(cli, "ci") &&
+    !flagBoolean(cli, "yes") &&
+    !flagBoolean(cli, "no-prompt") &&
+    env.stdinIsTTY === true &&
+    env.stdoutIsTTY === true
+  );
+}
+
+async function promptText(label: string, fallback: string): Promise<string> {
+  const readline = createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  try {
+    const answer = await readline.question(`${label} [${fallback}]: `);
+    return answer.trim() || fallback;
+  } finally {
+    readline.close();
+  }
+}
+
+function resolveUserPath(input: string): string {
+  if (input === "~") {
+    return homedir();
+  }
+
+  if (input.startsWith("~/") || input.startsWith("~\\")) {
+    return resolve(homedir(), input.slice(2));
+  }
+
+  return resolve(input);
+}
+
+async function assertIndexableDirectory(root: string): Promise<void> {
+  try {
+    const result = await stat(root);
+
+    if (result.isDirectory()) {
+      return;
+    }
+
+    throw new OntolyCliError({
+      code: "ONTOLY5003",
+      message: `Folder to index is not a directory: ${root}`,
+      suggestion:
+        "Choose a repository directory, pass it as `ontoly build <path>`, or run with `--no-prompt` to use the current directory.",
+      docs: "docs/cli.md#interactive-folder-selection",
+    });
+  } catch (error) {
+    if (error instanceof OntolyCliError) {
+      throw error;
+    }
+
+    throw new OntolyCliError({
+      code: "ONTOLY5003",
+      message: `Folder to index does not exist: ${root}`,
+      suggestion: "Choose an existing repository directory or pass it explicitly as `ontoly build <path>`.",
+      docs: "docs/cli.md#interactive-folder-selection",
+      cause: error,
+    });
+  }
 }
 
 function replaceCheckoutRoot(value: string, source: Extract<RepositorySource, { readonly kind: "remote" }>): string {
@@ -1606,7 +1701,7 @@ function executeQueryOperation(
     }
     case "impact": {
       const node = readNode();
-      return { node: serializeNode(node), traversal: serializeTraversal(query.dependents(node.id, depth)) };
+      return createImpactReport(query, node, depth);
     }
     case "routes":
       return { nodes: query.routes().map(serializeNode) };
@@ -1623,6 +1718,73 @@ function executeQueryOperation(
     default:
       throw new Error(`Unknown query operation: ${operation}`);
   }
+}
+
+function createImpactReport(
+  query: ReturnType<typeof createQueryEngine>,
+  node: SoftwareGraphNode,
+  depth: number,
+): JsonObject {
+  const dependents = query.dependents(node.id, depth);
+  const dependencies = query.dependencies(node.id, Math.max(1, Math.min(depth, 2)));
+  const impactedNodes = uniqueNodes([...dependents.nodes, ...dependencies.nodes]);
+  const evidenceEdges = uniqueEdges([...dependents.edges, ...dependencies.edges]);
+
+  return {
+    node: serializeNodeWithMetadata(node),
+    traversal: serializeTraversal(dependents),
+    dependents: serializeTraversal(dependents),
+    dependencies: serializeTraversal(dependencies),
+    affected: {
+      routes: serializeNodesByType(impactedNodes, ["Route"]),
+      controllers: serializeNodesByType(impactedNodes, ["Controller"]),
+      services: serializeNodesByType(impactedNodes, ["Service"]),
+      modules: serializeNodesByType(impactedNodes, ["Module"]),
+      repositories: serializeNodesByType(impactedNodes, ["Repository"]),
+      configuration: serializeNodesByType(impactedNodes, ["Configuration", "EnvironmentVariable"]),
+      permissions: serializeNodesByType(impactedNodes, ["Permission"]),
+      resources: serializeNodesByType(impactedNodes, ["Resource", "Model", "DatabaseTable"]),
+      externalBoundaries: impactedNodes
+        .filter(isExternalBoundaryNode)
+        .sort(compareNodesById)
+        .map(serializeNodeWithMetadata),
+    },
+    evidence: evidenceEdges.map(serializeEdge),
+  };
+}
+
+function serializeNodesByType(
+  nodes: readonly SoftwareGraphNode[],
+  types: readonly SoftwareGraphNode["type"][],
+): JsonObject[] {
+  const typeSet = new Set(types);
+  return nodes.filter((node) => typeSet.has(node.type)).sort(compareNodesById).map(serializeNodeWithMetadata);
+}
+
+function isExternalBoundaryNode(node: SoftwareGraphNode): boolean {
+  return (
+    node.metadata?.external === true ||
+    node.type === "Package" ||
+    node.type === "Dependency" ||
+    node.type === "Framework" ||
+    node.type === "Resource" ||
+    node.type === "DatabaseTable" ||
+    node.type === "EnvironmentVariable" ||
+    node.type === "Configuration"
+  );
+}
+
+function uniqueNodes(nodes: readonly SoftwareGraphNode[]): readonly SoftwareGraphNode[] {
+  return [...new Map(nodes.map((node) => [node.id, node] as const)).values()].sort(compareNodesById);
+}
+
+function uniqueEdges(edges: readonly SoftwareGraphEdge[]): readonly SoftwareGraphEdge[] {
+  return [...new Map(edges.map((edge) => [edge.id, edge] as const)).values()]
+    .sort((left, right) => left.id.localeCompare(right.id));
+}
+
+function compareNodesById(left: SoftwareGraphNode, right: SoftwareGraphNode): number {
+  return left.id.localeCompare(right.id);
 }
 
 function resolveNode(
@@ -1665,6 +1827,13 @@ function serializeNode(node: SoftwareGraphNode): JsonObject {
     name: node.name,
     file: node.file,
     span: node.span ? serializeSpan(node.span) : undefined,
+  };
+}
+
+function serializeNodeWithMetadata(node: SoftwareGraphNode): JsonObject {
+  return {
+    ...serializeNode(node),
+    metadata: node.metadata,
   };
 }
 
@@ -2291,6 +2460,8 @@ function commandHelp(): Record<string, CommandHelp> {
       "--bundle             Also write a rich ontoly-output bundle when using another --output path.",
       "--bundle-output path Rich output directory. Default: ontoly-output.",
       "--no-html            Skip HTML files in the rich output bundle.",
+      "--no-prompt          Use the current directory when no root is provided.",
+      "--yes                Accept prompt defaults for automation.",
       "--json               Print a machine-readable summary.",
       "--debug              Print debug logs.",
     ],
@@ -2313,6 +2484,8 @@ function commandHelp(): Record<string, CommandHelp> {
       "--no-semantic   Skip semantic-model.json.",
       "--max-nodes n   Maximum nodes for HTML graph output. Default: 2500.",
       "--max-edges n   Maximum edges for HTML graph output. Default: 5000.",
+      "--no-prompt     Use the current directory when no root is provided.",
+      "--yes           Accept prompt defaults for automation.",
       "--json          Print JSON summary.",
     ],
     examples: [
@@ -2423,7 +2596,12 @@ function commandHelp(): Record<string, CommandHelp> {
     description: "Run deterministic query-engine operations against the graph.",
     usage: ["ontoly query <find|callers|callees|dependencies|dependents|related|impact|routes|frameworks|configuration|cycles> [target] [--json]"],
     options: ["--depth n      Traversal depth for dependency operations.", "--json         Print JSON."],
-    examples: ["ontoly query find AuthService", "ontoly query callers UserService.load", "ontoly query routes --json"],
+    examples: [
+      "ontoly query find AuthService",
+      "ontoly query impact \"Plan Definition Resource\" --json",
+      "ontoly query callers UserService.load",
+      "ontoly query routes --json",
+    ],
   },
   leaderboard: {
     title: "ontoly leaderboard",
@@ -2579,4 +2757,5 @@ export {
   formatLogPrefix,
   parseCli,
   renderCommandHelp,
+  shouldPromptForRepositoryRoot,
 };

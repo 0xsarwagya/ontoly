@@ -4,8 +4,8 @@ description: Analyze change impact using Ontoly dependency and dependent travers
 license: MIT
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "0.1.0-alpha.1"
-  ontoly.min.version: "0.1.0-alpha.1"
+  ontoly.skill.version: "0.1.0-alpha.2"
+  ontoly.min.version: "0.1.0-alpha.5"
   ontoly.capabilities: "ImpactAnalysis, FindDependents, FindDependencies, FindNode"
   ontoly.category: "change-analysis"
   ontoly.deprecated: "false"
@@ -22,6 +22,12 @@ Follow [the shared Ontoly workflow](reference/workflow.md). Also read [graph evi
 ## Ontoly Capabilities
 
 Use these capabilities first: `ImpactAnalysis`, `FindDependents`, `FindDependencies`, `FindNode`.
+
+Pass the user's concept phrase directly to Ontoly first, for example
+`Plan Definition Resource`. Do not fan out manual spelling variants such as
+camelCase, kebab-case, or snake_case. If Ontoly returns multiple matches or no
+match, report that ambiguity or not-found result as graph evidence before using
+a narrow file fallback.
 
 ## Output Contract
 

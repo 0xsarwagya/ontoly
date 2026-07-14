@@ -17,6 +17,23 @@ describe("query engine", () => {
     ]);
   });
 
+  it("finds nodes from human concept phrases without spelling fan-out", () => {
+    const query = createQueryEngine(fixtureGraph());
+
+    expect(query.findNodes("Plan Definition Resource").map((node) => node.id)).toEqual([
+      "res:fhir:PlanDefinition",
+    ]);
+    expect(query.findNodes("plan-definition-resource").map((node) => node.id)).toEqual([
+      "res:fhir:PlanDefinition",
+    ]);
+    expect(query.findNodes("planDefinition").map((node) => node.id)).toEqual([
+      "res:fhir:PlanDefinition",
+    ]);
+    expect(query.findNodes("threshold dto").map((node) => node.id)).toEqual([
+      "model:src/threshold.ts:ThresholdDto",
+    ]);
+  });
+
   it("finds callees, callers, dependencies, and dependents deterministically", () => {
     const query = createQueryEngine(fixtureGraph());
 
@@ -70,11 +87,11 @@ describe("query engine", () => {
     expect(cyclic.detectCycles(["IMPORTS"])).toEqual([
       ["mod:a.ts", "mod:b.ts"],
     ]);
-    expect(acyclic.connectedComponents()).toHaveLength(2);
+    expect(acyclic.connectedComponents()).toHaveLength(4);
     expect(acyclic.topologicalSort(["CALLS"]).map((node) => node.id)).toContain("fn:src/index.ts:main");
 
     const stats = acyclic.stats();
-    expect(stats.nodeCount).toBe(7);
+    expect(stats.nodeCount).toBe(9);
     expect(stats.edgeCount).toBe(5);
     expect(stats.relationshipCounts).toMatchObject({ CALLS: 2, IMPORTS: 2, CONTAINS: 1 });
     expect(stats.longestCallChain).toEqual([
@@ -130,6 +147,18 @@ function fixtureGraph(): SoftwareGraph {
         file: "src/service.ts",
       },
       { id: "fn:src/auth.ts:requireUser", type: "Function", name: "requireUser", file: "src/auth.ts" },
+      {
+        id: "res:fhir:PlanDefinition",
+        type: "Resource",
+        name: "PlanDefinition",
+        metadata: { externalContract: "FHIR PlanDefinition" },
+      },
+      {
+        id: "model:src/threshold.ts:ThresholdDto",
+        type: "Model",
+        name: "ThresholdDto",
+        file: "src/threshold.ts",
+      },
     ],
     edges: [
       edge("CALLS", "fn:src/index.ts:main", "method:src/service.ts:UserService.load"),
