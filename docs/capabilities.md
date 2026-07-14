@@ -36,6 +36,7 @@ This shape is used by:
 
 - `ontoly explain`
 - `ontoly impact`
+- `ontoly evidence`
 - `ontoly implementation-plan`
 - `ontoly ownership`
 - `ontoly health`
@@ -77,6 +78,26 @@ fallback behavior around them.
 - `RiskAnalysis`
 - `DataFlow`
 - `FeatureTouchpoints`
+- `EvidencePack`
+
+## Evidence Packs
+
+`EvidencePack` is the preferred compact payload for agent workflows. It gathers
+the smallest useful set of graph facts for a query:
+
+- top graph nodes
+- top relationships
+- relevant files
+- stable ids
+- diagnostics
+- graph provenance
+- deterministic confidence
+- suggested next commands
+
+It is exposed as a high-level capability, an MCP semantic capability, and the
+`evidence-pack` enhancer artifact. It is not a separate router package.
+Evidence routing remains a deterministic transformation above the immutable
+Software Graph.
 
 ## MCP Primitive Capabilities
 

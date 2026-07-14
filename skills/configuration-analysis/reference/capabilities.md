@@ -1,6 +1,6 @@
 # Configuration Analysis Capability Notes
 
-Primary capabilities: `FindConfiguration`, `FindConfigurationUsage`, `FindDependencies`, `GraphStatistics`.
+Primary capabilities: `FindConfiguration`, `FindConfigurationUsage`, `FindDependencies`, `GraphStatistics`, `EvidencePack`.
 
 Use [../reference/mcp.md](../reference/mcp.md) for common capability behavior and fallback CLI equivalents.
 
@@ -15,6 +15,6 @@ Use [../reference/mcp.md](../reference/mcp.md) for common capability behavior an
 
 ## Compatibility
 
-- Skill version: 0.1.0-alpha.1
-- Minimum Ontoly version: 0.1.0-alpha.1
+- Skill version: 0.1.0-alpha.2
+- Minimum Ontoly version: 0.1.0-alpha.10
 - Deprecation status: active

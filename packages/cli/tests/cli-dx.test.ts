@@ -95,6 +95,20 @@ describe("cli developer experience helpers", () => {
     expect(help).toContain("ontoly enhancer validate --ci");
   });
 
+  it("documents evidence packs and scoped impact modes", () => {
+    const evidence = renderCommandHelp(commandHelp().evidence);
+    const impact = renderCommandHelp(commandHelp().impact);
+    const plan = renderCommandHelp(commandHelp()["implementation-plan"]);
+
+    expect(evidence).toContain("ontoly evidence");
+    expect(evidence).toContain("Evidence Pack");
+    expect(evidence).toContain("--limit n");
+    expect(impact).toContain("--mode direct|local|feature|semantic|blast-radius");
+    expect(impact).toContain("ontoly impact fn:src/auth.ts:login --mode local");
+    expect(plan).toContain("--budget n");
+    expect(plan).toContain("clamped to 1-250");
+  });
+
   it("formats structured CLI errors with codes, suggestions, and docs", () => {
     const message = formatCliError(new OntolyCliError({
       code: "ONTOLY0001",

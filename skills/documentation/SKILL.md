@@ -4,9 +4,9 @@ description: Draft graph-backed documentation from Ontoly summaries and traces. 
 license: MIT
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "0.1.0-alpha.1"
-  ontoly.min.version: "0.1.0-alpha.1"
-  ontoly.capabilities: "ExplainArchitecture, TraceRequestLifecycle, InspectModule, GraphStatistics"
+  ontoly.skill.version: "0.1.0-alpha.2"
+  ontoly.min.version: "0.1.0-alpha.10"
+  ontoly.capabilities: "ExplainArchitecture, TraceRequestLifecycle, InspectModule, GraphStatistics, EvidencePack"
   ontoly.category: "documentation"
   ontoly.enhancement: "LLM Enhancement"
   ontoly.deprecated: "false"
@@ -22,7 +22,7 @@ Follow [the shared Ontoly workflow](reference/workflow.md). Also read [graph evi
 
 ## Ontoly Capabilities
 
-Use these capabilities first: `ExplainArchitecture`, `TraceRequestLifecycle`, `InspectModule`, `GraphStatistics`.
+Use these capabilities first: `ExplainArchitecture`, `TraceRequestLifecycle`, `InspectModule`, `GraphStatistics`, `EvidencePack`.
 
 ## Output Contract
 

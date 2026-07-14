@@ -4,9 +4,9 @@ description: Find potentially unused functions, methods, services, routes, or fe
 license: MIT
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "0.1.0-alpha.1"
-  ontoly.min.version: "0.1.0-alpha.1"
-  ontoly.capabilities: "FindDeadCode, FindUnusedFeature, FindEntrypoints, FindDependents"
+  ontoly.skill.version: "0.1.0-alpha.2"
+  ontoly.min.version: "0.1.0-alpha.10"
+  ontoly.capabilities: "FindDeadCode, FindUnusedFeature, FindEntrypoints, FindDependents, EvidencePack"
   ontoly.category: "static-analysis"
   ontoly.enhancement: "LLM Enhancement"
   ontoly.deprecated: "false"
@@ -22,7 +22,7 @@ Follow [the shared Ontoly workflow](reference/workflow.md). Also read [graph evi
 
 ## Ontoly Capabilities
 
-Use these capabilities first: `FindDeadCode`, `FindUnusedFeature`, `FindEntrypoints`, `FindDependents`.
+Use these capabilities first: `FindDeadCode`, `FindUnusedFeature`, `FindEntrypoints`, `FindDependents`, `EvidencePack`.
 
 ## Output Contract
 

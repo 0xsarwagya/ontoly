@@ -4,9 +4,9 @@ description: Trace request lifecycle behavior through Ontoly route, handler, and
 license: MIT
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "0.1.0-alpha.1"
-  ontoly.min.version: "0.1.0-alpha.1"
-  ontoly.capabilities: "TraceRequestLifecycle, FindResponsibleFunction, TraceExecution, FindNode"
+  ontoly.skill.version: "0.1.0-alpha.2"
+  ontoly.min.version: "0.1.0-alpha.10"
+  ontoly.capabilities: "TraceRequestLifecycle, FindResponsibleFunction, TraceExecution, FindNode, EvidencePack"
   ontoly.category: "request-flow"
   ontoly.enhancement: "LLM Enhancement"
   ontoly.deprecated: "false"
@@ -22,7 +22,7 @@ Follow [the shared Ontoly workflow](reference/workflow.md). Also read [graph evi
 
 ## Ontoly Capabilities
 
-Use these capabilities first: `TraceRequestLifecycle`, `FindResponsibleFunction`, `TraceExecution`, `FindNode`.
+Use these capabilities first: `TraceRequestLifecycle`, `FindResponsibleFunction`, `TraceExecution`, `FindNode`, `EvidencePack`.
 
 ## Output Contract
 

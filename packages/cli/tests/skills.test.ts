@@ -11,10 +11,11 @@ describe("Ontoly Agent Skills", () => {
     const architectureReview = skills.find((skill) => skill.id === "architecture-review");
 
     expect(skills.length).toBeGreaterThanOrEqual(14);
-    expect(architectureReview?.version).toBe("0.1.0-alpha.1");
-    expect(architectureReview?.minimumOntolyVersion).toBe("0.1.0-alpha.1");
+    expect(architectureReview?.version).toBe("0.1.0-alpha.2");
+    expect(architectureReview?.minimumOntolyVersion).toBe("0.1.0-alpha.10");
     expect(architectureReview?.enhancement).toBe("LLM Enhancement");
     expect(architectureReview?.capabilities).toContain("ExplainArchitecture");
+    expect(architectureReview?.capabilities).toContain("EvidencePack");
   });
 
   it("validates skill structure, references, templates, and agent evaluation checks", async () => {

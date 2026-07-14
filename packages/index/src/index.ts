@@ -692,8 +692,13 @@ function scoreEntry(entry: SemanticIndexEntry, intent: NormalizedIntent, categor
 
   addScore(reasons, "graph-importance", Math.min(90, entry.importance * 18), `degree ${entry.relationships.degree}`);
   addScore(reasons, "usage-frequency", Math.min(60, entry.usageFrequency * 8), `${entry.usageFrequency} incoming edges`);
+  addScore(reasons, "repository-locality", repositoryLocalityBoost(entry), repositoryLocalityEvidence(entry));
 
-  const score = reasons.reduce((total, reason) => total + reason.score, 0);
+  const penalty = repositoryRankingPenalty(entry);
+  const score = Math.max(0, reasons.reduce((total, reason) => total + reason.score, 0) - penalty);
+  const returnedReasons = penalty > 0
+    ? [...reasons, { factor: "repository-noise-demotion", score: -penalty, evidence: repositoryNoiseEvidence(entry) }]
+    : reasons;
   return {
     nodeId: entry.stableId,
     stableId: entry.stableId,
@@ -702,9 +707,56 @@ function scoreEntry(entry: SemanticIndexEntry, intent: NormalizedIntent, categor
     score: round(score, 3),
     confidence: round(Math.min(1, score / 650), 3),
     matchedTerms: uniqueStrings([...matchedTerms]),
-    reasons: reasons.filter((reason) => reason.score > 0).sort(compareReasons),
+    reasons: returnedReasons.filter((reason) => reason.score !== 0).sort(compareReasons),
     entry,
   };
+}
+
+function repositoryLocalityBoost(entry: SemanticIndexEntry): number {
+  let score = 0;
+  if (isRepositoryLocalEntry(entry)) {
+    score += 28;
+  }
+  if (["Service", "Controller", "Module", "Route", "Repository", "Provider"].includes(entry.kind)) {
+    score += 22;
+  }
+  if (["Configuration", "EnvironmentVariable"].includes(entry.kind)) {
+    score += 18;
+  }
+  if (/(^|[/.])(test|tests|spec|__tests__)([/.]|$)|\.(test|spec)\./i.test(entry.filePath ?? "")) {
+    score += 12;
+  }
+  return score;
+}
+
+function repositoryRankingPenalty(entry: SemanticIndexEntry): number {
+  let penalty = 0;
+  const text = `${entry.stableId} ${entry.filePath ?? ""} ${entry.package ?? ""} ${entry.displayName}`.toLowerCase();
+  if (text.includes("node_modules") || entry.stableId.startsWith("dep:")) {
+    penalty += 90;
+  }
+  if (/(\bdto\b|dto$|schema$|type$|types$|generated|__generated__)/i.test(entry.displayName) && !isRepositoryLocalEntry(entry)) {
+    penalty += 35;
+  }
+  if (/node_modules|@nestjs\/|next\/dist|react\/|typescript\/lib/i.test(text)) {
+    penalty += 45;
+  }
+  return penalty;
+}
+
+function repositoryLocalityEvidence(entry: SemanticIndexEntry): string {
+  return isRepositoryLocalEntry(entry)
+    ? `${entry.kind} from repository-local graph evidence`
+    : `${entry.kind} from external or generated boundary`;
+}
+
+function repositoryNoiseEvidence(entry: SemanticIndexEntry): string {
+  return `${entry.displayName} is external, generated, or generic framework-adjacent evidence`;
+}
+
+function isRepositoryLocalEntry(entry: SemanticIndexEntry): boolean {
+  const text = `${entry.stableId} ${entry.filePath ?? ""} ${entry.package ?? ""}`.toLowerCase();
+  return !text.includes("node_modules") && !entry.stableId.startsWith("dep:") && !entry.stableId.startsWith("framework:");
 }
 
 function fuzzyEntryMatch(entry: SemanticIndexEntry, intent: NormalizedIntent): boolean {

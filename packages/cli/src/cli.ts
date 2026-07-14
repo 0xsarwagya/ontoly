@@ -259,6 +259,10 @@ async function run(cli: ParsedCli): Promise<void> {
       await capabilityCommand(cli, "ImpactAnalysis", { targetKey: "id" });
       return;
 
+    case "evidence":
+      await capabilityCommand(cli, "EvidencePack", { targetKey: "query", joinPositionals: true });
+      return;
+
     case "implementation-plan":
       await capabilityCommand(cli, "ImplementationPlan", { targetKey: "task", joinPositionals: true });
       return;
@@ -837,9 +841,25 @@ function capabilityInputFromCli(
 ): JsonObject {
   const input: Record<string, string | number> = {};
   const depth = flagNumber(cli, "depth", -1);
+  const limit = flagNumber(cli, "limit", -1);
+  const budget = flagNumber(cli, "budget", -1);
+  const timeoutMs = flagNumber(cli, "timeout-ms", -1);
+  const mode = flagString(cli, "mode", "");
 
   if (depth >= 0) {
     input.depth = depth;
+  }
+  if (limit >= 0) {
+    input.limit = limit;
+  }
+  if (budget >= 0) {
+    input.budget = budget;
+  }
+  if (timeoutMs >= 0) {
+    input.timeoutMs = timeoutMs;
+  }
+  if (mode) {
+    input.mode = mode;
   }
 
   if (!options.targetKey) {
@@ -1882,6 +1902,44 @@ function defaultCliEnhancers(): readonly Enhancer[] {
       },
     }),
     defineEnhancer({
+      id: "evidence-pack",
+      name: "Evidence Pack",
+      description: "Generate a compact deterministic evidence pack artifact for agent workflows.",
+      version: "1.0.0",
+      requires: [artifactRequirement("SoftwareGraph"), artifactRequirement("SemanticIndex", { optional: true })],
+      produces: [ARTIFACT_DESCRIPTORS.EvidencePack],
+      supportsIncremental: true,
+      run: (context) => {
+        const graphArtifact = context.artifacts.require("SoftwareGraph");
+        const engine = createCapabilityEngine(context.graph);
+        const query = typeof context.configuration.evidenceQuery === "string"
+          ? context.configuration.evidenceQuery
+          : context.graph.repository.name;
+        const pack = capabilityResultToJson(engine.execute("EvidencePack", { query, limit: 12 }));
+
+        return {
+          artifacts: [
+            createArtifact({
+              descriptor: ARTIFACT_DESCRIPTORS.EvidencePack,
+              data: pack,
+              graphHash: context.graph.metadata.deterministicHash,
+              graphGeneratedAt: context.graph.metadata.generatedAt,
+              producedBy: "evidence-pack",
+              enhancerVersion: "1.0.0",
+              dependencies: [
+                graphArtifact,
+                ...optionalArtifact(context.artifacts.get("SemanticIndex")),
+              ],
+            }),
+          ],
+          statistics: {
+            query,
+            ...capabilityArtifactStatistics(pack),
+          },
+        };
+      },
+    }),
+    defineEnhancer({
       id: "validation-report",
       name: "Validation Report",
       description: "Generate graph-native validation and semantic coverage artifacts.",
@@ -2878,6 +2936,7 @@ function searchResultToJson(result: SemanticSearchResult): JsonObject {
     },
     candidates: result.candidates.map(candidateToJson),
     evidence: [...result.evidence],
+    runNext: [...searchRunNext(result)],
   };
 }
 
@@ -2933,7 +2992,29 @@ function formatSearchResult(result: SemanticSearchResult): string {
 
   lines.push("", "## Evidence");
   lines.push(...(result.evidence.length > 0 ? result.evidence.map((item) => `- ${item}`) : ["none"]));
+  lines.push("", "## Run Next");
+  lines.push(...searchRunNext(result).map((command) => `- ${command}`));
   return lines.join("\n");
+}
+
+function searchRunNext(result: SemanticSearchResult): readonly string[] {
+  const escaped = result.query.replaceAll("\"", "\\\"");
+  const commands = [
+    `ontoly evidence "${escaped}"`,
+  ];
+  const top = result.candidates[0];
+  if (top) {
+    commands.push(`ontoly inspect ${top.stableId}`);
+    commands.push(`ontoly impact ${top.stableId} --mode local`);
+  }
+  if (result.recommendedCapability === "RequestTrace") {
+    commands.push(`ontoly request-trace "${escaped}"`);
+  } else if (result.recommendedCapability === "ConfigurationUsage") {
+    commands.push(`ontoly explain "${escaped}" --json`);
+  } else {
+    commands.push(`ontoly implementation-plan "${escaped}" --budget 80`);
+  }
+  return commands;
 }
 
 function formatInspection(inspection: JsonObject): string {
@@ -3661,16 +3742,28 @@ function commandHelp(): Record<string, CommandHelp> {
 	  impact: {
 	    title: "ontoly impact",
 	    description: "Analyze deterministic blast radius for a node id or search query.",
-	    usage: ["ontoly impact <node-id-or-query> [--root path] [--depth 4] [--json]"],
-	    options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--json         Print JSON."],
-	    examples: ["ontoly impact AuthService", "ontoly impact fn:src/auth.ts:login --depth 5", "ontoly impact UserRepository --json"],
+	    usage: ["ontoly impact <node-id-or-query> [--root path] [--mode direct|local|feature|semantic|blast-radius] [--depth 4] [--json]"],
+	    options: [
+	      "--root path    Repository root.",
+	      "--mode kind    Scope: direct, local, feature, semantic, or blast-radius.",
+	      "--depth n      Override expansion depth.",
+	      "--json         Print JSON.",
+	    ],
+	    examples: ["ontoly impact AuthService", "ontoly impact fn:src/auth.ts:login --mode local", "ontoly impact UserRepository --mode blast-radius --json"],
+	  },
+	  evidence: {
+	    title: "ontoly evidence",
+	    description: "Generate a compact deterministic Evidence Pack for agent workflows.",
+	    usage: ["ontoly evidence <query> [--root path] [--limit 12] [--json]"],
+	    options: ["--root path    Repository root.", "--limit n      Maximum entities, clamped to 5-20.", "--json         Print JSON."],
+	    examples: ["ontoly evidence AuthService", "ontoly evidence \"remove PlanDefinition\" --json"],
 	  },
 	  "implementation-plan": {
 	    title: "ontoly implementation-plan",
 	    description: "Generate a graph-backed implementation plan for a task without AI reasoning.",
-	    usage: ["ontoly implementation-plan <task> [--root path] [--depth 3] [--json]"],
-	    options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--json         Print JSON."],
-	    examples: ["ontoly implementation-plan \"add login threshold\"", "ontoly implementation-plan \"remove PlanDefinition\" --json"],
+	    usage: ["ontoly implementation-plan <task> [--root path] [--depth 3] [--budget 80] [--json]"],
+	    options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--budget n     Maximum graph nodes, clamped to 1-250.", "--timeout-ms n Deterministic planning budget metadata.", "--json         Print JSON."],
+	    examples: ["ontoly implementation-plan \"add login threshold\"", "ontoly implementation-plan \"remove PlanDefinition\" --budget 40 --json"],
 	  },
 	  ownership: {
 	    title: "ontoly ownership",
@@ -3891,8 +3984,9 @@ Usage:
 	  ontoly stats [root] [--root path] [--json]
 	  ontoly architecture [root] [--root path] [--format mermaid|html] [--json]
 	  ontoly explain [query] [--root path] [--depth 3] [--json]
-	  ontoly impact <node-id-or-query> [--root path] [--depth 4] [--json]
-	  ontoly implementation-plan <task> [--root path] [--depth 3] [--json]
+	  ontoly impact <node-id-or-query> [--root path] [--mode direct|local|feature|semantic|blast-radius] [--json]
+	  ontoly evidence <query> [--root path] [--limit 12] [--json]
+	  ontoly implementation-plan <task> [--root path] [--depth 3] [--budget 80] [--json]
 	  ontoly ownership <query> [--root path] [--depth 3] [--json]
 	  ontoly health [root] [--json]
 	  ontoly repository-summary [root] [--json]
@@ -3934,8 +4028,9 @@ Examples:
 	  ontoly architecture
 	  ontoly architecture --format html > architecture.html
 	  ontoly explain AuthService
-	  ontoly impact UserRepository --json
-	  ontoly implementation-plan "remove PlanDefinition support"
+	  ontoly impact UserRepository --mode local --json
+	  ontoly evidence "remove PlanDefinition"
+	  ontoly implementation-plan "remove PlanDefinition support" --budget 80
 	  ontoly request-trace "POST /login"
 	  ontoly coverage
   ontoly report api

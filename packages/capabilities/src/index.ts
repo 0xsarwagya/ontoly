@@ -45,6 +45,7 @@ export const CAPABILITY_NAMES = [
   "RiskAnalysis",
   "DataFlow",
   "FeatureTouchpoints",
+  "EvidencePack",
 ] as const;
 
 export type CapabilityName = (typeof CAPABILITY_NAMES)[number];
@@ -54,6 +55,10 @@ export interface CapabilityInput extends JsonObject {
   readonly query?: string | undefined;
   readonly task?: string | undefined;
   readonly depth?: number | undefined;
+  readonly mode?: string | undefined;
+  readonly limit?: number | undefined;
+  readonly budget?: number | undefined;
+  readonly timeoutMs?: number | undefined;
 }
 
 export interface SerializedNode {
@@ -110,6 +115,24 @@ export interface CapabilityResult {
   readonly diagnostics: readonly CapabilityDiagnostic[];
   readonly recommendations: readonly string[];
   readonly graph: JsonObject;
+}
+
+export interface EvidencePack {
+  readonly version: "1.0.0";
+  readonly query: string;
+  readonly answer: string;
+  readonly graphFacts: JsonObject;
+  readonly topNodes: readonly SerializedNode[];
+  readonly topEdges: readonly SerializedEdge[];
+  readonly relevantFiles: readonly string[];
+  readonly relationships: JsonObject;
+  readonly diagnostics: readonly CapabilityDiagnostic[];
+  readonly confidence: CapabilityConfidence;
+  readonly suggestedCommands: readonly string[];
+  readonly stableIds: readonly string[];
+  readonly filesToInspect: readonly string[];
+  readonly fallbacks: readonly string[];
+  readonly provenance: JsonObject;
 }
 
 export interface Capability {
@@ -189,6 +212,16 @@ const ARCHITECTURAL_GROUPS: readonly {
   { label: "Tests", types: ["Module", "Function", "Method"], namePatterns: [/test/i, /spec/i] },
 ];
 
+const IMPACT_MODE_SETTINGS = {
+  direct: { depth: 1, nodeLimit: 20, edgeLimit: 40 },
+  local: { depth: 2, nodeLimit: 50, edgeLimit: 100 },
+  feature: { depth: 3, nodeLimit: 80, edgeLimit: 160 },
+  semantic: { depth: 4, nodeLimit: 120, edgeLimit: 240 },
+  "blast-radius": { depth: 5, nodeLimit: 200, edgeLimit: 400 },
+} as const;
+
+type ImpactMode = keyof typeof IMPACT_MODE_SETTINGS;
+
 export function createCapabilityEngine(graph: SoftwareGraph): CapabilityEngine {
   const query = createQueryEngine(graph);
   const semanticIndex = createSemanticIndex(graph);
@@ -262,6 +295,7 @@ export function defaultCapabilities(): readonly Capability[] {
     capability("RiskAnalysis", "Summarize graph risk hotspots.", {}, riskAnalysis),
     capability("DataFlow", "Summarize READS and WRITES data-flow evidence.", optionalTargetInput(), dataFlow),
     capability("FeatureTouchpoints", "Find architectural touchpoints for a feature query.", targetInput("query"), featureTouchpoints),
+    capability("EvidencePack", "Create a compact deterministic evidence pack for agent workflows.", evidencePackInput(), evidencePackCapability),
   ];
 }
 
@@ -332,16 +366,24 @@ function impactAnalysis(context: CapabilityContext, input: CapabilityInput): Cap
     return notFoundResult(context, "ImpactAnalysis", resolved);
   }
 
-  const depth = readDepth(input, 4);
+  const mode = readImpactMode(input);
+  const settings = IMPACT_MODE_SETTINGS[mode];
+  const depth = input.depth === undefined ? settings.depth : readDepth(input, settings.depth);
   const dependents = context.query.dependents(resolved.node.id, depth);
   const dependencies = context.query.dependencies(resolved.node.id, Math.min(depth, 3));
   const expanded = expandSemanticBoundary(context, [resolved.node], depth);
-  const nodes = uniqueNodes([resolved.node, ...dependents.nodes, ...dependencies.nodes, ...expanded.nodes]);
-  const edges = uniqueEdges([...dependents.edges, ...dependencies.edges, ...expanded.edges]);
+  const allNodes = uniqueNodes([resolved.node, ...dependents.nodes, ...dependencies.nodes, ...expanded.nodes]);
+  const nodes = limitNodes([resolved.node], allNodes, settings.nodeLimit);
+  const nodeIds = new Set(nodes.map((node) => node.id));
+  const allEdges = uniqueEdges([...dependents.edges, ...dependencies.edges, ...expanded.edges]);
+  const edges = allEdges
+    .filter((edge) => nodeIds.has(edge.from) || nodeIds.has(edge.to))
+    .slice(0, settings.edgeLimit);
   const groups = groupNodes(nodes);
+  const truncated = allNodes.length > nodes.length || allEdges.length > edges.length;
 
   return result(context, {
-    summary: `${resolved.node.name} has ${dependents.nodes.length - 1} dependent node(s) within depth ${depth}; ${nodes.length} total graph node(s) are in the deterministic blast radius.`,
+    summary: `${resolved.node.name} has ${dependents.nodes.length - 1} dependent node(s) within ${mode} impact mode; ${nodes.length} graph node(s) are in the deterministic scope${truncated ? " after budget limits" : ""}.`,
     evidence: [
       pathEvidence("Dependent traversal identifies consumers that may break.", dependents.nodes, dependents.edges),
       pathEvidence("Dependency traversal identifies required implementation boundaries.", dependencies.nodes, dependencies.edges),
@@ -350,12 +392,19 @@ function impactAnalysis(context: CapabilityContext, input: CapabilityInput): Cap
     affectedNodes: groups,
     statistics: {
       target: serializeNode(resolved.node),
+      mode,
       traversalDepth: depth,
+      nodeLimit: settings.nodeLimit,
+      edgeLimit: settings.edgeLimit,
+      truncated,
+      unboundedNodeCount: allNodes.length,
+      unboundedEdgeCount: allEdges.length,
       directDependents: Math.max(0, dependents.nodes.length - 1),
       relationshipCounts: countEdges(edges),
       architecturalGroups: countGroups(groups),
       blastRadius: blastRadius(nodes.length),
     },
+    diagnostics: truncated ? [diagnostic("CAPABILITY_SCOPE_TRUNCATED", "warning", `Impact scope exceeded the ${mode} mode budget; returned deterministic partial evidence.`)] : [],
     recommendations: implementationOrder(groups),
   });
 }
@@ -363,31 +412,50 @@ function impactAnalysis(context: CapabilityContext, input: CapabilityInput): Cap
 function implementationPlan(context: CapabilityContext, input: CapabilityInput): CapabilityResult {
   const task = readText(input, "task") || readText(input, "query");
   const matches = featureMatches(context, task);
-  const expanded = expandSemanticBoundary(context, matches, readDepth(input, 3));
-  const nodes = uniqueNodes([...matches, ...expanded.nodes]);
+  const depth = readDepth(input, 3);
+  const nodeBudget = readNumberLimit(input.budget, 80, 1, 250);
+  const timeoutMs = readNumberLimit(input.timeoutMs, 2_000, 250, 30_000);
+  const expanded = expandSemanticBoundary(context, matches, depth);
+  const allNodes = uniqueNodes([...matches, ...expanded.nodes]);
+  const nodes = limitNodes(matches, allNodes, nodeBudget);
+  const nodeIds = new Set(nodes.map((node) => node.id));
+  const edges = expanded.edges.filter((edge) => nodeIds.has(edge.from) || nodeIds.has(edge.to));
   const groups = groupNodes(nodes);
+  const remainingNodes = Math.max(0, allNodes.length - nodes.length);
+  const partial = remainingNodes > 0;
   const recommendations = [
     `Start by confirming the ${matches.length > 0 ? "matched graph touchpoints" : "missing graph touchpoints"} for "${task}".`,
     ...implementationOrder(groups),
     "Add or update tests around affected routes, services, configuration, and persistence boundaries.",
+    ...(partial ? [`Continue with ontoly evidence "${task}" or raise --budget after reviewing this partial plan.`] : []),
   ];
 
   return result(context, {
-    summary: `Implementation plan for "${task || "unspecified task"}" touches ${Object.keys(groups).length} architectural group(s) and ${nodes.length} graph node(s).`,
+    summary: `Implementation plan for "${task || "unspecified task"}" touches ${Object.keys(groups).length} architectural group(s) and ${nodes.length} graph node(s)${partial ? " as a deterministic partial plan" : ""}.`,
     evidence: [
       nodeEvidence("Lexical graph matches seed deterministic planning.", matches, 0.6),
-      pathEvidence("Semantic expansion identifies adjacent implementation boundaries.", nodes, expanded.edges),
+      pathEvidence("Semantic expansion identifies adjacent implementation boundaries.", nodes, edges),
     ],
     affectedNodes: groups,
     statistics: {
       task,
+      depth,
       architecturalGroups: countGroups(groups),
       matchedTerms: tokenize(task),
       implementationOrder: implementationOrder(groups),
+      budget: {
+        status: partial ? "partial" : "complete",
+        nodeBudget,
+        timeoutMs,
+        visitedNodes: nodes.length,
+        remainingNodes,
+        reason: partial ? "NODE_BUDGET_EXCEEDED" : "COMPLETE",
+      },
     },
-    diagnostics: matches.length === 0
-      ? [diagnostic("CAPABILITY_LOW_EVIDENCE", "warning", "No direct graph touchpoints matched the task text.")]
-      : [],
+    diagnostics: [
+      ...(matches.length === 0 ? [diagnostic("CAPABILITY_LOW_EVIDENCE", "warning", "No direct graph touchpoints matched the task text.")] : []),
+      ...(partial ? [diagnostic("CAPABILITY_PARTIAL_PLAN", "warning", `Implementation plan hit the ${nodeBudget} node budget and returned partial evidence.`)] : []),
+    ],
     recommendations,
   });
 }
@@ -759,6 +827,90 @@ function featureTouchpoints(context: CapabilityContext, input: CapabilityInput):
   });
 }
 
+function evidencePackCapability(context: CapabilityContext, input: CapabilityInput): CapabilityResult {
+  const query = readText(input, "query") || readText(input, "task") || readText(input, "id") || context.graph.repository.name;
+  const limit = readNumberLimit(input.limit, 12, 5, 20);
+  const semantic = resolveIntent(context.semanticIndex, query, { limit: Math.max(20, limit * 2) });
+  const semanticScores = new Map(semantic.candidates.map((candidate) => [candidate.nodeId, candidate.score] as const));
+  const resolved = resolveTarget(context, { ...input, query });
+  const direct = readText(input, "id") ? resolved.node : undefined;
+  const seeds = uniqueNodes([
+    ...(direct ? [direct] : []),
+    ...nodesFromSearch(context, semantic),
+    ...featureMatches(context, query),
+    ...context.query.findNodes(query),
+  ]);
+  const expanded = expandSemanticBoundary(context, seeds, readDepth(input, 2));
+  const topNodes = rankEvidenceNodes(context, query, uniqueNodes([...seeds, ...expanded.nodes]), seeds, semanticScores).slice(0, limit);
+  const topNodeIds = new Set(topNodes.map((node) => node.id));
+  const topEdges = uniqueEdges([
+    ...expanded.edges,
+    ...topNodes.flatMap((node) => [...context.query.incoming(node.id), ...context.query.outgoing(node.id)]),
+  ])
+    .filter((edge) => topNodeIds.has(edge.from) || topNodeIds.has(edge.to))
+    .slice(0, Math.min(20, limit * 2));
+  const graphDiagnostics = context.graph.diagnostics
+    .filter((item) => !item.nodeId || topNodeIds.has(item.nodeId))
+    .map(serializeDiagnostic)
+    .slice(0, 10);
+  const diagnostics = [
+    ...(topNodes.length === 0 ? [diagnostic("CAPABILITY_LOW_EVIDENCE", "warning", `No graph evidence matched "${query}".`)] : []),
+    ...resolved.diagnostics.filter((item) => item.code !== "CAPABILITY_AMBIGUOUS_TARGET"),
+    ...graphDiagnostics,
+  ];
+  const evidence = [
+    nodeEvidence("Top ranked graph nodes for the requested software concept.", topNodes, topNodes.length > 0 ? 0.9 : 0),
+    pathEvidence("Nearby relationships provide compact agent-ready evidence.", topNodes, topEdges, topEdges.length > 0 ? 0.9 : 0.55),
+  ];
+  const confidence = confidenceFromEvidence(evidence, diagnostics);
+  const serializedNodes = topNodes.map(serializeNode);
+  const serializedEdges = topEdges.map(serializeEdge);
+  const files = [...new Set(serializedNodes.map((node) => node.file).filter(isString))].sort();
+  const commands = suggestedEvidenceCommands(query, topNodes);
+  const pack: EvidencePack = {
+    version: "1.0.0",
+    query,
+    answer: topNodes.length > 0
+      ? `Ontoly found ${topNodes.length} graph node(s) and ${topEdges.length} relationship(s) relevant to "${query}".`
+      : `Ontoly could not find deterministic graph evidence for "${query}".`,
+    graphFacts: {
+      repository: context.graph.repository.name,
+      graphHash: context.graph.metadata.deterministicHash,
+      graphVersion: context.graph.version,
+      nodeCount: context.graph.metadata.nodeCount,
+      edgeCount: context.graph.metadata.edgeCount,
+    },
+    topNodes: serializedNodes,
+    topEdges: serializedEdges,
+    relevantFiles: files,
+    relationships: countEdges(topEdges),
+    diagnostics,
+    confidence,
+    suggestedCommands: commands,
+    stableIds: serializedNodes.map((node) => node.id),
+    filesToInspect: files.slice(0, 10),
+    fallbacks: confidence.score < 0.6
+      ? ["Inspect listed files only after confirming Ontoly graph evidence is insufficient."]
+      : ["Use repository search only if the evidence pack does not contain the needed graph fact."],
+    provenance: graphProvenance(context),
+  };
+
+  return result(context, {
+    summary: pack.answer,
+    evidence,
+    affectedNodes: groupNodes(topNodes),
+    statistics: {
+      evidencePack: pack,
+      query,
+      entities: topNodes.length,
+      relationships: topEdges.length,
+      relationshipCounts: countEdges(topEdges),
+    },
+    diagnostics,
+    recommendations: commands,
+  });
+}
+
 function result(
   context: CapabilityContext,
   input: {
@@ -963,6 +1115,80 @@ function featureMatches(context: CapabilityContext, value: string): readonly Sof
     }
   }
   return [...matches.values()].sort(compareNodes);
+}
+
+function rankEvidenceNodes(
+  context: CapabilityContext,
+  query: string,
+  nodes: readonly SoftwareGraphNode[],
+  seeds: readonly SoftwareGraphNode[],
+  semanticScores: ReadonlyMap<string, number>,
+): readonly SoftwareGraphNode[] {
+  const terms = tokenize(query);
+  const seedIds = new Set(seeds.map((node) => node.id));
+  return [...nodes].sort((left, right) =>
+    evidenceNodeScore(context, right, terms, seedIds, semanticScores) - evidenceNodeScore(context, left, terms, seedIds, semanticScores) ||
+    left.id.localeCompare(right.id),
+  );
+}
+
+function evidenceNodeScore(
+  context: CapabilityContext,
+  node: SoftwareGraphNode,
+  terms: readonly string[],
+  seedIds: ReadonlySet<string>,
+  semanticScores: ReadonlyMap<string, number>,
+): number {
+  const haystack = tokenize(`${node.id} ${node.name} ${node.file ?? ""} ${node.package ?? ""}`);
+  const typeWeight = node.type === "Route" ? 70 :
+    node.type === "Controller" ? 65 :
+    node.type === "Service" || node.type === "Provider" ? 60 :
+    node.type === "Module" || node.type === "Package" ? 50 :
+    node.type === "Repository" ? 48 :
+    node.type === "Configuration" || node.type === "EnvironmentVariable" ? 45 :
+    node.type === "Function" || node.type === "Method" ? 36 : 20;
+  const matchWeight = terms.filter((term) => haystack.includes(term)).length * 25;
+  const seedWeight = seedIds.has(node.id) ? 100 : 0;
+  const semanticWeight = Math.min(300, semanticScores.get(node.id) ?? 0);
+  const degreeWeight = Math.min(45, (context.query.incoming(node.id).length + context.query.outgoing(node.id).length) * 4);
+  const localityWeight = isRepositoryLocalNode(node) ? 20 : -40;
+  return semanticWeight + seedWeight + typeWeight + matchWeight + degreeWeight + localityWeight;
+}
+
+function limitNodes(
+  seeds: readonly SoftwareGraphNode[],
+  nodes: readonly SoftwareGraphNode[],
+  limit: number,
+): readonly SoftwareGraphNode[] {
+  const ordered = new Map<string, SoftwareGraphNode>();
+  for (const node of seeds) {
+    ordered.set(node.id, node);
+  }
+  for (const node of nodes) {
+    ordered.set(node.id, node);
+  }
+  return [...ordered.values()].slice(0, limit);
+}
+
+function suggestedEvidenceCommands(query: string, nodes: readonly SoftwareGraphNode[]): readonly string[] {
+  const escaped = query.replaceAll("\"", "\\\"");
+  const commands = [
+    `ontoly search "${escaped}"`,
+    `ontoly evidence "${escaped}"`,
+  ];
+  const top = nodes[0];
+  if (top) {
+    commands.push(`ontoly inspect ${top.id}`);
+    commands.push(`ontoly impact ${top.id} --mode local`);
+    commands.push(`ontoly trace ${top.id} --depth 3`);
+  }
+  commands.push(`ontoly implementation-plan "${escaped}" --budget 80`);
+  return commands;
+}
+
+function isRepositoryLocalNode(node: SoftwareGraphNode): boolean {
+  const text = `${node.id} ${node.file ?? ""} ${node.package ?? ""}`;
+  return !/node_modules|^dep:|^framework:/i.test(text);
 }
 
 function nodesFromSearch(context: CapabilityContext, search: SemanticSearchResult): readonly SoftwareGraphNode[] {
@@ -1209,6 +1435,8 @@ function targetInput(field = "id"): JsonObject {
     properties: {
       [field]: { type: "string" },
       depth: { type: "number" },
+      mode: { type: "string", enum: Object.keys(IMPACT_MODE_SETTINGS) },
+      limit: { type: "number" },
     },
     required: [field],
   };
@@ -1232,8 +1460,23 @@ function taskInput(): JsonObject {
       task: { type: "string" },
       query: { type: "string" },
       depth: { type: "number" },
+      budget: { type: "number" },
+      timeoutMs: { type: "number" },
     },
     required: ["task"],
+  };
+}
+
+function evidencePackInput(): JsonObject {
+  return {
+    type: "object",
+    properties: {
+      id: { type: "string" },
+      query: { type: "string" },
+      task: { type: "string" },
+      depth: { type: "number" },
+      limit: { type: "number", minimum: 5, maximum: 20 },
+    },
   };
 }
 
@@ -1249,6 +1492,21 @@ function readText(input: CapabilityInput, key: "id" | "query" | "task"): string 
 function readDepth(input: CapabilityInput, fallback: number): number {
   const value = input.depth;
   return typeof value === "number" && Number.isFinite(value) && value >= 0 ? Math.min(Math.floor(value), 10) : fallback;
+}
+
+function readImpactMode(input: CapabilityInput): ImpactMode {
+  const value = input.mode;
+  return isImpactMode(value) ? value : "semantic";
+}
+
+function isImpactMode(value: string | undefined): value is ImpactMode {
+  return Boolean(value && Object.prototype.hasOwnProperty.call(IMPACT_MODE_SETTINGS, value));
+}
+
+function readNumberLimit(value: number | undefined, fallback: number, minimum: number, maximum: number): number {
+  return typeof value === "number" && Number.isFinite(value)
+    ? Math.max(minimum, Math.min(maximum, Math.floor(value)))
+    : fallback;
 }
 
 function tokenize(value: string): readonly string[] {

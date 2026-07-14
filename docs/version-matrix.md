@@ -6,12 +6,14 @@
 | Query Engine | 0.1.0-alpha.2 |
 | TypeScript analyzer | 0.1.0-alpha.2 |
 | TypeScript parser frontend | 0.1.0-alpha.2 |
-| Semantic Capability Engine | 0.1.0-alpha.1 |
-| MCP runtime | 0.1.0-alpha.3 |
-| Ontoly CLI | 0.1.0-alpha.9 |
+| Semantic Index | 0.1.0-alpha.1 |
+| Semantic Capability Engine | 0.1.0-alpha.2 |
+| Enhancer API | 0.1.0-alpha.2 |
+| MCP runtime | 0.1.0-alpha.4 |
+| Ontoly CLI | 0.1.0-alpha.10 |
 | HTML graph plugin | 0.1.0-alpha.3 |
 | Software Graph Spec | 1.0 draft |
-| Agent Skills | 0.1.0-alpha.1 to 0.1.0-alpha.2 |
+| Agent Skills | 0.1.0-alpha.2 to 0.1.0-alpha.4 |
 | Node.js engine | 22+ |
 | pnpm engine | 11+ |
 | TypeScript | 5.9 |

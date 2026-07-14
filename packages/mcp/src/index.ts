@@ -338,6 +338,10 @@ function semanticCapabilityExamples(name: CapabilityName): readonly JsonObject[]
     return [{ input: { task: "remove PlanDefinition support", depth: 3 } }];
   }
 
+  if (name === "EvidencePack") {
+    return [{ input: { query: "remove PlanDefinition support", limit: 12 } }];
+  }
+
   if (name === "RepositorySummary" || name === "ArchitectureSummary" || name === "RepositoryHealth") {
     return [{ input: {} }];
   }
@@ -971,6 +975,10 @@ function semanticCapabilityInput(): JsonObject {
       query: { type: "string" },
       task: { type: "string" },
       depth: { type: "number" },
+      mode: { type: "string" },
+      limit: { type: "number" },
+      budget: { type: "number" },
+      timeoutMs: { type: "number" },
     },
   };
 }

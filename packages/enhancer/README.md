@@ -8,6 +8,10 @@ as reports, diagrams, validation output, documentation, or SDK inputs.
 
 Enhancers never parse repositories, mutate the Software Graph, or use AI.
 
+Evidence routing is modeled as the `EvidencePack` artifact and `evidence-pack`
+enhancer so agents, MCP, CLI, and Workbench can share the same deterministic
+payload without introducing an `ontoly-router` package.
+
 ```ts
 import {
   createEnhancerPipeline,

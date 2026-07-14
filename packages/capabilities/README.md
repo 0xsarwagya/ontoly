@@ -7,6 +7,9 @@ summary, request tracing, ownership, configuration usage, and implementation
 planning. It contains no compiler logic, parser logic, CLI behavior, MCP
 transport, LLM calls, embeddings, vector search, or code generation.
 
+`EvidencePack` is the compact graph-backed payload for agent workflows. It is a
+capability over existing Ontoly artifacts, not a separate router package.
+
 ## Installation
 
 ```bash

@@ -32,6 +32,7 @@ export type ArtifactKind =
   | "Evaluation"
   | "CapabilityCatalog"
   | "ValidationReport"
+  | "EvidencePack"
   | "Custom";
 
 export interface ArtifactSchema {
@@ -267,6 +268,13 @@ export const ARTIFACT_DESCRIPTORS = {
     name: "Capability Catalog",
     version: "1.0.0",
     description: "Deterministic catalog of Ontoly capabilities and schemas.",
+  }),
+  EvidencePack: artifactDescriptor({
+    id: "EvidencePack",
+    kind: "EvidencePack",
+    name: "Evidence Pack",
+    version: "1.0.0",
+    description: "Compact deterministic graph evidence for agent, MCP, CLI, and Workbench workflows.",
   }),
   RepositorySummary: artifactDescriptor({
     id: "RepositorySummary",

@@ -1,6 +1,25 @@
 {
   "capabilities": [
     {
+      "capability": "EvidencePack",
+      "skills": [
+        "architecture-review",
+        "impact-analysis",
+        "codebase-onboarding",
+        "request-tracing",
+        "dependency-analysis",
+        "security-review",
+        "configuration-analysis",
+        "framework-analysis",
+        "documentation",
+        "refactoring",
+        "performance-analysis",
+        "dead-code-analysis",
+        "migration-analysis",
+        "sdk-generation"
+      ]
+    },
+    {
       "capability": "ExplainArchitecture",
       "skills": [
         "architecture-review",

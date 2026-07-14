@@ -4,9 +4,9 @@ description: Onboard a developer to a repository using Ontoly graph summaries. U
 license: MIT
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "0.1.0-alpha.1"
-  ontoly.min.version: "0.1.0-alpha.1"
-  ontoly.capabilities: "ExplainArchitecture, FindEntrypoints, GraphStatistics, FindFeatureOwner"
+  ontoly.skill.version: "0.1.0-alpha.2"
+  ontoly.min.version: "0.1.0-alpha.10"
+  ontoly.capabilities: "ExplainArchitecture, FindEntrypoints, GraphStatistics, FindFeatureOwner, EvidencePack"
   ontoly.category: "onboarding"
   ontoly.enhancement: "LLM Enhancement"
   ontoly.deprecated: "false"
@@ -22,7 +22,7 @@ Follow [the shared Ontoly workflow](reference/workflow.md). Also read [graph evi
 
 ## Ontoly Capabilities
 
-Use these capabilities first: `ExplainArchitecture`, `FindEntrypoints`, `GraphStatistics`, `FindFeatureOwner`.
+Use these capabilities first: `ExplainArchitecture`, `FindEntrypoints`, `GraphStatistics`, `FindFeatureOwner`, `EvidencePack`.
 
 ## Output Contract
 

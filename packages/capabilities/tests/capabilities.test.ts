@@ -56,6 +56,20 @@ describe("semantic capability engine", () => {
     expect(result.confidence.level).toBe("high");
   });
 
+  it("scopes impact analysis with deterministic modes", () => {
+    const result = createCapabilityEngine(graph()).execute("ImpactAnalysis", {
+      id: "service:AuthService",
+      mode: "direct",
+    });
+
+    expect(result.statistics).toMatchObject({
+      mode: "direct",
+      traversalDepth: 1,
+      nodeLimit: 20,
+      edgeLimit: 40,
+    });
+  });
+
   it("plans implementation from deterministic graph touchpoints", () => {
     const result = createCapabilityEngine(graph()).execute("ImplementationPlan", {
       task: "Add login token threshold",
@@ -64,6 +78,41 @@ describe("semantic capability engine", () => {
     expect(result.summary).toContain("Add login token threshold");
     expect(result.statistics.matchedTerms).toEqual(expect.arrayContaining(["login", "token", "threshold"]));
     expect(result.recommendations.length).toBeGreaterThan(1);
+  });
+
+  it("returns partial implementation plans when budgets are exceeded", () => {
+    const result = createCapabilityEngine(graph()).execute("ImplementationPlan", {
+      task: "Add login token threshold",
+      budget: 1,
+    });
+
+    expect(result.statistics.budget).toMatchObject({
+      status: "partial",
+      nodeBudget: 1,
+      reason: "NODE_BUDGET_EXCEEDED",
+    });
+    expect(result.diagnostics).toEqual(expect.arrayContaining([
+      expect.objectContaining({ code: "CAPABILITY_PARTIAL_PLAN" }),
+    ]));
+  });
+
+  it("creates compact evidence packs for agent workflows", () => {
+    const result = createCapabilityEngine(graph()).execute("EvidencePack", {
+      query: "login threshold",
+      limit: 6,
+    });
+    const pack = result.statistics.evidencePack as Record<string, unknown>;
+
+    expect(pack).toMatchObject({
+      version: "1.0.0",
+      query: "login threshold",
+      graphFacts: expect.objectContaining({ repository: "repo" }),
+    });
+    expect(pack.stableIds).toEqual(expect.arrayContaining(["service:AuthService"]));
+    expect(pack.suggestedCommands).toEqual(expect.arrayContaining([
+      "ontoly evidence \"login threshold\"",
+    ]));
+    expect((pack.topNodes as readonly unknown[]).length).toBeLessThanOrEqual(6);
   });
 
   it("returns graph-native diagnostics when evidence is missing", () => {

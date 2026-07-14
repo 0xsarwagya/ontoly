@@ -121,6 +121,7 @@ Examples:
 - `Evaluation`
 - `CapabilityCatalog`
 - `ValidationReport`
+- `EvidencePack`
 
 Every artifact declares:
 
@@ -236,6 +237,7 @@ Built-ins wrap existing Ontoly behavior without changing compiler output:
 | --- | --- |
 | `semantic-index` | `SemanticIndex` |
 | `capability-catalog` | `CapabilityCatalog` |
+| `evidence-pack` | `EvidencePack` |
 | `validation-report` | `ValidationReport`, `Coverage` |
 | `repository-summary` | `RepositorySummary` |
 | `health-report` | `HealthReport` |

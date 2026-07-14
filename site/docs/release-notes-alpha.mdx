@@ -1,10 +1,32 @@
 ---
 title: "Alpha Release Notes"
-description: "This CLI release makes LLM Enhancement the mandatory workflow contract whenever an LLM uses Ontoly."
+description: "This release adds compact Evidence Packs for graph-first agent workflows and fixes npm publication coverage for the Semantic Index package."
 canonical: "https://oss.sarwagya.wtf/ontoly/docs/release-notes-alpha"
 source: "docs/release-notes-alpha.md"
 keywords: ["Ontoly", "Software Graph", "TypeScript", "static analysis", "MCP", "AI coding agents", "developer tools", "Alpha", "Release", "Notes"]
 ---
+
+## v0.1.0-alpha.10
+
+This release adds compact Evidence Packs for graph-first agent workflows and
+fixes npm publication coverage for the Semantic Index package.
+
+- `ontoly evidence <query>` returns a compact graph-backed Evidence Pack with
+  top nodes, top edges, relevant files, stable ids, confidence, diagnostics, and
+  suggested next commands.
+- `EvidencePack` is available through the Semantic Capability Engine and MCP.
+- `evidence-pack` is a first-class Enhancer artifact; no separate router package
+  is introduced.
+- `ontoly search` now includes deterministic `runNext` commands that start with
+  `ontoly evidence`.
+- `ImpactAnalysis` supports scoped modes: `direct`, `local`, `feature`,
+  `semantic`, and `blast-radius`.
+- `ImplementationPlan` now returns bounded partial results when a deterministic
+  node budget is exceeded.
+- The npm publish script now includes `@0xsarwagya/ontoly-index`, repairing the
+  missing dependency for published CLI installs.
+- Official Agent Skills now require LLM Enhancement plus `EvidencePack` and
+  document the evidence-first workflow in every installable skill folder.
 
 ## v0.1.0-alpha.9
 

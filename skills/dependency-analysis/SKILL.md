@@ -4,9 +4,9 @@ description: Analyze internal and package dependencies using Ontoly graph traver
 license: MIT
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "0.1.0-alpha.1"
-  ontoly.min.version: "0.1.0-alpha.1"
-  ontoly.capabilities: "FindDependencies, FindDependents, FindCycles, GraphStatistics"
+  ontoly.skill.version: "0.1.0-alpha.2"
+  ontoly.min.version: "0.1.0-alpha.10"
+  ontoly.capabilities: "FindDependencies, FindDependents, FindCycles, GraphStatistics, EvidencePack"
   ontoly.category: "dependencies"
   ontoly.enhancement: "LLM Enhancement"
   ontoly.deprecated: "false"
@@ -22,7 +22,7 @@ Follow [the shared Ontoly workflow](reference/workflow.md). Also read [graph evi
 
 ## Ontoly Capabilities
 
-Use these capabilities first: `FindDependencies`, `FindDependents`, `FindCycles`, `GraphStatistics`.
+Use these capabilities first: `FindDependencies`, `FindDependents`, `FindCycles`, `GraphStatistics`, `EvidencePack`.
 
 ## Output Contract
 

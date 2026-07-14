@@ -21,8 +21,9 @@ ontoly inspect src/service.ts
 ontoly trace fn:src/index.ts:main
 ontoly coverage
 ontoly explain AuthService
-ontoly impact UserRepository --json
-ontoly implementation-plan "remove PlanDefinition support"
+ontoly impact UserRepository --mode local --json
+ontoly evidence "remove PlanDefinition support"
+ontoly implementation-plan "remove PlanDefinition support" --budget 80
 ontoly doctor
 ontoly evaluate
 ontoly leaderboard
@@ -44,6 +45,7 @@ ontoly enhancer run semantic-index .
 - `ontoly architecture [root]`
 - `ontoly explain [query]`
 - `ontoly impact <node-id-or-query>`
+- `ontoly evidence <query>`
 - `ontoly implementation-plan <task>`
 - `ontoly ownership <query>`
 - `ontoly health [root]`
@@ -216,6 +218,36 @@ graph coverage.
 HTML output opens the Software Graph Explorer: an offline graph debugger with
 Architecture, Dependency, Call Graph, and Full Graph modes.
 
+## Evidence Packs
+
+Use `ontoly evidence` when an agent, MCP client, or human reviewer needs the
+smallest graph-backed payload for a question:
+
+```sh
+ontoly evidence "remove PlanDefinition support"
+ontoly evidence AuthService --limit 8 --json
+```
+
+The command returns the shared capability result schema. Its
+`statistics.evidencePack` field contains the reusable pack:
+
+- `answer`
+- `graphFacts`
+- `topNodes`
+- `topEdges`
+- `relevantFiles`
+- `relationships`
+- `diagnostics`
+- `confidence`
+- `suggestedCommands`
+- `stableIds`
+- `filesToInspect`
+- `fallbacks`
+
+Evidence Packs are also available through MCP as `EvidencePack` and through the
+enhancer pipeline as `evidence-pack`. There is no separate Ontoly router
+package.
+
 ## Enhancers
 
 Enhancers are deterministic transformations over graph artifacts. They do not
@@ -310,8 +342,9 @@ graph provenance.
 
 ```sh
 ontoly explain AuthService
-ontoly impact UserRepository --json
-ontoly implementation-plan "remove PlanDefinition support"
+ontoly impact UserRepository --mode local --json
+ontoly evidence "remove PlanDefinition support"
+ontoly implementation-plan "remove PlanDefinition support" --budget 80
 ontoly ownership auth
 ontoly health
 ontoly repository-summary

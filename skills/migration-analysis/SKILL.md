@@ -4,9 +4,9 @@ description: Plan migrations using Ontoly architecture, dependency, impact, and 
 license: MIT
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "0.1.0-alpha.1"
-  ontoly.min.version: "0.1.0-alpha.1"
-  ontoly.capabilities: "ExplainArchitecture, ImpactAnalysis, FindConfigurationUsage, FindDependencies"
+  ontoly.skill.version: "0.1.0-alpha.2"
+  ontoly.min.version: "0.1.0-alpha.10"
+  ontoly.capabilities: "ExplainArchitecture, ImpactAnalysis, FindConfigurationUsage, FindDependencies, EvidencePack"
   ontoly.category: "migration"
   ontoly.enhancement: "LLM Enhancement"
   ontoly.deprecated: "false"
@@ -22,7 +22,7 @@ Follow [the shared Ontoly workflow](reference/workflow.md). Also read [graph evi
 
 ## Ontoly Capabilities
 
-Use these capabilities first: `ExplainArchitecture`, `ImpactAnalysis`, `FindConfigurationUsage`, `FindDependencies`.
+Use these capabilities first: `ExplainArchitecture`, `ImpactAnalysis`, `FindConfigurationUsage`, `FindDependencies`, `EvidencePack`.
 
 ## Output Contract
 

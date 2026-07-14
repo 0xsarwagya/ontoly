@@ -20,7 +20,7 @@ generate embeddings, or make probabilistic guesses.
 
 ## Status
 
-Ontoly is in public alpha. The current CLI release is `v0.1.0-alpha.9`.
+Ontoly is in public alpha. The current CLI release is `v0.1.0-alpha.10`.
 
 The public contract is still experimental, but the repository already includes:
 
@@ -346,6 +346,7 @@ Common commands:
 | `pnpm ontoly search <concept>` | Resolve natural concepts to ranked graph entities. |
 | `pnpm ontoly find <concept>` | Find symbols, acronyms, features, or configuration terms. |
 | `pnpm ontoly locate <feature>` | Locate feature-level graph touchpoints. |
+| `pnpm ontoly evidence <query>` | Generate a compact graph-backed Evidence Pack for agents and reviews. |
 | `pnpm ontoly trace <symbol>` | Trace graph relationships. |
 | `pnpm ontoly coverage <repo>` | Report semantic coverage. |
 | `pnpm ontoly mcp` | Start MCP capabilities. |
@@ -380,6 +381,7 @@ Representative capabilities:
 - `ExplainModule`
 - `FindDependencies`
 - `ImpactAnalysis`
+- `EvidencePack`
 - `TraceExecution`
 - `FindConfigurationUsage`
 - `FindAuthenticationFlow`

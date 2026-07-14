@@ -49,6 +49,14 @@ const fixtureDescriptor = artifactDescriptor({
 });
 
 describe("enhancer API", () => {
+  it("models evidence packs as first-class enhancer artifacts", () => {
+    expect(ARTIFACT_DESCRIPTORS.EvidencePack).toMatchObject({
+      id: "EvidencePack",
+      kind: "EvidencePack",
+      name: "Evidence Pack",
+    });
+  });
+
   it("runs deterministic graph artifact transformations", async () => {
     const enhancer = defineEnhancer({
       id: "fixture-report",

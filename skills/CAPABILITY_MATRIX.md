@@ -2,6 +2,7 @@
 
 | Capability | Skills |
 | --- | --- |
+| `EvidencePack` | Architecture Review, Impact Analysis, Codebase Onboarding, Request Tracing, Dependency Analysis, Security Review, Configuration Analysis, Framework Analysis, Documentation, Refactoring, Performance Analysis, Dead Code Analysis, Migration Analysis, SDK Generation |
 | `ExplainArchitecture` | Architecture Review, Codebase Onboarding, Framework Analysis, Documentation, Migration Analysis, SDK Generation |
 | `FindAuthenticationFlow` | Security Review |
 | `FindConfiguration` | Configuration Analysis |

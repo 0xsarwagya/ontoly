@@ -42,6 +42,43 @@ Capabilities include graph provenance:
 
 An agent or plugin should cite this provenance when presenting answers to users.
 
+## Evidence Packs
+
+An Evidence Pack is the compact, reusable evidence payload for LLM Enhancement,
+MCP clients, CLI workflows, Skills, and the Workbench.
+
+Evidence Packs are produced by:
+
+- `ontoly evidence <query>`
+- MCP capability `EvidencePack`
+- enhancer `evidence-pack`
+
+They are not produced by a separate router package. Evidence routing is modeled
+as a deterministic enhancer/capability over existing Ontoly artifacts.
+
+Canonical fields:
+
+- `version`
+- `query`
+- `answer`
+- `graphFacts`
+- `topNodes`
+- `topEdges`
+- `relevantFiles`
+- `relationships`
+- `diagnostics`
+- `confidence`
+- `suggestedCommands`
+- `stableIds`
+- `filesToInspect`
+- `fallbacks`
+- `provenance`
+
+Evidence Packs should stay small. The default CLI limit is 12 entities, and the
+capability clamps requested limits to the 5-20 range. Agents should inspect
+repository files only when the pack reports low confidence, missing evidence, or
+an explicit fallback.
+
 ## Fallbacks
 
 When graph evidence is missing, a capability returns diagnostics such as

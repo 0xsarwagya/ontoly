@@ -1,6 +1,6 @@
 # Dead Code Analysis Capability Notes
 
-Primary capabilities: `FindDeadCode`, `FindUnusedFeature`, `FindEntrypoints`, `FindDependents`.
+Primary capabilities: `FindDeadCode`, `FindUnusedFeature`, `FindEntrypoints`, `FindDependents`, `EvidencePack`.
 
 Use [../reference/mcp.md](../reference/mcp.md) for common capability behavior and fallback CLI equivalents.
 
@@ -15,6 +15,6 @@ Use [../reference/mcp.md](../reference/mcp.md) for common capability behavior an
 
 ## Compatibility
 
-- Skill version: 0.1.0-alpha.1
-- Minimum Ontoly version: 0.1.0-alpha.1
+- Skill version: 0.1.0-alpha.2
+- Minimum Ontoly version: 0.1.0-alpha.10
 - Deprecation status: active

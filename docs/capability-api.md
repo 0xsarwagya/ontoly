@@ -29,6 +29,12 @@ Capability inputs are intentionally small:
 - `query`: free-text graph lookup target.
 - `task`: implementation-planning task text.
 - `depth`: traversal depth.
+- `mode`: bounded impact scope, such as `direct`, `local`, `feature`,
+  `semantic`, or `blast-radius`.
+- `limit`: compact result limit for Evidence Packs.
+- `budget`: deterministic node budget for implementation planning.
+- `timeoutMs`: planning budget metadata for callers that need progress
+  accounting.
 
 Capabilities may ignore fields they do not need. They must not read source files
 directly and must not call parser internals.
@@ -52,8 +58,9 @@ All high-level capabilities return the shared capability result schema:
 
 ```bash
 ontoly explain AuthService
-ontoly impact UserRepository --json
-ontoly implementation-plan "remove PlanDefinition support"
+ontoly impact UserRepository --mode local --json
+ontoly evidence "remove PlanDefinition support"
+ontoly implementation-plan "remove PlanDefinition support" --budget 80
 ontoly ownership auth
 ontoly health
 ontoly repository-summary
