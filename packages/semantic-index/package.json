@@ -1,5 +1,5 @@
 {
-  "name": "@0xsarwagya/ontoly-index",
+  "name": "@0xsarwagya/ontoly-semantic-index",
   "version": "0.1.0-alpha.1",
   "description": "Deterministic Semantic Index and intent resolution for Ontoly Software Graph artifacts.",
   "type": "module",
@@ -7,7 +7,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/0xsarwagya/ontoly.git",
-    "directory": "packages/index"
+    "directory": "packages/semantic-index"
   },
   "homepage": "https://oss.sarwagya.wtf/ontoly",
   "sideEffects": false,
@@ -25,7 +25,7 @@
   "scripts": {
     "build": "tsup && tsc -p tsconfig.build.json",
     "check-types": "tsc --noEmit",
-    "test": "cd ../.. && vitest run packages/index/tests"
+    "test": "cd ../.. && vitest run packages/semantic-index/tests"
   },
   "dependencies": {
     "@0xsarwagya/ontoly-core": "workspace:*"

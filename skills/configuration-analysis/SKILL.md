@@ -4,8 +4,8 @@ description: Audit configuration and environment variable usage through Ontoly c
 license: MIT
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "0.1.0-alpha.2"
-  ontoly.min.version: "0.1.0-alpha.10"
+  ontoly.skill.version: "0.1.0-alpha.3"
+  ontoly.min.version: "0.1.0-alpha.11"
   ontoly.capabilities: "FindConfiguration, FindConfigurationUsage, FindDependencies, GraphStatistics, EvidencePack"
   ontoly.category: "configuration"
   ontoly.enhancement: "LLM Enhancement"

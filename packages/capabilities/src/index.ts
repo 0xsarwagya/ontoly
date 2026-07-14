@@ -16,7 +16,7 @@ import {
   resolveIntent,
   type SemanticIndex,
   type SemanticSearchResult,
-} from "@0xsarwagya/ontoly-index";
+} from "@0xsarwagya/ontoly-semantic-index";
 import { createQueryEngine, type GraphStatistics, type QueryEngine } from "@0xsarwagya/ontoly-query";
 
 export const CAPABILITY_NAMES = [

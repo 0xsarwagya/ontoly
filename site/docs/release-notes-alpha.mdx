@@ -1,15 +1,27 @@
 ---
 title: "Alpha Release Notes"
-description: "This release adds compact Evidence Packs for graph-first agent workflows and fixes npm publication coverage for the Semantic Index package."
+description: "This release fixes external npm installation for the latest CLI and package set."
 canonical: "https://oss.sarwagya.wtf/ontoly/docs/release-notes-alpha"
 source: "docs/release-notes-alpha.md"
 keywords: ["Ontoly", "Software Graph", "TypeScript", "static analysis", "MCP", "AI coding agents", "developer tools", "Alpha", "Release", "Notes"]
 ---
 
+## v0.1.0-alpha.11
+
+This release fixes external npm installation for the latest CLI and package set.
+
+- The Semantic Index package is published as
+  `@0xsarwagya/ontoly-semantic-index`.
+- Packages that consume the Semantic Index were republished against the new
+  public dependency name: cache, enhancer, capabilities, MCP, and CLI.
+- Agent Skills now require Ontoly `0.1.0-alpha.11` so installed workflows target
+  the fixed published artifact set.
+- Clean external installs should no longer fail on the unresolved
+  `@0xsarwagya/ontoly-index` dependency.
+
 ## v0.1.0-alpha.10
 
-This release adds compact Evidence Packs for graph-first agent workflows and
-fixes npm publication coverage for the Semantic Index package.
+This release adds compact Evidence Packs for graph-first agent workflows.
 
 - `ontoly evidence <query>` returns a compact graph-backed Evidence Pack with
   top nodes, top edges, relevant files, stable ids, confidence, diagnostics, and
@@ -23,8 +35,8 @@ fixes npm publication coverage for the Semantic Index package.
   `semantic`, and `blast-radius`.
 - `ImplementationPlan` now returns bounded partial results when a deterministic
   node budget is exceeded.
-- The npm publish script now includes `@0xsarwagya/ontoly-index`, repairing the
-  missing dependency for published CLI installs.
+- The npm publish script includes the Semantic Index package in the package
+  publication order.
 - Official Agent Skills now require LLM Enhancement plus `EvidencePack` and
   document the evidence-first workflow in every installable skill folder.
 

@@ -10,8 +10,8 @@ const questionsPath = flag("--questions") ?? "validation/search/questions/softwa
 const outputPath = flag("--output") ?? "validation/search/reports/latest.json";
 const json = args.includes("--json");
 
-const indexModule = await import(pathToFileURL(resolve("packages/index/dist/index.js")).href).catch((error) => {
-  throw new Error("Build @0xsarwagya/ontoly-index before running search evaluation.", { cause: error });
+const indexModule = await import(pathToFileURL(resolve("packages/semantic-index/dist/index.js")).href).catch((error) => {
+  throw new Error("Build @0xsarwagya/ontoly-semantic-index before running search evaluation.", { cause: error });
 });
 
 const graph = JSON.parse(await readFile(resolve(graphPath), "utf8"));

@@ -78,7 +78,7 @@ import {
   type SemanticCandidate,
   type SemanticIndex,
   type SemanticSearchResult,
-} from "@0xsarwagya/ontoly-index";
+} from "@0xsarwagya/ontoly-semantic-index";
 import { createMcpRuntime, McpCapabilityError, type McpCapabilityName } from "@0xsarwagya/ontoly-mcp";
 import { createOpenApiFrontendPass } from "@0xsarwagya/ontoly-parser-openapi";
 import { createTypeScriptFrontendPass } from "@0xsarwagya/ontoly-parser-typescript";

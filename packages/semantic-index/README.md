@@ -1,4 +1,4 @@
-# @0xsarwagya/ontoly-index
+# @0xsarwagya/ontoly-semantic-index
 
 Deterministic Semantic Index and intent resolution for Ontoly Software Graph
 artifacts.
@@ -10,7 +10,7 @@ engine, MCP runtime, or capabilities package.
 ## API
 
 ```ts
-import { createSemanticIndex, resolveIntent } from "@0xsarwagya/ontoly-index";
+import { createSemanticIndex, resolveIntent } from "@0xsarwagya/ontoly-semantic-index";
 
 const index = createSemanticIndex(graph);
 const result = resolveIntent(index, "sleep thresholds");

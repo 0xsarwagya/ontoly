@@ -15,7 +15,7 @@ const packageDirs = [
   "packages/query",
   "packages/typescript",
   "packages/analyzers",
-  "packages/index",
+  "packages/semantic-index",
   "packages/enhancer",
   "packages/capabilities",
   "packages/compiler",
