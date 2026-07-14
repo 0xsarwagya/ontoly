@@ -7,7 +7,7 @@
     "pathSubstitution": null
   },
   "status": "partial",
-  "generatedAt": "2026-07-13T12:13:37.251Z",
+  "generatedAt": "2026-07-14T20:18:01.345Z",
   "measured": {
     "note": "Counts and timings are measured from generated artifacts. Strengths, weaknesses, and recommendations are inferred from normalized counts, diagnostics, and coverage metrics.",
     "ontolyStatus": "success",
@@ -25,36 +25,37 @@
     "packageJsonCount": 8,
     "workspacePackages": [],
     "files": {
-      "total": 846,
-      "source": 561,
-      "typescript": 488,
-      "documentation": 251,
+      "total": 874,
+      "source": 573,
+      "typescript": 498,
+      "documentation": 265,
       "byExtension": {
         ".css": 1,
         ".example": 2,
         ".html": 1,
         ".ipa": 6,
         ".js": 8,
-        ".json": 40,
+        ".json": 39,
         ".local": 3,
-        ".md": 238,
+        ".lock": 1,
+        ".md": 252,
         ".mdx": 1,
-        ".mjs": 10,
+        ".mjs": 13,
         ".mobileprovision": 1,
-        ".mts": 2,
+        ".mts": 1,
         ".p12": 1,
         ".pdf": 1,
         ".png": 4,
-        ".py": 1,
+        ".py": 2,
         ".sh": 1,
         ".svg": 1,
-        ".toml": 2,
-        ".ts": 328,
-        ".tsx": 158,
+        ".toml": 1,
+        ".ts": 337,
+        ".tsx": 160,
         ".txt": 12,
         ".yaml": 9,
         ".yml": 6,
-        "(none)": 9
+        "(none)": 10
       }
     },
     "frameworks": [
@@ -301,117 +302,87 @@
   },
   "graphStatistics": {
     "ontoly": {
-      "files": 854,
-      "nodes": 6744,
-      "edges": 12091,
-      "diagnostics": 12,
+      "files": 874,
+      "nodes": 6981,
+      "edges": 12739,
+      "diagnostics": 20,
       "nodesByType": {
         "Application": 1,
         "BuildTarget": 6,
-        "Class": 63,
-        "Configuration": 23,
+        "Class": 67,
+        "Configuration": 24,
         "Container": 3,
-        "Controller": 15,
+        "Controller": 16,
         "Decorator": 13,
         "Dependency": 198,
-        "EnvironmentVariable": 76,
+        "EnvironmentVariable": 79,
         "Exception": 1,
-        "Export": 1344,
+        "Export": 1382,
         "Framework": 5,
-        "Function": 1307,
-        "Guard": 23,
-        "Import": 1772,
-        "Interface": 512,
-        "Job": 3,
-        "Method": 269,
-        "Module": 514,
+        "Function": 1353,
+        "Guard": 24,
+        "Import": 1825,
+        "Interface": 532,
+        "Job": 4,
+        "Method": 283,
+        "Module": 525,
         "Namespace": 3,
         "Package": 124,
         "Pipeline": 1,
-        "Provider": 23,
-        "Route": 76,
-        "Script": 53,
-        "Service": 19,
-        "Step": 26,
-        "Task": 59,
-        "TypeAlias": 208,
-        "Workflow": 3,
+        "Provider": 25,
+        "Route": 80,
+        "Script": 62,
+        "Service": 21,
+        "Step": 33,
+        "Task": 68,
+        "TypeAlias": 218,
+        "Workflow": 4,
         "Workspace": 1
       },
       "edgesByType": {
-        "AUTHORIZES": 23,
-        "CALLS": 1228,
-        "CONFIGURES": 56,
-        "CONTAINS": 5701,
+        "AUTHORIZES": 24,
+        "CALLS": 1459,
+        "CONFIGURES": 57,
+        "CONTAINS": 5910,
         "CREATES": 77,
-        "DECLARES": 15,
-        "DECORATES": 156,
+        "DECLARES": 16,
+        "DECORATES": 165,
         "DEPENDS_ON": 275,
-        "EXECUTES": 53,
-        "EXPORTS": 1358,
-        "EXPOSES": 76,
+        "EXECUTES": 62,
+        "EXPORTS": 1398,
+        "EXPOSES": 80,
         "EXTENDS": 17,
-        "HANDLES": 76,
+        "HANDLES": 80,
         "IMPLEMENTS": 2,
-        "IMPORTS": 1240,
-        "INJECTS": 11,
-        "MOUNTS": 76,
-        "PROVIDES": 48,
-        "READS": 75,
-        "REFERENCES": 69,
-        "REGISTERED_IN": 90,
-        "REGISTERS": 39,
-        "RETURNS": 425,
-        "THROWS": 95,
-        "USES": 810
+        "IMPORTS": 1273,
+        "INJECTS": 12,
+        "MOUNTS": 80,
+        "PROVIDES": 52,
+        "READS": 78,
+        "REFERENCES": 75,
+        "REGISTERED_IN": 95,
+        "REGISTERS": 42,
+        "RETURNS": 446,
+        "THROWS": 98,
+        "USES": 866
       },
       "parserVersions": {
         "openapi": "1.0.0",
         "typescript": "5.9.2",
         "repository": "1.0.0"
       },
-      "deterministicHash": "0e26ua1"
+      "deterministicHash": "12xhppw"
     },
     "graphify": {
-      "nodes": 4178,
-      "edges": 9594,
+      "nodes": 0,
+      "edges": 0,
       "hyperedges": 0,
       "directed": null,
       "multigraph": null,
-      "nodesByFileType": {
-        "code": 4177,
-        "rationale": 1
-      },
-      "concepts": {
-        "Classes": 850,
-        "Configuration": 36,
-        "Controllers": 15,
-        "Environment Variables": 272,
-        "Functions": 1357,
-        "Interfaces": 1,
-        "Methods": 291,
-        "Modules": 520,
-        "Services": 18
-      },
-      "relations": {
-        "calls": 1355,
-        "contains": 3350,
-        "extends": 101,
-        "imports": 2319,
-        "imports_from": 1817,
-        "inherits": 12,
-        "method": 296,
-        "rationale_for": 1,
-        "re_exports": 202,
-        "references": 141
-      },
-      "semanticRelationships": {
-        "CALLS": 1355,
-        "CONTAINS": 3350,
-        "EXTENDS": 101,
-        "IMPORTS": 2319,
-        "REFERENCES": 141
-      }
+      "nodesByFileType": {},
+      "concepts": {},
+      "relations": {},
+      "semanticRelationships": {}
     },
     "ontolyCoverage": {
       "coverage": 100,
@@ -443,7 +414,7 @@
       {
         "severity": "warning",
         "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
-        "message": "Graphify comparison uses a code-only projection with 550 files.",
+        "message": "Graphify comparison uses a code-only projection with 563 files.",
         "source": "validation harness"
       }
     ],
@@ -463,6 +434,150 @@
         "metadata": {
           "file": "apps/companion-app/tsconfig.json",
           "error": "Expected double-quoted property name in JSON at position 414 (line 16 column 7)"
+        }
+      },
+      {
+        "id": "diag:typescript_1002:0qcx1iv",
+        "code": "TYPESCRIPT_1002",
+        "severity": "error",
+        "message": "Unterminated string literal.",
+        "span": {
+          "file": "apps/api/src/chats/chats.execution.ts",
+          "startLine": 83,
+          "startColumn": 66,
+          "endLine": 83,
+          "endColumn": 66
+        },
+        "metadata": {
+          "parser": "typescript",
+          "analyzer": "typescript",
+          "category": "Error"
+        }
+      },
+      {
+        "id": "diag:typescript_1005:0mdbtfl",
+        "code": "TYPESCRIPT_1005",
+        "severity": "error",
+        "message": "';' expected.",
+        "span": {
+          "file": "apps/api/src/chats/chats.execution.ts",
+          "startLine": 83,
+          "startColumn": 16,
+          "endLine": 83,
+          "endColumn": 20
+        },
+        "metadata": {
+          "parser": "typescript",
+          "analyzer": "typescript",
+          "category": "Error"
+        }
+      },
+      {
+        "id": "diag:typescript_1109:0t10vof",
+        "code": "TYPESCRIPT_1109",
+        "severity": "error",
+        "message": "Expression expected.",
+        "span": {
+          "file": "apps/api/src/chats/chats.execution.ts",
+          "startLine": 82,
+          "startColumn": 4,
+          "endLine": 82,
+          "endColumn": 5
+        },
+        "metadata": {
+          "parser": "typescript",
+          "analyzer": "typescript",
+          "category": "Error"
+        }
+      },
+      {
+        "id": "diag:typescript_1127:092jh79",
+        "code": "TYPESCRIPT_1127",
+        "severity": "error",
+        "message": "Invalid character.",
+        "span": {
+          "file": "apps/api/src/chats/chats.execution.ts",
+          "startLine": 83,
+          "startColumn": 31,
+          "endLine": 83,
+          "endColumn": 32
+        },
+        "metadata": {
+          "parser": "typescript",
+          "analyzer": "typescript",
+          "category": "Error"
+        }
+      },
+      {
+        "id": "diag:typescript_1128:1bxvkx6",
+        "code": "TYPESCRIPT_1128",
+        "severity": "error",
+        "message": "Declaration or statement expected.",
+        "span": {
+          "file": "apps/api/src/chats/chats.execution.ts",
+          "startLine": 86,
+          "startColumn": 1,
+          "endLine": 86,
+          "endColumn": 2
+        },
+        "metadata": {
+          "parser": "typescript",
+          "analyzer": "typescript",
+          "category": "Error"
+        }
+      },
+      {
+        "id": "diag:typescript_1131:0qajgou",
+        "code": "TYPESCRIPT_1131",
+        "severity": "error",
+        "message": "Property or signature expected.",
+        "span": {
+          "file": "apps/api/src/chats/chats.execution.ts",
+          "startLine": 81,
+          "startColumn": 26,
+          "endLine": 81,
+          "endColumn": 30
+        },
+        "metadata": {
+          "parser": "typescript",
+          "analyzer": "typescript",
+          "category": "Error"
+        }
+      },
+      {
+        "id": "diag:typescript_1161:0qyxg3u",
+        "code": "TYPESCRIPT_1161",
+        "severity": "error",
+        "message": "Unterminated regular expression literal.",
+        "span": {
+          "file": "apps/api/src/chats/chats.execution.ts",
+          "startLine": 84,
+          "startColumn": 5,
+          "endLine": 84,
+          "endColumn": 6
+        },
+        "metadata": {
+          "parser": "typescript",
+          "analyzer": "typescript",
+          "category": "Error"
+        }
+      },
+      {
+        "id": "diag:typescript_1434:1nbyi9u",
+        "code": "TYPESCRIPT_1434",
+        "severity": "error",
+        "message": "Unexpected keyword or identifier.",
+        "span": {
+          "file": "apps/api/src/chats/chats.execution.ts",
+          "startLine": 83,
+          "startColumn": 52,
+          "endLine": 83,
+          "endColumn": 55
+        },
+        "metadata": {
+          "parser": "typescript",
+          "analyzer": "typescript",
+          "category": "Error"
         }
       },
       {
@@ -683,38 +798,38 @@
   "normalized": {
     "ontoly": {
       "concepts": {
-        "Classes": 63,
-        "Configuration": 23,
-        "Controllers": 15,
-        "Environment Variables": 76,
-        "Functions": 1307,
-        "Interfaces": 512,
-        "Methods": 269,
-        "Modules": 514,
+        "Classes": 67,
+        "Configuration": 24,
+        "Controllers": 16,
+        "Environment Variables": 79,
+        "Functions": 1353,
+        "Interfaces": 532,
+        "Methods": 283,
+        "Modules": 525,
         "Packages": 124,
-        "Providers": 23,
-        "Routes": 76,
-        "Services": 19
+        "Providers": 25,
+        "Routes": 80,
+        "Services": 21
       },
       "relationships": {
-        "AUTHORIZES": 23,
-        "CALLS": 1228,
-        "CONTAINS": 5701,
+        "AUTHORIZES": 24,
+        "CALLS": 1459,
+        "CONTAINS": 5910,
         "CREATES": 77,
         "DEPENDS_ON": 275,
-        "EXPORTS": 1358,
+        "EXPORTS": 1398,
         "EXTENDS": 17,
-        "HANDLES": 76,
+        "HANDLES": 80,
         "IMPLEMENTS": 2,
-        "IMPORTS": 1240,
-        "INJECTS": 11,
-        "MOUNTS": 76,
-        "READS": 75,
-        "REFERENCES": 69,
-        "REGISTERED_IN": 90,
-        "RETURNS": 425,
-        "THROWS": 95,
-        "USES": 810
+        "IMPORTS": 1273,
+        "INJECTS": 12,
+        "MOUNTS": 80,
+        "READS": 78,
+        "REFERENCES": 75,
+        "REGISTERED_IN": 95,
+        "RETURNS": 446,
+        "THROWS": 98,
+        "USES": 866
       },
       "frameworks": [
         {
@@ -931,6 +1046,7 @@
             "react",
             "react",
             "react",
+            "react",
             "react"
           ]
         }
@@ -951,6 +1067,150 @@
           "metadata": {
             "file": "apps/companion-app/tsconfig.json",
             "error": "Expected double-quoted property name in JSON at position 414 (line 16 column 7)"
+          }
+        },
+        {
+          "id": "diag:typescript_1002:0qcx1iv",
+          "code": "TYPESCRIPT_1002",
+          "severity": "error",
+          "message": "Unterminated string literal.",
+          "span": {
+            "file": "apps/api/src/chats/chats.execution.ts",
+            "startLine": 83,
+            "startColumn": 66,
+            "endLine": 83,
+            "endColumn": 66
+          },
+          "metadata": {
+            "parser": "typescript",
+            "analyzer": "typescript",
+            "category": "Error"
+          }
+        },
+        {
+          "id": "diag:typescript_1005:0mdbtfl",
+          "code": "TYPESCRIPT_1005",
+          "severity": "error",
+          "message": "';' expected.",
+          "span": {
+            "file": "apps/api/src/chats/chats.execution.ts",
+            "startLine": 83,
+            "startColumn": 16,
+            "endLine": 83,
+            "endColumn": 20
+          },
+          "metadata": {
+            "parser": "typescript",
+            "analyzer": "typescript",
+            "category": "Error"
+          }
+        },
+        {
+          "id": "diag:typescript_1109:0t10vof",
+          "code": "TYPESCRIPT_1109",
+          "severity": "error",
+          "message": "Expression expected.",
+          "span": {
+            "file": "apps/api/src/chats/chats.execution.ts",
+            "startLine": 82,
+            "startColumn": 4,
+            "endLine": 82,
+            "endColumn": 5
+          },
+          "metadata": {
+            "parser": "typescript",
+            "analyzer": "typescript",
+            "category": "Error"
+          }
+        },
+        {
+          "id": "diag:typescript_1127:092jh79",
+          "code": "TYPESCRIPT_1127",
+          "severity": "error",
+          "message": "Invalid character.",
+          "span": {
+            "file": "apps/api/src/chats/chats.execution.ts",
+            "startLine": 83,
+            "startColumn": 31,
+            "endLine": 83,
+            "endColumn": 32
+          },
+          "metadata": {
+            "parser": "typescript",
+            "analyzer": "typescript",
+            "category": "Error"
+          }
+        },
+        {
+          "id": "diag:typescript_1128:1bxvkx6",
+          "code": "TYPESCRIPT_1128",
+          "severity": "error",
+          "message": "Declaration or statement expected.",
+          "span": {
+            "file": "apps/api/src/chats/chats.execution.ts",
+            "startLine": 86,
+            "startColumn": 1,
+            "endLine": 86,
+            "endColumn": 2
+          },
+          "metadata": {
+            "parser": "typescript",
+            "analyzer": "typescript",
+            "category": "Error"
+          }
+        },
+        {
+          "id": "diag:typescript_1131:0qajgou",
+          "code": "TYPESCRIPT_1131",
+          "severity": "error",
+          "message": "Property or signature expected.",
+          "span": {
+            "file": "apps/api/src/chats/chats.execution.ts",
+            "startLine": 81,
+            "startColumn": 26,
+            "endLine": 81,
+            "endColumn": 30
+          },
+          "metadata": {
+            "parser": "typescript",
+            "analyzer": "typescript",
+            "category": "Error"
+          }
+        },
+        {
+          "id": "diag:typescript_1161:0qyxg3u",
+          "code": "TYPESCRIPT_1161",
+          "severity": "error",
+          "message": "Unterminated regular expression literal.",
+          "span": {
+            "file": "apps/api/src/chats/chats.execution.ts",
+            "startLine": 84,
+            "startColumn": 5,
+            "endLine": 84,
+            "endColumn": 6
+          },
+          "metadata": {
+            "parser": "typescript",
+            "analyzer": "typescript",
+            "category": "Error"
+          }
+        },
+        {
+          "id": "diag:typescript_1434:1nbyi9u",
+          "code": "TYPESCRIPT_1434",
+          "severity": "error",
+          "message": "Unexpected keyword or identifier.",
+          "span": {
+            "file": "apps/api/src/chats/chats.execution.ts",
+            "startLine": 83,
+            "startColumn": 52,
+            "endLine": 83,
+            "endColumn": 55
+          },
+          "metadata": {
+            "parser": "typescript",
+            "analyzer": "typescript",
+            "category": "Error"
           }
         },
         {
@@ -1154,58 +1414,9 @@
       ]
     },
     "graphify": {
-      "concepts": {
-        "Classes": 850,
-        "Configuration": 36,
-        "Controllers": 15,
-        "Environment Variables": 272,
-        "Functions": 1357,
-        "Interfaces": 1,
-        "Methods": 291,
-        "Modules": 520,
-        "Services": 18
-      },
-      "relationships": {
-        "CALLS": 1355,
-        "CONTAINS": 3350,
-        "EXTENDS": 101,
-        "IMPORTS": 2319,
-        "REFERENCES": 141
-      },
-      "frameworks": [
-        {
-          "name": "NestJS",
-          "confidence": "inferred",
-          "evidence": [
-            "nestjs",
-            "@nestjs",
-            "controller"
-          ]
-        },
-        {
-          "name": "React",
-          "confidence": "inferred",
-          "evidence": [
-            "react",
-            ".tsx"
-          ]
-        },
-        {
-          "name": "Express",
-          "confidence": "low",
-          "evidence": [
-            "express"
-          ]
-        },
-        {
-          "name": "Turborepo",
-          "confidence": "inferred",
-          "evidence": [
-            "turbo.json",
-            "turborepo"
-          ]
-        }
-      ],
+      "concepts": {},
+      "relationships": {},
+      "frameworks": [],
       "diagnostics": [
         {
           "severity": "warning",
@@ -1222,7 +1433,7 @@
         {
           "severity": "warning",
           "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
-          "message": "Graphify comparison uses a code-only projection with 550 files.",
+          "message": "Graphify comparison uses a code-only projection with 563 files.",
           "source": "validation harness"
         }
       ]
@@ -1232,65 +1443,73 @@
     {
       "concept": "Functions",
       "relationship": "Functions",
-      "ontoly": 1307,
-      "graphify": 1357,
-      "delta": -50,
-      "supported": true,
-      "missing": [],
-      "additional": [
+      "ontoly": 1353,
+      "graphify": 0,
+      "delta": 1353,
+      "supported": false,
+      "missing": [
         "graphify"
       ],
-      "incorrect": "not measured",
-      "status": "supported"
-    },
-    {
-      "concept": "Methods",
-      "relationship": "Methods",
-      "ontoly": 269,
-      "graphify": 291,
-      "delta": -22,
-      "supported": true,
-      "missing": [],
-      "additional": [
-        "graphify"
-      ],
-      "incorrect": "not measured",
-      "status": "supported"
-    },
-    {
-      "concept": "Classes",
-      "relationship": "Classes",
-      "ontoly": 63,
-      "graphify": 850,
-      "delta": -787,
-      "supported": true,
-      "missing": [],
-      "additional": [
-        "graphify"
-      ],
-      "incorrect": "not measured",
-      "status": "divergent"
-    },
-    {
-      "concept": "Interfaces",
-      "relationship": "Interfaces",
-      "ontoly": 512,
-      "graphify": 1,
-      "delta": 511,
-      "supported": true,
-      "missing": [],
       "additional": [
         "ontoly"
       ],
       "incorrect": "not measured",
-      "status": "divergent"
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "Methods",
+      "relationship": "Methods",
+      "ontoly": 283,
+      "graphify": 0,
+      "delta": 283,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "Classes",
+      "relationship": "Classes",
+      "ontoly": 67,
+      "graphify": 0,
+      "delta": 67,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "Interfaces",
+      "relationship": "Interfaces",
+      "ontoly": 532,
+      "graphify": 0,
+      "delta": 532,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
     },
     {
       "concept": "Routes",
       "relationship": "Routes",
-      "ontoly": 76,
+      "ontoly": 80,
       "graphify": 0,
-      "delta": 76,
+      "delta": 80,
       "supported": false,
       "missing": [
         "graphify"
@@ -1304,49 +1523,57 @@
     {
       "concept": "Controllers",
       "relationship": "Controllers",
-      "ontoly": 15,
-      "graphify": 15,
-      "delta": 0,
-      "supported": true,
-      "missing": [],
-      "additional": [],
-      "incorrect": "not measured",
-      "status": "supported"
-    },
-    {
-      "concept": "Modules",
-      "relationship": "Modules",
-      "ontoly": 514,
-      "graphify": 520,
-      "delta": -6,
-      "supported": true,
-      "missing": [],
-      "additional": [
+      "ontoly": 16,
+      "graphify": 0,
+      "delta": 16,
+      "supported": false,
+      "missing": [
         "graphify"
       ],
-      "incorrect": "not measured",
-      "status": "supported"
-    },
-    {
-      "concept": "Services",
-      "relationship": "Services",
-      "ontoly": 19,
-      "graphify": 18,
-      "delta": 1,
-      "supported": true,
-      "missing": [],
       "additional": [
         "ontoly"
       ],
       "incorrect": "not measured",
-      "status": "supported"
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "Modules",
+      "relationship": "Modules",
+      "ontoly": 525,
+      "graphify": 0,
+      "delta": 525,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
+    },
+    {
+      "concept": "Services",
+      "relationship": "Services",
+      "ontoly": 21,
+      "graphify": 0,
+      "delta": 21,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
+      "incorrect": "not measured",
+      "status": "graphify_missing"
     },
     {
       "concept": "Providers",
       "relationship": "Providers",
-      "ontoly": 23,
+      "ontoly": 25,
       "graphify": 0,
-      "delta": 23,
+      "delta": 25,
       "supported": false,
       "missing": [
         "graphify"
@@ -1388,67 +1615,75 @@
     {
       "concept": "Configuration",
       "relationship": "Configuration",
-      "ontoly": 23,
-      "graphify": 36,
-      "delta": -13,
-      "supported": true,
-      "missing": [],
-      "additional": [
+      "ontoly": 24,
+      "graphify": 0,
+      "delta": 24,
+      "supported": false,
+      "missing": [
         "graphify"
       ],
+      "additional": [
+        "ontoly"
+      ],
       "incorrect": "not measured",
-      "status": "divergent"
+      "status": "graphify_missing"
     },
     {
       "concept": "Environment Variables",
       "relationship": "Environment Variables",
-      "ontoly": 76,
-      "graphify": 272,
-      "delta": -196,
-      "supported": true,
-      "missing": [],
-      "additional": [
+      "ontoly": 79,
+      "graphify": 0,
+      "delta": 79,
+      "supported": false,
+      "missing": [
         "graphify"
       ],
+      "additional": [
+        "ontoly"
+      ],
       "incorrect": "not measured",
-      "status": "divergent"
+      "status": "graphify_missing"
     }
   ],
   "relationshipComparison": [
     {
       "concept": "CALLS",
       "relationship": "CALLS",
-      "ontoly": 1228,
-      "graphify": 1355,
-      "delta": -127,
-      "supported": true,
-      "missing": [],
-      "additional": [
+      "ontoly": 1459,
+      "graphify": 0,
+      "delta": 1459,
+      "supported": false,
+      "missing": [
         "graphify"
       ],
+      "additional": [
+        "ontoly"
+      ],
       "incorrect": "not measured",
-      "status": "supported"
+      "status": "graphify_missing"
     },
     {
       "concept": "IMPORTS",
       "relationship": "IMPORTS",
-      "ontoly": 1240,
-      "graphify": 2319,
-      "delta": -1079,
-      "supported": true,
-      "missing": [],
-      "additional": [
+      "ontoly": 1273,
+      "graphify": 0,
+      "delta": 1273,
+      "supported": false,
+      "missing": [
         "graphify"
       ],
+      "additional": [
+        "ontoly"
+      ],
       "incorrect": "not measured",
-      "status": "divergent"
+      "status": "graphify_missing"
     },
     {
       "concept": "EXPORTS",
       "relationship": "EXPORTS",
-      "ontoly": 1358,
+      "ontoly": 1398,
       "graphify": 0,
-      "delta": 1358,
+      "delta": 1398,
       "supported": false,
       "missing": [
         "graphify"
@@ -1462,23 +1697,25 @@
     {
       "concept": "CONTAINS",
       "relationship": "CONTAINS",
-      "ontoly": 5701,
-      "graphify": 3350,
-      "delta": 2351,
-      "supported": true,
-      "missing": [],
+      "ontoly": 5910,
+      "graphify": 0,
+      "delta": 5910,
+      "supported": false,
+      "missing": [
+        "graphify"
+      ],
       "additional": [
         "ontoly"
       ],
       "incorrect": "not measured",
-      "status": "divergent"
+      "status": "graphify_missing"
     },
     {
       "concept": "HANDLES",
       "relationship": "HANDLES",
-      "ontoly": 76,
+      "ontoly": 80,
       "graphify": 0,
-      "delta": 76,
+      "delta": 80,
       "supported": false,
       "missing": [
         "graphify"
@@ -1492,9 +1729,9 @@
     {
       "concept": "MOUNTS",
       "relationship": "MOUNTS",
-      "ontoly": 76,
+      "ontoly": 80,
       "graphify": 0,
-      "delta": 76,
+      "delta": 80,
       "supported": false,
       "missing": [
         "graphify"
@@ -1508,9 +1745,9 @@
     {
       "concept": "INJECTS",
       "relationship": "INJECTS",
-      "ontoly": 11,
+      "ontoly": 12,
       "graphify": 0,
-      "delta": 11,
+      "delta": 12,
       "supported": false,
       "missing": [
         "graphify"
@@ -1524,9 +1761,9 @@
     {
       "concept": "READS",
       "relationship": "READS",
-      "ontoly": 75,
+      "ontoly": 78,
       "graphify": 0,
-      "delta": 75,
+      "delta": 78,
       "supported": false,
       "missing": [
         "graphify"
@@ -1552,9 +1789,9 @@
     {
       "concept": "USES",
       "relationship": "USES",
-      "ontoly": 810,
+      "ontoly": 866,
       "graphify": 0,
-      "delta": 810,
+      "delta": 866,
       "supported": false,
       "missing": [
         "graphify"
@@ -1584,9 +1821,9 @@
     {
       "concept": "AUTHORIZES",
       "relationship": "AUTHORIZES",
-      "ontoly": 23,
+      "ontoly": 24,
       "graphify": 0,
-      "delta": 23,
+      "delta": 24,
       "supported": false,
       "missing": [
         "graphify"
@@ -1600,9 +1837,9 @@
     {
       "concept": "REGISTERED_IN",
       "relationship": "REGISTERED_IN",
-      "ontoly": 90,
+      "ontoly": 95,
       "graphify": 0,
-      "delta": 90,
+      "delta": 95,
       "supported": false,
       "missing": [
         "graphify"
@@ -1633,29 +1870,33 @@
       "concept": "EXTENDS",
       "relationship": "EXTENDS",
       "ontoly": 17,
-      "graphify": 101,
-      "delta": -84,
-      "supported": true,
-      "missing": [],
-      "additional": [
+      "graphify": 0,
+      "delta": 17,
+      "supported": false,
+      "missing": [
         "graphify"
       ],
+      "additional": [
+        "ontoly"
+      ],
       "incorrect": "not measured",
-      "status": "divergent"
+      "status": "graphify_missing"
     },
     {
       "concept": "REFERENCES",
       "relationship": "REFERENCES",
-      "ontoly": 69,
-      "graphify": 141,
-      "delta": -72,
-      "supported": true,
-      "missing": [],
-      "additional": [
+      "ontoly": 75,
+      "graphify": 0,
+      "delta": 75,
+      "supported": false,
+      "missing": [
         "graphify"
       ],
+      "additional": [
+        "ontoly"
+      ],
       "incorrect": "not measured",
-      "status": "divergent"
+      "status": "graphify_missing"
     },
     {
       "concept": "CREATES",
@@ -1676,9 +1917,9 @@
     {
       "concept": "THROWS",
       "relationship": "THROWS",
-      "ontoly": 95,
+      "ontoly": 98,
       "graphify": 0,
-      "delta": 95,
+      "delta": 98,
       "supported": false,
       "missing": [
         "graphify"
@@ -1692,9 +1933,9 @@
     {
       "concept": "RETURNS",
       "relationship": "RETURNS",
-      "ontoly": 425,
+      "ontoly": 446,
       "graphify": 0,
-      "delta": 425,
+      "delta": 446,
       "supported": false,
       "missing": [
         "graphify"
@@ -1747,7 +1988,7 @@
           "@nestjs/throttler"
         ],
         "ontolyDetected": true,
-        "graphifyInferred": true
+        "graphifyInferred": false
       },
       "coverage": 100,
       "confidence": "exact",
@@ -1763,7 +2004,7 @@
           "react-dom"
         ],
         "ontolyDetected": true,
-        "graphifyInferred": true
+        "graphifyInferred": false
       },
       "coverage": 10,
       "confidence": "exact",
@@ -1779,7 +2020,7 @@
           "turbo.json"
         ],
         "ontolyDetected": false,
-        "graphifyInferred": true
+        "graphifyInferred": false
       },
       "coverage": 100,
       "confidence": null,
@@ -1819,15 +2060,15 @@
         "note": "Runs Ontoly through its built package APIs with write:false so source repositories are not modified."
       },
       "exitCode": 0,
-      "durationMs": 8249.796290999991,
+      "durationMs": 13433.23391699999,
       "time": {
-        "realSeconds": 8.24,
-        "maxResidentSetBytes": 1926709248,
-        "peakMemoryFootprintBytes": 1987831000,
-        "peakMemoryBytes": 1987831000,
+        "realSeconds": 13.43,
+        "maxResidentSetBytes": 2006810624,
+        "peakMemoryFootprintBytes": 2047340240,
+        "peakMemoryBytes": 2047340240,
         "source": "/usr/bin/time -l"
       },
-      "graphHash": "0e26ua1",
+      "graphHash": "12xhppw",
       "outputFiles": [
         "command.json",
         "coverage.json",
@@ -1848,76 +2089,76 @@
       ],
       "graphDurationMs": null,
       "statistics": {
-        "files": 854,
-        "nodes": 6744,
-        "edges": 12091,
-        "diagnostics": 12,
+        "files": 874,
+        "nodes": 6981,
+        "edges": 12739,
+        "diagnostics": 20,
         "nodesByType": {
           "Application": 1,
           "BuildTarget": 6,
-          "Class": 63,
-          "Configuration": 23,
+          "Class": 67,
+          "Configuration": 24,
           "Container": 3,
-          "Controller": 15,
+          "Controller": 16,
           "Decorator": 13,
           "Dependency": 198,
-          "EnvironmentVariable": 76,
+          "EnvironmentVariable": 79,
           "Exception": 1,
-          "Export": 1344,
+          "Export": 1382,
           "Framework": 5,
-          "Function": 1307,
-          "Guard": 23,
-          "Import": 1772,
-          "Interface": 512,
-          "Job": 3,
-          "Method": 269,
-          "Module": 514,
+          "Function": 1353,
+          "Guard": 24,
+          "Import": 1825,
+          "Interface": 532,
+          "Job": 4,
+          "Method": 283,
+          "Module": 525,
           "Namespace": 3,
           "Package": 124,
           "Pipeline": 1,
-          "Provider": 23,
-          "Route": 76,
-          "Script": 53,
-          "Service": 19,
-          "Step": 26,
-          "Task": 59,
-          "TypeAlias": 208,
-          "Workflow": 3,
+          "Provider": 25,
+          "Route": 80,
+          "Script": 62,
+          "Service": 21,
+          "Step": 33,
+          "Task": 68,
+          "TypeAlias": 218,
+          "Workflow": 4,
           "Workspace": 1
         },
         "edgesByType": {
-          "AUTHORIZES": 23,
-          "CALLS": 1228,
-          "CONFIGURES": 56,
-          "CONTAINS": 5701,
+          "AUTHORIZES": 24,
+          "CALLS": 1459,
+          "CONFIGURES": 57,
+          "CONTAINS": 5910,
           "CREATES": 77,
-          "DECLARES": 15,
-          "DECORATES": 156,
+          "DECLARES": 16,
+          "DECORATES": 165,
           "DEPENDS_ON": 275,
-          "EXECUTES": 53,
-          "EXPORTS": 1358,
-          "EXPOSES": 76,
+          "EXECUTES": 62,
+          "EXPORTS": 1398,
+          "EXPOSES": 80,
           "EXTENDS": 17,
-          "HANDLES": 76,
+          "HANDLES": 80,
           "IMPLEMENTS": 2,
-          "IMPORTS": 1240,
-          "INJECTS": 11,
-          "MOUNTS": 76,
-          "PROVIDES": 48,
-          "READS": 75,
-          "REFERENCES": 69,
-          "REGISTERED_IN": 90,
-          "REGISTERS": 39,
-          "RETURNS": 425,
-          "THROWS": 95,
-          "USES": 810
+          "IMPORTS": 1273,
+          "INJECTS": 12,
+          "MOUNTS": 80,
+          "PROVIDES": 52,
+          "READS": 78,
+          "REFERENCES": 75,
+          "REGISTERED_IN": 95,
+          "REGISTERS": 42,
+          "RETURNS": 446,
+          "THROWS": 98,
+          "USES": 866
         },
         "parserVersions": {
           "openapi": "1.0.0",
           "typescript": "5.9.2",
           "repository": "1.0.0"
         },
-        "deterministicHash": "0e26ua1"
+        "deterministicHash": "12xhppw"
       },
       "coverage": {
         "coverage": 100,
@@ -1926,7 +2167,7 @@
         "consistency": 100,
         "trustworthiness": 100
       },
-      "diagnostics": 12
+      "diagnostics": 20
     },
     "graphify": {
       "tool": "graphify",
@@ -1965,12 +2206,12 @@
           "note": "Uses graphify extract with --out to avoid writing into the source repository. --no-cluster keeps the run headless and deterministic for release validation."
         },
         "exitCode": 1,
-        "durationMs": 885.3879170000073,
+        "durationMs": 1684.407290999996,
         "time": {
-          "realSeconds": 0.88,
-          "maxResidentSetBytes": 30343168,
-          "peakMemoryFootprintBytes": 20038088,
-          "peakMemoryBytes": 30343168,
+          "realSeconds": 1.68,
+          "maxResidentSetBytes": 30244864,
+          "peakMemoryFootprintBytes": 19939784,
+          "peakMemoryBytes": 30244864,
           "source": "/usr/bin/time -l"
         },
         "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/full/stdout.log",
@@ -1994,12 +2235,12 @@
           "note": "Structural fallback: full Graphify extraction required an LLM backend for docs/images, so this run analyzes a validation-side code projection only. Source repositories remain untouched."
         },
         "exitCode": 0,
-        "durationMs": 3963.019459000003,
+        "durationMs": 186.0052080000023,
         "time": {
-          "realSeconds": 3.96,
-          "maxResidentSetBytes": 224722944,
-          "peakMemoryFootprintBytes": 211583768,
-          "peakMemoryBytes": 224722944,
+          "realSeconds": 0.18,
+          "maxResidentSetBytes": 41959424,
+          "peakMemoryFootprintBytes": 31392200,
+          "peakMemoryBytes": 41959424,
           "source": "/usr/bin/time -l"
         },
         "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/structural/stdout.log",
@@ -2009,24 +2250,24 @@
           "sourceRoot": "/Users/shrey/Desktop/work/innosphere",
           "projectionRoot": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection",
           "mode": "code-only projection for Graphify structural fallback",
-          "includedFiles": 550,
-          "excludedFiles": 296,
+          "includedFiles": 563,
+          "excludedFiles": 311,
           "includedExtensions": {
             ".example": 2,
             ".js": 8,
-            ".json": 40,
-            ".mjs": 10,
-            ".mts": 2,
-            ".py": 1,
-            ".ts": 328,
-            ".tsx": 158,
+            ".json": 39,
+            ".mjs": 13,
+            ".mts": 1,
+            ".py": 2,
+            ".ts": 337,
+            ".tsx": 160,
             "Dockerfile": 1
           },
           "files": [
-            ".claude/launch.json",
             "apps/api/.env.example",
             "apps/api/nest-cli.json",
             "apps/api/package.json",
+            "apps/api/scripts/graphify_pipeline.py",
             "apps/api/scripts/planner-smoke.ts",
             "apps/api/scripts/rag-smoke.ts",
             "apps/api/src/app.module.ts",
@@ -2075,9 +2316,15 @@
             "apps/api/src/github/github.controller.ts",
             "apps/api/src/github/github.module.ts",
             "apps/api/src/github/github.service.ts",
+            "apps/api/src/graphify/graphify.controller.ts",
+            "apps/api/src/graphify/graphify.module.ts",
+            "apps/api/src/graphify/graphify.service.ts",
+            "apps/api/src/graphify/query-agent.service.ts",
+            "apps/api/src/graphify/removal-impact.ts",
             "apps/api/src/health/build.controller.ts",
             "apps/api/src/health/health.controller.ts",
             "apps/api/src/llm/blueprint-compliance.ts",
+            "apps/api/src/llm/build-phase.ts",
             "apps/api/src/llm/build-pipeline/derive-brief.ts",
             "apps/api/src/llm/build-pipeline/feature-catalog.ts",
             "apps/api/src/llm/build-tools.ts",
@@ -2090,7 +2337,9 @@
             "apps/api/src/llm/llm.service.ts",
             "apps/api/src/llm/nvidia.provider.ts",
             "apps/api/src/llm/openai.provider.ts",
+            "apps/api/src/llm/planner/analyze-removal-impact.ts",
             "apps/api/src/llm/planner/check-completeness-v2.ts",
+            "apps/api/src/llm/planner/orphan-detector.ts",
             "apps/api/src/llm/planner/plan-schema.ts",
             "apps/api/src/llm/planner/planner.service.ts",
             "apps/api/src/llm/planner/verify-design-v2.ts",
@@ -2198,7 +2447,7 @@
             "apps/web/src/components/CookieConsent.tsx",
             "apps/web/src/components/ErrorBoundary.tsx",
             "apps/web/src/components/forms/FormField.tsx",
-            "apps/web/src/components/hosting/AutoPublishEffect.tsx",
+            "apps/web/src/components/GraphView.tsx",
             "apps/web/src/components/hosting/DeploymentCard.tsx",
             "apps/web/src/components/hosting/GitHubCard.tsx",
             "apps/web/src/components/hosting/PrivacyCard.tsx",
@@ -2256,6 +2505,7 @@
             "apps/web/src/components/ui/tooltip.tsx",
             "apps/web/src/components/Workbench.tsx",
             "apps/web/src/features/chat/ActivityTicker.tsx",
+            "apps/web/src/features/chat/AppReadyCard.tsx",
             "apps/web/src/features/chat/AttachmentBlock.tsx",
             "apps/web/src/features/chat/attachments.ts",
             "apps/web/src/features/chat/BackendBanners.tsx",
@@ -2277,6 +2527,7 @@
             "apps/web/src/features/chat/PreviewLink.tsx",
             "apps/web/src/features/chat/ReasoningBlock.tsx",
             "apps/web/src/features/chat/ReplayBanner.tsx",
+            "apps/web/src/features/chat/ReplayProgressStrip.tsx",
             "apps/web/src/features/chat/RestoreVersionButton.tsx",
             "apps/web/src/features/chat/RunningIndicator.tsx",
             "apps/web/src/features/chat/segments.ts",
@@ -2341,10 +2592,8 @@
             "apps/web/src/lib/hosting/deploy-files.ts",
             "apps/web/src/lib/hosting/poll.ts",
             "apps/web/src/lib/hosting/types.ts",
-            "apps/web/src/lib/hosting/useAutoPublish.ts",
             "apps/web/src/lib/hosting/useHostingController.ts",
             "apps/web/src/lib/hosting/useStripeReturnPoll.ts",
-            "apps/web/src/lib/hosting/useTenantRedeployPrompt.ts",
             "apps/web/src/lib/http-status.ts",
             "apps/web/src/lib/i18n.tsx",
             "apps/web/src/lib/ovok-client.ts",
@@ -2384,6 +2633,7 @@
             "apps/web/src/lib/webcontainer/dispatchers/lookup-fhir-resource.ts",
             "apps/web/src/lib/webcontainer/dispatchers/lookup-ovok-docs.ts",
             "apps/web/src/lib/webcontainer/dispatchers/lookup-primitive-usage.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/query-codebase-graph.ts",
             "apps/web/src/lib/webcontainer/dispatchers/read-dev-logs.ts",
             "apps/web/src/lib/webcontainer/dispatchers/read-file.ts",
             "apps/web/src/lib/webcontainer/dispatchers/run-shell-guards/heredoc-and-inline.ts",
@@ -2416,6 +2666,7 @@
             "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/index-css.ts",
             "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/login-page.ts",
             "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/navigation-container-duplicate.ts",
+            "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/next-src-pages-leak.ts",
             "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/process-env-vite-on-mobile.ts",
             "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/rn-text-wrap.ts",
             "apps/web/src/lib/webcontainer/dispatchers/write-file-guards/scaffold-core-files.ts",
@@ -2540,6 +2791,7 @@
             "packages/ovok-tools/src/fhir-schemas/task.ts",
             "packages/ovok-tools/src/index.ts",
             "packages/ovok-tools/src/ovok-settings.ts",
+            "packages/ovok-tools/src/signals-compliance.ts",
             "packages/ovok-tools/src/validate-fhir.ts",
             "packages/ovok-tools/src/workflow-primitives.ts",
             "packages/ovok-tools/tsconfig.json",
@@ -2548,16 +2800,19 @@
             "packages/shared/package.json",
             "packages/shared/scripts/check-native-pin-parity.mjs",
             "packages/shared/scripts/check-scaffold-companion-native-parity.mjs",
+            "packages/shared/scripts/lib/boot-probes.mjs",
+            "packages/shared/scripts/lib/scaffold-write.mjs",
             "packages/shared/scripts/test-synthesizer.mjs",
+            "packages/shared/scripts/verify-scaffold.mjs",
             "packages/shared/src/index.ts",
-            "packages/shared/src/scaffold/constants/app-template-files.ts",
-            "packages/shared/src/scaffold/constants/root-files.ts",
+            "packages/shared/src/scaffold/file-inventory.ts",
             "packages/shared/src/scaffold/index.ts",
             "packages/shared/src/scaffold/mobile-files.ts",
             "packages/shared/src/scaffold/next/next-files.ts",
+            "packages/shared/src/scaffold/next/next-mobile-files.ts",
+            "packages/shared/src/scaffold/patch-rn-codegen-script.ts",
             "packages/shared/src/scaffold/path-context.ts",
             "packages/shared/src/scaffold/types.ts",
-            "packages/shared/src/scaffold/web-files.ts",
             "packages/shared/tsconfig.cjs.json",
             "packages/shared/tsconfig.esm.json",
             "packages/shared/tsconfig.json",
@@ -2566,7 +2821,6 @@
             "packages/tsconfig/package.json",
             "packages/tsconfig/vite.json",
             "scripts/build_user_pdf.py",
-            "scripts/extract-scaffold.mts",
             "scripts/harness/architecture-fitness.mjs",
             "scripts/harness/drift-summary.mjs",
             "scripts/harness/metrics-report.mjs",
@@ -2577,100 +2831,29 @@
         }
       },
       "exitCode": 0,
-      "durationMs": 3963.019459000003,
+      "durationMs": 186.0052080000023,
       "time": {
-        "realSeconds": 3.96,
-        "maxResidentSetBytes": 224722944,
-        "peakMemoryFootprintBytes": 211583768,
-        "peakMemoryBytes": 224722944,
+        "realSeconds": 0.18,
+        "maxResidentSetBytes": 41959424,
+        "peakMemoryFootprintBytes": 31392200,
+        "peakMemoryBytes": 41959424,
         "source": "/usr/bin/time -l"
       },
-      "graphHash": "2f69ca2830543e71bc79a188fa37107b4220f8687d7e66b1598ea82482948273",
+      "graphHash": "e36634175223f5b2f5abd7582c60155c47fc3947ec8ae82165c8dcbe7d7ae4b2",
       "outputFiles": [
-        "cache/ast/v0.9.2/19d69147f6e971556ba004bb0854b55400a26c34b07bf4ff25b1ae7d57930999.json",
-        "cache/ast/v0.9.2/23c8239db55c442818c42e990b591ea2007496a1fd5582dd3f8d75c06dc56acd.json",
-        "cache/ast/v0.9.2/3707381dad3f09aa13fac5f66ac41f1ef9cbc90d2f848f68b506f398cb8ccc38.json",
-        "cache/ast/v0.9.2/3b76b0e9e6bd3ce907156e0a3937a6a1aedb24dabb7bb6f6acf6d00b19bf0a58.json",
-        "cache/ast/v0.9.2/3b77f83fae399f26edd5d7a31a7039c5844b5b8ae47be56da5b16f5e1a443c66.json",
-        "cache/ast/v0.9.2/3cf97344678ce042b1fb1e67d4353185948060249cbb0ac3d1664a96708566e2.json",
-        "cache/ast/v0.9.2/45a694f17b5726f17476d2ab2f138076e353a602dd61dc5eac3ffd4419fd514c.json",
-        "cache/ast/v0.9.2/50640f3d7ab695fd08475e190c151356e2b507d33e05606878d23a27df5f9a25.json",
-        "cache/ast/v0.9.2/51ca7700940b4605fa22386e8375747aba18f216dc17f6d7ec48898dab306959.json",
-        "cache/ast/v0.9.2/570aaea410b905c90c6a0f89154fb1c4b41a763bb9f9ddc87d98e6ed6a628a74.json",
-        "cache/ast/v0.9.2/5b0e29b1e6ba052b23c8e38c08a849569c544bf75145b9b9fc78bb970c10993f.json",
-        "cache/ast/v0.9.2/5e3ef2b0c25d2345c5a752a7d0cf4b33de693ff9da7093e4bd281fd5ef81c1dc.json",
-        "cache/ast/v0.9.2/5fc27a1da67510da045f159e23f1313f81b4fd02691236ebd945ee9c186c49c5.json",
-        "cache/ast/v0.9.2/6e296b75734021068731bd5403ee12db3212f640996c9ad1991f126bac4fcccc.json",
-        "cache/ast/v0.9.2/6ed0d63a4141a0eaf666bc4413de4738946362e0171559eccca27b0c6ece23b4.json",
-        "cache/ast/v0.9.2/753bb46295d5058de27ec69b3b90174554a4688f53c45e130c52097ef9f407a5.json",
-        "cache/ast/v0.9.2/765d1fd2eb1895023587a8b0fcd3c88ef345f98fa8b3afb908d4b00b41951a32.json",
-        "cache/ast/v0.9.2/7a476f062ec6953a010032dfe6c44b0c369b7d5a7655343f31142faa3fecc0b1.json",
-        "cache/ast/v0.9.2/86dc5a99345ad763c7f4941bb31cbec4a260c680bba430b2a3cc6b43bbb4d672.json",
-        "cache/ast/v0.9.2/8adee48cc44c50db70260b65dffef2e5b62c6f75636dcb7eb8cc03306a1594e7.json",
-        "cache/ast/v0.9.2/8cb0ed13dfee602cb49aa554762437524892fdae64e27cac2842975dcfdb9c92.json",
-        "cache/ast/v0.9.2/8e58a8434fec72bc6ddabe0521ee7275b3b69c461397a963b7269a20d482bc6c.json",
-        "cache/ast/v0.9.2/9197aabd2c651c9928bba2f2891abe6a6d2c5ea6716714f85b55c71d980a3272.json",
-        "cache/ast/v0.9.2/9653c2a7a618ac50dd26cd8bb637f05a9daa97300f928b283c71dc927e8b7556.json",
-        "cache/ast/v0.9.2/97e81e40df73b441c8f6631d2d284b51929cee5f40141c97d2ffde411587d2ae.json",
-        "cache/ast/v0.9.2/a67bd3f9e9c8a6e197d3a133629bd1cde5fdb68fa1bda7c4a6a42699d75c98c5.json",
-        "cache/ast/v0.9.2/ad408cc6f536455582373aaeb5c7b9ee9d4ccbfa7605e04917a56301bdd528e0.json",
-        "cache/ast/v0.9.2/adc94baab02115f8789963d7ebb3b3f31506f02ec6a1e02d841c3c05cbad28e8.json",
-        "cache/ast/v0.9.2/c25870c065cd2695b44ac755bfc11ada0e24050033fa7227f1bd986e35641ef9.json",
-        "cache/ast/v0.9.2/c3598f16eac887ba75275c444df151fe207de1a8b4315bb066d879fc2e1a2a1b.json",
-        "cache/ast/v0.9.2/c6b67386e7277fc5acf70f01ce993ff276a43c5eb081b6e3959cb2d3ee6e65fc.json",
-        "cache/ast/v0.9.2/c98ce6edc751cfb4df15ed9651f4ac4aa683d65d49f0d00185b1383db9b63ff5.json",
-        "cache/ast/v0.9.2/d0c74b1fb16badf39a2ece8ee7371f50f8b446d081b209b5578a59889829eedb.json",
-        "cache/ast/v0.9.2/dddf59883fed27b2ee23249d597e2f3e12000cc10c25b7746fee421592a9b566.json",
-        "cache/ast/v0.9.2/e2fe440621aa8cb887197b9ac2e58adeab1b7fa1db386a8fa476bce94a084f5c.json",
-        "cache/ast/v0.9.2/ec7a7d6d9d6f5464239fb741f3ee14cd2fe6695821af90d8cb5002e1a0bdc6c2.json",
-        "cache/ast/v0.9.2/ed59160eb46f4778f74ab6c9084080da9eaabdebc5f2f1b45363d3ef9da37fd2.json",
-        "cache/ast/v0.9.2/f5ae84203ead95812ed6db4bdabb3dd6ccd3706740262485f6bdd0e3302bcceb.json",
-        "cache/ast/v0.9.2/f69c8e0c8f8fcb171c77f9debc7f2df64c71fc0b3a90c81aac500600ad69fc4a.json",
-        "cache/ast/v0.9.2/f81bc8ae556176f3d8f0ed6eba49c000037262d71d961fb6ed3b894774fe5ca5.json",
-        "cache/stat-index.json",
         "graph.json",
         "manifest.json"
       ],
       "statistics": {
-        "nodes": 4178,
-        "edges": 9594,
+        "nodes": 0,
+        "edges": 0,
         "hyperedges": 0,
         "directed": null,
         "multigraph": null,
-        "nodesByFileType": {
-          "code": 4177,
-          "rationale": 1
-        },
-        "concepts": {
-          "Classes": 850,
-          "Configuration": 36,
-          "Controllers": 15,
-          "Environment Variables": 272,
-          "Functions": 1357,
-          "Interfaces": 1,
-          "Methods": 291,
-          "Modules": 520,
-          "Services": 18
-        },
-        "relations": {
-          "calls": 1355,
-          "contains": 3350,
-          "extends": 101,
-          "imports": 2319,
-          "imports_from": 1817,
-          "inherits": 12,
-          "method": 296,
-          "rationale_for": 1,
-          "re_exports": 202,
-          "references": 141
-        },
-        "semanticRelationships": {
-          "CALLS": 1355,
-          "CONTAINS": 3350,
-          "EXTENDS": 101,
-          "IMPORTS": 2319,
-          "REFERENCES": 141
-        }
+        "nodesByFileType": {},
+        "concepts": {},
+        "relations": {},
+        "semanticRelationships": {}
       },
       "diagnostics": [
         {
@@ -2688,7 +2871,7 @@
         {
           "severity": "warning",
           "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
-          "message": "Graphify comparison uses a code-only projection with 550 files.",
+          "message": "Graphify comparison uses a code-only projection with 563 files.",
           "source": "validation harness"
         }
       ]
@@ -2696,7 +2879,7 @@
   },
   "diagnostics": {
     "ontoly": {
-      "compilerDiagnostics": 12,
+      "compilerDiagnostics": 20,
       "graphValidation": {
         "ok": true,
         "issues": 2,
@@ -2725,7 +2908,7 @@
       {
         "severity": "warning",
         "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
-        "message": "Graphify comparison uses a code-only projection with 550 files.",
+        "message": "Graphify comparison uses a code-only projection with 563 files.",
         "source": "validation harness"
       }
     ]
@@ -2737,13 +2920,48 @@
       "basis": "measured"
     },
     {
+      "area": "Functions",
+      "evidence": "Ontoly produced 1353 Functions; Graphify produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "Methods",
+      "evidence": "Ontoly produced 283 Methods; Graphify produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "Classes",
+      "evidence": "Ontoly produced 67 Classes; Graphify produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "Interfaces",
+      "evidence": "Ontoly produced 532 Interfaces; Graphify produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
       "area": "Routes",
-      "evidence": "Ontoly produced 76 Routes; Graphify produced 0 in the normalized model.",
+      "evidence": "Ontoly produced 80 Routes; Graphify produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "Controllers",
+      "evidence": "Ontoly produced 16 Controllers; Graphify produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "Modules",
+      "evidence": "Ontoly produced 525 Modules; Graphify produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "Services",
+      "evidence": "Ontoly produced 21 Services; Graphify produced 0 in the normalized model.",
       "basis": "inferred from normalized counts"
     },
     {
       "area": "Providers",
-      "evidence": "Ontoly produced 23 Providers; Graphify produced 0 in the normalized model.",
+      "evidence": "Ontoly produced 25 Providers; Graphify produced 0 in the normalized model.",
       "basis": "inferred from normalized counts"
     },
     {
@@ -2752,29 +2970,49 @@
       "basis": "inferred from normalized counts"
     },
     {
+      "area": "Configuration",
+      "evidence": "Ontoly produced 24 Configuration; Graphify produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "Environment Variables",
+      "evidence": "Ontoly produced 79 Environment Variables; Graphify produced 0 in the normalized model.",
+      "basis": "inferred from normalized counts"
+    },
+    {
       "area": "HANDLES",
-      "evidence": "Ontoly produced 76 HANDLES relationships; Graphify produced 0.",
+      "evidence": "Ontoly produced 80 HANDLES relationships; Graphify produced 0.",
       "basis": "inferred from normalized counts"
     },
     {
       "area": "MOUNTS",
-      "evidence": "Ontoly produced 76 MOUNTS relationships; Graphify produced 0.",
+      "evidence": "Ontoly produced 80 MOUNTS relationships; Graphify produced 0.",
       "basis": "inferred from normalized counts"
     },
     {
       "area": "INJECTS",
-      "evidence": "Ontoly produced 11 INJECTS relationships; Graphify produced 0.",
+      "evidence": "Ontoly produced 12 INJECTS relationships; Graphify produced 0.",
       "basis": "inferred from normalized counts"
     },
     {
       "area": "AUTHORIZES",
-      "evidence": "Ontoly produced 23 AUTHORIZES relationships; Graphify produced 0.",
+      "evidence": "Ontoly produced 24 AUTHORIZES relationships; Graphify produced 0.",
       "basis": "inferred from normalized counts"
     },
     {
       "area": "REGISTERED_IN",
-      "evidence": "Ontoly produced 90 REGISTERED_IN relationships; Graphify produced 0.",
+      "evidence": "Ontoly produced 95 REGISTERED_IN relationships; Graphify produced 0.",
       "basis": "inferred from normalized counts"
+    },
+    {
+      "area": "NestJS framework understanding",
+      "evidence": "Ontoly detected the framework explicitly; Graphify only exposes framework understanding when it appears in normalized labels/relations.",
+      "basis": "inferred from framework detections"
+    },
+    {
+      "area": "React framework understanding",
+      "evidence": "Ontoly detected the framework explicitly; Graphify only exposes framework understanding when it appears in normalized labels/relations.",
+      "basis": "inferred from framework detections"
     }
   ],
   "weaknesses": [
@@ -2840,7 +3078,7 @@
       "evidence": [
         "Graphify exited with code 1.",
         "Full Graphify extraction required an LLM backend for repository docs/images.",
-        "Graphify comparison uses a code-only projection with 550 files."
+        "Graphify comparison uses a code-only projection with 563 files."
       ]
     }
   ]

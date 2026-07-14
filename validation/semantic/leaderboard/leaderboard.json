@@ -7,9 +7,9 @@
     "category": "Packages",
     "ontoly": "PASS",
     "ontolyConfidence": 100,
-    "graphify": "PASS",
-    "graphifyConfidence": 100,
-    "winner": "Tie"
+    "graphify": "FAIL",
+    "graphifyConfidence": 0,
+    "winner": "Ontoly"
   },
   {
     "repository": "0xsarwagya",
@@ -19,9 +19,9 @@
     "category": "Packages",
     "ontoly": "PASS",
     "ontolyConfidence": 100,
-    "graphify": "PASS",
-    "graphifyConfidence": 100,
-    "winner": "Tie"
+    "graphify": "FAIL",
+    "graphifyConfidence": 0,
+    "winner": "Ontoly"
   },
   {
     "repository": "0xsarwagya",
@@ -43,9 +43,9 @@
     "category": "Architecture",
     "ontoly": "PASS",
     "ontolyConfidence": 100,
-    "graphify": "PASS",
-    "graphifyConfidence": 100,
-    "winner": "Tie"
+    "graphify": "FAIL",
+    "graphifyConfidence": 0,
+    "winner": "Ontoly"
   },
   {
     "repository": "0xsarwagya",
@@ -79,9 +79,9 @@
     "category": "Interfaces",
     "ontoly": "PASS",
     "ontolyConfidence": 100,
-    "graphify": "PASS",
-    "graphifyConfidence": 100,
-    "winner": "Tie"
+    "graphify": "FAIL",
+    "graphifyConfidence": 0,
+    "winner": "Ontoly"
   },
   {
     "repository": "durable-local",
@@ -127,9 +127,9 @@
     "category": "Call Graph",
     "ontoly": "PASS",
     "ontolyConfidence": 100,
-    "graphify": "PASS",
-    "graphifyConfidence": 100,
-    "winner": "Tie"
+    "graphify": "FAIL",
+    "graphifyConfidence": 0,
+    "winner": "Ontoly"
   },
   {
     "repository": "Ghost",
@@ -151,9 +151,9 @@
     "category": "Interfaces",
     "ontoly": "PASS",
     "ontolyConfidence": 100,
-    "graphify": "PASS",
-    "graphifyConfidence": 100,
-    "winner": "Tie"
+    "graphify": "FAIL",
+    "graphifyConfidence": 0,
+    "winner": "Ontoly"
   },
   {
     "repository": "Ghost",
@@ -163,9 +163,9 @@
     "category": "Classes",
     "ontoly": "PASS",
     "ontolyConfidence": 100,
-    "graphify": "PASS",
-    "graphifyConfidence": 100,
-    "winner": "Tie"
+    "graphify": "FAIL",
+    "graphifyConfidence": 0,
+    "winner": "Ontoly"
   },
   {
     "repository": "Ghost",
@@ -199,9 +199,9 @@
     "category": "Call Graph",
     "ontoly": "PASS",
     "ontolyConfidence": 100,
-    "graphify": "PASS",
-    "graphifyConfidence": 100,
-    "winner": "Tie"
+    "graphify": "FAIL",
+    "graphifyConfidence": 0,
+    "winner": "Ontoly"
   },
   {
     "repository": "Innosphere",
@@ -211,9 +211,9 @@
     "category": "Controllers",
     "ontoly": "PASS",
     "ontolyConfidence": 100,
-    "graphify": "PASS",
-    "graphifyConfidence": 100,
-    "winner": "Tie"
+    "graphify": "FAIL",
+    "graphifyConfidence": 0,
+    "winner": "Ontoly"
   },
   {
     "repository": "Innosphere",
@@ -235,9 +235,9 @@
     "category": "Modules",
     "ontoly": "PASS",
     "ontolyConfidence": 100,
-    "graphify": "PASS",
-    "graphifyConfidence": 100,
-    "winner": "Tie"
+    "graphify": "FAIL",
+    "graphifyConfidence": 0,
+    "winner": "Ontoly"
   },
   {
     "repository": "Innosphere",
@@ -247,9 +247,9 @@
     "category": "Database",
     "ontoly": "PASS",
     "ontolyConfidence": 100,
-    "graphify": "PASS",
-    "graphifyConfidence": 100,
-    "winner": "Tie"
+    "graphify": "FAIL",
+    "graphifyConfidence": 0,
+    "winner": "Ontoly"
   },
   {
     "repository": "Innosphere",
@@ -259,9 +259,9 @@
     "category": "Services",
     "ontoly": "PASS",
     "ontolyConfidence": 100,
-    "graphify": "PASS",
-    "graphifyConfidence": 100,
-    "winner": "Tie"
+    "graphify": "FAIL",
+    "graphifyConfidence": 0,
+    "winner": "Ontoly"
   },
   {
     "repository": "Innosphere",
@@ -271,9 +271,9 @@
     "category": "Modules",
     "ontoly": "PASS",
     "ontolyConfidence": 100,
-    "graphify": "PASS",
-    "graphifyConfidence": 100,
-    "winner": "Tie"
+    "graphify": "FAIL",
+    "graphifyConfidence": 0,
+    "winner": "Ontoly"
   },
   {
     "repository": "Ovok Core",
@@ -283,9 +283,9 @@
     "category": "Controllers",
     "ontoly": "PASS",
     "ontolyConfidence": 100,
-    "graphify": "PASS",
-    "graphifyConfidence": 100,
-    "winner": "Tie"
+    "graphify": "FAIL",
+    "graphifyConfidence": 0,
+    "winner": "Ontoly"
   },
   {
     "repository": "Ovok Core",
@@ -295,9 +295,9 @@
     "category": "Services",
     "ontoly": "PASS",
     "ontolyConfidence": 100,
-    "graphify": "PASS",
-    "graphifyConfidence": 100,
-    "winner": "Tie"
+    "graphify": "FAIL",
+    "graphifyConfidence": 0,
+    "winner": "Ontoly"
   },
   {
     "repository": "Ovok Core",
@@ -331,9 +331,9 @@
     "category": "Modules",
     "ontoly": "PASS",
     "ontolyConfidence": 100,
-    "graphify": "PASS",
-    "graphifyConfidence": 100,
-    "winner": "Tie"
+    "graphify": "FAIL",
+    "graphifyConfidence": 0,
+    "winner": "Ontoly"
   },
   {
     "repository": "Ovok Core",

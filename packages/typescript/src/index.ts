@@ -1957,7 +1957,32 @@ function addSymbol(context: AnalyzerContext, symbol: TypeScriptSymbol): void {
 }
 
 function listTypeScriptFiles(root: string): readonly string[] {
-  const ignored = new Set([".git", ".ontoly", ".turbo", "coverage", "dist", "node_modules", "ontoly-output", "outputs", "work"]);
+  const ignored = new Set([
+    ".artifacts",
+    ".cache",
+    ".expo",
+    ".git",
+    ".next",
+    ".nuxt",
+    ".ontoly",
+    ".svelte-kit",
+    ".turbo",
+    ".vite",
+    "artifacts",
+    "build",
+    "coverage",
+    "dist",
+    "downloads",
+    "node_modules",
+    "ontoly-output",
+    "out",
+    "outputs",
+    "playwright-report",
+    "temp",
+    "test-results",
+    "tmp",
+    "work",
+  ]);
   const files: string[] = [];
   const visit = (directory: string): void => {
     for (const entry of readdirSync(directory, { withFileTypes: true }).sort((left, right) => left.name.localeCompare(right.name))) {

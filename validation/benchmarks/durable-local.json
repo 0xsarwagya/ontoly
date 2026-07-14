@@ -15,15 +15,15 @@
       "note": "Runs Ontoly through its built package APIs with write:false so source repositories are not modified."
     },
     "exitCode": 0,
-    "durationMs": 956.0260410000046,
+    "durationMs": 1335.3034580000094,
     "time": {
-      "realSeconds": 0.95,
-      "maxResidentSetBytes": 488554496,
-      "peakMemoryFootprintBytes": 476775240,
-      "peakMemoryBytes": 488554496,
+      "realSeconds": 1.33,
+      "maxResidentSetBytes": 488030208,
+      "peakMemoryFootprintBytes": 476070464,
+      "peakMemoryBytes": 488030208,
       "source": "/usr/bin/time -l"
     },
-    "graphHash": "0qkaj80",
+    "graphHash": "1xd5unc",
     "outputFiles": [
       "command.json",
       "coverage.json",
@@ -46,7 +46,7 @@
     "statistics": {
       "files": 55,
       "nodes": 226,
-      "edges": 381,
+      "edges": 384,
       "diagnostics": 0,
       "nodesByType": {
         "BuildTarget": 1,
@@ -71,7 +71,7 @@
         "Workspace": 1
       },
       "edgesByType": {
-        "CALLS": 38,
+        "CALLS": 41,
         "CONFIGURES": 5,
         "CONTAINS": 175,
         "CREATES": 7,
@@ -91,7 +91,7 @@
         "typescript": "5.9.2",
         "repository": "1.0.0"
       },
-      "deterministicHash": "0qkaj80"
+      "deterministicHash": "1xd5unc"
     },
     "coverage": {
       "coverage": 100,
@@ -139,12 +139,12 @@
         "note": "Uses graphify extract with --out to avoid writing into the source repository. --no-cluster keeps the run headless and deterministic for release validation."
       },
       "exitCode": 1,
-      "durationMs": 120.10712500000955,
+      "durationMs": 140.6570830000128,
       "time": {
-        "realSeconds": 0.11,
-        "maxResidentSetBytes": 27934720,
-        "peakMemoryFootprintBytes": 17646024,
-        "peakMemoryBytes": 27934720,
+        "realSeconds": 0.13,
+        "maxResidentSetBytes": 28114944,
+        "peakMemoryFootprintBytes": 17826248,
+        "peakMemoryBytes": 28114944,
         "source": "/usr/bin/time -l"
       },
       "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/full/stdout.log",
@@ -168,12 +168,12 @@
         "note": "Structural fallback: full Graphify extraction required an LLM backend for docs/images, so this run analyzes a validation-side code projection only. Source repositories remain untouched."
       },
       "exitCode": 0,
-      "durationMs": 512.9914589999971,
+      "durationMs": 220.80929200000537,
       "time": {
-        "realSeconds": 0.51,
-        "maxResidentSetBytes": 48742400,
-        "peakMemoryFootprintBytes": 36422232,
-        "peakMemoryBytes": 48742400,
+        "realSeconds": 0.21,
+        "maxResidentSetBytes": 41959424,
+        "peakMemoryFootprintBytes": 31392200,
+        "peakMemoryBytes": 41959424,
         "source": "/usr/bin/time -l"
       },
       "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/structural/stdout.log",
@@ -221,59 +221,29 @@
       }
     },
     "exitCode": 0,
-    "durationMs": 512.9914589999971,
+    "durationMs": 220.80929200000537,
     "time": {
-      "realSeconds": 0.51,
-      "maxResidentSetBytes": 48742400,
-      "peakMemoryFootprintBytes": 36422232,
-      "peakMemoryBytes": 48742400,
+      "realSeconds": 0.21,
+      "maxResidentSetBytes": 41959424,
+      "peakMemoryFootprintBytes": 31392200,
+      "peakMemoryBytes": 41959424,
       "source": "/usr/bin/time -l"
     },
-    "graphHash": "46165ffa306d24feeff254b2d9b69b78a9851f0ad70d73c0b5decb13d1fa1dd2",
+    "graphHash": "e36634175223f5b2f5abd7582c60155c47fc3947ec8ae82165c8dcbe7d7ae4b2",
     "outputFiles": [
-      "cache/ast/v0.9.2/2204edc23971f89dd7a821149650a0cf0f8e720279ea3cecc9d1d5cce12fb19c.json",
-      "cache/ast/v0.9.2/71e269799fc4b93abe619280ed804f1f6e7a6ad92d1aea18e6f715583a05e793.json",
-      "cache/ast/v0.9.2/f2be906a94c4c0118573e107a2f912785390ad61b6dd83084180f4d4b21a0582.json",
-      "cache/ast/v0.9.2/f8811e562521708f441b6844cc5e2148efb91711f5d8634621ced4333265170a.json",
-      "cache/stat-index.json",
       "graph.json",
       "manifest.json"
     ],
     "statistics": {
-      "nodes": 167,
-      "edges": 304,
+      "nodes": 0,
+      "edges": 0,
       "hyperedges": 0,
       "directed": null,
       "multigraph": null,
-      "nodesByFileType": {
-        "code": 167
-      },
-      "concepts": {
-        "Classes": 24,
-        "Configuration": 3,
-        "Functions": 35,
-        "Interfaces": 2,
-        "Methods": 1,
-        "Modules": 22
-      },
-      "relations": {
-        "calls": 25,
-        "contains": 140,
-        "extends": 20,
-        "imports": 47,
-        "imports_from": 43,
-        "inherits": 1,
-        "method": 1,
-        "re_exports": 23,
-        "references": 4
-      },
-      "semanticRelationships": {
-        "CALLS": 25,
-        "CONTAINS": 140,
-        "EXTENDS": 20,
-        "IMPORTS": 47,
-        "REFERENCES": 4
-      }
+      "nodesByFileType": {},
+      "concepts": {},
+      "relations": {},
+      "semanticRelationships": {}
     },
     "diagnostics": [
       {

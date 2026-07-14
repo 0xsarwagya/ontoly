@@ -2,11 +2,11 @@
 
 | Repository | Questions | Ontoly Avg Latency | Graphify Avg Latency |
 | --- | ---: | ---: | ---: |
-| 0xsarwagya | 5 | 1.035ms | 0.065ms |
-| durable-local | 6 | 0.026ms | 0.009ms |
-| Ghost | 6 | 0.018ms | 0.012ms |
-| Innosphere | 6 | 0.178ms | 0.122ms |
-| Ovok Core | 6 | 0.545ms | 0.635ms |
+| 0xsarwagya | 5 | 1.821ms | 0.006ms |
+| durable-local | 6 | 0.051ms | 0.005ms |
+| Ghost | 6 | 0.028ms | 0.003ms |
+| Innosphere | 6 | 0.377ms | 0.002ms |
+| Ovok Core | 6 | 0.999ms | 0.003ms |
 
-Ontoly aggregate avg latency: 0.337ms
-Graphify aggregate avg latency: 0.172ms
+Ontoly aggregate avg latency: 0.615ms
+Graphify aggregate avg latency: 0.004ms

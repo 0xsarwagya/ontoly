@@ -44,6 +44,20 @@ describe("typescript semantic model", () => {
     expect(roundTrip.metadata.deterministicHash).toBe(project.metadata.deterministicHash);
     expect(validateTypeScriptSemanticModel(roundTrip).ok).toBe(true);
   });
+
+  it("ignores generated artifact and dev-server directories during automatic discovery", async () => {
+    const root = await createFixture();
+    await mkdir(join(root, ".artifacts", "prototype"), { recursive: true });
+    await writeFile(join(root, ".artifacts", "prototype", "Generated.ts"), "export const generated = true;\n", "utf8");
+    await mkdir(join(root, "downloads", "chat-1"), { recursive: true });
+    await writeFile(join(root, "downloads", "chat-1", "App.tsx"), "export const downloaded = true;\n", "utf8");
+    await mkdir(join(root, ".next", "server"), { recursive: true });
+    await writeFile(join(root, ".next", "server", "page.tsx"), "export const generatedPage = true;\n", "utf8");
+
+    const project = analyzeTypeScriptProject({ root });
+
+    expect(project.files.map((file) => file.file)).toEqual(["src/service.ts", "src/types.ts"]);
+  });
 });
 
 async function createFixture(): Promise<string> {

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-13T15:37:42.502Z",
+  "generatedAt": "2026-07-14T20:59:43.905Z",
   "repositories": [
     {
       "repository": "0xsarwagya",
@@ -12,31 +12,31 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 1.035,
+        "latencyMs": 1.821,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
         "questions": 5,
-        "pass": 3,
+        "pass": 0,
         "partial": 0,
-        "fail": 2,
-        "exactMatchRate": 60,
-        "precision": 60,
-        "recall": 60,
-        "confidence": 60,
-        "latencyMs": 0.065,
-        "semanticUnderstandingScore": 60
+        "fail": 5,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.006,
+        "semanticUnderstandingScore": 0
       },
       "questions": [
         {
           "id": "personal-ghost-package",
           "ontoly": "PASS",
-          "graphify": "PASS"
+          "graphify": "FAIL"
         },
         {
           "id": "personal-durable-package",
           "ontoly": "PASS",
-          "graphify": "PASS"
+          "graphify": "FAIL"
         },
         {
           "id": "personal-next-framework",
@@ -46,7 +46,7 @@
         {
           "id": "personal-react-framework",
           "ontoly": "PASS",
-          "graphify": "PASS"
+          "graphify": "FAIL"
         },
         {
           "id": "personal-turbo-config",
@@ -66,20 +66,20 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 0.026,
+        "latencyMs": 0.051,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
         "questions": 6,
-        "pass": 2,
+        "pass": 0,
         "partial": 0,
-        "fail": 4,
-        "exactMatchRate": 33.33,
-        "precision": 33.33,
-        "recall": 33.33,
-        "confidence": 33.33,
-        "latencyMs": 0.009,
-        "semanticUnderstandingScore": 33.33
+        "fail": 6,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.005,
+        "semanticUnderstandingScore": 0
       },
       "questions": [
         {
@@ -90,7 +90,7 @@
         {
           "id": "durable-interface",
           "ontoly": "PASS",
-          "graphify": "PASS"
+          "graphify": "FAIL"
         },
         {
           "id": "durable-package",
@@ -110,7 +110,7 @@
         {
           "id": "durable-open-database-call",
           "ontoly": "PASS",
-          "graphify": "PASS"
+          "graphify": "FAIL"
         }
       ]
     },
@@ -125,20 +125,20 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 0.018,
+        "latencyMs": 0.028,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
         "questions": 6,
-        "pass": 3,
+        "pass": 0,
         "partial": 0,
-        "fail": 3,
-        "exactMatchRate": 50,
-        "precision": 50,
-        "recall": 50,
-        "confidence": 50,
-        "latencyMs": 0.012,
-        "semanticUnderstandingScore": 50
+        "fail": 6,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.003,
+        "semanticUnderstandingScore": 0
       },
       "questions": [
         {
@@ -149,12 +149,12 @@
         {
           "id": "ghost-interface",
           "ontoly": "PASS",
-          "graphify": "PASS"
+          "graphify": "FAIL"
         },
         {
           "id": "ghost-error-class",
           "ontoly": "PASS",
-          "graphify": "PASS"
+          "graphify": "FAIL"
         },
         {
           "id": "ghost-ci-env",
@@ -169,7 +169,7 @@
         {
           "id": "ghost-load-create-call",
           "ontoly": "PASS",
-          "graphify": "PASS"
+          "graphify": "FAIL"
         }
       ]
     },
@@ -184,26 +184,26 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 0.178,
+        "latencyMs": 0.377,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
         "questions": 6,
-        "pass": 5,
+        "pass": 0,
         "partial": 0,
-        "fail": 1,
-        "exactMatchRate": 83.33,
-        "precision": 83.33,
-        "recall": 83.33,
-        "confidence": 83.33,
-        "latencyMs": 0.122,
-        "semanticUnderstandingScore": 83.33
+        "fail": 6,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.002,
+        "semanticUnderstandingScore": 0
       },
       "questions": [
         {
           "id": "innosphere-auth-controller",
           "ontoly": "PASS",
-          "graphify": "PASS"
+          "graphify": "FAIL"
         },
         {
           "id": "innosphere-auth-me-route",
@@ -213,22 +213,22 @@
         {
           "id": "innosphere-auth-module",
           "ontoly": "PASS",
-          "graphify": "PASS"
+          "graphify": "FAIL"
         },
         {
           "id": "innosphere-database-url",
           "ontoly": "PASS",
-          "graphify": "PASS"
+          "graphify": "FAIL"
         },
         {
           "id": "innosphere-ovok-service",
           "ontoly": "PASS",
-          "graphify": "PASS"
+          "graphify": "FAIL"
         },
         {
           "id": "innosphere-app-module",
           "ontoly": "PASS",
-          "graphify": "PASS"
+          "graphify": "FAIL"
         }
       ]
     },
@@ -243,31 +243,31 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 0.545,
+        "latencyMs": 0.999,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
         "questions": 6,
-        "pass": 3,
+        "pass": 0,
         "partial": 0,
-        "fail": 3,
-        "exactMatchRate": 50,
-        "precision": 50,
-        "recall": 50,
-        "confidence": 50,
-        "latencyMs": 0.635,
-        "semanticUnderstandingScore": 50
+        "fail": 6,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.003,
+        "semanticUnderstandingScore": 0
       },
       "questions": [
         {
           "id": "ovok-auth-controller",
           "ontoly": "PASS",
-          "graphify": "PASS"
+          "graphify": "FAIL"
         },
         {
           "id": "ovok-auth-service",
           "ontoly": "PASS",
-          "graphify": "PASS"
+          "graphify": "FAIL"
         },
         {
           "id": "ovok-auth-di",
@@ -282,7 +282,7 @@
         {
           "id": "ovok-auth-module",
           "ontoly": "PASS",
-          "graphify": "PASS"
+          "graphify": "FAIL"
         },
         {
           "id": "ovok-fhir-default-env",
@@ -302,20 +302,20 @@
       "precision": 100,
       "recall": 100,
       "confidence": 100,
-      "latencyMs": 0.337,
+      "latencyMs": 0.615,
       "semanticUnderstandingScore": 100
     },
     "graphify": {
       "questions": 29,
-      "pass": 16,
+      "pass": 0,
       "partial": 0,
-      "fail": 13,
-      "exactMatchRate": 55.17,
-      "precision": 55.17,
-      "recall": 55.17,
-      "confidence": 55.17,
-      "latencyMs": 0.172,
-      "semanticUnderstandingScore": 55.17
+      "fail": 29,
+      "exactMatchRate": 0,
+      "precision": 0,
+      "recall": 0,
+      "confidence": 0,
+      "latencyMs": 0.004,
+      "semanticUnderstandingScore": 0
     },
     "categoryScores": [
       {
@@ -329,7 +329,7 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.031,
+          "latencyMs": 0.045,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
@@ -341,7 +341,7 @@
           "precision": 0,
           "recall": 0,
           "confidence": 0,
-          "latencyMs": 0.004,
+          "latencyMs": 0.003,
           "semanticUnderstandingScore": 0
         }
       },
@@ -356,20 +356,20 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.006,
+          "latencyMs": 0.012,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
           "questions": 1,
-          "pass": 1,
+          "pass": 0,
           "partial": 0,
-          "fail": 0,
-          "exactMatchRate": 100,
-          "precision": 100,
-          "recall": 100,
-          "confidence": 100,
-          "latencyMs": 0.015,
-          "semanticUnderstandingScore": 100
+          "fail": 1,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.008,
+          "semanticUnderstandingScore": 0
         }
       },
       {
@@ -383,20 +383,20 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.011,
+          "latencyMs": 0.019,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
           "questions": 2,
-          "pass": 2,
+          "pass": 0,
           "partial": 0,
-          "fail": 0,
-          "exactMatchRate": 100,
-          "precision": 100,
-          "recall": 100,
-          "confidence": 100,
-          "latencyMs": 0.014,
-          "semanticUnderstandingScore": 100
+          "fail": 2,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.003,
+          "semanticUnderstandingScore": 0
         }
       },
       {
@@ -410,7 +410,7 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.266,
+          "latencyMs": 0.383,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
@@ -422,7 +422,7 @@
           "precision": 0,
           "recall": 0,
           "confidence": 0,
-          "latencyMs": 0.148,
+          "latencyMs": 0.001,
           "semanticUnderstandingScore": 0
         }
       },
@@ -437,20 +437,20 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.534,
+          "latencyMs": 0.726,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
           "questions": 2,
-          "pass": 2,
+          "pass": 0,
           "partial": 0,
-          "fail": 0,
-          "exactMatchRate": 100,
-          "precision": 100,
-          "recall": 100,
-          "confidence": 100,
-          "latencyMs": 0.202,
-          "semanticUnderstandingScore": 100
+          "fail": 2,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.003,
+          "semanticUnderstandingScore": 0
         }
       },
       {
@@ -464,20 +464,20 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.161,
+          "latencyMs": 0.331,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
           "questions": 2,
-          "pass": 2,
+          "pass": 0,
           "partial": 0,
-          "fail": 0,
-          "exactMatchRate": 100,
-          "precision": 100,
-          "recall": 100,
-          "confidence": 100,
-          "latencyMs": 0.208,
-          "semanticUnderstandingScore": 100
+          "fail": 2,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.001,
+          "semanticUnderstandingScore": 0
         }
       },
       {
@@ -491,20 +491,20 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.38,
+          "latencyMs": 0.957,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
           "questions": 3,
-          "pass": 3,
+          "pass": 0,
           "partial": 0,
-          "fail": 0,
-          "exactMatchRate": 100,
-          "precision": 100,
-          "recall": 100,
-          "confidence": 100,
-          "latencyMs": 0.567,
-          "semanticUnderstandingScore": 100
+          "fail": 3,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.003,
+          "semanticUnderstandingScore": 0
         }
       },
       {
@@ -518,20 +518,20 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.063,
+          "latencyMs": 0.14,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
           "questions": 4,
-          "pass": 2,
+          "pass": 0,
           "partial": 0,
-          "fail": 2,
-          "exactMatchRate": 50,
-          "precision": 50,
-          "recall": 50,
-          "confidence": 50,
-          "latencyMs": 0.039,
-          "semanticUnderstandingScore": 50
+          "fail": 4,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.005,
+          "semanticUnderstandingScore": 0
         }
       },
       {
@@ -545,7 +545,7 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.413,
+          "latencyMs": 0.885,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
@@ -557,7 +557,7 @@
           "precision": 0,
           "recall": 0,
           "confidence": 0,
-          "latencyMs": 0.536,
+          "latencyMs": 0.006,
           "semanticUnderstandingScore": 0
         }
       },
@@ -572,7 +572,7 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.154,
+          "latencyMs": 0.177,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
@@ -584,7 +584,7 @@
           "precision": 0,
           "recall": 0,
           "confidence": 0,
-          "latencyMs": 0.18,
+          "latencyMs": 0.003,
           "semanticUnderstandingScore": 0
         }
       },
@@ -599,20 +599,20 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.036,
+          "latencyMs": 0.066,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
           "questions": 2,
-          "pass": 2,
+          "pass": 0,
           "partial": 0,
-          "fail": 0,
-          "exactMatchRate": 100,
-          "precision": 100,
-          "recall": 100,
-          "confidence": 100,
-          "latencyMs": 0.022,
-          "semanticUnderstandingScore": 100
+          "fail": 2,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.005,
+          "semanticUnderstandingScore": 0
         }
       },
       {
@@ -626,7 +626,7 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.028,
+          "latencyMs": 0.062,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
@@ -638,7 +638,7 @@
           "precision": 0,
           "recall": 0,
           "confidence": 0,
-          "latencyMs": 0.034,
+          "latencyMs": 0.015,
           "semanticUnderstandingScore": 0
         }
       },
@@ -653,20 +653,20 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.072,
+          "latencyMs": 0.381,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
           "questions": 1,
-          "pass": 1,
+          "pass": 0,
           "partial": 0,
-          "fail": 0,
-          "exactMatchRate": 100,
-          "precision": 100,
-          "recall": 100,
-          "confidence": 100,
-          "latencyMs": 0.135,
-          "semanticUnderstandingScore": 100
+          "fail": 1,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.003,
+          "semanticUnderstandingScore": 0
         }
       },
       {
@@ -680,20 +680,20 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 2.457,
+          "latencyMs": 4.259,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
           "questions": 2,
-          "pass": 1,
+          "pass": 0,
           "partial": 0,
-          "fail": 1,
-          "exactMatchRate": 50,
-          "precision": 50,
-          "recall": 50,
-          "confidence": 50,
-          "latencyMs": 0.075,
-          "semanticUnderstandingScore": 50
+          "fail": 2,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.003,
+          "semanticUnderstandingScore": 0
         }
       }
     ]

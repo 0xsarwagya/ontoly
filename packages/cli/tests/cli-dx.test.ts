@@ -106,7 +106,20 @@ describe("cli developer experience helpers", () => {
     expect(impact).toContain("--mode direct|local|feature|semantic|blast-radius");
     expect(impact).toContain("ontoly impact fn:src/auth.ts:login --mode local");
     expect(plan).toContain("--budget n");
+    expect(plan).toContain("--max-time-ms n");
+    expect(plan).toContain("--max-nodes n");
+    expect(plan).toContain("--max-edges n");
     expect(plan).toContain("clamped to 1-250");
+  });
+
+  it("documents bounded capability profiling", () => {
+    const help = renderCommandHelp(commandHelp().profile);
+
+    expect(help).toContain("ontoly profile");
+    expect(help).toContain("implementation-plan");
+    expect(help).toContain("--max-time-ms n");
+    expect(help).toContain("--max-nodes n");
+    expect(help).toContain("--max-edges n");
   });
 
   it("formats structured CLI errors with codes, suggestions, and docs", () => {

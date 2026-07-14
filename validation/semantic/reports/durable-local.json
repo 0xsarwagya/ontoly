@@ -35,20 +35,20 @@
       "precision": 100,
       "recall": 100,
       "confidence": 100,
-      "latencyMs": 0.026,
+      "latencyMs": 0.051,
       "semanticUnderstandingScore": 100
     },
     "graphify": {
       "questions": 6,
-      "pass": 2,
+      "pass": 0,
       "partial": 0,
-      "fail": 4,
-      "exactMatchRate": 33.33,
-      "precision": 33.33,
-      "recall": 33.33,
-      "confidence": 33.33,
-      "latencyMs": 0.009,
-      "semanticUnderstandingScore": 33.33
+      "fail": 6,
+      "exactMatchRate": 0,
+      "precision": 0,
+      "recall": 0,
+      "confidence": 0,
+      "latencyMs": 0.005,
+      "semanticUnderstandingScore": 0
     },
     "winner": "Ontoly"
   },
@@ -77,7 +77,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.029,
+        "latencyMs": 0.045,
         "answers": [
           {
             "label": "createDurable",
@@ -130,7 +130,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.009,
+        "latencyMs": 0.016,
         "answers": [
           {
             "label": "Durable",
@@ -144,26 +144,20 @@
       },
       "graphify": {
         "system": "graphify",
-        "status": "PASS",
-        "exactMatch": true,
-        "precision": 1,
-        "recall": 1,
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
         "falsePositives": [],
-        "falseNegatives": [],
-        "confidence": 100,
-        "latencyMs": 0.013,
-        "answers": [
-          {
-            "label": "Durable",
-            "type": "Class",
-            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_durable_local_graphify_code_projection_src_core_durable_durable",
-            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/code-projection/src/core/durable.ts",
-            "explanation": "Included in architecture summary as Class."
-          }
+        "falseNegatives": [
+          "Durable"
         ],
+        "confidence": 0,
+        "latencyMs": 0.002,
+        "answers": [],
         "explanation": "Architecture summary searched Interface, Class."
       },
-      "winner": "Tie"
+      "winner": "Ontoly"
     },
     {
       "id": "durable-package",
@@ -189,7 +183,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.009,
+        "latencyMs": 0.021,
         "answers": [
           {
             "label": "@0xsarwagya/durable-local",
@@ -212,7 +206,7 @@
           "@0xsarwagya/durable-local"
         ],
         "confidence": 0,
-        "latencyMs": 0.009,
+        "latencyMs": 0.01,
         "answers": [],
         "explanation": "0 candidate node(s) matched Package with terms @0xsarwagya/durable-local."
       },
@@ -242,7 +236,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.006,
+        "latencyMs": 0.013,
         "answers": [
           {
             "label": "CI",
@@ -265,7 +259,7 @@
           "CI"
         ],
         "confidence": 0,
-        "latencyMs": 0.003,
+        "latencyMs": 0.004,
         "answers": [],
         "explanation": "0 candidate node(s) matched EnvironmentVariable with terms CI."
       },
@@ -301,7 +295,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.079,
+        "latencyMs": 0.152,
         "answers": [
           {
             "label": "@0xsarwagya/durable-local -> fake-indexeddb",
@@ -324,7 +318,7 @@
           "@0xsarwagya/durable-local -> fake-indexeddb"
         ],
         "confidence": 0,
-        "latencyMs": 0.012,
+        "latencyMs": 0.004,
         "answers": [],
         "explanation": "0 candidate edge-derived answer(s) matched DEPENDS_ON."
       },
@@ -360,7 +354,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.026,
+        "latencyMs": 0.059,
         "answers": [
           {
             "label": "withReadWrite -> openDatabase",
@@ -374,26 +368,20 @@
       },
       "graphify": {
         "system": "graphify",
-        "status": "PASS",
-        "exactMatch": true,
-        "precision": 1,
-        "recall": 1,
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
         "falsePositives": [],
-        "falseNegatives": [],
-        "confidence": 100,
-        "latencyMs": 0.013,
-        "answers": [
-          {
-            "label": "withReadWrite -> openDatabase",
-            "type": "CALLS",
-            "id": "graphify-edge:203",
-            "file": null,
-            "explanation": "Matched CALLS relationship."
-          }
+        "falseNegatives": [
+          "withReadWrite -> openDatabase"
         ],
-        "explanation": "1 candidate edge-derived answer(s) matched CALLS."
+        "confidence": 0,
+        "latencyMs": 0.007,
+        "answers": [],
+        "explanation": "0 candidate edge-derived answer(s) matched CALLS."
       },
-      "winner": "Tie"
+      "winner": "Ontoly"
     }
   ]
 }

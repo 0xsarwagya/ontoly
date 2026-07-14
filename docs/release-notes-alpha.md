@@ -1,5 +1,25 @@
 # Alpha Release Notes
 
+## v0.1.0-alpha.13
+
+This stabilization release fixes the real-world agent workflow bugs discovered
+against Ovok Core and the validation corpus.
+
+- `ImplementationPlan`, `ImpactAnalysis`, and `EvidencePack` now enforce
+  deterministic execution budgets and return `PARTIAL` with diagnostics instead
+  of hanging.
+- Evidence Packs are compact and ranked: top nodes, top edges, relevant files,
+  and bounded metadata only.
+- Semantic Index hashing no longer builds huge monolithic strings for large
+  repositories.
+- Fuzzy impact queries resolve through the Semantic Index before traversal, so
+  phrases such as `sleep duration thresholds` resolve to stable graph nodes.
+- `ontoly profile implementation-plan` reports capability timing, visited
+  nodes/edges, budget status, and memory.
+- Validation Lab now distinguishes true compiler nondeterminism from active
+  repository input changes during rebuild checks.
+- Agent Skills now require Ontoly `0.1.0-alpha.13`.
+
 ## v0.1.0-alpha.12
 
 This release fixes external npm installation by removing the hidden standalone

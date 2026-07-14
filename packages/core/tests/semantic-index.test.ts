@@ -56,6 +56,44 @@ describe("semantic index", () => {
     expect(findRoute(index, "POST login").candidates[0]?.displayName).toBe("POST /login");
     expect(findSymbol(index, "AuthService").candidates[0]?.displayName).toBe("AuthService");
   });
+
+  it("ranks repository feature symbols above framework and utility noise", () => {
+    const index = createSemanticIndex(featureRankingGraph());
+    const result = findFeature(index, "sleep duration thresholds", { limit: 8 });
+
+    expect(result.candidates[0]).toMatchObject({
+      displayName: "SleepDurationThresholdService",
+      kind: "Service",
+    });
+    expect(result.candidates[0]?.confidence).toBeGreaterThanOrEqual(0.7);
+    expect(result.candidates.map((candidate) => candidate.displayName)).toEqual(expect.arrayContaining([
+      "SleepDurationThresholdDto",
+      "SleepDurationThresholdRepository",
+      "SleepDurationThresholdService",
+    ]));
+    const serviceIndex = result.candidates.findIndex((candidate) => candidate.displayName === "SleepDurationThresholdService");
+    const externalIndex = result.candidates.findIndex((candidate) => candidate.displayName === "ThresholdService");
+    expect(externalIndex === -1 || externalIndex > serviceIndex).toBe(true);
+  });
+
+  it("bounds metadata-derived aliases and documentation", () => {
+    const index = createSemanticIndex(metadataHeavyGraph());
+    const entry = index.entries.find((item) => item.displayName === "SleepDurationThresholdService");
+
+    expect(entry?.documentation?.length).toBeLessThanOrEqual(260);
+    expect(Math.max(...(entry?.aliases.map((alias) => alias.length) ?? [0]))).toBeLessThanOrEqual(300);
+    expect(index.metadata.deterministicHash).toEqual(expect.any(String));
+  });
+
+  it("hashes larger semantic indexes deterministically with chunked hashing", () => {
+    const graph = largeGraph();
+    const first = createSemanticIndex(graph);
+    const second = createSemanticIndex(graph);
+
+    expect(first.metadata.deterministicHash).toBe(second.metadata.deterministicHash);
+    expect(first.entries).toHaveLength(600);
+    expect(validateSemanticIndex(first, graph)).toEqual([]);
+  });
 });
 
 function exampleGraph(): SoftwareGraph {
@@ -86,6 +124,80 @@ function exampleGraph(): SoftwareGraph {
     nodes,
     edges,
     fileCount: 7,
+  });
+}
+
+function featureRankingGraph(): SoftwareGraph {
+  const nodes: SoftwareGraphNode[] = [
+    node("Module", "SleepDurationThresholdModule", "src/sleep/sleep-duration-threshold.module.ts"),
+    node("Service", "SleepDurationThresholdService", "src/sleep/sleep-duration-threshold.service.ts"),
+    node("Model", "SleepDurationThresholdDto", "src/sleep/dto/sleep-duration-threshold.dto.ts"),
+    node("Repository", "SleepDurationThresholdRepository", "src/sleep/sleep-duration-threshold.repository.ts"),
+    node("Method", "SleepDurationThresholdService.evaluate", "src/sleep/sleep-duration-threshold.service.ts"),
+    node("Function", "sleep duration threshold service spec", "src/sleep/sleep-duration-threshold.service.spec.ts"),
+    node("Service", "ThresholdService", "node_modules/@nestjs/threshold/threshold.service.ts"),
+    node("Function", "durationUtils", "src/common/duration.utils.ts"),
+  ];
+  const byName = new Map(nodes.map((item) => [item.name, item] as const));
+  const edges: SoftwareGraphEdge[] = [
+    edge("CONTAINS", byName.get("SleepDurationThresholdModule")!, byName.get("SleepDurationThresholdService")!),
+    edge("CONTAINS", byName.get("SleepDurationThresholdService")!, byName.get("SleepDurationThresholdService.evaluate")!),
+    edge("REFERENCES", byName.get("SleepDurationThresholdService.evaluate")!, byName.get("SleepDurationThresholdDto")!),
+    edge("CALLS", byName.get("SleepDurationThresholdService.evaluate")!, byName.get("SleepDurationThresholdRepository")!),
+    edge("CALLS", byName.get("sleep duration threshold service spec")!, byName.get("SleepDurationThresholdService")!),
+  ];
+
+  return createSoftwareGraph({
+    repository: {
+      root: "/repo",
+      name: "sleep",
+      packageName: "sleep",
+    },
+    nodes,
+    edges,
+    fileCount: 7,
+  });
+}
+
+function metadataHeavyGraph(): SoftwareGraph {
+  return createSoftwareGraph({
+    repository: {
+      root: "/repo",
+      name: "metadata-heavy",
+      packageName: "metadata-heavy",
+    },
+    nodes: [
+      node("Service", "SleepDurationThresholdService", "src/sleep/sleep-duration-threshold.service.ts", {
+        documentation: "sleep duration threshold ".repeat(1_000),
+        nested: {
+          examples: Array.from({ length: 50 }, () => "duration threshold metadata ".repeat(200)),
+        },
+      }),
+    ],
+    edges: [],
+    fileCount: 1,
+  });
+}
+
+function largeGraph(): SoftwareGraph {
+  const nodes = Array.from({ length: 600 }, (_, index) =>
+    node(
+      index % 3 === 0 ? "Service" : index % 3 === 1 ? "Model" : "Function",
+      `SleepDurationThreshold${index}`,
+      `src/sleep/generated/sleep-duration-threshold-${index}.ts`,
+      { description: `Sleep duration threshold fixture ${index}` },
+    ),
+  );
+
+  return createSoftwareGraph({
+    repository: {
+      root: "/repo",
+      name: "large-example",
+      packageName: "large-example",
+    },
+    nodes,
+    edges: nodes.slice(1).map((item, index) => edge("REFERENCES", nodes[index]!, item)),
+    fileCount: nodes.length,
   });
 }
 

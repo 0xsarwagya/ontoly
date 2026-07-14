@@ -14,7 +14,7 @@ pnpm add @0xsarwagya/ontoly-mcp
 
 ## Status
 
-Alpha package for Ontoly v0.1.0-alpha.6. The public API is versioned with the Software Graph and RFC process.
+Alpha package for Ontoly v0.1.0-alpha.13. The public API is versioned with the Software Graph and RFC process.
 
 ## Links
 

@@ -4,7 +4,8 @@
   "description": "Deterministic software-engineering concept phrases for Semantic Index validation.",
   "minimumQuestions": 500,
   "files": [
-    "questions/software-engineering-phrases.json"
+    "questions/software-engineering-phrases.json",
+    "questions/agent-workflow-regression.json"
   ],
   "metrics": [
     "top1Accuracy",

@@ -1,0 +1,197 @@
+{
+  "version": "1.0.0",
+  "name": "Agent workflow regression queries",
+  "description": "Curated Search -> Locate -> Inspect -> Impact -> Evidence Pack -> Implementation Plan checks for bounded agent workflows.",
+  "queries": [
+    {
+      "id": "agent-workflow-0001",
+      "phrase": "sleep duration thresholds",
+      "category": "feature",
+      "expected": {
+        "nodes": [
+          "model:SleepDurationThreshold",
+          "config:SleepThresholds",
+          "method:SleepObservationService.recordStatistics",
+          "service:SleepObservationService"
+        ],
+        "files": [
+          "src/sleep/thresholds.ts",
+          "src/sleep/sleep-observation.service.ts"
+        ],
+        "evidence": [
+          "READS",
+          "REFERENCES"
+        ],
+        "confidence": {
+          "min": 0.6,
+          "max": 1
+        }
+      }
+    },
+    {
+      "id": "agent-workflow-0002",
+      "phrase": "sleep statistics observation",
+      "category": "feature",
+      "expected": {
+        "nodes": [
+          "service:SleepObservationService",
+          "method:SleepObservationService.recordStatistics"
+        ],
+        "files": [
+          "src/sleep/sleep-observation.service.ts"
+        ],
+        "evidence": [
+          "CALLS",
+          "CONTAINS"
+        ],
+        "confidence": {
+          "min": 0.6,
+          "max": 1
+        }
+      }
+    },
+    {
+      "id": "agent-workflow-0003",
+      "phrase": "batch-data observations",
+      "category": "concept",
+      "expected": {
+        "nodes": [
+          "repo:BatchDataObservationRepository",
+          "model:BatchDataObservation"
+        ],
+        "files": [
+          "src/sleep/batch-data-observation.repository.ts",
+          "src/sleep/batch-data-observation.ts"
+        ],
+        "evidence": [
+          "WRITES",
+          "USES"
+        ],
+        "confidence": {
+          "min": 0.55,
+          "max": 1
+        }
+      }
+    },
+    {
+      "id": "agent-workflow-0004",
+      "phrase": "authentication JWT",
+      "category": "feature",
+      "expected": {
+        "nodes": [
+          "guard:JwtAuthGuard",
+          "env:JWT_SECRET",
+          "controller:AuthController",
+          "service:AuthService",
+          "method:AuthService.login"
+        ],
+        "files": [
+          "src/auth/jwt-auth.guard.ts",
+          "src/auth/auth.controller.ts",
+          "src/auth/auth.service.ts"
+        ],
+        "evidence": [
+          "AUTHORIZES",
+          "READS"
+        ],
+        "confidence": {
+          "min": 0.6,
+          "max": 1
+        }
+      }
+    },
+    {
+      "id": "agent-workflow-0005",
+      "phrase": "Signals Thresholds",
+      "category": "concept",
+      "expected": {
+        "nodes": [
+          "event:SleepSignals",
+          "config:SleepThresholds"
+        ],
+        "files": [
+          "src/sleep/signals.ts",
+          "src/sleep/thresholds.ts"
+        ],
+        "evidence": [
+          "PUBLISHES",
+          "READS"
+        ],
+        "confidence": {
+          "min": 0.5,
+          "max": 1
+        }
+      }
+    },
+    {
+      "id": "agent-workflow-0006",
+      "phrase": "evidence-pack authentication JWT",
+      "category": "concept",
+      "expected": {
+        "nodes": [
+          "guard:JwtAuthGuard",
+          "env:JWT_SECRET"
+        ],
+        "files": [
+          "src/auth/jwt-auth.guard.ts"
+        ],
+        "evidence": [
+          "AUTHORIZES",
+          "READS"
+        ],
+        "confidence": {
+          "min": 0.6,
+          "max": 1
+        }
+      }
+    },
+    {
+      "id": "agent-workflow-0007",
+      "phrase": "impact batch-data observations",
+      "category": "feature",
+      "expected": {
+        "nodes": [
+          "repo:BatchDataObservationRepository",
+          "service:SleepObservationService"
+        ],
+        "files": [
+          "src/sleep/batch-data-observation.repository.ts",
+          "src/sleep/sleep-observation.service.ts"
+        ],
+        "evidence": [
+          "CALLS",
+          "WRITES"
+        ],
+        "confidence": {
+          "min": 0.55,
+          "max": 1
+        }
+      }
+    },
+    {
+      "id": "agent-workflow-0008",
+      "phrase": "implementation-plan sleep duration thresholds",
+      "category": "concept",
+      "expected": {
+        "nodes": [
+          "model:SleepDurationThreshold",
+          "service:SleepObservationService",
+          "method:SleepObservationService.recordStatistics",
+          "config:SleepThresholds"
+        ],
+        "files": [
+          "src/sleep/thresholds.ts",
+          "src/sleep/sleep-observation.service.ts"
+        ],
+        "evidence": [
+          "REFERENCES",
+          "READS"
+        ],
+        "confidence": {
+          "min": 0.55,
+          "max": 1
+        }
+      }
+    }
+  ]
+}

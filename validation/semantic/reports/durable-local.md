@@ -5,16 +5,16 @@ Frameworks: React, Vite
 
 | System | Questions | PASS | PARTIAL | FAIL | Precision | Recall | Score | Avg Latency |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Ontoly | 6 | 6 | 0 | 0 | 100 | 100 | 100 | 0.026ms |
-| Graphify | 6 | 2 | 0 | 4 | 33.33 | 33.33 | 33.33 | 0.009ms |
+| Ontoly | 6 | 6 | 0 | 0 | 100 | 100 | 100 | 0.051ms |
+| Graphify | 6 | 0 | 0 | 6 | 0 | 0 | 0 | 0.005ms |
 
 ## Questions
 
 | Question | Category | Ontoly | Graphify | Winner |
 | --- | --- | ---: | ---: | --- |
 | What function creates a durable local store? | Functions | PASS (100) | FAIL (0) | Ontoly |
-| Which public interface represents the durable store? | Interfaces | PASS (100) | PASS (100) | Tie |
+| Which public interface represents the durable store? | Interfaces | PASS (100) | FAIL (0) | Ontoly |
 | What is the package name? | Packages | PASS (100) | FAIL (0) | Ontoly |
 | Which CI environment variable is read? | Environment Variables | PASS (100) | FAIL (0) | Ontoly |
 | Which dependency provides IndexedDB tests? | Dependency Injection | PASS (100) | FAIL (0) | Ontoly |
-| Does withReadWrite call openDatabase? | Call Graph | PASS (100) | PASS (100) | Tie |
+| Does withReadWrite call openDatabase? | Call Graph | PASS (100) | FAIL (0) | Ontoly |

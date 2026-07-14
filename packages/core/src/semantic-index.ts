@@ -196,8 +196,8 @@ const FRAMEWORK_SUFFIXES = new Set([
 
 const CATEGORY_TYPES: Record<SearchCategory, readonly NodeType[]> = {
   concept: [],
-  symbol: ["Function", "Method", "Class", "Interface", "TypeAlias", "Enum", "Field", "Service", "Provider", "Controller", "Repository", "Resource", "Route"],
-  feature: ["Route", "Controller", "Service", "Provider", "Module", "Package", "Function", "Method", "Resource", "Operation"],
+  symbol: ["Function", "Method", "Class", "Interface", "TypeAlias", "Enum", "Field", "Service", "Provider", "Controller", "Repository", "Resource", "Model", "Route"],
+  feature: ["Route", "Controller", "Service", "Provider", "Module", "Package", "Repository", "Model", "Resource", "Class", "Interface", "TypeAlias", "Function", "Method", "Operation"],
   configuration: ["Configuration", "EnvironmentVariable", "BuildTarget", "Script", "Task"],
   environment: ["EnvironmentVariable"],
   route: ["Route", "Operation", "Controller"],
@@ -227,12 +227,15 @@ const SEMANTIC_EXPANSIONS: Record<string, readonly string[]> = {
   authorization: ["authorize", "permission", "guard", "role", "policy"],
   average: ["averages", "aggregate", "aggregation", "mean", "statistics"],
   averages: ["average", "aggregate", "aggregation", "mean", "statistics"],
+  batch: ["bulk", "group", "job", "pipeline", "data"],
+  bulk: ["batch", "group", "job", "pipeline", "data"],
   config: ["configuration", "setting", "settings"],
   configuration: ["config", "setting", "settings"],
   controller: ["handler", "route", "endpoint"],
+  data: ["resource", "payload", "record", "model"],
   database: ["db", "repository", "persistence", "prisma", "table"],
   db: ["database", "repository", "persistence", "table"],
-  duration: ["time", "period", "interval"],
+  duration: ["time", "period", "interval", "sleep", "threshold"],
   endpoint: ["api", "route", "operation"],
   env: ["environment", "variable", "secret", "configuration"],
   environment: ["env", "variable", "secret", "configuration"],
@@ -243,9 +246,12 @@ const SEMANTIC_EXPANSIONS: Record<string, readonly string[]> = {
   login: ["auth", "authentication", "signin", "session", "jwt"],
   notification: ["notifications", "alert", "event", "message"],
   notifications: ["notification", "alert", "event", "message"],
+  observation: ["observations", "signal", "metric", "measurement", "statistic", "fhir"],
+  observations: ["observation", "signal", "metric", "measurement", "statistic", "fhir"],
   patient: ["resident", "user", "subject"],
   permission: ["authorization", "authorize", "guard", "role"],
-  plan: ["definition", "resource"],
+  plan: ["definition", "resource", "fhir"],
+  plandefinition: ["plan", "definition", "resource", "fhir"],
   provider: ["service", "injectable", "dependency"],
   repo: ["repository", "persistence", "database"],
   repository: ["repo", "persistence", "database"],
@@ -254,6 +260,7 @@ const SEMANTIC_EXPANSIONS: Record<string, readonly string[]> = {
   service: ["provider", "injectable", "dependency"],
   session: ["auth", "authentication", "login", "signin", "jwt"],
   signin: ["auth", "authentication", "login", "session"],
+  sleep: ["duration", "threshold", "thresholds", "statistic", "statistics", "observation"],
   signal: ["signals", "metric", "measurement", "event"],
   signals: ["signal", "metric", "measurement", "event"],
   statistic: ["statistics", "average", "aggregate"],
@@ -262,6 +269,12 @@ const SEMANTIC_EXPANSIONS: Record<string, readonly string[]> = {
   thresholds: ["threshold", "limit", "configuration", "setting"],
   token: ["jwt", "auth", "authentication", "session"],
 };
+
+const SEMANTIC_METADATA_DEPTH_LIMIT = 3;
+const SEMANTIC_METADATA_ARRAY_LIMIT = 12;
+const SEMANTIC_METADATA_ENTRY_LIMIT = 24;
+const SEMANTIC_METADATA_VALUES_LIMIT = 80;
+const SEMANTIC_TEXT_LIMIT = 240;
 
 export function createSemanticIndex(graph: SoftwareGraph): SemanticIndex {
   const nodeById = new Map(graph.nodes.map((node) => [node.id, node] as const));
@@ -296,13 +309,7 @@ export function createSemanticIndex(graph: SoftwareGraph): SemanticIndex {
       statistics,
     },
   } satisfies SemanticIndex;
-  const deterministicHash = stableHash(stableStringify({
-    ...indexWithoutMetadata,
-    metadata: {
-      ...indexWithoutMetadata.metadata,
-      deterministicHash: undefined,
-    },
-  }));
+  const deterministicHash = hashSemanticIndex(indexWithoutMetadata);
 
   return {
     ...indexWithoutMetadata,
@@ -311,6 +318,40 @@ export function createSemanticIndex(graph: SoftwareGraph): SemanticIndex {
       deterministicHash,
     },
   };
+}
+
+function hashSemanticIndex(index: Omit<SemanticIndex, "metadata"> & { readonly metadata: SemanticIndex["metadata"] }): string {
+  const entryHashes = index.entries.map((entry) => stableHash(stableStringify(entry))).sort();
+  const invertedHashes = Object.entries(index.invertedIndex)
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([term, ids]) => stableHash(stableStringify({ term, ids })));
+  const vocabularyHashes = index.vocabulary
+    .map((term) => stableHash(stableStringify(term)))
+    .sort();
+
+  return stableHash(stableStringify({
+    version: index.version,
+    graphVersion: index.graphVersion,
+    graphHash: index.graphHash,
+    repository: index.repository,
+    entryIds: index.entryIds,
+    entries: {
+      count: entryHashes.length,
+      hashes: entryHashes,
+    },
+    invertedIndex: {
+      count: invertedHashes.length,
+      hashes: invertedHashes,
+    },
+    vocabulary: {
+      count: vocabularyHashes.length,
+      hashes: vocabularyHashes,
+    },
+    metadata: {
+      generatedAt: index.metadata.generatedAt,
+      statistics: index.metadata.statistics,
+    },
+  }));
 }
 
 export function validateSemanticIndex(index: SemanticIndex, graph?: SoftwareGraph): readonly string[] {
@@ -530,6 +571,21 @@ function generateAliases(values: readonly string[], node: SoftwareGraphNode): re
   for (const typeAlias of aliasesForNodeType(node.type)) {
     aliases.add(typeAlias);
   }
+  if (isDtoLikeNode(node)) {
+    aliases.add("dto");
+    aliases.add("data transfer object");
+    aliases.add("contract");
+    aliases.add("payload");
+  }
+  if (isTestNode(node)) {
+    aliases.add("test");
+    aliases.add("spec");
+    aliases.add("coverage");
+  }
+  if (isFeatureModuleNode(node)) {
+    aliases.add("feature");
+    aliases.add("feature module");
+  }
 
   return uniqueStrings([...aliases].filter((alias) => alias.length > 1));
 }
@@ -545,6 +601,18 @@ function generateKeywords(values: readonly string[], node: SoftwareGraphNode): r
   keywords.add(node.type.toLowerCase());
   for (const alias of aliasesForNodeType(node.type)) {
     keywords.add(alias);
+  }
+  if (isDtoLikeNode(node)) {
+    keywords.add("dto");
+    keywords.add("contract");
+    keywords.add("payload");
+  }
+  if (isTestNode(node)) {
+    keywords.add("test");
+    keywords.add("spec");
+  }
+  if (isFeatureModuleNode(node)) {
+    keywords.add("feature");
   }
   return uniqueStrings([...keywords].filter((keyword) => keyword.length > 1));
 }
@@ -621,13 +689,19 @@ function candidateIdsFor(index: SemanticIndex, intent: NormalizedIntent): readon
       ids.add(id);
     }
   }
-  if (ids.size > 0) {
-    return [...ids].sort();
-  }
-  return index.entries
+
+  const fuzzyIds = index.entries
     .filter((entry) => fuzzyEntryMatch(entry, intent))
     .map((entry) => entry.stableId)
     .sort();
+
+  if (ids.size > 0) {
+    for (const id of fuzzyIds.slice(0, 250)) {
+      ids.add(id);
+    }
+    return [...ids].sort();
+  }
+  return fuzzyIds;
 }
 
 function scoreEntry(entry: SemanticIndexEntry, intent: NormalizedIntent, category: SearchCategory): SemanticCandidate {
@@ -715,16 +789,28 @@ function scoreEntry(entry: SemanticIndexEntry, intent: NormalizedIntent, categor
 function repositoryLocalityBoost(entry: SemanticIndexEntry): number {
   let score = 0;
   if (isRepositoryLocalEntry(entry)) {
+    score += 32;
+  }
+  if (["Service", "Controller", "Repository", "Provider"].includes(entry.kind)) {
+    score += 34;
+  }
+  if (["Module", "Route", "Operation"].includes(entry.kind)) {
+    score += 26;
+  }
+  if (isRepositorySymbolEntry(entry)) {
+    score += 16;
+  }
+  if (isDtoLikeEntry(entry)) {
     score += 28;
   }
-  if (["Service", "Controller", "Module", "Route", "Repository", "Provider"].includes(entry.kind)) {
-    score += 22;
+  if (isFeatureModuleEntry(entry)) {
+    score += 8;
   }
   if (["Configuration", "EnvironmentVariable"].includes(entry.kind)) {
     score += 18;
   }
   if (/(^|[/.])(test|tests|spec|__tests__)([/.]|$)|\.(test|spec)\./i.test(entry.filePath ?? "")) {
-    score += 12;
+    score += 22;
   }
   return score;
 }
@@ -733,13 +819,19 @@ function repositoryRankingPenalty(entry: SemanticIndexEntry): number {
   let penalty = 0;
   const text = `${entry.stableId} ${entry.filePath ?? ""} ${entry.package ?? ""} ${entry.displayName}`.toLowerCase();
   if (text.includes("node_modules") || entry.stableId.startsWith("dep:")) {
-    penalty += 90;
+    penalty += 120;
   }
   if (/(\bdto\b|dto$|schema$|type$|types$|generated|__generated__)/i.test(entry.displayName) && !isRepositoryLocalEntry(entry)) {
     penalty += 35;
   }
   if (/node_modules|@nestjs\/|next\/dist|react\/|typescript\/lib/i.test(text)) {
-    penalty += 45;
+    penalty += 80;
+  }
+  if (/^framework:|framework|adapter|platform|runtime/.test(entry.stableId.toLowerCase()) && !isRepositoryLocalEntry(entry)) {
+    penalty += 55;
+  }
+  if (isGenericUtilityEntry(entry)) {
+    penalty += 35;
   }
   return penalty;
 }
@@ -757,6 +849,25 @@ function repositoryNoiseEvidence(entry: SemanticIndexEntry): string {
 function isRepositoryLocalEntry(entry: SemanticIndexEntry): boolean {
   const text = `${entry.stableId} ${entry.filePath ?? ""} ${entry.package ?? ""}`.toLowerCase();
   return !text.includes("node_modules") && !entry.stableId.startsWith("dep:") && !entry.stableId.startsWith("framework:");
+}
+
+function isRepositorySymbolEntry(entry: SemanticIndexEntry): boolean {
+  return ["Function", "Method", "Class", "Interface", "TypeAlias", "Enum", "Field", "Model", "Resource"].includes(entry.kind);
+}
+
+function isDtoLikeEntry(entry: SemanticIndexEntry): boolean {
+  const text = `${entry.displayName} ${entry.filePath ?? ""} ${entry.keywords.join(" ")}`;
+  return ["Model", "Interface", "TypeAlias", "Class"].includes(entry.kind) && /\bdto\b|dto$|data transfer|payload|request|response/i.test(text);
+}
+
+function isFeatureModuleEntry(entry: SemanticIndexEntry): boolean {
+  return entry.kind === "Module" && isRepositoryLocalEntry(entry) && !isGenericUtilityEntry(entry);
+}
+
+function isGenericUtilityEntry(entry: SemanticIndexEntry): boolean {
+  const text = `${entry.stableId} ${entry.displayName} ${entry.filePath ?? ""}`.toLowerCase();
+  return /(^|[/.:-])(common|shared|utils?|helpers?|internal|misc|core|index)([/.:-]|$)/.test(text) ||
+    /\b(base|abstract|generic|utility|utils?|helpers?)\b/.test(entry.displayName);
 }
 
 function fuzzyEntryMatch(entry: SemanticIndexEntry, intent: NormalizedIntent): boolean {
@@ -892,6 +1003,10 @@ function aliasesForNodeType(type: NodeType): readonly string[] {
       return ["service", "provider", "injectable"];
     case "Repository":
       return ["repository", "repo", "persistence", "database"];
+    case "Model":
+      return ["model", "dto", "schema", "contract", "payload"];
+    case "Resource":
+      return ["resource", "model"];
     case "Configuration":
       return ["config", "configuration", "setting"];
     case "EnvironmentVariable":
@@ -903,6 +1018,19 @@ function aliasesForNodeType(type: NodeType): readonly string[] {
     default:
       return [type.toLowerCase()];
   }
+}
+
+function isDtoLikeNode(node: SoftwareGraphNode): boolean {
+  const text = `${node.name} ${node.file ?? ""}`;
+  return ["Model", "Interface", "TypeAlias", "Class"].includes(node.type) && /\bdto\b|dto$|data transfer|payload|request|response/i.test(text);
+}
+
+function isTestNode(node: SoftwareGraphNode): boolean {
+  return /(^|[/.])(test|tests|spec|__tests__)([/.]|$)|\.(test|spec)\./i.test(`${node.file ?? ""} ${node.name}`);
+}
+
+function isFeatureModuleNode(node: SoftwareGraphNode): boolean {
+  return node.type === "Module" && !/(^|[/.:-])(common|shared|utils?|helpers?|internal|misc|core|index)([/.:-]|$)/i.test(`${node.id} ${node.name} ${node.file ?? ""}`);
 }
 
 function expansionsFor(token: string): readonly string[] {
@@ -933,7 +1061,7 @@ function includeEntryForCategory(
 
 function categoryBoostFor(entry: SemanticIndexEntry, category: SearchCategory): number {
   if (category === "concept") {
-    return ["Service", "Provider", "Controller", "Route", "Operation", "Function", "Method", "Module", "Configuration", "EnvironmentVariable"].includes(entry.kind)
+    return ["Service", "Provider", "Controller", "Route", "Operation", "Repository", "Model", "Resource", "Function", "Method", "Class", "Interface", "TypeAlias", "Module", "Configuration", "EnvironmentVariable"].includes(entry.kind)
       ? 45
       : 0;
   }
@@ -941,7 +1069,14 @@ function categoryBoostFor(entry: SemanticIndexEntry, category: SearchCategory): 
   if (types.length === 0) {
     return 0;
   }
-  return types.includes(entry.kind) ? 75 : 0;
+  const base = types.includes(entry.kind) ? 75 : 0;
+  if (category === "feature" && isFeatureModuleEntry(entry)) {
+    return base + 10;
+  }
+  if (category === "feature" && isDtoLikeEntry(entry)) {
+    return base + 20;
+  }
+  return base;
 }
 
 function nodeImportance(node: SoftwareGraphNode, degree: number, inbound: number): number {
@@ -1016,31 +1151,52 @@ function metadataTextValues(metadata: JsonObject | undefined): readonly string[]
     return [];
   }
   const values: string[] = [];
-  collectMetadataText(metadata, values, 0);
+  collectMetadataText(metadata, values, 0, new WeakSet<object>());
   return values;
 }
 
-function collectMetadataText(value: unknown, values: string[], depth: number): void {
-  if (depth > 3 || value === null || value === undefined) {
+function collectMetadataText(value: unknown, values: string[], depth: number, seen: WeakSet<object>): void {
+  if (
+    depth > SEMANTIC_METADATA_DEPTH_LIMIT ||
+    values.length >= SEMANTIC_METADATA_VALUES_LIMIT ||
+    value === null ||
+    value === undefined
+  ) {
     return;
   }
   if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
-    values.push(String(value));
+    values.push(truncateSemanticText(String(value)));
     return;
   }
   if (Array.isArray(value)) {
-    for (const item of value.slice(0, 20)) {
-      collectMetadataText(item, values, depth + 1);
+    if (seen.has(value)) {
+      return;
+    }
+    seen.add(value);
+    for (const item of value.slice(0, SEMANTIC_METADATA_ARRAY_LIMIT)) {
+      collectMetadataText(item, values, depth + 1, seen);
+      if (values.length >= SEMANTIC_METADATA_VALUES_LIMIT) {
+        break;
+      }
     }
     return;
   }
   if (typeof value === "object") {
-    for (const [key, entry] of Object.entries(value as Record<string, unknown>).sort(([left], [right]) => left.localeCompare(right))) {
+    if (seen.has(value)) {
+      return;
+    }
+    seen.add(value);
+    for (const [key, entry] of Object.entries(value as Record<string, unknown>)
+      .sort(([left], [right]) => left.localeCompare(right))
+      .slice(0, SEMANTIC_METADATA_ENTRY_LIMIT)) {
       if (isNoisyMetadataKey(key)) {
         continue;
       }
-      values.push(key);
-      collectMetadataText(entry, values, depth + 1);
+      values.push(truncateSemanticText(key));
+      collectMetadataText(entry, values, depth + 1, seen);
+      if (values.length >= SEMANTIC_METADATA_VALUES_LIMIT) {
+        break;
+      }
     }
   }
 }
@@ -1062,16 +1218,33 @@ function routeTextValues(node: SoftwareGraphNode): readonly string[] {
 }
 
 function deterministicDocumentation(metadata: JsonObject | undefined): string | undefined {
-  return stringMetadata(metadata, "documentation") ?? stringMetadata(metadata, "description") ?? stringMetadata(metadata, "summary");
+  return firstTruncatedMetadata(metadata, ["documentation", "description", "summary"]);
 }
 
 function deterministicComments(metadata: JsonObject | undefined): string | undefined {
-  return stringMetadata(metadata, "comments") ?? stringMetadata(metadata, "comment") ?? stringMetadata(metadata, "jsdoc");
+  return firstTruncatedMetadata(metadata, ["comments", "comment", "jsdoc"]);
 }
 
 function stringMetadata(metadata: JsonObject | undefined, key: string): string | undefined {
   const value = metadata?.[key];
   return typeof value === "string" && value.trim() ? value.trim() : undefined;
+}
+
+function firstTruncatedMetadata(metadata: JsonObject | undefined, keys: readonly string[]): string | undefined {
+  for (const key of keys) {
+    const value = stringMetadata(metadata, key);
+    if (value) {
+      return truncateSemanticText(value);
+    }
+  }
+  return undefined;
+}
+
+function truncateSemanticText(value: string): string {
+  const normalized = value.replace(/\s+/g, " ").trim();
+  return normalized.length > SEMANTIC_TEXT_LIMIT
+    ? `${normalized.slice(0, SEMANTIC_TEXT_LIMIT)}...[truncated]`
+    : normalized;
 }
 
 function frameworkFromNeighbors(neighbors: readonly SoftwareGraphNode[]): string | undefined {

@@ -26,6 +26,9 @@ describe("repository intelligence pass", () => {
       JSON.stringify({ compilerOptions: { target: "ES2022", module: "ESNext" } }, null, 2),
       "utf8",
     );
+    await writeFile(join(root, "eslint.config.js"), "export default [];\n", "utf8");
+    await writeFile(join(root, "apps", "api", "package.json"), JSON.stringify({ name: "@repo/api" }, null, 2), "utf8");
+    await writeFile(join(root, "apps", "api", "eslint.config.js"), "export default [];\n", "utf8");
     await writeFile(join(root, ".env.example"), "DATABASE_URL=\n# ignored\nAPI_KEY=\n", "utf8");
 
     const result = await buildSoftwareGraphWithArtifacts({
@@ -51,6 +54,20 @@ describe("repository intelligence pass", () => {
     );
     expect(graph?.edges.map((edge) => edge.type)).toEqual(
       expect.arrayContaining(["CONTAINS", "CONFIGURES", "DEPENDS_ON", "EXECUTES", "PROVIDES", "USES"]),
+    );
+    expect(graph?.edges).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          type: "CONFIGURES",
+          from: "config:eslint.config.js:eslint.config.js",
+          to: "pkg:@0xsarwagya/workspace",
+        }),
+        expect.objectContaining({
+          type: "CONFIGURES",
+          from: "config:apps/api/eslint.config.js:eslint.config.js",
+          to: "pkg:@repo/api",
+        }),
+      ]),
     );
   });
 });

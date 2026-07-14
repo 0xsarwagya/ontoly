@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-13T15:37:42.032Z",
+  "generatedAt": "2026-07-14T20:59:43.329Z",
   "items": [
     {
       "id": "validation",
@@ -16,7 +16,7 @@
     {
       "id": "ovok-core-coverage",
       "label": "ovok-core coverage",
-      "message": "98%",
+      "message": "99%",
       "color": "2ea44f"
     },
     {
@@ -28,7 +28,7 @@
     {
       "id": "ovok-core-performance",
       "label": "ovok-core perf",
-      "message": "25104.05ms",
+      "message": "56325.7ms",
       "color": "0969da"
     },
     {
@@ -46,13 +46,13 @@
     {
       "id": "0xsarwagya-trust",
       "label": "0xsarwagya trust",
-      "message": "95%",
+      "message": "96%",
       "color": "2ea44f"
     },
     {
       "id": "0xsarwagya-performance",
       "label": "0xsarwagya perf",
-      "message": "8432.22ms",
+      "message": "4108.64ms",
       "color": "0969da"
     },
     {
@@ -76,7 +76,7 @@
     {
       "id": "innosphere-performance",
       "label": "innosphere perf",
-      "message": "10477.27ms",
+      "message": "32014.24ms",
       "color": "0969da"
     },
     {
@@ -100,7 +100,7 @@
     {
       "id": "ghost-performance",
       "label": "ghost perf",
-      "message": "613.65ms",
+      "message": "1366.78ms",
       "color": "0969da"
     },
     {
@@ -124,7 +124,7 @@
     {
       "id": "durable-local-performance",
       "label": "durable-local perf",
-      "message": "601.75ms",
+      "message": "1247.4ms",
       "color": "0969da"
     },
     {

@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-analyzers",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.13",
   "description": "Semantic coverage and graph quality analyzers for Ontoly.",
   "type": "module",
   "license": "MIT",

@@ -19,5 +19,11 @@ validation/*/benchmarks/
 validation/*/comparison/
 validation/ontoly/
 validation/graphify/
+validation/0xsarwagya/
+validation/durable-local/
+validation/ghost/
+validation/innosphere/
+validation/ovok-core/
+validation/search/reports/
 validation/corpus/**/results/*
 !validation/corpus/**/results/.gitkeep

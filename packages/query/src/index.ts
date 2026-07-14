@@ -741,17 +741,34 @@ function performConnectedComponents(
       continue;
     }
 
-    const traversal = performWalk(indexes, node.id, normalizeWalkOptions({
-      direction: "both",
-      depth: Number.POSITIVE_INFINITY,
-      relationships,
-    }));
+    const component: SoftwareGraphNode[] = [];
+    const queue = [node.id];
+    seen.add(node.id);
 
-    for (const item of traversal.nodes) {
-      seen.add(item.id);
+    while (queue.length > 0) {
+      const current = queue.shift();
+      if (!current) {
+        continue;
+      }
+
+      const currentNode = indexes.nodeById.get(current);
+      if (currentNode) {
+        component.push(currentNode);
+      }
+
+      for (const edge of adjacentEdges(indexes, current, "both", relationships)) {
+        for (const nextId of nextNodeIds(edge, current, "both")) {
+          if (seen.has(nextId)) {
+            continue;
+          }
+          seen.add(nextId);
+          queue.push(nextId);
+        }
+      }
+
     }
 
-    components.push([...traversal.nodes]);
+    components.push(component.sort(compareNodes));
   }
 
   return components.sort((left, right) => right.length - left.length || compareNodes(left[0] as SoftwareGraphNode, right[0] as SoftwareGraphNode));

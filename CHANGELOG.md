@@ -2,6 +2,26 @@
 
 All notable Ontoly changes are tracked here.
 
+## 0.1.0-alpha.13
+
+### Stabilized
+
+- Added enforced execution budgets, partial results, and profiling metadata for
+  long-running semantic capabilities, including `ImplementationPlan`,
+  `ImpactAnalysis`, and `EvidencePack`.
+- Bounded Evidence Pack generation so agent workflows never serialize the full
+  graph and always return compact ranked evidence.
+- Hardened Semantic Index hashing and fuzzy retrieval for large repositories.
+- Fixed validation-lab determinism checks to distinguish compiler
+  nondeterminism from actively changing repository input.
+- Restored package configuration ownership edges for workspace config files.
+
+### Validation
+
+- Added the deterministic agent workflow regression corpus for
+  Search -> Locate -> Impact -> Evidence Pack -> Implementation Plan.
+- Refreshed the alpha validation baseline with per-stage performance metrics.
+
 ## 0.1.0-alpha.9
 
 ### Changed

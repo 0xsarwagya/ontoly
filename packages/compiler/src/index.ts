@@ -189,7 +189,36 @@ function defaultConfigContents(): string {
 }
 
 function shouldIgnorePath(path: string): boolean {
-  return path.split(/[\\/]/).some((part) => [".git", ".ontoly", "dist", "node_modules"].includes(part));
+  return path
+    .split(/[\\/]/)
+    .some((part) =>
+      [
+        ".artifacts",
+        ".cache",
+        ".expo",
+        ".git",
+        ".next",
+        ".nuxt",
+        ".ontoly",
+        ".svelte-kit",
+        ".turbo",
+        ".vite",
+        "artifacts",
+        "build",
+        "coverage",
+        "dist",
+        "downloads",
+        "node_modules",
+        "ontoly-output",
+        "out",
+        "outputs",
+        "playwright-report",
+        "temp",
+        "test-results",
+        "tmp",
+        "work",
+      ].includes(part),
+    );
 }
 
 export type { OntolyConfig };

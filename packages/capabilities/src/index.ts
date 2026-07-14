@@ -59,6 +59,12 @@ export interface CapabilityInput extends JsonObject {
   readonly limit?: number | undefined;
   readonly budget?: number | undefined;
   readonly timeoutMs?: number | undefined;
+  readonly maxTime?: number | undefined;
+  readonly maxTimeMs?: number | undefined;
+  readonly maxNodes?: number | undefined;
+  readonly maxEdges?: number | undefined;
+  readonly maxDepth?: number | undefined;
+  readonly maxEvidence?: number | undefined;
 }
 
 export interface SerializedNode {
@@ -220,7 +226,59 @@ const IMPACT_MODE_SETTINGS = {
   "blast-radius": { depth: 5, nodeLimit: 200, edgeLimit: 400 },
 } as const;
 
+const EVIDENCE_PACK_NODE_LIMIT = 20;
+const EVIDENCE_PACK_EDGE_LIMIT = 50;
+const EVIDENCE_PACK_FILE_LIMIT = 10;
+const EVIDENCE_PACK_SEMANTIC_LIMIT = 80;
+const EVIDENCE_PACK_LEXICAL_LIMIT = 20;
+const SERIALIZED_METADATA_DEPTH_LIMIT = 3;
+const SERIALIZED_METADATA_ARRAY_LIMIT = 4;
+const SERIALIZED_METADATA_ENTRY_LIMIT = 12;
+const SERIALIZED_METADATA_STRING_LIMIT = 160;
+const SERIALIZED_EDGE_EVIDENCE_LIMIT = 3;
+const SERIALIZED_EDGE_DESCRIPTION_LIMIT = 240;
+
 type ImpactMode = keyof typeof IMPACT_MODE_SETTINGS;
+
+type BoundaryDirection = "inbound" | "outbound" | "both";
+
+interface ExecutionBudget {
+  readonly startedAt: number;
+  readonly maxTimeMs: number;
+  readonly maxNodes: number;
+  readonly maxEdges: number;
+  readonly maxDepth: number;
+  readonly maxEvidence: number;
+  readonly perNodeEdges: number;
+}
+
+interface BoundaryResult {
+  readonly nodes: readonly SoftwareGraphNode[];
+  readonly edges: readonly SoftwareGraphEdge[];
+  readonly truncated: boolean;
+  readonly reason: "COMPLETE" | "TIME_BUDGET_EXCEEDED" | "NODE_BUDGET_EXCEEDED" | "EDGE_BUDGET_EXCEEDED" | "DEPTH_BUDGET_EXCEEDED";
+  readonly visitedNodes: number;
+  readonly visitedEdges: number;
+  readonly maxDepthReached: number;
+}
+
+interface ProfileStage {
+  readonly name: string;
+  readonly durationMs: number;
+  readonly nodesVisited?: number | undefined;
+  readonly edgesVisited?: number | undefined;
+  readonly cacheHits?: number | undefined;
+  readonly status: "complete" | "partial";
+}
+
+const OWNER_RELATIONSHIPS: readonly RelationshipType[] = [
+  "CONTAINS",
+  "PROVIDES",
+  "REGISTERED_IN",
+  "HANDLES",
+  "DECLARES",
+  "BELONGS_TO",
+];
 
 export function createCapabilityEngine(graph: SoftwareGraph): CapabilityEngine {
   const query = createQueryEngine(graph);
@@ -361,7 +419,7 @@ function architectureSummary(context: CapabilityContext): CapabilityResult {
 }
 
 function impactAnalysis(context: CapabilityContext, input: CapabilityInput): CapabilityResult {
-  const resolved = resolveTarget(context, input);
+  const resolved = resolveImpactTarget(context, input);
   if (!resolved.node) {
     return notFoundResult(context, "ImpactAnalysis", resolved);
   }
@@ -369,9 +427,30 @@ function impactAnalysis(context: CapabilityContext, input: CapabilityInput): Cap
   const mode = readImpactMode(input);
   const settings = IMPACT_MODE_SETTINGS[mode];
   const depth = input.depth === undefined ? settings.depth : readDepth(input, settings.depth);
-  const dependents = context.query.dependents(resolved.node.id, depth);
-  const dependencies = context.query.dependencies(resolved.node.id, Math.min(depth, 3));
-  const expanded = expandSemanticBoundary(context, [resolved.node], depth);
+  const budget = createExecutionBudget(input, {
+    maxTimeMs: 2_000,
+    maxNodes: settings.nodeLimit,
+    maxEdges: settings.edgeLimit,
+    maxDepth: depth,
+    maxEvidence: 20,
+    perNodeEdges: 32,
+  });
+  const dependents = walkBoundary(context, [resolved.node], {
+    direction: "inbound",
+    depth,
+    relationships: DEPENDENCY_RELATIONSHIPS,
+    budget: sliceBudget(budget, Math.ceil(settings.nodeLimit / 2), Math.ceil(settings.edgeLimit / 2)),
+  });
+  const dependencies = walkBoundary(context, [resolved.node], {
+    direction: "outbound",
+    depth: Math.min(depth, 3),
+    relationships: DEPENDENCY_RELATIONSHIPS,
+    budget: sliceBudget(budget, Math.ceil(settings.nodeLimit / 2), Math.ceil(settings.edgeLimit / 2)),
+  });
+  const expanded = expandSemanticBoundary(context, [resolved.node], depth, {
+    budget,
+    seedLimit: 1,
+  });
   const allNodes = uniqueNodes([resolved.node, ...dependents.nodes, ...dependencies.nodes, ...expanded.nodes]);
   const nodes = limitNodes([resolved.node], allNodes, settings.nodeLimit);
   const nodeIds = new Set(nodes.map((node) => node.id));
@@ -380,7 +459,7 @@ function impactAnalysis(context: CapabilityContext, input: CapabilityInput): Cap
     .filter((edge) => nodeIds.has(edge.from) || nodeIds.has(edge.to))
     .slice(0, settings.edgeLimit);
   const groups = groupNodes(nodes);
-  const truncated = allNodes.length > nodes.length || allEdges.length > edges.length;
+  const truncated = dependents.truncated || dependencies.truncated || expanded.truncated || allNodes.length > nodes.length || allEdges.length > edges.length;
 
   return result(context, {
     summary: `${resolved.node.name} has ${dependents.nodes.length - 1} dependent node(s) within ${mode} impact mode; ${nodes.length} graph node(s) are in the deterministic scope${truncated ? " after budget limits" : ""}.`,
@@ -397,6 +476,7 @@ function impactAnalysis(context: CapabilityContext, input: CapabilityInput): Cap
       nodeLimit: settings.nodeLimit,
       edgeLimit: settings.edgeLimit,
       truncated,
+      budget: budgetStatistics(budget, [dependents, dependencies, expanded], truncated),
       unboundedNodeCount: allNodes.length,
       unboundedEdgeCount: allEdges.length,
       directDependents: Math.max(0, dependents.nodes.length - 1),
@@ -411,50 +491,126 @@ function impactAnalysis(context: CapabilityContext, input: CapabilityInput): Cap
 
 function implementationPlan(context: CapabilityContext, input: CapabilityInput): CapabilityResult {
   const task = readText(input, "task") || readText(input, "query");
-  const matches = featureMatches(context, task);
-  const depth = readDepth(input, 3);
-  const nodeBudget = readNumberLimit(input.budget, 80, 1, 250);
-  const timeoutMs = readNumberLimit(input.timeoutMs, 2_000, 250, 30_000);
-  const expanded = expandSemanticBoundary(context, matches, depth);
-  const allNodes = uniqueNodes([...matches, ...expanded.nodes]);
-  const nodes = limitNodes(matches, allNodes, nodeBudget);
+  const budget = createExecutionBudget(input, {
+    maxTimeMs: 2_000,
+    maxNodes: 80,
+    maxEdges: 160,
+    maxDepth: 3,
+    maxEvidence: 20,
+    perNodeEdges: 28,
+  });
+  const stages: ProfileStage[] = [];
+
+  const semantic = profileStage(stages, "intent resolution", () =>
+    resolveIntent(context.semanticIndex, task, { category: "feature", limit: Math.min(30, budget.maxEvidence * 2) }),
+  );
+  const semanticScores = new Map(semantic.candidates.map((candidate) => [candidate.nodeId, candidate.score] as const));
+  const semanticSeeds = nodesFromSearch(context, semantic).slice(0, budget.maxEvidence);
+  const matches = profileStage(stages, "stable node resolution", () =>
+    uniqueNodesInOrder([
+      ...semanticSeeds,
+      ...featureMatches(context, task, Math.min(budget.maxEvidence * 2, budget.maxNodes), semantic),
+    ]).slice(0, Math.min(budget.maxEvidence, budget.maxNodes)),
+    { nodesVisited: semanticSeeds.length },
+  );
+  const impact = profileStage(stages, "scoped impact", () =>
+    expandSemanticBoundary(context, matches, budget.maxDepth, {
+      budget,
+      seedLimit: Math.min(budget.maxEvidence, matches.length),
+    }),
+  );
+  stages[stages.length - 1] = {
+    ...stages[stages.length - 1]!,
+    nodesVisited: impact.visitedNodes,
+    edgesVisited: impact.visitedEdges,
+    status: impact.truncated ? "partial" : "complete",
+  };
+
+  const owners = profileStage(stages, "ownership", () =>
+    ownershipBoundary(context, uniqueNodesInOrder([...matches, ...impact.nodes]), budget),
+  );
+  stages[stages.length - 1] = {
+    ...stages[stages.length - 1]!,
+    nodesVisited: owners.visitedNodes,
+    edgesVisited: owners.visitedEdges,
+    status: owners.truncated ? "partial" : "complete",
+  };
+
+  const repositoryIntelligence = profileStage(stages, "repository intelligence", () =>
+    repositoryIntelligenceForPlan(context, uniqueNodesInOrder([...matches, ...impact.nodes, ...owners.nodes]), budget),
+  );
+  const rankedNodes = profileStage(stages, "plan synthesis", () =>
+    rankEvidenceNodes(
+      context,
+      task,
+      uniqueNodesInOrder([...matches, ...impact.nodes, ...owners.nodes]),
+      matches,
+      semanticScores,
+    ),
+  );
+  const allNodes = uniqueNodesInOrder([...matches, ...rankedNodes]);
+  const nodes = limitNodes(matches, allNodes, budget.maxNodes);
   const nodeIds = new Set(nodes.map((node) => node.id));
-  const edges = expanded.edges.filter((edge) => nodeIds.has(edge.from) || nodeIds.has(edge.to));
+  const edges = uniqueEdges([...impact.edges, ...owners.edges])
+    .filter((edge) => nodeIds.has(edge.from) || nodeIds.has(edge.to))
+    .slice(0, budget.maxEdges);
   const groups = groupNodes(nodes);
   const remainingNodes = Math.max(0, allNodes.length - nodes.length);
-  const partial = remainingNodes > 0;
+  const remainingEdges = Math.max(0, uniqueEdges([...impact.edges, ...owners.edges]).length - edges.length);
+  const partial = impact.truncated || owners.truncated || remainingNodes > 0 || remainingEdges > 0;
+  const partialReason = impact.truncated
+    ? impact.reason
+    : owners.truncated
+      ? owners.reason
+      : remainingEdges > 0
+        ? "EDGE_BUDGET_EXCEEDED"
+        : "NODE_BUDGET_EXCEEDED";
+  if (partial) {
+    stages[stages.length - 1] = { ...stages[stages.length - 1]!, status: "partial" };
+  }
+  const nextCommands = nextImplementationPlanCommands(task, matches, budget, partial);
   const recommendations = [
     `Start by confirming the ${matches.length > 0 ? "matched graph touchpoints" : "missing graph touchpoints"} for "${task}".`,
     ...implementationOrder(groups),
     "Add or update tests around affected routes, services, configuration, and persistence boundaries.",
-    ...(partial ? [`Continue with ontoly evidence "${task}" or raise --budget after reviewing this partial plan.`] : []),
+    ...(partial ? nextCommands.map((command) => `Next command: ${command}`) : []),
   ];
 
   return result(context, {
-    summary: `Implementation plan for "${task || "unspecified task"}" touches ${Object.keys(groups).length} architectural group(s) and ${nodes.length} graph node(s)${partial ? " as a deterministic partial plan" : ""}.`,
+    summary: `${partial ? "PARTIAL implementation plan" : "Implementation plan"} for "${task || "unspecified task"}" touches ${Object.keys(groups).length} architectural group(s), ${nodes.length} graph node(s), and ${edges.length} relationship(s).`,
     evidence: [
-      nodeEvidence("Lexical graph matches seed deterministic planning.", matches, 0.6),
-      pathEvidence("Semantic expansion identifies adjacent implementation boundaries.", nodes, edges),
+      nodeEvidence("Intent resolution and stable node resolution seed deterministic planning.", matches.slice(0, budget.maxEvidence), matches.length > 0 ? 0.75 : 0.2),
+      pathEvidence("Scoped impact uses bounded expansion over existing graph relationships.", nodes.slice(0, budget.maxEvidence), edges.slice(0, budget.maxEvidence), edges.length > 0 ? 0.9 : 0.35),
+      nodeEvidence("Ownership uses direct inbound owner relationships from scoped graph nodes.", owners.nodes.slice(0, budget.maxEvidence), owners.nodes.length > 0 ? 0.7 : 0.35),
     ],
     affectedNodes: groups,
     statistics: {
       task,
-      depth,
+      depth: budget.maxDepth,
       architecturalGroups: countGroups(groups),
       matchedTerms: tokenize(task),
       implementationOrder: implementationOrder(groups),
+      progress: stages.map((stage) => `${stage.name}: ${stage.status}`),
+      profile: stages,
+      repositoryIntelligence,
+      nextCommands,
       budget: {
-        status: partial ? "partial" : "complete",
-        nodeBudget,
-        timeoutMs,
-        visitedNodes: nodes.length,
+        ...budgetStatistics(budget, [impact, owners], partial),
+        status: partial ? "PARTIAL" : "COMPLETE",
+        nodeBudget: budget.maxNodes,
+        edgeBudget: budget.maxEdges,
+        timeoutMs: budget.maxTimeMs,
         remainingNodes,
-        reason: partial ? "NODE_BUDGET_EXCEEDED" : "COMPLETE",
+        remainingEdges,
+        reason: partial ? partialReason : "COMPLETE",
       },
     },
     diagnostics: [
       ...(matches.length === 0 ? [diagnostic("CAPABILITY_LOW_EVIDENCE", "warning", "No direct graph touchpoints matched the task text.")] : []),
-      ...(partial ? [diagnostic("CAPABILITY_PARTIAL_PLAN", "warning", `Implementation plan hit the ${nodeBudget} node budget and returned partial evidence.`)] : []),
+      ...(partial ? [
+        diagnostic("CAPABILITY_PARTIAL_PLAN", "warning", `Implementation plan returned PARTIAL after hitting a deterministic execution budget (${partialReason}).`),
+        diagnostic(`CAPABILITY_${partialReason}`, "warning", `Budgeted planner stopped at ${budget.maxNodes} node(s), ${budget.maxEdges} edge(s), depth ${budget.maxDepth}, and ${budget.maxEvidence} evidence item(s).`),
+      ] : []),
     ],
     recommendations,
   });
@@ -672,7 +828,17 @@ function moduleOverview(context: CapabilityContext, input: CapabilityInput): Cap
 function serviceOverview(context: CapabilityContext, input: CapabilityInput): CapabilityResult {
   const resolved = hasTarget(input) ? resolveTarget(context, input) : { node: undefined, query: "", matches: [], diagnostics: [] };
   const services = resolved.node ? [resolved.node] : context.query.findNodes().filter((node) => node.type === "Service" || node.type === "Provider" || node.name.endsWith("Service"));
-  const expanded = expandSemanticBoundary(context, services, readDepth(input, 2));
+  const expanded = expandSemanticBoundary(context, services, readDepth(input, 2), {
+    budget: createExecutionBudget(input, {
+      maxTimeMs: 1_500,
+      maxNodes: 120,
+      maxEdges: 240,
+      maxDepth: 2,
+      maxEvidence: 20,
+      perNodeEdges: 20,
+    }),
+    seedLimit: 25,
+  });
   const nodes = uniqueNodes([...services, ...expanded.nodes]);
 
   return result(context, {
@@ -810,8 +976,18 @@ function dataFlow(context: CapabilityContext, input: CapabilityInput): Capabilit
 
 function featureTouchpoints(context: CapabilityContext, input: CapabilityInput): CapabilityResult {
   const value = readText(input, "query") || readText(input, "task") || readText(input, "id");
-  const matches = featureMatches(context, value);
-  const expanded = expandSemanticBoundary(context, matches, readDepth(input, 3));
+  const matches = featureMatches(context, value, 40);
+  const expanded = expandSemanticBoundary(context, matches, readDepth(input, 3), {
+    budget: createExecutionBudget(input, {
+      maxTimeMs: 2_000,
+      maxNodes: 120,
+      maxEdges: 240,
+      maxDepth: 3,
+      maxEvidence: 20,
+      perNodeEdges: 28,
+    }),
+    seedLimit: 20,
+  });
   const nodes = uniqueNodes([...matches, ...expanded.nodes]);
 
   return result(context, {
@@ -829,32 +1005,46 @@ function featureTouchpoints(context: CapabilityContext, input: CapabilityInput):
 
 function evidencePackCapability(context: CapabilityContext, input: CapabilityInput): CapabilityResult {
   const query = readText(input, "query") || readText(input, "task") || readText(input, "id") || context.graph.repository.name;
-  const limit = readNumberLimit(input.limit, 12, 5, 20);
-  const semantic = resolveIntent(context.semanticIndex, query, { limit: Math.max(20, limit * 2) });
+  const limit = readNumberLimit(input.limit, 12, 5, EVIDENCE_PACK_NODE_LIMIT);
+  const budget = createExecutionBudget(input, {
+    maxTimeMs: 1_500,
+    maxNodes: EVIDENCE_PACK_NODE_LIMIT,
+    maxEdges: EVIDENCE_PACK_EDGE_LIMIT,
+    maxDepth: 2,
+    maxEvidence: limit,
+    perNodeEdges: 18,
+  });
+  const semantic = resolveIntent(context.semanticIndex, query, { limit: EVIDENCE_PACK_SEMANTIC_LIMIT });
   const semanticScores = new Map(semantic.candidates.map((candidate) => [candidate.nodeId, candidate.score] as const));
-  const resolved = resolveTarget(context, { ...input, query });
-  const direct = readText(input, "id") ? resolved.node : undefined;
-  const seeds = uniqueNodes([
+  const resolved = resolveStableSemanticTarget(context, query, "EvidencePack", semantic);
+  const directId = readText(input, "id");
+  const direct = directId ? context.query.findNode(directId) : undefined;
+  const candidateNodes = evidencePackCandidates(context, query, semantic, direct);
+  const seedNodes = uniqueNodesInOrder([
     ...(direct ? [direct] : []),
-    ...nodesFromSearch(context, semantic),
-    ...featureMatches(context, query),
-    ...context.query.findNodes(query),
+    ...(resolved.node ? [resolved.node] : []),
+    ...nodesFromSearch(context, semantic).slice(0, limit),
   ]);
-  const expanded = expandSemanticBoundary(context, seeds, readDepth(input, 2));
-  const topNodes = rankEvidenceNodes(context, query, uniqueNodes([...seeds, ...expanded.nodes]), seeds, semanticScores).slice(0, limit);
+  const rankedNodes = rankEvidenceNodes(context, query, candidateNodes, seedNodes, semanticScores);
+  const topNodes = uniqueNodesInOrder(clusterEvidenceCandidates(context, query, rankedNodes, semanticScores)).slice(0, limit);
+  const expanded = expandSemanticBoundary(context, topNodes, readDepth(input, 2), {
+    budget,
+    seedLimit: Math.min(EVIDENCE_PACK_NODE_LIMIT, topNodes.length),
+  });
   const topNodeIds = new Set(topNodes.map((node) => node.id));
   const topEdges = uniqueEdges([
     ...expanded.edges,
     ...topNodes.flatMap((node) => [...context.query.incoming(node.id), ...context.query.outgoing(node.id)]),
   ])
     .filter((edge) => topNodeIds.has(edge.from) || topNodeIds.has(edge.to))
-    .slice(0, Math.min(20, limit * 2));
+    .slice(0, EVIDENCE_PACK_EDGE_LIMIT);
   const graphDiagnostics = context.graph.diagnostics
     .filter((item) => !item.nodeId || topNodeIds.has(item.nodeId))
     .map(serializeDiagnostic)
     .slice(0, 10);
   const diagnostics = [
     ...(topNodes.length === 0 ? [diagnostic("CAPABILITY_LOW_EVIDENCE", "warning", `No graph evidence matched "${query}".`)] : []),
+    ...(expanded.truncated || candidateNodes.length > topNodes.length ? [diagnostic("CAPABILITY_EVIDENCE_TRUNCATED", "warning", "Evidence pack was bounded to 20 nodes, 50 edges, and 10 files.")] : []),
     ...resolved.diagnostics.filter((item) => item.code !== "CAPABILITY_AMBIGUOUS_TARGET"),
     ...graphDiagnostics,
   ];
@@ -865,7 +1055,7 @@ function evidencePackCapability(context: CapabilityContext, input: CapabilityInp
   const confidence = confidenceFromEvidence(evidence, diagnostics);
   const serializedNodes = topNodes.map(serializeNode);
   const serializedEdges = topEdges.map(serializeEdge);
-  const files = [...new Set(serializedNodes.map((node) => node.file).filter(isString))].sort();
+  const files = evidencePackFiles(context, serializedNodes, serializedEdges);
   const commands = suggestedEvidenceCommands(query, topNodes);
   const pack: EvidencePack = {
     version: "1.0.0",
@@ -879,6 +1069,11 @@ function evidencePackCapability(context: CapabilityContext, input: CapabilityInp
       graphVersion: context.graph.version,
       nodeCount: context.graph.metadata.nodeCount,
       edgeCount: context.graph.metadata.edgeCount,
+      evidenceLimits: {
+        nodes: EVIDENCE_PACK_NODE_LIMIT,
+        edges: EVIDENCE_PACK_EDGE_LIMIT,
+        files: EVIDENCE_PACK_FILE_LIMIT,
+      },
     },
     topNodes: serializedNodes,
     topEdges: serializedEdges,
@@ -888,7 +1083,7 @@ function evidencePackCapability(context: CapabilityContext, input: CapabilityInp
     confidence,
     suggestedCommands: commands,
     stableIds: serializedNodes.map((node) => node.id),
-    filesToInspect: files.slice(0, 10),
+    filesToInspect: files,
     fallbacks: confidence.score < 0.6
       ? ["Inspect listed files only after confirming Ontoly graph evidence is insufficient."]
       : ["Use repository search only if the evidence pack does not contain the needed graph fact."],
@@ -904,6 +1099,9 @@ function evidencePackCapability(context: CapabilityContext, input: CapabilityInp
       query,
       entities: topNodes.length,
       relationships: topEdges.length,
+      budget: budgetStatistics(budget, [expanded], expanded.truncated),
+      semanticCandidates: semantic.candidates.length,
+      candidateNodes: candidateNodes.length,
       relationshipCounts: countEdges(topEdges),
     },
     diagnostics,
@@ -1026,20 +1224,355 @@ function resolveTarget(
   };
 }
 
+function resolveImpactTarget(
+  context: CapabilityContext,
+  input: CapabilityInput,
+): {
+  readonly query: string;
+  readonly node?: SoftwareGraphNode | undefined;
+  readonly matches: readonly SoftwareGraphNode[];
+  readonly diagnostics: readonly CapabilityDiagnostic[];
+} {
+  const value = readText(input, "id") || readText(input, "query") || readText(input, "task");
+  if (!value) {
+    return {
+      query: "",
+      matches: [],
+      diagnostics: [diagnostic("CAPABILITY_MISSING_TARGET", "warning", "A node id, query, or task is required.")],
+    };
+  }
+
+  const direct = context.query.findNode(value);
+  if (direct?.id === value) {
+    return { query: value, node: direct, matches: [direct], diagnostics: [] };
+  }
+
+  return resolveStableSemanticTarget(context, value, "ImpactAnalysis");
+}
+
+function resolveStableSemanticTarget(
+  context: CapabilityContext,
+  value: string,
+  capabilityName: string,
+  search?: SemanticSearchResult | undefined,
+): {
+  readonly query: string;
+  readonly node?: SoftwareGraphNode | undefined;
+  readonly matches: readonly SoftwareGraphNode[];
+  readonly diagnostics: readonly CapabilityDiagnostic[];
+} {
+  const semantic = search ?? findFeature(context.semanticIndex, value, { limit: 20 });
+  const matches = nodesFromSearch(context, semantic);
+  const topCandidate = semantic.candidates[0];
+  const top = topCandidate ? context.query.findNode(topCandidate.nodeId) : undefined;
+  const secondScore = semantic.candidates[1]?.score ?? 0;
+
+  if (top && isStableSemanticTarget(semantic, secondScore)) {
+    return { query: value, node: top, matches, diagnostics: [] };
+  }
+
+  if (top && matches.length === 1 && topCandidate && topCandidate.confidence >= 0.45) {
+    return { query: value, node: top, matches, diagnostics: [] };
+  }
+
+  if (matches.length > 1) {
+    return {
+      query: value,
+      matches,
+      diagnostics: [diagnostic("CAPABILITY_AMBIGUOUS_TARGET", "warning", `${capabilityName} could not resolve "${value}" to one stable semantic node.`)],
+    };
+  }
+
+  return {
+    query: value,
+    matches,
+    diagnostics: [diagnostic("CAPABILITY_NOT_FOUND", "warning", `No semantic graph node matched "${value}".`)],
+  };
+}
+
+function isStableSemanticTarget(search: SemanticSearchResult, secondScore: number): boolean {
+  const top = search.candidates[0];
+  if (!top) {
+    return false;
+  }
+  if (top.reasons.some((reason) => reason.factor === "exact-symbol" || reason.factor === "exact-normalized-name")) {
+    return true;
+  }
+  if (top.confidence >= 0.72) {
+    return true;
+  }
+  if (top.confidence >= 0.58 && top.score - secondScore >= 40) {
+    return true;
+  }
+  return top.confidence >= 0.62 && ["Route", "Controller", "Service", "Provider", "Repository", "Module"].includes(top.kind);
+}
+
 function expandSemanticBoundary(
   context: CapabilityContext,
   seeds: readonly SoftwareGraphNode[],
   depth: number,
-): { readonly nodes: readonly SoftwareGraphNode[]; readonly edges: readonly SoftwareGraphEdge[] } {
-  const traversals = seeds.map((node) => context.query.walk(node.id, {
-    direction: "both",
+  options: {
+    readonly budget?: ExecutionBudget | undefined;
+    readonly direction?: BoundaryDirection | undefined;
+    readonly seedLimit?: number | undefined;
+  } = {},
+): BoundaryResult {
+  const budget = options.budget ?? createExecutionBudget({}, {
+    maxTimeMs: 1_500,
+    maxNodes: 120,
+    maxEdges: 240,
+    maxDepth: depth,
+    maxEvidence: 20,
+    perNodeEdges: 28,
+  });
+  return walkBoundary(context, uniqueNodesInOrder(seeds).slice(0, options.seedLimit ?? budget.maxNodes), {
+    direction: options.direction ?? "both",
     depth,
     relationships: EXPANSION_RELATIONSHIPS,
-  }));
+    budget,
+  });
+}
+
+function ownershipBoundary(
+  context: CapabilityContext,
+  seeds: readonly SoftwareGraphNode[],
+  budget: ExecutionBudget,
+): BoundaryResult {
+  const seedIds = new Set(seeds.map((node) => node.id));
+  const traversal = walkBoundary(context, seeds.slice(0, budget.maxEvidence), {
+    direction: "inbound",
+    depth: 1,
+    relationships: OWNER_RELATIONSHIPS,
+    budget: sliceBudget(budget, budget.maxEvidence, budget.maxEvidence * 2),
+  });
+
   return {
-    nodes: uniqueNodes(traversals.flatMap((traversal) => traversal.nodes)),
-    edges: uniqueEdges(traversals.flatMap((traversal) => traversal.edges)),
+    ...traversal,
+    nodes: traversal.nodes.filter((node) => !seedIds.has(node.id)),
   };
+}
+
+function repositoryIntelligenceForPlan(
+  context: CapabilityContext,
+  nodes: readonly SoftwareGraphNode[],
+  budget: ExecutionBudget,
+): JsonObject {
+  const scopedNodes = uniqueNodes(nodes).slice(0, budget.maxNodes);
+  const scopedFiles = [...new Set(scopedNodes.map((node) => node.file).filter(isString))]
+    .sort()
+    .slice(0, budget.maxEvidence);
+  const scopedPackages = [...new Set(scopedNodes.map((node) => node.package).filter(isString))]
+    .sort()
+    .slice(0, budget.maxEvidence);
+
+  return {
+    repository: context.graph.repository.name,
+    graphHash: context.graph.metadata.deterministicHash,
+    graphNodes: context.graph.metadata.nodeCount,
+    graphEdges: context.graph.metadata.edgeCount,
+    scopedFiles,
+    scopedPackages,
+    scopedHotspots: hotspotNodes(context, scopedNodes, Math.min(10, budget.maxEvidence)) as JsonValue,
+    diagnostics: context.graph.diagnostics.length,
+  };
+}
+
+function walkBoundary(
+  context: CapabilityContext,
+  seeds: readonly SoftwareGraphNode[],
+  options: {
+    readonly direction: BoundaryDirection;
+    readonly depth: number;
+    readonly relationships: readonly RelationshipType[];
+    readonly budget: ExecutionBudget;
+  },
+): BoundaryResult {
+  const budget = options.budget;
+  const maxDepth = Math.min(options.depth, budget.maxDepth);
+  const nodeMap = new Map<string, SoftwareGraphNode>();
+  const edgeMap = new Map<string, SoftwareGraphEdge>();
+  const queue: { node: SoftwareGraphNode; depth: number }[] = [];
+  let truncated = false;
+  let reason: BoundaryResult["reason"] = "COMPLETE";
+  let maxDepthReached = 0;
+  const orderedSeeds = uniqueNodesInOrder(seeds);
+
+  for (const seed of orderedSeeds.slice(0, budget.maxNodes)) {
+    nodeMap.set(seed.id, seed);
+    queue.push({ node: seed, depth: 0 });
+  }
+  if (orderedSeeds.length > budget.maxNodes) {
+    truncated = true;
+    reason = "NODE_BUDGET_EXCEEDED";
+  }
+
+  while (queue.length > 0) {
+    if (timeExceeded(budget)) {
+      truncated = true;
+      reason = "TIME_BUDGET_EXCEEDED";
+      break;
+    }
+
+    const current = queue.shift();
+    if (!current) {
+      break;
+    }
+    maxDepthReached = Math.max(maxDepthReached, current.depth);
+    if (current.depth >= maxDepth) {
+      continue;
+    }
+
+    const allAdjacentEdges = edgesForDirection(context, current.node.id, options.direction, options.relationships);
+    const adjacentEdges = allAdjacentEdges.slice(0, budget.perNodeEdges);
+    if (allAdjacentEdges.length > adjacentEdges.length && reason === "COMPLETE") {
+      truncated = true;
+      reason = "EDGE_BUDGET_EXCEEDED";
+    }
+
+    for (const edge of adjacentEdges) {
+      if (timeExceeded(budget)) {
+        truncated = true;
+        reason = "TIME_BUDGET_EXCEEDED";
+        break;
+      }
+      if (!edgeMap.has(edge.id)) {
+        if (edgeMap.size >= budget.maxEdges) {
+          truncated = true;
+          reason = "EDGE_BUDGET_EXCEEDED";
+          break;
+        }
+        edgeMap.set(edge.id, edge);
+      }
+
+      for (const nextId of neighborIds(edge, current.node.id, options.direction)) {
+        if (nodeMap.has(nextId)) {
+          continue;
+        }
+        if (nodeMap.size >= budget.maxNodes) {
+          truncated = true;
+          reason = "NODE_BUDGET_EXCEEDED";
+          break;
+        }
+        const next = context.query.findNode(nextId);
+        if (!next) {
+          continue;
+        }
+        nodeMap.set(next.id, next);
+        queue.push({ node: next, depth: current.depth + 1 });
+        maxDepthReached = Math.max(maxDepthReached, current.depth + 1);
+      }
+      if (truncated) {
+        break;
+      }
+    }
+    if (truncated) {
+      break;
+    }
+  }
+
+  return {
+    nodes: [...nodeMap.values()].sort(compareNodes),
+    edges: [...edgeMap.values()].sort(compareEdges),
+    truncated,
+    reason,
+    visitedNodes: nodeMap.size,
+    visitedEdges: edgeMap.size,
+    maxDepthReached,
+  };
+}
+
+function edgesForDirection(
+  context: CapabilityContext,
+  nodeId: string,
+  direction: BoundaryDirection,
+  relationships: readonly RelationshipType[],
+): readonly SoftwareGraphEdge[] {
+  if (direction === "inbound") {
+    return [...context.query.incoming(nodeId, relationships)].sort(compareEdges);
+  }
+  if (direction === "outbound") {
+    return [...context.query.outgoing(nodeId, relationships)].sort(compareEdges);
+  }
+  return uniqueEdges([
+    ...context.query.incoming(nodeId, relationships),
+    ...context.query.outgoing(nodeId, relationships),
+  ]);
+}
+
+function neighborIds(edge: SoftwareGraphEdge, currentId: string, direction: BoundaryDirection): readonly string[] {
+  if (direction === "inbound") {
+    return edge.from === currentId ? [] : [edge.from];
+  }
+  if (direction === "outbound") {
+    return edge.to === currentId ? [] : [edge.to];
+  }
+  return [edge.from, edge.to].filter((id) => id !== currentId);
+}
+
+function createExecutionBudget(
+  input: Partial<CapabilityInput>,
+  defaults: Omit<ExecutionBudget, "startedAt">,
+): ExecutionBudget {
+  return {
+    startedAt: Date.now(),
+    maxTimeMs: readNumberLimit(input.maxTimeMs ?? input.maxTime ?? input.timeoutMs, defaults.maxTimeMs, 0, 30_000),
+    maxNodes: readNumberLimit(input.maxNodes ?? input.budget, defaults.maxNodes, 1, 250),
+    maxEdges: readNumberLimit(input.maxEdges, defaults.maxEdges, 1, 1_000),
+    maxDepth: readNumberLimit(input.maxDepth ?? input.depth, defaults.maxDepth, 0, 8),
+    maxEvidence: readNumberLimit(input.maxEvidence ?? input.limit, defaults.maxEvidence, 1, 50),
+    perNodeEdges: readNumberLimit(undefined, defaults.perNodeEdges, 1, 100),
+  };
+}
+
+function sliceBudget(budget: ExecutionBudget, maxNodes: number, maxEdges: number): ExecutionBudget {
+  return {
+    ...budget,
+    maxNodes: Math.max(1, Math.min(budget.maxNodes, maxNodes)),
+    maxEdges: Math.max(0, Math.min(budget.maxEdges, maxEdges)),
+  };
+}
+
+function timeExceeded(budget: ExecutionBudget): boolean {
+  return budget.maxTimeMs <= 0 || Date.now() - budget.startedAt > budget.maxTimeMs;
+}
+
+function budgetStatistics(
+  budget: ExecutionBudget,
+  traversals: readonly BoundaryResult[],
+  partial: boolean,
+): JsonObject {
+  const visitedNodes = Math.max(0, ...traversals.map((item) => item.visitedNodes));
+  const visitedEdges = Math.max(0, ...traversals.map((item) => item.visitedEdges));
+  const maxDepthReached = Math.max(0, ...traversals.map((item) => item.maxDepthReached));
+  const reason = traversals.find((item) => item.truncated)?.reason ?? "COMPLETE";
+  return {
+    status: partial ? "PARTIAL" : "COMPLETE",
+    maxTimeMs: budget.maxTimeMs,
+    maxNodes: budget.maxNodes,
+    maxEdges: budget.maxEdges,
+    maxDepth: budget.maxDepth,
+    maxEvidence: budget.maxEvidence,
+    visitedNodes,
+    visitedEdges,
+    maxDepthReached,
+    reason: partial ? reason : "COMPLETE",
+  };
+}
+
+function profileStage<T>(
+  stages: ProfileStage[],
+  name: string,
+  run: () => T,
+  metrics: Partial<Omit<ProfileStage, "name" | "durationMs" | "status">> = {},
+): T {
+  const value = run();
+  stages.push({
+    name,
+    durationMs: 0,
+    status: "complete",
+    ...metrics,
+  });
+  return value;
 }
 
 function groupNodes(nodes: readonly SoftwareGraphNode[]): Record<string, readonly SerializedNode[]> {
@@ -1099,22 +1632,68 @@ function repositoryRecommendations(context: CapabilityContext, stats: GraphStati
   return recommendations;
 }
 
-function featureMatches(context: CapabilityContext, value: string): readonly SoftwareGraphNode[] {
+function featureMatches(
+  context: CapabilityContext,
+  value: string,
+  limit = 30,
+  search?: SemanticSearchResult | undefined,
+): readonly SoftwareGraphNode[] {
+  if (!value) {
+    return [];
+  }
   const matches = new Map<string, SoftwareGraphNode>();
-  const semantic = findFeature(context.semanticIndex, value, { limit: 30 });
+  const semantic = search ?? findFeature(context.semanticIndex, value, { limit: Math.max(limit, 10) });
+  const semanticScores = new Map(semantic.candidates.map((candidate) => [candidate.nodeId, candidate.score] as const));
   for (const node of nodesFromSearch(context, semantic)) {
     matches.set(node.id, node);
   }
-  for (const node of context.query.findNodes(value)) {
+  for (const node of context.query.findNodes(value).slice(0, limit)) {
     matches.set(node.id, node);
   }
-  const terms = tokenize(value);
+  const terms = tokenize(value).slice(0, 8);
+  const perTermLimit = Math.max(3, Math.floor(limit / Math.max(1, terms.length)));
   for (const term of terms) {
-    for (const node of context.query.findNodes(term)) {
+    for (const node of context.query.findNodes(term).slice(0, perTermLimit)) {
       matches.set(node.id, node);
     }
   }
-  return [...matches.values()].sort(compareNodes);
+  return rankEvidenceNodes(context, value, [...matches.values()], nodesFromSearch(context, semantic), semanticScores).slice(0, limit);
+}
+
+function evidencePackCandidates(
+  context: CapabilityContext,
+  query: string,
+  semantic: SemanticSearchResult,
+  direct: SoftwareGraphNode | undefined,
+): readonly SoftwareGraphNode[] {
+  return uniqueNodesInOrder([
+    ...(direct ? [direct] : []),
+    ...nodesFromSearch(context, semantic),
+    ...featureMatches(context, query, EVIDENCE_PACK_LEXICAL_LIMIT, semantic),
+    ...context.query.findNodes(query).slice(0, EVIDENCE_PACK_LEXICAL_LIMIT),
+  ]);
+}
+
+function evidencePackFiles(
+  context: CapabilityContext,
+  nodes: readonly SerializedNode[],
+  edges: readonly SerializedEdge[],
+): readonly string[] {
+  const files = new Set<string>();
+  for (const node of nodes) {
+    if (node.file) {
+      files.add(node.file);
+    }
+  }
+  for (const edge of edges) {
+    for (const nodeId of [edge.from, edge.to]) {
+      const node = context.query.findNode(nodeId);
+      if (node?.file) {
+        files.add(node.file);
+      }
+    }
+  }
+  return [...files].sort().slice(0, EVIDENCE_PACK_FILE_LIMIT);
 }
 
 function rankEvidenceNodes(
@@ -1143,8 +1722,10 @@ function evidenceNodeScore(
   const typeWeight = node.type === "Route" ? 70 :
     node.type === "Controller" ? 65 :
     node.type === "Service" || node.type === "Provider" ? 60 :
+    node.type === "Repository" ? 58 :
+    node.type === "Model" || node.type === "Resource" ? 54 :
     node.type === "Module" || node.type === "Package" ? 50 :
-    node.type === "Repository" ? 48 :
+    node.type === "Interface" || node.type === "TypeAlias" ? 46 :
     node.type === "Configuration" || node.type === "EnvironmentVariable" ? 45 :
     node.type === "Function" || node.type === "Method" ? 36 : 20;
   const matchWeight = terms.filter((term) => haystack.includes(term)).length * 25;
@@ -1152,7 +1733,50 @@ function evidenceNodeScore(
   const semanticWeight = Math.min(300, semanticScores.get(node.id) ?? 0);
   const degreeWeight = Math.min(45, (context.query.incoming(node.id).length + context.query.outgoing(node.id).length) * 4);
   const localityWeight = isRepositoryLocalNode(node) ? 20 : -40;
-  return semanticWeight + seedWeight + typeWeight + matchWeight + degreeWeight + localityWeight;
+  const dtoWeight = /\bdto\b|dto$|schema|request|response/i.test(`${node.name} ${node.file ?? ""}`) && isRepositoryLocalNode(node) ? 16 : 0;
+  const testWeight = /(^|[/.])(test|tests|spec|__tests__)([/.]|$)|\.(test|spec)\./i.test(node.file ?? "") ? 12 : 0;
+  const featureWeight = /module|feature|controller|service|repository/i.test(`${node.id} ${node.name}`) ? 12 : 0;
+  const frameworkPenalty = /node_modules|^dep:|^framework:|@nestjs\/|next\/dist|typescript\/lib/i.test(`${node.id} ${node.file ?? ""} ${node.package ?? ""}`) ? 90 : 0;
+  const utilityPenalty = /(^|[/.])(utils?|helpers?|common|shared)([/.]|$)|util(ity)?$/i.test(`${node.name} ${node.file ?? ""}`) ? 18 : 0;
+  return semanticWeight + seedWeight + typeWeight + matchWeight + degreeWeight + localityWeight + dtoWeight + testWeight + featureWeight - frameworkPenalty - utilityPenalty;
+}
+
+function clusterEvidenceCandidates(
+  context: CapabilityContext,
+  query: string,
+  nodes: readonly SoftwareGraphNode[],
+  semanticScores: ReadonlyMap<string, number>,
+): readonly SoftwareGraphNode[] {
+  const ranked = rankEvidenceNodes(context, query, nodes, nodes, semanticScores);
+  const buckets = new Map<string, SoftwareGraphNode[]>();
+  for (const node of ranked) {
+    const label = ARCHITECTURAL_GROUPS.find((group) =>
+      group.types.includes(node.type) ||
+      Boolean(group.namePatterns?.some((pattern) => pattern.test(`${node.id} ${node.name} ${node.file ?? ""}`))),
+    )?.label ?? "Other";
+    const current = buckets.get(label) ?? [];
+    current.push(node);
+    buckets.set(label, current);
+  }
+
+  const clustered: SoftwareGraphNode[] = [];
+  const labels = [...ARCHITECTURAL_GROUPS.map((group) => group.label), "Other"].filter((label) => buckets.has(label));
+  let index = 0;
+  while (clustered.length < ranked.length) {
+    let added = false;
+    for (const label of labels) {
+      const node = buckets.get(label)?.[index];
+      if (node) {
+        clustered.push(node);
+        added = true;
+      }
+    }
+    if (!added) {
+      break;
+    }
+    index += 1;
+  }
+  return uniqueNodesInOrder(clustered);
 }
 
 function limitNodes(
@@ -1186,16 +1810,38 @@ function suggestedEvidenceCommands(query: string, nodes: readonly SoftwareGraphN
   return commands;
 }
 
+function nextImplementationPlanCommands(
+  task: string,
+  seeds: readonly SoftwareGraphNode[],
+  budget: ExecutionBudget,
+  partial: boolean,
+): readonly string[] {
+  const escaped = task.replaceAll("\"", "\\\"");
+  const commands = [
+    `ontoly evidence "${escaped}"`,
+  ];
+  const topSeed = seeds[0];
+  if (topSeed) {
+    commands.push(`ontoly inspect ${topSeed.id}`);
+    commands.push(`ontoly impact ${topSeed.id} --mode local`);
+  }
+  if (partial) {
+    commands.push(
+      `ontoly implementation-plan "${escaped}" --max-nodes ${Math.min(250, Math.max(budget.maxNodes + 20, budget.maxNodes * 2))} --max-edges ${Math.min(1000, Math.max(budget.maxEdges + 40, budget.maxEdges * 2))} --max-depth ${budget.maxDepth} --max-evidence ${budget.maxEvidence}`,
+    );
+  }
+  return commands;
+}
+
 function isRepositoryLocalNode(node: SoftwareGraphNode): boolean {
   const text = `${node.id} ${node.file ?? ""} ${node.package ?? ""}`;
   return !/node_modules|^dep:|^framework:/i.test(text);
 }
 
 function nodesFromSearch(context: CapabilityContext, search: SemanticSearchResult): readonly SoftwareGraphNode[] {
-  return search.candidates
+  return uniqueNodesInOrder(search.candidates
     .map((candidate) => context.query.findNode(candidate.nodeId))
-    .filter(isNode)
-    .sort(compareNodes);
+    .filter(isNode));
 }
 
 function isConfidentIntentMatch(search: SemanticSearchResult, secondScore: number): boolean {
@@ -1330,6 +1976,7 @@ function edgeConfidence(edges: readonly SoftwareGraphEdge[], fallback: number): 
 }
 
 function serializeNode(node: SoftwareGraphNode): SerializedNode {
+  const metadata = compactJsonObject(node.metadata);
   return {
     id: node.id,
     type: node.type,
@@ -1337,7 +1984,7 @@ function serializeNode(node: SoftwareGraphNode): SerializedNode {
     ...(node.file ? { file: node.file } : {}),
     ...(node.package ? { package: node.package } : {}),
     ...(node.span ? { span: serializeSpan(node.span) } : {}),
-    ...(node.metadata ? { metadata: node.metadata } : {}),
+    ...(metadata ? { metadata } : {}),
   };
 }
 
@@ -1347,7 +1994,14 @@ function serializeEdge(edge: SoftwareGraphEdge): SerializedEdge {
     type: edge.type,
     from: edge.from,
     to: edge.to,
-    ...(edge.evidence ? { evidence: edge.evidence.map((item) => ({ ...item, span: item.span ? serializeSpan(item.span) : undefined })) } : {}),
+    ...(edge.evidence ? {
+      evidence: edge.evidence.slice(0, SERIALIZED_EDGE_EVIDENCE_LIMIT).map((item) => ({
+        kind: item.kind,
+        confidence: item.confidence,
+        ...(item.description ? { description: truncateSerializedText(item.description, SERIALIZED_EDGE_DESCRIPTION_LIMIT) } : {}),
+        ...(item.span ? { span: serializeSpan(item.span) } : {}),
+      })),
+    } : {}),
   };
 }
 
@@ -1365,11 +2019,67 @@ function serializeDiagnostic(diagnosticInput: SoftwareGraphDiagnostic | Capabili
   return {
     code: diagnosticInput.code,
     severity: diagnosticInput.severity,
-    message: diagnosticInput.message,
+    message: truncateSerializedText(diagnosticInput.message, SERIALIZED_EDGE_DESCRIPTION_LIMIT),
     ...(diagnosticInput.nodeId ? { nodeId: diagnosticInput.nodeId } : {}),
     ...(diagnosticInput.edgeId ? { edgeId: diagnosticInput.edgeId } : {}),
     ...(diagnosticInput.span ? { span: serializeSpanLike(diagnosticInput.span) } : {}),
   };
+}
+
+function compactJsonObject(value: JsonObject | undefined): JsonObject | undefined {
+  if (!value) {
+    return undefined;
+  }
+  const compact = compactJsonValue(value, 0, new WeakSet<object>());
+  if (!compact || typeof compact !== "object" || Array.isArray(compact)) {
+    return undefined;
+  }
+  return Object.keys(compact).length > 0 ? compact as JsonObject : undefined;
+}
+
+function compactJsonValue(value: unknown, depth: number, seen: WeakSet<object>): JsonValue | undefined {
+  if (value === undefined) {
+    return undefined;
+  }
+  if (value === null || typeof value === "number" || typeof value === "boolean") {
+    return value;
+  }
+  if (typeof value === "string") {
+    return truncateSerializedText(value, SERIALIZED_METADATA_STRING_LIMIT);
+  }
+  if (depth >= SERIALIZED_METADATA_DEPTH_LIMIT) {
+    return "[Object]";
+  }
+  if (Array.isArray(value)) {
+    if (seen.has(value)) {
+      return "[Circular]";
+    }
+    seen.add(value);
+    return value
+      .slice(0, SERIALIZED_METADATA_ARRAY_LIMIT)
+      .map((item) => compactJsonValue(item, depth + 1, seen))
+      .filter((item): item is JsonValue => item !== undefined);
+  }
+  if (typeof value === "object") {
+    if (seen.has(value)) {
+      return "[Circular]";
+    }
+    seen.add(value);
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>)
+        .filter(([, entry]) => entry !== undefined)
+        .sort(([left], [right]) => left.localeCompare(right))
+        .slice(0, SERIALIZED_METADATA_ENTRY_LIMIT)
+        .map(([key, entry]) => [key, compactJsonValue(entry, depth + 1, seen)])
+        .filter(([, entry]) => entry !== undefined),
+    ) as JsonObject;
+  }
+  return truncateSerializedText(String(value), SERIALIZED_METADATA_STRING_LIMIT);
+}
+
+function truncateSerializedText(value: string, limit: number): string {
+  const normalized = value.replace(/\s+/g, " ").trim();
+  return normalized.length > limit ? `${normalized.slice(0, limit)}...[truncated]` : normalized;
 }
 
 function serializeSpanLike(span: SourceSpan | JsonObject): JsonObject {
@@ -1413,6 +2123,10 @@ function uniqueNodes(nodes: readonly SoftwareGraphNode[]): readonly SoftwareGrap
   return [...new Map(nodes.map((node) => [node.id, node] as const)).values()].sort(compareNodes);
 }
 
+function uniqueNodesInOrder(nodes: readonly SoftwareGraphNode[]): readonly SoftwareGraphNode[] {
+  return [...new Map(nodes.map((node) => [node.id, node] as const)).values()];
+}
+
 function uniqueEdges(edges: readonly SoftwareGraphEdge[]): readonly SoftwareGraphEdge[] {
   return [...new Map(edges.map((edge) => [edge.id, edge] as const)).values()].sort(compareEdges);
 }
@@ -1437,6 +2151,7 @@ function targetInput(field = "id"): JsonObject {
       depth: { type: "number" },
       mode: { type: "string", enum: Object.keys(IMPACT_MODE_SETTINGS) },
       limit: { type: "number" },
+      ...budgetInputProperties(),
     },
     required: [field],
   };
@@ -1449,6 +2164,7 @@ function optionalTargetInput(): JsonObject {
       id: { type: "string" },
       query: { type: "string" },
       depth: { type: "number" },
+      ...budgetInputProperties(),
     },
   };
 }
@@ -1462,6 +2178,7 @@ function taskInput(): JsonObject {
       depth: { type: "number" },
       budget: { type: "number" },
       timeoutMs: { type: "number" },
+      ...budgetInputProperties(),
     },
     required: ["task"],
   };
@@ -1476,7 +2193,19 @@ function evidencePackInput(): JsonObject {
       task: { type: "string" },
       depth: { type: "number" },
       limit: { type: "number", minimum: 5, maximum: 20 },
+      ...budgetInputProperties(),
     },
+  };
+}
+
+function budgetInputProperties(): JsonObject {
+  return {
+    maxTime: { type: "number" },
+    maxTimeMs: { type: "number" },
+    maxNodes: { type: "number" },
+    maxEdges: { type: "number" },
+    maxDepth: { type: "number" },
+    maxEvidence: { type: "number" },
   };
 }
 

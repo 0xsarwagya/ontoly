@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-13T12:13:41.318Z",
-  "startedAt": "2026-07-13T12:12:18.433Z",
+  "generatedAt": "2026-07-14T20:18:05.550Z",
+  "startedAt": "2026-07-14T20:16:52.331Z",
   "repositoriesAnalyzed": 5,
   "repositoriesRequested": 5,
   "repositories": [
@@ -14,21 +14,21 @@
         "Express",
         "NestJS"
       ],
-      "files": 11407,
+      "files": 11574,
       "packages": 1,
       "ontoly": {
         "nodes": 21696,
-        "edges": 47312,
+        "edges": 47725,
         "diagnostics": 13,
         "trust": 98,
         "coverage": 98,
-        "durationMs": 13865.611916999995
+        "durationMs": 24495.925499999998
       },
       "graphify": {
-        "nodes": 27444,
-        "edges": 57572,
+        "nodes": 0,
+        "edges": 0,
         "diagnostics": 3,
-        "durationMs": 31782.687291000002
+        "durationMs": 424.7916669999995
       }
     },
     {
@@ -42,21 +42,21 @@
         "React",
         "Turborepo"
       ],
-      "files": 446,
+      "files": 537,
       "packages": 10,
       "ontoly": {
-        "nodes": 1202,
-        "edges": 2082,
+        "nodes": 1204,
+        "edges": 2095,
         "diagnostics": 13,
         "trust": 95,
         "coverage": 95,
-        "durationMs": 5026.105749999995
+        "durationMs": 11227.137708000002
       },
       "graphify": {
-        "nodes": 1071,
-        "edges": 1811,
+        "nodes": 0,
+        "edges": 0,
         "diagnostics": 3,
-        "durationMs": 1449.7775000000038
+        "durationMs": 389.46774999999616
       }
     },
     {
@@ -71,21 +71,21 @@
         "Turborepo",
         "Vite"
       ],
-      "files": 846,
+      "files": 874,
       "packages": 8,
       "ontoly": {
-        "nodes": 6744,
-        "edges": 12091,
-        "diagnostics": 12,
+        "nodes": 6981,
+        "edges": 12739,
+        "diagnostics": 20,
         "trust": 100,
         "coverage": 100,
-        "durationMs": 8249.796290999991
+        "durationMs": 13433.23391699999
       },
       "graphify": {
-        "nodes": 4178,
-        "edges": 9594,
+        "nodes": 0,
+        "edges": 0,
         "diagnostics": 3,
-        "durationMs": 3963.019459000003
+        "durationMs": 186.0052080000023
       }
     },
     {
@@ -101,17 +101,17 @@
       "packages": 1,
       "ontoly": {
         "nodes": 350,
-        "edges": 655,
+        "edges": 657,
         "diagnostics": 0,
         "trust": 100,
         "coverage": 100,
-        "durationMs": 1171.8272080000024
+        "durationMs": 1462.7041250000038
       },
       "graphify": {
-        "nodes": 211,
-        "edges": 553,
+        "nodes": 0,
+        "edges": 0,
         "diagnostics": 3,
-        "durationMs": 609.0390830000106
+        "durationMs": 282.30829200000153
       }
     },
     {
@@ -127,110 +127,110 @@
       "packages": 1,
       "ontoly": {
         "nodes": 226,
-        "edges": 381,
+        "edges": 384,
         "diagnostics": 0,
         "trust": 100,
         "coverage": 100,
-        "durationMs": 956.0260410000046
+        "durationMs": 1335.3034580000094
       },
       "graphify": {
-        "nodes": 167,
-        "edges": 304,
+        "nodes": 0,
+        "edges": 0,
         "diagnostics": 3,
-        "durationMs": 512.9914589999971
+        "durationMs": 220.80929200000537
       }
     }
   ],
   "totals": {
-    "files": 12812,
-    "sourceFiles": 10138,
-    "ontolyNodes": 30218,
-    "ontolyEdges": 62521,
-    "graphifyNodes": 33071,
-    "graphifyEdges": 69834,
-    "ontolyDurationMs": 29269.36720699999,
-    "graphifyDurationMs": 38317.514792000016
+    "files": 13098,
+    "sourceFiles": 10164,
+    "ontolyNodes": 30457,
+    "ontolyEdges": 63600,
+    "graphifyNodes": 0,
+    "graphifyEdges": 0,
+    "ontolyDurationMs": 51954.304708,
+    "graphifyDurationMs": 1503.3822090000049
   },
   "averages": {
     "semanticCoverage": 98.6,
     "trustScore": 98.6,
     "graphQuality": 98.6,
     "frameworkCoverage": 71.36,
-    "ontolyAnalysisTimeMs": 5853.87,
-    "graphifyAnalysisTimeMs": 7663.5
+    "ontolyAnalysisTimeMs": 10390.86,
+    "graphifyAnalysisTimeMs": 300.68
   },
   "graphSize": {
     "ontoly": {
-      "nodes": 30218,
-      "edges": 62521
+      "nodes": 30457,
+      "edges": 63600
     },
     "graphify": {
-      "nodes": 33071,
-      "edges": 69834
+      "nodes": 0,
+      "edges": 0
     }
   },
   "memory": {
-    "ontolyPeakBytes": 8120822656,
-    "graphifyPeakBytes": 2167980032
+    "ontolyPeakBytes": 7877324496,
+    "graphifyPeakBytes": 210911232
   },
   "performance": {
-    "ontolyTotalMs": 29269.37,
-    "graphifyTotalMs": 38317.51
+    "ontolyTotalMs": 51954.3,
+    "graphifyTotalMs": 1503.38
   },
   "relationshipCoverage": [
     {
       "relationship": "CALLS",
       "repositoriesObserved": 5,
-      "ontolyTotal": 3613,
-      "graphifyTotal": 5838,
-      "supportedRepositories": 5
+      "ontolyTotal": 4272,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
     },
     {
       "relationship": "IMPORTS",
       "repositoriesObserved": 5,
-      "ontolyTotal": 11730,
-      "graphifyTotal": 11790,
-      "supportedRepositories": 5
+      "ontolyTotal": 11763,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
     },
     {
       "relationship": "EXPORTS",
       "repositoriesObserved": 5,
-      "ontolyTotal": 4410,
+      "ontolyTotal": 4451,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
     {
       "relationship": "CONTAINS",
       "repositoriesObserved": 5,
-      "ontolyTotal": 25605,
-      "graphifyTotal": 25599,
-      "supportedRepositories": 5
+      "ontolyTotal": 25816,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
     },
     {
       "relationship": "HANDLES",
       "repositoriesObserved": 2,
-      "ontolyTotal": 499,
+      "ontolyTotal": 503,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
     {
       "relationship": "MOUNTS",
       "repositoriesObserved": 2,
-      "ontolyTotal": 496,
+      "ontolyTotal": 500,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
     {
       "relationship": "INJECTS",
       "repositoriesObserved": 4,
-      "ontolyTotal": 1007,
+      "ontolyTotal": 1008,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
     {
       "relationship": "READS",
       "repositoriesObserved": 4,
-      "ontolyTotal": 236,
+      "ontolyTotal": 239,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
@@ -244,7 +244,7 @@
     {
       "relationship": "USES",
       "repositoriesObserved": 5,
-      "ontolyTotal": 4060,
+      "ontolyTotal": 4116,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
@@ -258,14 +258,14 @@
     {
       "relationship": "AUTHORIZES",
       "repositoriesObserved": 2,
-      "ontolyTotal": 254,
+      "ontolyTotal": 255,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
     {
       "relationship": "REGISTERED_IN",
       "repositoriesObserved": 2,
-      "ontolyTotal": 645,
+      "ontolyTotal": 650,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
@@ -273,22 +273,22 @@
       "relationship": "IMPLEMENTS",
       "repositoriesObserved": 3,
       "ontolyTotal": 126,
-      "graphifyTotal": 64,
-      "supportedRepositories": 2
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
     },
     {
       "relationship": "EXTENDS",
-      "repositoriesObserved": 5,
+      "repositoriesObserved": 3,
       "ontolyTotal": 508,
-      "graphifyTotal": 259,
-      "supportedRepositories": 3
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
     },
     {
       "relationship": "REFERENCES",
-      "repositoriesObserved": 4,
-      "ontolyTotal": 864,
-      "graphifyTotal": 2888,
-      "supportedRepositories": 2
+      "repositoriesObserved": 2,
+      "ontolyTotal": 870,
+      "graphifyTotal": 0,
+      "supportedRepositories": 0
     },
     {
       "relationship": "CREATES",
@@ -300,14 +300,14 @@
     {
       "relationship": "THROWS",
       "repositoriesObserved": 5,
-      "ontolyTotal": 549,
+      "ontolyTotal": 552,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
     {
       "relationship": "RETURNS",
       "repositoriesObserved": 5,
-      "ontolyTotal": 1862,
+      "ontolyTotal": 1883,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
@@ -331,35 +331,35 @@
       "framework": "Express",
       "repositories": 1,
       "ontolyDetected": 1,
-      "graphifyInferred": 1,
+      "graphifyInferred": 0,
       "averageCoverage": 60
     },
     {
       "framework": "NestJS",
       "repositories": 2,
       "ontolyDetected": 2,
-      "graphifyInferred": 2,
+      "graphifyInferred": 0,
       "averageCoverage": 100
     },
     {
       "framework": "Next.js",
       "repositories": 1,
       "ontolyDetected": 1,
-      "graphifyInferred": 1,
+      "graphifyInferred": 0,
       "averageCoverage": 10
     },
     {
       "framework": "React",
       "repositories": 2,
       "ontolyDetected": 2,
-      "graphifyInferred": 2,
+      "graphifyInferred": 0,
       "averageCoverage": 10
     },
     {
       "framework": "Turborepo",
       "repositories": 2,
       "ontolyDetected": 0,
-      "graphifyInferred": 2,
+      "graphifyInferred": 0,
       "averageCoverage": 97.5
     },
     {
@@ -372,7 +372,19 @@
   ],
   "topStrengths": [
     {
+      "name": "Configuration",
+      "count": 5
+    },
+    {
       "name": "Deterministic graph validation",
+      "count": 5
+    },
+    {
+      "name": "Functions",
+      "count": 5
+    },
+    {
+      "name": "Modules",
       "count": 5
     },
     {
@@ -380,36 +392,24 @@
       "count": 5
     },
     {
+      "name": "Classes",
+      "count": 4
+    },
+    {
+      "name": "Environment Variables",
+      "count": 4
+    },
+    {
       "name": "INJECTS",
       "count": 4
     },
     {
-      "name": "AUTHORIZES",
-      "count": 2
-    },
-    {
-      "name": "HANDLES",
-      "count": 2
-    },
-    {
-      "name": "MOUNTS",
-      "count": 2
-    },
-    {
-      "name": "REGISTERED_IN",
-      "count": 2
-    },
-    {
-      "name": "Routes",
-      "count": 2
-    },
-    {
-      "name": "Environment Variables",
-      "count": 1
-    },
-    {
       "name": "Interfaces",
-      "count": 1
+      "count": 4
+    },
+    {
+      "name": "Methods",
+      "count": 3
     }
   ],
   "topWeaknesses": [
@@ -426,32 +426,8 @@
       "count": 3
     },
     {
-      "name": "EXTENDS",
-      "count": 2
-    },
-    {
-      "name": "REFERENCES",
-      "count": 2
-    },
-    {
       "name": "Turborepo detection",
       "count": 2
-    },
-    {
-      "name": "Classes",
-      "count": 1
-    },
-    {
-      "name": "Environment Variables",
-      "count": 1
-    },
-    {
-      "name": "Interfaces",
-      "count": 1
-    },
-    {
-      "name": "Methods",
-      "count": 1
     }
   ],
   "highestPriorityImprovements": [
@@ -530,16 +506,7 @@
       "evidence": [
         "Graphify exited with code 1.",
         "Full Graphify extraction required an LLM backend for repository docs/images.",
-        "Graphify comparison uses a code-only projection with 185 files."
-      ]
-    },
-    {
-      "repository": "0xsarwagya",
-      "priority": "Medium",
-      "description": "Ontoly did not emit EXTENDS, while Graphify emitted 55.",
-      "suggestedFix": "Add or extend relationship extraction for EXTENDS and cover it with deterministic snapshots.",
-      "evidence": [
-        "Normalized Graphify EXTENDS count: 55"
+        "Graphify comparison uses a code-only projection with 187 files."
       ]
     },
     {
@@ -566,15 +533,6 @@
     {
       "repository": "durable-local",
       "priority": "Medium",
-      "description": "Ontoly did not emit REFERENCES, while Graphify emitted 4.",
-      "suggestedFix": "Add or extend relationship extraction for REFERENCES and cover it with deterministic snapshots.",
-      "evidence": [
-        "Normalized Graphify REFERENCES count: 4"
-      ]
-    },
-    {
-      "repository": "durable-local",
-      "priority": "Medium",
       "description": "Vite was inferred from repository metadata but not detected by Ontoly.",
       "suggestedFix": "Add a Vite framework detector or map existing package evidence to a Framework node.",
       "evidence": [
@@ -595,24 +553,6 @@
     {
       "repository": "Ghost",
       "priority": "Medium",
-      "description": "Ontoly did not emit EXTENDS, while Graphify emitted 20.",
-      "suggestedFix": "Add or extend relationship extraction for EXTENDS and cover it with deterministic snapshots.",
-      "evidence": [
-        "Normalized Graphify EXTENDS count: 20"
-      ]
-    },
-    {
-      "repository": "Ghost",
-      "priority": "Medium",
-      "description": "Ontoly did not emit REFERENCES, while Graphify emitted 10.",
-      "suggestedFix": "Add or extend relationship extraction for REFERENCES and cover it with deterministic snapshots.",
-      "evidence": [
-        "Normalized Graphify REFERENCES count: 10"
-      ]
-    },
-    {
-      "repository": "Ghost",
-      "priority": "Medium",
       "description": "Vite was inferred from repository metadata but not detected by Ontoly.",
       "suggestedFix": "Add a Vite framework detector or map existing package evidence to a Framework node.",
       "evidence": [
@@ -627,7 +567,7 @@
       "evidence": [
         "Graphify exited with code 1.",
         "Full Graphify extraction required an LLM backend for repository docs/images.",
-        "Graphify comparison uses a code-only projection with 550 files."
+        "Graphify comparison uses a code-only projection with 563 files."
       ]
     },
     {
@@ -657,104 +597,107 @@
       "evidence": [
         "Graphify exited with code 1.",
         "Full Graphify extraction required an LLM backend for repository docs/images.",
-        "Graphify comparison uses a code-only projection with 9313 files."
+        "Graphify comparison uses a code-only projection with 9325 files."
       ]
     }
   ],
   "regression": {
     "status": "PASS",
-    "baseline": "initialized",
+    "baseline": "compared",
     "failures": [],
     "warnings": [
-      "No previous baseline existed. Current results were written as regression-baseline.json."
+      "ovok-core: Ontoly analysis time increased by 76.67%.",
+      "0xsarwagya: Ontoly analysis time increased by 123.38%.",
+      "innosphere: Ontoly analysis time increased by 62.83%.",
+      "durable-local: Ontoly analysis time increased by 39.67%."
     ],
     "current": {
-      "generatedAt": "2026-07-13T12:13:41.317Z",
+      "generatedAt": "2026-07-14T20:18:05.550Z",
       "repositories": [
         {
           "slug": "ovok-core",
           "status": "partial",
           "ontoly": {
             "nodes": 21696,
-            "edges": 47312,
+            "edges": 47725,
             "coverage": 98,
             "trustworthiness": 98,
-            "durationMs": 13865.611916999995
+            "durationMs": 24495.925499999998
           },
           "graphify": {
-            "nodes": 27444,
-            "edges": 57572,
-            "durationMs": 31782.687291000002
+            "nodes": 0,
+            "edges": 0,
+            "durationMs": 424.7916669999995
           },
-          "graphHash": "17ibur0"
+          "graphHash": "1mydjnw"
         },
         {
           "slug": "0xsarwagya",
           "status": "partial",
           "ontoly": {
-            "nodes": 1202,
-            "edges": 2082,
+            "nodes": 1204,
+            "edges": 2095,
             "coverage": 95,
             "trustworthiness": 95,
-            "durationMs": 5026.105749999995
+            "durationMs": 11227.137708000002
           },
           "graphify": {
-            "nodes": 1071,
-            "edges": 1811,
-            "durationMs": 1449.7775000000038
+            "nodes": 0,
+            "edges": 0,
+            "durationMs": 389.46774999999616
           },
-          "graphHash": "02tafm2"
+          "graphHash": "0y006e0"
         },
         {
           "slug": "innosphere",
           "status": "partial",
           "ontoly": {
-            "nodes": 6744,
-            "edges": 12091,
+            "nodes": 6981,
+            "edges": 12739,
             "coverage": 100,
             "trustworthiness": 100,
-            "durationMs": 8249.796290999991
+            "durationMs": 13433.23391699999
           },
           "graphify": {
-            "nodes": 4178,
-            "edges": 9594,
-            "durationMs": 3963.019459000003
+            "nodes": 0,
+            "edges": 0,
+            "durationMs": 186.0052080000023
           },
-          "graphHash": "0e26ua1"
+          "graphHash": "12xhppw"
         },
         {
           "slug": "ghost",
           "status": "partial",
           "ontoly": {
             "nodes": 350,
-            "edges": 655,
+            "edges": 657,
             "coverage": 100,
             "trustworthiness": 100,
-            "durationMs": 1171.8272080000024
+            "durationMs": 1462.7041250000038
           },
           "graphify": {
-            "nodes": 211,
-            "edges": 553,
-            "durationMs": 609.0390830000106
+            "nodes": 0,
+            "edges": 0,
+            "durationMs": 282.30829200000153
           },
-          "graphHash": "1hv7tll"
+          "graphHash": "04fwlj9"
         },
         {
           "slug": "durable-local",
           "status": "partial",
           "ontoly": {
             "nodes": 226,
-            "edges": 381,
+            "edges": 384,
             "coverage": 100,
             "trustworthiness": 100,
-            "durationMs": 956.0260410000046
+            "durationMs": 1335.3034580000094
           },
           "graphify": {
-            "nodes": 167,
-            "edges": 304,
-            "durationMs": 512.9914589999971
+            "nodes": 0,
+            "edges": 0,
+            "durationMs": 220.80929200000537
           },
-          "graphHash": "0qkaj80"
+          "graphHash": "1xd5unc"
         }
       ]
     }

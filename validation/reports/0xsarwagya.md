@@ -4,8 +4,8 @@
 
 - Requested path: /Users/shrey/Desktop/personal/0xsarwagya
 - Actual path: /Users/shrey/Desktop/personal/0xsarwagya
-- Files: 446
-- Source files: 189
+- Files: 537
+- Source files: 191
 - Packages: 10
 - Frameworks: Next.js, React, Turborepo
 
@@ -13,35 +13,35 @@
 
 | Tool | Nodes | Edges | Diagnostics | Hash |
 | --- | ---: | ---: | ---: | --- |
-| Ontoly | 1202 | 2082 | 13 | 02tafm2 |
-| Graphify | 1071 | 1811 | 0 | 9320c522532a9d05da5b4963dd90eadd96facf9f29587db8d0acb95f8a0f7204 |
+| Ontoly | 1204 | 2095 | 13 | 0y006e0 |
+| Graphify | 0 | 0 | 0 | e36634175223f5b2f5abd7582c60155c47fc3947ec8ae82165c8dcbe7d7ae4b2 |
 
 ## Semantic Comparison
 
 | Item | Ontoly | Graphify | Delta | Status | Incorrect |
 | --- | ---: | ---: | ---: | --- | --- |
-| Functions | 205 | 215 | -10 | supported | not measured |
+| Functions | 206 | 0 | 206 | graphify_missing | not measured |
 | Methods | 0 | 0 | 0 | not_observed | not measured |
-| Classes | 0 | 86 | -86 | ontoly_missing | not measured |
-| Interfaces | 0 | 1 | -1 | ontoly_missing | not measured |
+| Classes | 0 | 0 | 0 | not_observed | not measured |
+| Interfaces | 0 | 0 | 0 | not_observed | not measured |
 | Routes | 0 | 0 | 0 | not_observed | not measured |
 | Controllers | 0 | 0 | 0 | not_observed | not measured |
-| Modules | 140 | 146 | -6 | supported | not measured |
+| Modules | 140 | 0 | 140 | graphify_missing | not measured |
 | Services | 0 | 0 | 0 | not_observed | not measured |
 | Providers | 0 | 0 | 0 | not_observed | not measured |
 | Repositories | 0 | 0 | 0 | not_observed | not measured |
 | Packages | 29 | 0 | 29 | graphify_missing | not measured |
-| Configuration | 44 | 31 | 13 | divergent | not measured |
-| Environment Variables | 0 | 27 | -27 | ontoly_missing | not measured |
+| Configuration | 44 | 0 | 44 | graphify_missing | not measured |
+| Environment Variables | 0 | 0 | 0 | not_observed | not measured |
 
 ## Relationship Comparison
 
 | Item | Ontoly | Graphify | Delta | Status | Incorrect |
 | --- | ---: | ---: | ---: | --- | --- |
-| CALLS | 201 | 104 | 97 | divergent | not measured |
-| IMPORTS | 300 | 353 | -53 | supported | not measured |
-| EXPORTS | 186 | 0 | 186 | graphify_missing | not measured |
-| CONTAINS | 951 | 882 | 69 | supported | not measured |
+| CALLS | 211 | 0 | 211 | graphify_missing | not measured |
+| IMPORTS | 300 | 0 | 300 | graphify_missing | not measured |
+| EXPORTS | 187 | 0 | 187 | graphify_missing | not measured |
+| CONTAINS | 953 | 0 | 953 | graphify_missing | not measured |
 | HANDLES | 0 | 0 | 0 | not_observed | not measured |
 | MOUNTS | 0 | 0 | 0 | not_observed | not measured |
 | INJECTS | 0 | 0 | 0 | not_observed | not measured |
@@ -52,7 +52,7 @@
 | AUTHORIZES | 0 | 0 | 0 | not_observed | not measured |
 | REGISTERED_IN | 0 | 0 | 0 | not_observed | not measured |
 | IMPLEMENTS | 0 | 0 | 0 | not_observed | not measured |
-| EXTENDS | 0 | 55 | -55 | ontoly_missing | not measured |
+| EXTENDS | 0 | 0 | 0 | not_observed | not measured |
 | REFERENCES | 0 | 0 | 0 | not_observed | not measured |
 | CREATES | 4 | 0 | 4 | graphify_missing | not measured |
 | THROWS | 2 | 0 | 2 | graphify_missing | not measured |
@@ -64,16 +64,16 @@
 
 | Framework | Ontoly Detected | Graphify Inferred | Coverage | Confidence | Missing Concepts | Relationship Gaps |
 | --- | --- | --- | ---: | --- | --- | --- |
-| Next.js | yes | yes | 10 | exact | Routes, Controllers, Services, Providers | HANDLES, MOUNTS, INJECTS, AUTHORIZES, REGISTERED_IN |
-| React | yes | yes | 10 | exact | Routes, Controllers, Services, Providers | HANDLES, MOUNTS, INJECTS, AUTHORIZES, REGISTERED_IN |
-| Turborepo | no | yes | 95 | n/a | Routes, Controllers, Services, Providers | HANDLES, MOUNTS, INJECTS, AUTHORIZES, REGISTERED_IN |
+| Next.js | yes | no | 10 | exact | Routes, Controllers, Services, Providers | HANDLES, MOUNTS, INJECTS, AUTHORIZES, REGISTERED_IN |
+| React | yes | no | 10 | exact | Routes, Controllers, Services, Providers | HANDLES, MOUNTS, INJECTS, AUTHORIZES, REGISTERED_IN |
+| Turborepo | no | no | 95 | n/a | Routes, Controllers, Services, Providers | HANDLES, MOUNTS, INJECTS, AUTHORIZES, REGISTERED_IN |
 
 ## Performance
 
 | Tool | Cold Analysis | Peak Memory | Graph Hash |
 | --- | ---: | ---: | --- |
-| Ontoly | 5026.11ms | 1.6 GB | 02tafm2 |
-| Graphify | 1449.78ms | 66.7 MB | 9320c522532a9d05da5b4963dd90eadd96facf9f29587db8d0acb95f8a0f7204 |
+| Ontoly | 11227.14ms | 1.7 GB | 0y006e0 |
+| Graphify | 389.47ms | 40.5 MB | e36634175223f5b2f5abd7582c60155c47fc3947ec8ae82165c8dcbe7d7ae4b2 |
 
 ## Diagnostics
 
@@ -84,16 +84,17 @@
 ## Strengths
 
 - Deterministic graph validation: Ontoly trustworthiness is 95 with consistency 100. (measured)
+- Functions: Ontoly produced 206 Functions; Graphify produced 0 in the normalized model. (inferred from normalized counts)
+- Modules: Ontoly produced 140 Modules; Graphify produced 0 in the normalized model. (inferred from normalized counts)
 - Packages: Ontoly produced 29 Packages; Graphify produced 0 in the normalized model. (inferred from normalized counts)
+- Configuration: Ontoly produced 44 Configuration; Graphify produced 0 in the normalized model. (inferred from normalized counts)
+- Next.js framework understanding: Ontoly detected the framework explicitly; Graphify only exposes framework understanding when it appears in normalized labels/relations. (inferred from framework detections)
+- React framework understanding: Ontoly detected the framework explicitly; Graphify only exposes framework understanding when it appears in normalized labels/relations. (inferred from framework detections)
 
 ## Weaknesses
 
 - Graphify full semantic extraction: Graphify required an LLM backend for docs/images, so the comparison uses a structural code-only fallback graph. (measured)
 - Graph validation warnings: 3 validation warnings were reported. (measured)
-- Classes: Graphify produced 86 Classes; Ontoly produced 0 in the normalized model. (inferred from normalized counts)
-- Interfaces: Graphify produced 1 Interfaces; Ontoly produced 0 in the normalized model. (inferred from normalized counts)
-- Environment Variables: Graphify produced 27 Environment Variables; Ontoly produced 0 in the normalized model. (inferred from normalized counts)
-- EXTENDS: Graphify produced 55 EXTENDS relationships; Ontoly produced 0. (inferred from normalized counts)
 - Turborepo detection: Repository evidence suggests Turborepo, but Ontoly did not explicitly detect it. (inferred from package metadata)
 
 ## Recommendations
@@ -101,9 +102,6 @@
 - Priority: High
   Description: 3 graph validation issue(s) with code SELF_RELATIONSHIP.
   Suggested Fix: Add a deterministic fixture for this validation issue and repair the graph construction invariant.
-- Priority: Medium
-  Description: Ontoly did not emit EXTENDS, while Graphify emitted 55.
-  Suggested Fix: Add or extend relationship extraction for EXTENDS and cover it with deterministic snapshots.
 - Priority: Medium
   Description: Turborepo was inferred from repository metadata but not detected by Ontoly.
   Suggested Fix: Add a Turborepo framework detector or map existing package evidence to a Framework node.

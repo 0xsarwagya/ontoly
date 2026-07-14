@@ -39,20 +39,20 @@
       "precision": 100,
       "recall": 100,
       "confidence": 100,
-      "latencyMs": 0.178,
+      "latencyMs": 0.377,
       "semanticUnderstandingScore": 100
     },
     "graphify": {
       "questions": 6,
-      "pass": 5,
+      "pass": 0,
       "partial": 0,
-      "fail": 1,
-      "exactMatchRate": 83.33,
-      "precision": 83.33,
-      "recall": 83.33,
-      "confidence": 83.33,
-      "latencyMs": 0.122,
-      "semanticUnderstandingScore": 83.33
+      "fail": 6,
+      "exactMatchRate": 0,
+      "precision": 0,
+      "recall": 0,
+      "confidence": 0,
+      "latencyMs": 0.002,
+      "semanticUnderstandingScore": 0
     },
     "winner": "Ontoly"
   },
@@ -81,7 +81,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.315,
+        "latencyMs": 0.282,
         "answers": [
           {
             "label": "AuthController",
@@ -95,26 +95,20 @@
       },
       "graphify": {
         "system": "graphify",
-        "status": "PASS",
-        "exactMatch": true,
-        "precision": 1,
-        "recall": 1,
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
         "falsePositives": [],
-        "falseNegatives": [],
-        "confidence": 100,
-        "latencyMs": 0.089,
-        "answers": [
-          {
-            "label": "AuthController",
-            "type": "Controller",
-            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_apps_api_src_auth_auth_controller_authcontroller",
-            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/apps/api/src/auth/auth.controller.ts",
-            "explanation": "Matched Controller node AuthController."
-          }
+        "falseNegatives": [
+          "AuthController"
         ],
-        "explanation": "1 candidate node(s) matched Controller with terms AuthController."
+        "confidence": 0,
+        "latencyMs": 0.002,
+        "answers": [],
+        "explanation": "0 candidate node(s) matched Controller with terms AuthController."
       },
-      "winner": "Tie"
+      "winner": "Ontoly"
     },
     {
       "id": "innosphere-auth-me-route",
@@ -140,7 +134,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.124,
+        "latencyMs": 0.258,
         "answers": [
           {
             "label": "GET:/auth/me",
@@ -163,7 +157,7 @@
           "GET:/auth/me"
         ],
         "confidence": 0,
-        "latencyMs": 0.052,
+        "latencyMs": 0.001,
         "answers": [],
         "explanation": "0 candidate node(s) matched Route with terms GET:/auth/me."
       },
@@ -193,7 +187,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.261,
+        "latencyMs": 0.544,
         "answers": [
           {
             "label": "AuthModule",
@@ -207,26 +201,20 @@
       },
       "graphify": {
         "system": "graphify",
-        "status": "PASS",
-        "exactMatch": true,
-        "precision": 1,
-        "recall": 1,
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
         "falsePositives": [],
-        "falseNegatives": [],
-        "confidence": 100,
-        "latencyMs": 0.222,
-        "answers": [
-          {
-            "label": "AuthModule",
-            "type": "Module",
-            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_apps_api_src_auth_auth_module_authmodule",
-            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/apps/api/src/auth/auth.module.ts",
-            "explanation": "Matched Module node AuthModule."
-          }
+        "falseNegatives": [
+          "AuthModule"
         ],
-        "explanation": "1 candidate node(s) matched Module with terms AuthModule."
+        "confidence": 0,
+        "latencyMs": 0.006,
+        "answers": [],
+        "explanation": "0 candidate node(s) matched Module with terms AuthModule."
       },
-      "winner": "Tie"
+      "winner": "Ontoly"
     },
     {
       "id": "innosphere-database-url",
@@ -252,7 +240,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.072,
+        "latencyMs": 0.381,
         "answers": [
           {
             "label": "DATABASE_URL",
@@ -266,26 +254,20 @@
       },
       "graphify": {
         "system": "graphify",
-        "status": "PASS",
-        "exactMatch": true,
-        "precision": 1,
-        "recall": 1,
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
         "falsePositives": [],
-        "falseNegatives": [],
-        "confidence": 100,
-        "latencyMs": 0.135,
-        "answers": [
-          {
-            "label": "DATABASE_URL",
-            "type": "EnvironmentVariable",
-            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_scripts_seed_demo_chat_database_url",
-            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/scripts/seed-demo-chat.mjs",
-            "explanation": "Matched EnvironmentVariable node DATABASE_URL."
-          }
+        "falseNegatives": [
+          "DATABASE_URL"
         ],
-        "explanation": "1 candidate node(s) matched EnvironmentVariable with terms DATABASE_URL."
+        "confidence": 0,
+        "latencyMs": 0.003,
+        "answers": [],
+        "explanation": "0 candidate node(s) matched EnvironmentVariable with terms DATABASE_URL."
       },
-      "winner": "Tie"
+      "winner": "Ontoly"
     },
     {
       "id": "innosphere-ovok-service",
@@ -311,7 +293,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.053,
+        "latencyMs": 0.208,
         "answers": [
           {
             "label": "OvokService",
@@ -325,26 +307,20 @@
       },
       "graphify": {
         "system": "graphify",
-        "status": "PASS",
-        "exactMatch": true,
-        "precision": 1,
-        "recall": 1,
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
         "falsePositives": [],
-        "falseNegatives": [],
-        "confidence": 100,
-        "latencyMs": 0.051,
-        "answers": [
-          {
-            "label": "OvokService",
-            "type": "Service",
-            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_apps_api_src_ovok_ovok_service_ovokservice",
-            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/apps/api/src/ovok/ovok.service.ts",
-            "explanation": "Matched Service node OvokService."
-          }
+        "falseNegatives": [
+          "OvokService"
         ],
-        "explanation": "1 candidate node(s) matched Service with terms OvokService."
+        "confidence": 0,
+        "latencyMs": 0.001,
+        "answers": [],
+        "explanation": "0 candidate node(s) matched Service with terms OvokService."
       },
-      "winner": "Tie"
+      "winner": "Ontoly"
     },
     {
       "id": "innosphere-app-module",
@@ -370,7 +346,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.241,
+        "latencyMs": 0.588,
         "answers": [
           {
             "label": "AppModule",
@@ -384,26 +360,20 @@
       },
       "graphify": {
         "system": "graphify",
-        "status": "PASS",
-        "exactMatch": true,
-        "precision": 1,
-        "recall": 1,
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
         "falsePositives": [],
-        "falseNegatives": [],
-        "confidence": 100,
-        "latencyMs": 0.183,
-        "answers": [
-          {
-            "label": "AppModule",
-            "type": "Module",
-            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_apps_api_src_app_module_appmodule",
-            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/apps/api/src/app.module.ts",
-            "explanation": "Matched Module node AppModule."
-          }
+        "falseNegatives": [
+          "AppModule"
         ],
-        "explanation": "1 candidate node(s) matched Module with terms AppModule."
+        "confidence": 0,
+        "latencyMs": 0.001,
+        "answers": [],
+        "explanation": "0 candidate node(s) matched Module with terms AppModule."
       },
-      "winner": "Tie"
+      "winner": "Ontoly"
     }
   ]
 }

@@ -36,20 +36,20 @@
       "precision": 100,
       "recall": 100,
       "confidence": 100,
-      "latencyMs": 0.018,
+      "latencyMs": 0.028,
       "semanticUnderstandingScore": 100
     },
     "graphify": {
       "questions": 6,
-      "pass": 3,
+      "pass": 0,
       "partial": 0,
-      "fail": 3,
-      "exactMatchRate": 50,
-      "precision": 50,
-      "recall": 50,
-      "confidence": 50,
-      "latencyMs": 0.012,
-      "semanticUnderstandingScore": 50
+      "fail": 6,
+      "exactMatchRate": 0,
+      "precision": 0,
+      "recall": 0,
+      "confidence": 0,
+      "latencyMs": 0.003,
+      "semanticUnderstandingScore": 0
     },
     "winner": "Ontoly"
   },
@@ -78,7 +78,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.032,
+        "latencyMs": 0.044,
         "answers": [
           {
             "label": "createGhost",
@@ -101,7 +101,7 @@
           "createGhost"
         ],
         "confidence": 0,
-        "latencyMs": 0.004,
+        "latencyMs": 0.002,
         "answers": [],
         "explanation": "0 candidate node(s) matched Function with terms createGhost."
       },
@@ -131,7 +131,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.013,
+        "latencyMs": 0.022,
         "answers": [
           {
             "label": "Ghost",
@@ -145,26 +145,20 @@
       },
       "graphify": {
         "system": "graphify",
-        "status": "PASS",
-        "exactMatch": true,
-        "precision": 1,
-        "recall": 1,
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
         "falsePositives": [],
-        "falseNegatives": [],
-        "confidence": 100,
-        "latencyMs": 0.014,
-        "answers": [
-          {
-            "label": "Ghost",
-            "type": "Class",
-            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_ghost_graphify_code_projection_src_browser_ghost_ghost",
-            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/code-projection/src/browser/ghost.ts",
-            "explanation": "Included in architecture summary as Class."
-          }
+        "falseNegatives": [
+          "Ghost"
         ],
+        "confidence": 0,
+        "latencyMs": 0.003,
+        "answers": [],
         "explanation": "Architecture summary searched Interface, Class."
       },
-      "winner": "Tie"
+      "winner": "Ontoly"
     },
     {
       "id": "ghost-error-class",
@@ -190,7 +184,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.006,
+        "latencyMs": 0.012,
         "answers": [
           {
             "label": "GhostError",
@@ -204,26 +198,20 @@
       },
       "graphify": {
         "system": "graphify",
-        "status": "PASS",
-        "exactMatch": true,
-        "precision": 1,
-        "recall": 1,
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
         "falsePositives": [],
-        "falseNegatives": [],
-        "confidence": 100,
-        "latencyMs": 0.015,
-        "answers": [
-          {
-            "label": "GhostError",
-            "type": "Class",
-            "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_ghost_graphify_code_projection_src_errors_ghosterror",
-            "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/code-projection/src/errors.ts",
-            "explanation": "Included in architecture summary as Class."
-          }
+        "falseNegatives": [
+          "GhostError"
         ],
+        "confidence": 0,
+        "latencyMs": 0.008,
+        "answers": [],
         "explanation": "Architecture summary searched Class."
       },
-      "winner": "Tie"
+      "winner": "Ontoly"
     },
     {
       "id": "ghost-ci-env",
@@ -249,7 +237,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.005,
+        "latencyMs": 0.009,
         "answers": [
           {
             "label": "CI",
@@ -272,7 +260,7 @@
           "CI"
         ],
         "confidence": 0,
-        "latencyMs": 0.004,
+        "latencyMs": 0.001,
         "answers": [],
         "explanation": "0 candidate node(s) matched EnvironmentVariable with terms CI."
       },
@@ -302,7 +290,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.008,
+        "latencyMs": 0.012,
         "answers": [
           {
             "label": "@0xsarwagya/ghost",
@@ -325,7 +313,7 @@
           "@0xsarwagya/ghost"
         ],
         "confidence": 0,
-        "latencyMs": 0.005,
+        "latencyMs": 0.001,
         "answers": [],
         "explanation": "0 candidate node(s) matched Package with terms @0xsarwagya/ghost."
       },
@@ -361,7 +349,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.046,
+        "latencyMs": 0.072,
         "answers": [
           {
             "label": "loadOrCreateRecord -> createGhostId",
@@ -375,26 +363,20 @@
       },
       "graphify": {
         "system": "graphify",
-        "status": "PASS",
-        "exactMatch": true,
-        "precision": 1,
-        "recall": 1,
+        "status": "FAIL",
+        "exactMatch": false,
+        "precision": 0,
+        "recall": 0,
         "falsePositives": [],
-        "falseNegatives": [],
-        "confidence": 100,
-        "latencyMs": 0.031,
-        "answers": [
-          {
-            "label": "loadOrCreateRecord -> createGhostId",
-            "type": "CALLS",
-            "id": "graphify-edge:503",
-            "file": null,
-            "explanation": "Matched CALLS relationship."
-          }
+        "falseNegatives": [
+          "loadOrCreateRecord -> createGhostId"
         ],
-        "explanation": "1 candidate edge-derived answer(s) matched CALLS."
+        "confidence": 0,
+        "latencyMs": 0.003,
+        "answers": [],
+        "explanation": "0 candidate edge-derived answer(s) matched CALLS."
       },
-      "winner": "Tie"
+      "winner": "Ontoly"
     }
   ]
 }

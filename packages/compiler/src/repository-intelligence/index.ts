@@ -93,7 +93,11 @@ export function createRepositoryIntelligencePass(options: {
         },
       });
 
-      for (const file of files) {
+      for (const file of files.filter(isPackageManifest)) {
+        await collectRepositoryFileFacts(repositoryContext, file);
+      }
+
+      for (const file of files.filter((file) => !isPackageManifest(file))) {
         await collectRepositoryFileFacts(repositoryContext, file);
       }
 
@@ -117,7 +121,7 @@ export function createRepositoryIntelligencePass(options: {
 async function collectRepositoryFileFacts(context: RepositoryFactContext, file: string): Promise<void> {
   const normalizedFile = normalizePath(file);
 
-  if (normalizedFile === "package.json" || normalizedFile.endsWith("/package.json")) {
+  if (isPackageManifest(normalizedFile)) {
     await collectPackageJsonFacts(context, normalizedFile);
     return;
   }
@@ -158,7 +162,14 @@ async function collectRepositoryFileFacts(context: RepositoryFactContext, file: 
   }
 
   if (isConfigurationFile(normalizedFile)) {
-    addConfigurationNode(context, normalizedFile, configurationName(normalizedFile), configurationKind(normalizedFile));
+    const configId = addConfigurationNode(context, normalizedFile, configurationName(normalizedFile), configurationKind(normalizedFile));
+    const packageId = findOwningPackageId(context, normalizedFile);
+
+    if (packageId) {
+      addRelationship(context, "CONFIGURES", configId, packageId, normalizedFile, "configuration file configures package", {
+        configurationKind: configurationKind(normalizedFile),
+      });
+    }
   }
 }
 
@@ -660,6 +671,27 @@ function isConfigurationFile(file: string): boolean {
     base === "prettier.config.cjs" ||
     base === "prettier.config.mjs"
   );
+}
+
+function isPackageManifest(file: string): boolean {
+  return file === "package.json" || file.endsWith("/package.json");
+}
+
+function findOwningPackageId(context: RepositoryFactContext, file: string): string | undefined {
+  const directory = normalizePath(dirname(file));
+  const candidates = [...context.symbols.values()]
+    .filter((symbol) => symbol.kind === "Package" && symbol.metadata?.local === true)
+    .map((symbol) => ({
+      id: symbol.id,
+      path: normalizePath(typeof symbol.metadata?.path === "string" ? symbol.metadata.path : "."),
+    }))
+    .filter((symbol) => symbol.path === "." || directory === symbol.path || directory.startsWith(`${symbol.path}/`))
+    .sort((left, right) => {
+      const depth = right.path.length - left.path.length;
+      return depth === 0 ? left.id.localeCompare(right.id) : depth;
+    });
+
+  return candidates[0]?.id;
 }
 
 function configurationName(file: string): string {

@@ -4,16 +4,29 @@ import { normalizePath, stableHash } from "@0xsarwagya/ontoly-core";
 import type { RepositoryDiscovery, SourceArtifact, SourceInventory } from "../types";
 
 const IGNORED_PARTS = new Set([
+  ".artifacts",
+  ".cache",
+  ".expo",
   ".git",
+  ".next",
+  ".nuxt",
+  ".svelte-kit",
   ".ontoly",
   ".turbo",
+  ".vite",
+  "artifacts",
+  "build",
   "coverage",
   "dist",
+  "downloads",
   "node_modules",
   "ontoly-output",
+  "out",
   "outputs",
   "playwright-report",
+  "temp",
   "test-results",
+  "tmp",
   "work",
 ]);
 

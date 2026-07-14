@@ -118,6 +118,17 @@ interface PromptEnvironment {
   readonly stdoutIsTTY?: boolean | undefined;
 }
 
+interface CapabilityProfileReport {
+  readonly capability: CapabilityName;
+  readonly durationMs: number;
+  readonly summary: string;
+  readonly confidence: CapabilityResult["confidence"];
+  readonly budget: unknown;
+  readonly stages: unknown;
+  readonly hotspots: readonly string[];
+  readonly diagnostics: CapabilityResult["diagnostics"];
+}
+
 type RepositorySource =
   | {
     readonly kind: "local";
@@ -265,6 +276,10 @@ async function run(cli: ParsedCli): Promise<void> {
 
     case "implementation-plan":
       await capabilityCommand(cli, "ImplementationPlan", { targetKey: "task", joinPositionals: true });
+      return;
+
+    case "profile":
+      await profileCommand(cli);
       return;
 
     case "ownership":
@@ -816,6 +831,9 @@ async function capabilityCommand(
   const graph = await loadOrBuildGraph(cli, { positionalRoot: options.positionalRoot ?? false });
   const engine = createCapabilityEngine(graph);
   const input = capabilityInputFromCli(cli, options);
+  if (capability === "ImplementationPlan" && !flagBoolean(cli, "json")) {
+    logger.info("implementation-plan: running bounded planner");
+  }
   const result = engine.execute(capability, input);
 
   if (flagBoolean(cli, "json")) {
@@ -823,7 +841,100 @@ async function capabilityCommand(
     return;
   }
 
+  if (capability === "ImplementationPlan") {
+    logger.info(`implementation-plan: ${formatCapabilityBudgetStatus(result.statistics.budget)}`);
+  }
   logger.write(formatCapabilityResult(capability, result));
+}
+
+async function profileCommand(cli: ParsedCli): Promise<void> {
+  const target = cli.positional[0] ?? "";
+  const capability = capabilityFromProfileTarget(target);
+  if (!capability) {
+    throw new OntolyCliError({
+      code: "ONTOLY_PROFILE_TARGET_REQUIRED",
+      message: "Profile requires a supported capability target.",
+      suggestion: "Run ontoly profile implementation-plan \"task\", ontoly profile evidence \"query\", or ontoly profile impact <node-id-or-query>.",
+    });
+  }
+
+  const profileCli: ParsedCli = {
+    ...cli,
+    positional: cli.positional.slice(1),
+  };
+  if (!flagBoolean(cli, "json")) {
+    logger.info(`profile ${target}: loading graph`);
+  }
+  const graph = await loadOrBuildGraph(profileCli, { positionalRoot: false });
+  const engine = createCapabilityEngine(graph);
+  const input = capabilityInputFromCli(profileCli, capabilityProfileInputOptions(capability));
+  if (!flagBoolean(cli, "json")) {
+    logger.info(`profile ${target}: executing bounded capability`);
+  }
+  const startedAt = Date.now();
+  const result = engine.execute(capability, input);
+  const durationMs = Date.now() - startedAt;
+  const profile: CapabilityProfileReport = {
+    capability,
+    durationMs,
+    summary: result.summary,
+    confidence: result.confidence,
+    budget: result.statistics.budget ?? {},
+    stages: result.statistics.profile ?? [],
+    hotspots: capabilityProfileHotspots(capability),
+    diagnostics: result.diagnostics,
+  };
+
+  if (flagBoolean(cli, "json")) {
+    logger.write(JSON.stringify(profile, null, 2));
+    return;
+  }
+
+  logger.write(formatProfileResult(profile));
+}
+
+function capabilityFromProfileTarget(value: string): CapabilityName | undefined {
+  switch (value) {
+    case "implementation-plan":
+    case "ImplementationPlan":
+      return "ImplementationPlan";
+    case "evidence":
+    case "evidence-pack":
+    case "EvidencePack":
+      return "EvidencePack";
+    case "impact":
+    case "ImpactAnalysis":
+      return "ImpactAnalysis";
+    default:
+      return undefined;
+  }
+}
+
+function capabilityProfileInputOptions(capability: CapabilityName): {
+  readonly targetKey?: "id" | "query" | "task" | undefined;
+  readonly joinPositionals?: boolean | undefined;
+} {
+  if (capability === "ImplementationPlan") {
+    return { targetKey: "task", joinPositionals: true };
+  }
+  if (capability === "EvidencePack") {
+    return { targetKey: "query", joinPositionals: true };
+  }
+  return { targetKey: "id", joinPositionals: true };
+}
+
+function capabilityProfileHotspots(capability: CapabilityName): readonly string[] {
+  if (capability === "ImplementationPlan") {
+    return [
+      "intent resolution: Semantic Index candidate ranking",
+      "scoped impact: bounded adjacency traversal over implementation relationships",
+      "previous hotspot guarded: semantic boundary expansion no longer runs query.walk before budgets apply",
+    ];
+  }
+  return [
+    "intent resolution: Semantic Index candidate ranking",
+    "graph traversal: bounded relationship expansion",
+  ];
 }
 
 function capabilityFromExplainCli(cli: ParsedCli): CapabilityName {
@@ -844,6 +955,12 @@ function capabilityInputFromCli(
   const limit = flagNumber(cli, "limit", -1);
   const budget = flagNumber(cli, "budget", -1);
   const timeoutMs = flagNumber(cli, "timeout-ms", -1);
+  const maxTime = flagNumber(cli, "max-time", -1);
+  const maxTimeMs = flagNumber(cli, "max-time-ms", -1);
+  const maxNodes = flagNumber(cli, "max-nodes", -1);
+  const maxEdges = flagNumber(cli, "max-edges", -1);
+  const maxDepth = flagNumber(cli, "max-depth", -1);
+  const maxEvidence = flagNumber(cli, "max-evidence", -1);
   const mode = flagString(cli, "mode", "");
 
   if (depth >= 0) {
@@ -857,6 +974,24 @@ function capabilityInputFromCli(
   }
   if (timeoutMs >= 0) {
     input.timeoutMs = timeoutMs;
+  }
+  if (maxTime >= 0) {
+    input.maxTime = maxTime;
+  }
+  if (maxTimeMs >= 0) {
+    input.maxTimeMs = maxTimeMs;
+  }
+  if (maxNodes >= 0) {
+    input.maxNodes = maxNodes;
+  }
+  if (maxEdges >= 0) {
+    input.maxEdges = maxEdges;
+  }
+  if (maxDepth >= 0) {
+    input.maxDepth = maxDepth;
+  }
+  if (maxEvidence >= 0) {
+    input.maxEvidence = maxEvidence;
   }
   if (mode) {
     input.mode = mode;
@@ -3160,6 +3295,60 @@ function formatCapabilityResult(capability: CapabilityName, result: CapabilityRe
   return lines.join("\n");
 }
 
+function formatCapabilityBudgetStatus(value: unknown): string {
+  if (!isJsonObject(value)) {
+    return "COMPLETE";
+  }
+  const status = String(value.status ?? "COMPLETE");
+  const reason = String(value.reason ?? "COMPLETE");
+  const nodes = String(value.visitedNodes ?? "n/a");
+  const edges = String(value.visitedEdges ?? "n/a");
+  return `${status} (${reason}); visited nodes=${nodes}, edges=${edges}`;
+}
+
+function formatProfileResult(profile: CapabilityProfileReport): string {
+  const budget = isJsonObject(profile.budget) ? profile.budget : {};
+  const stages = Array.isArray(profile.stages) ? profile.stages.filter(isJsonObject) : [];
+  const lines = [
+    `# Profile: ${titleCase(profile.capability)}`,
+    "",
+    profile.summary,
+    "",
+    `Duration: ${profile.durationMs}ms`,
+    `Confidence: ${profile.confidence.level} (${profile.confidence.score.toFixed(2)})`,
+    `Status: ${String(budget.status ?? "complete")}`,
+    `Reason: ${String(budget.reason ?? "COMPLETE")}`,
+    `Visited nodes: ${String(budget.visitedNodes ?? "n/a")}`,
+    `Visited edges: ${String(budget.visitedEdges ?? "n/a")}`,
+    `Max depth reached: ${String(budget.maxDepthReached ?? "n/a")}`,
+  ];
+
+  lines.push("", "## Hotspots");
+  for (const hotspot of profile.hotspots) {
+    lines.push(`- ${hotspot}`);
+  }
+
+  if (stages.length > 0) {
+    lines.push("", "## Stages");
+    for (const stage of stages) {
+      lines.push(`- ${String(stage.name ?? "stage")}: ${String(stage.durationMs ?? 0)}ms, ${String(stage.status ?? "complete")}, nodes ${String(stage.nodesVisited ?? "n/a")}, edges ${String(stage.edgesVisited ?? "n/a")}`);
+    }
+  }
+
+  if (profile.diagnostics.length > 0) {
+    lines.push("", "## Diagnostics");
+    for (const diagnostic of profile.diagnostics) {
+      lines.push(`- ${diagnostic.severity} ${diagnostic.code}: ${diagnostic.message}`);
+    }
+  }
+
+  return lines.join("\n");
+}
+
+function isJsonObject(value: unknown): value is JsonObject {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
 function formatSerializedNodeList(nodes: readonly SerializedNode[]): string {
   if (nodes.length === 0) {
     return "none";
@@ -3761,9 +3950,16 @@ function commandHelp(): Record<string, CommandHelp> {
 	  "implementation-plan": {
 	    title: "ontoly implementation-plan",
 	    description: "Generate a graph-backed implementation plan for a task without AI reasoning.",
-	    usage: ["ontoly implementation-plan <task> [--root path] [--depth 3] [--budget 80] [--json]"],
-	    options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--budget n     Maximum graph nodes, clamped to 1-250.", "--timeout-ms n Deterministic planning budget metadata.", "--json         Print JSON."],
-	    examples: ["ontoly implementation-plan \"add login threshold\"", "ontoly implementation-plan \"remove PlanDefinition\" --budget 40 --json"],
+	    usage: ["ontoly implementation-plan <task> [--root path] [--max-time-ms 2000] [--max-nodes 80] [--max-edges 160] [--max-depth 3] [--json]"],
+	    options: ["--root path       Repository root.", "--depth n         Expansion depth alias for --max-depth.", "--budget n        Node budget alias for --max-nodes.", "--timeout-ms n    Time budget alias for --max-time-ms.", "--max-time-ms n   Execution time budget.", "--max-nodes n     Traversal node budget, clamped to 1-250.", "--max-edges n     Traversal edge budget, clamped to 1-1000.", "--max-depth n     Traversal depth budget, clamped to 0-8.", "--max-evidence n  Evidence item budget, clamped to 1-50.", "--json            Print JSON."],
+	    examples: ["ontoly implementation-plan \"add login threshold\"", "ontoly implementation-plan \"remove PlanDefinition\" --max-nodes 40 --json"],
+	  },
+	  profile: {
+	    title: "ontoly profile",
+	    description: "Profile bounded capability execution and report stage status, traversal counts, and known hotspots.",
+	    usage: ["ontoly profile <implementation-plan|evidence|impact> <target> [--root path] [--json]"],
+	    options: ["--root path       Repository root.", "--max-time-ms n  Execution time budget.", "--max-nodes n    Traversal node budget.", "--max-edges n    Traversal edge budget.", "--json           Print JSON."],
+	    examples: ["ontoly profile implementation-plan \"add login threshold\"", "ontoly profile evidence \"sleep duration thresholds\" --json"],
 	  },
 	  ownership: {
 	    title: "ontoly ownership",
@@ -3986,7 +4182,8 @@ Usage:
 	  ontoly explain [query] [--root path] [--depth 3] [--json]
 	  ontoly impact <node-id-or-query> [--root path] [--mode direct|local|feature|semantic|blast-radius] [--json]
 	  ontoly evidence <query> [--root path] [--limit 12] [--json]
-	  ontoly implementation-plan <task> [--root path] [--depth 3] [--budget 80] [--json]
+	  ontoly implementation-plan <task> [--root path] [--max-time-ms 2000] [--max-nodes 80] [--max-edges 160] [--max-depth 3] [--json]
+	  ontoly profile <implementation-plan|evidence|impact> <target> [--root path] [--json]
 	  ontoly ownership <query> [--root path] [--depth 3] [--json]
 	  ontoly health [root] [--json]
 	  ontoly repository-summary [root] [--json]
@@ -4030,7 +4227,8 @@ Examples:
 	  ontoly explain AuthService
 	  ontoly impact UserRepository --mode local --json
 	  ontoly evidence "remove PlanDefinition"
-	  ontoly implementation-plan "remove PlanDefinition support" --budget 80
+	  ontoly implementation-plan "remove PlanDefinition support" --max-nodes 80
+	  ontoly profile implementation-plan "remove PlanDefinition support"
 	  ontoly request-trace "POST /login"
 	  ontoly coverage
   ontoly report api

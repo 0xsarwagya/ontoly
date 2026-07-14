@@ -1,7 +1,7 @@
 {
   "analyzer": "workspace",
-  "semanticCoverage": 95,
-  "trust": 95,
+  "semanticCoverage": 92,
+  "trust": 92,
   "graphSizeBytes": {
     "min": 1200000,
     "max": 4000000

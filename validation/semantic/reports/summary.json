@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-13T15:37:42.502Z",
-  "startedAt": "2026-07-13T15:37:42.131Z",
+  "generatedAt": "2026-07-14T20:59:43.905Z",
+  "startedAt": "2026-07-14T20:59:43.503Z",
   "repositories": [
     {
       "repository": "0xsarwagya",
@@ -40,20 +40,20 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 1.035,
+          "latencyMs": 1.821,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
           "questions": 5,
-          "pass": 3,
+          "pass": 0,
           "partial": 0,
-          "fail": 2,
-          "exactMatchRate": 60,
-          "precision": 60,
-          "recall": 60,
-          "confidence": 60,
-          "latencyMs": 0.065,
-          "semanticUnderstandingScore": 60
+          "fail": 5,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.006,
+          "semanticUnderstandingScore": 0
         },
         "winner": "Ontoly"
       },
@@ -82,7 +82,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.21,
+            "latencyMs": 0.428,
             "answers": [
               {
                 "label": "@0xsarwagya/ghost",
@@ -96,26 +96,20 @@
           },
           "graphify": {
             "system": "graphify",
-            "status": "PASS",
-            "exactMatch": true,
-            "precision": 1,
-            "recall": 1,
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
             "falsePositives": [],
-            "falseNegatives": [],
-            "confidence": 100,
-            "latencyMs": 0.084,
-            "answers": [
-              {
-                "label": "@0xsarwagya/ghost",
-                "type": "Package",
-                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_0xsarwagya_graphify_code_projection_apps_oss_package_dependencies_0xsarwagya_ghost",
-                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/code-projection/apps/oss/package.json",
-                "explanation": "Matched Package node @0xsarwagya/ghost."
-              }
+            "falseNegatives": [
+              "@0xsarwagya/ghost"
             ],
-            "explanation": "1 candidate node(s) matched Package with terms @0xsarwagya/ghost."
+            "confidence": 0,
+            "latencyMs": 0.007,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched Package with terms @0xsarwagya/ghost."
           },
-          "winner": "Tie"
+          "winner": "Ontoly"
         },
         {
           "id": "personal-durable-package",
@@ -141,7 +135,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.025,
+            "latencyMs": 0.098,
             "answers": [
               {
                 "label": "@0xsarwagya/durable-local",
@@ -155,26 +149,20 @@
           },
           "graphify": {
             "system": "graphify",
-            "status": "PASS",
-            "exactMatch": true,
-            "precision": 1,
-            "recall": 1,
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
             "falsePositives": [],
-            "falseNegatives": [],
-            "confidence": 100,
-            "latencyMs": 0.059,
-            "answers": [
-              {
-                "label": "@0xsarwagya/durable-local",
-                "type": "Package",
-                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_0xsarwagya_graphify_code_projection_apps_oss_package_dependencies_0xsarwagya_durable_local",
-                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/code-projection/apps/oss/package.json",
-                "explanation": "Matched Package node @0xsarwagya/durable-local."
-              }
+            "falseNegatives": [
+              "@0xsarwagya/durable-local"
             ],
-            "explanation": "1 candidate node(s) matched Package with terms @0xsarwagya/durable-local."
+            "confidence": 0,
+            "latencyMs": 0.003,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched Package with terms @0xsarwagya/durable-local."
           },
-          "winner": "Tie"
+          "winner": "Ontoly"
         },
         {
           "id": "personal-next-framework",
@@ -202,7 +190,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.081,
+            "latencyMs": 0.149,
             "answers": [
               {
                 "label": "Next.js",
@@ -225,7 +213,7 @@
               "Next.js"
             ],
             "confidence": 0,
-            "latencyMs": 0.062,
+            "latencyMs": 0.003,
             "answers": [],
             "explanation": "Architecture summary searched Framework, Package."
           },
@@ -257,7 +245,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 4.833,
+            "latencyMs": 8.37,
             "answers": [
               {
                 "label": "React",
@@ -278,26 +266,20 @@
           },
           "graphify": {
             "system": "graphify",
-            "status": "PASS",
-            "exactMatch": true,
-            "precision": 1,
-            "recall": 1,
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
             "falsePositives": [],
-            "falseNegatives": [],
-            "confidence": 100,
-            "latencyMs": 0.087,
-            "answers": [
-              {
-                "label": "react",
-                "type": "Package",
-                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_0xsarwagya_graphify_code_projection_apps_bakaiti_package_dependencies_react",
-                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/0xsarwagya/graphify/code-projection/apps/bakaiti/package.json",
-                "explanation": "Included in architecture summary as Package."
-              }
+            "falseNegatives": [
+              "React"
             ],
+            "confidence": 0,
+            "latencyMs": 0.003,
+            "answers": [],
             "explanation": "Architecture summary searched Framework, Package."
           },
-          "winner": "Tie"
+          "winner": "Ontoly"
         },
         {
           "id": "personal-turbo-config",
@@ -325,7 +307,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.028,
+            "latencyMs": 0.062,
             "answers": [
               {
                 "label": "turbo",
@@ -355,7 +337,7 @@
               "turbo"
             ],
             "confidence": 0,
-            "latencyMs": 0.034,
+            "latencyMs": 0.015,
             "answers": [],
             "explanation": "0 candidate node(s) matched Configuration, Pipeline with terms turbo."
           },
@@ -400,20 +382,20 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.026,
+          "latencyMs": 0.051,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
           "questions": 6,
-          "pass": 2,
+          "pass": 0,
           "partial": 0,
-          "fail": 4,
-          "exactMatchRate": 33.33,
-          "precision": 33.33,
-          "recall": 33.33,
-          "confidence": 33.33,
-          "latencyMs": 0.009,
-          "semanticUnderstandingScore": 33.33
+          "fail": 6,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.005,
+          "semanticUnderstandingScore": 0
         },
         "winner": "Ontoly"
       },
@@ -442,7 +424,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.029,
+            "latencyMs": 0.045,
             "answers": [
               {
                 "label": "createDurable",
@@ -495,7 +477,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.009,
+            "latencyMs": 0.016,
             "answers": [
               {
                 "label": "Durable",
@@ -509,26 +491,20 @@
           },
           "graphify": {
             "system": "graphify",
-            "status": "PASS",
-            "exactMatch": true,
-            "precision": 1,
-            "recall": 1,
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
             "falsePositives": [],
-            "falseNegatives": [],
-            "confidence": 100,
-            "latencyMs": 0.013,
-            "answers": [
-              {
-                "label": "Durable",
-                "type": "Class",
-                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_durable_local_graphify_code_projection_src_core_durable_durable",
-                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/code-projection/src/core/durable.ts",
-                "explanation": "Included in architecture summary as Class."
-              }
+            "falseNegatives": [
+              "Durable"
             ],
+            "confidence": 0,
+            "latencyMs": 0.002,
+            "answers": [],
             "explanation": "Architecture summary searched Interface, Class."
           },
-          "winner": "Tie"
+          "winner": "Ontoly"
         },
         {
           "id": "durable-package",
@@ -554,7 +530,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.009,
+            "latencyMs": 0.021,
             "answers": [
               {
                 "label": "@0xsarwagya/durable-local",
@@ -577,7 +553,7 @@
               "@0xsarwagya/durable-local"
             ],
             "confidence": 0,
-            "latencyMs": 0.009,
+            "latencyMs": 0.01,
             "answers": [],
             "explanation": "0 candidate node(s) matched Package with terms @0xsarwagya/durable-local."
           },
@@ -607,7 +583,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.006,
+            "latencyMs": 0.013,
             "answers": [
               {
                 "label": "CI",
@@ -630,7 +606,7 @@
               "CI"
             ],
             "confidence": 0,
-            "latencyMs": 0.003,
+            "latencyMs": 0.004,
             "answers": [],
             "explanation": "0 candidate node(s) matched EnvironmentVariable with terms CI."
           },
@@ -666,7 +642,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.079,
+            "latencyMs": 0.152,
             "answers": [
               {
                 "label": "@0xsarwagya/durable-local -> fake-indexeddb",
@@ -689,7 +665,7 @@
               "@0xsarwagya/durable-local -> fake-indexeddb"
             ],
             "confidence": 0,
-            "latencyMs": 0.012,
+            "latencyMs": 0.004,
             "answers": [],
             "explanation": "0 candidate edge-derived answer(s) matched DEPENDS_ON."
           },
@@ -725,7 +701,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.026,
+            "latencyMs": 0.059,
             "answers": [
               {
                 "label": "withReadWrite -> openDatabase",
@@ -739,26 +715,20 @@
           },
           "graphify": {
             "system": "graphify",
-            "status": "PASS",
-            "exactMatch": true,
-            "precision": 1,
-            "recall": 1,
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
             "falsePositives": [],
-            "falseNegatives": [],
-            "confidence": 100,
-            "latencyMs": 0.013,
-            "answers": [
-              {
-                "label": "withReadWrite -> openDatabase",
-                "type": "CALLS",
-                "id": "graphify-edge:203",
-                "file": null,
-                "explanation": "Matched CALLS relationship."
-              }
+            "falseNegatives": [
+              "withReadWrite -> openDatabase"
             ],
-            "explanation": "1 candidate edge-derived answer(s) matched CALLS."
+            "confidence": 0,
+            "latencyMs": 0.007,
+            "answers": [],
+            "explanation": "0 candidate edge-derived answer(s) matched CALLS."
           },
-          "winner": "Tie"
+          "winner": "Ontoly"
         }
       ]
     },
@@ -800,20 +770,20 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.018,
+          "latencyMs": 0.028,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
           "questions": 6,
-          "pass": 3,
+          "pass": 0,
           "partial": 0,
-          "fail": 3,
-          "exactMatchRate": 50,
-          "precision": 50,
-          "recall": 50,
-          "confidence": 50,
-          "latencyMs": 0.012,
-          "semanticUnderstandingScore": 50
+          "fail": 6,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.003,
+          "semanticUnderstandingScore": 0
         },
         "winner": "Ontoly"
       },
@@ -842,7 +812,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.032,
+            "latencyMs": 0.044,
             "answers": [
               {
                 "label": "createGhost",
@@ -865,7 +835,7 @@
               "createGhost"
             ],
             "confidence": 0,
-            "latencyMs": 0.004,
+            "latencyMs": 0.002,
             "answers": [],
             "explanation": "0 candidate node(s) matched Function with terms createGhost."
           },
@@ -895,7 +865,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.013,
+            "latencyMs": 0.022,
             "answers": [
               {
                 "label": "Ghost",
@@ -909,26 +879,20 @@
           },
           "graphify": {
             "system": "graphify",
-            "status": "PASS",
-            "exactMatch": true,
-            "precision": 1,
-            "recall": 1,
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
             "falsePositives": [],
-            "falseNegatives": [],
-            "confidence": 100,
-            "latencyMs": 0.014,
-            "answers": [
-              {
-                "label": "Ghost",
-                "type": "Class",
-                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_ghost_graphify_code_projection_src_browser_ghost_ghost",
-                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/code-projection/src/browser/ghost.ts",
-                "explanation": "Included in architecture summary as Class."
-              }
+            "falseNegatives": [
+              "Ghost"
             ],
+            "confidence": 0,
+            "latencyMs": 0.003,
+            "answers": [],
             "explanation": "Architecture summary searched Interface, Class."
           },
-          "winner": "Tie"
+          "winner": "Ontoly"
         },
         {
           "id": "ghost-error-class",
@@ -954,7 +918,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.006,
+            "latencyMs": 0.012,
             "answers": [
               {
                 "label": "GhostError",
@@ -968,26 +932,20 @@
           },
           "graphify": {
             "system": "graphify",
-            "status": "PASS",
-            "exactMatch": true,
-            "precision": 1,
-            "recall": 1,
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
             "falsePositives": [],
-            "falseNegatives": [],
-            "confidence": 100,
-            "latencyMs": 0.015,
-            "answers": [
-              {
-                "label": "GhostError",
-                "type": "Class",
-                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_ghost_graphify_code_projection_src_errors_ghosterror",
-                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/code-projection/src/errors.ts",
-                "explanation": "Included in architecture summary as Class."
-              }
+            "falseNegatives": [
+              "GhostError"
             ],
+            "confidence": 0,
+            "latencyMs": 0.008,
+            "answers": [],
             "explanation": "Architecture summary searched Class."
           },
-          "winner": "Tie"
+          "winner": "Ontoly"
         },
         {
           "id": "ghost-ci-env",
@@ -1013,7 +971,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.005,
+            "latencyMs": 0.009,
             "answers": [
               {
                 "label": "CI",
@@ -1036,7 +994,7 @@
               "CI"
             ],
             "confidence": 0,
-            "latencyMs": 0.004,
+            "latencyMs": 0.001,
             "answers": [],
             "explanation": "0 candidate node(s) matched EnvironmentVariable with terms CI."
           },
@@ -1066,7 +1024,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.008,
+            "latencyMs": 0.012,
             "answers": [
               {
                 "label": "@0xsarwagya/ghost",
@@ -1089,7 +1047,7 @@
               "@0xsarwagya/ghost"
             ],
             "confidence": 0,
-            "latencyMs": 0.005,
+            "latencyMs": 0.001,
             "answers": [],
             "explanation": "0 candidate node(s) matched Package with terms @0xsarwagya/ghost."
           },
@@ -1125,7 +1083,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.046,
+            "latencyMs": 0.072,
             "answers": [
               {
                 "label": "loadOrCreateRecord -> createGhostId",
@@ -1139,26 +1097,20 @@
           },
           "graphify": {
             "system": "graphify",
-            "status": "PASS",
-            "exactMatch": true,
-            "precision": 1,
-            "recall": 1,
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
             "falsePositives": [],
-            "falseNegatives": [],
-            "confidence": 100,
-            "latencyMs": 0.031,
-            "answers": [
-              {
-                "label": "loadOrCreateRecord -> createGhostId",
-                "type": "CALLS",
-                "id": "graphify-edge:503",
-                "file": null,
-                "explanation": "Matched CALLS relationship."
-              }
+            "falseNegatives": [
+              "loadOrCreateRecord -> createGhostId"
             ],
-            "explanation": "1 candidate edge-derived answer(s) matched CALLS."
+            "confidence": 0,
+            "latencyMs": 0.003,
+            "answers": [],
+            "explanation": "0 candidate edge-derived answer(s) matched CALLS."
           },
-          "winner": "Tie"
+          "winner": "Ontoly"
         }
       ]
     },
@@ -1203,20 +1155,20 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.178,
+          "latencyMs": 0.377,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
           "questions": 6,
-          "pass": 5,
+          "pass": 0,
           "partial": 0,
-          "fail": 1,
-          "exactMatchRate": 83.33,
-          "precision": 83.33,
-          "recall": 83.33,
-          "confidence": 83.33,
-          "latencyMs": 0.122,
-          "semanticUnderstandingScore": 83.33
+          "fail": 6,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.002,
+          "semanticUnderstandingScore": 0
         },
         "winner": "Ontoly"
       },
@@ -1245,7 +1197,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.315,
+            "latencyMs": 0.282,
             "answers": [
               {
                 "label": "AuthController",
@@ -1259,26 +1211,20 @@
           },
           "graphify": {
             "system": "graphify",
-            "status": "PASS",
-            "exactMatch": true,
-            "precision": 1,
-            "recall": 1,
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
             "falsePositives": [],
-            "falseNegatives": [],
-            "confidence": 100,
-            "latencyMs": 0.089,
-            "answers": [
-              {
-                "label": "AuthController",
-                "type": "Controller",
-                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_apps_api_src_auth_auth_controller_authcontroller",
-                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/apps/api/src/auth/auth.controller.ts",
-                "explanation": "Matched Controller node AuthController."
-              }
+            "falseNegatives": [
+              "AuthController"
             ],
-            "explanation": "1 candidate node(s) matched Controller with terms AuthController."
+            "confidence": 0,
+            "latencyMs": 0.002,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched Controller with terms AuthController."
           },
-          "winner": "Tie"
+          "winner": "Ontoly"
         },
         {
           "id": "innosphere-auth-me-route",
@@ -1304,7 +1250,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.124,
+            "latencyMs": 0.258,
             "answers": [
               {
                 "label": "GET:/auth/me",
@@ -1327,7 +1273,7 @@
               "GET:/auth/me"
             ],
             "confidence": 0,
-            "latencyMs": 0.052,
+            "latencyMs": 0.001,
             "answers": [],
             "explanation": "0 candidate node(s) matched Route with terms GET:/auth/me."
           },
@@ -1357,7 +1303,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.261,
+            "latencyMs": 0.544,
             "answers": [
               {
                 "label": "AuthModule",
@@ -1371,26 +1317,20 @@
           },
           "graphify": {
             "system": "graphify",
-            "status": "PASS",
-            "exactMatch": true,
-            "precision": 1,
-            "recall": 1,
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
             "falsePositives": [],
-            "falseNegatives": [],
-            "confidence": 100,
-            "latencyMs": 0.222,
-            "answers": [
-              {
-                "label": "AuthModule",
-                "type": "Module",
-                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_apps_api_src_auth_auth_module_authmodule",
-                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/apps/api/src/auth/auth.module.ts",
-                "explanation": "Matched Module node AuthModule."
-              }
+            "falseNegatives": [
+              "AuthModule"
             ],
-            "explanation": "1 candidate node(s) matched Module with terms AuthModule."
+            "confidence": 0,
+            "latencyMs": 0.006,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched Module with terms AuthModule."
           },
-          "winner": "Tie"
+          "winner": "Ontoly"
         },
         {
           "id": "innosphere-database-url",
@@ -1416,7 +1356,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.072,
+            "latencyMs": 0.381,
             "answers": [
               {
                 "label": "DATABASE_URL",
@@ -1430,26 +1370,20 @@
           },
           "graphify": {
             "system": "graphify",
-            "status": "PASS",
-            "exactMatch": true,
-            "precision": 1,
-            "recall": 1,
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
             "falsePositives": [],
-            "falseNegatives": [],
-            "confidence": 100,
-            "latencyMs": 0.135,
-            "answers": [
-              {
-                "label": "DATABASE_URL",
-                "type": "EnvironmentVariable",
-                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_scripts_seed_demo_chat_database_url",
-                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/scripts/seed-demo-chat.mjs",
-                "explanation": "Matched EnvironmentVariable node DATABASE_URL."
-              }
+            "falseNegatives": [
+              "DATABASE_URL"
             ],
-            "explanation": "1 candidate node(s) matched EnvironmentVariable with terms DATABASE_URL."
+            "confidence": 0,
+            "latencyMs": 0.003,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched EnvironmentVariable with terms DATABASE_URL."
           },
-          "winner": "Tie"
+          "winner": "Ontoly"
         },
         {
           "id": "innosphere-ovok-service",
@@ -1475,7 +1409,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.053,
+            "latencyMs": 0.208,
             "answers": [
               {
                 "label": "OvokService",
@@ -1489,26 +1423,20 @@
           },
           "graphify": {
             "system": "graphify",
-            "status": "PASS",
-            "exactMatch": true,
-            "precision": 1,
-            "recall": 1,
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
             "falsePositives": [],
-            "falseNegatives": [],
-            "confidence": 100,
-            "latencyMs": 0.051,
-            "answers": [
-              {
-                "label": "OvokService",
-                "type": "Service",
-                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_apps_api_src_ovok_ovok_service_ovokservice",
-                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/apps/api/src/ovok/ovok.service.ts",
-                "explanation": "Matched Service node OvokService."
-              }
+            "falseNegatives": [
+              "OvokService"
             ],
-            "explanation": "1 candidate node(s) matched Service with terms OvokService."
+            "confidence": 0,
+            "latencyMs": 0.001,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched Service with terms OvokService."
           },
-          "winner": "Tie"
+          "winner": "Ontoly"
         },
         {
           "id": "innosphere-app-module",
@@ -1534,7 +1462,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.241,
+            "latencyMs": 0.588,
             "answers": [
               {
                 "label": "AppModule",
@@ -1548,26 +1476,20 @@
           },
           "graphify": {
             "system": "graphify",
-            "status": "PASS",
-            "exactMatch": true,
-            "precision": 1,
-            "recall": 1,
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
             "falsePositives": [],
-            "falseNegatives": [],
-            "confidence": 100,
-            "latencyMs": 0.183,
-            "answers": [
-              {
-                "label": "AppModule",
-                "type": "Module",
-                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_innosphere_graphify_code_projection_apps_api_src_app_module_appmodule",
-                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/innosphere/graphify/code-projection/apps/api/src/app.module.ts",
-                "explanation": "Matched Module node AppModule."
-              }
+            "falseNegatives": [
+              "AppModule"
             ],
-            "explanation": "1 candidate node(s) matched Module with terms AppModule."
+            "confidence": 0,
+            "latencyMs": 0.001,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched Module with terms AppModule."
           },
-          "winner": "Tie"
+          "winner": "Ontoly"
         }
       ]
     },
@@ -1610,20 +1532,20 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.545,
+          "latencyMs": 0.999,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
           "questions": 6,
-          "pass": 3,
+          "pass": 0,
           "partial": 0,
-          "fail": 3,
-          "exactMatchRate": 50,
-          "precision": 50,
-          "recall": 50,
-          "confidence": 50,
-          "latencyMs": 0.635,
-          "semanticUnderstandingScore": 50
+          "fail": 6,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.003,
+          "semanticUnderstandingScore": 0
         },
         "winner": "Ontoly"
       },
@@ -1657,7 +1579,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.753,
+            "latencyMs": 1.17,
             "answers": [
               {
                 "label": "AuthController",
@@ -1671,26 +1593,20 @@
           },
           "graphify": {
             "system": "graphify",
-            "status": "PASS",
-            "exactMatch": true,
-            "precision": 1,
-            "recall": 1,
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
             "falsePositives": [],
-            "falseNegatives": [],
-            "confidence": 100,
-            "latencyMs": 0.314,
-            "answers": [
-              {
-                "label": "AuthController",
-                "type": "Controller",
-                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_ovok_core_graphify_code_projection_src_actimi_partner_auth_auth_contoller_authcontroller",
-                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ovok-core/graphify/code-projection/src/actimi/partner/auth/auth.contoller.ts",
-                "explanation": "Matched Controller node AuthController."
-              }
+            "falseNegatives": [
+              "AuthController"
             ],
-            "explanation": "2 candidate node(s) matched Controller with terms AuthController."
+            "confidence": 0,
+            "latencyMs": 0.003,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched Controller with terms AuthController."
           },
-          "winner": "Tie"
+          "winner": "Ontoly"
         },
         {
           "id": "ovok-auth-service",
@@ -1721,7 +1637,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.269,
+            "latencyMs": 0.454,
             "answers": [
               {
                 "label": "AuthService",
@@ -1735,26 +1651,20 @@
           },
           "graphify": {
             "system": "graphify",
-            "status": "PASS",
-            "exactMatch": true,
-            "precision": 1,
-            "recall": 1,
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
             "falsePositives": [],
-            "falseNegatives": [],
-            "confidence": 100,
-            "latencyMs": 0.364,
-            "answers": [
-              {
-                "label": "AuthService",
-                "type": "Service",
-                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_ovok_core_graphify_code_projection_src_actimi_partner_auth_auth_service_authservice",
-                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ovok-core/graphify/code-projection/src/actimi/partner/auth/auth.service.ts",
-                "explanation": "Matched Service node AuthService."
-              }
+            "falseNegatives": [
+              "AuthService"
             ],
-            "explanation": "2 candidate node(s) matched Service with terms AuthService."
+            "confidence": 0,
+            "latencyMs": 0.001,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched Service with terms AuthService."
           },
-          "winner": "Tie"
+          "winner": "Ontoly"
         },
         {
           "id": "ovok-auth-di",
@@ -1786,7 +1696,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.746,
+            "latencyMs": 1.617,
             "answers": [
               {
                 "label": "AuthController -> AuthService",
@@ -1809,7 +1719,7 @@
               "AuthController -> AuthService"
             ],
             "confidence": 0,
-            "latencyMs": 1.06,
+            "latencyMs": 0.008,
             "answers": [],
             "explanation": "0 candidate edge-derived answer(s) matched INJECTS."
           },
@@ -1844,7 +1754,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.409,
+            "latencyMs": 0.508,
             "answers": [
               {
                 "label": "ALL:/fhir/R4",
@@ -1867,7 +1777,7 @@
               "ALL:/fhir/R4"
             ],
             "confidence": 0,
-            "latencyMs": 0.244,
+            "latencyMs": 0.001,
             "answers": [],
             "explanation": "0 candidate node(s) matched Route with terms ALL:/fhir/R4."
           },
@@ -1897,7 +1807,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.639,
+            "latencyMs": 1.739,
             "answers": [
               {
                 "label": "AuthModule",
@@ -1911,26 +1821,20 @@
           },
           "graphify": {
             "system": "graphify",
-            "status": "PASS",
-            "exactMatch": true,
-            "precision": 1,
-            "recall": 1,
+            "status": "FAIL",
+            "exactMatch": false,
+            "precision": 0,
+            "recall": 0,
             "falsePositives": [],
-            "falseNegatives": [],
-            "confidence": 100,
-            "latencyMs": 1.296,
-            "answers": [
-              {
-                "label": "AuthModule",
-                "type": "Module",
-                "id": "users_shrey_documents_codex_2026_07_13_product_requirements_document_prd_ontoly_repository_validation_ovok_core_graphify_code_projection_src_actimi_partner_auth_auth_module_authmodule",
-                "file": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ovok-core/graphify/code-projection/src/actimi/partner/auth/auth.module.ts",
-                "explanation": "Matched Module node AuthModule."
-              }
+            "falseNegatives": [
+              "AuthModule"
             ],
-            "explanation": "2 candidate node(s) matched Module with terms AuthModule."
+            "confidence": 0,
+            "latencyMs": 0.003,
+            "answers": [],
+            "explanation": "0 candidate node(s) matched Module with terms AuthModule."
           },
-          "winner": "Tie"
+          "winner": "Ontoly"
         },
         {
           "id": "ovok-fhir-default-env",
@@ -1956,7 +1860,7 @@
             "falsePositives": [],
             "falseNegatives": [],
             "confidence": 100,
-            "latencyMs": 0.451,
+            "latencyMs": 0.508,
             "answers": [
               {
                 "label": "FHIR_DEFAULT_VERSION",
@@ -1979,7 +1883,7 @@
               "FHIR_DEFAULT_VERSION"
             ],
             "confidence": 0,
-            "latencyMs": 0.532,
+            "latencyMs": 0.003,
             "answers": [],
             "explanation": "0 candidate node(s) matched EnvironmentVariable with terms FHIR_DEFAULT_VERSION."
           },
@@ -2011,20 +1915,20 @@
       "precision": 100,
       "recall": 100,
       "confidence": 100,
-      "latencyMs": 0.337,
+      "latencyMs": 0.615,
       "semanticUnderstandingScore": 100
     },
     "graphify": {
       "questions": 29,
-      "pass": 16,
+      "pass": 0,
       "partial": 0,
-      "fail": 13,
-      "exactMatchRate": 55.17,
-      "precision": 55.17,
-      "recall": 55.17,
-      "confidence": 55.17,
-      "latencyMs": 0.172,
-      "semanticUnderstandingScore": 55.17
+      "fail": 29,
+      "exactMatchRate": 0,
+      "precision": 0,
+      "recall": 0,
+      "confidence": 0,
+      "latencyMs": 0.004,
+      "semanticUnderstandingScore": 0
     }
   },
   "categoryScores": [
@@ -2039,7 +1943,7 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 0.031,
+        "latencyMs": 0.045,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
@@ -2051,7 +1955,7 @@
         "precision": 0,
         "recall": 0,
         "confidence": 0,
-        "latencyMs": 0.004,
+        "latencyMs": 0.003,
         "semanticUnderstandingScore": 0
       }
     },
@@ -2066,20 +1970,20 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 0.006,
+        "latencyMs": 0.012,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
         "questions": 1,
-        "pass": 1,
+        "pass": 0,
         "partial": 0,
-        "fail": 0,
-        "exactMatchRate": 100,
-        "precision": 100,
-        "recall": 100,
-        "confidence": 100,
-        "latencyMs": 0.015,
-        "semanticUnderstandingScore": 100
+        "fail": 1,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.008,
+        "semanticUnderstandingScore": 0
       }
     },
     {
@@ -2093,20 +1997,20 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 0.011,
+        "latencyMs": 0.019,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
         "questions": 2,
-        "pass": 2,
+        "pass": 0,
         "partial": 0,
-        "fail": 0,
-        "exactMatchRate": 100,
-        "precision": 100,
-        "recall": 100,
-        "confidence": 100,
-        "latencyMs": 0.014,
-        "semanticUnderstandingScore": 100
+        "fail": 2,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.003,
+        "semanticUnderstandingScore": 0
       }
     },
     {
@@ -2120,7 +2024,7 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 0.266,
+        "latencyMs": 0.383,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
@@ -2132,7 +2036,7 @@
         "precision": 0,
         "recall": 0,
         "confidence": 0,
-        "latencyMs": 0.148,
+        "latencyMs": 0.001,
         "semanticUnderstandingScore": 0
       }
     },
@@ -2147,20 +2051,20 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 0.534,
+        "latencyMs": 0.726,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
         "questions": 2,
-        "pass": 2,
+        "pass": 0,
         "partial": 0,
-        "fail": 0,
-        "exactMatchRate": 100,
-        "precision": 100,
-        "recall": 100,
-        "confidence": 100,
-        "latencyMs": 0.202,
-        "semanticUnderstandingScore": 100
+        "fail": 2,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.003,
+        "semanticUnderstandingScore": 0
       }
     },
     {
@@ -2174,20 +2078,20 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 0.161,
+        "latencyMs": 0.331,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
         "questions": 2,
-        "pass": 2,
+        "pass": 0,
         "partial": 0,
-        "fail": 0,
-        "exactMatchRate": 100,
-        "precision": 100,
-        "recall": 100,
-        "confidence": 100,
-        "latencyMs": 0.208,
-        "semanticUnderstandingScore": 100
+        "fail": 2,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.001,
+        "semanticUnderstandingScore": 0
       }
     },
     {
@@ -2201,20 +2105,20 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 0.38,
+        "latencyMs": 0.957,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
         "questions": 3,
-        "pass": 3,
+        "pass": 0,
         "partial": 0,
-        "fail": 0,
-        "exactMatchRate": 100,
-        "precision": 100,
-        "recall": 100,
-        "confidence": 100,
-        "latencyMs": 0.567,
-        "semanticUnderstandingScore": 100
+        "fail": 3,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.003,
+        "semanticUnderstandingScore": 0
       }
     },
     {
@@ -2228,20 +2132,20 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 0.063,
+        "latencyMs": 0.14,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
         "questions": 4,
-        "pass": 2,
+        "pass": 0,
         "partial": 0,
-        "fail": 2,
-        "exactMatchRate": 50,
-        "precision": 50,
-        "recall": 50,
-        "confidence": 50,
-        "latencyMs": 0.039,
-        "semanticUnderstandingScore": 50
+        "fail": 4,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.005,
+        "semanticUnderstandingScore": 0
       }
     },
     {
@@ -2255,7 +2159,7 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 0.413,
+        "latencyMs": 0.885,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
@@ -2267,7 +2171,7 @@
         "precision": 0,
         "recall": 0,
         "confidence": 0,
-        "latencyMs": 0.536,
+        "latencyMs": 0.006,
         "semanticUnderstandingScore": 0
       }
     },
@@ -2282,7 +2186,7 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 0.154,
+        "latencyMs": 0.177,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
@@ -2294,7 +2198,7 @@
         "precision": 0,
         "recall": 0,
         "confidence": 0,
-        "latencyMs": 0.18,
+        "latencyMs": 0.003,
         "semanticUnderstandingScore": 0
       }
     },
@@ -2309,20 +2213,20 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 0.036,
+        "latencyMs": 0.066,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
         "questions": 2,
-        "pass": 2,
+        "pass": 0,
         "partial": 0,
-        "fail": 0,
-        "exactMatchRate": 100,
-        "precision": 100,
-        "recall": 100,
-        "confidence": 100,
-        "latencyMs": 0.022,
-        "semanticUnderstandingScore": 100
+        "fail": 2,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.005,
+        "semanticUnderstandingScore": 0
       }
     },
     {
@@ -2336,7 +2240,7 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 0.028,
+        "latencyMs": 0.062,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
@@ -2348,7 +2252,7 @@
         "precision": 0,
         "recall": 0,
         "confidence": 0,
-        "latencyMs": 0.034,
+        "latencyMs": 0.015,
         "semanticUnderstandingScore": 0
       }
     },
@@ -2363,20 +2267,20 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 0.072,
+        "latencyMs": 0.381,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
         "questions": 1,
-        "pass": 1,
+        "pass": 0,
         "partial": 0,
-        "fail": 0,
-        "exactMatchRate": 100,
-        "precision": 100,
-        "recall": 100,
-        "confidence": 100,
-        "latencyMs": 0.135,
-        "semanticUnderstandingScore": 100
+        "fail": 1,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.003,
+        "semanticUnderstandingScore": 0
       }
     },
     {
@@ -2390,20 +2294,20 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 2.457,
+        "latencyMs": 4.259,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
         "questions": 2,
-        "pass": 1,
+        "pass": 0,
         "partial": 0,
-        "fail": 1,
-        "exactMatchRate": 50,
-        "precision": 50,
-        "recall": 50,
-        "confidence": 50,
-        "latencyMs": 0.075,
-        "semanticUnderstandingScore": 50
+        "fail": 2,
+        "exactMatchRate": 0,
+        "precision": 0,
+        "recall": 0,
+        "confidence": 0,
+        "latencyMs": 0.003,
+        "semanticUnderstandingScore": 0
       }
     }
   ],
@@ -2416,9 +2320,9 @@
       "category": "Packages",
       "ontoly": "PASS",
       "ontolyConfidence": 100,
-      "graphify": "PASS",
-      "graphifyConfidence": 100,
-      "winner": "Tie"
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
     },
     {
       "repository": "0xsarwagya",
@@ -2428,9 +2332,9 @@
       "category": "Packages",
       "ontoly": "PASS",
       "ontolyConfidence": 100,
-      "graphify": "PASS",
-      "graphifyConfidence": 100,
-      "winner": "Tie"
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
     },
     {
       "repository": "0xsarwagya",
@@ -2452,9 +2356,9 @@
       "category": "Architecture",
       "ontoly": "PASS",
       "ontolyConfidence": 100,
-      "graphify": "PASS",
-      "graphifyConfidence": 100,
-      "winner": "Tie"
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
     },
     {
       "repository": "0xsarwagya",
@@ -2488,9 +2392,9 @@
       "category": "Interfaces",
       "ontoly": "PASS",
       "ontolyConfidence": 100,
-      "graphify": "PASS",
-      "graphifyConfidence": 100,
-      "winner": "Tie"
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
     },
     {
       "repository": "durable-local",
@@ -2536,9 +2440,9 @@
       "category": "Call Graph",
       "ontoly": "PASS",
       "ontolyConfidence": 100,
-      "graphify": "PASS",
-      "graphifyConfidence": 100,
-      "winner": "Tie"
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
     },
     {
       "repository": "Ghost",
@@ -2560,9 +2464,9 @@
       "category": "Interfaces",
       "ontoly": "PASS",
       "ontolyConfidence": 100,
-      "graphify": "PASS",
-      "graphifyConfidence": 100,
-      "winner": "Tie"
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
     },
     {
       "repository": "Ghost",
@@ -2572,9 +2476,9 @@
       "category": "Classes",
       "ontoly": "PASS",
       "ontolyConfidence": 100,
-      "graphify": "PASS",
-      "graphifyConfidence": 100,
-      "winner": "Tie"
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
     },
     {
       "repository": "Ghost",
@@ -2608,9 +2512,9 @@
       "category": "Call Graph",
       "ontoly": "PASS",
       "ontolyConfidence": 100,
-      "graphify": "PASS",
-      "graphifyConfidence": 100,
-      "winner": "Tie"
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
     },
     {
       "repository": "Innosphere",
@@ -2620,9 +2524,9 @@
       "category": "Controllers",
       "ontoly": "PASS",
       "ontolyConfidence": 100,
-      "graphify": "PASS",
-      "graphifyConfidence": 100,
-      "winner": "Tie"
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
     },
     {
       "repository": "Innosphere",
@@ -2644,9 +2548,9 @@
       "category": "Modules",
       "ontoly": "PASS",
       "ontolyConfidence": 100,
-      "graphify": "PASS",
-      "graphifyConfidence": 100,
-      "winner": "Tie"
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
     },
     {
       "repository": "Innosphere",
@@ -2656,9 +2560,9 @@
       "category": "Database",
       "ontoly": "PASS",
       "ontolyConfidence": 100,
-      "graphify": "PASS",
-      "graphifyConfidence": 100,
-      "winner": "Tie"
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
     },
     {
       "repository": "Innosphere",
@@ -2668,9 +2572,9 @@
       "category": "Services",
       "ontoly": "PASS",
       "ontolyConfidence": 100,
-      "graphify": "PASS",
-      "graphifyConfidence": 100,
-      "winner": "Tie"
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
     },
     {
       "repository": "Innosphere",
@@ -2680,9 +2584,9 @@
       "category": "Modules",
       "ontoly": "PASS",
       "ontolyConfidence": 100,
-      "graphify": "PASS",
-      "graphifyConfidence": 100,
-      "winner": "Tie"
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
     },
     {
       "repository": "Ovok Core",
@@ -2692,9 +2596,9 @@
       "category": "Controllers",
       "ontoly": "PASS",
       "ontolyConfidence": 100,
-      "graphify": "PASS",
-      "graphifyConfidence": 100,
-      "winner": "Tie"
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
     },
     {
       "repository": "Ovok Core",
@@ -2704,9 +2608,9 @@
       "category": "Services",
       "ontoly": "PASS",
       "ontolyConfidence": 100,
-      "graphify": "PASS",
-      "graphifyConfidence": 100,
-      "winner": "Tie"
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
     },
     {
       "repository": "Ovok Core",
@@ -2740,9 +2644,9 @@
       "category": "Modules",
       "ontoly": "PASS",
       "ontolyConfidence": 100,
-      "graphify": "PASS",
-      "graphifyConfidence": 100,
-      "winner": "Tie"
+      "graphify": "FAIL",
+      "graphifyConfidence": 0,
+      "winner": "Ontoly"
     },
     {
       "repository": "Ovok Core",
@@ -2764,7 +2668,7 @@
     "improvements": [],
     "warnings": [],
     "current": {
-      "generatedAt": "2026-07-13T15:37:42.502Z",
+      "generatedAt": "2026-07-14T20:59:43.905Z",
       "repositories": [
         {
           "repository": "0xsarwagya",
@@ -2777,31 +2681,31 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 1.035,
+            "latencyMs": 1.821,
             "semanticUnderstandingScore": 100
           },
           "graphify": {
             "questions": 5,
-            "pass": 3,
+            "pass": 0,
             "partial": 0,
-            "fail": 2,
-            "exactMatchRate": 60,
-            "precision": 60,
-            "recall": 60,
-            "confidence": 60,
-            "latencyMs": 0.065,
-            "semanticUnderstandingScore": 60
+            "fail": 5,
+            "exactMatchRate": 0,
+            "precision": 0,
+            "recall": 0,
+            "confidence": 0,
+            "latencyMs": 0.006,
+            "semanticUnderstandingScore": 0
           },
           "questions": [
             {
               "id": "personal-ghost-package",
               "ontoly": "PASS",
-              "graphify": "PASS"
+              "graphify": "FAIL"
             },
             {
               "id": "personal-durable-package",
               "ontoly": "PASS",
-              "graphify": "PASS"
+              "graphify": "FAIL"
             },
             {
               "id": "personal-next-framework",
@@ -2811,7 +2715,7 @@
             {
               "id": "personal-react-framework",
               "ontoly": "PASS",
-              "graphify": "PASS"
+              "graphify": "FAIL"
             },
             {
               "id": "personal-turbo-config",
@@ -2831,20 +2735,20 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 0.026,
+            "latencyMs": 0.051,
             "semanticUnderstandingScore": 100
           },
           "graphify": {
             "questions": 6,
-            "pass": 2,
+            "pass": 0,
             "partial": 0,
-            "fail": 4,
-            "exactMatchRate": 33.33,
-            "precision": 33.33,
-            "recall": 33.33,
-            "confidence": 33.33,
-            "latencyMs": 0.009,
-            "semanticUnderstandingScore": 33.33
+            "fail": 6,
+            "exactMatchRate": 0,
+            "precision": 0,
+            "recall": 0,
+            "confidence": 0,
+            "latencyMs": 0.005,
+            "semanticUnderstandingScore": 0
           },
           "questions": [
             {
@@ -2855,7 +2759,7 @@
             {
               "id": "durable-interface",
               "ontoly": "PASS",
-              "graphify": "PASS"
+              "graphify": "FAIL"
             },
             {
               "id": "durable-package",
@@ -2875,7 +2779,7 @@
             {
               "id": "durable-open-database-call",
               "ontoly": "PASS",
-              "graphify": "PASS"
+              "graphify": "FAIL"
             }
           ]
         },
@@ -2890,20 +2794,20 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 0.018,
+            "latencyMs": 0.028,
             "semanticUnderstandingScore": 100
           },
           "graphify": {
             "questions": 6,
-            "pass": 3,
+            "pass": 0,
             "partial": 0,
-            "fail": 3,
-            "exactMatchRate": 50,
-            "precision": 50,
-            "recall": 50,
-            "confidence": 50,
-            "latencyMs": 0.012,
-            "semanticUnderstandingScore": 50
+            "fail": 6,
+            "exactMatchRate": 0,
+            "precision": 0,
+            "recall": 0,
+            "confidence": 0,
+            "latencyMs": 0.003,
+            "semanticUnderstandingScore": 0
           },
           "questions": [
             {
@@ -2914,12 +2818,12 @@
             {
               "id": "ghost-interface",
               "ontoly": "PASS",
-              "graphify": "PASS"
+              "graphify": "FAIL"
             },
             {
               "id": "ghost-error-class",
               "ontoly": "PASS",
-              "graphify": "PASS"
+              "graphify": "FAIL"
             },
             {
               "id": "ghost-ci-env",
@@ -2934,7 +2838,7 @@
             {
               "id": "ghost-load-create-call",
               "ontoly": "PASS",
-              "graphify": "PASS"
+              "graphify": "FAIL"
             }
           ]
         },
@@ -2949,26 +2853,26 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 0.178,
+            "latencyMs": 0.377,
             "semanticUnderstandingScore": 100
           },
           "graphify": {
             "questions": 6,
-            "pass": 5,
+            "pass": 0,
             "partial": 0,
-            "fail": 1,
-            "exactMatchRate": 83.33,
-            "precision": 83.33,
-            "recall": 83.33,
-            "confidence": 83.33,
-            "latencyMs": 0.122,
-            "semanticUnderstandingScore": 83.33
+            "fail": 6,
+            "exactMatchRate": 0,
+            "precision": 0,
+            "recall": 0,
+            "confidence": 0,
+            "latencyMs": 0.002,
+            "semanticUnderstandingScore": 0
           },
           "questions": [
             {
               "id": "innosphere-auth-controller",
               "ontoly": "PASS",
-              "graphify": "PASS"
+              "graphify": "FAIL"
             },
             {
               "id": "innosphere-auth-me-route",
@@ -2978,22 +2882,22 @@
             {
               "id": "innosphere-auth-module",
               "ontoly": "PASS",
-              "graphify": "PASS"
+              "graphify": "FAIL"
             },
             {
               "id": "innosphere-database-url",
               "ontoly": "PASS",
-              "graphify": "PASS"
+              "graphify": "FAIL"
             },
             {
               "id": "innosphere-ovok-service",
               "ontoly": "PASS",
-              "graphify": "PASS"
+              "graphify": "FAIL"
             },
             {
               "id": "innosphere-app-module",
               "ontoly": "PASS",
-              "graphify": "PASS"
+              "graphify": "FAIL"
             }
           ]
         },
@@ -3008,31 +2912,31 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 0.545,
+            "latencyMs": 0.999,
             "semanticUnderstandingScore": 100
           },
           "graphify": {
             "questions": 6,
-            "pass": 3,
+            "pass": 0,
             "partial": 0,
-            "fail": 3,
-            "exactMatchRate": 50,
-            "precision": 50,
-            "recall": 50,
-            "confidence": 50,
-            "latencyMs": 0.635,
-            "semanticUnderstandingScore": 50
+            "fail": 6,
+            "exactMatchRate": 0,
+            "precision": 0,
+            "recall": 0,
+            "confidence": 0,
+            "latencyMs": 0.003,
+            "semanticUnderstandingScore": 0
           },
           "questions": [
             {
               "id": "ovok-auth-controller",
               "ontoly": "PASS",
-              "graphify": "PASS"
+              "graphify": "FAIL"
             },
             {
               "id": "ovok-auth-service",
               "ontoly": "PASS",
-              "graphify": "PASS"
+              "graphify": "FAIL"
             },
             {
               "id": "ovok-auth-di",
@@ -3047,7 +2951,7 @@
             {
               "id": "ovok-auth-module",
               "ontoly": "PASS",
-              "graphify": "PASS"
+              "graphify": "FAIL"
             },
             {
               "id": "ovok-fhir-default-env",
@@ -3067,20 +2971,20 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.337,
+          "latencyMs": 0.615,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
           "questions": 29,
-          "pass": 16,
+          "pass": 0,
           "partial": 0,
-          "fail": 13,
-          "exactMatchRate": 55.17,
-          "precision": 55.17,
-          "recall": 55.17,
-          "confidence": 55.17,
-          "latencyMs": 0.172,
-          "semanticUnderstandingScore": 55.17
+          "fail": 29,
+          "exactMatchRate": 0,
+          "precision": 0,
+          "recall": 0,
+          "confidence": 0,
+          "latencyMs": 0.004,
+          "semanticUnderstandingScore": 0
         },
         "categoryScores": [
           {
@@ -3094,7 +2998,7 @@
               "precision": 100,
               "recall": 100,
               "confidence": 100,
-              "latencyMs": 0.031,
+              "latencyMs": 0.045,
               "semanticUnderstandingScore": 100
             },
             "graphify": {
@@ -3106,7 +3010,7 @@
               "precision": 0,
               "recall": 0,
               "confidence": 0,
-              "latencyMs": 0.004,
+              "latencyMs": 0.003,
               "semanticUnderstandingScore": 0
             }
           },
@@ -3121,20 +3025,20 @@
               "precision": 100,
               "recall": 100,
               "confidence": 100,
-              "latencyMs": 0.006,
+              "latencyMs": 0.012,
               "semanticUnderstandingScore": 100
             },
             "graphify": {
               "questions": 1,
-              "pass": 1,
+              "pass": 0,
               "partial": 0,
-              "fail": 0,
-              "exactMatchRate": 100,
-              "precision": 100,
-              "recall": 100,
-              "confidence": 100,
-              "latencyMs": 0.015,
-              "semanticUnderstandingScore": 100
+              "fail": 1,
+              "exactMatchRate": 0,
+              "precision": 0,
+              "recall": 0,
+              "confidence": 0,
+              "latencyMs": 0.008,
+              "semanticUnderstandingScore": 0
             }
           },
           {
@@ -3148,20 +3052,20 @@
               "precision": 100,
               "recall": 100,
               "confidence": 100,
-              "latencyMs": 0.011,
+              "latencyMs": 0.019,
               "semanticUnderstandingScore": 100
             },
             "graphify": {
               "questions": 2,
-              "pass": 2,
+              "pass": 0,
               "partial": 0,
-              "fail": 0,
-              "exactMatchRate": 100,
-              "precision": 100,
-              "recall": 100,
-              "confidence": 100,
-              "latencyMs": 0.014,
-              "semanticUnderstandingScore": 100
+              "fail": 2,
+              "exactMatchRate": 0,
+              "precision": 0,
+              "recall": 0,
+              "confidence": 0,
+              "latencyMs": 0.003,
+              "semanticUnderstandingScore": 0
             }
           },
           {
@@ -3175,7 +3079,7 @@
               "precision": 100,
               "recall": 100,
               "confidence": 100,
-              "latencyMs": 0.266,
+              "latencyMs": 0.383,
               "semanticUnderstandingScore": 100
             },
             "graphify": {
@@ -3187,7 +3091,7 @@
               "precision": 0,
               "recall": 0,
               "confidence": 0,
-              "latencyMs": 0.148,
+              "latencyMs": 0.001,
               "semanticUnderstandingScore": 0
             }
           },
@@ -3202,20 +3106,20 @@
               "precision": 100,
               "recall": 100,
               "confidence": 100,
-              "latencyMs": 0.534,
+              "latencyMs": 0.726,
               "semanticUnderstandingScore": 100
             },
             "graphify": {
               "questions": 2,
-              "pass": 2,
+              "pass": 0,
               "partial": 0,
-              "fail": 0,
-              "exactMatchRate": 100,
-              "precision": 100,
-              "recall": 100,
-              "confidence": 100,
-              "latencyMs": 0.202,
-              "semanticUnderstandingScore": 100
+              "fail": 2,
+              "exactMatchRate": 0,
+              "precision": 0,
+              "recall": 0,
+              "confidence": 0,
+              "latencyMs": 0.003,
+              "semanticUnderstandingScore": 0
             }
           },
           {
@@ -3229,20 +3133,20 @@
               "precision": 100,
               "recall": 100,
               "confidence": 100,
-              "latencyMs": 0.161,
+              "latencyMs": 0.331,
               "semanticUnderstandingScore": 100
             },
             "graphify": {
               "questions": 2,
-              "pass": 2,
+              "pass": 0,
               "partial": 0,
-              "fail": 0,
-              "exactMatchRate": 100,
-              "precision": 100,
-              "recall": 100,
-              "confidence": 100,
-              "latencyMs": 0.208,
-              "semanticUnderstandingScore": 100
+              "fail": 2,
+              "exactMatchRate": 0,
+              "precision": 0,
+              "recall": 0,
+              "confidence": 0,
+              "latencyMs": 0.001,
+              "semanticUnderstandingScore": 0
             }
           },
           {
@@ -3256,20 +3160,20 @@
               "precision": 100,
               "recall": 100,
               "confidence": 100,
-              "latencyMs": 0.38,
+              "latencyMs": 0.957,
               "semanticUnderstandingScore": 100
             },
             "graphify": {
               "questions": 3,
-              "pass": 3,
+              "pass": 0,
               "partial": 0,
-              "fail": 0,
-              "exactMatchRate": 100,
-              "precision": 100,
-              "recall": 100,
-              "confidence": 100,
-              "latencyMs": 0.567,
-              "semanticUnderstandingScore": 100
+              "fail": 3,
+              "exactMatchRate": 0,
+              "precision": 0,
+              "recall": 0,
+              "confidence": 0,
+              "latencyMs": 0.003,
+              "semanticUnderstandingScore": 0
             }
           },
           {
@@ -3283,20 +3187,20 @@
               "precision": 100,
               "recall": 100,
               "confidence": 100,
-              "latencyMs": 0.063,
+              "latencyMs": 0.14,
               "semanticUnderstandingScore": 100
             },
             "graphify": {
               "questions": 4,
-              "pass": 2,
+              "pass": 0,
               "partial": 0,
-              "fail": 2,
-              "exactMatchRate": 50,
-              "precision": 50,
-              "recall": 50,
-              "confidence": 50,
-              "latencyMs": 0.039,
-              "semanticUnderstandingScore": 50
+              "fail": 4,
+              "exactMatchRate": 0,
+              "precision": 0,
+              "recall": 0,
+              "confidence": 0,
+              "latencyMs": 0.005,
+              "semanticUnderstandingScore": 0
             }
           },
           {
@@ -3310,7 +3214,7 @@
               "precision": 100,
               "recall": 100,
               "confidence": 100,
-              "latencyMs": 0.413,
+              "latencyMs": 0.885,
               "semanticUnderstandingScore": 100
             },
             "graphify": {
@@ -3322,7 +3226,7 @@
               "precision": 0,
               "recall": 0,
               "confidence": 0,
-              "latencyMs": 0.536,
+              "latencyMs": 0.006,
               "semanticUnderstandingScore": 0
             }
           },
@@ -3337,7 +3241,7 @@
               "precision": 100,
               "recall": 100,
               "confidence": 100,
-              "latencyMs": 0.154,
+              "latencyMs": 0.177,
               "semanticUnderstandingScore": 100
             },
             "graphify": {
@@ -3349,7 +3253,7 @@
               "precision": 0,
               "recall": 0,
               "confidence": 0,
-              "latencyMs": 0.18,
+              "latencyMs": 0.003,
               "semanticUnderstandingScore": 0
             }
           },
@@ -3364,20 +3268,20 @@
               "precision": 100,
               "recall": 100,
               "confidence": 100,
-              "latencyMs": 0.036,
+              "latencyMs": 0.066,
               "semanticUnderstandingScore": 100
             },
             "graphify": {
               "questions": 2,
-              "pass": 2,
+              "pass": 0,
               "partial": 0,
-              "fail": 0,
-              "exactMatchRate": 100,
-              "precision": 100,
-              "recall": 100,
-              "confidence": 100,
-              "latencyMs": 0.022,
-              "semanticUnderstandingScore": 100
+              "fail": 2,
+              "exactMatchRate": 0,
+              "precision": 0,
+              "recall": 0,
+              "confidence": 0,
+              "latencyMs": 0.005,
+              "semanticUnderstandingScore": 0
             }
           },
           {
@@ -3391,7 +3295,7 @@
               "precision": 100,
               "recall": 100,
               "confidence": 100,
-              "latencyMs": 0.028,
+              "latencyMs": 0.062,
               "semanticUnderstandingScore": 100
             },
             "graphify": {
@@ -3403,7 +3307,7 @@
               "precision": 0,
               "recall": 0,
               "confidence": 0,
-              "latencyMs": 0.034,
+              "latencyMs": 0.015,
               "semanticUnderstandingScore": 0
             }
           },
@@ -3418,20 +3322,20 @@
               "precision": 100,
               "recall": 100,
               "confidence": 100,
-              "latencyMs": 0.072,
+              "latencyMs": 0.381,
               "semanticUnderstandingScore": 100
             },
             "graphify": {
               "questions": 1,
-              "pass": 1,
+              "pass": 0,
               "partial": 0,
-              "fail": 0,
-              "exactMatchRate": 100,
-              "precision": 100,
-              "recall": 100,
-              "confidence": 100,
-              "latencyMs": 0.135,
-              "semanticUnderstandingScore": 100
+              "fail": 1,
+              "exactMatchRate": 0,
+              "precision": 0,
+              "recall": 0,
+              "confidence": 0,
+              "latencyMs": 0.003,
+              "semanticUnderstandingScore": 0
             }
           },
           {
@@ -3445,20 +3349,20 @@
               "precision": 100,
               "recall": 100,
               "confidence": 100,
-              "latencyMs": 2.457,
+              "latencyMs": 4.259,
               "semanticUnderstandingScore": 100
             },
             "graphify": {
               "questions": 2,
-              "pass": 1,
+              "pass": 0,
               "partial": 0,
-              "fail": 1,
-              "exactMatchRate": 50,
-              "precision": 50,
-              "recall": 50,
-              "confidence": 50,
-              "latencyMs": 0.075,
-              "semanticUnderstandingScore": 50
+              "fail": 2,
+              "exactMatchRate": 0,
+              "precision": 0,
+              "recall": 0,
+              "confidence": 0,
+              "latencyMs": 0.003,
+              "semanticUnderstandingScore": 0
             }
           }
         ]

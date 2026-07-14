@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "count": 510,
+  "count": 521,
   "questions": [
     {
       "id": "search-0001",
@@ -5609,6 +5609,148 @@
       "expected": {
         "top5Concepts": [
           "framework detection"
+        ]
+      }
+    },
+    {
+      "id": "search-0511",
+      "phrase": "find sleep duration thresholds",
+      "concept": "sleep duration thresholds",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "sleep duration thresholds",
+          "sleep thresholds",
+          "thresholds"
+        ]
+      }
+    },
+    {
+      "id": "search-0512",
+      "phrase": "locate sleep statistics observation",
+      "concept": "sleep statistics observation",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "sleep statistics observation",
+          "sleep statistics",
+          "observation"
+        ]
+      }
+    },
+    {
+      "id": "search-0513",
+      "phrase": "implementation-plan for sleep thresholds",
+      "concept": "implementation plan",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "implementation plan",
+          "sleep thresholds",
+          "thresholds"
+        ]
+      }
+    },
+    {
+      "id": "search-0514",
+      "phrase": "evidence for sleep signal thresholds",
+      "concept": "evidence",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "evidence",
+          "sleep signal thresholds",
+          "signals",
+          "thresholds"
+        ]
+      }
+    },
+    {
+      "id": "search-0515",
+      "phrase": "evidence-pack authentication JWT",
+      "concept": "evidence pack",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "evidence pack",
+          "authentication",
+          "JWT"
+        ]
+      }
+    },
+    {
+      "id": "search-0516",
+      "phrase": "impact batch-data observations",
+      "concept": "impact",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "impact",
+          "batch-data observations",
+          "observations"
+        ]
+      }
+    },
+    {
+      "id": "search-0517",
+      "phrase": "find batch-data observations",
+      "concept": "batch-data observations",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "batch-data observations",
+          "batch data",
+          "observations"
+        ]
+      }
+    },
+    {
+      "id": "search-0518",
+      "phrase": "trace authentication JWT",
+      "concept": "authentication JWT",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "authentication",
+          "JWT",
+          "auth"
+        ]
+      }
+    },
+    {
+      "id": "search-0519",
+      "phrase": "show Signals",
+      "concept": "Signals",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "Signals",
+          "signal"
+        ]
+      }
+    },
+    {
+      "id": "search-0520",
+      "phrase": "locate Thresholds",
+      "concept": "Thresholds",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "Thresholds",
+          "threshold"
+        ]
+      }
+    },
+    {
+      "id": "search-0521",
+      "phrase": "search evidence pack impact implementation plan",
+      "concept": "agent workflow",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "evidence pack",
+          "impact",
+          "implementation plan"
         ]
       }
     }

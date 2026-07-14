@@ -13,35 +13,35 @@
 
 | Tool | Nodes | Edges | Diagnostics | Hash |
 | --- | ---: | ---: | ---: | --- |
-| Ontoly | 350 | 655 | 0 | 1hv7tll |
-| Graphify | 211 | 553 | 0 | 77725fa7e50ab4b018959aa78f8bc439e5f3acf57b0c1324cce927ebb4c0fd7e |
+| Ontoly | 350 | 657 | 0 | 04fwlj9 |
+| Graphify | 0 | 0 | 0 | e36634175223f5b2f5abd7582c60155c47fc3947ec8ae82165c8dcbe7d7ae4b2 |
 
 ## Semantic Comparison
 
 | Item | Ontoly | Graphify | Delta | Status | Incorrect |
 | --- | ---: | ---: | ---: | --- | --- |
-| Functions | 57 | 59 | -2 | supported | not measured |
-| Methods | 6 | 9 | -3 | divergent | not measured |
-| Classes | 3 | 29 | -26 | divergent | not measured |
+| Functions | 57 | 0 | 57 | graphify_missing | not measured |
+| Methods | 6 | 0 | 6 | graphify_missing | not measured |
+| Classes | 3 | 0 | 3 | graphify_missing | not measured |
 | Interfaces | 17 | 0 | 17 | graphify_missing | not measured |
 | Routes | 0 | 0 | 0 | not_observed | not measured |
 | Controllers | 0 | 0 | 0 | not_observed | not measured |
-| Modules | 28 | 28 | 0 | supported | not measured |
+| Modules | 28 | 0 | 28 | graphify_missing | not measured |
 | Services | 0 | 0 | 0 | not_observed | not measured |
 | Providers | 0 | 0 | 0 | not_observed | not measured |
 | Repositories | 0 | 0 | 0 | not_observed | not measured |
 | Packages | 7 | 0 | 7 | graphify_missing | not measured |
-| Configuration | 5 | 3 | 2 | divergent | not measured |
-| Environment Variables | 1 | 4 | -3 | divergent | not measured |
+| Configuration | 5 | 0 | 5 | graphify_missing | not measured |
+| Environment Variables | 1 | 0 | 1 | graphify_missing | not measured |
 
 ## Relationship Comparison
 
 | Item | Ontoly | Graphify | Delta | Status | Incorrect |
 | --- | ---: | ---: | ---: | --- | --- |
-| CALLS | 82 | 76 | 6 | supported | not measured |
-| IMPORTS | 69 | 123 | -54 | divergent | not measured |
+| CALLS | 84 | 0 | 84 | graphify_missing | not measured |
+| IMPORTS | 69 | 0 | 69 | graphify_missing | not measured |
 | EXPORTS | 105 | 0 | 105 | graphify_missing | not measured |
-| CONTAINS | 292 | 170 | 122 | divergent | not measured |
+| CONTAINS | 292 | 0 | 292 | graphify_missing | not measured |
 | HANDLES | 0 | 0 | 0 | not_observed | not measured |
 | MOUNTS | 0 | 0 | 0 | not_observed | not measured |
 | INJECTS | 2 | 0 | 2 | graphify_missing | not measured |
@@ -51,9 +51,9 @@
 | DEPENDS_ON | 6 | 0 | 6 | graphify_missing | not measured |
 | AUTHORIZES | 0 | 0 | 0 | not_observed | not measured |
 | REGISTERED_IN | 0 | 0 | 0 | not_observed | not measured |
-| IMPLEMENTS | 2 | 2 | 0 | supported | not measured |
-| EXTENDS | 0 | 20 | -20 | ontoly_missing | not measured |
-| REFERENCES | 0 | 10 | -10 | ontoly_missing | not measured |
+| IMPLEMENTS | 2 | 0 | 2 | graphify_missing | not measured |
+| EXTENDS | 0 | 0 | 0 | not_observed | not measured |
+| REFERENCES | 0 | 0 | 0 | not_observed | not measured |
 | CREATES | 17 | 0 | 17 | graphify_missing | not measured |
 | THROWS | 14 | 0 | 14 | graphify_missing | not measured |
 | RETURNS | 20 | 0 | 20 | graphify_missing | not measured |
@@ -70,8 +70,8 @@
 
 | Tool | Cold Analysis | Peak Memory | Graph Hash |
 | --- | ---: | ---: | --- |
-| Ontoly | 1171.83ms | 467.5 MB | 1hv7tll |
-| Graphify | 609.04ms | 47.7 MB | 77725fa7e50ab4b018959aa78f8bc439e5f3acf57b0c1324cce927ebb4c0fd7e |
+| Ontoly | 1462.7ms | 467.3 MB | 04fwlj9 |
+| Graphify | 282.31ms | 40.5 MB | e36634175223f5b2f5abd7582c60155c47fc3947ec8ae82165c8dcbe7d7ae4b2 |
 
 ## Diagnostics
 
@@ -82,25 +82,23 @@
 ## Strengths
 
 - Deterministic graph validation: Ontoly trustworthiness is 100 with consistency 100. (measured)
+- Functions: Ontoly produced 57 Functions; Graphify produced 0 in the normalized model. (inferred from normalized counts)
+- Methods: Ontoly produced 6 Methods; Graphify produced 0 in the normalized model. (inferred from normalized counts)
+- Classes: Ontoly produced 3 Classes; Graphify produced 0 in the normalized model. (inferred from normalized counts)
 - Interfaces: Ontoly produced 17 Interfaces; Graphify produced 0 in the normalized model. (inferred from normalized counts)
+- Modules: Ontoly produced 28 Modules; Graphify produced 0 in the normalized model. (inferred from normalized counts)
 - Packages: Ontoly produced 7 Packages; Graphify produced 0 in the normalized model. (inferred from normalized counts)
+- Configuration: Ontoly produced 5 Configuration; Graphify produced 0 in the normalized model. (inferred from normalized counts)
+- Environment Variables: Ontoly produced 1 Environment Variables; Graphify produced 0 in the normalized model. (inferred from normalized counts)
 - INJECTS: Ontoly produced 2 INJECTS relationships; Graphify produced 0. (inferred from normalized counts)
 
 ## Weaknesses
 
 - Graphify full semantic extraction: Graphify required an LLM backend for docs/images, so the comparison uses a structural code-only fallback graph. (measured)
-- EXTENDS: Graphify produced 20 EXTENDS relationships; Ontoly produced 0. (inferred from normalized counts)
-- REFERENCES: Graphify produced 10 REFERENCES relationships; Ontoly produced 0. (inferred from normalized counts)
 - Vite detection: Repository evidence suggests Vite, but Ontoly did not explicitly detect it. (inferred from package metadata)
 
 ## Recommendations
 
-- Priority: Medium
-  Description: Ontoly did not emit EXTENDS, while Graphify emitted 20.
-  Suggested Fix: Add or extend relationship extraction for EXTENDS and cover it with deterministic snapshots.
-- Priority: Medium
-  Description: Ontoly did not emit REFERENCES, while Graphify emitted 10.
-  Suggested Fix: Add or extend relationship extraction for REFERENCES and cover it with deterministic snapshots.
 - Priority: Medium
   Description: Vite was inferred from repository metadata but not detected by Ontoly.
   Suggested Fix: Add a Vite framework detector or map existing package evidence to a Framework node.

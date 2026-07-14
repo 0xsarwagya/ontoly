@@ -7,11 +7,11 @@
       "nestjs",
       "express"
     ],
-    "coverage": 98,
+    "coverage": 99,
     "trust": 98,
-    "nodes": 21696,
-    "edges": 47312,
-    "durationMs": 25104.054
+    "nodes": 21649,
+    "edges": 47620,
+    "durationMs": 56325.7
   },
   {
     "id": "0xsarwagya",
@@ -23,10 +23,10 @@
       "turborepo"
     ],
     "coverage": 95,
-    "trust": 95,
-    "nodes": 1202,
-    "edges": 2082,
-    "durationMs": 8432.221
+    "trust": 96,
+    "nodes": 1191,
+    "edges": 2087,
+    "durationMs": 4108.636
   },
   {
     "id": "innosphere",
@@ -40,9 +40,9 @@
     ],
     "coverage": 100,
     "trust": 100,
-    "nodes": 6771,
-    "edges": 12164,
-    "durationMs": 10477.266
+    "nodes": 6810,
+    "edges": 12389,
+    "durationMs": 32014.243
   },
   {
     "id": "ghost",
@@ -55,8 +55,8 @@
     "coverage": 100,
     "trust": 100,
     "nodes": 350,
-    "edges": 655,
-    "durationMs": 613.647
+    "edges": 657,
+    "durationMs": 1366.775
   },
   {
     "id": "durable-local",
@@ -69,7 +69,7 @@
     "coverage": 100,
     "trust": 100,
     "nodes": 226,
-    "edges": 381,
-    "durationMs": 601.752
+    "edges": 384,
+    "durationMs": 1247.404
   }
 ]

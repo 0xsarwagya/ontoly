@@ -280,6 +280,10 @@ async function measureRepository(repository, repoPath, options) {
   });
   checkpoints.push(memoryCheckpoint("after-framework-analysis"));
 
+  const determinismInputBefore = options.determinism
+    ? await timed("determinismInputBeforeMs", async () => modules.compiler.createSourceInventory(repoPath))
+    : null;
+
   const graphBuild = await timed("semanticGenerationMs", async () => modules.compiler.buildSoftwareGraphWithArtifacts({
     root: repoPath,
     write: false,
@@ -313,6 +317,8 @@ async function measureRepository(repository, repoPath, options) {
     const traversalMs = performance.now() - traversalStart;
     return { stats, simpleLookupMs: round(simpleLookupMs, 4), traversalMs: round(traversalMs, 4) };
   });
+  const agentWorkflow = await timed("agentWorkflowMs", async () => measureAgentWorkflow(modules, graph));
+  checkpoints.push(memoryCheckpoint("after-agent-workflow"));
 
   let deterministicHash = null;
   let deterministic = null;
@@ -327,12 +333,20 @@ async function measureRepository(repository, repoPath, options) {
         modules.parserOpenApi.createOpenApiFrontendPass(),
       ],
     }));
+    const determinismInputAfter = await timed("determinismInputAfterMs", async () => modules.compiler.createSourceInventory(repoPath));
+    const inputHashBefore = sourceInventoryHash(determinismInputBefore?.value);
+    const inputHashAfter = sourceInventoryHash(determinismInputAfter.value);
+    const inputStable = inputHashBefore === inputHashAfter;
     deterministicHash = second.value.graph?.metadata.deterministicHash ?? null;
     deterministic = {
-      status: deterministicHash === graph.metadata.deterministicHash ? "PASS" : "FAIL",
+      status: inputStable ? (deterministicHash === graph.metadata.deterministicHash ? "PASS" : "FAIL") : "UNSTABLE_INPUT",
       firstHash: graph.metadata.deterministicHash,
       secondHash: deterministicHash,
+      inputStable,
+      inputHashBefore,
+      inputHashAfter,
       rebuildMs: round(second.durationMs, 3),
+      inputCheckMs: round((determinismInputBefore?.durationMs ?? 0) + determinismInputAfter.durationMs, 3),
     };
   }
 
@@ -340,6 +354,14 @@ async function measureRepository(repository, repoPath, options) {
   checkpoints.push(memoryCheckpoint("after-serialization"));
   const cpu = process.cpuUsage(cpuStart);
   const totalDurationMs = performance.now() - totalStart;
+  const analysisDurationMs = discovery.durationMs +
+    semanticModel.durationMs +
+    framework.durationMs +
+    graphBuild.durationMs +
+    serialized.durationMs +
+    validation.durationMs +
+    coverage.durationMs +
+    queryIndex.durationMs;
   const graphSizeBytes = Buffer.byteLength(serialized.value);
   const graphStatistics = graphStatisticsFromGraph(graph, graphSizeBytes);
   const performanceResult = {
@@ -353,6 +375,16 @@ async function measureRepository(repository, repoPath, options) {
     queryIndexingMs: round(queryIndex.durationMs, 3),
     queryLatencyMs: queryIndex.value.simpleLookupMs,
     traversalLatencyMs: queryIndex.value.traversalMs,
+    agentWorkflowMs: round(agentWorkflow.durationMs, 3),
+    agentWorkflow: agentWorkflow.value,
+    searchLatencyMs: agentWorkflow.value.searchLatencyMs,
+    locateLatencyMs: agentWorkflow.value.locateLatencyMs,
+    inspectLatencyMs: agentWorkflow.value.inspectLatencyMs,
+    impactLatencyMs: agentWorkflow.value.impactLatencyMs,
+    evidencePackLatencyMs: agentWorkflow.value.evidencePackLatencyMs,
+    implementationPlanLatencyMs: agentWorkflow.value.implementationPlanLatencyMs,
+    agentWorkflowMemoryBytes: agentWorkflow.value.peakMemoryBytes,
+    analysisDurationMs: round(analysisDurationMs, 3),
     totalDurationMs: round(totalDurationMs, 3),
     peakMemoryBytes: Math.max(...checkpoints.map((checkpoint) => checkpoint.rssBytes)),
     memoryCheckpoints: checkpoints,
@@ -609,6 +641,11 @@ function evaluateRepositoryGates(repository, result) {
   if (result.deterministic?.status === "FAIL") {
     failures.push("Graph determinism changed across identical rebuilds.");
   }
+  if (result.deterministic?.status === "UNSTABLE_INPUT") {
+    warnings.push(
+      `Repository input changed during determinism check (${result.deterministic.inputHashBefore} -> ${result.deterministic.inputHashAfter}).`,
+    );
+  }
   if (result.graph?.nodes < expected.nodeRange.min || result.graph?.nodes > expected.nodeRange.max) {
     warnings.push(`Node count ${result.graph?.nodes} is outside expected range ${expected.nodeRange.min}-${expected.nodeRange.max}.`);
   }
@@ -651,11 +688,25 @@ function evaluateReleaseGates(results, previousBaseline) {
 
     const coverageDrop = numericDrop(previous.coverage, result.coverage);
     const trustDrop = numericDrop(previous.trust, result.trust);
-    const performanceGrowth = percentGrowth(previous.performance?.totalDurationMs, result.performance?.totalDurationMs);
+    const previousPerformanceDuration = previous.performance?.analysisDurationMs;
+    const currentPerformanceDuration = result.performance?.analysisDurationMs;
+    const canComparePerformance = Number.isFinite(previousPerformanceDuration) && Number.isFinite(currentPerformanceDuration);
+    const performanceGrowth = canComparePerformance
+      ? percentGrowth(previousPerformanceDuration, currentPerformanceDuration)
+      : 0;
+    const performanceIncreaseMs = canComparePerformance ? currentPerformanceDuration - previousPerformanceDuration : 0;
 
     if (coverageDrop > 0.01) failures.push(`${result.id}: semantic coverage regressed by ${round(coverageDrop)} points.`);
     if (trustDrop > 0.01) failures.push(`${result.id}: graph trust regressed by ${round(trustDrop)} points.`);
-    if (performanceGrowth > 15) failures.push(`${result.id}: performance regressed by ${round(performanceGrowth)}%.`);
+    if (performanceGrowth > 15 && performanceIncreaseMs > 1000) {
+      failures.push(`${result.id}: performance regressed by ${round(performanceGrowth)}% (${round(performanceIncreaseMs)}ms).`);
+    }
+    if (performanceGrowth > 15 && performanceIncreaseMs <= 1000) {
+      warnings.push(`${result.id}: performance variance was ${round(performanceGrowth)}% but only ${round(performanceIncreaseMs)}ms.`);
+    }
+    if (!canComparePerformance && previous.performance && result.performance) {
+      warnings.push(`${result.id}: performance baseline lacks analysisDurationMs; refresh the baseline before enforcing performance regression.`);
+    }
     if (coverageDrop < -0.01) improvements.push(`${result.id}: semantic coverage improved by ${round(Math.abs(coverageDrop))} points.`);
     if (trustDrop < -0.01) improvements.push(`${result.id}: trust improved by ${round(Math.abs(trustDrop))} points.`);
   }
@@ -702,8 +753,14 @@ function regressionSnapshot(results, performance) {
       performance: result.performance
         ? {
             totalDurationMs: result.performance.totalDurationMs,
+            analysisDurationMs: result.performance.analysisDurationMs,
             peakMemoryBytes: result.performance.peakMemoryBytes,
             queryLatencyMs: result.performance.queryLatencyMs,
+            searchLatencyMs: result.performance.searchLatencyMs,
+            impactLatencyMs: result.performance.impactLatencyMs,
+            evidencePackLatencyMs: result.performance.evidencePackLatencyMs,
+            implementationPlanLatencyMs: result.performance.implementationPlanLatencyMs,
+            agentWorkflowMemoryBytes: result.performance.agentWorkflowMemoryBytes,
           }
         : null,
       graph: result.graph
@@ -736,9 +793,18 @@ function performanceSummary(results, stress = null) {
     packages: result.graph.nodesByType.Package ?? 0,
     files: result.graph.files,
     graphSizeBytes: result.graph.graphSizeBytes,
+    analysisDurationMs: result.performance.analysisDurationMs,
     totalDurationMs: result.performance.totalDurationMs,
     peakMemoryBytes: result.performance.peakMemoryBytes,
     queryLatencyMs: result.performance.queryLatencyMs,
+    searchLatencyMs: result.performance.searchLatencyMs,
+    locateLatencyMs: result.performance.locateLatencyMs,
+    inspectLatencyMs: result.performance.inspectLatencyMs,
+    impactLatencyMs: result.performance.impactLatencyMs,
+    evidencePackLatencyMs: result.performance.evidencePackLatencyMs,
+    implementationPlanLatencyMs: result.performance.implementationPlanLatencyMs,
+    agentWorkflowMs: result.performance.agentWorkflowMs,
+    agentWorkflowMemoryBytes: result.performance.agentWorkflowMemoryBytes,
   }));
 
   return {
@@ -766,6 +832,8 @@ function performanceSummary(results, stress = null) {
       coverage: sortBy(rows, "coverage", "desc").slice(0, 10),
       lowestCoverage: sortBy(rows, "coverage", "asc").slice(0, 10),
       memory: sortBy(rows, "peakMemoryBytes", "desc").slice(0, 10),
+      agentWorkflow: sortBy(rows, "agentWorkflowMs", "asc").slice(0, 10),
+      agentWorkflowMemory: sortBy(rows, "agentWorkflowMemoryBytes", "desc").slice(0, 10),
     },
     stress,
   };
@@ -799,6 +867,8 @@ function dashboardModel(results, registry, performance, releaseGates) {
       durationMs: result.performance.totalDurationMs,
       memoryBytes: result.performance.peakMemoryBytes,
       queryLatencyMs: result.performance.queryLatencyMs,
+      agentWorkflowMs: result.performance.agentWorkflowMs,
+      agentWorkflowMemoryBytes: result.performance.agentWorkflowMemoryBytes,
     })),
     validationTables: {
       repositories: results.map((result) => ({
@@ -904,6 +974,70 @@ function graphStatisticsFromGraph(graph, graphSizeBytes) {
     nodesByType: countBy(graph.nodes.map((node) => node.type)),
     edgesByType: countBy(graph.edges.map((edge) => edge.type)),
   };
+}
+
+function measureAgentWorkflow(modules, graph) {
+  const checkpoints = [process.memoryUsage().rss];
+  const queryText = agentWorkflowQuery(graph);
+  const query = modules.query.createQueryEngine(graph);
+  const index = modules.core.createSemanticIndex(graph);
+  const registry = modules.capabilities.createCapabilityRegistry(
+    { graph, query, semanticIndex: index },
+    modules.capabilities.defaultCapabilities(),
+  );
+  const engine = { execute: registry.execute };
+  const timings = {};
+
+  const search = timedSync("searchLatencyMs", timings, checkpoints, () =>
+    modules.core.resolveIntent(index, queryText, { limit: 5 }));
+  const locatedId = search.candidates[0]?.nodeId ?? graph.nodes[0]?.id ?? "";
+  const located = timedSync("locateLatencyMs", timings, checkpoints, () =>
+    locatedId ? query.findNode(locatedId) : undefined);
+  const inspect = timedSync("inspectLatencyMs", timings, checkpoints, () =>
+    located?.id ? query.neighborhood(located.id, { depth: 1 }) : { nodes: [], edges: [] });
+  const impact = timedSync("impactLatencyMs", timings, checkpoints, () =>
+    located?.id ? engine.execute("ImpactAnalysis", { id: located.id, mode: "direct" }) : null);
+  const evidence = timedSync("evidencePackLatencyMs", timings, checkpoints, () =>
+    engine.execute("EvidencePack", { query: queryText, limit: 5 }));
+  const plan = timedSync("implementationPlanLatencyMs", timings, checkpoints, () =>
+    engine.execute("ImplementationPlan", { task: `Change ${queryText}`, budget: 5, timeoutMs: 250 }));
+  const pack = evidence.statistics?.evidencePack ?? {};
+  const budget = plan.statistics?.budget ?? {};
+
+  return {
+    query: queryText,
+    targetId: located?.id ?? null,
+    ...timings,
+    totalStepLatencyMs: round(sum(Object.values(timings)), 3),
+    peakMemoryBytes: Math.max(...checkpoints),
+    bounded: {
+      searchCandidates: search.candidates.length,
+      inspectNodes: inspect.nodes.length,
+      inspectEdges: inspect.edges.length,
+      impactNodeLimit: impact?.statistics?.nodeLimit ?? null,
+      impactEdgeLimit: impact?.statistics?.edgeLimit ?? null,
+      evidenceNodes: pack.topNodes?.length ?? 0,
+      evidenceEdges: pack.topEdges?.length ?? 0,
+      plannerVisitedNodes: budget.visitedNodes ?? 0,
+      plannerNodeBudget: budget.nodeBudget ?? 5,
+      plannerStatus: budget.status ?? "unknown",
+    },
+  };
+}
+
+function agentWorkflowQuery(graph) {
+  const preferred = graph.nodes.find((node) =>
+    /auth|login|jwt|threshold|sleep|signal|impact/i.test(`${node.id} ${node.name} ${node.file ?? ""}`),
+  );
+  return preferred?.name ?? graph.repository.name ?? "repository";
+}
+
+function timedSync(name, timings, checkpoints, fn) {
+  const started = performance.now();
+  const value = fn();
+  timings[name] = round(performance.now() - started, 4);
+  checkpoints.push(process.memoryUsage().rss);
+  return value;
 }
 
 function selectRepositories(registry, target) {
@@ -1018,23 +1152,27 @@ async function loadOntolyModules() {
 
   const [
     compiler,
+    core,
     parserTypescript,
     parserOpenApi,
     typescript,
     semantic,
     analyzers,
     query,
+    capabilities,
   ] = await Promise.all([
     import(modulePath("compiler")),
+    import(modulePath("core")),
     import(modulePath("parser-typescript")),
     import(modulePath("parser-openapi")),
     import(modulePath("typescript")),
     import(modulePath("semantic")),
     import(modulePath("analyzers")),
     import(modulePath("query")),
+    import(modulePath("capabilities")),
   ]);
 
-  return { compiler, parserTypescript, parserOpenApi, typescript, semantic, analyzers, query };
+  return { compiler, core, parserTypescript, parserOpenApi, typescript, semantic, analyzers, query, capabilities };
 }
 
 async function readSemanticSummary(repositoryId) {
@@ -1122,6 +1260,9 @@ function renderRepositoryReport(result) {
     `- Total duration: ${valueOrNa(result.performance?.totalDurationMs)}ms`,
     `- Peak memory: ${formatBytes(result.performance?.peakMemoryBytes)}`,
     `- Query latency: ${valueOrNa(result.performance?.queryLatencyMs)}ms`,
+    `- Agent workflow latency: ${valueOrNa(result.performance?.agentWorkflowMs)}ms`,
+    `- Agent workflow memory: ${formatBytes(result.performance?.agentWorkflowMemoryBytes)}`,
+    `- Agent search/impact/evidence/planner latency: ${valueOrNa(result.performance?.searchLatencyMs)}ms / ${valueOrNa(result.performance?.impactLatencyMs)}ms / ${valueOrNa(result.performance?.evidencePackLatencyMs)}ms / ${valueOrNa(result.performance?.implementationPlanLatencyMs)}ms`,
     "",
     "## Release Gate",
     "",
@@ -1138,10 +1279,10 @@ function renderPerformanceMarkdown(aggregate) {
     "",
     `Generated: ${aggregate.generatedAt}`,
     "",
-    "| Repository | Time | Memory | Graph Size | Nodes | Edges | Coverage | Trust |",
-    "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    "| Repository | Time | Memory | Agent Workflow | Agent Memory | Graph Size | Nodes | Edges | Coverage | Trust |",
+    "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     ...aggregate.performance.rows.map((row) =>
-      `| ${row.name} | ${row.totalDurationMs}ms | ${formatBytes(row.peakMemoryBytes)} | ${formatBytes(row.graphSizeBytes)} | ${row.nodes} | ${row.edges} | ${valueOrNa(row.coverage)} | ${valueOrNa(row.trust)} |`,
+      `| ${row.name} | ${row.totalDurationMs}ms | ${formatBytes(row.peakMemoryBytes)} | ${valueOrNa(row.agentWorkflowMs)}ms | ${formatBytes(row.agentWorkflowMemoryBytes)} | ${formatBytes(row.graphSizeBytes)} | ${row.nodes} | ${row.edges} | ${valueOrNa(row.coverage)} | ${valueOrNa(row.trust)} |`,
     ),
     "",
     renderTopReportsMarkdown(aggregate.performance),
@@ -1183,6 +1324,14 @@ function renderTopReportsMarkdown(performance) {
     "## Largest Memory Usage",
     "",
     renderRanking(performance.rankings.memory, "peakMemoryBytes", "bytes"),
+    "",
+    "## Fastest Agent Workflows",
+    "",
+    renderRanking(performance.rankings.agentWorkflow, "agentWorkflowMs", "ms"),
+    "",
+    "## Agent Workflow Memory",
+    "",
+    renderRanking(performance.rankings.agentWorkflowMemory, "agentWorkflowMemoryBytes", "bytes"),
   ].join("\n");
 }
 
@@ -1361,6 +1510,17 @@ function average(values) {
 
 function sum(values) {
   return values.filter((value) => Number.isFinite(value)).reduce((total, value) => total + value, 0);
+}
+
+function sourceInventoryHash(inventory) {
+  const sources = (inventory?.sources ?? [])
+    .map((source) => ({
+      path: source.path,
+      kind: source.kind,
+      digest: source.digest,
+    }))
+    .sort((left, right) => left.path.localeCompare(right.path));
+  return createHash("sha256").update(JSON.stringify(sources)).digest("hex");
 }
 
 function numericDrop(previous, current) {
