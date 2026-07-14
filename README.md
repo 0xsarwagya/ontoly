@@ -1,5 +1,11 @@
 # Ontoly
 
+[![HOL Guard](https://img.shields.io/endpoint?url=https%3A%2F%2Fhol.org%2Fapi%2Fregistry%2Fbadges%2Fguard%2Fhashgraph-online%2Fhol-guard-plugin)](https://hol.org/go/guard/sarwagyasingh69?dest=%2Fguard%2Fbilling%3Fpromo%3DGUARD20-SARWAGYASINGH69%23upgrade&link_id=8aab4f0e-d950-4ba5-89f1-5689b7c867c8&utm_source=insights_share&utm_medium=affiliate_cta&utm_campaign=share20)
+[![Validation Lab](https://github.com/0xsarwagya/ontoly/actions/workflows/semantic-evaluation.yml/badge.svg)](https://github.com/0xsarwagya/ontoly/actions/workflows/semantic-evaluation.yml)
+[![npm install](https://img.shields.io/npm/v/@0xsarwagya/ontoly-cli?label=npm%20install)](https://www.npmjs.com/package/@0xsarwagya/ontoly-cli)
+[![License](https://img.shields.io/github/license/0xsarwagya/ontoly)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+
 Ontoly is a TypeScript-native software intelligence engine that turns source
 code into a deterministic Software Graph.
 
