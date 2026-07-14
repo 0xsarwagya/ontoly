@@ -49,11 +49,13 @@ for (const directory of packageDirs) {
 
   if (isPublished(manifest.name, manifest.version)) {
     console.log(`Skipping ${manifest.name}@${manifest.version}; already published.`);
+    ensurePublicAccess(manifest.name, { required: manifest.name === "@0xsarwagya/ontoly-capabilities" });
     continue;
   }
 
   console.log(`Publishing ${manifest.name}@${manifest.version} with dist-tag ${publishTag}...`);
   run("pnpm", ["publish", "--access", "public", "--no-git-checks", "--tag", publishTag], join(root, directory));
+  ensurePublicAccess(manifest.name, { required: true });
 }
 
 function isPublished(name, version) {
@@ -85,4 +87,29 @@ function run(command, args, cwd) {
   if (result.status !== 0) {
     throw new Error(`${command} ${args.join(" ")} failed in ${cwd}`);
   }
+}
+
+function ensurePublicAccess(name, options) {
+  if (!name.startsWith("@")) {
+    return;
+  }
+
+  const result = spawnSync("npm", ["access", "public", name], {
+    cwd: root,
+    encoding: "utf8",
+    stdio: options.required ? "inherit" : ["ignore", "pipe", "pipe"],
+    env: process.env,
+  });
+
+  if (result.status === 0) {
+    console.log(`Confirmed public access for ${name}.`);
+    return;
+  }
+
+  const output = `${result.stderr}\n${result.stdout}`;
+  if (!options.required && /E404|not found|already public|not allowed/i.test(output)) {
+    return;
+  }
+
+  throw new Error(`Could not confirm public npm access for ${name}:\n${output}`);
 }
