@@ -7,12 +7,17 @@ Ontoly ships official Agent Skills as independently installable `SKILL.md`
 directories. Skills teach workflow only: every software-understanding claim
 must come from the Software Graph, Query Engine, or MCP capabilities.
 
+LLM Enhancement is mandatory every time Ontoly is used by an LLM. Official
+Skills declare it explicitly and installed Skills include local workflow
+references that preserve evidence, confidence, and fallback rules.
+
 ## Docs To Read First
 
 - [Agent Skills](agent-skills.md) - installation, standard workflow, versioning, and command reference.
 - [MCP](mcp.md) - graph-backed capabilities and structured errors.
 - [Capabilities](capabilities.md) - deterministic capability behavior.
 - [Skills Best Practices](skills-best-practices.md) - evidence, confidence, and fallback rules.
+- [LLM Enhancement](llm-enhancement.md) - mandatory rules for LLM-facing Ontoly use.
 - [Skills Development](skills-development.md) - how to add or change a skill.
 - [Skills Validation](skills-validation.md) - source and installed-artifact validation.
 - [Agent Skills Catalog](https://oss.sarwagya.wtf/ontoly/docs/skills) - public installable skill pages.
@@ -48,7 +53,7 @@ must come from the Software Graph, Query Engine, or MCP capabilities.
 
 ## Capability Mapping
 
-Skills map to Ontoly MCP capabilities through declarative metadata. LLM Enhancement is the default enhancement type for every official skill. The mapping is not business logic.
+Skills map to Ontoly MCP capabilities through declarative metadata. LLM Enhancement is mandatory for every official skill and every LLM-facing Ontoly workflow. The mapping is not business logic.
 
 | Skill | Primary Capabilities |
 | --- | --- |

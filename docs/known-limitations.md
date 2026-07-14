@@ -25,3 +25,4 @@ Ontoly v0.1.0-alpha.1 is intentionally conservative.
 - Skills teach workflow only.
 - Skills must use Ontoly MCP or graph artifacts for understanding.
 - Skills should inspect source files only when Ontoly cannot answer with evidence.
+- LLM-facing usage requires LLM Enhancement; Ontoly does not provide LLM reasoning itself.

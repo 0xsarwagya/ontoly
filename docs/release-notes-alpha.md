@@ -1,5 +1,16 @@
 # Alpha Release Notes
 
+## v0.1.0-alpha.9
+
+This CLI release makes LLM Enhancement the mandatory workflow contract whenever
+an LLM uses Ontoly.
+
+- Every LLM-facing Ontoly workflow must declare or install LLM Enhancement.
+- Agent Skill validation now checks installed skill reference files for
+  mandatory LLM Enhancement guidance.
+- README, MCP, Capabilities, Agent Skills, FAQ, and Skills docs now link to the
+  canonical LLM Enhancement policy.
+
 ## v0.1.0-alpha.6
 
 This release adds the Semantic Capability Engine and makes Agent Skills visible

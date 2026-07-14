@@ -2,6 +2,16 @@
 
 All notable Ontoly changes are tracked here.
 
+## 0.1.0-alpha.9
+
+### Changed
+
+- Made LLM Enhancement mandatory for every LLM-facing Ontoly workflow.
+- Updated Agent Skill validation to verify installed skill references include
+  mandatory LLM Enhancement guidance.
+- Added public LLM Enhancement documentation and linked it from README, MCP,
+  Capabilities, Agent Skills, FAQ, and Skills docs.
+
 ## 0.1.0-alpha.6
 
 ### Added

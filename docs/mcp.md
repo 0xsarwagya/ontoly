@@ -5,6 +5,11 @@ Ontoly MCP exposes deterministic capabilities backed by the Query Engine.
 The MCP runtime does not expose raw graph mutation and does not parse source.
 Every capability reads from `SoftwareGraph`.
 
+When an LLM-capable client uses Ontoly MCP, LLM Enhancement is mandatory. MCP
+returns deterministic graph facts; the LLM-facing workflow must preserve
+evidence, confidence, and explicit fallback behavior. Non-LLM tools may call the
+same capabilities directly.
+
 ```ts
 import { createMcpRuntime } from "@0xsarwagya/ontoly-mcp";
 

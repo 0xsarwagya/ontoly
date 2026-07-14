@@ -23,3 +23,8 @@ Ontoly exposes structured capabilities backed by the query engine:
 
 The MCP layer consumes the Software Graph. It does not rebuild repository
 context, search files, or use AI to infer relationships.
+
+When an LLM consumes MCP responses, use
+[LLM Enhancement](/ontoly/docs/llm-enhancement). Non-LLM tools can call MCP
+directly, but LLM-facing answers must preserve graph evidence, confidence, and
+fallback boundaries.

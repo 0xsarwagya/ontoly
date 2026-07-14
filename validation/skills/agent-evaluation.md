@@ -25,6 +25,7 @@ Regression: PASS
 - Uses Ontoly: 100
 - Uses MCP: 100
 - Avoids unnecessary repository search: 100
+- Requires LLM Enhancement: 100
 - Produces evidence: 100
 - Produces confidence: 100
 - Falls back gracefully: 100

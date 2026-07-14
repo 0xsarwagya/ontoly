@@ -49,6 +49,7 @@ export interface SkillAgentEvaluationReport {
     readonly usesOntoly: number;
     readonly usesMcp: number;
     readonly avoidsUnnecessarySearch: number;
+    readonly requiresLlmEnhancement: number;
     readonly producesEvidence: number;
     readonly producesConfidence: number;
     readonly fallsBackGracefully: number;
@@ -70,6 +71,7 @@ interface SkillAgentEvaluation {
     readonly usesOntoly: boolean;
     readonly usesMcp: boolean;
     readonly avoidsUnnecessarySearch: boolean;
+    readonly requiresLlmEnhancement: boolean;
     readonly producesEvidence: boolean;
     readonly producesConfidence: boolean;
     readonly fallsBackGracefully: boolean;
@@ -185,7 +187,7 @@ export async function doctorOntolySkills(root = process.cwd()): Promise<SkillDoc
   }
 
   if (validation.agentEvaluation.status === "FAIL") {
-    recommendations.push("Ensure every skill mentions Ontoly, MCP, evidence, confidence, fallback behavior, and repository-search boundaries.");
+    recommendations.push("Ensure every skill mentions Ontoly, MCP, mandatory LLM Enhancement, evidence, confidence, fallback behavior, and repository-search boundaries.");
   }
 
   if (recommendations.length === 0) {
@@ -445,12 +447,17 @@ async function evaluateSkillsForAgents(
       await readFile(join(skill.path, "SKILL.md"), "utf8"),
       existsSync(join(skill.path, "README.md")) ? await readFile(join(skill.path, "README.md"), "utf8") : "",
       existsSync(join(skill.path, "examples.md")) ? await readFile(join(skill.path, "examples.md"), "utf8") : "",
+      ...(await skillReferenceContents(skill.path)),
     ].join("\n").toLowerCase();
 
     const checks = {
       usesOntoly: content.includes("ontoly"),
       usesMcp: content.includes("mcp"),
       avoidsUnnecessarySearch: content.includes("only inspect") && content.includes("fallback"),
+      requiresLlmEnhancement:
+        skill.enhancement === DEFAULT_SKILL_ENHANCEMENT &&
+        content.includes("llm enhancement") &&
+        content.includes("mandatory"),
       producesEvidence: content.includes("evidence") && content.includes("node ids"),
       producesConfidence: content.includes("confidence"),
       fallsBackGracefully: content.includes("fallback"),
@@ -469,6 +476,7 @@ async function evaluateSkillsForAgents(
     usesOntoly: percent(evaluations, (evaluation) => evaluation.checks.usesOntoly),
     usesMcp: percent(evaluations, (evaluation) => evaluation.checks.usesMcp),
     avoidsUnnecessarySearch: percent(evaluations, (evaluation) => evaluation.checks.avoidsUnnecessarySearch),
+    requiresLlmEnhancement: percent(evaluations, (evaluation) => evaluation.checks.requiresLlmEnhancement),
     producesEvidence: percent(evaluations, (evaluation) => evaluation.checks.producesEvidence),
     producesConfidence: percent(evaluations, (evaluation) => evaluation.checks.producesConfidence),
     fallsBackGracefully: percent(evaluations, (evaluation) => evaluation.checks.fallsBackGracefully),
@@ -497,6 +505,21 @@ async function evaluateSkillsForAgents(
       changes,
     },
   };
+}
+
+async function skillReferenceContents(skillPath: string): Promise<readonly string[]> {
+  const referenceDir = join(skillPath, "reference");
+  if (!existsSync(referenceDir)) {
+    return [];
+  }
+
+  const contents: string[] = [];
+  for (const entry of await readdir(referenceDir, { withFileTypes: true })) {
+    if (entry.isFile() && entry.name.endsWith(".md")) {
+      contents.push(await readFile(join(referenceDir, entry.name), "utf8"));
+    }
+  }
+  return contents;
 }
 
 async function writeSkillValidationArtifacts(root: string, report: SkillValidationReport): Promise<void> {
@@ -558,6 +581,7 @@ function renderAgentEvaluationMarkdown(report: SkillAgentEvaluationReport): stri
     `- Uses Ontoly: ${report.aggregate.usesOntoly}`,
     `- Uses MCP: ${report.aggregate.usesMcp}`,
     `- Avoids unnecessary repository search: ${report.aggregate.avoidsUnnecessarySearch}`,
+    `- Requires LLM Enhancement: ${report.aggregate.requiresLlmEnhancement}`,
     `- Produces evidence: ${report.aggregate.producesEvidence}`,
     `- Produces confidence: ${report.aggregate.producesConfidence}`,
     `- Falls back gracefully: ${report.aggregate.fallsBackGracefully}`,
@@ -677,6 +701,7 @@ function emptyAgentEvaluation(): SkillAgentEvaluationReport {
       usesOntoly: 0,
       usesMcp: 0,
       avoidsUnnecessarySearch: 0,
+      requiresLlmEnhancement: 0,
       producesEvidence: 0,
       producesConfidence: 0,
       fallsBackGracefully: 0,

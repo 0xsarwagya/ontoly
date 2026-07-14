@@ -8,7 +8,7 @@
 | TypeScript parser frontend | 0.1.0-alpha.2 |
 | Semantic Capability Engine | 0.1.0-alpha.1 |
 | MCP runtime | 0.1.0-alpha.3 |
-| Ontoly CLI | 0.1.0-alpha.6 |
+| Ontoly CLI | 0.1.0-alpha.9 |
 | HTML graph plugin | 0.1.0-alpha.3 |
 | Software Graph Spec | 1.0 draft |
 | Agent Skills | 0.1.0-alpha.1 to 0.1.0-alpha.2 |

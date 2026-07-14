@@ -21,7 +21,7 @@ The validator checks:
 - frontmatter is valid
 - skill name matches directory
 - required metadata exists
-- skill enhancement is the default `LLM Enhancement`
+- skill enhancement is the mandatory `LLM Enhancement`
 - capability requirements are known Ontoly MCP capabilities
 - README, examples, templates, and reference files exist
 - local Markdown links resolve
@@ -35,6 +35,7 @@ Agent evaluation verifies that each skill:
 - uses Ontoly
 - uses MCP
 - avoids unnecessary repository search
+- requires LLM Enhancement
 - produces evidence
 - produces confidence
 - falls back gracefully

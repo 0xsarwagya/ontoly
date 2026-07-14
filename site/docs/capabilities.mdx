@@ -48,6 +48,11 @@ This shape is used by:
 - Ontoly MCP semantic capabilities
 - Agent Skills that consume MCP
 
+If an LLM turns a capability result into a user-facing answer, it must do so
+through [LLM Enhancement](/ontoly/docs/llm-enhancement). Capabilities remain
+deterministic and AI-free; LLM Enhancement governs evidence, confidence, and
+fallback behavior around them.
+
 ## High-Level Capabilities
 
 - `RepositorySummary`

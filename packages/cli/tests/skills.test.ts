@@ -26,6 +26,7 @@ describe("Ontoly Agent Skills", () => {
     expect(report.agentEvaluation.status).toBe("PASS");
     expect(report.agentEvaluation.aggregate.usesOntoly).toBe(100);
     expect(report.agentEvaluation.aggregate.usesMcp).toBe(100);
+    expect(report.agentEvaluation.aggregate.requiresLlmEnhancement).toBe(100);
   });
 
   it("doctors the skill catalog with actionable recommendations", async () => {

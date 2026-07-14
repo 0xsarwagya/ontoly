@@ -7,6 +7,7 @@ Keep skills small and procedural.
 - Tell agents which Ontoly capability to use.
 - Require graph evidence.
 - Require confidence.
+- Require LLM Enhancement whenever an LLM uses Ontoly.
 - Separate graph facts from inference.
 - Use shared references for common workflow.
 - Keep examples deterministic.

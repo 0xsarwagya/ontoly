@@ -20,7 +20,7 @@ generate embeddings, or make probabilistic guesses.
 
 ## Status
 
-Ontoly is in public alpha. The current CLI release is `v0.1.0-alpha.8`.
+Ontoly is in public alpha. The current CLI release is `v0.1.0-alpha.9`.
 
 The public contract is still experimental, but the repository already includes:
 
@@ -77,7 +77,9 @@ or validation layer around it.
 - Not a replacement for TypeScript, ESLint, or test suites.
 
 AI tools can consume Ontoly through MCP and Skills, but the graph never depends
-on AI output.
+on AI output. Every LLM-facing use of Ontoly must go through
+[LLM Enhancement](docs/llm-enhancement.md) so graph evidence, confidence, and
+fallback rules stay explicit.
 
 ## Why Software Graphs
 
@@ -363,6 +365,10 @@ Ontoly MCP exposes structured capabilities over the Software Graph. Capabilities
 validate inputs before execution and return structured diagnostics for missing,
 ambiguous, or unsupported requests.
 
+When an LLM consumes Ontoly MCP responses, LLM Enhancement is mandatory. Non-LLM
+tools may call MCP directly, but LLM-generated answers must preserve Ontoly
+evidence, confidence, and fallback boundaries.
+
 ```sh
 pnpm ontoly mcp --list
 pnpm ontoly mcp
@@ -390,14 +396,18 @@ See [docs/mcp.md](docs/mcp.md) and [docs/getting-started/mcp.mdx](docs/getting-s
 Ontoly ships portable Agent Skills under [skills](skills). Skills teach coding
 agents how to use Ontoly before falling back to repository search.
 
+Every official Skill declares `ontoly.enhancement: "LLM Enhancement"`. This is
+mandatory for any LLM-capable agent using Ontoly, not an optional label.
+
 Each Skill follows the same workflow:
 
-1. Verify that an Ontoly graph exists.
-2. Build one with `ontoly build .` if it is missing.
-3. Check graph trust and diagnostics.
-4. Use Ontoly MCP capabilities first.
-5. Inspect source files only when the graph cannot answer.
-6. Cite evidence and confidence in the final response.
+1. Confirm the installed workflow declares LLM Enhancement.
+2. Verify that an Ontoly graph exists.
+3. Build one with `ontoly build .` if it is missing.
+4. Check graph trust and diagnostics.
+5. Use Ontoly MCP capabilities first.
+6. Inspect source files only when the graph cannot answer.
+7. Cite evidence and confidence in the final response.
 
 Included Skills:
 
@@ -615,6 +625,7 @@ Ontoly is alpha software.
 - Hosted SaaS, vector search, and LLM reasoning are non-goals.
 - The Software Graph schema can still change before v1.
 - MCP capabilities only answer from available graph evidence.
+- LLM-facing use requires LLM Enhancement; Ontoly itself remains AI-free.
 
 Read [docs/known-limitations.md](docs/known-limitations.md).
 

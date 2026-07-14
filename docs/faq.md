@@ -8,7 +8,8 @@ builds one deterministic Software Graph so tools can query shared structure.
 ## Does Ontoly use AI?
 
 No. The graph compiler is deterministic and AI-free. AI tools may consume the
-graph through MCP or plugins.
+graph through MCP or plugins, but every LLM-facing Ontoly workflow must use
+[LLM Enhancement](llm-enhancement.md).
 
 ## What languages are supported?
 

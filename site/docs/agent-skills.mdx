@@ -13,6 +13,11 @@ The skill layer contains workflow only. It does not contain compiler logic,
 query logic, framework logic, SDK generation, or AI reasoning. Every claim about
 a repository must come from Ontoly artifacts, the Query Engine, or Ontoly MCP.
 
+LLM Enhancement is mandatory every time Ontoly is used by an LLM. Official
+Skills declare `ontoly.enhancement: "LLM Enhancement"` and preserve the
+graph-first evidence, confidence, and fallback rules in
+[LLM Enhancement](./llm-enhancement).
+
 ## Install
 
 ```bash
@@ -54,13 +59,14 @@ Release assets:
 
 Every official installed skill points to `reference/workflow.md`:
 
-1. Verify `.ontoly/SoftwareGraph.json`.
-2. Run `ontoly build .` if the graph is missing.
-3. Check graph trust with `ontoly coverage .`.
-4. Use Ontoly MCP.
-5. Invoke the task-specific capability.
-6. Inspect files only when Ontoly cannot answer.
-7. Cite node ids, relationship types, source spans, graph hash, and confidence.
+1. Confirm the installed workflow declares LLM Enhancement.
+2. Verify `.ontoly/SoftwareGraph.json`.
+3. Run `ontoly build .` if the graph is missing.
+4. Check graph trust with `ontoly coverage .`.
+5. Use Ontoly MCP.
+6. Invoke the task-specific capability.
+7. Inspect files only when Ontoly cannot answer.
+8. Cite node ids, relationship types, source spans, graph hash, and confidence.
 
 ## Commands
 
@@ -86,7 +92,7 @@ Each skill declares:
 - skill version
 - minimum Ontoly version
 - required MCP capabilities
-- enhancement type, defaulting to `LLM Enhancement`
+- mandatory enhancement type, `LLM Enhancement`
 - category
 - deprecation status
 
