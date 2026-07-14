@@ -43,8 +43,14 @@ metadata:
   ontoly.min.version: "0.1.0-alpha.1"
   ontoly.capabilities: "ExplainArchitecture, GraphStatistics"
   ontoly.category: "architecture"
+  ontoly.enhancement: "LLM Enhancement"
   ontoly.deprecated: "false"
 ```
+
+`LLM Enhancement` is the default enhancement type for official Ontoly skills.
+The skill may guide an LLM-capable agent, but all software understanding must
+still come from Ontoly artifacts, CLI commands, Query Engine results, or MCP
+capabilities.
 
 ## Reference Files
 

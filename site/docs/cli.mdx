@@ -33,6 +33,8 @@ ontoly doctor
 ontoly evaluate
 ontoly leaderboard
 ontoly skills validate
+ontoly enhancer list
+ontoly enhancer run semantic-index .
 ```
 
 ## Commands
@@ -56,11 +58,15 @@ ontoly skills validate
 - `ontoly request-trace <route>`
 - `ontoly coverage [root]`
 - `ontoly report [summary|api|dependencies|configuration|framework|frameworks|controllers|routes|modules|providers|workspace]`
+- `ontoly search <concept>`
+- `ontoly find <concept>`
+- `ontoly locate <feature>`
 - `ontoly graph [root]`
 - `ontoly query <operation> [target]`
 - `ontoly doctor [root]`
 - `ontoly mcp`
 - `ontoly skills <list|validate|doctor>`
+- `ontoly enhancer <list|inspect|run|graph|doctor|validate>`
 - `ontoly validate [all|repository|framework]`
 - `ontoly evaluate [repository]`
 - `ontoly leaderboard`
@@ -216,6 +222,53 @@ graph coverage.
 HTML output opens the Software Graph Explorer: an offline graph debugger with
 Architecture, Dependency, Call Graph, and Full Graph modes.
 
+## Enhancers
+
+Enhancers are deterministic transformations over graph artifacts. They do not
+parse repositories or mutate the Software Graph.
+
+```sh
+ontoly enhancer list
+ontoly enhancer inspect semantic-index
+ontoly enhancer run semantic-index .
+ontoly enhancer run MarkdownDocs .
+ontoly enhancer graph --format mermaid
+ontoly enhancer validate --ci
+```
+
+`ontoly enhancer run` writes versioned artifacts and cache metadata under
+`.ontoly/enhancers/`.
+
+See [Enhancers](./enhancers) for the API, lifecycle, artifact model, caching,
+manifests, and pipeline visualization.
+
+## Semantic Index Search
+
+Use Semantic Index commands when you know the concept but not the exact graph
+symbol:
+
+```sh
+ontoly search "sleep thresholds"
+ontoly search authentication
+ontoly find JWT
+ontoly locate notifications
+ontoly search "JWT secret" --category configuration --json
+```
+
+Supported categories:
+
+- `concept`
+- `symbol`
+- `feature`
+- `configuration`
+- `environment`
+- `route`
+- `entrypoint`
+- `repository`
+
+`search`, `find`, and `locate` return matched concepts, ranked candidate
+symbols, confidence, evidence, and a recommended capability.
+
 `ontoly query` supports:
 
 - `find`
@@ -230,10 +283,11 @@ Architecture, Dependency, Call Graph, and Full Graph modes.
 - `configuration`
 - `cycles`
 
-`find` and target-taking operations normalize human concept phrases, so agents
-and scripts should avoid spelling fan-out:
+For exact graph traversal, use `ontoly query`. For natural concepts, prefer
+`ontoly search` first:
 
 ```sh
+ontoly search "Plan Definition Resource" --json
 ontoly query find "Plan Definition Resource" --json
 ontoly query impact "Plan Definition Resource" --json
 ```

@@ -8,6 +8,7 @@ metadata:
   ontoly.min.version: "0.1.0-alpha.1"
   ontoly.capabilities: "ExplainArchitecture, GraphStatistics, FindCycles, FindDependencies"
   ontoly.category: "architecture"
+  ontoly.enhancement: "LLM Enhancement"
   ontoly.deprecated: "false"
 ---
 

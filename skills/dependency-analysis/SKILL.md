@@ -8,6 +8,7 @@ metadata:
   ontoly.min.version: "0.1.0-alpha.1"
   ontoly.capabilities: "FindDependencies, FindDependents, FindCycles, GraphStatistics"
   ontoly.category: "dependencies"
+  ontoly.enhancement: "LLM Enhancement"
   ontoly.deprecated: "false"
 ---
 

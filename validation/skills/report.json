@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "generatedAt": "2026-07-14T14:37:32.567Z",
+  "generatedAt": "2026-07-14T18:16:10.039Z",
   "skillsRoot": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/skills",
   "totalSkills": 14,
   "validSkills": 14,
@@ -10,6 +10,7 @@
       "id": "architecture-review",
       "title": "Architecture Review",
       "category": "architecture",
+      "enhancement": "LLM Enhancement",
       "version": "0.1.0-alpha.1",
       "minimumOntolyVersion": "0.1.0-alpha.1",
       "capabilities": [
@@ -26,6 +27,7 @@
       "id": "codebase-onboarding",
       "title": "Codebase Onboarding",
       "category": "onboarding",
+      "enhancement": "LLM Enhancement",
       "version": "0.1.0-alpha.1",
       "minimumOntolyVersion": "0.1.0-alpha.1",
       "capabilities": [
@@ -42,6 +44,7 @@
       "id": "configuration-analysis",
       "title": "Configuration Analysis",
       "category": "configuration",
+      "enhancement": "LLM Enhancement",
       "version": "0.1.0-alpha.1",
       "minimumOntolyVersion": "0.1.0-alpha.1",
       "capabilities": [
@@ -58,6 +61,7 @@
       "id": "dead-code-analysis",
       "title": "Dead Code Analysis",
       "category": "static-analysis",
+      "enhancement": "LLM Enhancement",
       "version": "0.1.0-alpha.1",
       "minimumOntolyVersion": "0.1.0-alpha.1",
       "capabilities": [
@@ -74,6 +78,7 @@
       "id": "dependency-analysis",
       "title": "Dependency Analysis",
       "category": "dependencies",
+      "enhancement": "LLM Enhancement",
       "version": "0.1.0-alpha.1",
       "minimumOntolyVersion": "0.1.0-alpha.1",
       "capabilities": [
@@ -90,6 +95,7 @@
       "id": "documentation",
       "title": "Documentation",
       "category": "documentation",
+      "enhancement": "LLM Enhancement",
       "version": "0.1.0-alpha.1",
       "minimumOntolyVersion": "0.1.0-alpha.1",
       "capabilities": [
@@ -106,6 +112,7 @@
       "id": "framework-analysis",
       "title": "Framework Analysis",
       "category": "frameworks",
+      "enhancement": "LLM Enhancement",
       "version": "0.1.0-alpha.1",
       "minimumOntolyVersion": "0.1.0-alpha.1",
       "capabilities": [
@@ -122,6 +129,7 @@
       "id": "impact-analysis",
       "title": "Impact Analysis",
       "category": "change-analysis",
+      "enhancement": "LLM Enhancement",
       "version": "0.1.0-alpha.3",
       "minimumOntolyVersion": "0.1.0-alpha.6",
       "capabilities": [
@@ -138,6 +146,7 @@
       "id": "migration-analysis",
       "title": "Migration Analysis",
       "category": "migration",
+      "enhancement": "LLM Enhancement",
       "version": "0.1.0-alpha.1",
       "minimumOntolyVersion": "0.1.0-alpha.1",
       "capabilities": [
@@ -154,6 +163,7 @@
       "id": "performance-analysis",
       "title": "Performance Analysis",
       "category": "performance",
+      "enhancement": "LLM Enhancement",
       "version": "0.1.0-alpha.1",
       "minimumOntolyVersion": "0.1.0-alpha.1",
       "capabilities": [
@@ -170,6 +180,7 @@
       "id": "refactoring",
       "title": "Refactoring",
       "category": "refactoring",
+      "enhancement": "LLM Enhancement",
       "version": "0.1.0-alpha.1",
       "minimumOntolyVersion": "0.1.0-alpha.1",
       "capabilities": [
@@ -186,6 +197,7 @@
       "id": "request-tracing",
       "title": "Request Tracing",
       "category": "request-flow",
+      "enhancement": "LLM Enhancement",
       "version": "0.1.0-alpha.1",
       "minimumOntolyVersion": "0.1.0-alpha.1",
       "capabilities": [
@@ -202,6 +214,7 @@
       "id": "sdk-generation",
       "title": "Sdk Generation",
       "category": "sdk-planning",
+      "enhancement": "LLM Enhancement",
       "version": "0.1.0-alpha.1",
       "minimumOntolyVersion": "0.1.0-alpha.1",
       "capabilities": [
@@ -218,6 +231,7 @@
       "id": "security-review",
       "title": "Security Review",
       "category": "security",
+      "enhancement": "LLM Enhancement",
       "version": "0.1.0-alpha.1",
       "minimumOntolyVersion": "0.1.0-alpha.1",
       "capabilities": [
@@ -233,7 +247,7 @@
   ],
   "agentEvaluation": {
     "status": "PASS",
-    "generatedAt": "2026-07-14T14:37:32.567Z",
+    "generatedAt": "2026-07-14T18:16:10.039Z",
     "totalSkills": 14,
     "passedSkills": 14,
     "aggregate": {

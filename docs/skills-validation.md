@@ -21,6 +21,7 @@ The validator checks:
 - frontmatter is valid
 - skill name matches directory
 - required metadata exists
+- skill enhancement is the default `LLM Enhancement`
 - capability requirements are known Ontoly MCP capabilities
 - README, examples, templates, and reference files exist
 - local Markdown links resolve

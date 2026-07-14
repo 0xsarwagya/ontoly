@@ -19,22 +19,22 @@ must come from the Software Graph, Query Engine, or MCP capabilities.
 
 ## Official Skills
 
-| Skill | Category | Source | Install |
-| --- | --- | --- | --- |
-| Architecture Review | architecture | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/architecture-review) | `npx skills add 0xsarwagya/ontoly --skill architecture-review` |
-| Impact Analysis | change-analysis | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/impact-analysis) | `npx skills add 0xsarwagya/ontoly --skill impact-analysis` |
-| Codebase Onboarding | onboarding | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/codebase-onboarding) | `npx skills add 0xsarwagya/ontoly --skill codebase-onboarding` |
-| Request Tracing | request-flow | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/request-tracing) | `npx skills add 0xsarwagya/ontoly --skill request-tracing` |
-| Dependency Analysis | dependencies | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/dependency-analysis) | `npx skills add 0xsarwagya/ontoly --skill dependency-analysis` |
-| Security Review | security | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/security-review) | `npx skills add 0xsarwagya/ontoly --skill security-review` |
-| Configuration Analysis | configuration | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/configuration-analysis) | `npx skills add 0xsarwagya/ontoly --skill configuration-analysis` |
-| Framework Analysis | frameworks | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/framework-analysis) | `npx skills add 0xsarwagya/ontoly --skill framework-analysis` |
-| Documentation | documentation | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/documentation) | `npx skills add 0xsarwagya/ontoly --skill documentation` |
-| Refactoring | refactoring | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/refactoring) | `npx skills add 0xsarwagya/ontoly --skill refactoring` |
-| Performance Analysis | performance | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/performance-analysis) | `npx skills add 0xsarwagya/ontoly --skill performance-analysis` |
-| Dead Code Analysis | static-analysis | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/dead-code-analysis) | `npx skills add 0xsarwagya/ontoly --skill dead-code-analysis` |
-| Migration Analysis | migration | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/migration-analysis) | `npx skills add 0xsarwagya/ontoly --skill migration-analysis` |
-| SDK Generation | sdk-planning | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/sdk-generation) | `npx skills add 0xsarwagya/ontoly --skill sdk-generation` |
+| Skill | Category | Enhancement | Source | Install |
+| --- | --- | --- | --- | --- |
+| Architecture Review | architecture | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/architecture-review) | `npx skills add 0xsarwagya/ontoly --skill architecture-review` |
+| Impact Analysis | change-analysis | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/impact-analysis) | `npx skills add 0xsarwagya/ontoly --skill impact-analysis` |
+| Codebase Onboarding | onboarding | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/codebase-onboarding) | `npx skills add 0xsarwagya/ontoly --skill codebase-onboarding` |
+| Request Tracing | request-flow | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/request-tracing) | `npx skills add 0xsarwagya/ontoly --skill request-tracing` |
+| Dependency Analysis | dependencies | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/dependency-analysis) | `npx skills add 0xsarwagya/ontoly --skill dependency-analysis` |
+| Security Review | security | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/security-review) | `npx skills add 0xsarwagya/ontoly --skill security-review` |
+| Configuration Analysis | configuration | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/configuration-analysis) | `npx skills add 0xsarwagya/ontoly --skill configuration-analysis` |
+| Framework Analysis | frameworks | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/framework-analysis) | `npx skills add 0xsarwagya/ontoly --skill framework-analysis` |
+| Documentation | documentation | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/documentation) | `npx skills add 0xsarwagya/ontoly --skill documentation` |
+| Refactoring | refactoring | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/refactoring) | `npx skills add 0xsarwagya/ontoly --skill refactoring` |
+| Performance Analysis | performance | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/performance-analysis) | `npx skills add 0xsarwagya/ontoly --skill performance-analysis` |
+| Dead Code Analysis | static-analysis | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/dead-code-analysis) | `npx skills add 0xsarwagya/ontoly --skill dead-code-analysis` |
+| Migration Analysis | migration | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/migration-analysis) | `npx skills add 0xsarwagya/ontoly --skill migration-analysis` |
+| SDK Generation | sdk-planning | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/sdk-generation) | `npx skills add 0xsarwagya/ontoly --skill sdk-generation` |
 
 ## Release Assets
 
@@ -48,8 +48,7 @@ must come from the Software Graph, Query Engine, or MCP capabilities.
 
 ## Capability Mapping
 
-Skills map to Ontoly MCP capabilities through declarative metadata. The mapping
-is not business logic.
+Skills map to Ontoly MCP capabilities through declarative metadata. LLM Enhancement is the default enhancement type for every official skill. The mapping is not business logic.
 
 | Skill | Primary Capabilities |
 | --- | --- |

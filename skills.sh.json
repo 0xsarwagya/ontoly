@@ -4,7 +4,7 @@
   "groupings": [
     {
       "title": "Understanding",
-      "description": "Use Ontoly's Software Graph to understand repository architecture, frameworks, and onboarding paths.",
+      "description": "LLM Enhancement skills that use Ontoly's Software Graph to understand repository architecture, frameworks, and onboarding paths.",
       "skills": [
         "codebase-onboarding",
         "architecture-review",
@@ -14,7 +14,7 @@
     },
     {
       "title": "Change Analysis",
-      "description": "Trace dependencies and plan safe changes using deterministic graph evidence.",
+      "description": "LLM Enhancement skills for tracing dependencies and planning safe changes with deterministic graph evidence.",
       "skills": [
         "dependency-analysis",
         "impact-analysis",
@@ -24,7 +24,7 @@
     },
     {
       "title": "Runtime Flows",
-      "description": "Inspect request paths, performance-sensitive flows, and API surface planning.",
+      "description": "LLM Enhancement skills for request paths, performance-sensitive flows, and API surface planning.",
       "skills": [
         "request-tracing",
         "performance-analysis",
@@ -33,7 +33,7 @@
     },
     {
       "title": "Quality & Risk",
-      "description": "Review security, configuration, and unused code with graph-backed evidence.",
+      "description": "LLM Enhancement skills for security, configuration, and unused code review with graph-backed evidence.",
       "skills": [
         "security-review",
         "configuration-analysis",

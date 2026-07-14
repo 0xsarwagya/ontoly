@@ -8,6 +8,7 @@ metadata:
   ontoly.min.version: "0.1.0-alpha.6"
   ontoly.capabilities: "ImpactAnalysis, FindDependents, FindDependencies, FindNode"
   ontoly.category: "change-analysis"
+  ontoly.enhancement: "LLM Enhancement"
   ontoly.deprecated: "false"
 ---
 

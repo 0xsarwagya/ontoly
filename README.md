@@ -20,7 +20,7 @@ generate embeddings, or make probabilistic guesses.
 
 ## Status
 
-Ontoly is in public alpha. The current CLI release is `v0.1.0-alpha.7`.
+Ontoly is in public alpha. The current CLI release is `v0.1.0-alpha.8`.
 
 The public contract is still experimental, but the repository already includes:
 

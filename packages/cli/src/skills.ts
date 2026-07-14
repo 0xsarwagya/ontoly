@@ -7,6 +7,7 @@ export interface SkillCatalogEntry {
   readonly id: string;
   readonly title: string;
   readonly category: string;
+  readonly enhancement: SkillEnhancement;
   readonly version: string;
   readonly minimumOntolyVersion: string;
   readonly capabilities: readonly McpCapabilityName[];
@@ -89,6 +90,9 @@ interface SkillFrontmatter {
   readonly metadata: ReadonlyMap<string, string>;
 }
 
+export type SkillEnhancement = "LLM Enhancement";
+
+export const DEFAULT_SKILL_ENHANCEMENT: SkillEnhancement = "LLM Enhancement";
 const SKILL_NAME_PATTERN = /^[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$/;
 const REQUIRED_REPOSITORY_EXAMPLES = ["Ovok Core", "Ghost", "durable-local", "0xsarwagya", "Innosphere"] as const;
 const REQUIRED_EXAMPLE_FIELDS = ["Questions", "Expected workflow", "Capabilities invoked", "Expected evidence", "Expected answer"] as const;
@@ -114,6 +118,7 @@ export async function listOntolySkills(root = process.cwd()): Promise<readonly S
       id: frontmatter.name ?? basename(dir),
       title: titleFromSkillName(frontmatter.name ?? basename(dir)),
       category: metadata.get("ontoly.category") ?? "uncategorized",
+      enhancement: parseEnhancement(metadata.get("ontoly.enhancement")),
       version: metadata.get("ontoly.skill.version") ?? "0.0.0",
       minimumOntolyVersion: metadata.get("ontoly.min.version") ?? "0.0.0",
       capabilities: parseCapabilities(metadata.get("ontoly.capabilities") ?? ""),
@@ -259,10 +264,19 @@ async function validateSkill(skill: SkillCatalogEntry, issues: SkillIssue[]): Pr
     issues.push({ severity: "error", skill: skill.id, file: skillPath, message: "Skill description must be present and 1024 characters or fewer." });
   }
 
-  for (const key of ["ontoly.skill.version", "ontoly.min.version", "ontoly.capabilities", "ontoly.deprecated"]) {
+  for (const key of ["ontoly.skill.version", "ontoly.min.version", "ontoly.capabilities", "ontoly.enhancement", "ontoly.deprecated"]) {
     if (!metadata.has(key)) {
       issues.push({ severity: "error", skill: skill.id, file: skillPath, message: `Missing metadata key ${key}.` });
     }
+  }
+
+  if (metadata.get("ontoly.enhancement") && metadata.get("ontoly.enhancement") !== DEFAULT_SKILL_ENHANCEMENT) {
+    issues.push({
+      severity: "error",
+      skill: skill.id,
+      file: skillPath,
+      message: `ontoly.enhancement must be ${DEFAULT_SKILL_ENHANCEMENT}.`,
+    });
   }
 
   const declaredCapabilities = (metadata.get("ontoly.capabilities") ?? "")
@@ -508,10 +522,10 @@ function renderSkillValidationMarkdown(report: SkillValidationReport): string {
     "",
     "## Skills",
     "",
-    "| Skill | Version | Minimum Ontoly | Capabilities | Deprecated |",
-    "| --- | --- | --- | --- | --- |",
+    "| Skill | Version | Minimum Ontoly | Enhancement | Capabilities | Deprecated |",
+    "| --- | --- | --- | --- | --- | --- |",
     ...report.skills.map((skill) =>
-      `| ${skill.id} | ${skill.version} | ${skill.minimumOntolyVersion} | ${skill.capabilities.map((capability) => `\`${capability}\``).join(", ")} | ${skill.deprecated ? "yes" : "no"} |`),
+      `| ${skill.id} | ${skill.version} | ${skill.minimumOntolyVersion} | ${skill.enhancement} | ${skill.capabilities.map((capability) => `\`${capability}\``).join(", ")} | ${skill.deprecated ? "yes" : "no"} |`),
     "",
     "## Issues",
     "",
@@ -600,6 +614,10 @@ function parseCapabilities(value: string): readonly McpCapabilityName[] {
     .filter((capability): capability is McpCapabilityName =>
       (MCP_CAPABILITIES as readonly string[]).includes(capability),
     );
+}
+
+function parseEnhancement(value: string | undefined): SkillEnhancement {
+  return value === DEFAULT_SKILL_ENHANCEMENT ? value : DEFAULT_SKILL_ENHANCEMENT;
 }
 
 function localMarkdownLinks(content: string): readonly string[] {

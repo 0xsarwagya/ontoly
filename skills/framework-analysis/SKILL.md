@@ -8,6 +8,7 @@ metadata:
   ontoly.min.version: "0.1.0-alpha.1"
   ontoly.capabilities: "ExplainArchitecture, GraphStatistics, FindNode, FindFeatureOwner"
   ontoly.category: "frameworks"
+  ontoly.enhancement: "LLM Enhancement"
   ontoly.deprecated: "false"
 ---
 

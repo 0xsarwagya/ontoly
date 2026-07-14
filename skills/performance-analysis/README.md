@@ -7,6 +7,7 @@ This is an official Ontoly Agent Skill. It is independently installable and teac
 - Skill version: 0.1.0-alpha.1
 - Minimum Ontoly version: 0.1.0-alpha.1
 - Required capabilities: `TraceExecution`, `TraceRequestLifecycle`, `FindDependencies`, `GraphStatistics`
+- Enhancement: LLM Enhancement
 - Deprecated: no
 
 ## Install

@@ -82,7 +82,7 @@ function writeSkillDocs() {
 function skillIndexDocument(skills) {
   const rows = skills
     .map((skill) =>
-      `| [${skill.title}](./${skill.id}) | ${skill.category} | ${skill.version} | ${skill.capabilities.map((capability) => `\`${capability}\``).join(", ")} |`,
+      `| [${skill.title}](./${skill.id}) | ${skill.category} | ${skill.enhancement ?? "LLM Enhancement"} | ${skill.version} | ${skill.capabilities.map((capability) => `\`${capability}\``).join(", ")} |`,
     )
     .join("\n");
 
@@ -100,8 +100,8 @@ function skillIndexDocument(skills) {
     "",
     "## Skills",
     "",
-    "| Skill | Category | Version | Capabilities |",
-    "| --- | --- | --- | --- |",
+    "| Skill | Category | Enhancement | Version | Capabilities |",
+    "| --- | --- | --- | --- | --- |",
     rows,
     "",
     "## Shared Docs",
@@ -141,6 +141,7 @@ function skillDocument(skill) {
     `- Skill version: \`${skill.version}\``,
     `- Minimum Ontoly version: \`${skill.minimumOntolyVersion}\``,
     `- Category: \`${skill.category}\``,
+    `- Enhancement: \`${skill.enhancement ?? "LLM Enhancement"}\``,
     `- Deprecated: ${skill.deprecated ? "yes" : "no"}`,
     "",
     "## Capabilities",

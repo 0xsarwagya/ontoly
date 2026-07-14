@@ -80,6 +80,7 @@ Each skill declares:
 - skill version
 - minimum Ontoly version
 - required MCP capabilities
+- enhancement type, defaulting to `LLM Enhancement`
 - category
 - deprecation status
 

@@ -8,6 +8,7 @@ metadata:
   ontoly.min.version: "0.1.0-alpha.1"
   ontoly.capabilities: "TraceExecution, TraceRequestLifecycle, FindDependencies, GraphStatistics"
   ontoly.category: "performance"
+  ontoly.enhancement: "LLM Enhancement"
   ontoly.deprecated: "false"
 ---
 
