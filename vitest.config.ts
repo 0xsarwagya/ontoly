@@ -12,6 +12,7 @@ export default defineConfig({
     alias: {
       "@0xsarwagya/ontoly-analyzers": fromRoot("./packages/analyzers/src/index.ts"),
       "@0xsarwagya/ontoly-cache": fromRoot("./packages/cache/src/index.ts"),
+      "@0xsarwagya/ontoly-capabilities": fromRoot("./packages/capabilities/src/index.ts"),
       "@0xsarwagya/ontoly-compiler": fromRoot("./packages/compiler/src/index.ts"),
       "@0xsarwagya/ontoly-core": fromRoot("./packages/core/src/index.ts"),
       "@0xsarwagya/ontoly-diagnostics": fromRoot("./packages/diagnostics/src/index.ts"),
