@@ -1,6 +1,9 @@
-# Compiler Pipeline v2
+---
+title: "Compiler Pipeline v2"
+description: "How Ontoly separates TypeScript analysis, framework analysis, semantic generation, graph construction, validation, and serialization."
+---
 
-Sprint 5 restructures the compiler around a semantic platform.
+Ontoly structures the compiler around a semantic platform.
 
 The TypeScript analyzer produces a language model. Framework analyzers produce
 framework facts. The Semantic Generator creates compiler artifacts. The

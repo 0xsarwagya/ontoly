@@ -42,7 +42,7 @@ unless the analyzer can tie them to a known package or import.
 
 ## Semantic Facts
 
-Sprint 5 defines these framework fact kinds:
+The Semantic Generator accepts these framework fact kinds:
 
 - `ControllerDeclared`
 - `RouteDeclared`
@@ -104,7 +104,7 @@ The NestJS analyzer is the first complete analyzer. It supports:
 
 The default registry also includes deterministic detection for Express,
 Fastify, Hono, Next.js, React, and Prisma. Only NestJS performs complete
-semantic extraction in Sprint 5.
+semantic extraction in the current alpha.
 
 ## Flow
 

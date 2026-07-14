@@ -4,6 +4,12 @@ Ontoly skills are portable `SKILL.md` directories. Use an Agent Skills compatibl
 
 Each skill is independently installable. Installed skills do not depend on a sibling `skills/shared` directory.
 
+Public docs:
+
+- [Agent Skills](https://oss.sarwagya.wtf/ontoly/docs/agent-skills)
+- [Skills Overview](https://oss.sarwagya.wtf/ontoly/docs/skills-overview)
+- [Skills Validation](https://oss.sarwagya.wtf/ontoly/docs/skills-validation)
+
 ## Public Repository Install
 
 ```bash

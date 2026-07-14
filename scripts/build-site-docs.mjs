@@ -8,7 +8,20 @@ const __filename = fileURLToPath(import.meta.url);
 const root = path.resolve(path.dirname(__filename), "..");
 const sourceRoot = path.join(root, "docs");
 const outputRoot = path.join(root, "site", "docs");
+const skillsCatalogPath = path.join(root, "skills", "website-assets", "skill-catalog.json");
 const repositoryBlobUrl = "https://github.com/0xsarwagya/ontoly/blob/main";
+const siteBaseUrl = "https://oss.sarwagya.wtf";
+const projectSlug = "ontoly";
+const docsBasePath = `/${projectSlug}/docs`;
+const commonKeywords = [
+  "Ontoly",
+  "Software Graph",
+  "TypeScript",
+  "static analysis",
+  "MCP",
+  "AI coding agents",
+  "developer tools",
+];
 
 if (!existsSync(sourceRoot)) {
   throw new Error(`Missing docs source directory: ${sourceRoot}`);
@@ -29,7 +42,9 @@ for (const file of files) {
   writeFileSync(outputPath, normalizeDocument(readFileSync(file, "utf8"), relative), "utf8");
 }
 
-console.log(`Generated ${files.length} OSS docs page(s) in site/docs.`);
+const skillDocs = writeSkillDocs();
+
+console.log(`Generated ${files.length + skillDocs} OSS docs page(s) in site/docs.`);
 
 function walk(directory) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -40,9 +55,115 @@ function walk(directory) {
 
 function normalizeDocument(source, relativePath) {
   const { frontmatter, body } = splitFrontmatter(source);
-  const normalizedBody = rewriteLinks(frontmatter ? body : removeFirstHeading(body), relativePath).trimEnd();
-  const finalFrontmatter = frontmatter ?? createFrontmatter(source, relativePath);
+  const normalizedBody = rewriteLinks(frontmatter ? body : removeFirstHeading(body), relativePath).trim();
+  const finalFrontmatter = addSeoFrontmatter(frontmatter ?? createFrontmatter(source, relativePath), relativePath);
   return `${finalFrontmatter.trimEnd()}\n\n${normalizedBody}\n`;
+}
+
+function writeSkillDocs() {
+  if (!existsSync(skillsCatalogPath)) {
+    return 0;
+  }
+
+  const catalog = JSON.parse(readFileSync(skillsCatalogPath, "utf8"));
+  const skills = Array.isArray(catalog.skills) ? catalog.skills : [];
+  const directory = path.join(outputRoot, "skills");
+  mkdirSync(directory, { recursive: true });
+
+  writeFileSync(path.join(directory, "index.mdx"), skillIndexDocument(skills), "utf8");
+
+  for (const skill of skills) {
+    writeFileSync(path.join(directory, `${skill.id}.mdx`), skillDocument(skill), "utf8");
+  }
+
+  return skills.length + 1;
+}
+
+function skillIndexDocument(skills) {
+  const rows = skills
+    .map((skill) =>
+      `| [${skill.title}](./${skill.id}) | ${skill.category} | ${skill.version} | ${skill.capabilities.map((capability) => `\`${capability}\``).join(", ")} |`,
+    )
+    .join("\n");
+
+  return [
+    "---",
+    'title: "Agent Skills Catalog"',
+    'description: "Installable Ontoly Agent Skills with capability mappings and documentation links."',
+    `canonical: "${siteBaseUrl}${docsBasePath}/skills"`,
+    'source: "skills/website-assets/skill-catalog.json"',
+    `keywords: [${["Ontoly", "Agent Skills", "MCP", "Software Graph", "AI coding agents"].map((value) => `"${escapeYaml(value)}"`).join(", ")}]`,
+    "---",
+    "",
+    "Official Ontoly Agent Skills are independently installable `SKILL.md` folders.",
+    "Each skill teaches workflow only; Ontoly provides software understanding through the Software Graph, Query Engine, and MCP capabilities.",
+    "",
+    "## Skills",
+    "",
+    "| Skill | Category | Version | Capabilities |",
+    "| --- | --- | --- | --- |",
+    rows,
+    "",
+    "## Shared Docs",
+    "",
+    "- [Agent Skills](../agent-skills)",
+    "- [MCP](../mcp)",
+    "- [Capabilities](../capabilities)",
+    "- [Skills Development](../skills-development)",
+    "- [Skills Validation](../skills-validation)",
+    "",
+  ].join("\n");
+}
+
+function skillDocument(skill) {
+  const capabilities = skill.capabilities.map((capability) => `- \`${capability}\``).join("\n");
+  const sourceBase = `${repositoryBlobUrl}/skills/${skill.id}`;
+
+  return [
+    "---",
+    `title: "${escapeYaml(skill.title)} Skill"`,
+    `description: "${escapeYaml(skill.description)}"`,
+    `canonical: "${siteBaseUrl}${docsBasePath}/skills/${skill.id}"`,
+    `source: "skills/${skill.id}/README.md"`,
+    `keywords: [${keywordsFor(`skills/${skill.id}.mdx`, `${skill.title} Skill`).map((value) => `"${escapeYaml(value)}"`).join(", ")}]`,
+    "---",
+    "",
+    skill.description,
+    "",
+    "## Install",
+    "",
+    "```bash",
+    `npx skills add 0xsarwagya/ontoly --skill ${skill.id}`,
+    "```",
+    "",
+    "## Compatibility",
+    "",
+    `- Skill version: \`${skill.version}\``,
+    `- Minimum Ontoly version: \`${skill.minimumOntolyVersion}\``,
+    `- Category: \`${skill.category}\``,
+    `- Deprecated: ${skill.deprecated ? "yes" : "no"}`,
+    "",
+    "## Capabilities",
+    "",
+    capabilities,
+    "",
+    "## Source",
+    "",
+    `- [README](${sourceBase}/README.md)`,
+    `- [SKILL.md](${sourceBase}/SKILL.md)`,
+    `- [Examples](${sourceBase}/examples.md)`,
+    `- [Templates](${sourceBase}/templates)`,
+    `- [Reference](${sourceBase}/reference)`,
+    "",
+    "## Related Docs",
+    "",
+    "- [Agent Skills](../agent-skills)",
+    "- [Skills Overview](../skills-overview)",
+    "- [MCP](../mcp)",
+    "- [Capabilities](../capabilities)",
+    "- [Skills Validation](../skills-validation)",
+    "",
+  ].join("\n");
 }
 
 function splitFrontmatter(source) {
@@ -68,6 +189,55 @@ function createFrontmatter(source, relativePath) {
     `description: "${escapeYaml(description)}"`,
     "---",
   ].join("\n");
+}
+
+function addSeoFrontmatter(frontmatter, relativePath) {
+  const canonical = `${siteBaseUrl}${docRoutePath(relativePath)}`;
+  const title = frontmatterValue(frontmatter, "title") ?? titleFromPath(relativePath);
+  const additions = [
+    ["canonical", canonical],
+    ["source", `docs/${relativePath}`],
+    ["keywords", keywordsFor(relativePath, title)],
+  ].filter(([field]) => !hasFrontmatterField(frontmatter, field));
+
+  if (additions.length === 0) {
+    return frontmatter;
+  }
+
+  return frontmatter.replace(
+    /\n---\s*$/,
+    `\n${additions.map(([field, value]) => formatYamlField(field, value)).join("\n")}\n---`,
+  );
+}
+
+function docRoutePath(relativePath) {
+  const route = slash(relativePath).replace(/\.(md|mdx)$/i, "").replace(/\/index$/, "");
+  return route === "index" ? docsBasePath : `${docsBasePath}/${route}`;
+}
+
+function keywordsFor(relativePath, title) {
+  const pageTerms = `${title} ${relativePath}`
+    .split(/[^A-Za-z0-9]+/g)
+    .map((part) => part.trim())
+    .filter((part) => part.length > 2)
+    .filter((part) => !/^(docs?|mdx?|the|and|for|with)$/i.test(part));
+  return unique([...commonKeywords, ...pageTerms]).slice(0, 14);
+}
+
+function frontmatterValue(frontmatter, field) {
+  const match = new RegExp(`^${escapeRegExp(field)}:\\s*["']?([^"'\n]+)["']?\\s*$`, "m").exec(frontmatter);
+  return match?.[1]?.trim() ?? null;
+}
+
+function hasFrontmatterField(frontmatter, field) {
+  return new RegExp(`^${escapeRegExp(field)}:`, "m").test(frontmatter);
+}
+
+function formatYamlField(field, value) {
+  if (Array.isArray(value)) {
+    return `${field}: [${value.map((item) => `"${escapeYaml(item)}"`).join(", ")}]`;
+  }
+  return `${field}: "${escapeYaml(value)}"`;
 }
 
 function firstHeading(source) {
@@ -196,6 +366,22 @@ function isInside(child, parent) {
 
 function escapeYaml(value) {
   return value.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function unique(values) {
+  const seen = new Set();
+  return values.filter((value) => {
+    const key = value.toLowerCase();
+    if (seen.has(key)) {
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
 }
 
 function slash(value) {

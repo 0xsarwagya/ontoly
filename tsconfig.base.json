@@ -16,6 +16,7 @@
     "paths": {
       "@0xsarwagya/ontoly-cache": ["packages/cache/src/index.ts"],
       "@0xsarwagya/ontoly-analyzers": ["packages/analyzers/src/index.ts"],
+      "@0xsarwagya/ontoly-capabilities": ["packages/capabilities/src/index.ts"],
       "@0xsarwagya/ontoly-compiler": ["packages/compiler/src/index.ts"],
       "@0xsarwagya/ontoly-core": ["packages/core/src/index.ts"],
       "@0xsarwagya/ontoly-diagnostics": ["packages/diagnostics/src/index.ts"],

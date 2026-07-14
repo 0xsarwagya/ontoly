@@ -1,0 +1,37 @@
+---
+title: "Agent Skills Catalog"
+description: "Installable Ontoly Agent Skills with capability mappings and documentation links."
+canonical: "https://oss.sarwagya.wtf/ontoly/docs/skills"
+source: "skills/website-assets/skill-catalog.json"
+keywords: ["Ontoly", "Agent Skills", "MCP", "Software Graph", "AI coding agents"]
+---
+
+Official Ontoly Agent Skills are independently installable `SKILL.md` folders.
+Each skill teaches workflow only; Ontoly provides software understanding through the Software Graph, Query Engine, and MCP capabilities.
+
+## Skills
+
+| Skill | Category | Version | Capabilities |
+| --- | --- | --- | --- |
+| [Architecture Review](./architecture-review) | architecture | 0.1.0-alpha.1 | `ExplainArchitecture`, `GraphStatistics`, `FindCycles`, `FindDependencies` |
+| [Impact Analysis](./impact-analysis) | change-analysis | 0.1.0-alpha.3 | `ImpactAnalysis`, `FindDependents`, `FindDependencies`, `FindNode` |
+| [Codebase Onboarding](./codebase-onboarding) | onboarding | 0.1.0-alpha.1 | `ExplainArchitecture`, `FindEntrypoints`, `GraphStatistics`, `FindFeatureOwner` |
+| [Request Tracing](./request-tracing) | request-flow | 0.1.0-alpha.1 | `TraceRequestLifecycle`, `FindResponsibleFunction`, `TraceExecution`, `FindNode` |
+| [Dependency Analysis](./dependency-analysis) | dependencies | 0.1.0-alpha.1 | `FindDependencies`, `FindDependents`, `FindCycles`, `GraphStatistics` |
+| [Security Review](./security-review) | security | 0.1.0-alpha.1 | `FindAuthenticationFlow`, `FindResponsibleFunction`, `TraceRequestLifecycle`, `FindConfigurationUsage` |
+| [Configuration Analysis](./configuration-analysis) | configuration | 0.1.0-alpha.1 | `FindConfiguration`, `FindConfigurationUsage`, `FindDependencies`, `GraphStatistics` |
+| [Framework Analysis](./framework-analysis) | frameworks | 0.1.0-alpha.1 | `ExplainArchitecture`, `GraphStatistics`, `FindNode`, `FindFeatureOwner` |
+| [Documentation](./documentation) | documentation | 0.1.0-alpha.1 | `ExplainArchitecture`, `TraceRequestLifecycle`, `InspectModule`, `GraphStatistics` |
+| [Refactoring](./refactoring) | refactoring | 0.1.0-alpha.1 | `ImpactAnalysis`, `FindDependencies`, `FindDependents`, `FindCycles` |
+| [Performance Analysis](./performance-analysis) | performance | 0.1.0-alpha.1 | `TraceExecution`, `TraceRequestLifecycle`, `FindDependencies`, `GraphStatistics` |
+| [Dead Code Analysis](./dead-code-analysis) | static-analysis | 0.1.0-alpha.1 | `FindDeadCode`, `FindUnusedFeature`, `FindEntrypoints`, `FindDependents` |
+| [Migration Analysis](./migration-analysis) | migration | 0.1.0-alpha.1 | `ExplainArchitecture`, `ImpactAnalysis`, `FindConfigurationUsage`, `FindDependencies` |
+| [SDK Generation](./sdk-generation) | sdk-planning | 0.1.0-alpha.1 | `ExplainArchitecture`, `TraceRequestLifecycle`, `FindResponsibleFunction`, `GraphStatistics` |
+
+## Shared Docs
+
+- [Agent Skills](../agent-skills)
+- [MCP](../mcp)
+- [Capabilities](../capabilities)
+- [Skills Development](../skills-development)
+- [Skills Validation](../skills-validation)

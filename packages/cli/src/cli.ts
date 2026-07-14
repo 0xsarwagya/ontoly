@@ -15,6 +15,13 @@ import {
 } from "@0xsarwagya/ontoly-analyzers";
 import { getGraphArtifactPaths, loadGraph } from "@0xsarwagya/ontoly-cache";
 import {
+  capabilityResultToJson,
+  createCapabilityEngine,
+  type CapabilityName,
+  type CapabilityResult,
+  type SerializedNode,
+} from "@0xsarwagya/ontoly-capabilities";
+import {
   buildSoftwareGraph,
   buildSoftwareGraphWithArtifacts,
   createRepositoryIntelligencePass,
@@ -205,6 +212,38 @@ async function run(cli: ParsedCli): Promise<void> {
 
     case "architecture":
       await architectureCommand(cli);
+      return;
+
+    case "explain":
+      await capabilityCommand(cli, capabilityFromExplainCli(cli), { targetKey: "query" });
+      return;
+
+    case "impact":
+      await capabilityCommand(cli, "ImpactAnalysis", { targetKey: "id" });
+      return;
+
+    case "implementation-plan":
+      await capabilityCommand(cli, "ImplementationPlan", { targetKey: "task", joinPositionals: true });
+      return;
+
+    case "ownership":
+      await capabilityCommand(cli, "OwnershipAnalysis", { targetKey: "query" });
+      return;
+
+    case "health":
+      await capabilityCommand(cli, "RepositoryHealth", { positionalRoot: true });
+      return;
+
+    case "repository-summary":
+      await capabilityCommand(cli, "RepositorySummary", { positionalRoot: true });
+      return;
+
+    case "risk":
+      await capabilityCommand(cli, "RiskAnalysis", { targetKey: "query" });
+      return;
+
+    case "request-trace":
+      await capabilityCommand(cli, "RequestTrace", { targetKey: "query" });
       return;
 
     case "coverage":
@@ -711,6 +750,64 @@ async function architectureCommand(cli: ParsedCli): Promise<void> {
   }
 
   logger.write(formatArchitectureSummary(summary));
+}
+
+async function capabilityCommand(
+  cli: ParsedCli,
+  capability: CapabilityName,
+  options: {
+    readonly targetKey?: "id" | "query" | "task" | undefined;
+    readonly joinPositionals?: boolean | undefined;
+    readonly positionalRoot?: boolean | undefined;
+  } = {},
+): Promise<void> {
+  const graph = await loadOrBuildGraph(cli, { positionalRoot: options.positionalRoot ?? false });
+  const engine = createCapabilityEngine(graph);
+  const input = capabilityInputFromCli(cli, options);
+  const result = engine.execute(capability, input);
+
+  if (flagBoolean(cli, "json")) {
+    logger.write(JSON.stringify(capabilityResultToJson(result), null, 2));
+    return;
+  }
+
+  logger.write(formatCapabilityResult(capability, result));
+}
+
+function capabilityFromExplainCli(cli: ParsedCli): CapabilityName {
+  return cli.positional.length > 0 || cli.flags.has("query") || cli.flags.has("id")
+    ? "FeatureTouchpoints"
+    : "ArchitectureSummary";
+}
+
+function capabilityInputFromCli(
+  cli: ParsedCli,
+  options: {
+    readonly targetKey?: "id" | "query" | "task" | undefined;
+    readonly joinPositionals?: boolean | undefined;
+  },
+): JsonObject {
+  const input: Record<string, string | number> = {};
+  const depth = flagNumber(cli, "depth", -1);
+
+  if (depth >= 0) {
+    input.depth = depth;
+  }
+
+  if (!options.targetKey) {
+    return input;
+  }
+
+  const flagValue = flagString(cli, options.targetKey, "");
+  const explicit = flagValue || flagString(cli, "id", "") || flagString(cli, "query", "") || flagString(cli, "task", "");
+  const positional = options.joinPositionals ? cli.positional.join(" ") : cli.positional[0] ?? "";
+  const value = explicit || positional;
+
+  if (value) {
+    input[options.targetKey] = value;
+  }
+
+  return input;
 }
 
 async function coverageCommand(cli: ParsedCli): Promise<void> {
@@ -2001,6 +2098,57 @@ function formatArchitectureSummary(summary: JsonObject): string {
   ].join("\n");
 }
 
+function formatCapabilityResult(capability: CapabilityName, result: CapabilityResult): string {
+  const graph = result.graph as JsonObject;
+  const lines = [
+    `# ${titleCase(capability)}`,
+    "",
+    result.summary,
+    "",
+    `Confidence: ${result.confidence.level} (${result.confidence.score.toFixed(2)})`,
+    `Evidence: ${result.evidence.length}`,
+    `Diagnostics: ${result.diagnostics.length}`,
+    `Graph hash: ${String(graph.graphHash ?? "unknown")}`,
+  ];
+
+  const groups = Object.entries(result.affectedNodes)
+    .filter(([, nodes]) => nodes.length > 0)
+    .sort(([left], [right]) => left.localeCompare(right));
+
+  if (groups.length > 0) {
+    lines.push("", "## Affected Graph");
+    for (const [group, nodes] of groups) {
+      lines.push(`- ${group}: ${formatSerializedNodeList(nodes)}`);
+    }
+  }
+
+  if (result.diagnostics.length > 0) {
+    lines.push("", "## Diagnostics");
+    for (const diagnostic of result.diagnostics) {
+      lines.push(`- ${diagnostic.severity} ${diagnostic.code}: ${diagnostic.message}`);
+    }
+  }
+
+  if (result.recommendations.length > 0) {
+    lines.push("", "## Recommendations");
+    for (const recommendation of result.recommendations) {
+      lines.push(`- ${recommendation}`);
+    }
+  }
+
+  return lines.join("\n");
+}
+
+function formatSerializedNodeList(nodes: readonly SerializedNode[]): string {
+  if (nodes.length === 0) {
+    return "none";
+  }
+
+  const shown = nodes.slice(0, 8).map((node) => node.name || node.id);
+  const remaining = nodes.length - shown.length;
+  return `${shown.join(", ")}${remaining > 0 ? `, +${remaining} more` : ""}`;
+}
+
 function formatReport(report: JsonObject): string {
   const lines = [`# ${report.title ?? "Ontoly Report"}`, ""];
 
@@ -2551,20 +2699,76 @@ function commandHelp(): Record<string, CommandHelp> {
     options: ["--json         Print JSON."],
     examples: ["ontoly stats", "ontoly stats . --json"],
   },
-  architecture: {
-    title: "ontoly architecture",
-    description: "Print an architecture summary from graph entities.",
-    usage: ["ontoly architecture [root] [--format mermaid|html] [--json]"],
+	  architecture: {
+	    title: "ontoly architecture",
+	    description: "Print an architecture summary from graph entities.",
+	    usage: ["ontoly architecture [root] [--format mermaid|html] [--json]"],
     options: [
       "--format kind  mermaid or html.",
       "--max-nodes n  Maximum nodes for HTML output. Default: 1200.",
       "--max-edges n  Maximum edges for HTML output. Default: 2400.",
       "--json         Print JSON.",
-    ],
-    examples: ["ontoly architecture", "ontoly architecture --format mermaid", "ontoly architecture --format html > architecture.html"],
-  },
-  evaluate: {
-    title: "ontoly evaluate",
+	    ],
+	    examples: ["ontoly architecture", "ontoly architecture --format mermaid", "ontoly architecture --format html > architecture.html"],
+	  },
+	  explain: {
+	    title: "ontoly explain",
+	    description: "Explain repository architecture or feature touchpoints using the Semantic Capability Engine.",
+	    usage: ["ontoly explain [query] [--root path] [--depth 3] [--json]"],
+	    options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--json         Print JSON."],
+	    examples: ["ontoly explain", "ontoly explain AuthService", "ontoly explain \"login threshold\" --json"],
+	  },
+	  impact: {
+	    title: "ontoly impact",
+	    description: "Analyze deterministic blast radius for a node id or search query.",
+	    usage: ["ontoly impact <node-id-or-query> [--root path] [--depth 4] [--json]"],
+	    options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--json         Print JSON."],
+	    examples: ["ontoly impact AuthService", "ontoly impact fn:src/auth.ts:login --depth 5", "ontoly impact UserRepository --json"],
+	  },
+	  "implementation-plan": {
+	    title: "ontoly implementation-plan",
+	    description: "Generate a graph-backed implementation plan for a task without AI reasoning.",
+	    usage: ["ontoly implementation-plan <task> [--root path] [--depth 3] [--json]"],
+	    options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--json         Print JSON."],
+	    examples: ["ontoly implementation-plan \"add login threshold\"", "ontoly implementation-plan \"remove PlanDefinition\" --json"],
+	  },
+	  ownership: {
+	    title: "ontoly ownership",
+	    description: "Find likely owners for a feature or graph node.",
+	    usage: ["ontoly ownership <query> [--root path] [--depth 3] [--json]"],
+	    options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--json         Print JSON."],
+	    examples: ["ontoly ownership auth", "ontoly ownership PlanDefinition --json"],
+	  },
+	  health: {
+	    title: "ontoly health",
+	    description: "Summarize repository health from diagnostics, cycles, and orphan graph regions.",
+	    usage: ["ontoly health [root] [--json]"],
+	    options: ["--json         Print JSON."],
+	    examples: ["ontoly health", "ontoly health examples/basic --json"],
+	  },
+	  "repository-summary": {
+	    title: "ontoly repository-summary",
+	    description: "Print a deterministic repository summary from Software Graph statistics.",
+	    usage: ["ontoly repository-summary [root] [--json]"],
+	    options: ["--json         Print JSON."],
+	    examples: ["ontoly repository-summary", "ontoly repository-summary examples/basic --json"],
+	  },
+	  risk: {
+	    title: "ontoly risk",
+	    description: "Identify structural risk around a repository or target node.",
+	    usage: ["ontoly risk [query] [--root path] [--depth 4] [--json]"],
+	    options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--json         Print JSON."],
+	    examples: ["ontoly risk", "ontoly risk AuthService", "ontoly risk PlanDefinition --json"],
+	  },
+	  "request-trace": {
+	    title: "ontoly request-trace",
+	    description: "Trace a route through handler and call relationships.",
+	    usage: ["ontoly request-trace <route> [--root path] [--depth 5] [--json]"],
+	    options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--json         Print JSON."],
+	    examples: ["ontoly request-trace \"POST /login\"", "ontoly request-trace route:POST:/login --json"],
+	  },
+	  evaluate: {
+	    title: "ontoly evaluate",
     description: "Run deterministic semantic evaluation questions against validation artifacts.",
     usage: ["ontoly evaluate [repository] [--json] [--ci] [--refresh]"],
     options: ["--ci          Fail on semantic regression.", "--refresh     Rebuild validation artifacts before scoring.", "--json        Print JSON."],
@@ -2685,9 +2889,17 @@ Usage:
   ontoly watch [root] [--root path]
   ontoly inspect [file-or-node] [--root path] [--json]
   ontoly trace <node-id-or-name> [--depth 3] [--format mermaid] [--json]
-  ontoly stats [root] [--root path] [--json]
-  ontoly architecture [root] [--root path] [--format mermaid|html] [--json]
-  ontoly coverage [root] [--root path] [--format human|markdown|json] [--json]
+	  ontoly stats [root] [--root path] [--json]
+	  ontoly architecture [root] [--root path] [--format mermaid|html] [--json]
+	  ontoly explain [query] [--root path] [--depth 3] [--json]
+	  ontoly impact <node-id-or-query> [--root path] [--depth 4] [--json]
+	  ontoly implementation-plan <task> [--root path] [--depth 3] [--json]
+	  ontoly ownership <query> [--root path] [--depth 3] [--json]
+	  ontoly health [root] [--json]
+	  ontoly repository-summary [root] [--json]
+	  ontoly risk [query] [--root path] [--depth 4] [--json]
+	  ontoly request-trace <route> [--root path] [--depth 5] [--json]
+	  ontoly coverage [root] [--root path] [--format human|markdown|json] [--json]
   ontoly report [summary|api|dependencies|configuration|framework|frameworks|controllers|routes|modules|providers|workspace] [--root path] [--format markdown|json|mermaid]
   ontoly graph [root] [--root path] [--format summary|json|mermaid|dot|graphml|html]
   ontoly query <find|callers|callees|dependencies|dependents|related|impact|routes|frameworks|configuration|cycles> [target] [--json]
@@ -2716,9 +2928,13 @@ Examples:
   ontoly trace fn:src/index.ts:main
   ontoly graph --format mermaid
   ontoly graph --format html > graph.html
-  ontoly architecture
-  ontoly architecture --format html > architecture.html
-  ontoly coverage
+	  ontoly architecture
+	  ontoly architecture --format html > architecture.html
+	  ontoly explain AuthService
+	  ontoly impact UserRepository --json
+	  ontoly implementation-plan "remove PlanDefinition support"
+	  ontoly request-trace "POST /login"
+	  ontoly coverage
   ontoly report api
   ontoly report routes
   ontoly report dependencies

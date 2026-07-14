@@ -1,6 +1,9 @@
-# Examples
+---
+title: "Examples"
+description: "Run Ontoly graph generation, inspection, architecture reports, HTML graph export, Mermaid export, and MCP commands from a repository root."
+---
 
-Run the Sprint 3 workflow from a repository root:
+Run the Ontoly workflow from a repository root:
 
 ```sh
 ontoly build .

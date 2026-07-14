@@ -14,7 +14,7 @@ Skills: 14/14
 | dependency-analysis | 0.1.0-alpha.1 | 0.1.0-alpha.1 | `FindDependencies`, `FindDependents`, `FindCycles`, `GraphStatistics` | no |
 | documentation | 0.1.0-alpha.1 | 0.1.0-alpha.1 | `ExplainArchitecture`, `TraceRequestLifecycle`, `InspectModule`, `GraphStatistics` | no |
 | framework-analysis | 0.1.0-alpha.1 | 0.1.0-alpha.1 | `ExplainArchitecture`, `GraphStatistics`, `FindNode`, `FindFeatureOwner` | no |
-| impact-analysis | 0.1.0-alpha.2 | 0.1.0-alpha.5 | `ImpactAnalysis`, `FindDependents`, `FindDependencies`, `FindNode` | no |
+| impact-analysis | 0.1.0-alpha.3 | 0.1.0-alpha.6 | `ImpactAnalysis`, `FindDependents`, `FindDependencies`, `FindNode` | no |
 | migration-analysis | 0.1.0-alpha.1 | 0.1.0-alpha.1 | `ExplainArchitecture`, `ImpactAnalysis`, `FindConfigurationUsage`, `FindDependencies` | no |
 | performance-analysis | 0.1.0-alpha.1 | 0.1.0-alpha.1 | `TraceExecution`, `TraceRequestLifecycle`, `FindDependencies`, `GraphStatistics` | no |
 | refactoring | 0.1.0-alpha.1 | 0.1.0-alpha.1 | `ImpactAnalysis`, `FindDependencies`, `FindDependents`, `FindCycles` | no |

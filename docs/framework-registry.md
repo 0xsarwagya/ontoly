@@ -37,7 +37,7 @@ It does not construct graph nodes and does not run compiler passes.
 
 ## Default Analyzers
 
-Sprint 5 registers:
+The alpha registry includes:
 
 - NestJS
 - Express

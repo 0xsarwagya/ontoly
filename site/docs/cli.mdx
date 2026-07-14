@@ -1,6 +1,9 @@
 ---
 title: "CLI"
 description: "The CLI builds, inspects, validates, and benchmarks the Software Graph."
+canonical: "https://oss.sarwagya.wtf/ontoly/docs/cli"
+source: "docs/cli.md"
+keywords: ["Ontoly", "Software Graph", "TypeScript", "static analysis", "MCP", "AI coding agents", "developer tools", "CLI"]
 ---
 
 The CLI builds, inspects, validates, and benchmarks the Software Graph.
@@ -23,6 +26,9 @@ ontoly build .
 ontoly inspect src/service.ts
 ontoly trace fn:src/index.ts:main
 ontoly coverage
+ontoly explain AuthService
+ontoly impact UserRepository --json
+ontoly implementation-plan "remove PlanDefinition support"
 ontoly doctor
 ontoly evaluate
 ontoly leaderboard
@@ -40,6 +46,14 @@ ontoly skills validate
 - `ontoly trace <node-id-or-name>`
 - `ontoly stats [root]`
 - `ontoly architecture [root]`
+- `ontoly explain [query]`
+- `ontoly impact <node-id-or-query>`
+- `ontoly implementation-plan <task>`
+- `ontoly ownership <query>`
+- `ontoly health [root]`
+- `ontoly repository-summary [root]`
+- `ontoly risk [query]`
+- `ontoly request-trace <route>`
 - `ontoly coverage [root]`
 - `ontoly report [summary|api|dependencies|configuration|framework|frameworks|controllers|routes|modules|providers|workspace]`
 - `ontoly graph [root]`
@@ -238,6 +252,31 @@ nodes when present in the graph.
 
 HTML architecture output opens the same Software Graph Explorer with
 Architecture mode selected first.
+
+## Semantic Capability Commands
+
+High-level software-engineering commands are backed by the
+`@0xsarwagya/ontoly-capabilities` package. They return the shared capability
+schema with summary, evidence, affected nodes, diagnostics, confidence, and
+graph provenance.
+
+```sh
+ontoly explain AuthService
+ontoly impact UserRepository --json
+ontoly implementation-plan "remove PlanDefinition support"
+ontoly ownership auth
+ontoly health
+ontoly repository-summary
+ontoly risk AuthModule
+ontoly request-trace "POST /login"
+```
+
+Use `--root path` when the first positional argument is a target instead of a
+repository path:
+
+```sh
+ontoly impact AuthService --root apps/api --json
+```
 
 `ontoly coverage` supports:
 

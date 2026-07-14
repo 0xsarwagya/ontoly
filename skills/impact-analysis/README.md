@@ -4,8 +4,8 @@ This is an official Ontoly Agent Skill. It is independently installable and teac
 
 ## Version
 
-- Skill version: 0.1.0-alpha.2
-- Minimum Ontoly version: 0.1.0-alpha.5
+- Skill version: 0.1.0-alpha.3
+- Minimum Ontoly version: 0.1.0-alpha.6
 - Required capabilities: `ImpactAnalysis`, `FindDependents`, `FindDependencies`, `FindNode`
 - Deprecated: no
 
@@ -20,6 +20,14 @@ Ask the agent a task such as:
 > What breaks if this node changes?
 
 The agent should build or verify the Ontoly graph, use MCP capabilities, cite evidence, and only inspect files as a fallback.
+
+## Public Docs
+
+- [Agent Skills](https://oss.sarwagya.wtf/ontoly/docs/agent-skills)
+- [Skills Overview](https://oss.sarwagya.wtf/ontoly/docs/skills-overview)
+- [MCP](https://oss.sarwagya.wtf/ontoly/docs/mcp)
+- [Capabilities](https://oss.sarwagya.wtf/ontoly/docs/capabilities)
+- [Skills Validation](https://oss.sarwagya.wtf/ontoly/docs/skills-validation)
 
 ## Shared References
 

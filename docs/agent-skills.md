@@ -31,6 +31,19 @@ npx skills add /path/to/ontoly --skill architecture-review --copy
 Each installed skill is self-contained. Its `reference/` directory includes the
 standard workflow, graph, MCP, best-practice, fallback, and capability guidance.
 
+## Catalog
+
+Start with the [Skills Overview](skills-overview.md) for the full skill list,
+source links, install commands, and capability mapping.
+
+Release assets:
+
+- [Skill catalog](../skills/SKILL_CATALOG.md)
+- [Skill matrix](../skills/SKILL_MATRIX.md)
+- [Capability matrix](../skills/CAPABILITY_MATRIX.md)
+- [Compatibility matrix](../skills/COMPATIBILITY_MATRIX.md)
+- [Installation guide](../skills/INSTALLATION.md)
+
 ## Workflow
 
 Every official installed skill points to `reference/workflow.md`:

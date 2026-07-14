@@ -30,7 +30,7 @@ automation noninteractive.
 
 ## Status
 
-Alpha package for Ontoly v0.1.0-alpha.5. The public API is versioned with the Software Graph and RFC process.
+Alpha package for Ontoly v0.1.0-alpha.6. The public API is versioned with the Software Graph and RFC process.
 
 ## Links
 

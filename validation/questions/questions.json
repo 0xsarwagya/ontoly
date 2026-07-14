@@ -1,0 +1,5350 @@
+{
+  "schemaVersion": 1,
+  "generatedBy": "Ontoly Sprint 9 deterministic seed corpus",
+  "generatedAt": "2026-07-14T00:00:00.000Z",
+  "questionCount": 250,
+  "repositories": [
+    {
+      "id": "ovok-core",
+      "framework": "nestjs"
+    },
+    {
+      "id": "0xsarwagya",
+      "framework": "turborepo"
+    },
+    {
+      "id": "innosphere",
+      "framework": "turborepo"
+    },
+    {
+      "id": "ghost",
+      "framework": "typescript-library"
+    },
+    {
+      "id": "durable-local",
+      "framework": "typescript-library"
+    }
+  ],
+  "questions": [
+    {
+      "id": "ovok-core-001-architecture",
+      "repository": "ovok-core",
+      "category": "architecture",
+      "question": "What are the main architecture boundaries in ovok-core?",
+      "capability": "ArchitectureSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Package",
+        "Module",
+        "Framework"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-002-repository-summary",
+      "repository": "ovok-core",
+      "category": "repository-summary",
+      "question": "Summarize repository graph structure for ovok-core.",
+      "capability": "RepositorySummary",
+      "input": {},
+      "expectedEvidence": [
+        "statistics.nodeCount",
+        "statistics.edgeCount"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-003-repository-health",
+      "repository": "ovok-core",
+      "category": "repository-health",
+      "question": "What graph health issues exist in ovok-core?",
+      "capability": "RepositoryHealth",
+      "input": {},
+      "expectedEvidence": [
+        "diagnostics",
+        "cycles",
+        "disconnectedComponents"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-004-framework",
+      "repository": "ovok-core",
+      "category": "framework",
+      "question": "Which framework evidence is present for ovok-core?",
+      "capability": "FrameworkSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Framework",
+        "nestjs"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-005-dependency-analysis",
+      "repository": "ovok-core",
+      "category": "dependency-analysis",
+      "question": "Which dependencies surround CarehubThresholdService in ovok-core?",
+      "capability": "DependencyAnalysis",
+      "input": {
+        "query": "CarehubThresholdService",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS",
+        "USES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-006-impact-analysis",
+      "repository": "ovok-core",
+      "category": "impact-analysis",
+      "question": "What is impacted if AuthService changes in ovok-core?",
+      "capability": "ImpactAnalysis",
+      "input": {
+        "query": "AuthService",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "affectedNodes",
+        "evidence.path"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-007-ownership",
+      "repository": "ovok-core",
+      "category": "ownership",
+      "question": "Who owns or contains AuthService in ovok-core?",
+      "capability": "OwnershipAnalysis",
+      "input": {
+        "query": "AuthService",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "CONTAINS",
+        "PROVIDES",
+        "REFERENCES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-008-implementation-planning",
+      "repository": "ovok-core",
+      "category": "implementation-planning",
+      "question": "Plan implementation work for AuthService in ovok-core.",
+      "capability": "ImplementationPlan",
+      "input": {
+        "task": "change AuthService",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "matchedTerms",
+        "recommendations"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-009-request-lifecycle",
+      "repository": "ovok-core",
+      "category": "request-lifecycle",
+      "question": "Trace request handling related to AuthService in ovok-core.",
+      "capability": "RequestTrace",
+      "input": {
+        "query": "AuthService",
+        "depth": 5
+      },
+      "expectedEvidence": [
+        "Route",
+        "HANDLES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-010-configuration",
+      "repository": "ovok-core",
+      "category": "configuration",
+      "question": "Which configuration is used around PlanDefinition in ovok-core?",
+      "capability": "ConfigurationUsage",
+      "input": {
+        "query": "PlanDefinition",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Configuration",
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-011-environment",
+      "repository": "ovok-core",
+      "category": "environment",
+      "question": "Which environment variables influence AuthController in ovok-core?",
+      "capability": "EnvironmentUsage",
+      "input": {
+        "query": "AuthController",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-012-authentication",
+      "repository": "ovok-core",
+      "category": "authentication",
+      "question": "What authentication flow evidence exists in ovok-core?",
+      "capability": "AuthenticationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "auth-named nodes",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-013-authorization",
+      "repository": "ovok-core",
+      "category": "authorization",
+      "question": "What authorization boundaries exist in ovok-core?",
+      "capability": "AuthorizationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "Permission",
+        "Guard",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-014-call-hierarchy",
+      "repository": "ovok-core",
+      "category": "call-hierarchy",
+      "question": "What calls into and out of PlanDefinition in ovok-core?",
+      "capability": "CallHierarchy",
+      "input": {
+        "query": "PlanDefinition",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-015-dependency-hierarchy",
+      "repository": "ovok-core",
+      "category": "dependency-hierarchy",
+      "question": "What dependency hierarchy surrounds UserRepository in ovok-core?",
+      "capability": "DependencyHierarchy",
+      "input": {
+        "query": "UserRepository",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-016-providers",
+      "repository": "ovok-core",
+      "category": "providers",
+      "question": "Which providers are connected to UserRepository in ovok-core?",
+      "capability": "ProviderGraph",
+      "input": {
+        "query": "UserRepository",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Provider",
+        "INJECTS",
+        "PROVIDES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-017-modules",
+      "repository": "ovok-core",
+      "category": "modules",
+      "question": "Which modules are related to CarehubThresholdService in ovok-core?",
+      "capability": "ModuleOverview",
+      "input": {
+        "query": "CarehubThresholdService",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Module",
+        "CONTAINS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-018-services",
+      "repository": "ovok-core",
+      "category": "services",
+      "question": "Which services are related to AuthService in ovok-core?",
+      "capability": "ServiceOverview",
+      "input": {
+        "query": "AuthService",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Service",
+        "Provider"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-019-packages",
+      "repository": "ovok-core",
+      "category": "packages",
+      "question": "Which packages are related to AuthController in ovok-core?",
+      "capability": "PackageOverview",
+      "input": {
+        "query": "AuthController",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Package",
+        "DEPENDS_ON"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-020-dead-code",
+      "repository": "ovok-core",
+      "category": "dead-code",
+      "question": "Which graph nodes look unused in ovok-core?",
+      "capability": "DeadCode",
+      "input": {},
+      "expectedEvidence": [
+        "incoming usage edges"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-021-cycles",
+      "repository": "ovok-core",
+      "category": "cycles",
+      "question": "Which circular dependencies exist in ovok-core?",
+      "capability": "CircularDependencies",
+      "input": {},
+      "expectedEvidence": [
+        "cycles"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-022-entrypoints",
+      "repository": "ovok-core",
+      "category": "entrypoints",
+      "question": "What are the graph entrypoints in ovok-core?",
+      "capability": "EntryPoints",
+      "input": {},
+      "expectedEvidence": [
+        "Function",
+        "Method",
+        "Module",
+        "Route"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-023-risk-analysis",
+      "repository": "ovok-core",
+      "category": "risk-analysis",
+      "question": "What structural risk exists around AuthService in ovok-core?",
+      "capability": "RiskAnalysis",
+      "input": {
+        "query": "AuthService",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "cycles",
+        "hotspots",
+        "diagnostics"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-024-data-flow",
+      "repository": "ovok-core",
+      "category": "data-flow",
+      "question": "What data flow evidence surrounds PlanDefinition in ovok-core?",
+      "capability": "DataFlow",
+      "input": {
+        "query": "PlanDefinition",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "READS",
+        "WRITES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-025-feature-touchpoints",
+      "repository": "ovok-core",
+      "category": "feature-touchpoints",
+      "question": "Where does CarehubThresholdService touch the codebase in ovok-core?",
+      "capability": "FeatureTouchpoints",
+      "input": {
+        "query": "CarehubThresholdService",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "directMatches",
+        "affectedNodes"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-026-architecture",
+      "repository": "0xsarwagya",
+      "category": "architecture",
+      "question": "What are the main architecture boundaries in 0xsarwagya?",
+      "capability": "ArchitectureSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Package",
+        "Module",
+        "Framework"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-027-repository-summary",
+      "repository": "0xsarwagya",
+      "category": "repository-summary",
+      "question": "Summarize repository graph structure for 0xsarwagya.",
+      "capability": "RepositorySummary",
+      "input": {},
+      "expectedEvidence": [
+        "statistics.nodeCount",
+        "statistics.edgeCount"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-028-repository-health",
+      "repository": "0xsarwagya",
+      "category": "repository-health",
+      "question": "What graph health issues exist in 0xsarwagya?",
+      "capability": "RepositoryHealth",
+      "input": {},
+      "expectedEvidence": [
+        "diagnostics",
+        "cycles",
+        "disconnectedComponents"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-029-framework",
+      "repository": "0xsarwagya",
+      "category": "framework",
+      "question": "Which framework evidence is present for 0xsarwagya?",
+      "capability": "FrameworkSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Framework",
+        "turborepo"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-030-dependency-analysis",
+      "repository": "0xsarwagya",
+      "category": "dependency-analysis",
+      "question": "Which dependencies surround skills in 0xsarwagya?",
+      "capability": "DependencyAnalysis",
+      "input": {
+        "query": "skills",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS",
+        "USES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-031-impact-analysis",
+      "repository": "0xsarwagya",
+      "category": "impact-analysis",
+      "question": "What is impacted if packages changes in 0xsarwagya?",
+      "capability": "ImpactAnalysis",
+      "input": {
+        "query": "packages",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "affectedNodes",
+        "evidence.path"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-032-ownership",
+      "repository": "0xsarwagya",
+      "category": "ownership",
+      "question": "Who owns or contains packages in 0xsarwagya?",
+      "capability": "OwnershipAnalysis",
+      "input": {
+        "query": "packages",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "CONTAINS",
+        "PROVIDES",
+        "REFERENCES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-033-implementation-planning",
+      "repository": "0xsarwagya",
+      "category": "implementation-planning",
+      "question": "Plan implementation work for packages in 0xsarwagya.",
+      "capability": "ImplementationPlan",
+      "input": {
+        "task": "change packages",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "matchedTerms",
+        "recommendations"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-034-request-lifecycle",
+      "repository": "0xsarwagya",
+      "category": "request-lifecycle",
+      "question": "Trace request handling related to packages in 0xsarwagya.",
+      "capability": "RequestTrace",
+      "input": {
+        "query": "packages",
+        "depth": 5
+      },
+      "expectedEvidence": [
+        "Route",
+        "HANDLES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-035-configuration",
+      "repository": "0xsarwagya",
+      "category": "configuration",
+      "question": "Which configuration is used around site in 0xsarwagya?",
+      "capability": "ConfigurationUsage",
+      "input": {
+        "query": "site",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Configuration",
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-036-environment",
+      "repository": "0xsarwagya",
+      "category": "environment",
+      "question": "Which environment variables influence docs in 0xsarwagya?",
+      "capability": "EnvironmentUsage",
+      "input": {
+        "query": "docs",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-037-authentication",
+      "repository": "0xsarwagya",
+      "category": "authentication",
+      "question": "What authentication flow evidence exists in 0xsarwagya?",
+      "capability": "AuthenticationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "auth-named nodes",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-038-authorization",
+      "repository": "0xsarwagya",
+      "category": "authorization",
+      "question": "What authorization boundaries exist in 0xsarwagya?",
+      "capability": "AuthorizationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "Permission",
+        "Guard",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-039-call-hierarchy",
+      "repository": "0xsarwagya",
+      "category": "call-hierarchy",
+      "question": "What calls into and out of site in 0xsarwagya?",
+      "capability": "CallHierarchy",
+      "input": {
+        "query": "site",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-040-dependency-hierarchy",
+      "repository": "0xsarwagya",
+      "category": "dependency-hierarchy",
+      "question": "What dependency hierarchy surrounds workspace in 0xsarwagya?",
+      "capability": "DependencyHierarchy",
+      "input": {
+        "query": "workspace",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-041-providers",
+      "repository": "0xsarwagya",
+      "category": "providers",
+      "question": "Which providers are connected to workspace in 0xsarwagya?",
+      "capability": "ProviderGraph",
+      "input": {
+        "query": "workspace",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Provider",
+        "INJECTS",
+        "PROVIDES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-042-modules",
+      "repository": "0xsarwagya",
+      "category": "modules",
+      "question": "Which modules are related to skills in 0xsarwagya?",
+      "capability": "ModuleOverview",
+      "input": {
+        "query": "skills",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Module",
+        "CONTAINS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-043-services",
+      "repository": "0xsarwagya",
+      "category": "services",
+      "question": "Which services are related to packages in 0xsarwagya?",
+      "capability": "ServiceOverview",
+      "input": {
+        "query": "packages",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Service",
+        "Provider"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-044-packages",
+      "repository": "0xsarwagya",
+      "category": "packages",
+      "question": "Which packages are related to docs in 0xsarwagya?",
+      "capability": "PackageOverview",
+      "input": {
+        "query": "docs",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Package",
+        "DEPENDS_ON"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-045-dead-code",
+      "repository": "0xsarwagya",
+      "category": "dead-code",
+      "question": "Which graph nodes look unused in 0xsarwagya?",
+      "capability": "DeadCode",
+      "input": {},
+      "expectedEvidence": [
+        "incoming usage edges"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-046-cycles",
+      "repository": "0xsarwagya",
+      "category": "cycles",
+      "question": "Which circular dependencies exist in 0xsarwagya?",
+      "capability": "CircularDependencies",
+      "input": {},
+      "expectedEvidence": [
+        "cycles"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-047-entrypoints",
+      "repository": "0xsarwagya",
+      "category": "entrypoints",
+      "question": "What are the graph entrypoints in 0xsarwagya?",
+      "capability": "EntryPoints",
+      "input": {},
+      "expectedEvidence": [
+        "Function",
+        "Method",
+        "Module",
+        "Route"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-048-risk-analysis",
+      "repository": "0xsarwagya",
+      "category": "risk-analysis",
+      "question": "What structural risk exists around packages in 0xsarwagya?",
+      "capability": "RiskAnalysis",
+      "input": {
+        "query": "packages",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "cycles",
+        "hotspots",
+        "diagnostics"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-049-data-flow",
+      "repository": "0xsarwagya",
+      "category": "data-flow",
+      "question": "What data flow evidence surrounds site in 0xsarwagya?",
+      "capability": "DataFlow",
+      "input": {
+        "query": "site",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "READS",
+        "WRITES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "0xsarwagya-050-feature-touchpoints",
+      "repository": "0xsarwagya",
+      "category": "feature-touchpoints",
+      "question": "Where does skills touch the codebase in 0xsarwagya?",
+      "capability": "FeatureTouchpoints",
+      "input": {
+        "query": "skills",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "directMatches",
+        "affectedNodes"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-051-architecture",
+      "repository": "innosphere",
+      "category": "architecture",
+      "question": "What are the main architecture boundaries in innosphere?",
+      "capability": "ArchitectureSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Package",
+        "Module",
+        "Framework"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-052-repository-summary",
+      "repository": "innosphere",
+      "category": "repository-summary",
+      "question": "Summarize repository graph structure for innosphere.",
+      "capability": "RepositorySummary",
+      "input": {},
+      "expectedEvidence": [
+        "statistics.nodeCount",
+        "statistics.edgeCount"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-053-repository-health",
+      "repository": "innosphere",
+      "category": "repository-health",
+      "question": "What graph health issues exist in innosphere?",
+      "capability": "RepositoryHealth",
+      "input": {},
+      "expectedEvidence": [
+        "diagnostics",
+        "cycles",
+        "disconnectedComponents"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-054-framework",
+      "repository": "innosphere",
+      "category": "framework",
+      "question": "Which framework evidence is present for innosphere?",
+      "capability": "FrameworkSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Framework",
+        "turborepo"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-055-dependency-analysis",
+      "repository": "innosphere",
+      "category": "dependency-analysis",
+      "question": "Which dependencies surround configuration in innosphere?",
+      "capability": "DependencyAnalysis",
+      "input": {
+        "query": "configuration",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS",
+        "USES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-056-impact-analysis",
+      "repository": "innosphere",
+      "category": "impact-analysis",
+      "question": "What is impacted if api changes in innosphere?",
+      "capability": "ImpactAnalysis",
+      "input": {
+        "query": "api",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "affectedNodes",
+        "evidence.path"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-057-ownership",
+      "repository": "innosphere",
+      "category": "ownership",
+      "question": "Who owns or contains api in innosphere?",
+      "capability": "OwnershipAnalysis",
+      "input": {
+        "query": "api",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "CONTAINS",
+        "PROVIDES",
+        "REFERENCES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-058-implementation-planning",
+      "repository": "innosphere",
+      "category": "implementation-planning",
+      "question": "Plan implementation work for api in innosphere.",
+      "capability": "ImplementationPlan",
+      "input": {
+        "task": "change api",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "matchedTerms",
+        "recommendations"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-059-request-lifecycle",
+      "repository": "innosphere",
+      "category": "request-lifecycle",
+      "question": "Trace request handling related to api in innosphere.",
+      "capability": "RequestTrace",
+      "input": {
+        "query": "api",
+        "depth": 5
+      },
+      "expectedEvidence": [
+        "Route",
+        "HANDLES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-060-configuration",
+      "repository": "innosphere",
+      "category": "configuration",
+      "question": "Which configuration is used around auth in innosphere?",
+      "capability": "ConfigurationUsage",
+      "input": {
+        "query": "auth",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Configuration",
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-061-environment",
+      "repository": "innosphere",
+      "category": "environment",
+      "question": "Which environment variables influence web in innosphere?",
+      "capability": "EnvironmentUsage",
+      "input": {
+        "query": "web",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-062-authentication",
+      "repository": "innosphere",
+      "category": "authentication",
+      "question": "What authentication flow evidence exists in innosphere?",
+      "capability": "AuthenticationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "auth-named nodes",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-063-authorization",
+      "repository": "innosphere",
+      "category": "authorization",
+      "question": "What authorization boundaries exist in innosphere?",
+      "capability": "AuthorizationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "Permission",
+        "Guard",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-064-call-hierarchy",
+      "repository": "innosphere",
+      "category": "call-hierarchy",
+      "question": "What calls into and out of auth in innosphere?",
+      "capability": "CallHierarchy",
+      "input": {
+        "query": "auth",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-065-dependency-hierarchy",
+      "repository": "innosphere",
+      "category": "dependency-hierarchy",
+      "question": "What dependency hierarchy surrounds workspace in innosphere?",
+      "capability": "DependencyHierarchy",
+      "input": {
+        "query": "workspace",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-066-providers",
+      "repository": "innosphere",
+      "category": "providers",
+      "question": "Which providers are connected to workspace in innosphere?",
+      "capability": "ProviderGraph",
+      "input": {
+        "query": "workspace",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Provider",
+        "INJECTS",
+        "PROVIDES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-067-modules",
+      "repository": "innosphere",
+      "category": "modules",
+      "question": "Which modules are related to configuration in innosphere?",
+      "capability": "ModuleOverview",
+      "input": {
+        "query": "configuration",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Module",
+        "CONTAINS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-068-services",
+      "repository": "innosphere",
+      "category": "services",
+      "question": "Which services are related to api in innosphere?",
+      "capability": "ServiceOverview",
+      "input": {
+        "query": "api",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Service",
+        "Provider"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-069-packages",
+      "repository": "innosphere",
+      "category": "packages",
+      "question": "Which packages are related to web in innosphere?",
+      "capability": "PackageOverview",
+      "input": {
+        "query": "web",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Package",
+        "DEPENDS_ON"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-070-dead-code",
+      "repository": "innosphere",
+      "category": "dead-code",
+      "question": "Which graph nodes look unused in innosphere?",
+      "capability": "DeadCode",
+      "input": {},
+      "expectedEvidence": [
+        "incoming usage edges"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-071-cycles",
+      "repository": "innosphere",
+      "category": "cycles",
+      "question": "Which circular dependencies exist in innosphere?",
+      "capability": "CircularDependencies",
+      "input": {},
+      "expectedEvidence": [
+        "cycles"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-072-entrypoints",
+      "repository": "innosphere",
+      "category": "entrypoints",
+      "question": "What are the graph entrypoints in innosphere?",
+      "capability": "EntryPoints",
+      "input": {},
+      "expectedEvidence": [
+        "Function",
+        "Method",
+        "Module",
+        "Route"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-073-risk-analysis",
+      "repository": "innosphere",
+      "category": "risk-analysis",
+      "question": "What structural risk exists around api in innosphere?",
+      "capability": "RiskAnalysis",
+      "input": {
+        "query": "api",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "cycles",
+        "hotspots",
+        "diagnostics"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-074-data-flow",
+      "repository": "innosphere",
+      "category": "data-flow",
+      "question": "What data flow evidence surrounds auth in innosphere?",
+      "capability": "DataFlow",
+      "input": {
+        "query": "auth",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "READS",
+        "WRITES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "innosphere-075-feature-touchpoints",
+      "repository": "innosphere",
+      "category": "feature-touchpoints",
+      "question": "Where does configuration touch the codebase in innosphere?",
+      "capability": "FeatureTouchpoints",
+      "input": {
+        "query": "configuration",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "directMatches",
+        "affectedNodes"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-076-architecture",
+      "repository": "ghost",
+      "category": "architecture",
+      "question": "What are the main architecture boundaries in ghost?",
+      "capability": "ArchitectureSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Package",
+        "Module",
+        "Framework"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-077-repository-summary",
+      "repository": "ghost",
+      "category": "repository-summary",
+      "question": "Summarize repository graph structure for ghost.",
+      "capability": "RepositorySummary",
+      "input": {},
+      "expectedEvidence": [
+        "statistics.nodeCount",
+        "statistics.edgeCount"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-078-repository-health",
+      "repository": "ghost",
+      "category": "repository-health",
+      "question": "What graph health issues exist in ghost?",
+      "capability": "RepositoryHealth",
+      "input": {},
+      "expectedEvidence": [
+        "diagnostics",
+        "cycles",
+        "disconnectedComponents"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-079-framework",
+      "repository": "ghost",
+      "category": "framework",
+      "question": "Which framework evidence is present for ghost?",
+      "capability": "FrameworkSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Framework",
+        "typescript-library"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-080-dependency-analysis",
+      "repository": "ghost",
+      "category": "dependency-analysis",
+      "question": "Which dependencies surround entrypoints in ghost?",
+      "capability": "DependencyAnalysis",
+      "input": {
+        "query": "entrypoints",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS",
+        "USES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-081-impact-analysis",
+      "repository": "ghost",
+      "category": "impact-analysis",
+      "question": "What is impacted if exports changes in ghost?",
+      "capability": "ImpactAnalysis",
+      "input": {
+        "query": "exports",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "affectedNodes",
+        "evidence.path"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-082-ownership",
+      "repository": "ghost",
+      "category": "ownership",
+      "question": "Who owns or contains exports in ghost?",
+      "capability": "OwnershipAnalysis",
+      "input": {
+        "query": "exports",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "CONTAINS",
+        "PROVIDES",
+        "REFERENCES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-083-implementation-planning",
+      "repository": "ghost",
+      "category": "implementation-planning",
+      "question": "Plan implementation work for exports in ghost.",
+      "capability": "ImplementationPlan",
+      "input": {
+        "task": "change exports",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "matchedTerms",
+        "recommendations"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-084-request-lifecycle",
+      "repository": "ghost",
+      "category": "request-lifecycle",
+      "question": "Trace request handling related to exports in ghost.",
+      "capability": "RequestTrace",
+      "input": {
+        "query": "exports",
+        "depth": 5
+      },
+      "expectedEvidence": [
+        "Route",
+        "HANDLES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-085-configuration",
+      "repository": "ghost",
+      "category": "configuration",
+      "question": "Which configuration is used around docs in ghost?",
+      "capability": "ConfigurationUsage",
+      "input": {
+        "query": "docs",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Configuration",
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-086-environment",
+      "repository": "ghost",
+      "category": "environment",
+      "question": "Which environment variables influence configuration in ghost?",
+      "capability": "EnvironmentUsage",
+      "input": {
+        "query": "configuration",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-087-authentication",
+      "repository": "ghost",
+      "category": "authentication",
+      "question": "What authentication flow evidence exists in ghost?",
+      "capability": "AuthenticationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "auth-named nodes",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-088-authorization",
+      "repository": "ghost",
+      "category": "authorization",
+      "question": "What authorization boundaries exist in ghost?",
+      "capability": "AuthorizationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "Permission",
+        "Guard",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-089-call-hierarchy",
+      "repository": "ghost",
+      "category": "call-hierarchy",
+      "question": "What calls into and out of docs in ghost?",
+      "capability": "CallHierarchy",
+      "input": {
+        "query": "docs",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-090-dependency-hierarchy",
+      "repository": "ghost",
+      "category": "dependency-hierarchy",
+      "question": "What dependency hierarchy surrounds package graph in ghost?",
+      "capability": "DependencyHierarchy",
+      "input": {
+        "query": "package graph",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-091-providers",
+      "repository": "ghost",
+      "category": "providers",
+      "question": "Which providers are connected to package graph in ghost?",
+      "capability": "ProviderGraph",
+      "input": {
+        "query": "package graph",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Provider",
+        "INJECTS",
+        "PROVIDES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-092-modules",
+      "repository": "ghost",
+      "category": "modules",
+      "question": "Which modules are related to entrypoints in ghost?",
+      "capability": "ModuleOverview",
+      "input": {
+        "query": "entrypoints",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Module",
+        "CONTAINS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-093-services",
+      "repository": "ghost",
+      "category": "services",
+      "question": "Which services are related to exports in ghost?",
+      "capability": "ServiceOverview",
+      "input": {
+        "query": "exports",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Service",
+        "Provider"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-094-packages",
+      "repository": "ghost",
+      "category": "packages",
+      "question": "Which packages are related to configuration in ghost?",
+      "capability": "PackageOverview",
+      "input": {
+        "query": "configuration",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Package",
+        "DEPENDS_ON"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-095-dead-code",
+      "repository": "ghost",
+      "category": "dead-code",
+      "question": "Which graph nodes look unused in ghost?",
+      "capability": "DeadCode",
+      "input": {},
+      "expectedEvidence": [
+        "incoming usage edges"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-096-cycles",
+      "repository": "ghost",
+      "category": "cycles",
+      "question": "Which circular dependencies exist in ghost?",
+      "capability": "CircularDependencies",
+      "input": {},
+      "expectedEvidence": [
+        "cycles"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-097-entrypoints",
+      "repository": "ghost",
+      "category": "entrypoints",
+      "question": "What are the graph entrypoints in ghost?",
+      "capability": "EntryPoints",
+      "input": {},
+      "expectedEvidence": [
+        "Function",
+        "Method",
+        "Module",
+        "Route"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-098-risk-analysis",
+      "repository": "ghost",
+      "category": "risk-analysis",
+      "question": "What structural risk exists around exports in ghost?",
+      "capability": "RiskAnalysis",
+      "input": {
+        "query": "exports",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "cycles",
+        "hotspots",
+        "diagnostics"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-099-data-flow",
+      "repository": "ghost",
+      "category": "data-flow",
+      "question": "What data flow evidence surrounds docs in ghost?",
+      "capability": "DataFlow",
+      "input": {
+        "query": "docs",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "READS",
+        "WRITES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ghost-100-feature-touchpoints",
+      "repository": "ghost",
+      "category": "feature-touchpoints",
+      "question": "Where does entrypoints touch the codebase in ghost?",
+      "capability": "FeatureTouchpoints",
+      "input": {
+        "query": "entrypoints",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "directMatches",
+        "affectedNodes"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-101-architecture",
+      "repository": "durable-local",
+      "category": "architecture",
+      "question": "What are the main architecture boundaries in durable-local?",
+      "capability": "ArchitectureSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Package",
+        "Module",
+        "Framework"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-102-repository-summary",
+      "repository": "durable-local",
+      "category": "repository-summary",
+      "question": "Summarize repository graph structure for durable-local.",
+      "capability": "RepositorySummary",
+      "input": {},
+      "expectedEvidence": [
+        "statistics.nodeCount",
+        "statistics.edgeCount"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-103-repository-health",
+      "repository": "durable-local",
+      "category": "repository-health",
+      "question": "What graph health issues exist in durable-local?",
+      "capability": "RepositoryHealth",
+      "input": {},
+      "expectedEvidence": [
+        "diagnostics",
+        "cycles",
+        "disconnectedComponents"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-104-framework",
+      "repository": "durable-local",
+      "category": "framework",
+      "question": "Which framework evidence is present for durable-local?",
+      "capability": "FrameworkSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Framework",
+        "typescript-library"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-105-dependency-analysis",
+      "repository": "durable-local",
+      "category": "dependency-analysis",
+      "question": "Which dependencies surround exports in durable-local?",
+      "capability": "DependencyAnalysis",
+      "input": {
+        "query": "exports",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS",
+        "USES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-106-impact-analysis",
+      "repository": "durable-local",
+      "category": "impact-analysis",
+      "question": "What is impacted if entrypoints changes in durable-local?",
+      "capability": "ImpactAnalysis",
+      "input": {
+        "query": "entrypoints",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "affectedNodes",
+        "evidence.path"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-107-ownership",
+      "repository": "durable-local",
+      "category": "ownership",
+      "question": "Who owns or contains entrypoints in durable-local?",
+      "capability": "OwnershipAnalysis",
+      "input": {
+        "query": "entrypoints",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "CONTAINS",
+        "PROVIDES",
+        "REFERENCES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-108-implementation-planning",
+      "repository": "durable-local",
+      "category": "implementation-planning",
+      "question": "Plan implementation work for entrypoints in durable-local.",
+      "capability": "ImplementationPlan",
+      "input": {
+        "task": "change entrypoints",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "matchedTerms",
+        "recommendations"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-109-request-lifecycle",
+      "repository": "durable-local",
+      "category": "request-lifecycle",
+      "question": "Trace request handling related to entrypoints in durable-local.",
+      "capability": "RequestTrace",
+      "input": {
+        "query": "entrypoints",
+        "depth": 5
+      },
+      "expectedEvidence": [
+        "Route",
+        "HANDLES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-110-configuration",
+      "repository": "durable-local",
+      "category": "configuration",
+      "question": "Which configuration is used around runtime in durable-local?",
+      "capability": "ConfigurationUsage",
+      "input": {
+        "query": "runtime",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Configuration",
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-111-environment",
+      "repository": "durable-local",
+      "category": "environment",
+      "question": "Which environment variables influence storage in durable-local?",
+      "capability": "EnvironmentUsage",
+      "input": {
+        "query": "storage",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-112-authentication",
+      "repository": "durable-local",
+      "category": "authentication",
+      "question": "What authentication flow evidence exists in durable-local?",
+      "capability": "AuthenticationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "auth-named nodes",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-113-authorization",
+      "repository": "durable-local",
+      "category": "authorization",
+      "question": "What authorization boundaries exist in durable-local?",
+      "capability": "AuthorizationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "Permission",
+        "Guard",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-114-call-hierarchy",
+      "repository": "durable-local",
+      "category": "call-hierarchy",
+      "question": "What calls into and out of runtime in durable-local?",
+      "capability": "CallHierarchy",
+      "input": {
+        "query": "runtime",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-115-dependency-hierarchy",
+      "repository": "durable-local",
+      "category": "dependency-hierarchy",
+      "question": "What dependency hierarchy surrounds configuration in durable-local?",
+      "capability": "DependencyHierarchy",
+      "input": {
+        "query": "configuration",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-116-providers",
+      "repository": "durable-local",
+      "category": "providers",
+      "question": "Which providers are connected to configuration in durable-local?",
+      "capability": "ProviderGraph",
+      "input": {
+        "query": "configuration",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Provider",
+        "INJECTS",
+        "PROVIDES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-117-modules",
+      "repository": "durable-local",
+      "category": "modules",
+      "question": "Which modules are related to exports in durable-local?",
+      "capability": "ModuleOverview",
+      "input": {
+        "query": "exports",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Module",
+        "CONTAINS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-118-services",
+      "repository": "durable-local",
+      "category": "services",
+      "question": "Which services are related to entrypoints in durable-local?",
+      "capability": "ServiceOverview",
+      "input": {
+        "query": "entrypoints",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Service",
+        "Provider"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-119-packages",
+      "repository": "durable-local",
+      "category": "packages",
+      "question": "Which packages are related to storage in durable-local?",
+      "capability": "PackageOverview",
+      "input": {
+        "query": "storage",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Package",
+        "DEPENDS_ON"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-120-dead-code",
+      "repository": "durable-local",
+      "category": "dead-code",
+      "question": "Which graph nodes look unused in durable-local?",
+      "capability": "DeadCode",
+      "input": {},
+      "expectedEvidence": [
+        "incoming usage edges"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-121-cycles",
+      "repository": "durable-local",
+      "category": "cycles",
+      "question": "Which circular dependencies exist in durable-local?",
+      "capability": "CircularDependencies",
+      "input": {},
+      "expectedEvidence": [
+        "cycles"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-122-entrypoints",
+      "repository": "durable-local",
+      "category": "entrypoints",
+      "question": "What are the graph entrypoints in durable-local?",
+      "capability": "EntryPoints",
+      "input": {},
+      "expectedEvidence": [
+        "Function",
+        "Method",
+        "Module",
+        "Route"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-123-risk-analysis",
+      "repository": "durable-local",
+      "category": "risk-analysis",
+      "question": "What structural risk exists around entrypoints in durable-local?",
+      "capability": "RiskAnalysis",
+      "input": {
+        "query": "entrypoints",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "cycles",
+        "hotspots",
+        "diagnostics"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-124-data-flow",
+      "repository": "durable-local",
+      "category": "data-flow",
+      "question": "What data flow evidence surrounds runtime in durable-local?",
+      "capability": "DataFlow",
+      "input": {
+        "query": "runtime",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "READS",
+        "WRITES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "durable-local-125-feature-touchpoints",
+      "repository": "durable-local",
+      "category": "feature-touchpoints",
+      "question": "Where does exports touch the codebase in durable-local?",
+      "capability": "FeatureTouchpoints",
+      "input": {
+        "query": "exports",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "directMatches",
+        "affectedNodes"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Alpha corpus expectation. Promote to exact after repository-specific evidence is verified."
+      }
+    },
+    {
+      "id": "ovok-core-126-architecture",
+      "repository": "ovok-core",
+      "category": "architecture",
+      "question": "What are the main architecture boundaries in ovok-core?",
+      "capability": "ArchitectureSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Package",
+        "Module",
+        "Framework"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-127-repository-summary",
+      "repository": "0xsarwagya",
+      "category": "repository-summary",
+      "question": "Summarize repository graph structure for 0xsarwagya.",
+      "capability": "RepositorySummary",
+      "input": {},
+      "expectedEvidence": [
+        "statistics.nodeCount",
+        "statistics.edgeCount"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-128-repository-health",
+      "repository": "innosphere",
+      "category": "repository-health",
+      "question": "What graph health issues exist in innosphere?",
+      "capability": "RepositoryHealth",
+      "input": {},
+      "expectedEvidence": [
+        "diagnostics",
+        "cycles",
+        "disconnectedComponents"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-129-framework",
+      "repository": "ghost",
+      "category": "framework",
+      "question": "Which framework evidence is present for ghost?",
+      "capability": "FrameworkSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Framework",
+        "typescript-library"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-130-dependency-analysis",
+      "repository": "durable-local",
+      "category": "dependency-analysis",
+      "question": "Which dependencies surround exports in durable-local?",
+      "capability": "DependencyAnalysis",
+      "input": {
+        "query": "exports",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS",
+        "USES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-131-impact-analysis",
+      "repository": "ovok-core",
+      "category": "impact-analysis",
+      "question": "What is impacted if AuthService changes in ovok-core?",
+      "capability": "ImpactAnalysis",
+      "input": {
+        "query": "AuthService",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "affectedNodes",
+        "evidence.path"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-132-ownership",
+      "repository": "0xsarwagya",
+      "category": "ownership",
+      "question": "Who owns or contains packages in 0xsarwagya?",
+      "capability": "OwnershipAnalysis",
+      "input": {
+        "query": "packages",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "CONTAINS",
+        "PROVIDES",
+        "REFERENCES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-133-implementation-planning",
+      "repository": "innosphere",
+      "category": "implementation-planning",
+      "question": "Plan implementation work for web in innosphere.",
+      "capability": "ImplementationPlan",
+      "input": {
+        "task": "change web",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "matchedTerms",
+        "recommendations"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-134-request-lifecycle",
+      "repository": "ghost",
+      "category": "request-lifecycle",
+      "question": "Trace request handling related to docs in ghost.",
+      "capability": "RequestTrace",
+      "input": {
+        "query": "docs",
+        "depth": 5
+      },
+      "expectedEvidence": [
+        "Route",
+        "HANDLES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-135-configuration",
+      "repository": "durable-local",
+      "category": "configuration",
+      "question": "Which configuration is used around runtime in durable-local?",
+      "capability": "ConfigurationUsage",
+      "input": {
+        "query": "runtime",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Configuration",
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-136-environment",
+      "repository": "ovok-core",
+      "category": "environment",
+      "question": "Which environment variables influence AuthController in ovok-core?",
+      "capability": "EnvironmentUsage",
+      "input": {
+        "query": "AuthController",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-137-authentication",
+      "repository": "0xsarwagya",
+      "category": "authentication",
+      "question": "What authentication flow evidence exists in 0xsarwagya?",
+      "capability": "AuthenticationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "auth-named nodes",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-138-authorization",
+      "repository": "innosphere",
+      "category": "authorization",
+      "question": "What authorization boundaries exist in innosphere?",
+      "capability": "AuthorizationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "Permission",
+        "Guard",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-139-call-hierarchy",
+      "repository": "ghost",
+      "category": "call-hierarchy",
+      "question": "What calls into and out of package graph in ghost?",
+      "capability": "CallHierarchy",
+      "input": {
+        "query": "package graph",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-140-dependency-hierarchy",
+      "repository": "durable-local",
+      "category": "dependency-hierarchy",
+      "question": "What dependency hierarchy surrounds configuration in durable-local?",
+      "capability": "DependencyHierarchy",
+      "input": {
+        "query": "configuration",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-141-providers",
+      "repository": "ovok-core",
+      "category": "providers",
+      "question": "Which providers are connected to UserRepository in ovok-core?",
+      "capability": "ProviderGraph",
+      "input": {
+        "query": "UserRepository",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Provider",
+        "INJECTS",
+        "PROVIDES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-142-modules",
+      "repository": "0xsarwagya",
+      "category": "modules",
+      "question": "Which modules are related to skills in 0xsarwagya?",
+      "capability": "ModuleOverview",
+      "input": {
+        "query": "skills",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Module",
+        "CONTAINS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-143-services",
+      "repository": "innosphere",
+      "category": "services",
+      "question": "Which services are related to web in innosphere?",
+      "capability": "ServiceOverview",
+      "input": {
+        "query": "web",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Service",
+        "Provider"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-144-packages",
+      "repository": "ghost",
+      "category": "packages",
+      "question": "Which packages are related to entrypoints in ghost?",
+      "capability": "PackageOverview",
+      "input": {
+        "query": "entrypoints",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Package",
+        "DEPENDS_ON"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-145-dead-code",
+      "repository": "durable-local",
+      "category": "dead-code",
+      "question": "Which graph nodes look unused in durable-local?",
+      "capability": "DeadCode",
+      "input": {},
+      "expectedEvidence": [
+        "incoming usage edges"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-146-cycles",
+      "repository": "ovok-core",
+      "category": "cycles",
+      "question": "Which circular dependencies exist in ovok-core?",
+      "capability": "CircularDependencies",
+      "input": {},
+      "expectedEvidence": [
+        "cycles"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-147-entrypoints",
+      "repository": "0xsarwagya",
+      "category": "entrypoints",
+      "question": "What are the graph entrypoints in 0xsarwagya?",
+      "capability": "EntryPoints",
+      "input": {},
+      "expectedEvidence": [
+        "Function",
+        "Method",
+        "Module",
+        "Route"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-148-risk-analysis",
+      "repository": "innosphere",
+      "category": "risk-analysis",
+      "question": "What structural risk exists around web in innosphere?",
+      "capability": "RiskAnalysis",
+      "input": {
+        "query": "web",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "cycles",
+        "hotspots",
+        "diagnostics"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-149-data-flow",
+      "repository": "ghost",
+      "category": "data-flow",
+      "question": "What data flow evidence surrounds package graph in ghost?",
+      "capability": "DataFlow",
+      "input": {
+        "query": "package graph",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "READS",
+        "WRITES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-150-feature-touchpoints",
+      "repository": "durable-local",
+      "category": "feature-touchpoints",
+      "question": "Where does exports touch the codebase in durable-local?",
+      "capability": "FeatureTouchpoints",
+      "input": {
+        "query": "exports",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "directMatches",
+        "affectedNodes"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-151-architecture",
+      "repository": "ovok-core",
+      "category": "architecture",
+      "question": "What are the main architecture boundaries in ovok-core?",
+      "capability": "ArchitectureSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Package",
+        "Module",
+        "Framework"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-152-repository-summary",
+      "repository": "0xsarwagya",
+      "category": "repository-summary",
+      "question": "Summarize repository graph structure for 0xsarwagya.",
+      "capability": "RepositorySummary",
+      "input": {},
+      "expectedEvidence": [
+        "statistics.nodeCount",
+        "statistics.edgeCount"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-153-repository-health",
+      "repository": "innosphere",
+      "category": "repository-health",
+      "question": "What graph health issues exist in innosphere?",
+      "capability": "RepositoryHealth",
+      "input": {},
+      "expectedEvidence": [
+        "diagnostics",
+        "cycles",
+        "disconnectedComponents"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-154-framework",
+      "repository": "ghost",
+      "category": "framework",
+      "question": "Which framework evidence is present for ghost?",
+      "capability": "FrameworkSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Framework",
+        "typescript-library"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-155-dependency-analysis",
+      "repository": "durable-local",
+      "category": "dependency-analysis",
+      "question": "Which dependencies surround exports in durable-local?",
+      "capability": "DependencyAnalysis",
+      "input": {
+        "query": "exports",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS",
+        "USES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-156-impact-analysis",
+      "repository": "ovok-core",
+      "category": "impact-analysis",
+      "question": "What is impacted if AuthService changes in ovok-core?",
+      "capability": "ImpactAnalysis",
+      "input": {
+        "query": "AuthService",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "affectedNodes",
+        "evidence.path"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-157-ownership",
+      "repository": "0xsarwagya",
+      "category": "ownership",
+      "question": "Who owns or contains packages in 0xsarwagya?",
+      "capability": "OwnershipAnalysis",
+      "input": {
+        "query": "packages",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "CONTAINS",
+        "PROVIDES",
+        "REFERENCES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-158-implementation-planning",
+      "repository": "innosphere",
+      "category": "implementation-planning",
+      "question": "Plan implementation work for web in innosphere.",
+      "capability": "ImplementationPlan",
+      "input": {
+        "task": "change web",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "matchedTerms",
+        "recommendations"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-159-request-lifecycle",
+      "repository": "ghost",
+      "category": "request-lifecycle",
+      "question": "Trace request handling related to docs in ghost.",
+      "capability": "RequestTrace",
+      "input": {
+        "query": "docs",
+        "depth": 5
+      },
+      "expectedEvidence": [
+        "Route",
+        "HANDLES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-160-configuration",
+      "repository": "durable-local",
+      "category": "configuration",
+      "question": "Which configuration is used around runtime in durable-local?",
+      "capability": "ConfigurationUsage",
+      "input": {
+        "query": "runtime",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Configuration",
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-161-environment",
+      "repository": "ovok-core",
+      "category": "environment",
+      "question": "Which environment variables influence AuthController in ovok-core?",
+      "capability": "EnvironmentUsage",
+      "input": {
+        "query": "AuthController",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-162-authentication",
+      "repository": "0xsarwagya",
+      "category": "authentication",
+      "question": "What authentication flow evidence exists in 0xsarwagya?",
+      "capability": "AuthenticationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "auth-named nodes",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-163-authorization",
+      "repository": "innosphere",
+      "category": "authorization",
+      "question": "What authorization boundaries exist in innosphere?",
+      "capability": "AuthorizationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "Permission",
+        "Guard",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-164-call-hierarchy",
+      "repository": "ghost",
+      "category": "call-hierarchy",
+      "question": "What calls into and out of package graph in ghost?",
+      "capability": "CallHierarchy",
+      "input": {
+        "query": "package graph",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-165-dependency-hierarchy",
+      "repository": "durable-local",
+      "category": "dependency-hierarchy",
+      "question": "What dependency hierarchy surrounds configuration in durable-local?",
+      "capability": "DependencyHierarchy",
+      "input": {
+        "query": "configuration",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-166-providers",
+      "repository": "ovok-core",
+      "category": "providers",
+      "question": "Which providers are connected to UserRepository in ovok-core?",
+      "capability": "ProviderGraph",
+      "input": {
+        "query": "UserRepository",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Provider",
+        "INJECTS",
+        "PROVIDES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-167-modules",
+      "repository": "0xsarwagya",
+      "category": "modules",
+      "question": "Which modules are related to skills in 0xsarwagya?",
+      "capability": "ModuleOverview",
+      "input": {
+        "query": "skills",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Module",
+        "CONTAINS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-168-services",
+      "repository": "innosphere",
+      "category": "services",
+      "question": "Which services are related to web in innosphere?",
+      "capability": "ServiceOverview",
+      "input": {
+        "query": "web",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Service",
+        "Provider"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-169-packages",
+      "repository": "ghost",
+      "category": "packages",
+      "question": "Which packages are related to entrypoints in ghost?",
+      "capability": "PackageOverview",
+      "input": {
+        "query": "entrypoints",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Package",
+        "DEPENDS_ON"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-170-dead-code",
+      "repository": "durable-local",
+      "category": "dead-code",
+      "question": "Which graph nodes look unused in durable-local?",
+      "capability": "DeadCode",
+      "input": {},
+      "expectedEvidence": [
+        "incoming usage edges"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-171-cycles",
+      "repository": "ovok-core",
+      "category": "cycles",
+      "question": "Which circular dependencies exist in ovok-core?",
+      "capability": "CircularDependencies",
+      "input": {},
+      "expectedEvidence": [
+        "cycles"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-172-entrypoints",
+      "repository": "0xsarwagya",
+      "category": "entrypoints",
+      "question": "What are the graph entrypoints in 0xsarwagya?",
+      "capability": "EntryPoints",
+      "input": {},
+      "expectedEvidence": [
+        "Function",
+        "Method",
+        "Module",
+        "Route"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-173-risk-analysis",
+      "repository": "innosphere",
+      "category": "risk-analysis",
+      "question": "What structural risk exists around web in innosphere?",
+      "capability": "RiskAnalysis",
+      "input": {
+        "query": "web",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "cycles",
+        "hotspots",
+        "diagnostics"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-174-data-flow",
+      "repository": "ghost",
+      "category": "data-flow",
+      "question": "What data flow evidence surrounds package graph in ghost?",
+      "capability": "DataFlow",
+      "input": {
+        "query": "package graph",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "READS",
+        "WRITES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-175-feature-touchpoints",
+      "repository": "durable-local",
+      "category": "feature-touchpoints",
+      "question": "Where does exports touch the codebase in durable-local?",
+      "capability": "FeatureTouchpoints",
+      "input": {
+        "query": "exports",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "directMatches",
+        "affectedNodes"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-176-architecture",
+      "repository": "ovok-core",
+      "category": "architecture",
+      "question": "What are the main architecture boundaries in ovok-core?",
+      "capability": "ArchitectureSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Package",
+        "Module",
+        "Framework"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-177-repository-summary",
+      "repository": "0xsarwagya",
+      "category": "repository-summary",
+      "question": "Summarize repository graph structure for 0xsarwagya.",
+      "capability": "RepositorySummary",
+      "input": {},
+      "expectedEvidence": [
+        "statistics.nodeCount",
+        "statistics.edgeCount"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-178-repository-health",
+      "repository": "innosphere",
+      "category": "repository-health",
+      "question": "What graph health issues exist in innosphere?",
+      "capability": "RepositoryHealth",
+      "input": {},
+      "expectedEvidence": [
+        "diagnostics",
+        "cycles",
+        "disconnectedComponents"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-179-framework",
+      "repository": "ghost",
+      "category": "framework",
+      "question": "Which framework evidence is present for ghost?",
+      "capability": "FrameworkSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Framework",
+        "typescript-library"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-180-dependency-analysis",
+      "repository": "durable-local",
+      "category": "dependency-analysis",
+      "question": "Which dependencies surround exports in durable-local?",
+      "capability": "DependencyAnalysis",
+      "input": {
+        "query": "exports",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS",
+        "USES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-181-impact-analysis",
+      "repository": "ovok-core",
+      "category": "impact-analysis",
+      "question": "What is impacted if AuthService changes in ovok-core?",
+      "capability": "ImpactAnalysis",
+      "input": {
+        "query": "AuthService",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "affectedNodes",
+        "evidence.path"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-182-ownership",
+      "repository": "0xsarwagya",
+      "category": "ownership",
+      "question": "Who owns or contains packages in 0xsarwagya?",
+      "capability": "OwnershipAnalysis",
+      "input": {
+        "query": "packages",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "CONTAINS",
+        "PROVIDES",
+        "REFERENCES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-183-implementation-planning",
+      "repository": "innosphere",
+      "category": "implementation-planning",
+      "question": "Plan implementation work for web in innosphere.",
+      "capability": "ImplementationPlan",
+      "input": {
+        "task": "change web",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "matchedTerms",
+        "recommendations"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-184-request-lifecycle",
+      "repository": "ghost",
+      "category": "request-lifecycle",
+      "question": "Trace request handling related to docs in ghost.",
+      "capability": "RequestTrace",
+      "input": {
+        "query": "docs",
+        "depth": 5
+      },
+      "expectedEvidence": [
+        "Route",
+        "HANDLES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-185-configuration",
+      "repository": "durable-local",
+      "category": "configuration",
+      "question": "Which configuration is used around runtime in durable-local?",
+      "capability": "ConfigurationUsage",
+      "input": {
+        "query": "runtime",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Configuration",
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-186-environment",
+      "repository": "ovok-core",
+      "category": "environment",
+      "question": "Which environment variables influence AuthController in ovok-core?",
+      "capability": "EnvironmentUsage",
+      "input": {
+        "query": "AuthController",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-187-authentication",
+      "repository": "0xsarwagya",
+      "category": "authentication",
+      "question": "What authentication flow evidence exists in 0xsarwagya?",
+      "capability": "AuthenticationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "auth-named nodes",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-188-authorization",
+      "repository": "innosphere",
+      "category": "authorization",
+      "question": "What authorization boundaries exist in innosphere?",
+      "capability": "AuthorizationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "Permission",
+        "Guard",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-189-call-hierarchy",
+      "repository": "ghost",
+      "category": "call-hierarchy",
+      "question": "What calls into and out of package graph in ghost?",
+      "capability": "CallHierarchy",
+      "input": {
+        "query": "package graph",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-190-dependency-hierarchy",
+      "repository": "durable-local",
+      "category": "dependency-hierarchy",
+      "question": "What dependency hierarchy surrounds configuration in durable-local?",
+      "capability": "DependencyHierarchy",
+      "input": {
+        "query": "configuration",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-191-providers",
+      "repository": "ovok-core",
+      "category": "providers",
+      "question": "Which providers are connected to UserRepository in ovok-core?",
+      "capability": "ProviderGraph",
+      "input": {
+        "query": "UserRepository",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Provider",
+        "INJECTS",
+        "PROVIDES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-192-modules",
+      "repository": "0xsarwagya",
+      "category": "modules",
+      "question": "Which modules are related to skills in 0xsarwagya?",
+      "capability": "ModuleOverview",
+      "input": {
+        "query": "skills",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Module",
+        "CONTAINS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-193-services",
+      "repository": "innosphere",
+      "category": "services",
+      "question": "Which services are related to web in innosphere?",
+      "capability": "ServiceOverview",
+      "input": {
+        "query": "web",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Service",
+        "Provider"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-194-packages",
+      "repository": "ghost",
+      "category": "packages",
+      "question": "Which packages are related to entrypoints in ghost?",
+      "capability": "PackageOverview",
+      "input": {
+        "query": "entrypoints",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Package",
+        "DEPENDS_ON"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-195-dead-code",
+      "repository": "durable-local",
+      "category": "dead-code",
+      "question": "Which graph nodes look unused in durable-local?",
+      "capability": "DeadCode",
+      "input": {},
+      "expectedEvidence": [
+        "incoming usage edges"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-196-cycles",
+      "repository": "ovok-core",
+      "category": "cycles",
+      "question": "Which circular dependencies exist in ovok-core?",
+      "capability": "CircularDependencies",
+      "input": {},
+      "expectedEvidence": [
+        "cycles"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-197-entrypoints",
+      "repository": "0xsarwagya",
+      "category": "entrypoints",
+      "question": "What are the graph entrypoints in 0xsarwagya?",
+      "capability": "EntryPoints",
+      "input": {},
+      "expectedEvidence": [
+        "Function",
+        "Method",
+        "Module",
+        "Route"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-198-risk-analysis",
+      "repository": "innosphere",
+      "category": "risk-analysis",
+      "question": "What structural risk exists around web in innosphere?",
+      "capability": "RiskAnalysis",
+      "input": {
+        "query": "web",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "cycles",
+        "hotspots",
+        "diagnostics"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-199-data-flow",
+      "repository": "ghost",
+      "category": "data-flow",
+      "question": "What data flow evidence surrounds package graph in ghost?",
+      "capability": "DataFlow",
+      "input": {
+        "query": "package graph",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "READS",
+        "WRITES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-200-feature-touchpoints",
+      "repository": "durable-local",
+      "category": "feature-touchpoints",
+      "question": "Where does exports touch the codebase in durable-local?",
+      "capability": "FeatureTouchpoints",
+      "input": {
+        "query": "exports",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "directMatches",
+        "affectedNodes"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-201-architecture",
+      "repository": "ovok-core",
+      "category": "architecture",
+      "question": "What are the main architecture boundaries in ovok-core?",
+      "capability": "ArchitectureSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Package",
+        "Module",
+        "Framework"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-202-repository-summary",
+      "repository": "0xsarwagya",
+      "category": "repository-summary",
+      "question": "Summarize repository graph structure for 0xsarwagya.",
+      "capability": "RepositorySummary",
+      "input": {},
+      "expectedEvidence": [
+        "statistics.nodeCount",
+        "statistics.edgeCount"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-203-repository-health",
+      "repository": "innosphere",
+      "category": "repository-health",
+      "question": "What graph health issues exist in innosphere?",
+      "capability": "RepositoryHealth",
+      "input": {},
+      "expectedEvidence": [
+        "diagnostics",
+        "cycles",
+        "disconnectedComponents"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-204-framework",
+      "repository": "ghost",
+      "category": "framework",
+      "question": "Which framework evidence is present for ghost?",
+      "capability": "FrameworkSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Framework",
+        "typescript-library"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-205-dependency-analysis",
+      "repository": "durable-local",
+      "category": "dependency-analysis",
+      "question": "Which dependencies surround exports in durable-local?",
+      "capability": "DependencyAnalysis",
+      "input": {
+        "query": "exports",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS",
+        "USES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-206-impact-analysis",
+      "repository": "ovok-core",
+      "category": "impact-analysis",
+      "question": "What is impacted if AuthService changes in ovok-core?",
+      "capability": "ImpactAnalysis",
+      "input": {
+        "query": "AuthService",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "affectedNodes",
+        "evidence.path"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-207-ownership",
+      "repository": "0xsarwagya",
+      "category": "ownership",
+      "question": "Who owns or contains packages in 0xsarwagya?",
+      "capability": "OwnershipAnalysis",
+      "input": {
+        "query": "packages",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "CONTAINS",
+        "PROVIDES",
+        "REFERENCES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-208-implementation-planning",
+      "repository": "innosphere",
+      "category": "implementation-planning",
+      "question": "Plan implementation work for web in innosphere.",
+      "capability": "ImplementationPlan",
+      "input": {
+        "task": "change web",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "matchedTerms",
+        "recommendations"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-209-request-lifecycle",
+      "repository": "ghost",
+      "category": "request-lifecycle",
+      "question": "Trace request handling related to docs in ghost.",
+      "capability": "RequestTrace",
+      "input": {
+        "query": "docs",
+        "depth": 5
+      },
+      "expectedEvidence": [
+        "Route",
+        "HANDLES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-210-configuration",
+      "repository": "durable-local",
+      "category": "configuration",
+      "question": "Which configuration is used around runtime in durable-local?",
+      "capability": "ConfigurationUsage",
+      "input": {
+        "query": "runtime",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Configuration",
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-211-environment",
+      "repository": "ovok-core",
+      "category": "environment",
+      "question": "Which environment variables influence AuthController in ovok-core?",
+      "capability": "EnvironmentUsage",
+      "input": {
+        "query": "AuthController",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-212-authentication",
+      "repository": "0xsarwagya",
+      "category": "authentication",
+      "question": "What authentication flow evidence exists in 0xsarwagya?",
+      "capability": "AuthenticationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "auth-named nodes",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-213-authorization",
+      "repository": "innosphere",
+      "category": "authorization",
+      "question": "What authorization boundaries exist in innosphere?",
+      "capability": "AuthorizationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "Permission",
+        "Guard",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-214-call-hierarchy",
+      "repository": "ghost",
+      "category": "call-hierarchy",
+      "question": "What calls into and out of package graph in ghost?",
+      "capability": "CallHierarchy",
+      "input": {
+        "query": "package graph",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-215-dependency-hierarchy",
+      "repository": "durable-local",
+      "category": "dependency-hierarchy",
+      "question": "What dependency hierarchy surrounds configuration in durable-local?",
+      "capability": "DependencyHierarchy",
+      "input": {
+        "query": "configuration",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-216-providers",
+      "repository": "ovok-core",
+      "category": "providers",
+      "question": "Which providers are connected to UserRepository in ovok-core?",
+      "capability": "ProviderGraph",
+      "input": {
+        "query": "UserRepository",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Provider",
+        "INJECTS",
+        "PROVIDES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-217-modules",
+      "repository": "0xsarwagya",
+      "category": "modules",
+      "question": "Which modules are related to skills in 0xsarwagya?",
+      "capability": "ModuleOverview",
+      "input": {
+        "query": "skills",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Module",
+        "CONTAINS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-218-services",
+      "repository": "innosphere",
+      "category": "services",
+      "question": "Which services are related to web in innosphere?",
+      "capability": "ServiceOverview",
+      "input": {
+        "query": "web",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Service",
+        "Provider"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-219-packages",
+      "repository": "ghost",
+      "category": "packages",
+      "question": "Which packages are related to entrypoints in ghost?",
+      "capability": "PackageOverview",
+      "input": {
+        "query": "entrypoints",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Package",
+        "DEPENDS_ON"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-220-dead-code",
+      "repository": "durable-local",
+      "category": "dead-code",
+      "question": "Which graph nodes look unused in durable-local?",
+      "capability": "DeadCode",
+      "input": {},
+      "expectedEvidence": [
+        "incoming usage edges"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-221-cycles",
+      "repository": "ovok-core",
+      "category": "cycles",
+      "question": "Which circular dependencies exist in ovok-core?",
+      "capability": "CircularDependencies",
+      "input": {},
+      "expectedEvidence": [
+        "cycles"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-222-entrypoints",
+      "repository": "0xsarwagya",
+      "category": "entrypoints",
+      "question": "What are the graph entrypoints in 0xsarwagya?",
+      "capability": "EntryPoints",
+      "input": {},
+      "expectedEvidence": [
+        "Function",
+        "Method",
+        "Module",
+        "Route"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-223-risk-analysis",
+      "repository": "innosphere",
+      "category": "risk-analysis",
+      "question": "What structural risk exists around web in innosphere?",
+      "capability": "RiskAnalysis",
+      "input": {
+        "query": "web",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "cycles",
+        "hotspots",
+        "diagnostics"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-224-data-flow",
+      "repository": "ghost",
+      "category": "data-flow",
+      "question": "What data flow evidence surrounds package graph in ghost?",
+      "capability": "DataFlow",
+      "input": {
+        "query": "package graph",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "READS",
+        "WRITES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-225-feature-touchpoints",
+      "repository": "durable-local",
+      "category": "feature-touchpoints",
+      "question": "Where does exports touch the codebase in durable-local?",
+      "capability": "FeatureTouchpoints",
+      "input": {
+        "query": "exports",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "directMatches",
+        "affectedNodes"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-226-architecture",
+      "repository": "ovok-core",
+      "category": "architecture",
+      "question": "What are the main architecture boundaries in ovok-core?",
+      "capability": "ArchitectureSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Package",
+        "Module",
+        "Framework"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-227-repository-summary",
+      "repository": "0xsarwagya",
+      "category": "repository-summary",
+      "question": "Summarize repository graph structure for 0xsarwagya.",
+      "capability": "RepositorySummary",
+      "input": {},
+      "expectedEvidence": [
+        "statistics.nodeCount",
+        "statistics.edgeCount"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-228-repository-health",
+      "repository": "innosphere",
+      "category": "repository-health",
+      "question": "What graph health issues exist in innosphere?",
+      "capability": "RepositoryHealth",
+      "input": {},
+      "expectedEvidence": [
+        "diagnostics",
+        "cycles",
+        "disconnectedComponents"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-229-framework",
+      "repository": "ghost",
+      "category": "framework",
+      "question": "Which framework evidence is present for ghost?",
+      "capability": "FrameworkSummary",
+      "input": {},
+      "expectedEvidence": [
+        "Framework",
+        "typescript-library"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-230-dependency-analysis",
+      "repository": "durable-local",
+      "category": "dependency-analysis",
+      "question": "Which dependencies surround exports in durable-local?",
+      "capability": "DependencyAnalysis",
+      "input": {
+        "query": "exports",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS",
+        "USES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-231-impact-analysis",
+      "repository": "ovok-core",
+      "category": "impact-analysis",
+      "question": "What is impacted if AuthService changes in ovok-core?",
+      "capability": "ImpactAnalysis",
+      "input": {
+        "query": "AuthService",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "affectedNodes",
+        "evidence.path"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-232-ownership",
+      "repository": "0xsarwagya",
+      "category": "ownership",
+      "question": "Who owns or contains packages in 0xsarwagya?",
+      "capability": "OwnershipAnalysis",
+      "input": {
+        "query": "packages",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "CONTAINS",
+        "PROVIDES",
+        "REFERENCES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-233-implementation-planning",
+      "repository": "innosphere",
+      "category": "implementation-planning",
+      "question": "Plan implementation work for web in innosphere.",
+      "capability": "ImplementationPlan",
+      "input": {
+        "task": "change web",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "matchedTerms",
+        "recommendations"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-234-request-lifecycle",
+      "repository": "ghost",
+      "category": "request-lifecycle",
+      "question": "Trace request handling related to docs in ghost.",
+      "capability": "RequestTrace",
+      "input": {
+        "query": "docs",
+        "depth": 5
+      },
+      "expectedEvidence": [
+        "Route",
+        "HANDLES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-235-configuration",
+      "repository": "durable-local",
+      "category": "configuration",
+      "question": "Which configuration is used around runtime in durable-local?",
+      "capability": "ConfigurationUsage",
+      "input": {
+        "query": "runtime",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Configuration",
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-236-environment",
+      "repository": "ovok-core",
+      "category": "environment",
+      "question": "Which environment variables influence AuthController in ovok-core?",
+      "capability": "EnvironmentUsage",
+      "input": {
+        "query": "AuthController",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "EnvironmentVariable",
+        "READS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-237-authentication",
+      "repository": "0xsarwagya",
+      "category": "authentication",
+      "question": "What authentication flow evidence exists in 0xsarwagya?",
+      "capability": "AuthenticationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "auth-named nodes",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-238-authorization",
+      "repository": "innosphere",
+      "category": "authorization",
+      "question": "What authorization boundaries exist in innosphere?",
+      "capability": "AuthorizationFlow",
+      "input": {},
+      "expectedEvidence": [
+        "Permission",
+        "Guard",
+        "AUTHORIZES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-239-call-hierarchy",
+      "repository": "ghost",
+      "category": "call-hierarchy",
+      "question": "What calls into and out of package graph in ghost?",
+      "capability": "CallHierarchy",
+      "input": {
+        "query": "package graph",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-240-dependency-hierarchy",
+      "repository": "durable-local",
+      "category": "dependency-hierarchy",
+      "question": "What dependency hierarchy surrounds configuration in durable-local?",
+      "capability": "DependencyHierarchy",
+      "input": {
+        "query": "configuration",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "DEPENDS_ON",
+        "IMPORTS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-241-providers",
+      "repository": "ovok-core",
+      "category": "providers",
+      "question": "Which providers are connected to UserRepository in ovok-core?",
+      "capability": "ProviderGraph",
+      "input": {
+        "query": "UserRepository",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Provider",
+        "INJECTS",
+        "PROVIDES"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-242-modules",
+      "repository": "0xsarwagya",
+      "category": "modules",
+      "question": "Which modules are related to skills in 0xsarwagya?",
+      "capability": "ModuleOverview",
+      "input": {
+        "query": "skills",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Module",
+        "CONTAINS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-243-services",
+      "repository": "innosphere",
+      "category": "services",
+      "question": "Which services are related to web in innosphere?",
+      "capability": "ServiceOverview",
+      "input": {
+        "query": "web",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Service",
+        "Provider"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-244-packages",
+      "repository": "ghost",
+      "category": "packages",
+      "question": "Which packages are related to entrypoints in ghost?",
+      "capability": "PackageOverview",
+      "input": {
+        "query": "entrypoints",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "Package",
+        "DEPENDS_ON"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-245-dead-code",
+      "repository": "durable-local",
+      "category": "dead-code",
+      "question": "Which graph nodes look unused in durable-local?",
+      "capability": "DeadCode",
+      "input": {},
+      "expectedEvidence": [
+        "incoming usage edges"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ovok-core-246-cycles",
+      "repository": "ovok-core",
+      "category": "cycles",
+      "question": "Which circular dependencies exist in ovok-core?",
+      "capability": "CircularDependencies",
+      "input": {},
+      "expectedEvidence": [
+        "cycles"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "0xsarwagya-247-entrypoints",
+      "repository": "0xsarwagya",
+      "category": "entrypoints",
+      "question": "What are the graph entrypoints in 0xsarwagya?",
+      "capability": "EntryPoints",
+      "input": {},
+      "expectedEvidence": [
+        "Function",
+        "Method",
+        "Module",
+        "Route"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "innosphere-248-risk-analysis",
+      "repository": "innosphere",
+      "category": "risk-analysis",
+      "question": "What structural risk exists around web in innosphere?",
+      "capability": "RiskAnalysis",
+      "input": {
+        "query": "web",
+        "depth": 4
+      },
+      "expectedEvidence": [
+        "cycles",
+        "hotspots",
+        "diagnostics"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "ghost-249-data-flow",
+      "repository": "ghost",
+      "category": "data-flow",
+      "question": "What data flow evidence surrounds package graph in ghost?",
+      "capability": "DataFlow",
+      "input": {
+        "query": "package graph",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "READS",
+        "WRITES",
+        "CALLS"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    },
+    {
+      "id": "durable-local-250-feature-touchpoints",
+      "repository": "durable-local",
+      "category": "feature-touchpoints",
+      "question": "Where does exports touch the codebase in durable-local?",
+      "capability": "FeatureTouchpoints",
+      "input": {
+        "query": "exports",
+        "depth": 3
+      },
+      "expectedEvidence": [
+        "directMatches",
+        "affectedNodes"
+      ],
+      "acceptance": {
+        "status": "partial",
+        "requiresEvidence": true,
+        "requiresDeterministicConfidence": true,
+        "minimumConfidence": 0.6,
+        "notes": "Generated deterministic alpha corpus item. Replace with exact expected nodes as validation matures."
+      }
+    }
+  ]
+}

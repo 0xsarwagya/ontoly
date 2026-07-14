@@ -1,13 +1,16 @@
 ---
-title: "Migration: Semantic Platform"
-description: "Sprint 5 separates language analysis, framework analysis, and graph generation."
+title: "Semantic Platform Migration"
+description: "The migration path from frontend-owned framework extraction to Ontoly's TypeScript Semantic Model and Semantic Generator."
+canonical: "https://oss.sarwagya.wtf/ontoly/docs/migration-semantic-platform"
+source: "docs/migration-semantic-platform.md"
+keywords: ["Ontoly", "Software Graph", "TypeScript", "static analysis", "MCP", "AI coding agents", "developer tools", "Semantic", "Platform", "Migration"]
 ---
 
-Sprint 5 separates language analysis, framework analysis, and graph generation.
+Ontoly separates language analysis, framework analysis, and graph generation.
 
-Before Sprint 5, the TypeScript frontend emitted compiler symbols and contained
-framework extraction rules. After Sprint 5, the frontend is an adapter around
-the TypeScript Semantic Model and the Semantic Generator.
+Earlier alpha builds had the TypeScript frontend emit compiler symbols and
+contain framework extraction rules. Current alpha builds use the frontend as an
+adapter around the TypeScript Semantic Model and the Semantic Generator.
 
 ## New Packages
 

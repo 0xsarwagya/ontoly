@@ -63,6 +63,12 @@ function targetExists(resolved) {
   if (fs.existsSync(resolved)) {
     return true;
   }
+  if (resolved.startsWith(path.join(root, "docs"))) {
+    const generated = path.join(root, "site", "docs", path.relative(path.join(root, "docs"), resolved));
+    if (targetExists(generated)) {
+      return true;
+    }
+  }
   if (path.extname(resolved)) {
     return false;
   }

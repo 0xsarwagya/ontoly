@@ -1,44 +1,69 @@
-# Skills Overview
+---
+title: "Skills Overview"
+description: "Browse the official Ontoly Agent Skills, source directories, install commands, capability mappings, and related docs."
+---
 
-Ontoly ships official skills for:
+Ontoly ships official Agent Skills as independently installable `SKILL.md`
+directories. Skills teach workflow only: every software-understanding claim
+must come from the Software Graph, Query Engine, or MCP capabilities.
 
-- architecture review
-- impact analysis
-- codebase onboarding
-- request tracing
-- dependency analysis
-- security review
-- configuration analysis
-- framework analysis
-- documentation
-- refactoring
-- performance analysis
-- dead-code analysis
-- migration analysis
-- SDK generation planning
+## Docs To Read First
 
-The catalog lives in `skills/catalog.json`.
+- [Agent Skills](agent-skills.md) - installation, standard workflow, versioning, and command reference.
+- [MCP](mcp.md) - graph-backed capabilities and structured errors.
+- [Capabilities](capabilities.md) - deterministic capability behavior.
+- [Skills Best Practices](skills-best-practices.md) - evidence, confidence, and fallback rules.
+- [Skills Development](skills-development.md) - how to add or change a skill.
+- [Skills Validation](skills-validation.md) - source and installed-artifact validation.
+- [Agent Skills Catalog](https://oss.sarwagya.wtf/ontoly/docs/skills) - public installable skill pages.
 
-Release assets:
+## Official Skills
 
-- `skills/SKILL_CATALOG.md`
-- `skills/SKILL_MATRIX.md`
-- `skills/CAPABILITY_MATRIX.md`
-- `skills/COMPATIBILITY_MATRIX.md`
-- `skills/INSTALLATION.md`
-- `skills/README_SNIPPETS.md`
-- `skills/website-assets/`
+| Skill | Category | Source | Install |
+| --- | --- | --- | --- |
+| Architecture Review | architecture | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/architecture-review) | `npx skills add 0xsarwagya/ontoly --skill architecture-review` |
+| Impact Analysis | change-analysis | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/impact-analysis) | `npx skills add 0xsarwagya/ontoly --skill impact-analysis` |
+| Codebase Onboarding | onboarding | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/codebase-onboarding) | `npx skills add 0xsarwagya/ontoly --skill codebase-onboarding` |
+| Request Tracing | request-flow | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/request-tracing) | `npx skills add 0xsarwagya/ontoly --skill request-tracing` |
+| Dependency Analysis | dependencies | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/dependency-analysis) | `npx skills add 0xsarwagya/ontoly --skill dependency-analysis` |
+| Security Review | security | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/security-review) | `npx skills add 0xsarwagya/ontoly --skill security-review` |
+| Configuration Analysis | configuration | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/configuration-analysis) | `npx skills add 0xsarwagya/ontoly --skill configuration-analysis` |
+| Framework Analysis | frameworks | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/framework-analysis) | `npx skills add 0xsarwagya/ontoly --skill framework-analysis` |
+| Documentation | documentation | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/documentation) | `npx skills add 0xsarwagya/ontoly --skill documentation` |
+| Refactoring | refactoring | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/refactoring) | `npx skills add 0xsarwagya/ontoly --skill refactoring` |
+| Performance Analysis | performance | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/performance-analysis) | `npx skills add 0xsarwagya/ontoly --skill performance-analysis` |
+| Dead Code Analysis | static-analysis | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/dead-code-analysis) | `npx skills add 0xsarwagya/ontoly --skill dead-code-analysis` |
+| Migration Analysis | migration | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/migration-analysis) | `npx skills add 0xsarwagya/ontoly --skill migration-analysis` |
+| SDK Generation | sdk-planning | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/sdk-generation) | `npx skills add 0xsarwagya/ontoly --skill sdk-generation` |
+
+## Release Assets
+
+- [Skill catalog](../skills/SKILL_CATALOG.md)
+- [Skill matrix](../skills/SKILL_MATRIX.md)
+- [Capability matrix](../skills/CAPABILITY_MATRIX.md)
+- [Compatibility matrix](../skills/COMPATIBILITY_MATRIX.md)
+- [Installation guide](../skills/INSTALLATION.md)
+- [README snippets](../skills/README_SNIPPETS.md)
+- [Website assets](../skills/website-assets/skill-catalog.json)
 
 ## Capability Mapping
 
-Skills map to Ontoly MCP capabilities. Examples:
+Skills map to Ontoly MCP capabilities through declarative metadata. The mapping
+is not business logic.
 
-- Architecture Review: `ExplainArchitecture`, `GraphStatistics`
-- Dependency Analysis: `FindDependencies`, `FindDependents`
-- Impact Analysis: `ImpactAnalysis`
-- Request Tracing: `TraceRequestLifecycle`, `TraceExecution`
-- Configuration Analysis: `FindConfigurationUsage`
-- Security Review: `FindAuthenticationFlow`
-- Dead Code Analysis: `FindDeadCode`, `FindUnusedFeature`
-
-The mapping is declarative metadata, not business logic.
+| Skill | Primary Capabilities |
+| --- | --- |
+| Architecture Review | `ExplainArchitecture`, `GraphStatistics`, `FindCycles`, `FindDependencies` |
+| Impact Analysis | `ImpactAnalysis`, `FindDependents`, `FindDependencies`, `FindNode` |
+| Codebase Onboarding | `ExplainArchitecture`, `FindEntrypoints`, `GraphStatistics`, `FindFeatureOwner` |
+| Request Tracing | `TraceRequestLifecycle`, `FindResponsibleFunction`, `TraceExecution`, `FindNode` |
+| Dependency Analysis | `FindDependencies`, `FindDependents`, `FindCycles`, `GraphStatistics` |
+| Security Review | `FindAuthenticationFlow`, `FindResponsibleFunction`, `TraceRequestLifecycle`, `FindConfigurationUsage` |
+| Configuration Analysis | `FindConfiguration`, `FindConfigurationUsage`, `FindDependencies`, `GraphStatistics` |
+| Framework Analysis | `ExplainArchitecture`, `GraphStatistics`, `FindNode`, `FindFeatureOwner` |
+| Documentation | `ExplainArchitecture`, `TraceRequestLifecycle`, `InspectModule`, `GraphStatistics` |
+| Refactoring | `ImpactAnalysis`, `FindDependencies`, `FindDependents`, `FindCycles` |
+| Performance Analysis | `TraceExecution`, `TraceRequestLifecycle`, `FindDependencies`, `GraphStatistics` |
+| Dead Code Analysis | `FindDeadCode`, `FindUnusedFeature`, `FindEntrypoints`, `FindDependents` |
+| Migration Analysis | `ExplainArchitecture`, `ImpactAnalysis`, `FindConfigurationUsage`, `FindDependencies` |
+| SDK Generation | `ExplainArchitecture`, `TraceRequestLifecycle`, `FindResponsibleFunction`, `GraphStatistics` |

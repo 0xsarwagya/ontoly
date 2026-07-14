@@ -1,6 +1,9 @@
-# Semantic Relationships
+---
+title: "Semantic Relationships"
+description: "Deterministic relationship extraction rules for calls, dependencies, configuration usage, routes, providers, and framework semantics."
+---
 
-Sprint 3 extends Ontoly beyond syntax relationships.
+Ontoly extracts semantic relationships beyond syntax-level imports and exports.
 
 Every semantic relationship must be deterministic and explainable. A parser or
 compiler pass may emit a semantic relationship only when it has direct evidence

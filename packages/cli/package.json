@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-cli",
-  "version": "0.1.0-alpha.5",
+  "version": "0.1.0-alpha.6",
   "description": "CLI and public convenience API for Ontoly.",
   "type": "module",
   "license": "MIT",
@@ -43,6 +43,7 @@
   "dependencies": {
     "@0xsarwagya/ontoly-analyzers": "workspace:*",
     "@0xsarwagya/ontoly-cache": "workspace:*",
+    "@0xsarwagya/ontoly-capabilities": "workspace:*",
     "@0xsarwagya/ontoly-compiler": "workspace:*",
     "@0xsarwagya/ontoly-core": "workspace:*",
     "@0xsarwagya/ontoly-mcp": "workspace:*",

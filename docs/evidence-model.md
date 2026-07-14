@@ -1,0 +1,49 @@
+---
+title: "Evidence Model"
+description: "How capabilities cite graph evidence for deterministic answers."
+order: 25
+---
+
+# Evidence Model
+
+Capability answers must cite graph evidence.
+
+Evidence items describe why a result exists and which graph nodes, edges, paths,
+diagnostics, or statistics support it.
+
+## Evidence Kinds
+
+- `node`: direct node matches.
+- `edge`: direct relationship evidence.
+- `path`: traversal evidence across multiple relationships.
+- `statistic`: graph or capability metrics.
+- `diagnostic`: warnings or validation facts.
+
+## Node Evidence
+
+Node evidence includes serialized graph nodes with stable ids, names, node types,
+source files, spans when available, packages, and metadata.
+
+## Path Evidence
+
+Path evidence includes the participating nodes and edges. Relationship evidence
+keeps provenance from the Software Graph whenever the graph provided it.
+
+## Provenance
+
+Capabilities include graph provenance:
+
+- repository name
+- repository root
+- graph hash
+- graph version
+- node count
+- edge count
+
+An agent or plugin should cite this provenance when presenting answers to users.
+
+## Fallbacks
+
+When graph evidence is missing, a capability returns diagnostics such as
+`CAPABILITY_NOT_FOUND` or `CAPABILITY_LOW_EVIDENCE`. It should not silently search
+files or invent confidence.

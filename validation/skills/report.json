@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "generatedAt": "2026-07-13T15:36:54.266Z",
+  "generatedAt": "2026-07-14T14:37:32.567Z",
   "skillsRoot": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/skills",
   "totalSkills": 14,
   "validSkills": 14,
@@ -122,8 +122,8 @@
       "id": "impact-analysis",
       "title": "Impact Analysis",
       "category": "change-analysis",
-      "version": "0.1.0-alpha.2",
-      "minimumOntolyVersion": "0.1.0-alpha.5",
+      "version": "0.1.0-alpha.3",
+      "minimumOntolyVersion": "0.1.0-alpha.6",
       "capabilities": [
         "ImpactAnalysis",
         "FindDependents",
@@ -233,7 +233,7 @@
   ],
   "agentEvaluation": {
     "status": "PASS",
-    "generatedAt": "2026-07-13T15:36:54.265Z",
+    "generatedAt": "2026-07-14T14:37:32.567Z",
     "totalSkills": 14,
     "passedSkills": 14,
     "aggregate": {

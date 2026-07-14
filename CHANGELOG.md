@@ -2,6 +2,21 @@
 
 All notable Ontoly changes are tracked here.
 
+## 0.1.0-alpha.6
+
+### Added
+
+- Added `@0xsarwagya/ontoly-capabilities`, the deterministic Semantic Capability Engine over the Software Graph.
+- Added high-level CLI commands for `explain`, `impact`, `implementation-plan`, `ownership`, `health`, `repository-summary`, `risk`, and `request-trace`.
+- Exposed semantic capability results through MCP while preserving existing primitive MCP capabilities.
+- Added first-class public docs pages for every official Agent Skill.
+- Added a deterministic 250-question semantic capability corpus under `validation/questions`.
+
+### Changed
+
+- `ImpactAnalysis` now uses the shared capability result schema across CLI, MCP, and package APIs.
+- Documentation now links Skills through `oss.sarwagya.wtf/ontoly/docs/skills` instead of only GitHub source paths.
+
 ## 0.1.0-alpha.5
 
 ### Added

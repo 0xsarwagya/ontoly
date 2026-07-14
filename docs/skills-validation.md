@@ -1,4 +1,7 @@
-# Skills Validation
+---
+title: "Skills Validation"
+description: "Validate Ontoly Agent Skill metadata, references, templates, examples, installed artifacts, and release-gate behavior."
+---
 
 Run:
 

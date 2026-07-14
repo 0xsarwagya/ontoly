@@ -1,5 +1,5 @@
 {
-  "minimumOntolyVersion": "0.1.0-alpha.5",
+  "minimumOntolyVersion": "0.1.0-alpha.6",
   "skills": [
     {
       "id": "architecture-review",
@@ -45,8 +45,8 @@
     },
     {
       "id": "impact-analysis",
-      "version": "0.1.0-alpha.2",
-      "minimumOntolyVersion": "0.1.0-alpha.5",
+      "version": "0.1.0-alpha.3",
+      "minimumOntolyVersion": "0.1.0-alpha.6",
       "deprecated": false
     },
     {

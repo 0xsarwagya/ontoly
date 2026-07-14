@@ -1,5 +1,16 @@
 # Alpha Release Notes
 
+## v0.1.0-alpha.6
+
+This release adds the Semantic Capability Engine and makes Agent Skills visible
+as first-class public docs.
+
+- `@0xsarwagya/ontoly-capabilities` ships deterministic high-level software-engineering capabilities over the Software Graph.
+- `ontoly explain`, `ontoly impact`, `ontoly implementation-plan`, `ontoly ownership`, `ontoly health`, `ontoly repository-summary`, `ontoly risk`, and `ontoly request-trace` return the shared capability result schema.
+- MCP now exposes high-level semantic capabilities while preserving existing primitive capability names used by current Skills.
+- The website generator creates `/ontoly/docs/skills` and per-skill public docs pages from the Skill catalog.
+- `validation/questions/questions.json` adds a deterministic 250-question alpha corpus for capability evaluation.
+
 ## v0.1.0-alpha.5
 
 This release improves graph-first agent answers for impact analysis and

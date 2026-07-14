@@ -1,4 +1,7 @@
-# Skills Development
+---
+title: "Skills Development"
+description: "Create, version, document, and validate Ontoly Agent Skills that remain self-contained after installation."
+---
 
 Create a skill under:
 
@@ -18,6 +21,17 @@ reference/
 
 `SKILL.md` must use YAML frontmatter with `name` and `description`, and the
 name must match the directory.
+
+## Public Docs Links
+
+Every skill `README.md` should link back to the canonical public docs with
+absolute URLs so installed skills stay self-contained:
+
+- `https://oss.sarwagya.wtf/ontoly/docs/agent-skills`
+- `https://oss.sarwagya.wtf/ontoly/docs/skills-overview`
+- `https://oss.sarwagya.wtf/ontoly/docs/mcp`
+- `https://oss.sarwagya.wtf/ontoly/docs/capabilities`
+- `https://oss.sarwagya.wtf/ontoly/docs/skills-validation`
 
 ## Metadata
 

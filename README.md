@@ -14,7 +14,7 @@ generate embeddings, or make probabilistic guesses.
 
 ## Status
 
-Ontoly is in public alpha. The current CLI release is `v0.1.0-alpha.5`.
+Ontoly is in public alpha. The current CLI release is `v0.1.0-alpha.6`.
 
 The public contract is still experimental, but the repository already includes:
 
@@ -30,6 +30,8 @@ The public contract is still experimental, but the repository already includes:
 ## Links
 
 - Website: [oss.sarwagya.wtf/ontoly](https://oss.sarwagya.wtf/ontoly)
+- Docs: [oss.sarwagya.wtf/ontoly/docs](https://oss.sarwagya.wtf/ontoly/docs)
+- Agent Skills Catalog: [oss.sarwagya.wtf/ontoly/docs/skills](https://oss.sarwagya.wtf/ontoly/docs/skills)
 - Repository: [github.com/0xsarwagya/ontoly](https://github.com/0xsarwagya/ontoly)
 - Changelog: [CHANGELOG.md](CHANGELOG.md)
 - Roadmap: [ROADMAP.md](ROADMAP.md)
@@ -408,7 +410,8 @@ pnpm skills:validate
 pnpm skills:validate-installed
 ```
 
-Read [skills/SKILL_CATALOG.md](skills/SKILL_CATALOG.md), [docs/agent-skills.md](docs/agent-skills.md),
+Read the public [Agent Skills Catalog](https://oss.sarwagya.wtf/ontoly/docs/skills),
+[skills/SKILL_CATALOG.md](skills/SKILL_CATALOG.md), [docs/agent-skills.md](docs/agent-skills.md),
 and [docs/skills-validation.md](docs/skills-validation.md).
 
 ## Validation Lab
@@ -517,11 +520,22 @@ Runnable examples live in [examples](examples):
 
 ## Documentation Map
 
-The website docs in `site/docs/` are generated from the root `docs/` tree:
+The root `docs/` tree is the source of truth. The OSS website snapshot under
+`site/` is generated from it:
 
 ```sh
 pnpm site:docs
 ```
+
+That command rewrites Markdown links for the website, emits MDX into
+`site/docs/`, and adds page-level SEO frontmatter such as canonical URLs,
+keywords, and source provenance. The landing page and project-level SEO live in
+`site/landing.mdx` and `site/manifest.json`.
+
+On `main`, `.github/workflows/publish-site.yml` runs the same generation and
+validation flow, then calls `0xsarwagya/internet/scripts/oss-sync.mjs` to copy
+`site/manifest.json`, `site/landing.mdx`, `site/docs/**`, and `site/assets/**`
+into the OSS site content snapshot for `https://oss.sarwagya.wtf/ontoly`.
 
 Start here:
 
@@ -537,6 +551,8 @@ Start here:
 - [docs/typescript-semantic-model.md](docs/typescript-semantic-model.md)
 - [docs/framework-detection.md](docs/framework-detection.md)
 - [docs/agent-skills.md](docs/agent-skills.md)
+- [docs/skills-overview.md](docs/skills-overview.md)
+- [skills/SKILL_CATALOG.md](skills/SKILL_CATALOG.md)
 - [docs/validation-lab.md](docs/validation-lab.md)
 - [docs/faq.md](docs/faq.md)
 - [docs/troubleshooting.md](docs/troubleshooting.md)

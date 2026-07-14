@@ -1,4 +1,7 @@
-# Troubleshooting
+---
+title: "Troubleshooting"
+description: "Fix common Ontoly CLI, graph build, MCP, validation, and Agent Skill issues with evidence-backed steps."
+---
 
 ## `ONTOLY0001 Unknown command`
 

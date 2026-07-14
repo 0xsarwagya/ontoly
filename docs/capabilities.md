@@ -1,24 +1,81 @@
+---
+title: "Capabilities"
+description: "Deterministic software-engineering capabilities over the Ontoly Software Graph."
+order: 22
+---
+
 # Capabilities
 
 Capabilities are deterministic operations over a `SoftwareGraph`.
 
-They wrap Query Engine operations and form the public MCP surface. Future
-plugins can register new capabilities without changing the compiler or parser
-packages.
+The `@0xsarwagya/ontoly-capabilities` package owns high-level software
+engineering answers such as impact analysis, request tracing, ownership,
+repository health, risk analysis, and implementation planning. The CLI and MCP
+server call this package. They do not reimplement capability logic.
 
-Capability metadata includes:
+Capabilities do not parse source code, mutate the graph, inspect parser ASTs, or
+perform AI reasoning. They compose the Query Engine, graph indexes, graph
+relationships, diagnostics, and provenance into a shared result schema.
 
-- name
-- version
-- description
-- input schema
-- output schema
-- examples
+## Shared Result Schema
 
-Capabilities must not parse source code, mutate the graph, or depend on parser
-internals.
+Every high-level capability returns:
 
-## Built-in Capabilities
+- `summary`
+- `evidence`
+- `affectedNodes`
+- `affectedFiles`
+- `affectedPackages`
+- `statistics`
+- `confidence`
+- `diagnostics`
+- `recommendations`
+- `graph`
+
+This shape is used by:
+
+- `ontoly explain`
+- `ontoly impact`
+- `ontoly implementation-plan`
+- `ontoly ownership`
+- `ontoly health`
+- `ontoly repository-summary`
+- `ontoly risk`
+- `ontoly request-trace`
+- Ontoly MCP semantic capabilities
+- Agent Skills that consume MCP
+
+## High-Level Capabilities
+
+- `RepositorySummary`
+- `ArchitectureSummary`
+- `ImpactAnalysis`
+- `ImplementationPlan`
+- `RequestTrace`
+- `DependencyAnalysis`
+- `OwnershipAnalysis`
+- `AuthenticationFlow`
+- `AuthorizationFlow`
+- `ConfigurationUsage`
+- `EnvironmentUsage`
+- `CallHierarchy`
+- `DependencyHierarchy`
+- `ProviderGraph`
+- `ModuleOverview`
+- `ServiceOverview`
+- `PackageOverview`
+- `RepositoryHealth`
+- `DeadCode`
+- `CircularDependencies`
+- `EntryPoints`
+- `FrameworkSummary`
+- `RiskAnalysis`
+- `DataFlow`
+- `FeatureTouchpoints`
+
+## MCP Primitive Capabilities
+
+The MCP server also exposes lower-level primitives for agent workflows:
 
 - `FindFunction`
 - `FindNode`
@@ -38,11 +95,22 @@ internals.
 - `TraceRequestLifecycle`
 - `FindFeatureOwner`
 - `FindAuthenticationFlow`
-- `ImpactAnalysis`
 - `FindDatabaseAccess`
 - `FindConfigurationUsage`
 - `FindUnusedFeature`
 - `GraphStatistics`
 
-Sprint 3 capabilities compose existing Query Engine operations. They do not
-perform AI reasoning and do not access parser ASTs.
+Primitive capabilities remain available for Skills that need exact graph facts.
+High-level capabilities are preferred when the user asks a software-engineering
+question.
+
+## Related Docs
+
+- [Capability API](/ontoly/docs/capability-api)
+- [Capability Registry](/ontoly/docs/capability-registry)
+- [Evidence Model](/ontoly/docs/evidence-model)
+- [Confidence Model](/ontoly/docs/confidence-model)
+- [Implementation Planning](/ontoly/docs/implementation-planning)
+- [Question Corpus](/ontoly/docs/question-corpus)
+- [Benchmark Methodology](/ontoly/docs/benchmark-methodology)
+- [Agent Skills](/ontoly/docs/agent-skills)

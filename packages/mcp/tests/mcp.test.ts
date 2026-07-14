@@ -55,16 +55,22 @@ describe("mcp capabilities", () => {
     }).result).toMatchObject({
       repository: "repo",
     });
-    expect(runtime.execute({
-      capability: "ImpactAnalysis",
-      input: { id: "fn:src/service.ts:load" },
-    }).result).toMatchObject({
-      order: ["fn:src/service.ts:load", "fn:src/index.ts:main"],
-      affected: {
-        externalBoundaries: [expect.objectContaining({ id: "pkg:external-sdk" })],
-      },
-    });
-  });
+	    expect(runtime.execute({
+	      capability: "ImpactAnalysis",
+	      input: { id: "fn:src/service.ts:load" },
+	    }).result).toMatchObject({
+	      summary: expect.stringContaining("load"),
+	      affectedNodes: {
+	        Language: expect.arrayContaining([
+	          expect.objectContaining({ id: "fn:src/index.ts:main" }),
+	          expect.objectContaining({ id: "fn:src/service.ts:load" }),
+	        ]),
+	        Modules: [expect.objectContaining({ id: "pkg:external-sdk" })],
+	      },
+	      confidence: expect.objectContaining({ level: "high" }),
+	      graph: expect.objectContaining({ source: "Ontoly Software Graph" }),
+	    });
+	  });
 
   it("rejects missing required input before execution", () => {
     const runtime = createMcpRuntime(graph());

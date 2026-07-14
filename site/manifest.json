@@ -3,17 +3,35 @@
   "mdxVersion": 1,
   "slug": "ontoly",
   "name": "Ontoly",
-  "description": "TypeScript-native software intelligence engine that builds deterministic Software Graphs.",
+  "description": "TypeScript-native software intelligence engine that builds deterministic Software Graphs for MCP, AI agents, query tooling, validation, and architecture analysis.",
   "status": "alpha",
+  "license": "MIT",
   "packageName": "@0xsarwagya/ontoly-cli",
   "repository": "https://github.com/0xsarwagya/ontoly",
   "homepage": "https://oss.sarwagya.wtf/ontoly",
   "landing": "site/landing.mdx",
   "docs": "site/docs",
   "assets": "site/assets",
+  "seo": {
+    "title": "Ontoly - Deterministic Software Graphs",
+    "canonical": "https://oss.sarwagya.wtf/ontoly",
+    "image": "https://oss.sarwagya.wtf/ontoly/opengraph-image",
+    "keywords": [
+      "Ontoly",
+      "Software Graph",
+      "TypeScript static analysis",
+      "MCP",
+      "AI coding agents",
+      "Query Engine",
+      "developer tools",
+      "architecture analysis",
+      "semantic code graph"
+    ]
+  },
   "links": {
     "github": "https://github.com/0xsarwagya/ontoly",
     "docs": "https://oss.sarwagya.wtf/ontoly/docs",
+    "skills": "https://oss.sarwagya.wtf/ontoly/docs/skills",
     "npm": "https://www.npmjs.com/package/@0xsarwagya/ontoly-cli"
   }
 }

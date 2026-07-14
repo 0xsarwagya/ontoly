@@ -1,4 +1,7 @@
-# Compatibility Matrix
+---
+title: "Compatibility Matrix"
+description: "Runtime, package, Software Graph, Agent Skill, MCP, CLI, and release compatibility for Ontoly alpha builds."
+---
 
 | Surface | Version | Status |
 | ------- | ------- | ------ |

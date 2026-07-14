@@ -1,4 +1,7 @@
-# Feature Matrix
+---
+title: "Feature Matrix"
+description: "Supported, alpha, and non-goal surfaces across Ontoly packages, validation, MCP, skills, and graph tooling."
+---
 
 | Feature | Alpha Status | Evidence |
 | ------- | ------------ | -------- |

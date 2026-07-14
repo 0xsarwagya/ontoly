@@ -8,9 +8,16 @@ import type {
   SoftwareGraphNode,
   SourceSpan,
 } from "@0xsarwagya/ontoly-core";
+import {
+  CAPABILITY_NAMES as SEMANTIC_CAPABILITY_NAMES,
+  capabilityResultToJson,
+  createCapabilityEngine as createSemanticCapabilityEngine,
+  type CapabilityInput,
+  type CapabilityName,
+} from "@0xsarwagya/ontoly-capabilities";
 import { createQueryEngine, type GraphTraversal, type QueryEngine } from "@0xsarwagya/ontoly-query";
 
-export const MCP_CAPABILITIES = [
+const LEGACY_MCP_CAPABILITIES = [
   "FindFunction",
   "FindNode",
   "FindDependencies",
@@ -34,6 +41,13 @@ export const MCP_CAPABILITIES = [
   "FindConfigurationUsage",
   "FindUnusedFeature",
   "GraphStatistics",
+] as const;
+
+const LEGACY_MCP_CAPABILITY_SET = new Set<string>(LEGACY_MCP_CAPABILITIES);
+
+export const MCP_CAPABILITIES = [
+  ...LEGACY_MCP_CAPABILITIES,
+  ...SEMANTIC_CAPABILITY_NAMES.filter((name) => !LEGACY_MCP_CAPABILITY_SET.has(name)),
 ] as const;
 
 export type McpCapabilityName = (typeof MCP_CAPABILITIES)[number];
@@ -224,9 +238,9 @@ function defaultCapabilities(): readonly RegisteredCapability[] {
     capability("FindAuthenticationFlow", "Find authorization relationships and auth-named code paths.", objectInput(), objectOutput(), [
       { input: {} },
     ], (query) => findAuthenticationFlow(query)),
-    capability("ImpactAnalysis", "Trace dependents and affected graph boundaries for a changed node.", idInput(), objectOutput(), [
-      { input: { id: "fn:src/auth.ts:requireUser", depth: 3 } },
-    ], (query, input) => impactAnalysis(query, resolveNode(query, input), readNumber(input, "depth", 3))),
+	    capability("ImpactAnalysis", "Trace dependents and affected graph boundaries for a changed node.", idInput(), objectOutput(), [
+	      { input: { id: "fn:src/auth.ts:requireUser", depth: 3 } },
+	    ], (query, input) => executeSemanticCapability(query, "ImpactAnalysis", input)),
     capability("FindDatabaseAccess", "Find repository, database, and ORM/framework access nodes.", objectInput(), objectOutput(), [
       { input: {} },
     ], (query) => findDatabaseAccess(query)),
@@ -236,11 +250,12 @@ function defaultCapabilities(): readonly RegisteredCapability[] {
     capability("FindUnusedFeature", "Find services, routes, functions, and methods with no inbound semantic usage.", objectInput(), arrayOutput("nodes"), [
       { input: {} },
     ], (query) => findUnusedFeature(query).map(serializeNode)),
-    capability("GraphStatistics", "Return deterministic graph statistics.", objectInput(), objectOutput(), [
-      { input: {} },
-    ], (query) => serializeUnknown(query.stats())),
-  ];
-}
+	    capability("GraphStatistics", "Return deterministic graph statistics.", objectInput(), objectOutput(), [
+	      { input: {} },
+	    ], (query) => serializeUnknown(query.stats())),
+	    ...semanticMcpCapabilities(),
+	  ];
+	}
 
 function capability(
   name: McpCapabilityName,
@@ -259,6 +274,40 @@ function capability(
     examples,
     execute,
   };
+}
+
+function semanticMcpCapabilities(): readonly RegisteredCapability[] {
+  return SEMANTIC_CAPABILITY_NAMES
+    .filter((name) => !LEGACY_MCP_CAPABILITY_SET.has(name))
+    .map((name) => capability(
+      name as McpCapabilityName,
+      `${titleCase(name)} from the Semantic Capability Engine.`,
+      semanticCapabilityInput(),
+      capabilityResultOutput(),
+      semanticCapabilityExamples(name),
+      (query, input) => executeSemanticCapability(query, name, input),
+    ));
+}
+
+function executeSemanticCapability(query: QueryEngine, name: CapabilityName, input: JsonObject): JsonValue {
+  const engine = createSemanticCapabilityEngine(query.graph);
+  return capabilityResultToJson(engine.execute(name, input as CapabilityInput));
+}
+
+function semanticCapabilityExamples(name: CapabilityName): readonly JsonObject[] {
+  if (name === "RequestTrace") {
+    return [{ input: { query: "POST /login", depth: 5 } }];
+  }
+
+  if (name === "ImplementationPlan") {
+    return [{ input: { task: "remove PlanDefinition support", depth: 3 } }];
+  }
+
+  if (name === "RepositorySummary" || name === "ArchitectureSummary" || name === "RepositoryHealth") {
+    return [{ input: {} }];
+  }
+
+  return [{ input: { query: "AuthService", depth: 3 } }];
 }
 
 function inspectFile(query: QueryEngine, file: string): JsonObject {
@@ -826,6 +875,14 @@ function isNode(value: SoftwareGraphNode | undefined): value is SoftwareGraphNod
   return Boolean(value);
 }
 
+function titleCase(value: string): string {
+  return value
+    .replace(/([A-Z])/g, " $1")
+    .replace(/[-_]/g, " ")
+    .replace(/\b\w/g, (letter) => letter.toUpperCase())
+    .trim();
+}
+
 function isAuthName(value: string): boolean {
   const normalized = value.toLowerCase();
   return normalized.includes("auth") || normalized.includes("permission") || normalized.includes("guard");
@@ -853,9 +910,39 @@ function objectInput(): JsonObject {
   };
 }
 
+function semanticCapabilityInput(): JsonObject {
+  return {
+    type: "object",
+    properties: {
+      id: { type: "string" },
+      query: { type: "string" },
+      task: { type: "string" },
+      depth: { type: "number" },
+    },
+  };
+}
+
 function objectOutput(): JsonObject {
   return {
     type: "object",
+  };
+}
+
+function capabilityResultOutput(): JsonObject {
+  return {
+    type: "object",
+    properties: {
+      summary: { type: "string" },
+      evidence: { type: "array" },
+      affectedNodes: { type: "object" },
+      affectedFiles: { type: "array" },
+      affectedPackages: { type: "array" },
+      statistics: { type: "object" },
+      confidence: { type: "object" },
+      diagnostics: { type: "array" },
+      recommendations: { type: "array" },
+      graph: { type: "object" },
+    },
   };
 }
 
