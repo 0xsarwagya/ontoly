@@ -1,0 +1,44 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Understanding",
+      "description": "Use Ontoly's Software Graph to understand repository architecture, frameworks, and onboarding paths.",
+      "skills": [
+        "codebase-onboarding",
+        "architecture-review",
+        "framework-analysis",
+        "documentation"
+      ]
+    },
+    {
+      "title": "Change Analysis",
+      "description": "Trace dependencies and plan safe changes using deterministic graph evidence.",
+      "skills": [
+        "dependency-analysis",
+        "impact-analysis",
+        "refactoring",
+        "migration-analysis"
+      ]
+    },
+    {
+      "title": "Runtime Flows",
+      "description": "Inspect request paths, performance-sensitive flows, and API surface planning.",
+      "skills": [
+        "request-tracing",
+        "performance-analysis",
+        "sdk-generation"
+      ]
+    },
+    {
+      "title": "Quality & Risk",
+      "description": "Review security, configuration, and unused code with graph-backed evidence.",
+      "skills": [
+        "security-review",
+        "configuration-analysis",
+        "dead-code-analysis"
+      ]
+    }
+  ]
+}
