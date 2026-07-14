@@ -1,0 +1,33 @@
+{
+  "id": "repository-summary",
+  "name": "Repository Summary",
+  "description": "Generate a repository-wide deterministic summary artifact.",
+  "version": "1.0.0",
+  "apiVersion": "1.0.0",
+  "inputs": [
+    {
+      "artifact": "SoftwareGraph"
+    },
+    {
+      "artifact": "SemanticIndex",
+      "optional": true
+    }
+  ],
+  "outputs": [
+    {
+      "id": "RepositorySummary",
+      "kind": "RepositorySummary",
+      "name": "Repository Summary",
+      "version": "1.0.0",
+      "description": "Repository-wide deterministic summary derived from graph capabilities.",
+      "schema": {
+        "version": "1.0.0",
+        "mediaType": "application/json",
+        "description": "Repository-wide deterministic summary derived from graph capabilities."
+      }
+    }
+  ],
+  "dependencies": [],
+  "supportedGraphVersion": "1.0.0",
+  "supportsIncremental": true
+}

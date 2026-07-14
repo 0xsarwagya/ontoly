@@ -1,0 +1,33 @@
+{
+  "id": "mermaid-diagram",
+  "name": "Mermaid Diagram",
+  "description": "Render graph artifacts as deterministic Mermaid diagrams.",
+  "version": "1.0.0",
+  "apiVersion": "1.0.0",
+  "inputs": [
+    {
+      "artifact": "SoftwareGraph"
+    },
+    {
+      "artifact": "ArchitectureReport",
+      "optional": true
+    }
+  ],
+  "outputs": [
+    {
+      "id": "MermaidDiagram",
+      "kind": "MermaidDiagram",
+      "name": "Mermaid Diagram",
+      "version": "1.0.0",
+      "description": "Mermaid diagram generated from graph artifacts.",
+      "schema": {
+        "version": "1.0.0",
+        "mediaType": "text/vnd.mermaid",
+        "description": "Mermaid diagram generated from graph artifacts."
+      }
+    }
+  ],
+  "dependencies": [],
+  "supportedGraphVersion": "1.0.0",
+  "supportsIncremental": true
+}

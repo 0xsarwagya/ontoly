@@ -36,12 +36,32 @@ import {
   stableStringify,
   summarizeGraph,
   type JsonObject,
+  type JsonValue,
   type SoftwareGraph,
   type SoftwareGraphEdge,
   type SoftwareGraphDiagnostic,
   type SoftwareGraphNode,
   type SourceSpan,
 } from "@0xsarwagya/ontoly-core";
+import {
+  ARTIFACT_DESCRIPTORS,
+  artifactRequirement,
+  createArtifact,
+  createDefaultEnhancerContext,
+  createMemoryEnhancerCache,
+  defineEnhancer,
+  discoverEnhancerManifests,
+  runEnhancerPipeline,
+  validateEnhancers,
+  visualizeEnhancerPipeline,
+  type Enhancer,
+  type EnhancerCache,
+  type EnhancerManifest,
+  type EnhancerPipelineResult,
+  type EnhancerRunResult,
+  type EnhancerValidationIssue,
+  type OntolyArtifact,
+} from "@0xsarwagya/ontoly-enhancer";
 import {
   createSemanticIndex,
   findConcept,
@@ -295,6 +315,10 @@ async function run(cli: ParsedCli): Promise<void> {
 
     case "skills":
       await skillsCommand(cli);
+      return;
+
+    case "enhancer":
+      await enhancerCommand(cli);
       return;
 
     case "validate":
@@ -1069,6 +1093,172 @@ async function skillsCommand(cli: ParsedCli): Promise<void> {
   }
 }
 
+async function enhancerCommand(cli: ParsedCli): Promise<void> {
+  const action = cli.positional[0] ?? "list";
+  const enhancers = defaultCliEnhancers();
+  const manifests = await discoverEnhancerManifests({ root: process.cwd() });
+
+  switch (action) {
+    case "list": {
+      const result = {
+        builtIn: enhancers.map((enhancer) => enhancer.manifest()),
+        discovered: manifests.map((manifest) => ({
+          path: manifest.path,
+          manifest: manifest.manifest,
+          issues: manifest.issues,
+        })),
+      };
+
+      if (flagBoolean(cli, "json")) {
+        logger.write(JSON.stringify(result, null, 2));
+        return;
+      }
+
+      logger.write("Ontoly Enhancers");
+      logger.write("");
+      for (const enhancer of enhancers) {
+        logger.write(`${enhancer.id.padEnd(26)} ${enhancer.version.padEnd(8)} ${enhancer.produces.map((artifact) => artifact.id).join(", ")}`);
+      }
+      if (manifests.length > 0) {
+        logger.write("");
+        logger.write("Discovered manifests");
+        for (const manifest of manifests) {
+          logger.write(`${manifest.manifest.id.padEnd(26)} ${manifest.manifest.version.padEnd(8)} ${manifest.path}`);
+        }
+      }
+      logger.write("");
+      logger.write(`${enhancers.length} built-in enhancer(s), ${manifests.length} discovered manifest(s)`);
+      return;
+    }
+
+    case "inspect": {
+      const id = cli.positional[1];
+      if (!id) {
+        throw new OntolyCliError({
+          code: "ONTOLY5001",
+          message: "enhancer inspect requires an enhancer id.",
+          suggestion: "Run ontoly enhancer list, then inspect one of the listed ids.",
+          docs: "docs/enhancers.md",
+        });
+      }
+      const manifest = enhancerManifestById(enhancers, manifests.map((entry) => entry.manifest), id);
+      if (!manifest) {
+        throw new OntolyCliError({
+          code: "ONTOLY5002",
+          message: `Enhancer not found: ${id}`,
+          suggestion: "Run ontoly enhancer list to see built-in and discovered enhancers.",
+          docs: "docs/enhancers.md",
+        });
+      }
+      logger.write(JSON.stringify(manifest, null, 2));
+      return;
+    }
+
+    case "graph": {
+      const format = flagString(cli, "format", flagBoolean(cli, "json") ? "json" : "mermaid");
+      if (!["json", "mermaid", "dot"].includes(format)) {
+        throw new OntolyCliError({
+          code: "ONTOLY5003",
+          message: `Unsupported enhancer graph format: ${format}`,
+          suggestion: "Use --format mermaid, --format dot, or --format json.",
+          docs: "docs/enhancers.md#pipeline-visualization",
+        });
+      }
+      logger.write(visualizeEnhancerPipeline(enhancers, format as "json" | "mermaid" | "dot").trimEnd());
+      return;
+    }
+
+    case "doctor":
+    case "validate": {
+      const graph = await maybeLoadGraphForEnhancerValidation(cli);
+      const context = graph
+        ? createDefaultEnhancerContext({
+          graph,
+          semanticIndex: await loadSemanticIndexForGraph(cli, graph),
+          logger: enhancerLoggerFromCli(),
+        })
+        : undefined;
+      const issues = [
+        ...validateEnhancers(enhancers, context),
+        ...manifests.flatMap((manifest) => manifest.issues),
+      ].sort(compareEnhancerIssuesForCli);
+      const status = issues.some((issue) => issue.severity === "error") ? "FAIL" : "PASS";
+      const result = {
+        status,
+        builtIn: enhancers.length,
+        discovered: manifests.length,
+        issues,
+      };
+
+      if (flagBoolean(cli, "json")) {
+        logger.write(JSON.stringify(result, null, 2));
+      } else {
+        logger.write(`Enhancer ${action}: ${status}`);
+        logger.write("");
+        if (issues.length === 0) {
+          logger.success("No enhancer issues found.");
+        } else {
+          for (const issue of issues) {
+            logger.write(`${issue.severity.toUpperCase()} ${issue.code}: ${issue.message}`);
+          }
+        }
+      }
+
+      if ((flagBoolean(cli, "ci") || flagBoolean(cli, "strict")) && status === "FAIL") {
+        process.exitCode = 1;
+      }
+      return;
+    }
+
+    case "run": {
+      const target = cli.positional[1] ?? "all";
+      const root = enhancerRootFromCli(cli, 2);
+      const graph = await loadOrBuildGraph({ ...cli, positional: [root] });
+      const selected = selectEnhancersForRun(enhancers, target);
+      const outputDir = flagString(cli, "output", ".ontoly");
+      const cache = await createFileEnhancerCache(resolve(root), outputDir);
+      const context = createDefaultEnhancerContext({
+        graph,
+        semanticIndex: await loadSemanticIndexForGraph({ ...cli, positional: [root] }, graph),
+        logger: enhancerLoggerFromCli(),
+        cache,
+      });
+      const result = await runEnhancerPipeline({
+        enhancers: selected,
+        context,
+        parallel: !flagBoolean(cli, "no-parallel"),
+        incremental: !flagBoolean(cli, "no-cache"),
+      });
+      const summaryPath = await writeEnhancerArtifacts(resolve(root), outputDir, result);
+
+      if (flagBoolean(cli, "json")) {
+        logger.write(JSON.stringify({
+          ...enhancerPipelineResultToJson(result),
+          output: summaryPath,
+        }, null, 2));
+        return;
+      }
+
+      logger.success(`Ran ${result.executions.length} enhancer(s)`);
+      logger.info(`Artifacts: ${result.artifacts.length}`);
+      logger.info(`Hash: ${result.deterministicHash}`);
+      logger.info(`Summary: ${summaryPath}`);
+      for (const execution of result.executions) {
+        logger.write(`${execution.status.padEnd(8)} ${execution.enhancerId} (${execution.artifacts.map((artifact) => artifact.descriptor.id).join(", ") || "no artifacts"})`);
+      }
+      return;
+    }
+
+    default:
+      throw new OntolyCliError({
+        code: "ONTOLY5000",
+        message: `Unknown enhancer command: ${action}`,
+        suggestion: "Use one of: list, inspect, run, graph, doctor, validate.",
+        docs: "docs/enhancers.md",
+      });
+  }
+}
+
 async function benchmarkCommand(cli: ParsedCli): Promise<void> {
   if (cli.positional[0] === "semantic") {
     await runSemanticEvaluationScript([
@@ -1617,6 +1807,567 @@ async function writeOutputBundle(input: {
 
 function defaultCompilerPasses() {
   return [createRepositoryIntelligencePass(), createTypeScriptFrontendPass(), createOpenApiFrontendPass()];
+}
+
+function defaultCliEnhancers(): readonly Enhancer[] {
+  return [
+    defineEnhancer({
+      id: "semantic-index",
+      name: "Semantic Index",
+      description: "Generate the deterministic Semantic Index artifact from the Software Graph.",
+      version: "1.0.0",
+      produces: [ARTIFACT_DESCRIPTORS.SemanticIndex],
+      supportsIncremental: true,
+      run: (context) => {
+        const graphArtifact = context.artifacts.require("SoftwareGraph");
+        const semanticIndex = createSemanticIndex(context.graph);
+        return {
+          artifacts: [
+            createArtifact({
+              descriptor: ARTIFACT_DESCRIPTORS.SemanticIndex,
+              data: semanticIndex as unknown as JsonValue,
+              graphHash: context.graph.metadata.deterministicHash,
+              graphGeneratedAt: context.graph.metadata.generatedAt,
+              producedBy: "semantic-index",
+              enhancerVersion: "1.0.0",
+              dependencies: [graphArtifact],
+            }),
+          ],
+          statistics: {
+            entries: semanticIndex.entries.length,
+            aliases: semanticIndex.metadata.statistics.aliases,
+            vocabulary: semanticIndex.vocabulary.length,
+          },
+        };
+      },
+    }),
+    defineEnhancer({
+      id: "capability-catalog",
+      name: "Capability Catalog",
+      description: "Expose the current deterministic capability catalog as an artifact.",
+      version: "1.0.0",
+      requires: [artifactRequirement("SoftwareGraph"), artifactRequirement("SemanticIndex", { optional: true })],
+      produces: [ARTIFACT_DESCRIPTORS.CapabilityCatalog],
+      supportsIncremental: true,
+      run: (context) => {
+        const graphArtifact = context.artifacts.require("SoftwareGraph");
+        const engine = createCapabilityEngine(context.graph);
+        const capabilities = engine.registry.capabilities().map((capability) => ({
+          name: capability.name,
+          version: capability.version,
+          description: capability.description,
+          inputSchema: capability.inputSchema,
+        }));
+        return {
+          artifacts: [
+            createArtifact({
+              descriptor: ARTIFACT_DESCRIPTORS.CapabilityCatalog,
+              data: {
+                repository: context.graph.repository.name,
+                graphHash: context.graph.metadata.deterministicHash,
+                capabilities,
+              },
+              graphHash: context.graph.metadata.deterministicHash,
+              graphGeneratedAt: context.graph.metadata.generatedAt,
+              producedBy: "capability-catalog",
+              enhancerVersion: "1.0.0",
+              dependencies: [
+                graphArtifact,
+                ...optionalArtifact(context.artifacts.get("SemanticIndex")),
+              ],
+            }),
+          ],
+          statistics: { capabilities: capabilities.length },
+        };
+      },
+    }),
+    defineEnhancer({
+      id: "validation-report",
+      name: "Validation Report",
+      description: "Generate graph-native validation and semantic coverage artifacts.",
+      version: "1.0.0",
+      produces: [ARTIFACT_DESCRIPTORS.ValidationReport, ARTIFACT_DESCRIPTORS.Coverage],
+      supportsIncremental: true,
+      run: (context) => {
+        const graphArtifact = context.artifacts.require("SoftwareGraph");
+        const coverage = analyzeSemanticCoverage(context.graph);
+        const errors = context.graph.diagnostics.filter((diagnostic) => diagnostic.severity === "error").length;
+        const warnings = context.graph.diagnostics.filter((diagnostic) => diagnostic.severity === "warning").length;
+        const validation = {
+          repository: context.graph.repository.name,
+          graphHash: context.graph.metadata.deterministicHash,
+          status: errors > 0 ? "FAIL" : "PASS",
+          diagnostics: context.graph.diagnostics,
+          diagnosticCounts: {
+            errors,
+            warnings,
+            info: context.graph.diagnostics.filter((diagnostic) => diagnostic.severity === "info").length,
+          },
+          coverage: coverage.summary,
+          relationshipDistribution: coverage.relationshipDistribution,
+        };
+
+        return {
+          artifacts: [
+            createArtifact({
+              descriptor: ARTIFACT_DESCRIPTORS.ValidationReport,
+              data: validation as unknown as JsonValue,
+              graphHash: context.graph.metadata.deterministicHash,
+              graphGeneratedAt: context.graph.metadata.generatedAt,
+              producedBy: "validation-report",
+              enhancerVersion: "1.0.0",
+              dependencies: [graphArtifact],
+            }),
+            createArtifact({
+              descriptor: ARTIFACT_DESCRIPTORS.Coverage,
+              data: coverage as unknown as JsonValue,
+              graphHash: context.graph.metadata.deterministicHash,
+              graphGeneratedAt: context.graph.metadata.generatedAt,
+              producedBy: "validation-report",
+              enhancerVersion: "1.0.0",
+              dependencies: [graphArtifact],
+            }),
+          ],
+          statistics: {
+            diagnostics: context.graph.diagnostics.length,
+            errors,
+            warnings,
+            trust: coverage.summary.trustworthiness,
+          },
+        };
+      },
+    }),
+    capabilityArtifactEnhancer({
+      id: "repository-summary",
+      name: "Repository Summary",
+      description: "Generate a repository-wide deterministic summary artifact.",
+      capability: "RepositorySummary",
+      descriptor: ARTIFACT_DESCRIPTORS.RepositorySummary,
+    }),
+    capabilityArtifactEnhancer({
+      id: "health-report",
+      name: "Health Report",
+      description: "Generate a repository health artifact from graph diagnostics and topology.",
+      capability: "RepositoryHealth",
+      descriptor: ARTIFACT_DESCRIPTORS.HealthReport,
+    }),
+    capabilityArtifactEnhancer({
+      id: "risk-report",
+      name: "Risk Report",
+      description: "Generate a repository risk artifact from graph evidence.",
+      capability: "RiskAnalysis",
+      descriptor: ARTIFACT_DESCRIPTORS.RiskReport,
+    }),
+    capabilityArtifactEnhancer({
+      id: "dead-code-report",
+      name: "Dead Code Report",
+      description: "Generate a potential dead-code artifact from graph usage evidence.",
+      capability: "DeadCode",
+      descriptor: ARTIFACT_DESCRIPTORS.DeadCodeReport,
+    }),
+    defineEnhancer({
+      id: "architecture-report",
+      name: "Architecture Report",
+      description: "Generate the existing architecture report as a versioned enhancer artifact.",
+      version: "1.0.0",
+      produces: [ARTIFACT_DESCRIPTORS.ArchitectureReport],
+      supportsIncremental: true,
+      run: (context) => {
+        const query = createQueryEngine(context.graph);
+        const report = createReport(query, "architecture");
+        return {
+          artifacts: [
+            createArtifact({
+              descriptor: ARTIFACT_DESCRIPTORS.ArchitectureReport,
+              data: report as JsonValue,
+              graphHash: context.graph.metadata.deterministicHash,
+              graphGeneratedAt: context.graph.metadata.generatedAt,
+              producedBy: "architecture-report",
+              enhancerVersion: "1.0.0",
+              dependencies: [context.artifacts.require("SoftwareGraph")],
+            }),
+          ],
+          statistics: {
+            packages: Array.isArray(report.packages) ? report.packages.length : 0,
+            services: Array.isArray(report.services) ? report.services.length : 0,
+            routes: Array.isArray(report.routes) ? report.routes.length : 0,
+          },
+        };
+      },
+    }),
+    defineEnhancer({
+      id: "markdown-docs",
+      name: "Markdown Docs",
+      description: "Render the architecture report as deterministic Markdown documentation.",
+      version: "1.0.0",
+      requires: [artifactRequirement("SoftwareGraph"), artifactRequirement("ArchitectureReport")],
+      produces: [ARTIFACT_DESCRIPTORS.MarkdownDocs],
+      supportsIncremental: true,
+      run: (context) => {
+        const architecture = context.artifacts.require("ArchitectureReport");
+        return {
+          artifacts: [
+            createArtifact({
+              descriptor: ARTIFACT_DESCRIPTORS.MarkdownDocs,
+              data: formatReport(architecture.data as JsonObject),
+              graphHash: context.graph.metadata.deterministicHash,
+              graphGeneratedAt: context.graph.metadata.generatedAt,
+              producedBy: "markdown-docs",
+              enhancerVersion: "1.0.0",
+              dependencies: [context.artifacts.require("SoftwareGraph"), architecture],
+            }),
+          ],
+          statistics: { bytes: formatReport(architecture.data as JsonObject).length },
+        };
+      },
+    }),
+    defineEnhancer({
+      id: "mermaid-diagram",
+      name: "Mermaid Diagram",
+      description: "Render the architecture graph as Mermaid.",
+      version: "1.0.0",
+      requires: [artifactRequirement("SoftwareGraph"), artifactRequirement("ArchitectureReport", { optional: true })],
+      produces: [ARTIFACT_DESCRIPTORS.MermaidDiagram],
+      supportsIncremental: true,
+      run: (context) => {
+        const mermaid = architectureMermaid(createQueryEngine(context.graph));
+        return {
+          artifacts: [
+            createArtifact({
+              descriptor: ARTIFACT_DESCRIPTORS.MermaidDiagram,
+              data: mermaid,
+              graphHash: context.graph.metadata.deterministicHash,
+              graphGeneratedAt: context.graph.metadata.generatedAt,
+              producedBy: "mermaid-diagram",
+              enhancerVersion: "1.0.0",
+              dependencies: [
+                context.artifacts.require("SoftwareGraph"),
+                ...optionalArtifact(context.artifacts.get("ArchitectureReport")),
+              ],
+            }),
+          ],
+          statistics: { bytes: mermaid.length },
+        };
+      },
+    }),
+    defineEnhancer({
+      id: "html-graph",
+      name: "HTML Graph",
+      description: "Render the interactive Software Graph Explorer HTML artifact.",
+      version: "1.0.0",
+      produces: [ARTIFACT_DESCRIPTORS.HtmlGraph],
+      supportsIncremental: true,
+      run: (context) => {
+        const html = createInteractiveHtmlGraph(context.graph, {
+          title: `${context.graph.repository.name} Software Graph Explorer`,
+        });
+        return {
+          artifacts: [
+            createArtifact({
+              descriptor: ARTIFACT_DESCRIPTORS.HtmlGraph,
+              data: html,
+              graphHash: context.graph.metadata.deterministicHash,
+              graphGeneratedAt: context.graph.metadata.generatedAt,
+              producedBy: "html-graph",
+              enhancerVersion: "1.0.0",
+              dependencies: [context.artifacts.require("SoftwareGraph")],
+            }),
+          ],
+          statistics: { bytes: html.length },
+        };
+      },
+    }),
+    defineEnhancer({
+      id: "evaluation-summary",
+      name: "Evaluation Summary",
+      description: "Summarize validation and coverage artifacts for release evaluation gates.",
+      version: "1.0.0",
+      requires: [
+        artifactRequirement("SoftwareGraph"),
+        artifactRequirement("ValidationReport"),
+        artifactRequirement("Coverage"),
+      ],
+      produces: [ARTIFACT_DESCRIPTORS.Evaluation],
+      supportsIncremental: true,
+      run: (context) => {
+        const validation = context.artifacts.require("ValidationReport");
+        const coverage = context.artifacts.require("Coverage");
+        const validationData = validation.data as JsonObject;
+        const coverageData = coverage.data as JsonObject;
+        const summary = {
+          repository: context.graph.repository.name,
+          graphHash: context.graph.metadata.deterministicHash,
+          validationStatus: validationData.status ?? "UNKNOWN",
+          coverageSummary: coverageData.summary ?? {},
+          deterministic: true,
+        };
+        return {
+          artifacts: [
+            createArtifact({
+              descriptor: ARTIFACT_DESCRIPTORS.Evaluation,
+              data: summary,
+              graphHash: context.graph.metadata.deterministicHash,
+              graphGeneratedAt: context.graph.metadata.generatedAt,
+              producedBy: "evaluation-summary",
+              enhancerVersion: "1.0.0",
+              dependencies: [context.artifacts.require("SoftwareGraph"), validation, coverage],
+            }),
+          ],
+          statistics: { status: String(summary.validationStatus) },
+        };
+      },
+    }),
+  ];
+}
+
+function capabilityArtifactEnhancer(input: {
+  readonly id: string;
+  readonly name: string;
+  readonly description: string;
+  readonly capability: CapabilityName;
+  readonly descriptor: (typeof ARTIFACT_DESCRIPTORS)[keyof typeof ARTIFACT_DESCRIPTORS];
+}): Enhancer {
+  return defineEnhancer({
+    id: input.id,
+    name: input.name,
+    description: input.description,
+    version: "1.0.0",
+    requires: [artifactRequirement("SoftwareGraph"), artifactRequirement("SemanticIndex", { optional: true })],
+    produces: [input.descriptor],
+    supportsIncremental: true,
+    run: (context) => {
+      const result = capabilityResultToJson(createCapabilityEngine(context.graph).execute(input.capability, {}));
+      return {
+        artifacts: [
+          createArtifact({
+            descriptor: input.descriptor,
+            data: result,
+            graphHash: context.graph.metadata.deterministicHash,
+            graphGeneratedAt: context.graph.metadata.generatedAt,
+            producedBy: input.id,
+            enhancerVersion: "1.0.0",
+            dependencies: [
+              context.artifacts.require("SoftwareGraph"),
+              ...optionalArtifact(context.artifacts.get("SemanticIndex")),
+            ],
+          }),
+        ],
+        statistics: capabilityArtifactStatistics(result),
+      };
+    },
+  });
+}
+
+async function maybeLoadGraphForEnhancerValidation(cli: ParsedCli): Promise<SoftwareGraph | undefined> {
+  if (!cli.flags.has("root") && cli.positional.length <= 1 && !flagBoolean(cli, "with-graph")) {
+    return undefined;
+  }
+  const root = enhancerRootFromCli(cli, 1);
+  return loadOrBuildGraph({ ...cli, positional: [root] });
+}
+
+async function loadSemanticIndexForGraph(cli: ParsedCli, graph: SoftwareGraph): Promise<SemanticIndex> {
+  try {
+    return await loadSemanticIndexForCli(cli, graph);
+  } catch {
+    return createSemanticIndex(graph);
+  }
+}
+
+function enhancerRootFromCli(cli: ParsedCli, positionalIndex: number): string {
+  const explicit = flagString(cli, "root", "");
+  if (explicit) {
+    return explicit;
+  }
+  return cli.positional[positionalIndex] ?? ".";
+}
+
+function enhancerManifestById(
+  enhancers: readonly Enhancer[],
+  manifests: readonly EnhancerManifest[],
+  id: string,
+): EnhancerManifest | undefined {
+  return enhancers.find((enhancer) => enhancer.id === id)?.manifest()
+    ?? manifests.find((manifest) => manifest.id === id);
+}
+
+function selectEnhancersForRun(enhancers: readonly Enhancer[], target: string): readonly Enhancer[] {
+  const sorted = [...enhancers].sort((left, right) => left.id.localeCompare(right.id));
+  if (target === "all") {
+    return sorted;
+  }
+
+  const byId = new Map(sorted.map((enhancer) => [enhancer.id, enhancer] as const));
+  const byArtifact = new Map<string, Enhancer>();
+  for (const enhancer of sorted) {
+    for (const artifact of enhancer.produces) {
+      byArtifact.set(artifact.id, enhancer);
+    }
+  }
+
+  const root = byId.get(target) ?? byArtifact.get(target);
+  if (!root) {
+    throw new OntolyCliError({
+      code: "ONTOLY5004",
+      message: `Enhancer not found: ${target}`,
+      suggestion: "Run ontoly enhancer list and use an enhancer id or produced artifact id.",
+      docs: "docs/enhancers.md#cli",
+    });
+  }
+
+  const selected = new Map<string, Enhancer>();
+  const visit = (enhancer: Enhancer): void => {
+    if (selected.has(enhancer.id)) {
+      return;
+    }
+    for (const dependency of enhancer.dependencies()) {
+      const dependencyEnhancer = byId.get(dependency) ?? byArtifact.get(dependency);
+      if (dependencyEnhancer) {
+        visit(dependencyEnhancer);
+      }
+    }
+    for (const requirement of enhancer.requires) {
+      const producer = byArtifact.get(requirement.artifact);
+      if (producer) {
+        visit(producer);
+      }
+    }
+    selected.set(enhancer.id, enhancer);
+  };
+
+  visit(root);
+  return [...selected.values()].sort((left, right) => left.id.localeCompare(right.id));
+}
+
+async function createFileEnhancerCache(root: string, outputDir: string): Promise<EnhancerCache> {
+  const cachePath = join(root, outputDir, "enhancers", "cache.json");
+  let entries: Record<string, EnhancerRunResult> = {};
+  try {
+    entries = JSON.parse(await readFile(cachePath, "utf8")) as Record<string, EnhancerRunResult>;
+  } catch {
+    entries = {};
+  }
+  const memory = createMemoryEnhancerCache(entries);
+
+  return {
+    get: (key) => memory.get(key),
+    has: (key) => memory.has(key),
+    set: async (key, value) => {
+      await memory.set(key, value);
+      entries[key] = value;
+      await mkdir(dirname(cachePath), { recursive: true });
+      await writeFile(cachePath, `${JSON.stringify(entries, null, 2)}\n`, "utf8");
+    },
+  };
+}
+
+async function writeEnhancerArtifacts(
+  root: string,
+  outputDir: string,
+  result: EnhancerPipelineResult,
+): Promise<string> {
+  const directory = join(root, outputDir, "enhancers");
+  const artifactDirectory = join(directory, "artifacts");
+  await mkdir(artifactDirectory, { recursive: true });
+
+  for (const artifact of result.artifacts) {
+    const path = join(artifactDirectory, artifactFileName(artifact));
+    await writeFile(path, artifactContents(artifact), "utf8");
+  }
+
+  const summary = enhancerPipelineResultToJson(result);
+  const summaryPath = join(directory, "summary.json");
+  await writeFile(summaryPath, `${JSON.stringify(summary, null, 2)}\n`, "utf8");
+  return summaryPath;
+}
+
+function enhancerPipelineResultToJson(result: EnhancerPipelineResult): JsonObject {
+  return {
+    graphHash: result.graphHash,
+    deterministicHash: result.deterministicHash,
+    statistics: result.statistics,
+    executions: result.executions.map((execution) => ({
+      enhancerId: execution.enhancerId,
+      status: execution.status,
+      cacheKey: execution.cacheKey,
+      artifacts: execution.artifacts.map((artifact) => artifact.descriptor.id),
+      durationMs: execution.durationMs,
+      statistics: execution.statistics,
+    })) as unknown as JsonValue,
+    artifacts: result.artifacts.map((artifact) => ({
+      id: artifact.descriptor.id,
+      kind: artifact.descriptor.kind,
+      version: artifact.descriptor.version,
+      hash: artifact.hash,
+      graphHash: artifact.graphHash,
+      dependencies: artifact.dependencies,
+      mediaType: artifact.descriptor.schema.mediaType,
+      producedBy: artifact.provenance.producedBy,
+    })) as unknown as JsonValue,
+    diagnostics: result.diagnostics as unknown as JsonValue,
+  };
+}
+
+function capabilityArtifactStatistics(value: JsonValue): JsonObject {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return {};
+  }
+  const object = value as JsonObject;
+  const evidence = Array.isArray(object.evidence) ? object.evidence.length : 0;
+  const recommendations = Array.isArray(object.recommendations) ? object.recommendations.length : 0;
+  const diagnostics = Array.isArray(object.diagnostics) ? object.diagnostics.length : 0;
+  return {
+    evidence,
+    recommendations,
+    diagnostics,
+  };
+}
+
+function enhancerLoggerFromCli() {
+  return {
+    info: (message: string) => logger.debug(message),
+    warning: (message: string) => logger.warning(message),
+    error: (message: string) => logger.error(message),
+    debug: (message: string) => logger.debug(message),
+  };
+}
+
+function artifactFileName(artifact: OntolyArtifact): string {
+  const base = kebabCaseCli(artifact.descriptor.id);
+  switch (artifact.descriptor.schema.mediaType) {
+    case "text/markdown":
+      return `${base}.md`;
+    case "text/vnd.mermaid":
+      return `${base}.mmd`;
+    case "text/html":
+      return `${base}.html`;
+    default:
+      return `${base}.json`;
+  }
+}
+
+function artifactContents(artifact: OntolyArtifact): string {
+  if (typeof artifact.data === "string") {
+    return artifact.data.endsWith("\n") ? artifact.data : `${artifact.data}\n`;
+  }
+  return `${JSON.stringify(artifact.data, null, 2)}\n`;
+}
+
+function optionalArtifact<T extends JsonValue>(artifact: OntolyArtifact<T> | undefined): readonly OntolyArtifact<T>[] {
+  return artifact ? [artifact] : [];
+}
+
+function compareEnhancerIssuesForCli(left: EnhancerValidationIssue, right: EnhancerValidationIssue): number {
+  return `${left.severity}:${left.code}:${left.enhancerId ?? ""}:${left.artifactId ?? ""}:${left.message}`
+    .localeCompare(`${right.severity}:${right.code}:${right.enhancerId ?? ""}:${right.artifactId ?? ""}:${right.message}`);
+}
+
+function kebabCaseCli(value: string): string {
+  return value
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+    .replace(/[^a-zA-Z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .toLowerCase();
 }
 
 function architectureSummary(query: ReturnType<typeof createQueryEngine>): JsonObject {
@@ -3069,6 +3820,34 @@ function commandHelp(): Record<string, CommandHelp> {
     options: ["--json         Print JSON.", "--ci           Fail on validation failure."],
     examples: ["ontoly skills list", "ontoly skills validate", "ontoly skills doctor --json"],
   },
+  enhancer: {
+    title: "ontoly enhancer",
+    description: "List, inspect, run, validate, and visualize deterministic graph artifact enhancers.",
+    usage: [
+      "ontoly enhancer list [--json]",
+      "ontoly enhancer inspect <id>",
+      "ontoly enhancer run <id|artifact|all> [root] [--json] [--no-cache] [--no-parallel]",
+      "ontoly enhancer graph [--format mermaid|dot|json]",
+      "ontoly enhancer doctor [root] [--json] [--ci]",
+      "ontoly enhancer validate [root] [--json] [--ci]",
+    ],
+    options: [
+      "--format kind   mermaid, dot, or json for enhancer graph.",
+      "--output path   Artifact directory. Default: .ontoly.",
+      "--no-cache      Disable incremental cache reads for run.",
+      "--no-parallel   Execute compatible enhancers serially.",
+      "--json          Print JSON.",
+      "--ci            Fail validation on errors.",
+    ],
+    examples: [
+      "ontoly enhancer list",
+      "ontoly enhancer inspect semantic-index",
+      "ontoly enhancer run semantic-index .",
+      "ontoly enhancer run MarkdownDocs .",
+      "ontoly enhancer graph --format mermaid",
+      "ontoly enhancer validate --ci",
+    ],
+  },
   doctor: {
     title: "ontoly doctor",
     description: "Check repository readiness and print actionable recommendations.",
@@ -3130,6 +3909,7 @@ Usage:
   ontoly export [path]
   ontoly mcp [--list]
   ontoly skills <list|validate|doctor> [--json] [--ci]
+  ontoly enhancer <list|inspect|run|graph|doctor|validate> [--json]
   ontoly validate [all|repository|framework] [--json] [--ci] [--clone] [--install]
   ontoly evaluate [repository] [--json] [--ci] [--refresh]
   ontoly leaderboard [--json]
@@ -3169,6 +3949,9 @@ Examples:
   ontoly skills list
   ontoly skills validate
   ontoly skills doctor
+  ontoly enhancer list
+  ontoly enhancer graph --format mermaid
+  ontoly enhancer run semantic-index .
   ontoly validate all
   ontoly validate ovok-core
   ontoly validate nextjs

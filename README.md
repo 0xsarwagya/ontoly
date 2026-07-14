@@ -29,6 +29,7 @@ The public contract is still experimental, but the repository already includes:
 - a TypeScript semantic frontend
 - a query engine
 - MCP capabilities
+- deterministic Enhancers for artifact generation
 - portable Agent Skills
 - validation and semantic evaluation infrastructure
 - release gates for docs, packaging, skills, examples, and regression checks
@@ -38,6 +39,7 @@ The public contract is still experimental, but the repository already includes:
 - Website: [oss.sarwagya.wtf/ontoly](https://oss.sarwagya.wtf/ontoly)
 - Docs: [oss.sarwagya.wtf/ontoly/docs](https://oss.sarwagya.wtf/ontoly/docs)
 - Agent Skills Catalog: [oss.sarwagya.wtf/ontoly/docs/skills](https://oss.sarwagya.wtf/ontoly/docs/skills)
+- Enhancers: [oss.sarwagya.wtf/ontoly/docs/enhancers](https://oss.sarwagya.wtf/ontoly/docs/enhancers)
 - Repository: [github.com/0xsarwagya/ontoly](https://github.com/0xsarwagya/ontoly)
 - Changelog: [CHANGELOG.md](CHANGELOG.md)
 - Roadmap: [ROADMAP.md](ROADMAP.md)
@@ -55,6 +57,7 @@ Repository
   -> Compiler Frontends
   -> Semantic Model
   -> Software Graph
+  -> Enhancers
   -> Query Engine
   -> MCP, Skills, SDKs, Docs, IDEs, Analysis
 ```

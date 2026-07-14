@@ -1,0 +1,29 @@
+{
+  "id": "architecture-report",
+  "name": "Architecture Report",
+  "description": "Generate an architecture-level report derived from Software Graph facts.",
+  "version": "1.0.0",
+  "apiVersion": "1.0.0",
+  "inputs": [
+    {
+      "artifact": "SoftwareGraph"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "ArchitectureReport",
+      "kind": "ArchitectureReport",
+      "name": "Architecture Report",
+      "version": "1.0.0",
+      "description": "Architecture-level report derived from Software Graph facts.",
+      "schema": {
+        "version": "1.0.0",
+        "mediaType": "application/json",
+        "description": "Architecture-level report derived from Software Graph facts."
+      }
+    }
+  ],
+  "dependencies": [],
+  "supportedGraphVersion": "1.0.0",
+  "supportsIncremental": true
+}

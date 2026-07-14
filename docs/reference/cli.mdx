@@ -15,8 +15,12 @@ ontoly trace
 ontoly doctor
 ontoly export
 ontoly mcp
+ontoly enhancer list
+ontoly enhancer run semantic-index .
+ontoly enhancer graph --format mermaid
 ontoly benchmark
 ```
 
 The CLI is a thin wrapper around the compiler, cache, query, and MCP
-packages. Public behavior belongs in those packages first.
+packages. Enhancers add deterministic artifact transformations above the
+immutable Software Graph.

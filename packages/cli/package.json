@@ -46,6 +46,7 @@
     "@0xsarwagya/ontoly-capabilities": "workspace:*",
     "@0xsarwagya/ontoly-compiler": "workspace:*",
     "@0xsarwagya/ontoly-core": "workspace:*",
+    "@0xsarwagya/ontoly-enhancer": "workspace:*",
     "@0xsarwagya/ontoly-index": "workspace:*",
     "@0xsarwagya/ontoly-mcp": "workspace:*",
     "@0xsarwagya/ontoly-parser-openapi": "workspace:*",

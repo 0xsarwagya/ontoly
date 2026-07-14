@@ -1,0 +1,41 @@
+{
+  "id": "validation-report",
+  "name": "Validation Report",
+  "description": "Generate graph-native validation and semantic coverage artifacts.",
+  "version": "1.0.0",
+  "apiVersion": "1.0.0",
+  "inputs": [
+    {
+      "artifact": "SoftwareGraph"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "ValidationReport",
+      "kind": "ValidationReport",
+      "name": "Validation Report",
+      "version": "1.0.0",
+      "description": "Graph-native validation diagnostics and consistency summary.",
+      "schema": {
+        "version": "1.0.0",
+        "mediaType": "application/json",
+        "description": "Graph-native validation diagnostics and consistency summary."
+      }
+    },
+    {
+      "id": "Coverage",
+      "kind": "Coverage",
+      "name": "Semantic Coverage",
+      "version": "1.0.0",
+      "description": "Semantic coverage and trust report.",
+      "schema": {
+        "version": "1.0.0",
+        "mediaType": "application/json",
+        "description": "Semantic coverage and trust report."
+      }
+    }
+  ],
+  "dependencies": [],
+  "supportedGraphVersion": "1.0.0",
+  "supportsIncremental": true
+}

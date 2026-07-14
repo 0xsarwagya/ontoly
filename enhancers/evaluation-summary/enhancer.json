@@ -1,0 +1,35 @@
+{
+  "id": "evaluation-summary",
+  "name": "Evaluation Summary",
+  "description": "Summarize validation and coverage artifacts for deterministic release gates.",
+  "version": "1.0.0",
+  "apiVersion": "1.0.0",
+  "inputs": [
+    {
+      "artifact": "SoftwareGraph"
+    },
+    {
+      "artifact": "ValidationReport"
+    },
+    {
+      "artifact": "Coverage"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "Evaluation",
+      "kind": "Evaluation",
+      "name": "Evaluation",
+      "version": "1.0.0",
+      "description": "Deterministic evaluation output.",
+      "schema": {
+        "version": "1.0.0",
+        "mediaType": "application/json",
+        "description": "Deterministic evaluation output."
+      }
+    }
+  ],
+  "dependencies": [],
+  "supportedGraphVersion": "1.0.0",
+  "supportsIncremental": true
+}

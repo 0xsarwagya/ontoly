@@ -1,0 +1,33 @@
+{
+  "id": "risk-report",
+  "name": "Risk Report",
+  "description": "Generate a repository risk artifact from graph evidence.",
+  "version": "1.0.0",
+  "apiVersion": "1.0.0",
+  "inputs": [
+    {
+      "artifact": "SoftwareGraph"
+    },
+    {
+      "artifact": "SemanticIndex",
+      "optional": true
+    }
+  ],
+  "outputs": [
+    {
+      "id": "RiskReport",
+      "kind": "RiskReport",
+      "name": "Risk Report",
+      "version": "1.0.0",
+      "description": "Repository risk report derived from graph evidence.",
+      "schema": {
+        "version": "1.0.0",
+        "mediaType": "application/json",
+        "description": "Repository risk report derived from graph evidence."
+      }
+    }
+  ],
+  "dependencies": [],
+  "supportedGraphVersion": "1.0.0",
+  "supportsIncremental": true
+}

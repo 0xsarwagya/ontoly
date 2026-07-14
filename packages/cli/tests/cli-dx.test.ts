@@ -83,6 +83,18 @@ describe("cli developer experience helpers", () => {
     expect(help).toContain("ontoly architecture --format html > architecture.html");
   });
 
+  it("documents enhancer platform commands", () => {
+    const help = renderCommandHelp(commandHelp().enhancer);
+
+    expect(help).toContain("ontoly enhancer");
+    expect(help).toContain("list");
+    expect(help).toContain("inspect <id>");
+    expect(help).toContain("run <id|artifact|all>");
+    expect(help).toContain("--format mermaid|dot|json");
+    expect(help).toContain("ontoly enhancer run semantic-index .");
+    expect(help).toContain("ontoly enhancer validate --ci");
+  });
+
   it("formats structured CLI errors with codes, suggestions, and docs", () => {
     const message = formatCliError(new OntolyCliError({
       code: "ONTOLY0001",

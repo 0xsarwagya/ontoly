@@ -27,6 +27,8 @@ ontoly doctor
 ontoly evaluate
 ontoly leaderboard
 ontoly skills validate
+ontoly enhancer list
+ontoly enhancer run semantic-index .
 ```
 
 ## Commands
@@ -58,6 +60,7 @@ ontoly skills validate
 - `ontoly doctor [root]`
 - `ontoly mcp`
 - `ontoly skills <list|validate|doctor>`
+- `ontoly enhancer <list|inspect|run|graph|doctor|validate>`
 - `ontoly validate [all|repository|framework]`
 - `ontoly evaluate [repository]`
 - `ontoly leaderboard`
@@ -212,6 +215,26 @@ graph coverage.
 
 HTML output opens the Software Graph Explorer: an offline graph debugger with
 Architecture, Dependency, Call Graph, and Full Graph modes.
+
+## Enhancers
+
+Enhancers are deterministic transformations over graph artifacts. They do not
+parse repositories or mutate the Software Graph.
+
+```sh
+ontoly enhancer list
+ontoly enhancer inspect semantic-index
+ontoly enhancer run semantic-index .
+ontoly enhancer run MarkdownDocs .
+ontoly enhancer graph --format mermaid
+ontoly enhancer validate --ci
+```
+
+`ontoly enhancer run` writes versioned artifacts and cache metadata under
+`.ontoly/enhancers/`.
+
+See [Enhancers](enhancers.md) for the API, lifecycle, artifact model, caching,
+manifests, and pipeline visualization.
 
 ## Semantic Index Search
 

@@ -1,0 +1,33 @@
+{
+  "id": "health-report",
+  "name": "Health Report",
+  "description": "Generate a repository health artifact from graph diagnostics and topology.",
+  "version": "1.0.0",
+  "apiVersion": "1.0.0",
+  "inputs": [
+    {
+      "artifact": "SoftwareGraph"
+    },
+    {
+      "artifact": "SemanticIndex",
+      "optional": true
+    }
+  ],
+  "outputs": [
+    {
+      "id": "HealthReport",
+      "kind": "HealthReport",
+      "name": "Health Report",
+      "version": "1.0.0",
+      "description": "Repository health report derived from graph diagnostics, cycles, and hotspots.",
+      "schema": {
+        "version": "1.0.0",
+        "mediaType": "application/json",
+        "description": "Repository health report derived from graph diagnostics, cycles, and hotspots."
+      }
+    }
+  ],
+  "dependencies": [],
+  "supportedGraphVersion": "1.0.0",
+  "supportsIncremental": true
+}

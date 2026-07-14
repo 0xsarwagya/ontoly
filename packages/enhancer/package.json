@@ -1,0 +1,65 @@
+{
+  "name": "@0xsarwagya/ontoly-enhancer",
+  "version": "0.1.0-alpha.1",
+  "description": "Deterministic Enhancer API for immutable Ontoly Software Graph artifact transformations.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xsarwagya/ontoly.git",
+    "directory": "packages/enhancer"
+  },
+  "homepage": "https://oss.sarwagya.wtf/ontoly",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup && tsc -p tsconfig.build.json",
+    "check-types": "tsc --noEmit",
+    "test": "cd ../.. && vitest run packages/enhancer/tests"
+  },
+  "dependencies": {
+    "@0xsarwagya/ontoly-core": "workspace:*",
+    "@0xsarwagya/ontoly-index": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "tsup": "^8.3.5",
+    "typescript": "5.9.2",
+    "vitest": "^3.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/0xsarwagya/ontoly/issues"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/0xsarwagya"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=11.0.0"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "ontoly",
+    "software-graph",
+    "enhancer",
+    "artifacts",
+    "compiler-passes",
+    "static-analysis",
+    "developer-tools"
+  ]
+}

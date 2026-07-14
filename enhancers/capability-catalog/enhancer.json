@@ -1,0 +1,33 @@
+{
+  "id": "capability-catalog",
+  "name": "Capability Catalog",
+  "description": "Expose deterministic Ontoly capabilities and schemas as an artifact.",
+  "version": "1.0.0",
+  "apiVersion": "1.0.0",
+  "inputs": [
+    {
+      "artifact": "SoftwareGraph"
+    },
+    {
+      "artifact": "SemanticIndex",
+      "optional": true
+    }
+  ],
+  "outputs": [
+    {
+      "id": "CapabilityCatalog",
+      "kind": "CapabilityCatalog",
+      "name": "Capability Catalog",
+      "version": "1.0.0",
+      "description": "Deterministic catalog of Ontoly capabilities and schemas.",
+      "schema": {
+        "version": "1.0.0",
+        "mediaType": "application/json",
+        "description": "Deterministic catalog of Ontoly capabilities and schemas."
+      }
+    }
+  ],
+  "dependencies": [],
+  "supportedGraphVersion": "1.0.0",
+  "supportsIncremental": true
+}

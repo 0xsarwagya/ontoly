@@ -1,0 +1,29 @@
+{
+  "id": "html-graph",
+  "name": "HTML Graph",
+  "description": "Render the interactive Software Graph Explorer HTML artifact.",
+  "version": "1.0.0",
+  "apiVersion": "1.0.0",
+  "inputs": [
+    {
+      "artifact": "SoftwareGraph"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "HtmlGraph",
+      "kind": "HtmlGraph",
+      "name": "HTML Graph",
+      "version": "1.0.0",
+      "description": "Interactive HTML graph artifact.",
+      "schema": {
+        "version": "1.0.0",
+        "mediaType": "text/html",
+        "description": "Interactive HTML graph artifact."
+      }
+    }
+  ],
+  "dependencies": [],
+  "supportedGraphVersion": "1.0.0",
+  "supportsIncremental": true
+}

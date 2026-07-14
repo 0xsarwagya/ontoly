@@ -1,0 +1,29 @@
+{
+  "id": "semantic-index",
+  "name": "Semantic Index",
+  "description": "Generate the deterministic Semantic Index artifact from the Software Graph.",
+  "version": "1.0.0",
+  "apiVersion": "1.0.0",
+  "inputs": [
+    {
+      "artifact": "SoftwareGraph"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "SemanticIndex",
+      "kind": "SemanticIndex",
+      "name": "Semantic Index",
+      "version": "1.0.0",
+      "description": "Deterministic repository vocabulary and intent index.",
+      "schema": {
+        "version": "1.0.0",
+        "mediaType": "application/json",
+        "description": "Deterministic repository vocabulary and intent index."
+      }
+    }
+  ],
+  "dependencies": [],
+  "supportedGraphVersion": "1.0.0",
+  "supportsIncremental": true
+}

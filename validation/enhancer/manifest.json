@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "purpose": "Permanent validation area for deterministic Ontoly Enhancers.",
+  "checks": [
+    "manifest validation",
+    "pipeline graph determinism",
+    "golden artifact snapshots",
+    "incremental cache stability",
+    "performance measurements"
+  ],
+  "artifacts": [
+    "SoftwareGraph",
+    "SemanticIndex",
+    "RepositorySummary",
+    "HealthReport",
+    "RiskReport",
+    "DeadCodeReport",
+    "ValidationReport",
+    "Coverage",
+    "ArchitectureReport",
+    "MarkdownDocs",
+    "MermaidDiagram",
+    "HtmlGraph",
+    "Evaluation"
+  ]
+}

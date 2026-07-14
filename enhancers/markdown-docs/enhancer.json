@@ -1,0 +1,32 @@
+{
+  "id": "markdown-docs",
+  "name": "Markdown Docs",
+  "description": "Render architecture artifacts as deterministic Markdown documentation.",
+  "version": "1.0.0",
+  "apiVersion": "1.0.0",
+  "inputs": [
+    {
+      "artifact": "SoftwareGraph"
+    },
+    {
+      "artifact": "ArchitectureReport"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "MarkdownDocs",
+      "kind": "MarkdownDocs",
+      "name": "Markdown Documentation",
+      "version": "1.0.0",
+      "description": "Markdown documentation generated from graph artifacts.",
+      "schema": {
+        "version": "1.0.0",
+        "mediaType": "text/markdown",
+        "description": "Markdown documentation generated from graph artifacts."
+      }
+    }
+  ],
+  "dependencies": [],
+  "supportedGraphVersion": "1.0.0",
+  "supportsIncremental": true
+}

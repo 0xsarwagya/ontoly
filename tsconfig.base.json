@@ -20,6 +20,7 @@
       "@0xsarwagya/ontoly-compiler": ["packages/compiler/src/index.ts"],
       "@0xsarwagya/ontoly-core": ["packages/core/src/index.ts"],
       "@0xsarwagya/ontoly-diagnostics": ["packages/diagnostics/src/index.ts"],
+      "@0xsarwagya/ontoly-enhancer": ["packages/enhancer/src/index.ts"],
       "@0xsarwagya/ontoly-index": ["packages/index/src/index.ts"],
       "@0xsarwagya/ontoly-mcp": ["packages/mcp/src/index.ts"],
       "@0xsarwagya/ontoly-parser-openapi": ["packages/parser-openapi/src/index.ts"],
