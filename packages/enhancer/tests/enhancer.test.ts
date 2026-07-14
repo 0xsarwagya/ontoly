@@ -1,7 +1,7 @@
 import { mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { createEdgeId, createSoftwareGraph, type JsonValue } from "@0xsarwagya/ontoly-core";
+import { createEdgeId, createSemanticIndex, createSoftwareGraph, stableHash, stableStringify, type JsonObject, type JsonValue, type SoftwareGraphNode } from "@0xsarwagya/ontoly-core";
 import { describe, expect, it } from "vitest";
 import {
   ARTIFACT_DESCRIPTORS,
@@ -55,6 +55,80 @@ describe("enhancer API", () => {
       kind: "EvidencePack",
       name: "Evidence Pack",
     });
+  });
+
+  it("hashes artifacts with stable chunked JSON semantics", () => {
+    const data = {
+      alpha: "semantic-index",
+      nested: Array.from({ length: 25 }, (_, index) => ({ index, value: `entry-${index}` })),
+    };
+    const artifact = createArtifact({
+      descriptor: fixtureDescriptor,
+      data: data as unknown as JsonValue,
+      graphHash: "graph-hash",
+    });
+    const expectedHash = stableHash(stableStringify({
+      descriptor: fixtureDescriptor,
+      data,
+      graphHash: "graph-hash",
+      dependencies: [],
+      provenance: {
+        source: "SoftwareGraph",
+        graphHash: "graph-hash",
+        inputArtifactHashes: {},
+      },
+    }));
+
+    expect(artifact.hash).toBe(expectedHash);
+  });
+
+  it("keeps preloaded graph and semantic-index dependency artifacts as compact references", () => {
+    const nodes: SoftwareGraphNode[] = Array.from({ length: 250 }, (_, index) => ({
+      id: `node:${index}`,
+      type: index === 0 ? "Workspace" : "Service",
+      name: `Service${index}`,
+      file: `src/service-${index}.ts`,
+      metadata: { documentation: "large metadata ".repeat(100) },
+    }));
+    const largeGraph = createSoftwareGraph({
+      repository: {
+        root: "/repo",
+        name: "large-enhancer-fixture",
+      },
+      nodes,
+      edges: nodes.slice(1).map((item, index) => ({
+        id: createEdgeId("CONTAINS", nodes[0]!.id, item.id),
+        type: "CONTAINS",
+        from: nodes[0]!.id,
+        to: item.id,
+      })),
+      fileCount: nodes.length,
+    });
+    const semanticIndex = createSemanticIndex(largeGraph);
+    const context = createDefaultEnhancerContext({ graph: largeGraph, semanticIndex });
+    const graphArtifact = context.artifacts.require<JsonObject>("SoftwareGraph");
+    const semanticArtifact = context.artifacts.require<JsonObject>("SemanticIndex");
+
+    expect(graphArtifact.data).toMatchObject({
+      artifact: "SoftwareGraph",
+      graphHash: largeGraph.metadata.deterministicHash,
+      statistics: {
+        nodes: 250,
+        edges: 249,
+      },
+    });
+    expect((graphArtifact.data as Record<string, unknown>).nodes).toBeUndefined();
+    expect((graphArtifact.data as Record<string, unknown>).edges).toBeUndefined();
+    expect(semanticArtifact.data).toMatchObject({
+      artifact: "SemanticIndex",
+      graphHash: largeGraph.metadata.deterministicHash,
+      deterministicHash: semanticIndex.metadata.deterministicHash,
+      statistics: {
+        entries: 250,
+      },
+    });
+    expect((semanticArtifact.data as Record<string, unknown>).entries).toBeUndefined();
+    expect((semanticArtifact.data as Record<string, unknown>).invertedIndex).toBeUndefined();
   });
 
   it("runs deterministic graph artifact transformations", async () => {

@@ -1,5 +1,25 @@
 # Alpha Release Notes
 
+## v0.1.0-alpha.14
+
+This stabilization release fixes retrieval quality, bounded evidence, and
+capability latency issues discovered during real-world Ovok Core evaluation.
+
+- Natural-language seed resolution now favors repository-local feature owners
+  and penalizes expanded-term false positives, so `sleep duration thresholds`
+  resolves to threshold services/methods instead of observation helpers or
+  external FHIR package symbols.
+- Evidence Packs remain compact and ranked through serialization, include
+  scoped diagnostics, and avoid unrelated repository-wide warnings lowering
+  confidence.
+- Semantic Index artifacts are versioned at `1.0.1`; stale or incompatible
+  indexes are rebuilt and persisted automatically.
+- CLI capability commands now reuse the loaded Semantic Index instead of
+  rebuilding it for each `impact`, `evidence`, or `implementation-plan` call.
+- The agent workflow regression corpus now covers sleep thresholds, batch-data
+  observations, authentication, JWT, signals, FHIR, and PlanDefinition queries.
+- Agent Skills now require Ontoly `0.1.0-alpha.14`.
+
 ## v0.1.0-alpha.13
 
 This stabilization release fixes the real-world agent workflow bugs discovered

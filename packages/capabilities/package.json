@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-capabilities",
-  "version": "0.1.0-alpha.13",
+  "version": "0.1.0-alpha.14",
   "description": "Deterministic software engineering capabilities over the Ontoly Software Graph.",
   "type": "module",
   "license": "MIT",

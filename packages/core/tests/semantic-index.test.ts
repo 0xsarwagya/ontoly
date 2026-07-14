@@ -76,6 +76,27 @@ describe("semantic index", () => {
     expect(externalIndex === -1 || externalIndex > serviceIndex).toBe(true);
   });
 
+  it("resolves sleep duration threshold seeds to repository-local carehub nodes", () => {
+    const index = createSemanticIndex(carehubThresholdGraph());
+    const result = findFeature(index, "sleep duration thresholds", { limit: 10 });
+    const names = result.candidates.map((candidate) => candidate.displayName);
+    const allowed = [
+      "PatientThresholdDto",
+      "CarehubPatientThresholdService",
+      "calculateSleepDurationAverages",
+    ];
+
+    expect(allowed).toContain(result.candidates[0]?.displayName);
+    expect(names).toEqual(expect.arrayContaining(allowed));
+    expect(names.slice(0, 5)).not.toContain("@medplum/fhirtypes");
+    expect(names[0]).not.toBe("isSleepStatisticsObservation");
+    expect(result.confidence).toBeLessThanOrEqual(0.9);
+
+    const external = result.candidates.find((candidate) => candidate.displayName === "@medplum/fhirtypes");
+    expect(external?.confidence ?? 0).toBeLessThan(0.9);
+    expect(external?.score ?? 0).toBeLessThan(result.candidates[0]?.score ?? 0);
+  });
+
   it("bounds metadata-derived aliases and documentation", () => {
     const index = createSemanticIndex(metadataHeavyGraph());
     const entry = index.entries.find((item) => item.displayName === "SleepDurationThresholdService");
@@ -156,6 +177,59 @@ function featureRankingGraph(): SoftwareGraph {
     nodes,
     edges,
     fileCount: 7,
+  });
+}
+
+function carehubThresholdGraph(): SoftwareGraph {
+  const nodes: SoftwareGraphNode[] = [
+    node("Module", "CarehubThresholdModule", "src/carehub/carehub-threshold.module.ts", {
+      documentation: "Carehub feature module for sleep duration thresholds.",
+    }),
+    node("Service", "CarehubPatientThresholdService", "src/carehub/patient-threshold.service.ts", {
+      documentation: "Repository-local service that resolves patient sleep duration thresholds.",
+    }),
+    node("Model", "PatientThresholdDto", "src/carehub/dto/patient-threshold.dto.ts", {
+      documentation: "DTO payload for patient sleep duration threshold limits.",
+    }),
+    node("Function", "calculateSleepDurationAverages", "src/carehub/sleep/calculate-sleep-duration-averages.ts", {
+      documentation: "Calculates sleep duration averages and applies patient thresholds.",
+    }),
+    node("Repository", "PatientThresholdRepository", "src/carehub/patient-threshold.repository.ts", {
+      documentation: "Stores repository-local patient sleep threshold records.",
+    }),
+    node("Resource", "isSleepStatisticsObservation", "src/carehub/fhir/is-sleep-statistics-observation.ts", {
+      documentation: "Type guard for sleep statistics observations.",
+    }),
+    node("Dependency", "@medplum/fhirtypes", "node_modules/@medplum/fhirtypes/package.json", {
+      package: "@medplum/fhirtypes",
+      documentation: "External FHIR types package for observation and threshold resources.",
+    }),
+    node("Resource", "SleepDurationThreshold", "node_modules/@medplum/fhirtypes/dist/index.d.ts", {
+      package: "@medplum/fhirtypes",
+      documentation: "External generated FHIR sleep duration threshold type.",
+    }),
+  ];
+  const byName = new Map(nodes.map((item) => [item.name, item] as const));
+  const edges: SoftwareGraphEdge[] = [
+    edge("CONTAINS", byName.get("CarehubThresholdModule")!, byName.get("CarehubPatientThresholdService")!),
+    edge("CONTAINS", byName.get("CarehubThresholdModule")!, byName.get("PatientThresholdDto")!),
+    edge("CALLS", byName.get("CarehubPatientThresholdService")!, byName.get("calculateSleepDurationAverages")!),
+    edge("CALLS", byName.get("CarehubPatientThresholdService")!, byName.get("PatientThresholdRepository")!),
+    edge("REFERENCES", byName.get("calculateSleepDurationAverages")!, byName.get("PatientThresholdDto")!),
+    edge("USES", byName.get("calculateSleepDurationAverages")!, byName.get("isSleepStatisticsObservation")!),
+    edge("IMPORTS", byName.get("CarehubPatientThresholdService")!, byName.get("@medplum/fhirtypes")!),
+    edge("EXPORTS", byName.get("@medplum/fhirtypes")!, byName.get("SleepDurationThreshold")!),
+  ];
+
+  return createSoftwareGraph({
+    repository: {
+      root: "/repo",
+      name: "carehub",
+      packageName: "@repo/carehub",
+    },
+    nodes,
+    edges,
+    fileCount: nodes.length,
   });
 }
 

@@ -39,7 +39,7 @@
       "precision": 100,
       "recall": 100,
       "confidence": 100,
-      "latencyMs": 0.377,
+      "latencyMs": 0.434,
       "semanticUnderstandingScore": 100
     },
     "graphify": {
@@ -81,7 +81,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.282,
+        "latencyMs": 0.599,
         "answers": [
           {
             "label": "AuthController",
@@ -104,7 +104,7 @@
           "AuthController"
         ],
         "confidence": 0,
-        "latencyMs": 0.002,
+        "latencyMs": 0.004,
         "answers": [],
         "explanation": "0 candidate node(s) matched Controller with terms AuthController."
       },
@@ -134,7 +134,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.258,
+        "latencyMs": 0.268,
         "answers": [
           {
             "label": "GET:/auth/me",
@@ -187,7 +187,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.544,
+        "latencyMs": 0.663,
         "answers": [
           {
             "label": "AuthModule",
@@ -210,7 +210,7 @@
           "AuthModule"
         ],
         "confidence": 0,
-        "latencyMs": 0.006,
+        "latencyMs": 0.003,
         "answers": [],
         "explanation": "0 candidate node(s) matched Module with terms AuthModule."
       },
@@ -240,7 +240,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.381,
+        "latencyMs": 0.245,
         "answers": [
           {
             "label": "DATABASE_URL",
@@ -263,7 +263,7 @@
           "DATABASE_URL"
         ],
         "confidence": 0,
-        "latencyMs": 0.003,
+        "latencyMs": 0.001,
         "answers": [],
         "explanation": "0 candidate node(s) matched EnvironmentVariable with terms DATABASE_URL."
       },
@@ -346,7 +346,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.588,
+        "latencyMs": 0.62,
         "answers": [
           {
             "label": "AppModule",

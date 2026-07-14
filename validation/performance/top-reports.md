@@ -2,11 +2,11 @@
 
 ## Top Fastest Repositories
 
-1. durable-local: 1247.404ms
-2. Ghost: 1366.775ms
-3. 0xsarwagya: 4108.636ms
-4. Innosphere: 32014.243ms
-5. Ovok Core: 56325.7ms
+1. durable-local: 1392.29ms
+2. Ghost: 1630.401ms
+3. 0xsarwagya: 4442.854ms
+4. Innosphere: 32461.743ms
+5. Ovok Core: 54487.489ms
 
 ## Largest Graphs
 
@@ -34,8 +34,8 @@
 
 ## Largest Workspace
 
-1. Ovok Core: 16324 files
-2. Innosphere: 844 files
+1. Ovok Core: 16384 files
+2. Innosphere: 843 files
 3. 0xsarwagya: 555 files
 4. Ghost: 56 files
 5. durable-local: 55 files
@@ -58,24 +58,24 @@
 
 ## Largest Memory Usage
 
-1. durable-local: 2.7 GB
-2. Ghost: 2.7 GB
-3. Innosphere: 2.6 GB
+1. Ghost: 2.5 GB
+2. durable-local: 2.5 GB
+3. Innosphere: 2.5 GB
 4. Ovok Core: 2.4 GB
-5. 0xsarwagya: 2.1 GB
+5. 0xsarwagya: 1.9 GB
 
 ## Fastest Agent Workflows
 
-1. durable-local: 178.206ms
-2. Ghost: 317.584ms
-3. 0xsarwagya: 1044.816ms
-4. Innosphere: 7012.002ms
-5. Ovok Core: 32585.984ms
+1. durable-local: 249.013ms
+2. Ghost: 453.048ms
+3. 0xsarwagya: 1472.151ms
+4. Innosphere: 7840.856ms
+5. Ovok Core: 29955.635ms
 
 ## Agent Workflow Memory
 
-1. durable-local: 2.7 GB
-2. Ghost: 2.6 GB
-3. 0xsarwagya: 2.1 GB
-4. Innosphere: 1.9 GB
-5. Ovok Core: 1.4 GB
+1. Ghost: 2.5 GB
+2. 0xsarwagya: 1.8 GB
+3. Innosphere: 1.8 GB
+4. durable-local: 1.7 GB
+5. Ovok Core: 1.5 GB

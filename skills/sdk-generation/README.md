@@ -4,8 +4,8 @@ This is an official Ontoly Agent Skill. It is independently installable and teac
 
 ## Version
 
-- Skill version: 0.1.0-alpha.13
-- Minimum Ontoly version: 0.1.0-alpha.13
+- Skill version: 0.1.0-alpha.14
+- Minimum Ontoly version: 0.1.0-alpha.14
 - Required capabilities: `ExplainArchitecture`, `TraceRequestLifecycle`, `FindResponsibleFunction`, `GraphStatistics`, `EvidencePack`
 - Enhancement: LLM Enhancement
 - Deprecated: no

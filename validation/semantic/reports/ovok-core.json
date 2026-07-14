@@ -37,7 +37,7 @@
       "precision": 100,
       "recall": 100,
       "confidence": 100,
-      "latencyMs": 0.999,
+      "latencyMs": 0.931,
       "semanticUnderstandingScore": 100
     },
     "graphify": {
@@ -84,7 +84,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 1.17,
+        "latencyMs": 1.014,
         "answers": [
           {
             "label": "AuthController",
@@ -107,7 +107,7 @@
           "AuthController"
         ],
         "confidence": 0,
-        "latencyMs": 0.003,
+        "latencyMs": 0.002,
         "answers": [],
         "explanation": "0 candidate node(s) matched Controller with terms AuthController."
       },
@@ -142,7 +142,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.454,
+        "latencyMs": 0.722,
         "answers": [
           {
             "label": "AuthService",
@@ -165,7 +165,7 @@
           "AuthService"
         ],
         "confidence": 0,
-        "latencyMs": 0.001,
+        "latencyMs": 0.005,
         "answers": [],
         "explanation": "0 candidate node(s) matched Service with terms AuthService."
       },
@@ -201,7 +201,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 1.617,
+        "latencyMs": 1.677,
         "answers": [
           {
             "label": "AuthController -> AuthService",
@@ -224,7 +224,7 @@
           "AuthController -> AuthService"
         ],
         "confidence": 0,
-        "latencyMs": 0.008,
+        "latencyMs": 0.01,
         "answers": [],
         "explanation": "0 candidate edge-derived answer(s) matched INJECTS."
       },
@@ -259,7 +259,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.508,
+        "latencyMs": 0.66,
         "answers": [
           {
             "label": "ALL:/fhir/R4",
@@ -312,7 +312,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 1.739,
+        "latencyMs": 1.196,
         "answers": [
           {
             "label": "AuthModule",
@@ -335,7 +335,7 @@
           "AuthModule"
         ],
         "confidence": 0,
-        "latencyMs": 0.003,
+        "latencyMs": 0.001,
         "answers": [],
         "explanation": "0 candidate node(s) matched Module with terms AuthModule."
       },
@@ -365,7 +365,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.508,
+        "latencyMs": 0.319,
         "answers": [
           {
             "label": "FHIR_DEFAULT_VERSION",
@@ -388,7 +388,7 @@
           "FHIR_DEFAULT_VERSION"
         ],
         "confidence": 0,
-        "latencyMs": 0.003,
+        "latencyMs": 0.001,
         "answers": [],
         "explanation": "0 candidate node(s) matched EnvironmentVariable with terms FHIR_DEFAULT_VERSION."
       },

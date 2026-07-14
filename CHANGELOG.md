@@ -2,6 +2,31 @@
 
 All notable Ontoly changes are tracked here.
 
+## 0.1.0-alpha.14
+
+### Stabilized
+
+- Improved Semantic Index seed ranking so natural-language queries such as
+  `sleep duration thresholds` resolve to repository-local feature owners instead
+  of adjacent observation helpers or external package symbols.
+- Bounded Semantic Index alias, keyword, inverted-index, and vocabulary payloads
+  to prevent huge evidence artifacts and oversized index serialization.
+- Added Semantic Index cache validation and repair so stale indexes are rebuilt
+  and persisted when graph or index versions change.
+- Reused the loaded Semantic Index in CLI capability execution, removing the
+  accidental full-index rebuild on every `impact`, `evidence`, and
+  `implementation-plan` command.
+- Preserved Evidence Pack ranking through serialization and scoped graph
+  diagnostics to selected evidence files/nodes.
+
+### Validation
+
+- Expanded the deterministic agent workflow regression corpus around sleep
+  duration thresholds, batch-data observations, authentication, JWT, signals,
+  and FHIR/PlanDefinition queries.
+- Refreshed validation dashboards, semantic reports, performance reports,
+  badges, and website assets after release-gate validation.
+
 ## 0.1.0-alpha.13
 
 ### Stabilized

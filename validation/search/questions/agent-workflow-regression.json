@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "name": "Agent workflow regression queries",
-  "description": "Curated Search -> Locate -> Inspect -> Impact -> Evidence Pack -> Implementation Plan checks for bounded agent workflows.",
+  "description": "Curated Search -> Seed Resolution -> Inspect -> Scoped Impact -> Ownership -> Evidence Pack -> Repository Intelligence -> Plan checks for bounded agent workflows.",
   "queries": [
     {
       "id": "agent-workflow-0001",
@@ -20,7 +20,15 @@
         ],
         "evidence": [
           "READS",
-          "REFERENCES"
+          "REFERENCES",
+          "CONFIGURES"
+        ],
+        "forbiddenNodes": [
+          "dep:@medplum/fhirtypes",
+          "type:isSleepStatisticsObservation"
+        ],
+        "forbiddenFiles": [
+          "node_modules"
         ],
         "confidence": {
           "min": 0.6,
@@ -34,18 +42,24 @@
       "category": "feature",
       "expected": {
         "nodes": [
+          "model:SleepStatisticsObservation",
           "service:SleepObservationService",
           "method:SleepObservationService.recordStatistics"
         ],
         "files": [
+          "src/sleep/sleep-statistics-observation.ts",
           "src/sleep/sleep-observation.service.ts"
         ],
         "evidence": [
           "CALLS",
-          "CONTAINS"
+          "CONTAINS",
+          "REFERENCES"
+        ],
+        "forbiddenTopNodes": [
+          "type:isSleepStatisticsObservation"
         ],
         "confidence": {
-          "min": 0.6,
+          "min": 0.55,
           "max": 1
         }
       }
@@ -57,15 +71,18 @@
       "expected": {
         "nodes": [
           "repo:BatchDataObservationRepository",
-          "model:BatchDataObservation"
+          "model:BatchDataObservation",
+          "method:SleepObservationService.recordStatistics"
         ],
         "files": [
           "src/sleep/batch-data-observation.repository.ts",
-          "src/sleep/batch-data-observation.ts"
+          "src/sleep/batch-data-observation.ts",
+          "src/sleep/sleep-observation.service.ts"
         ],
         "evidence": [
           "WRITES",
-          "USES"
+          "USES",
+          "CALLS"
         ],
         "confidence": {
           "min": 0.55,
@@ -75,6 +92,33 @@
     },
     {
       "id": "agent-workflow-0004",
+      "phrase": "authentication",
+      "category": "feature",
+      "expected": {
+        "nodes": [
+          "guard:JwtAuthGuard",
+          "controller:AuthController",
+          "service:AuthService",
+          "method:AuthService.login"
+        ],
+        "files": [
+          "src/auth/jwt-auth.guard.ts",
+          "src/auth/auth.controller.ts",
+          "src/auth/auth.service.ts"
+        ],
+        "evidence": [
+          "AUTHORIZES",
+          "CALLS",
+          "CONTAINS"
+        ],
+        "confidence": {
+          "min": 0.55,
+          "max": 1
+        }
+      }
+    },
+    {
+      "id": "agent-workflow-0005",
       "phrase": "authentication JWT",
       "category": "feature",
       "expected": {
@@ -87,80 +131,39 @@
         ],
         "files": [
           "src/auth/jwt-auth.guard.ts",
+          ".env.example",
           "src/auth/auth.controller.ts",
           "src/auth/auth.service.ts"
         ],
         "evidence": [
           "AUTHORIZES",
-          "READS"
+          "READS",
+          "CALLS"
         ],
         "confidence": {
           "min": 0.6,
-          "max": 1
-        }
-      }
-    },
-    {
-      "id": "agent-workflow-0005",
-      "phrase": "Signals Thresholds",
-      "category": "concept",
-      "expected": {
-        "nodes": [
-          "event:SleepSignals",
-          "config:SleepThresholds"
-        ],
-        "files": [
-          "src/sleep/signals.ts",
-          "src/sleep/thresholds.ts"
-        ],
-        "evidence": [
-          "PUBLISHES",
-          "READS"
-        ],
-        "confidence": {
-          "min": 0.5,
           "max": 1
         }
       }
     },
     {
       "id": "agent-workflow-0006",
-      "phrase": "evidence-pack authentication JWT",
+      "phrase": "JWT",
       "category": "concept",
       "expected": {
         "nodes": [
           "guard:JwtAuthGuard",
-          "env:JWT_SECRET"
+          "env:JWT_SECRET",
+          "method:AuthService.login"
         ],
         "files": [
-          "src/auth/jwt-auth.guard.ts"
+          "src/auth/jwt-auth.guard.ts",
+          ".env.example",
+          "src/auth/auth.service.ts"
         ],
         "evidence": [
           "AUTHORIZES",
           "READS"
-        ],
-        "confidence": {
-          "min": 0.6,
-          "max": 1
-        }
-      }
-    },
-    {
-      "id": "agent-workflow-0007",
-      "phrase": "impact batch-data observations",
-      "category": "feature",
-      "expected": {
-        "nodes": [
-          "repo:BatchDataObservationRepository",
-          "service:SleepObservationService"
-        ],
-        "files": [
-          "src/sleep/batch-data-observation.repository.ts",
-          "src/sleep/sleep-observation.service.ts"
-        ],
-        "evidence": [
-          "CALLS",
-          "WRITES"
         ],
         "confidence": {
           "min": 0.55,
@@ -169,7 +172,214 @@
       }
     },
     {
+      "id": "agent-workflow-0007",
+      "phrase": "Signals",
+      "category": "concept",
+      "expected": {
+        "nodes": [
+          "event:SleepSignals",
+          "method:SleepObservationService.recordStatistics"
+        ],
+        "files": [
+          "src/sleep/signals.ts",
+          "src/sleep/sleep-observation.service.ts"
+        ],
+        "evidence": [
+          "PUBLISHES"
+        ],
+        "confidence": {
+          "min": 0.45,
+          "max": 1
+        }
+      }
+    },
+    {
       "id": "agent-workflow-0008",
+      "phrase": "Thresholds",
+      "category": "concept",
+      "expected": {
+        "nodes": [
+          "config:SleepThresholds",
+          "model:SleepDurationThreshold",
+          "model:LoginThreshold"
+        ],
+        "files": [
+          "src/sleep/thresholds.ts",
+          "src/login-threshold.dto.ts"
+        ],
+        "evidence": [
+          "READS",
+          "CONFIGURES",
+          "REFERENCES"
+        ],
+        "confidence": {
+          "min": 0.45,
+          "max": 1
+        }
+      }
+    },
+    {
+      "id": "agent-workflow-0009",
+      "phrase": "FHIR",
+      "category": "feature",
+      "expected": {
+        "nodes": [
+          "service:FhirPlanDefinitionService",
+          "resource:fhir:PlanDefinition",
+          "controller:FhirController",
+          "config:FHIR_DEFAULT_VERSION"
+        ],
+        "files": [
+          "src/fhir/plan-definition.service.ts",
+          "src/fhir/plan-definition.resource.ts",
+          "src/fhir/fhir.controller.ts",
+          "src/fhir/fhir.config.ts"
+        ],
+        "evidence": [
+          "HANDLES",
+          "USES",
+          "READS"
+        ],
+        "forbiddenTopNodes": [
+          "dep:@medplum/fhirtypes"
+        ],
+        "confidence": {
+          "min": 0.5,
+          "max": 1
+        }
+      }
+    },
+    {
+      "id": "agent-workflow-0010",
+      "phrase": "PlanDefinition",
+      "category": "concept",
+      "expected": {
+        "nodes": [
+          "resource:fhir:PlanDefinition",
+          "service:FhirPlanDefinitionService"
+        ],
+        "files": [
+          "src/fhir/plan-definition.resource.ts",
+          "src/fhir/plan-definition.service.ts"
+        ],
+        "evidence": [
+          "USES",
+          "REFERENCES"
+        ],
+        "forbiddenTopNodes": [
+          "dep:@medplum/fhirtypes"
+        ],
+        "confidence": {
+          "min": 0.55,
+          "max": 1
+        }
+      }
+    },
+    {
+      "id": "agent-workflow-0011",
+      "phrase": "repository ownership",
+      "category": "feature",
+      "expected": {
+        "nodes": [
+          "module:RepositoryIntelligenceModule",
+          "service:RepositoryOwnershipService",
+          "method:RepositoryOwnershipService.findOwners",
+          "model:RepositoryOwnershipEvidence"
+        ],
+        "files": [
+          "src/repository-intelligence/repository-intelligence.module.ts",
+          "src/repository-intelligence/ownership.service.ts",
+          "src/repository-intelligence/ownership.evidence.ts"
+        ],
+        "evidence": [
+          "CONTAINS",
+          "REFERENCES"
+        ],
+        "confidence": {
+          "min": 0.55,
+          "max": 1
+        }
+      }
+    },
+    {
+      "id": "agent-workflow-0012",
+      "phrase": "implementation planning",
+      "category": "feature",
+      "expected": {
+        "nodes": [
+          "service:ImplementationPlanningService",
+          "method:ImplementationPlanningService.createPlan",
+          "model:ImplementationPlan"
+        ],
+        "files": [
+          "src/planning/implementation-planning.service.ts",
+          "src/planning/implementation-plan.ts"
+        ],
+        "evidence": [
+          "CONTAINS",
+          "USES",
+          "REFERENCES"
+        ],
+        "confidence": {
+          "min": 0.55,
+          "max": 1
+        }
+      }
+    },
+    {
+      "id": "agent-workflow-0013",
+      "phrase": "evidence-pack authentication JWT",
+      "category": "concept",
+      "expected": {
+        "nodes": [
+          "guard:JwtAuthGuard",
+          "env:JWT_SECRET",
+          "method:AuthService.login"
+        ],
+        "files": [
+          "src/auth/jwt-auth.guard.ts",
+          ".env.example",
+          "src/auth/auth.service.ts"
+        ],
+        "evidence": [
+          "AUTHORIZES",
+          "READS"
+        ],
+        "confidence": {
+          "min": 0.55,
+          "max": 1
+        }
+      }
+    },
+    {
+      "id": "agent-workflow-0014",
+      "phrase": "impact batch-data observations",
+      "category": "feature",
+      "expected": {
+        "nodes": [
+          "repo:BatchDataObservationRepository",
+          "service:SleepObservationService",
+          "method:SleepObservationService.recordStatistics",
+          "model:BatchDataObservation"
+        ],
+        "files": [
+          "src/sleep/batch-data-observation.repository.ts",
+          "src/sleep/sleep-observation.service.ts",
+          "src/sleep/batch-data-observation.ts"
+        ],
+        "evidence": [
+          "CALLS",
+          "WRITES",
+          "USES"
+        ],
+        "confidence": {
+          "min": 0.55,
+          "max": 1
+        }
+      }
+    },
+    {
+      "id": "agent-workflow-0015",
       "phrase": "implementation-plan sleep duration thresholds",
       "category": "concept",
       "expected": {
@@ -185,7 +395,15 @@
         ],
         "evidence": [
           "REFERENCES",
-          "READS"
+          "READS",
+          "CONFIGURES"
+        ],
+        "forbiddenNodes": [
+          "dep:@medplum/fhirtypes",
+          "type:isSleepStatisticsObservation"
+        ],
+        "forbiddenFiles": [
+          "node_modules"
         ],
         "confidence": {
           "min": 0.55,

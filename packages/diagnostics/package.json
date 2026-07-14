@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-diagnostics",
-  "version": "0.1.0-alpha.13",
+  "version": "0.1.0-alpha.14",
   "description": "Shared diagnostic constructors for Ontoly.",
   "type": "module",
   "license": "MIT",

@@ -3,6 +3,7 @@ import { isAbsolute, join } from "node:path";
 import type { SoftwareGraph } from "@0xsarwagya/ontoly-core";
 import {
   createSemanticIndex,
+  validateSemanticIndex,
   type SemanticIndex,
 } from "@0xsarwagya/ontoly-core";
 
@@ -77,7 +78,17 @@ export async function loadSemanticIndex(options: PersistGraphOptions): Promise<S
 
 export async function loadOrCreateSemanticIndex(options: PersistGraphOptions): Promise<SemanticIndex> {
   try {
-    return await loadSemanticIndex(options);
+    const [semanticIndex, graph] = await Promise.all([
+      loadSemanticIndex(options),
+      loadGraph(options),
+    ]);
+    if (validateSemanticIndex(semanticIndex, graph).length === 0) {
+      return semanticIndex;
+    }
+    const rebuilt = createSemanticIndex(graph);
+    await mkdir(getGraphArtifactPaths(options).directory, { recursive: true });
+    await writeJson(getGraphArtifactPaths(options).semanticIndex, rebuilt);
+    return rebuilt;
   } catch (error) {
     if (!isMissingFileError(error)) {
       throw error;

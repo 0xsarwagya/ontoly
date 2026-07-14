@@ -36,7 +36,7 @@
       "precision": 100,
       "recall": 100,
       "confidence": 100,
-      "latencyMs": 0.028,
+      "latencyMs": 0.031,
       "semanticUnderstandingScore": 100
     },
     "graphify": {
@@ -78,7 +78,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.044,
+        "latencyMs": 0.054,
         "answers": [
           {
             "label": "createGhost",
@@ -131,7 +131,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.022,
+        "latencyMs": 0.021,
         "answers": [
           {
             "label": "Ghost",
@@ -349,7 +349,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.072,
+        "latencyMs": 0.075,
         "answers": [
           {
             "label": "loadOrCreateRecord -> createGhostId",

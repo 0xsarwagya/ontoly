@@ -6,7 +6,7 @@ Frameworks: React, Vite
 | System | Questions | PASS | PARTIAL | FAIL | Precision | Recall | Score | Avg Latency |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | Ontoly | 6 | 6 | 0 | 0 | 100 | 100 | 100 | 0.051ms |
-| Graphify | 6 | 0 | 0 | 6 | 0 | 0 | 0 | 0.005ms |
+| Graphify | 6 | 0 | 0 | 6 | 0 | 0 | 0 | 0.004ms |
 
 ## Questions
 

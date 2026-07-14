@@ -14,6 +14,16 @@ const REPORT_ROOT = join(PROJECT_ROOT, "validation", "semantic", "reports");
 const REPORT_JSON = join(REPORT_ROOT, "agent-workflow.json");
 const REPORT_MD = join(REPORT_ROOT, "agent-workflow.md");
 const CLIENTS = ["Codex", "Claude", "Generic"];
+const EXPECTED_IMPLEMENTATION_PLAN_STAGES = [
+  "search",
+  "seed resolution",
+  "inspect",
+  "scoped impact",
+  "ownership",
+  "evidence pack",
+  "repository intelligence",
+  "plan",
+];
 
 const args = parseArgs(process.argv.slice(2));
 
@@ -84,6 +94,7 @@ function validateWorkflow(modules, graph, queries) {
   const timings = [];
 
   const corpusResults = queries.map((item) => validateCorpusQuery(modules, graph, index, item));
+  const repeatedQueries = queries.map((item) => validateRepeatedQuery(modules, index, item));
 
   const search = measured(timings, "search", () =>
     modules.core.resolveIntent(index, "sleep duration thresholds", { category: "feature", limit: 5 }));
@@ -97,8 +108,8 @@ function validateWorkflow(modules, graph, queries) {
     candidate.nodeId === "model:SleepDurationThreshold" ||
     candidate.nodeId === "method:SleepObservationService.recordStatistics",
   )?.nodeId ?? search.candidates[0]?.nodeId ?? "model:SleepDurationThreshold";
-  const located = measured(timings, "locate", () => query.findNode(locateId));
-  assert(Boolean(located), "Locate did not resolve the top search candidate.");
+  const located = measured(timings, "seed-resolution", () => query.findNode(locateId));
+  assert(Boolean(located), "Seed Resolution did not resolve the top search candidate.");
 
   const inspection = measured(timings, "inspect", () => query.neighborhood(located.id, { depth: 1 }));
   assert(inspection.nodes.some((node) => node.id === "config:SleepThresholds"), "Inspect did not include threshold configuration.");
@@ -130,11 +141,28 @@ function validateWorkflow(modules, graph, queries) {
   assert(isPartialStatus(plan.statistics.budget.status), "Implementation Plan did not report partial/PARTIAL status.");
   assert(plan.statistics.budget.visitedNodes <= 3, "Implementation Plan exceeded its node budget.");
   assert(plan.diagnostics.some((item) => item.code === "CAPABILITY_PARTIAL_PLAN"), "Implementation Plan did not emit partial diagnostic.");
+  const planProfile = plan.statistics.profile ?? [];
+  const planEvidencePack = plan.statistics.evidencePack ?? {};
+  assert(
+    JSON.stringify(planProfile.map((stage) => stage.name)) === JSON.stringify(EXPECTED_IMPLEMENTATION_PLAN_STAGES),
+    `Implementation Plan stages changed: ${planProfile.map((stage) => stage.name).join(" -> ")}`,
+  );
+  assert(planProfile.every((stage) =>
+    Number.isFinite(stage.durationMs) &&
+    stage.durationMs >= 0 &&
+    (stage.status === "complete" || stage.status === "partial")
+  ), "Implementation Plan stages are not profiled with status and duration.");
+  assert(planEvidencePack.stableIds?.includes("model:SleepDurationThreshold"), "Implementation Plan evidence pack missed the threshold stable id.");
+  assert(planEvidencePack.filesToInspect?.includes("src/sleep/thresholds.ts"), "Implementation Plan evidence pack missed the threshold file.");
+  assert(planEvidencePack.topNodes.length <= planEvidencePack.limits.nodes, "Implementation Plan evidence pack exceeded node limits.");
+  assert(planEvidencePack.topEdges.length <= planEvidencePack.limits.edges, "Implementation Plan evidence pack exceeded edge limits.");
+  assert(plan.statistics.repositoryIntelligence?.scopedFiles?.includes("src/sleep/thresholds.ts"), "Implementation Plan did not include repository intelligence scoped files.");
 
   return {
-    status: corpusResults.every((item) => item.status === "PASS") ? "PASS" : "FAIL",
+    status: corpusResults.every((item) => item.status === "PASS") && repeatedQueries.every((item) => item.status === "PASS") ? "PASS" : "FAIL",
     graphHash: graph.metadata.deterministicHash,
     corpus: corpusResults,
+    repeatedQueries,
     steps: timings.map(({ value, ...item }) => item),
     bounded: {
       impactNodeLimit: impact.statistics.nodeLimit,
@@ -142,6 +170,12 @@ function validateWorkflow(modules, graph, queries) {
       evidenceNodeLimit: pack.topNodes.length,
       evidenceEdgeLimit: pack.topEdges.length,
       plannerBudget: plan.statistics.budget,
+      plannerStages: planProfile.map((stage) => ({
+        name: stage.name,
+        status: stage.status,
+        nodesVisited: stage.nodesVisited,
+        edgesVisited: stage.edgesVisited,
+      })),
     },
   };
 }
@@ -158,6 +192,9 @@ function validateCorpusQuery(modules, graph, index, item) {
   const expectedNodes = expected.nodes ?? [];
   const expectedFiles = expected.files ?? [];
   const expectedEvidence = expected.evidence ?? [];
+  const forbiddenNodes = expected.forbiddenNodes ?? [];
+  const forbiddenTopNodes = expected.forbiddenTopNodes ?? [];
+  const forbiddenFiles = expected.forbiddenFiles ?? [];
   const confidence = expected.confidence ?? { min: 0, max: 1 };
   const evidenceTypes = new Set(graph.edges
     .filter((edge) => expectedNodes.includes(edge.from) || expectedNodes.includes(edge.to))
@@ -178,6 +215,21 @@ function validateCorpusQuery(modules, graph, index, item) {
   if (result.confidence < confidence.min || result.confidence > confidence.max) {
     failures.push(`confidence ${result.confidence} outside ${confidence.min}-${confidence.max}`);
   }
+  for (const nodeId of forbiddenNodes) {
+    if (candidateIds.includes(nodeId)) {
+      failures.push(`forbidden node appeared in top candidates: ${nodeId}`);
+    }
+  }
+  for (const nodeId of forbiddenTopNodes) {
+    if (candidateIds[0] === nodeId) {
+      failures.push(`forbidden node was the top candidate: ${nodeId}`);
+    }
+  }
+  for (const file of forbiddenFiles) {
+    if ([...candidateFiles].some((candidateFile) => candidateFile.includes(file))) {
+      failures.push(`forbidden file appeared in top candidates: ${file}`);
+    }
+  }
 
   return {
     id: item.id,
@@ -197,10 +249,40 @@ function validateCorpusQuery(modules, graph, index, item) {
   };
 }
 
+function validateRepeatedQuery(modules, index, item) {
+  const first = modules.core.resolveIntent(index, item.phrase, {
+    category: item.category,
+    limit: 8,
+  });
+  const second = modules.core.resolveIntent(index, item.phrase, {
+    category: item.category,
+    limit: 8,
+  });
+  const firstIds = first.candidates.map((candidate) => candidate.nodeId);
+  const secondIds = second.candidates.map((candidate) => candidate.nodeId);
+  const failures = [];
+
+  if (JSON.stringify(firstIds) !== JSON.stringify(secondIds)) {
+    failures.push(`candidate order changed: ${firstIds.join(", ")} != ${secondIds.join(", ")}`);
+  }
+  if (first.confidence !== second.confidence) {
+    failures.push(`confidence changed: ${first.confidence} != ${second.confidence}`);
+  }
+
+  return {
+    id: item.id,
+    phrase: item.phrase,
+    status: failures.length === 0 ? "PASS" : "FAIL",
+    failures,
+    topCandidates: firstIds.slice(0, 5),
+    confidence: first.confidence,
+  };
+}
+
 function runStress(modules) {
   const profiles = [
     { id: "agent-fixture-small", copies: 1, iterations: 20, maxDurationMs: 2_000 },
-    { id: "agent-fixture-expanded", copies: 60, iterations: 12, maxDurationMs: 8_000 },
+    { id: "agent-fixture-expanded", copies: 60, iterations: 12, maxDurationMs: 10_000 },
   ];
   const results = profiles.map((profile) => runStressProfile(modules, profile));
   return {
@@ -289,9 +371,24 @@ function createAgentWorkflowGraph(core, copies) {
     node("Method", "method:SleepObservationService.recordStatistics", "SleepObservationService.recordStatistics", "src/sleep/sleep-observation.service.ts"),
     node("Repository", "repo:BatchDataObservationRepository", "BatchDataObservationRepository", "src/sleep/batch-data-observation.repository.ts"),
     node("Model", "model:BatchDataObservation", "BatchDataObservation", "src/sleep/batch-data-observation.ts"),
+    node("Model", "model:SleepStatisticsObservation", "SleepStatisticsObservation", "src/sleep/sleep-statistics-observation.ts"),
     node("Model", "model:SleepDurationThreshold", "SleepDurationThreshold", "src/sleep/thresholds.ts"),
     node("Configuration", "config:SleepThresholds", "SleepThresholds", "src/sleep/thresholds.ts"),
     node("Event", "event:SleepSignals", "SleepSignals", "src/sleep/signals.ts"),
+    node("Route", "route:GET:/fhir/PlanDefinition", "GET /fhir/PlanDefinition", "src/fhir/fhir.controller.ts", { method: "GET", path: "/fhir/PlanDefinition" }),
+    node("Controller", "controller:FhirController", "FhirController", "src/fhir/fhir.controller.ts"),
+    node("Service", "service:FhirPlanDefinitionService", "FhirPlanDefinitionService", "src/fhir/plan-definition.service.ts"),
+    node("Resource", "resource:fhir:PlanDefinition", "PlanDefinition", "src/fhir/plan-definition.resource.ts"),
+    node("Configuration", "config:FHIR_DEFAULT_VERSION", "FHIR_DEFAULT_VERSION", "src/fhir/fhir.config.ts"),
+    node("Module", "module:RepositoryIntelligenceModule", "RepositoryIntelligenceModule", "src/repository-intelligence/repository-intelligence.module.ts"),
+    node("Service", "service:RepositoryOwnershipService", "RepositoryOwnershipService", "src/repository-intelligence/ownership.service.ts"),
+    node("Method", "method:RepositoryOwnershipService.findOwners", "RepositoryOwnershipService.findOwners", "src/repository-intelligence/ownership.service.ts"),
+    node("Model", "model:RepositoryOwnershipEvidence", "RepositoryOwnershipEvidence", "src/repository-intelligence/ownership.evidence.ts"),
+    node("Service", "service:ImplementationPlanningService", "ImplementationPlanningService", "src/planning/implementation-planning.service.ts"),
+    node("Method", "method:ImplementationPlanningService.createPlan", "ImplementationPlanningService.createPlan", "src/planning/implementation-planning.service.ts"),
+    node("Model", "model:ImplementationPlan", "ImplementationPlan", "src/planning/implementation-plan.ts"),
+    node("Dependency", "dep:@medplum/fhirtypes", "@medplum/fhirtypes", "node_modules/@medplum/fhirtypes/dist/index.d.ts"),
+    node("TypeAlias", "type:isSleepStatisticsObservation", "isSleepStatisticsObservation", "node_modules/@medplum/fhirtypes/dist/index.d.ts"),
   ];
   const relationships = [
     ["HANDLES", "route:POST:/login", "controller:AuthController"],
@@ -308,10 +405,24 @@ function createAgentWorkflowGraph(core, copies) {
     ["CALLS", "method:SleepObservationService.recordStatistics", "repo:BatchDataObservationRepository"],
     ["WRITES", "repo:BatchDataObservationRepository", "model:BatchDataObservation"],
     ["USES", "method:SleepObservationService.recordStatistics", "model:BatchDataObservation"],
+    ["REFERENCES", "method:SleepObservationService.recordStatistics", "model:SleepStatisticsObservation"],
     ["READS", "method:SleepObservationService.recordStatistics", "config:SleepThresholds"],
     ["REFERENCES", "method:SleepObservationService.recordStatistics", "model:SleepDurationThreshold"],
     ["CONFIGURES", "config:SleepThresholds", "model:SleepDurationThreshold"],
     ["PUBLISHES", "method:SleepObservationService.recordStatistics", "event:SleepSignals"],
+    ["HANDLES", "route:GET:/fhir/PlanDefinition", "controller:FhirController"],
+    ["AUTHORIZES", "route:GET:/fhir/PlanDefinition", "guard:JwtAuthGuard"],
+    ["CALLS", "controller:FhirController", "service:FhirPlanDefinitionService"],
+    ["USES", "service:FhirPlanDefinitionService", "resource:fhir:PlanDefinition"],
+    ["READS", "service:FhirPlanDefinitionService", "config:FHIR_DEFAULT_VERSION"],
+    ["REFERENCES", "resource:fhir:PlanDefinition", "dep:@medplum/fhirtypes"],
+    ["CONTAINS", "module:RepositoryIntelligenceModule", "service:RepositoryOwnershipService"],
+    ["CONTAINS", "service:RepositoryOwnershipService", "method:RepositoryOwnershipService.findOwners"],
+    ["REFERENCES", "method:RepositoryOwnershipService.findOwners", "model:RepositoryOwnershipEvidence"],
+    ["USES", "service:ImplementationPlanningService", "model:ImplementationPlan"],
+    ["CONTAINS", "service:ImplementationPlanningService", "method:ImplementationPlanningService.createPlan"],
+    ["CALLS", "method:ImplementationPlanningService.createPlan", "service:RepositoryOwnershipService"],
+    ["REFERENCES", "method:ImplementationPlanningService.createPlan", "model:ImplementationPlan"],
   ];
 
   for (let i = 1; i < copies; i += 1) {
@@ -329,7 +440,7 @@ function createAgentWorkflowGraph(core, copies) {
     repository: { root: "/fixtures/agent-workflow", name: "agent-workflow-fixture" },
     nodes,
     edges: relationships.map(([type, from, to]) => edge(core, type, from, to)),
-    fileCount: 8,
+    fileCount: 20,
   });
 }
 
@@ -460,6 +571,13 @@ function renderMarkdown(report) {
     "| --- | --- | ---: | ---: |",
     ...report.workflow.corpus.map((item) =>
       `| ${item.phrase} | ${item.status} | ${item.confidence} | ${item.latencyMs}ms |`),
+    "",
+    "## Repeatability",
+    "",
+    "| Query | Status | Confidence |",
+    "| --- | --- | ---: |",
+    ...report.workflow.repeatedQueries.map((item) =>
+      `| ${item.phrase} | ${item.status} | ${item.confidence} |`),
     "",
     "## Stress",
     "",

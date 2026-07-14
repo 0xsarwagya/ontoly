@@ -47,7 +47,7 @@
       "precision": 0,
       "recall": 0,
       "confidence": 0,
-      "latencyMs": 0.005,
+      "latencyMs": 0.004,
       "semanticUnderstandingScore": 0
     },
     "winner": "Ontoly"
@@ -130,7 +130,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.016,
+        "latencyMs": 0.019,
         "answers": [
           {
             "label": "Durable",
@@ -183,7 +183,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.021,
+        "latencyMs": 0.022,
         "answers": [
           {
             "label": "@0xsarwagya/durable-local",
@@ -206,7 +206,7 @@
           "@0xsarwagya/durable-local"
         ],
         "confidence": 0,
-        "latencyMs": 0.01,
+        "latencyMs": 0.007,
         "answers": [],
         "explanation": "0 candidate node(s) matched Package with terms @0xsarwagya/durable-local."
       },
@@ -236,7 +236,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.013,
+        "latencyMs": 0.012,
         "answers": [
           {
             "label": "CI",
@@ -295,7 +295,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.152,
+        "latencyMs": 0.145,
         "answers": [
           {
             "label": "@0xsarwagya/durable-local -> fake-indexeddb",
@@ -354,7 +354,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.059,
+        "latencyMs": 0.064,
         "answers": [
           {
             "label": "withReadWrite -> openDatabase",
@@ -377,7 +377,7 @@
           "withReadWrite -> openDatabase"
         ],
         "confidence": 0,
-        "latencyMs": 0.007,
+        "latencyMs": 0.003,
         "answers": [],
         "explanation": "0 candidate edge-derived answer(s) matched CALLS."
       },

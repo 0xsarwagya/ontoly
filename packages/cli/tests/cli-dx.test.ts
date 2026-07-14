@@ -1,7 +1,18 @@
 import { describe, expect, it } from "vitest";
 import {
+  createEdgeId,
+  createSemanticIndex,
+  createSoftwareGraph,
+  type EdgeEvidence,
+  type SoftwareGraph,
+  type SoftwareGraphEdge,
+  type SoftwareGraphNode,
+  type SourceSpan,
+} from "@0xsarwagya/ontoly-core";
+import {
   OntolyCliError,
   commandHelp,
+  createBoundedEvidencePack,
   formatCliError,
   formatLogPrefix,
   parseCli,
@@ -142,4 +153,117 @@ describe("cli developer experience helpers", () => {
     expect(formatLogPrefix("warning", false)).toBe("warning");
     expect(formatLogPrefix("error", false)).toBe("error  ");
   });
+
+  it("builds bounded enhancer evidence packs without graph serialization", () => {
+    const graph = evidenceFixtureGraph();
+    const pack = createBoundedEvidencePack(graph, createSemanticIndex(graph), "sleep duration thresholds");
+
+    expect(pack.topNodes.length).toBeLessThanOrEqual(20);
+    expect(pack.topEdges.length).toBeLessThanOrEqual(50);
+    expect(pack.relevantFiles.length).toBeLessThanOrEqual(10);
+    expect(pack.graphFacts).toMatchObject({
+      repository: "evidence-fixture",
+      nodeCount: graph.metadata.nodeCount,
+      edgeCount: graph.metadata.edgeCount,
+    });
+    expect(pack.graphFacts).not.toHaveProperty("nodes");
+    expect(pack.graphFacts).not.toHaveProperty("edges");
+    expect(pack).not.toHaveProperty("graph");
+    expect(pack.evidence.length).toBeGreaterThan(0);
+
+    for (const item of pack.evidence) {
+      expect(item).toMatchObject({
+        stableId: expect.any(String),
+        kind: expect.any(String),
+        confidence: expect.any(Number),
+        whySelected: expect.any(String),
+        relationships: expect.any(Object),
+        nextCommands: expect.any(Array),
+      });
+      expect(item).toHaveProperty("sourceSpan");
+    }
+  });
 });
+
+function evidenceFixtureGraph(): SoftwareGraph {
+  const moduleNode = evidenceNode("Module", "SleepDurationThresholdModule", "src/sleep/sleep-duration-threshold.module.ts", 1);
+  const nodes: SoftwareGraphNode[] = [moduleNode];
+  const edges: SoftwareGraphEdge[] = [];
+
+  for (let index = 0; index < 32; index += 1) {
+    const service = evidenceNode("Service", `SleepDurationThresholdService${index}`, `src/sleep/service-${index % 14}.ts`, index + 2);
+    const dto = evidenceNode("Model", `SleepDurationThresholdDto${index}`, `src/sleep/dto-${index % 14}.ts`, index + 34);
+    const repository = evidenceNode("Repository", `SleepDurationThresholdRepository${index}`, `src/sleep/repository-${index % 14}.ts`, index + 66);
+    nodes.push(service, dto, repository);
+    edges.push(
+      evidenceEdge("CONTAINS", moduleNode, service),
+      evidenceEdge("CONTAINS", moduleNode, dto),
+      evidenceEdge("CONTAINS", moduleNode, repository),
+      evidenceEdge("REFERENCES", service, dto),
+      evidenceEdge("CALLS", service, repository),
+      evidenceEdge("USES", repository, dto),
+    );
+    if (index > 0) {
+      edges.push(evidenceEdge("CALLS", service, nodes[nodes.length - 6]!));
+    }
+  }
+
+  return createSoftwareGraph({
+    repository: {
+      root: "/repo",
+      name: "evidence-fixture",
+      packageName: "evidence-fixture",
+    },
+    nodes,
+    edges,
+    fileCount: 14,
+  });
+}
+
+function evidenceNode(
+  type: SoftwareGraphNode["type"],
+  name: string,
+  file: string,
+  line: number,
+): SoftwareGraphNode {
+  return {
+    id: `${type.toLowerCase()}:${file}:${name}`,
+    type,
+    name,
+    file,
+    span: evidenceSpan(file, line),
+  };
+}
+
+function evidenceEdge(
+  type: SoftwareGraphEdge["type"],
+  from: SoftwareGraphNode,
+  to: SoftwareGraphNode,
+): SoftwareGraphEdge {
+  return {
+    id: createEdgeId(type, from.id, to.id),
+    type,
+    from: from.id,
+    to: to.id,
+    evidence: [syntaxEvidence(from.span!)],
+  };
+}
+
+function syntaxEvidence(span: SourceSpan): EdgeEvidence {
+  return {
+    kind: "syntax",
+    confidence: "exact",
+    span,
+    description: "fixture syntax evidence",
+  };
+}
+
+function evidenceSpan(file: string, line: number): SourceSpan {
+  return {
+    file,
+    startLine: line,
+    startColumn: 1,
+    endLine: line,
+    endColumn: 12,
+  };
+}

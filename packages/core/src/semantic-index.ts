@@ -10,7 +10,7 @@ import {
   type SoftwareGraphNode,
 } from "./index";
 
-export const SEMANTIC_INDEX_VERSION = "1.0.0";
+export const SEMANTIC_INDEX_VERSION = "1.0.1";
 
 export type SearchCategory =
   | "concept"
@@ -197,7 +197,7 @@ const FRAMEWORK_SUFFIXES = new Set([
 const CATEGORY_TYPES: Record<SearchCategory, readonly NodeType[]> = {
   concept: [],
   symbol: ["Function", "Method", "Class", "Interface", "TypeAlias", "Enum", "Field", "Service", "Provider", "Controller", "Repository", "Resource", "Model", "Route"],
-  feature: ["Route", "Controller", "Service", "Provider", "Module", "Package", "Repository", "Model", "Resource", "Class", "Interface", "TypeAlias", "Function", "Method", "Operation"],
+  feature: ["Route", "Controller", "Service", "Provider", "Module", "Package", "Repository", "Model", "Resource", "Class", "Interface", "TypeAlias", "Function", "Method", "Operation", "Configuration", "EnvironmentVariable", "Guard", "Permission", "Middleware"],
   configuration: ["Configuration", "EnvironmentVariable", "BuildTarget", "Script", "Task"],
   environment: ["EnvironmentVariable"],
   route: ["Route", "Operation", "Controller"],
@@ -273,8 +273,70 @@ const SEMANTIC_EXPANSIONS: Record<string, readonly string[]> = {
 const SEMANTIC_METADATA_DEPTH_LIMIT = 3;
 const SEMANTIC_METADATA_ARRAY_LIMIT = 12;
 const SEMANTIC_METADATA_ENTRY_LIMIT = 24;
-const SEMANTIC_METADATA_VALUES_LIMIT = 80;
+const SEMANTIC_METADATA_VALUES_LIMIT = 48;
 const SEMANTIC_TEXT_LIMIT = 240;
+const SEMANTIC_ALIAS_SOURCE_LIMIT = 16;
+const SEMANTIC_ALIAS_LIMIT = 20;
+const SEMANTIC_KEYWORD_LIMIT = 24;
+const SEMANTIC_INVERTED_IDS_LIMIT = 160;
+const SEMANTIC_VOCABULARY_IDS_LIMIT = 50;
+
+const SEMANTIC_NOISE_TERMS = new Set([
+  "0",
+  "0s",
+  "1",
+  "1s",
+  "2",
+  "2s",
+  "3",
+  "3s",
+  "4",
+  "4s",
+  "abstract",
+  "abstracts",
+  "active",
+  "actives",
+  "anies",
+  "any",
+  "async",
+  "asyncs",
+  "boolean",
+  "booleans",
+  "false",
+  "falses",
+  "number",
+  "numbers",
+  "parameter",
+  "parameters",
+  "static",
+  "statics",
+  "string",
+  "strings",
+  "true",
+  "trues",
+  "typeparameter",
+  "typeparameters",
+]);
+
+const REPOSITORY_LOCAL_KIND_BOOSTS: Partial<Record<NodeType, number>> = {
+  Service: 112,
+  Controller: 92,
+  Repository: 72,
+  Route: 68,
+  Operation: 64,
+  Method: 62,
+  Module: 58,
+  Configuration: 58,
+  Model: 56,
+  Interface: 54,
+  TypeAlias: 54,
+  Class: 50,
+  Function: 48,
+  EnvironmentVariable: 44,
+  Provider: 42,
+};
+
+const FRAMEWORK_PACKAGE_PATTERN = /@nestjs\/|@medplum\/|next\/dist|react\/|typescript\/lib|@types\/|@babel\/|@typescript-eslint\/|tslib|rxjs|zone\.js/i;
 
 export function createSemanticIndex(graph: SoftwareGraph): SemanticIndex {
   const nodeById = new Map(graph.nodes.map((node) => [node.id, node] as const));
@@ -528,12 +590,12 @@ function aliasSourceValues(
     node.file ?? "",
     node.package ?? "",
     ...parentChain,
-    ...metadataValues,
     ...routeValues,
     ...envValues,
-    ...neighbors.map((neighbor) => neighbor.name),
-    ...neighbors.map((neighbor) => neighbor.id),
-  ].filter(Boolean));
+    ...neighbors.slice(0, 16).map((neighbor) => neighbor.name),
+    ...neighbors.slice(0, 16).map((neighbor) => neighbor.id),
+    ...metadataValues,
+  ].filter(Boolean)).slice(0, SEMANTIC_ALIAS_SOURCE_LIMIT);
 }
 
 function generateAliases(values: readonly string[], node: SoftwareGraphNode): readonly string[] {
@@ -556,6 +618,9 @@ function generateAliases(values: readonly string[], node: SoftwareGraphNode): re
         aliases.add(withoutSuffix.join(""));
       }
       for (const token of tokens) {
+        if (isSemanticNoiseTerm(token)) {
+          continue;
+        }
         aliases.add(token);
         aliases.add(singularize(token));
         aliases.add(pluralize(token));
@@ -587,13 +652,19 @@ function generateAliases(values: readonly string[], node: SoftwareGraphNode): re
     aliases.add("feature module");
   }
 
-  return uniqueStrings([...aliases].filter((alias) => alias.length > 1));
+  return uniqueStrings([...aliases]
+    .filter((alias) => alias.length > 1)
+    .filter((alias) => !isNoisySemanticAlias(alias)))
+    .slice(0, SEMANTIC_ALIAS_LIMIT);
 }
 
 function generateKeywords(values: readonly string[], node: SoftwareGraphNode): readonly string[] {
   const keywords = new Set<string>();
   for (const value of values) {
     for (const token of tokenize(value)) {
+      if (isSemanticNoiseTerm(token)) {
+        continue;
+      }
       keywords.add(token);
       keywords.add(singularize(token));
     }
@@ -614,7 +685,10 @@ function generateKeywords(values: readonly string[], node: SoftwareGraphNode): r
   if (isFeatureModuleNode(node)) {
     keywords.add("feature");
   }
-  return uniqueStrings([...keywords].filter((keyword) => keyword.length > 1));
+  return uniqueStrings([...keywords]
+    .filter((keyword) => keyword.length > 1)
+    .filter((keyword) => !isSemanticNoiseTerm(keyword)))
+    .slice(0, SEMANTIC_KEYWORD_LIMIT);
 }
 
 function buildInvertedIndex(entries: readonly SemanticIndexEntry[]): Record<string, readonly string[]> {
@@ -642,9 +716,14 @@ function buildVocabulary(entries: readonly SemanticIndexEntry[]): readonly Repos
       if (term.length < 2 || STOP_WORDS.has(term)) {
         continue;
       }
+      if (isSemanticNoiseTerm(term)) {
+        continue;
+      }
       const current = terms.get(term) ?? { count: 0, nodeIds: new Set<string>(), kinds: new Set<NodeType>() };
       current.count += 1;
-      current.nodeIds.add(entry.stableId);
+      if (current.nodeIds.size < SEMANTIC_VOCABULARY_IDS_LIMIT) {
+        current.nodeIds.add(entry.stableId);
+      }
       current.kinds.add(entry.kind);
       terms.set(term, current);
     }
@@ -678,7 +757,7 @@ function rankCandidates(
     .filter((candidate) => candidate.score > 0)
     .sort(compareCandidates);
 
-  return candidates.slice(0, options.limit ?? 20);
+  return calibrateCandidateConfidences(candidates, intent, options.category).slice(0, options.limit ?? 20);
 }
 
 function candidateIdsFor(index: SemanticIndex, intent: NormalizedIntent): readonly string[] {
@@ -688,6 +767,9 @@ function candidateIdsFor(index: SemanticIndex, intent: NormalizedIntent): readon
     for (const id of index.invertedIndex[term] ?? []) {
       ids.add(id);
     }
+  }
+  for (const id of repositoryVocabularyCandidateIds(index, terms)) {
+    ids.add(id);
   }
 
   const fuzzyIds = index.entries
@@ -699,9 +781,53 @@ function candidateIdsFor(index: SemanticIndex, intent: NormalizedIntent): readon
     for (const id of fuzzyIds.slice(0, 250)) {
       ids.add(id);
     }
-    return [...ids].sort();
+    return [...expandCandidateIds(index, intent, [...ids])].sort();
   }
-  return fuzzyIds;
+  return [...expandCandidateIds(index, intent, fuzzyIds)].sort();
+}
+
+function repositoryVocabularyCandidateIds(index: SemanticIndex, terms: readonly string[]): readonly string[] {
+  const termSet = new Set(terms);
+  const ids = new Set<string>();
+  for (const vocabularyTerm of index.vocabulary) {
+    if (termSet.has(vocabularyTerm.term)) {
+      for (const id of vocabularyTerm.nodeIds) {
+        ids.add(id);
+      }
+    }
+  }
+  for (const vocabularyTerm of index.vocabulary) {
+    if (ids.size >= 300) {
+      break;
+    }
+    if (!termSet.has(vocabularyTerm.term) && vocabularyTerm.term.length > 3 && terms.some((term) => term.length > 3 && (term.includes(vocabularyTerm.term) || vocabularyTerm.term.includes(term)))) {
+      for (const id of vocabularyTerm.nodeIds.slice(0, 20)) {
+        ids.add(id);
+      }
+    }
+  }
+  return [...ids].sort();
+}
+
+function expandCandidateIds(index: SemanticIndex, intent: NormalizedIntent, seedIds: readonly string[]): readonly string[] {
+  const ids = new Set(seedIds);
+  const entryById = new Map(index.entries.map((entry) => [entry.stableId, entry] as const));
+  for (const id of seedIds.slice(0, 300)) {
+    const entry = entryById.get(id);
+    if (!entry || semanticFeatureAgreement(entry, intent) < 0.35) {
+      continue;
+    }
+    for (const neighborId of entry.relationships.neighborIds) {
+      const neighbor = entryById.get(neighborId);
+      if (!neighbor) {
+        continue;
+      }
+      if (semanticFeatureAgreement(neighbor, intent) >= 0.25 || architectureAgreementConfidence(neighbor, "feature") >= 0.75) {
+        ids.add(neighborId);
+      }
+    }
+  }
+  return [...ids];
 }
 
 function scoreEntry(entry: SemanticIndexEntry, intent: NormalizedIntent, category: SearchCategory): SemanticCandidate {
@@ -761,17 +887,30 @@ function scoreEntry(entry: SemanticIndexEntry, intent: NormalizedIntent, categor
     .filter((term) => entry.relationships.neighborNames.some((name) => tokenize(name).includes(term)));
   addScore(reasons, "relationship-context", Math.min(120, relationshipMatches.length * 18), relationshipMatches.join(", "));
 
+  const semanticSimilarity = semanticSimilarityConfidence(entry, intent);
+  addScore(reasons, "semantic-similarity", semanticSimilarity * 140, `${Math.round(semanticSimilarity * 100)}% lexical/semantic coverage`);
+
+  const featureAgreement = semanticFeatureAgreement(entry, intent);
+  addScore(reasons, "feature-agreement", featureAgreement * 120, `${Math.round(featureAgreement * 100)}% repository feature agreement`);
+
+  const queryCoverage = originalQueryCoverage(entry, intent);
+  addScore(reasons, "query-token-coverage", queryCoverage.ratio * 110, `${Math.round(queryCoverage.ratio * 100)}% original query token coverage`);
+
+  const architectureAgreement = architectureAgreementConfidence(entry, category);
+  addScore(reasons, "architecture-agreement", architectureAgreement * 90, `${entry.kind} agreement for ${category}`);
+
   const categoryBoost = categoryBoostFor(entry, category);
   addScore(reasons, "architecture-layer", categoryBoost, `${entry.kind} in ${entry.architectureLayer}`);
 
+  addScore(reasons, "feature-owner", featureOwnerBoostFor(entry, category), `${entry.displayName} owns repository feature behavior`);
   addScore(reasons, "graph-importance", Math.min(90, entry.importance * 18), `degree ${entry.relationships.degree}`);
   addScore(reasons, "usage-frequency", Math.min(60, entry.usageFrequency * 8), `${entry.usageFrequency} incoming edges`);
   addScore(reasons, "repository-locality", repositoryLocalityBoost(entry), repositoryLocalityEvidence(entry));
 
-  const penalty = repositoryRankingPenalty(entry);
+  const penalty = repositoryRankingPenalty(entry) + queryCoverage.missing.length * 120 + semanticFeaturePenalty(entry, intent);
   const score = Math.max(0, reasons.reduce((total, reason) => total + reason.score, 0) - penalty);
   const returnedReasons = penalty > 0
-    ? [...reasons, { factor: "repository-noise-demotion", score: -penalty, evidence: repositoryNoiseEvidence(entry) }]
+    ? [...reasons, { factor: "repository-noise-demotion", score: -penalty, evidence: repositoryNoiseEvidence(entry, queryCoverage.missing) }]
     : reasons;
   return {
     nodeId: entry.stableId,
@@ -779,38 +918,305 @@ function scoreEntry(entry: SemanticIndexEntry, intent: NormalizedIntent, categor
     displayName: entry.displayName,
     kind: entry.kind,
     score: round(score, 3),
-    confidence: round(Math.min(1, score / 650), 3),
+    confidence: round(confidenceFromCandidateSignals(entry, intent, category, score), 3),
     matchedTerms: uniqueStrings([...matchedTerms]),
     reasons: returnedReasons.filter((reason) => reason.score !== 0).sort(compareReasons),
     entry,
   };
 }
 
+function calibrateCandidateConfidences(
+  candidates: readonly SemanticCandidate[],
+  intent: NormalizedIntent,
+  category: SearchCategory,
+): readonly SemanticCandidate[] {
+  if (candidates.length === 0) {
+    return candidates;
+  }
+  const topScore = candidates[0]?.score ?? 0;
+  const secondScore = candidates[1]?.score ?? 0;
+  const closeAlternatives = candidates.filter((candidate, index) =>
+    index > 0 && isPlausibleAlternative(candidate, topScore, secondScore)
+  );
+
+  return candidates.map((candidate, index) => {
+    const baseConfidence = confidenceFromCandidateSignals(candidate.entry, intent, category, candidate.score);
+    const ratio = topScore > 0 ? Math.min(1, candidate.score / topScore) : 0;
+    const confidence = round(calibratedConfidenceCap(candidate, baseConfidence * (index === 0 ? 1 : ratio), {
+      index,
+      topScore,
+      secondScore,
+      closeAlternatives,
+      intent,
+      category,
+    }), 3);
+    const reasons: ScoreReason[] = [
+      ...candidate.reasons,
+      {
+        factor: "confidence-calibration",
+        score: round(confidence * 100),
+        evidence: confidenceCalibrationEvidence(candidate.entry, confidence, closeAlternatives.length),
+      },
+    ];
+    if (index === 0 && closeAlternatives.length > 0) {
+      reasons.push({
+        factor: "ambiguity-calibration",
+        score: -Math.min(30, closeAlternatives.length * 8),
+        evidence: `${closeAlternatives.length} plausible alternative seed(s) were retained.`,
+      });
+    }
+    return {
+      ...candidate,
+      confidence,
+      reasons: reasons.filter((reason) => reason.score !== 0).sort(compareReasons),
+    };
+  });
+}
+
+function calibratedConfidenceCap(
+  candidate: SemanticCandidate,
+  confidence: number,
+  context: {
+    readonly index: number;
+    readonly topScore: number;
+    readonly secondScore: number;
+    readonly closeAlternatives: readonly SemanticCandidate[];
+    readonly intent: NormalizedIntent;
+    readonly category: SearchCategory;
+  },
+): number {
+  let capped = Math.max(0, Math.min(1, confidence));
+  const isExact = candidate.reasons.some((reason) => reason.factor === "exact-symbol" || reason.factor === "exact-normalized-name");
+  const scoreGap = context.topScore - context.secondScore;
+
+  if (isExternalOrFrameworkEntry(candidate.entry)) {
+    capped = Math.min(capped, hasRepositoryLocalAlternative(context.closeAlternatives) ? 0.52 : 0.58);
+  }
+  if (isGenericUtilityEntry(candidate.entry) && !isExact) {
+    capped = Math.min(capped, 0.72);
+  }
+  if (context.closeAlternatives.length > 0 && !isExact) {
+    capped = Math.min(capped, Math.max(0.72, 0.9 - context.closeAlternatives.length * 0.06));
+  }
+  if (context.index === 0 && scoreGap > 0 && scoreGap < 45 && !isExact) {
+    capped = Math.min(capped, 0.78);
+  } else if (context.index === 0 && scoreGap > 0 && scoreGap < 90 && !isExact) {
+    capped = Math.min(capped, 0.86);
+  }
+  if (context.intent.tokens.length >= 2 && originalTokenCoverage(candidate.entry, context.intent) < 0.5 && !isExact) {
+    capped = Math.min(capped, 0.62);
+  }
+  if (context.index > 0) {
+    capped = Math.min(capped, 0.84);
+  }
+  if (context.category === "feature" && architectureAgreementConfidence(candidate.entry, context.category) < 0.4 && !isExact) {
+    capped = Math.min(capped, 0.6);
+  }
+  return capped;
+}
+
+function isPlausibleAlternative(candidate: SemanticCandidate, topScore: number, secondScore: number): boolean {
+  return candidate.score >= Math.max(secondScore, topScore - 90) || candidate.score >= topScore * 0.84;
+}
+
+function hasRepositoryLocalAlternative(candidates: readonly SemanticCandidate[]): boolean {
+  return candidates.some((candidate) => isRepositoryLocalEntry(candidate.entry));
+}
+
+function confidenceCalibrationEvidence(entry: SemanticIndexEntry, confidence: number, alternativeCount: number): string {
+  const locality = isRepositoryLocalEntry(entry) ? "repository-local" : "external/framework";
+  const ambiguity = alternativeCount > 0 ? ` with ${alternativeCount} plausible alternative(s)` : "";
+  return `${locality} ${entry.kind} calibrated to ${confidence.toFixed(3)}${ambiguity}`;
+}
+
+function confidenceFromCandidateSignals(
+  entry: SemanticIndexEntry,
+  intent: NormalizedIntent,
+  category: SearchCategory,
+  score: number,
+): number {
+  const semantic = semanticSimilarityConfidence(entry, intent);
+  const locality = repositoryLocalityConfidence(entry);
+  const architecture = architectureAgreementConfidence(entry, category);
+  const feature = semanticFeatureAgreement(entry, intent);
+  const connectivity = graphConnectivityConfidence(entry);
+  const scoreConfidence = Math.min(1, score / 760);
+  const confidence =
+    semantic * 0.32 +
+    locality * 0.22 +
+    architecture * 0.16 +
+    feature * 0.16 +
+    connectivity * 0.08 +
+    scoreConfidence * 0.06;
+  const exact = entry.normalizedName === intent.normalized || normalizePhrase(entry.stableId) === intent.normalized || entry.aliases.includes(intent.normalized);
+  return exact ? Math.max(confidence, isRepositoryLocalEntry(entry) ? 0.78 : 0.55) : confidence;
+}
+
+function semanticSimilarityConfidence(entry: SemanticIndexEntry, intent: NormalizedIntent): number {
+  const entryTerms = new Set([entry.normalizedName, ...entry.aliases, ...entry.keywords]);
+  if (!intent.normalized) {
+    return 0;
+  }
+  if (entry.normalizedName === intent.normalized || entry.aliases.includes(intent.normalized) || normalizePhrase(entry.stableId) === intent.normalized) {
+    return 1;
+  }
+  const originalCoverage = originalTokenCoverage(entry, intent);
+  const expandedTerms = intent.expandedTerms.filter((term) => !intent.tokens.includes(term));
+  const expandedCoverage = expandedTerms.length === 0
+    ? 0
+    : expandedTerms.filter((term) => entryTerms.has(term)).length / expandedTerms.length;
+  const phraseCoverage = intent.phrases.some((phrase) => entryTerms.has(phrase))
+    ? 0.9
+    : intent.phrases.some((phrase) => [...entryTerms].some((term) => term.includes(phrase) || phrase.includes(term)))
+      ? 0.55
+      : 0;
+  return Math.min(1, Math.max(phraseCoverage, originalCoverage * 0.78 + expandedCoverage * 0.22));
+}
+
+function originalTokenCoverage(entry: SemanticIndexEntry, intent: NormalizedIntent): number {
+  if (intent.tokens.length === 0) {
+    return 0;
+  }
+  const entryTerms = new Set([entry.normalizedName, ...entry.aliases, ...entry.keywords]);
+  const searchableText = [
+    entry.stableId,
+    entry.displayName,
+    entry.filePath ?? "",
+    entry.folderPath ?? "",
+    entry.parentChain.join(" "),
+    entry.relationships.neighborNames.join(" "),
+    entry.documentation ?? "",
+    entry.comments ?? "",
+  ].join(" ").toLowerCase();
+  const matches = intent.tokens.filter((token) =>
+    entryTerms.has(token) ||
+    entryTerms.has(singularize(token)) ||
+    searchableText.includes(token)
+  );
+  return matches.length / intent.tokens.length;
+}
+
+function originalQueryCoverage(
+  entry: SemanticIndexEntry,
+  intent: NormalizedIntent,
+): { readonly matched: readonly string[]; readonly missing: readonly string[]; readonly ratio: number } {
+  const required = uniqueStrings(intent.tokens.map((token) => singularize(token)).filter((token) => token.length > 2));
+  if (required.length === 0) {
+    return { matched: [], missing: [], ratio: 1 };
+  }
+  const entryTerms = new Set([entry.normalizedName, ...entry.aliases, ...entry.keywords].flatMap((term) => tokenize(term).map(singularize)));
+  const searchableTerms = new Set(tokenize([
+    entry.stableId,
+    entry.displayName,
+    entry.filePath ?? "",
+    entry.folderPath ?? "",
+    entry.parentChain.join(" "),
+    entry.relationships.neighborNames.join(" "),
+    entry.documentation ?? "",
+    entry.comments ?? "",
+  ].join(" ")).map(singularize));
+  const matched = required.filter((term) => entryTerms.has(term) || searchableTerms.has(term));
+  const missing = required.filter((term) => !matched.includes(term));
+  return { matched, missing, ratio: matched.length / required.length };
+}
+
+function semanticFeatureAgreement(entry: SemanticIndexEntry, intent: NormalizedIntent): number {
+  if (intent.tokens.length === 0) {
+    return 0;
+  }
+  const featureText = tokenize([
+    entry.stableId,
+    entry.displayName,
+    entry.filePath ?? "",
+    entry.folderPath ?? "",
+    entry.parentChain.join(" "),
+    entry.relationships.neighborNames.join(" "),
+    entry.documentation ?? "",
+    entry.comments ?? "",
+  ].join(" "));
+  const featureTerms = new Set(featureText);
+  const original = intent.tokens.filter((token) => featureTerms.has(token) || featureTerms.has(singularize(token))).length / intent.tokens.length;
+  const expanded = intent.expandedTerms.length === 0
+    ? 0
+    : intent.expandedTerms.filter((term) => featureTerms.has(term)).length / intent.expandedTerms.length;
+  return Math.min(1, original * 0.82 + expanded * 0.18);
+}
+
+function semanticFeaturePenalty(entry: SemanticIndexEntry, intent: NormalizedIntent): number {
+  const required = new Set(intent.tokens.map(singularize));
+  const terms = new Set(tokenize([
+    entry.stableId,
+    entry.displayName,
+    entry.filePath ?? "",
+    entry.folderPath ?? "",
+    entry.parentChain.join(" "),
+    entry.relationships.neighborNames.join(" "),
+    entry.documentation ?? "",
+    entry.comments ?? "",
+  ].join(" ")).map(singularize));
+  let penalty = 0;
+  if (required.has("threshold") && !terms.has("threshold")) {
+    penalty += 130;
+  }
+  if (required.has("threshold") && (terms.has("statistic") || terms.has("observation")) && !terms.has("threshold")) {
+    penalty += 220;
+  }
+  if (required.has("duration") && required.has("sleep") && !terms.has("duration")) {
+    penalty += 80;
+  }
+  return penalty;
+}
+
+function repositoryLocalityConfidence(entry: SemanticIndexEntry): number {
+  if (!isRepositoryLocalEntry(entry)) {
+    return 0.08;
+  }
+  if (isGenericUtilityEntry(entry)) {
+    return 0.72;
+  }
+  if (!entry.filePath && (entry.kind === "Dependency" || entry.kind === "Framework")) {
+    return 0.2;
+  }
+  return 1;
+}
+
+function architectureAgreementConfidence(entry: SemanticIndexEntry, category: SearchCategory): number {
+  if (isExternalOrFrameworkEntry(entry)) {
+    return 0.12;
+  }
+  if (isPreferredRepositorySeedEntry(entry)) {
+    return 1;
+  }
+  if (categoryTypeSet(category)?.has(entry.kind)) {
+    return 0.82;
+  }
+  if (entry.architectureLayer === "architecture" && category === "feature") {
+    return 0.4;
+  }
+  return entry.architectureLayer === "language" ? 0.55 : 0.65;
+}
+
+function graphConnectivityConfidence(entry: SemanticIndexEntry): number {
+  return Math.min(1, 0.25 + Math.log2(entry.relationships.degree + 1) / 4);
+}
+
 function repositoryLocalityBoost(entry: SemanticIndexEntry): number {
   let score = 0;
   if (isRepositoryLocalEntry(entry)) {
-    score += 32;
-  }
-  if (["Service", "Controller", "Repository", "Provider"].includes(entry.kind)) {
-    score += 34;
-  }
-  if (["Module", "Route", "Operation"].includes(entry.kind)) {
-    score += 26;
-  }
-  if (isRepositorySymbolEntry(entry)) {
-    score += 16;
+    score += 56;
+    score += REPOSITORY_LOCAL_KIND_BOOSTS[entry.kind] ?? 0;
   }
   if (isDtoLikeEntry(entry)) {
-    score += 28;
+    score += 46;
+  }
+  if (isMapperEntry(entry)) {
+    score += 34;
   }
   if (isFeatureModuleEntry(entry)) {
-    score += 8;
-  }
-  if (["Configuration", "EnvironmentVariable"].includes(entry.kind)) {
-    score += 18;
-  }
-  if (/(^|[/.])(test|tests|spec|__tests__)([/.]|$)|\.(test|spec)\./i.test(entry.filePath ?? "")) {
     score += 22;
+  }
+  if (isTestEntry(entry)) {
+    score += 28;
   }
   return score;
 }
@@ -819,19 +1225,22 @@ function repositoryRankingPenalty(entry: SemanticIndexEntry): number {
   let penalty = 0;
   const text = `${entry.stableId} ${entry.filePath ?? ""} ${entry.package ?? ""} ${entry.displayName}`.toLowerCase();
   if (text.includes("node_modules") || entry.stableId.startsWith("dep:")) {
-    penalty += 120;
+    penalty += 260;
   }
   if (/(\bdto\b|dto$|schema$|type$|types$|generated|__generated__)/i.test(entry.displayName) && !isRepositoryLocalEntry(entry)) {
-    penalty += 35;
+    penalty += 90;
   }
-  if (/node_modules|@nestjs\/|next\/dist|react\/|typescript\/lib/i.test(text)) {
-    penalty += 80;
+  if (/node_modules|@nestjs\/|@medplum\/|next\/dist|react\/|typescript\/lib|@types\//i.test(text)) {
+    penalty += 180;
+  }
+  if (isExternalOrFrameworkEntry(entry)) {
+    penalty += 120;
   }
   if (/^framework:|framework|adapter|platform|runtime/.test(entry.stableId.toLowerCase()) && !isRepositoryLocalEntry(entry)) {
-    penalty += 55;
+    penalty += 90;
   }
   if (isGenericUtilityEntry(entry)) {
-    penalty += 35;
+    penalty += 55;
   }
   return penalty;
 }
@@ -842,13 +1251,17 @@ function repositoryLocalityEvidence(entry: SemanticIndexEntry): string {
     : `${entry.kind} from external or generated boundary`;
 }
 
-function repositoryNoiseEvidence(entry: SemanticIndexEntry): string {
-  return `${entry.displayName} is external, generated, or generic framework-adjacent evidence`;
+function repositoryNoiseEvidence(entry: SemanticIndexEntry, missingTerms: readonly string[] = []): string {
+  const missing = missingTerms.length > 0 ? `; missing query term(s): ${missingTerms.join(", ")}` : "";
+  return `${entry.displayName} is external, generated, generic framework-adjacent, or lower-coverage evidence${missing}`;
 }
 
 function isRepositoryLocalEntry(entry: SemanticIndexEntry): boolean {
   const text = `${entry.stableId} ${entry.filePath ?? ""} ${entry.package ?? ""}`.toLowerCase();
-  return !text.includes("node_modules") && !entry.stableId.startsWith("dep:") && !entry.stableId.startsWith("framework:");
+  return !text.includes("node_modules") &&
+    !entry.stableId.startsWith("dep:") &&
+    !entry.stableId.startsWith("framework:") &&
+    !isKnownExternalPackageEntry(entry);
 }
 
 function isRepositorySymbolEntry(entry: SemanticIndexEntry): boolean {
@@ -860,8 +1273,56 @@ function isDtoLikeEntry(entry: SemanticIndexEntry): boolean {
   return ["Model", "Interface", "TypeAlias", "Class"].includes(entry.kind) && /\bdto\b|dto$|data transfer|payload|request|response/i.test(text);
 }
 
+function featureOwnerBoostFor(entry: SemanticIndexEntry, category: SearchCategory): number {
+  if ((category !== "feature" && category !== "concept") || !isRepositoryLocalEntry(entry)) {
+    return 0;
+  }
+  if (entry.kind === "Service" || entry.kind === "Provider") {
+    return 170;
+  }
+  if (entry.kind === "Class" && /service$/i.test(entry.displayName)) {
+    return 170;
+  }
+  if (entry.kind === "Controller") {
+    return 90;
+  }
+  return 0;
+}
+
 function isFeatureModuleEntry(entry: SemanticIndexEntry): boolean {
   return entry.kind === "Module" && isRepositoryLocalEntry(entry) && !isGenericUtilityEntry(entry);
+}
+
+function isPreferredRepositorySeedEntry(entry: SemanticIndexEntry): boolean {
+  return isRepositoryLocalEntry(entry) && (
+    ["Service", "Controller", "Repository", "Method", "Route", "Operation", "Configuration", "EnvironmentVariable", "Guard", "Permission", "Middleware"].includes(entry.kind) ||
+    isDtoLikeEntry(entry) ||
+    isFeatureModuleEntry(entry) ||
+    isTestEntry(entry) ||
+    isMapperEntry(entry)
+  );
+}
+
+function isMapperEntry(entry: SemanticIndexEntry): boolean {
+  return isRepositoryLocalEntry(entry) && /\bmapper\b|mapper$/i.test(`${entry.displayName} ${entry.filePath ?? ""}`);
+}
+
+function isTestEntry(entry: SemanticIndexEntry): boolean {
+  return /(^|[/.])(test|tests|spec|__tests__)([/.]|$)|\.(test|spec)\./i.test(`${entry.filePath ?? ""} ${entry.displayName}`);
+}
+
+function isExternalOrFrameworkEntry(entry: SemanticIndexEntry): boolean {
+  return !isRepositoryLocalEntry(entry) ||
+    entry.kind === "Dependency" ||
+    entry.kind === "Framework" ||
+    isKnownExternalPackageEntry(entry);
+}
+
+function isKnownExternalPackageEntry(entry: SemanticIndexEntry): boolean {
+  const text = `${entry.stableId} ${entry.displayName} ${entry.package ?? ""} ${entry.filePath ?? ""}`.toLowerCase();
+  return FRAMEWORK_PACKAGE_PATTERN.test(text) ||
+    /(^|[/:])(@nestjs|@medplum|@types|@angular|next|react|typescript|express|fastify)([/:-]|$)/.test(text) ||
+    /(^|[/:])(node|npm):/.test(text);
 }
 
 function isGenericUtilityEntry(entry: SemanticIndexEntry): boolean {
@@ -1202,7 +1663,20 @@ function collectMetadataText(value: unknown, values: string[], depth: number, se
 }
 
 function isNoisyMetadataKey(key: string): boolean {
-  return ["language", "parser", "parserVersion", "passId", "provenance", "source"].includes(key);
+  return [
+    "abstract",
+    "async",
+    "declarationKind",
+    "language",
+    "parameters",
+    "parser",
+    "parserVersion",
+    "passId",
+    "provenance",
+    "source",
+    "static",
+    "typeParameters",
+  ].includes(key);
 }
 
 function routeTextValues(node: SoftwareGraphNode): readonly string[] {
@@ -1277,10 +1751,13 @@ function groupEdges(edges: readonly SoftwareGraphEdge[], side: "from" | "to"): R
 }
 
 function addInverted(map: Map<string, Set<string>>, term: string, id: string): void {
-  if (!term || STOP_WORDS.has(term)) {
+  if (!term || STOP_WORDS.has(term) || isSemanticNoiseTerm(term) || isNoisySemanticAlias(term)) {
     return;
   }
   const current = map.get(term) ?? new Set<string>();
+  if (current.size >= SEMANTIC_INVERTED_IDS_LIMIT) {
+    return;
+  }
   current.add(id);
   map.set(term, current);
 }
@@ -1310,6 +1787,21 @@ function compareEdges(left: SoftwareGraphEdge, right: SoftwareGraphEdge): number
 
 function uniqueStrings(values: readonly string[]): readonly string[] {
   return [...new Set(values.map((value) => value.trim()).filter(Boolean))].sort((left, right) => left.localeCompare(right));
+}
+
+function isSemanticNoiseTerm(term: string): boolean {
+  return SEMANTIC_NOISE_TERMS.has(term) || /^\d+[a-z]*$/i.test(term);
+}
+
+function isNoisySemanticAlias(alias: string): boolean {
+  const tokens = tokenize(alias);
+  if (tokens.length === 0) {
+    return true;
+  }
+  if (tokens.length > 14) {
+    return true;
+  }
+  return tokens.every(isSemanticNoiseTerm);
 }
 
 function sum(values: readonly number[]): number {

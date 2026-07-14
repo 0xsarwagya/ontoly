@@ -426,7 +426,7 @@ export function createArtifact<T extends JsonValue>(input: {
   return deepFreeze({
     descriptor: input.descriptor,
     data: input.data,
-    hash: stableHash(stableStringify(hashInput)),
+    hash: stableJsonHash(hashInput),
     graphHash: input.graphHash,
     createdAt: input.graphGeneratedAt ?? "1970-01-01T00:00:00.000Z",
     dependencies,
@@ -527,7 +527,7 @@ export function createDefaultEnhancerContext(options: CreateEnhancerContextOptio
   const semanticIndex = options.semanticIndex ? deepFreeze(options.semanticIndex) : undefined;
   const graphArtifact = createArtifact({
     descriptor: ARTIFACT_DESCRIPTORS.SoftwareGraph,
-    data: graph as unknown as JsonValue,
+    data: graphArtifactReference(graph),
     graphHash: graph.metadata.deterministicHash,
     graphGeneratedAt: graph.metadata.generatedAt,
   });
@@ -536,7 +536,7 @@ export function createDefaultEnhancerContext(options: CreateEnhancerContextOptio
   if (semanticIndex) {
     artifacts.put(createArtifact({
       descriptor: ARTIFACT_DESCRIPTORS.SemanticIndex,
-      data: semanticIndex as unknown as JsonValue,
+      data: semanticIndexArtifactReference(semanticIndex),
       graphHash: graph.metadata.deterministicHash,
       graphGeneratedAt: graph.metadata.generatedAt,
       producedBy: "preloaded",
@@ -1084,6 +1084,28 @@ function graphStatistics(graph: SoftwareGraph): JsonObject {
   };
 }
 
+function graphArtifactReference(graph: SoftwareGraph): JsonObject {
+  return {
+    artifact: "SoftwareGraph",
+    version: graph.version,
+    repository: graph.repository as unknown as JsonValue,
+    graphHash: graph.metadata.deterministicHash,
+    generatedAt: graph.metadata.generatedAt,
+    statistics: graphStatistics(graph),
+  };
+}
+
+function semanticIndexArtifactReference(index: SemanticIndex): JsonObject {
+  return {
+    artifact: "SemanticIndex",
+    version: index.version,
+    graphHash: index.graphHash,
+    repository: index.repository as unknown as JsonValue,
+    deterministicHash: index.metadata.deterministicHash,
+    statistics: index.metadata.statistics as unknown as JsonValue,
+  };
+}
+
 function testSnapshot(result: EnhancerPipelineResult): JsonObject {
   return {
     graphHash: result.graphHash,
@@ -1178,6 +1200,69 @@ function compareExecutions(left: EnhancerExecution, right: EnhancerExecution): n
 
 function isArtifact(value: OntolyArtifact | undefined): value is OntolyArtifact {
   return Boolean(value);
+}
+
+const FNV_OFFSET_BASIS = 0x811c9dc5;
+const FNV_PRIME = 0x01000193;
+
+function stableJsonHash(value: unknown): string {
+  return formatStableHash(updateStableJsonHash(FNV_OFFSET_BASIS, value, new WeakSet<object>(), "$"));
+}
+
+function updateStableJsonHash(
+  hash: number,
+  value: unknown,
+  seen: WeakSet<object>,
+  path: string,
+): number {
+  if (value === null || typeof value !== "object") {
+    return updateStableHashString(hash, JSON.stringify(value) ?? "null");
+  }
+
+  if (seen.has(value)) {
+    throw new Error(`Cannot hash cyclic artifact data at ${path}.`);
+  }
+  seen.add(value);
+
+  if (Array.isArray(value)) {
+    let nextHash = updateStableHashString(hash, "[");
+    for (let index = 0; index < value.length; index += 1) {
+      if (index > 0) {
+        nextHash = updateStableHashString(nextHash, ",");
+      }
+      nextHash = updateStableJsonHash(nextHash, value[index], seen, `${path}[${index}]`);
+    }
+    seen.delete(value);
+    return updateStableHashString(nextHash, "]");
+  }
+
+  const entries = Object.entries(value as Record<string, unknown>)
+    .filter(([, entryValue]) => entryValue !== undefined)
+    .sort(([left], [right]) => left.localeCompare(right));
+  let nextHash = updateStableHashString(hash, "{");
+  for (let index = 0; index < entries.length; index += 1) {
+    const [key, entryValue] = entries[index]!;
+    if (index > 0) {
+      nextHash = updateStableHashString(nextHash, ",");
+    }
+    nextHash = updateStableHashString(nextHash, `${JSON.stringify(key)}:`);
+    nextHash = updateStableJsonHash(nextHash, entryValue, seen, `${path}.${key}`);
+  }
+  seen.delete(value);
+  return updateStableHashString(nextHash, "}");
+}
+
+function updateStableHashString(hash: number, value: string): number {
+  let nextHash = hash;
+  for (let index = 0; index < value.length; index += 1) {
+    nextHash ^= value.charCodeAt(index);
+    nextHash = Math.imul(nextHash, FNV_PRIME);
+  }
+  return nextHash;
+}
+
+function formatStableHash(hash: number): string {
+  return (hash >>> 0).toString(36).padStart(7, "0");
 }
 
 function deepFreeze<T>(value: T): T {

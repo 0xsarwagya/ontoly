@@ -1,6 +1,6 @@
 import { spawnSync } from "node:child_process";
 import { realpathSync } from "node:fs";
-import { access, mkdir, mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
+import { access, mkdir, mkdtemp, open, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import { dirname, isAbsolute, join, resolve } from "node:path";
 import { createInterface } from "node:readline/promises";
@@ -16,7 +16,10 @@ import {
 import { getGraphArtifactPaths, loadGraph, loadOrCreateSemanticIndex } from "@0xsarwagya/ontoly-cache";
 import {
   capabilityResultToJson,
+  createCapabilityRegistry,
   createCapabilityEngine,
+  defaultCapabilities,
+  type CapabilityEngine,
   type CapabilityName,
   type CapabilityResult,
   type SerializedNode,
@@ -178,6 +181,14 @@ class OntolyCliError extends Error {
 
 const parsed = parseCli(process.argv.slice(2));
 const logger = createCliLogger(parsed);
+
+const ENHANCER_CACHE_MAX_BYTES = 5_000_000;
+const ENHANCER_DISK_CACHE_EXCLUDED_ARTIFACTS = new Set(["SemanticIndex", "SoftwareGraph", "HtmlGraph"]);
+const EVIDENCE_PACK_NODE_LIMIT = 20;
+const EVIDENCE_PACK_EDGE_LIMIT = 50;
+const EVIDENCE_PACK_FILE_LIMIT = 10;
+const EVIDENCE_PACK_SEED_LIMIT = 80;
+const EVIDENCE_PACK_PER_NODE_EDGE_LIMIT = 8;
 
 if (isCliEntrypoint()) {
   run(parsed).catch((error) => {
@@ -829,7 +840,7 @@ async function capabilityCommand(
   } = {},
 ): Promise<void> {
   const graph = await loadOrBuildGraph(cli, { positionalRoot: options.positionalRoot ?? false });
-  const engine = createCapabilityEngine(graph);
+  const engine = await createCapabilityEngineForCli(cli, graph);
   const input = capabilityInputFromCli(cli, options);
   if (capability === "ImplementationPlan" && !flagBoolean(cli, "json")) {
     logger.info("implementation-plan: running bounded planner");
@@ -866,7 +877,7 @@ async function profileCommand(cli: ParsedCli): Promise<void> {
     logger.info(`profile ${target}: loading graph`);
   }
   const graph = await loadOrBuildGraph(profileCli, { positionalRoot: false });
-  const engine = createCapabilityEngine(graph);
+  const engine = await createCapabilityEngineForCli(profileCli, graph);
   const input = capabilityInputFromCli(profileCli, capabilityProfileInputOptions(capability));
   if (!flagBoolean(cli, "json")) {
     logger.info(`profile ${target}: executing bounded capability`);
@@ -1374,7 +1385,7 @@ async function enhancerCommand(cli: ParsedCli): Promise<void> {
       const cache = await createFileEnhancerCache(resolve(root), outputDir);
       const context = createDefaultEnhancerContext({
         graph,
-        semanticIndex: await loadSemanticIndexForGraph({ ...cli, positional: [root] }, graph),
+        configuration: enhancerConfigurationFromCli(cli, target),
         logger: enhancerLoggerFromCli(),
         cache,
       });
@@ -1859,10 +1870,21 @@ async function loadSemanticIndexForCli(cli: ParsedCli, graph: SoftwareGraph): Pr
   const outputDir = flagString(cli, "output", ".ontoly");
   try {
     const index = await loadOrCreateSemanticIndex({ root: resolve(root), directory: outputDir });
-    return index.graphHash === graph.metadata.deterministicHash ? index : createSemanticIndex(graph);
+    const issues = validateSemanticIndex(index, graph);
+    return issues.length === 0 ? index : createSemanticIndex(graph);
   } catch {
     return createSemanticIndex(graph);
   }
+}
+
+async function createCapabilityEngineForCli(cli: ParsedCli, graph: SoftwareGraph): Promise<CapabilityEngine> {
+  const semanticIndex = await loadSemanticIndexForCli(cli, graph);
+  const query = createQueryEngine(graph);
+  const registry = createCapabilityRegistry({ graph, query, semanticIndex }, defaultCapabilities());
+  return {
+    registry,
+    execute: registry.execute,
+  };
 }
 
 async function writeSemanticModelArtifact(rootInput: string, outputDir: string): Promise<TypeScriptProject> {
@@ -1964,6 +1986,116 @@ function defaultCompilerPasses() {
   return [createRepositoryIntelligencePass(), createTypeScriptFrontendPass(), createOpenApiFrontendPass()];
 }
 
+interface BoundedEvidencePack {
+  readonly version: "1.0.0";
+  readonly query: string;
+  readonly answer: string;
+  readonly graphFacts: JsonObject;
+  readonly topNodes: readonly JsonObject[];
+  readonly topEdges: readonly JsonObject[];
+  readonly relevantFiles: readonly string[];
+  readonly evidence: readonly JsonObject[];
+  readonly relationships: JsonObject;
+  readonly confidence: JsonObject;
+  readonly diagnostics: readonly JsonObject[];
+  readonly suggestedCommands: readonly string[];
+  readonly stableIds: readonly string[];
+  readonly filesToInspect: readonly string[];
+  readonly provenance: JsonObject;
+}
+
+function createBoundedEvidencePack(
+  graph: SoftwareGraph,
+  semanticIndex: SemanticIndex,
+  queryInput: string,
+): BoundedEvidencePack {
+  const query = queryInput.trim() || graph.repository.name;
+  const nodeById = new Map(graph.nodes.map((node) => [node.id, node] as const));
+  const edgeById = new Map(graph.edges.map((edge) => [edge.id, edge] as const));
+  const semantic = findFeature(semanticIndex, query, { limit: EVIDENCE_PACK_SEED_LIMIT });
+  const semanticScores = new Map(semantic.candidates.map((candidate) => [candidate.nodeId, candidate.score] as const));
+  const seedNodes = uniqueEvidenceNodes([
+    ...semantic.candidates.map((candidate) => nodeById.get(candidate.nodeId)).filter(isSoftwareGraphNode),
+    ...lexicalEvidenceNodes(graph, query, EVIDENCE_PACK_SEED_LIMIT),
+  ]);
+  const fallbackSeeds = seedNodes.length > 0 ? seedNodes : repositoryOverviewEvidenceNodes(graph);
+  const seedIds = new Set(fallbackSeeds.map((node) => node.id));
+  const seedEdges = collectEvidenceEdges(graph, edgeById, fallbackSeeds, EVIDENCE_PACK_PER_NODE_EDGE_LIMIT);
+  const neighborNodes = uniqueEvidenceNodes(seedEdges
+    .flatMap((edge) => [nodeById.get(edge.from), nodeById.get(edge.to)])
+    .filter(isSoftwareGraphNode));
+  const rankedNodes = rankBoundedEvidenceNodes(graph, uniqueEvidenceNodes([...fallbackSeeds, ...neighborNodes]), seedIds, query, semanticScores);
+  const topNodes = clusterEvidenceNodes(rankedNodes).slice(0, EVIDENCE_PACK_NODE_LIMIT);
+  const topNodeIds = new Set(topNodes.map((node) => node.id));
+  const topEdges = rankBoundedEvidenceEdges(
+    uniqueEvidenceEdges([
+      ...seedEdges,
+      ...collectEvidenceEdges(graph, edgeById, topNodes, EVIDENCE_PACK_PER_NODE_EDGE_LIMIT),
+    ]),
+    topNodeIds,
+    seedIds,
+  ).slice(0, EVIDENCE_PACK_EDGE_LIMIT);
+  const files = evidencePackFilesFromGraph(topNodes, topEdges);
+  const diagnostics = [
+    ...(fallbackSeeds.length === 0 ? [evidenceDiagnostic("ENHANCER_LOW_EVIDENCE", "warning", `No graph evidence matched "${query}".`)] : []),
+    ...(rankedNodes.length > EVIDENCE_PACK_NODE_LIMIT || topEdges.length >= EVIDENCE_PACK_EDGE_LIMIT
+      ? [evidenceDiagnostic("ENHANCER_EVIDENCE_BOUNDED", "warning", "Evidence pack was capped to 20 nodes, 50 edges, and 10 files.")]
+      : []),
+  ];
+  const nodeEvidence = topNodes.map((node) =>
+    boundedNodeEvidenceItem(graph, node, topEdges, seedIds, semanticScores, query),
+  );
+  const edgeEvidence = topEdges.map((edge) =>
+    boundedEdgeEvidenceItem(graph, edge, nodeById, topNodeIds, seedIds, query),
+  );
+  const evidence = [...nodeEvidence, ...edgeEvidence];
+  const confidence = evidenceConfidence(evidence, diagnostics);
+
+  return {
+    version: "1.0.0",
+    query,
+    answer: topNodes.length > 0
+      ? `Ontoly found ${topNodes.length} stable node(s), ${topEdges.length} relationship(s), and ${files.length} file(s) relevant to "${query}".`
+      : `Ontoly could not find deterministic graph evidence for "${query}".`,
+    graphFacts: {
+      repository: graph.repository.name,
+      graphHash: graph.metadata.deterministicHash,
+      graphVersion: graph.version,
+      nodeCount: graph.metadata.nodeCount,
+      edgeCount: graph.metadata.edgeCount,
+      evidenceLimits: {
+        nodes: EVIDENCE_PACK_NODE_LIMIT,
+        edges: EVIDENCE_PACK_EDGE_LIMIT,
+        files: EVIDENCE_PACK_FILE_LIMIT,
+      },
+    },
+    topNodes: topNodes.map((node) => ({
+      ...serializeNode(node),
+      confidence: boundedNodeConfidence(node, seedIds, semanticScores),
+      whySelected: whyNodeSelected(node, seedIds, semanticScores, query),
+    })),
+    topEdges: topEdges.map((edge) => serializeEvidenceEdge(edge)),
+    relevantFiles: files,
+    evidence,
+    relationships: {
+      counts: countEvidenceEdges(topEdges),
+      total: topEdges.length,
+      nodeRelationships: Object.fromEntries(topNodes.map((node) => [node.id, relationshipsForEvidenceNode(graph, node, topEdges)])),
+    },
+    confidence,
+    diagnostics,
+    suggestedCommands: nextEvidenceCommands(query, topNodes[0]),
+    stableIds: topNodes.map((node) => node.id),
+    filesToInspect: files,
+    provenance: {
+      source: "SoftwareGraph",
+      graphHash: graph.metadata.deterministicHash,
+      generatedAt: graph.metadata.generatedAt,
+      bounded: true,
+    },
+  };
+}
+
 function defaultCliEnhancers(): readonly Enhancer[] {
   return [
     defineEnhancer({
@@ -2046,17 +2178,16 @@ function defaultCliEnhancers(): readonly Enhancer[] {
       supportsIncremental: true,
       run: (context) => {
         const graphArtifact = context.artifacts.require("SoftwareGraph");
-        const engine = createCapabilityEngine(context.graph);
         const query = typeof context.configuration.evidenceQuery === "string"
           ? context.configuration.evidenceQuery
           : context.graph.repository.name;
-        const pack = capabilityResultToJson(engine.execute("EvidencePack", { query, limit: 12 }));
+        const pack = createBoundedEvidencePack(context.graph, context.semanticIndex ?? createSemanticIndex(context.graph), query);
 
         return {
           artifacts: [
             createArtifact({
               descriptor: ARTIFACT_DESCRIPTORS.EvidencePack,
-              data: pack,
+              data: pack as unknown as JsonValue,
               graphHash: context.graph.metadata.deterministicHash,
               graphGeneratedAt: context.graph.metadata.generatedAt,
               producedBy: "evidence-pack",
@@ -2069,7 +2200,10 @@ function defaultCliEnhancers(): readonly Enhancer[] {
           ],
           statistics: {
             query,
-            ...capabilityArtifactStatistics(pack),
+            nodes: pack.topNodes.length,
+            edges: pack.topEdges.length,
+            files: pack.relevantFiles.length,
+            ...capabilityArtifactStatistics(pack as unknown as JsonValue),
           },
         };
       },
@@ -2313,6 +2447,507 @@ function defaultCliEnhancers(): readonly Enhancer[] {
   ];
 }
 
+function lexicalEvidenceNodes(graph: SoftwareGraph, query: string, limit: number): readonly SoftwareGraphNode[] {
+  const terms = evidenceTerms(query);
+  if (terms.length === 0) {
+    return [];
+  }
+  return graph.nodes
+    .filter((node) => {
+      const haystack = evidenceText(`${node.id} ${node.name} ${node.file ?? ""} ${node.package ?? ""}`);
+      return terms.some((term) => haystack.includes(term));
+    })
+    .sort((left, right) =>
+      lexicalEvidenceScore(right, terms) - lexicalEvidenceScore(left, terms) ||
+      left.id.localeCompare(right.id),
+    )
+    .slice(0, limit);
+}
+
+function repositoryOverviewEvidenceNodes(graph: SoftwareGraph): readonly SoftwareGraphNode[] {
+  const preferred = new Set<SoftwareGraphNode["type"]>([
+    "Application",
+    "Workspace",
+    "Package",
+    "Module",
+    "Controller",
+    "Service",
+    "Repository",
+    "Route",
+  ]);
+  return graph.nodes
+    .filter((node) => preferred.has(node.type) && isRepositoryLocalEvidenceNode(node))
+    .sort((left, right) =>
+      evidenceDegree(graph, right.id) - evidenceDegree(graph, left.id) ||
+      evidenceTypeWeight(right) - evidenceTypeWeight(left) ||
+      left.id.localeCompare(right.id),
+    )
+    .slice(0, EVIDENCE_PACK_NODE_LIMIT);
+}
+
+function collectEvidenceEdges(
+  graph: SoftwareGraph,
+  edgeById: ReadonlyMap<string, SoftwareGraphEdge>,
+  nodes: readonly SoftwareGraphNode[],
+  perNodeLimit: number,
+): readonly SoftwareGraphEdge[] {
+  const edges: SoftwareGraphEdge[] = [];
+  for (const node of nodes) {
+    const inbound = (graph.indexes.inboundEdgeIdsByNodeId[node.id] ?? [])
+      .map((id) => edgeById.get(id))
+      .filter(isSoftwareGraphEdge)
+      .sort(compareEvidenceEdges)
+      .slice(0, perNodeLimit);
+    const outbound = (graph.indexes.outboundEdgeIdsByNodeId[node.id] ?? [])
+      .map((id) => edgeById.get(id))
+      .filter(isSoftwareGraphEdge)
+      .sort(compareEvidenceEdges)
+      .slice(0, perNodeLimit);
+    edges.push(...inbound, ...outbound);
+  }
+  return uniqueEvidenceEdges(edges);
+}
+
+function rankBoundedEvidenceNodes(
+  graph: SoftwareGraph,
+  nodes: readonly SoftwareGraphNode[],
+  seedIds: ReadonlySet<string>,
+  query: string,
+  semanticScores: ReadonlyMap<string, number>,
+): readonly SoftwareGraphNode[] {
+  const terms = evidenceTerms(query);
+  return [...nodes].sort((left, right) =>
+    boundedEvidenceNodeScore(graph, right, terms, seedIds, semanticScores) -
+      boundedEvidenceNodeScore(graph, left, terms, seedIds, semanticScores) ||
+    left.id.localeCompare(right.id),
+  );
+}
+
+function boundedEvidenceNodeScore(
+  graph: SoftwareGraph,
+  node: SoftwareGraphNode,
+  terms: readonly string[],
+  seedIds: ReadonlySet<string>,
+  semanticScores: ReadonlyMap<string, number>,
+): number {
+  const text = evidenceText(`${node.id} ${node.name} ${node.file ?? ""} ${node.package ?? ""}`);
+  const termScore = terms.filter((term) => text.includes(term)).length * 24;
+  const semanticScore = Math.min(300, semanticScores.get(node.id) ?? 0);
+  const seedScore = seedIds.has(node.id) ? 120 : 0;
+  const degreeScore = Math.min(60, evidenceDegree(graph, node.id) * 5);
+  const localityScore = isRepositoryLocalEvidenceNode(node) ? 30 : -80;
+  const dtoScore = /\bdto\b|dto$|payload|request|response|schema/i.test(`${node.name} ${node.file ?? ""}`) ? 18 : 0;
+  const featureScore = /module|controller|service|repository|route/i.test(`${node.type} ${node.name}`) ? 14 : 0;
+  const utilityPenalty = /(^|[/.:-])(common|shared|utils?|helpers?|internal)([/.:-]|$)/i.test(`${node.id} ${node.file ?? ""}`) ? 20 : 0;
+  return semanticScore + seedScore + evidenceTypeWeight(node) + termScore + degreeScore + localityScore + dtoScore + featureScore - utilityPenalty;
+}
+
+function clusterEvidenceNodes(nodes: readonly SoftwareGraphNode[]): readonly SoftwareGraphNode[] {
+  const buckets = new Map<string, SoftwareGraphNode[]>();
+  for (const node of nodes) {
+    const bucket = architectureEvidenceBucket(node);
+    const current = buckets.get(bucket) ?? [];
+    current.push(node);
+    buckets.set(bucket, current);
+  }
+  const orderedBuckets = ["entrypoint", "controller", "service", "data", "model", "configuration", "test", "package", "other"]
+    .filter((bucket) => buckets.has(bucket));
+  const clustered: SoftwareGraphNode[] = [];
+  let index = 0;
+  while (clustered.length < nodes.length) {
+    let added = false;
+    for (const bucket of orderedBuckets) {
+      const node = buckets.get(bucket)?.[index];
+      if (node) {
+        clustered.push(node);
+        added = true;
+      }
+    }
+    if (!added) {
+      break;
+    }
+    index += 1;
+  }
+  return uniqueEvidenceNodes(clustered);
+}
+
+function rankBoundedEvidenceEdges(
+  edges: readonly SoftwareGraphEdge[],
+  nodeIds: ReadonlySet<string>,
+  seedIds: ReadonlySet<string>,
+): readonly SoftwareGraphEdge[] {
+  return [...edges]
+    .filter((edge) => nodeIds.has(edge.from) || nodeIds.has(edge.to))
+    .sort((left, right) =>
+      boundedEvidenceEdgeScore(right, nodeIds, seedIds) - boundedEvidenceEdgeScore(left, nodeIds, seedIds) ||
+      left.id.localeCompare(right.id),
+    );
+}
+
+function boundedEvidenceEdgeScore(
+  edge: SoftwareGraphEdge,
+  nodeIds: ReadonlySet<string>,
+  seedIds: ReadonlySet<string>,
+): number {
+  const selectedScore = Number(nodeIds.has(edge.from)) * 35 + Number(nodeIds.has(edge.to)) * 35;
+  const seedScore = Number(seedIds.has(edge.from)) * 20 + Number(seedIds.has(edge.to)) * 20;
+  const typeScore = edge.type === "CONTAINS" ? 14 :
+    edge.type === "HANDLES" || edge.type === "CALLS" ? 18 :
+      edge.type === "USES" || edge.type === "REFERENCES" || edge.type === "INJECTS" ? 16 :
+        edge.type === "READS" || edge.type === "WRITES" ? 15 : 10;
+  return selectedScore + seedScore + typeScore + evidenceEdgeConfidence(edge) * 10;
+}
+
+function boundedNodeEvidenceItem(
+  graph: SoftwareGraph,
+  node: SoftwareGraphNode,
+  topEdges: readonly SoftwareGraphEdge[],
+  seedIds: ReadonlySet<string>,
+  semanticScores: ReadonlyMap<string, number>,
+  query: string,
+): JsonObject {
+  return {
+    stableId: node.id,
+    kind: "node",
+    nodeKind: node.type,
+    confidence: boundedNodeConfidence(node, seedIds, semanticScores),
+    sourceSpan: node.span ? serializeSpan(node.span) : null,
+    whySelected: whyNodeSelected(node, seedIds, semanticScores, query),
+    relationships: relationshipsForEvidenceNode(graph, node, topEdges),
+    nextCommands: [...nextEvidenceCommands(query, node)],
+    node: serializeNode(node),
+  };
+}
+
+function boundedEdgeEvidenceItem(
+  graph: SoftwareGraph,
+  edge: SoftwareGraphEdge,
+  nodeById: ReadonlyMap<string, SoftwareGraphNode>,
+  nodeIds: ReadonlySet<string>,
+  seedIds: ReadonlySet<string>,
+  query: string,
+): JsonObject {
+  const from = nodeById.get(edge.from);
+  const to = nodeById.get(edge.to);
+  return {
+    stableId: edge.id,
+    kind: "edge",
+    relationshipKind: edge.type,
+    confidence: round(evidenceEdgeConfidence(edge), 3),
+    sourceSpan: edgeSourceSpan(edge, from, to),
+    whySelected: whyEdgeSelected(edge, nodeIds, seedIds),
+    relationships: {
+      type: edge.type,
+      from: edge.from,
+      to: edge.to,
+      connectsSelectedNodes: nodeIds.has(edge.from) && nodeIds.has(edge.to),
+    },
+    nextCommands: [...nextEdgeEvidenceCommands(query, edge)],
+    edge: serializeEvidenceEdge(edge),
+  };
+}
+
+function relationshipsForEvidenceNode(
+  graph: SoftwareGraph,
+  node: SoftwareGraphNode,
+  topEdges: readonly SoftwareGraphEdge[],
+): JsonObject {
+  const connected = topEdges.filter((edge) => edge.from === node.id || edge.to === node.id).sort(compareEvidenceEdges);
+  return {
+    degree: evidenceDegree(graph, node.id),
+    incoming: countEvidenceEdges(connected.filter((edge) => edge.to === node.id)),
+    outgoing: countEvidenceEdges(connected.filter((edge) => edge.from === node.id)),
+    neighborIds: uniqueStrings(connected.map((edge) => edge.from === node.id ? edge.to : edge.from)).slice(0, 12),
+    edgeIds: connected.map((edge) => edge.id).slice(0, 12),
+  };
+}
+
+function evidencePackFilesFromGraph(
+  nodes: readonly SoftwareGraphNode[],
+  edges: readonly SoftwareGraphEdge[],
+): readonly string[] {
+  const files = new Set<string>();
+  for (const node of nodes) {
+    if (node.file) {
+      files.add(node.file);
+    }
+    if (node.span?.file) {
+      files.add(node.span.file);
+    }
+  }
+  for (const edge of edges) {
+    for (const evidence of edge.evidence ?? []) {
+      if (evidence.span?.file) {
+        files.add(evidence.span.file);
+      }
+    }
+  }
+  return [...files].sort().slice(0, EVIDENCE_PACK_FILE_LIMIT);
+}
+
+function serializeEvidenceEdge(edge: SoftwareGraphEdge): JsonObject {
+  return {
+    ...serializeEdge(edge),
+    evidence: edge.evidence?.slice(0, 3).map((item) => ({
+      kind: item.kind,
+      confidence: item.confidence,
+      description: item.description,
+      span: item.span ? serializeSpan(item.span) : undefined,
+    })),
+  };
+}
+
+function boundedNodeConfidence(
+  node: SoftwareGraphNode,
+  seedIds: ReadonlySet<string>,
+  semanticScores: ReadonlyMap<string, number>,
+): number {
+  const semantic = semanticScores.get(node.id) ?? 0;
+  const seedBonus = seedIds.has(node.id) ? 0.18 : 0;
+  const semanticBonus = Math.min(0.3, semantic / 1_000);
+  const localityBonus = isRepositoryLocalEvidenceNode(node) ? 0.08 : -0.12;
+  return round(Math.max(0.2, Math.min(0.98, 0.55 + seedBonus + semanticBonus + localityBonus)), 3);
+}
+
+function whyNodeSelected(
+  node: SoftwareGraphNode,
+  seedIds: ReadonlySet<string>,
+  semanticScores: ReadonlyMap<string, number>,
+  query: string,
+): string {
+  if (semanticScores.has(node.id)) {
+    return `Semantic index matched "${query}" to this ${node.type}.`;
+  }
+  if (seedIds.has(node.id)) {
+    return `Stable lexical seed for "${query}".`;
+  }
+  return `Relationship expansion connected this ${node.type} to selected evidence.`;
+}
+
+function whyEdgeSelected(
+  edge: SoftwareGraphEdge,
+  nodeIds: ReadonlySet<string>,
+  seedIds: ReadonlySet<string>,
+): string {
+  if (seedIds.has(edge.from) || seedIds.has(edge.to)) {
+    return `Relationship ${edge.type} touches a stable seed node.`;
+  }
+  if (nodeIds.has(edge.from) && nodeIds.has(edge.to)) {
+    return `Relationship ${edge.type} connects selected evidence nodes.`;
+  }
+  return `Relationship ${edge.type} is adjacent to selected evidence.`;
+}
+
+function evidenceConfidence(
+  evidence: readonly JsonObject[],
+  diagnostics: readonly JsonObject[],
+): JsonObject {
+  if (evidence.length === 0) {
+    return {
+      score: 0,
+      level: "none",
+      explanation: "No bounded evidence items were available.",
+    };
+  }
+  const averageConfidence = average(evidence.map((item) => typeof item.confidence === "number" ? item.confidence : 0));
+  const warningPenalty = diagnostics.filter((item) => item.severity === "warning").length * 0.05;
+  const score = round(Math.max(0, Math.min(1, averageConfidence - warningPenalty)), 3);
+  return {
+    score,
+    level: score >= 0.85 ? "high" : score >= 0.6 ? "medium" : score > 0 ? "low" : "none",
+    explanation: `Computed from ${evidence.length} bounded evidence item(s) and ${diagnostics.length} diagnostic(s).`,
+  };
+}
+
+function nextEvidenceCommands(query: string, node: SoftwareGraphNode | undefined): readonly string[] {
+  const escaped = query.replaceAll("\"", "\\\"");
+  const commands = [
+    `ontoly search "${escaped}"`,
+    `ontoly evidence "${escaped}"`,
+  ];
+  if (node) {
+    commands.push(`ontoly inspect ${node.id}`);
+    commands.push(`ontoly impact ${node.id} --mode local`);
+  }
+  return commands;
+}
+
+function nextEdgeEvidenceCommands(query: string, edge: SoftwareGraphEdge): readonly string[] {
+  const escaped = query.replaceAll("\"", "\\\"");
+  return [
+    `ontoly evidence "${escaped}"`,
+    `ontoly inspect ${edge.from}`,
+    `ontoly inspect ${edge.to}`,
+  ];
+}
+
+function edgeSourceSpan(
+  edge: SoftwareGraphEdge,
+  from: SoftwareGraphNode | undefined,
+  to: SoftwareGraphNode | undefined,
+): JsonObject | null {
+  const evidenceSpan = edge.evidence?.find((item) => item.span)?.span;
+  if (evidenceSpan) {
+    return serializeSpan(evidenceSpan);
+  }
+  if (from?.span) {
+    return serializeSpan(from.span);
+  }
+  if (to?.span) {
+    return serializeSpan(to.span);
+  }
+  return null;
+}
+
+function evidenceDiagnostic(
+  code: string,
+  severity: SoftwareGraphDiagnostic["severity"],
+  message: string,
+): JsonObject {
+  return { code, severity, message };
+}
+
+function countEvidenceEdges(edges: readonly SoftwareGraphEdge[]): JsonObject {
+  const counts: Record<string, number> = {};
+  for (const edge of edges) {
+    counts[edge.type] = (counts[edge.type] ?? 0) + 1;
+  }
+  return Object.fromEntries(Object.entries(counts).sort(([left], [right]) => left.localeCompare(right)));
+}
+
+function evidenceDegree(graph: SoftwareGraph, nodeId: string): number {
+  return (graph.indexes.inboundEdgeIdsByNodeId[nodeId]?.length ?? 0) +
+    (graph.indexes.outboundEdgeIdsByNodeId[nodeId]?.length ?? 0);
+}
+
+function evidenceTypeWeight(node: SoftwareGraphNode): number {
+  switch (node.type) {
+    case "Route":
+    case "Operation":
+      return 72;
+    case "Controller":
+      return 68;
+    case "Service":
+    case "Provider":
+      return 64;
+    case "Repository":
+      return 60;
+    case "Module":
+    case "Package":
+      return 54;
+    case "Model":
+    case "Resource":
+    case "Interface":
+    case "TypeAlias":
+    case "Class":
+      return 50;
+    case "Configuration":
+    case "EnvironmentVariable":
+      return 48;
+    case "Function":
+    case "Method":
+      return 42;
+    default:
+      return 25;
+  }
+}
+
+function architectureEvidenceBucket(node: SoftwareGraphNode): string {
+  if (node.type === "Route" || node.type === "Operation") {
+    return "entrypoint";
+  }
+  if (node.type === "Controller") {
+    return "controller";
+  }
+  if (node.type === "Service" || node.type === "Provider" || node.type === "Function" || node.type === "Method") {
+    return "service";
+  }
+  if (node.type === "Repository" || node.type === "DatabaseTable") {
+    return "data";
+  }
+  if (node.type === "Model" || node.type === "Resource" || node.type === "Interface" || node.type === "TypeAlias" || node.type === "Class") {
+    return "model";
+  }
+  if (node.type === "Configuration" || node.type === "EnvironmentVariable") {
+    return "configuration";
+  }
+  if (/(^|[/.])(test|tests|spec|__tests__)([/.]|$)|\.(test|spec)\./i.test(node.file ?? "")) {
+    return "test";
+  }
+  if (node.type === "Workspace" || node.type === "Application" || node.type === "Package" || node.type === "Module") {
+    return "package";
+  }
+  return "other";
+}
+
+function evidenceEdgeConfidence(edge: SoftwareGraphEdge): number {
+  const first = edge.evidence?.[0];
+  if (!first) {
+    return 0.82;
+  }
+  const kind = first.kind === "syntax" ? 0.98 :
+    first.kind === "resolver" ? 0.94 :
+      first.kind === "config" ? 0.92 :
+        first.kind === "semantic" ? 0.9 : 0.86;
+  const confidence = first.confidence === "exact" ? 1 : first.confidence === "inferred" ? 0.84 : 0.6;
+  return Math.min(kind, confidence);
+}
+
+function lexicalEvidenceScore(node: SoftwareGraphNode, terms: readonly string[]): number {
+  const text = evidenceText(`${node.id} ${node.name} ${node.file ?? ""} ${node.package ?? ""}`);
+  return terms.filter((term) => text.includes(term)).length * 20 + evidenceTypeWeight(node) + (isRepositoryLocalEvidenceNode(node) ? 25 : -80);
+}
+
+function evidenceTerms(value: string): readonly string[] {
+  return uniqueStrings(evidenceText(value).split(/\s+/g).filter((term) => term.length > 1));
+}
+
+function evidenceText(value: string): string {
+  return value
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2")
+    .replace(/[^a-zA-Z0-9]+/g, " ")
+    .toLowerCase()
+    .trim();
+}
+
+function isRepositoryLocalEvidenceNode(node: SoftwareGraphNode): boolean {
+  return !/node_modules|^dep:|^framework:/i.test(`${node.id} ${node.file ?? ""} ${node.package ?? ""}`);
+}
+
+function uniqueEvidenceNodes(nodes: readonly SoftwareGraphNode[]): readonly SoftwareGraphNode[] {
+  return [...new Map(nodes.map((node) => [node.id, node] as const)).values()];
+}
+
+function uniqueEvidenceEdges(edges: readonly SoftwareGraphEdge[]): readonly SoftwareGraphEdge[] {
+  return [...new Map(edges.map((edge) => [edge.id, edge] as const)).values()].sort(compareEvidenceEdges);
+}
+
+function isSoftwareGraphNode(value: SoftwareGraphNode | undefined): value is SoftwareGraphNode {
+  return Boolean(value);
+}
+
+function isSoftwareGraphEdge(value: SoftwareGraphEdge | undefined): value is SoftwareGraphEdge {
+  return Boolean(value);
+}
+
+function compareEvidenceEdges(left: SoftwareGraphEdge, right: SoftwareGraphEdge): number {
+  return `${left.type}:${left.from}:${left.to}:${left.id}`.localeCompare(`${right.type}:${right.from}:${right.to}:${right.id}`);
+}
+
+function uniqueStrings(values: readonly string[]): readonly string[] {
+  return [...new Set(values)].sort();
+}
+
+function average(values: readonly number[]): number {
+  return values.length === 0 ? 0 : values.reduce((total, value) => total + value, 0) / values.length;
+}
+
+function round(value: number, precision = 3): number {
+  const factor = 10 ** precision;
+  return Math.round(value * factor) / factor;
+}
+
 function capabilityArtifactEnhancer(input: {
   readonly id: string;
   readonly name: string;
@@ -2375,6 +3010,14 @@ function enhancerRootFromCli(cli: ParsedCli, positionalIndex: number): string {
   return cli.positional[positionalIndex] ?? ".";
 }
 
+function enhancerConfigurationFromCli(cli: ParsedCli, target: string): JsonObject {
+  const evidenceQuery = flagString(cli, "query", flagString(cli, "task", ""));
+  if ((target === "evidence-pack" || target === "EvidencePack") && evidenceQuery) {
+    return { evidenceQuery };
+  }
+  return {};
+}
+
 function enhancerManifestById(
   enhancers: readonly Enhancer[],
   manifests: readonly EnhancerManifest[],
@@ -2420,6 +3063,9 @@ function selectEnhancersForRun(enhancers: readonly Enhancer[], target: string): 
       }
     }
     for (const requirement of enhancer.requires) {
+      if (requirement.optional) {
+        continue;
+      }
       const producer = byArtifact.get(requirement.artifact);
       if (producer) {
         visit(producer);
@@ -2436,7 +3082,12 @@ async function createFileEnhancerCache(root: string, outputDir: string): Promise
   const cachePath = join(root, outputDir, "enhancers", "cache.json");
   let entries: Record<string, EnhancerRunResult> = {};
   try {
-    entries = JSON.parse(await readFile(cachePath, "utf8")) as Record<string, EnhancerRunResult>;
+    const cacheStats = await stat(cachePath);
+    if (cacheStats.size <= ENHANCER_CACHE_MAX_BYTES) {
+      entries = JSON.parse(await readFile(cachePath, "utf8")) as Record<string, EnhancerRunResult>;
+    } else {
+      logger.debug(`Skipping oversized enhancer cache ${cachePath} (${cacheStats.size} bytes).`);
+    }
   } catch {
     entries = {};
   }
@@ -2447,9 +3098,12 @@ async function createFileEnhancerCache(root: string, outputDir: string): Promise
     has: (key) => memory.has(key),
     set: async (key, value) => {
       await memory.set(key, value);
+      if (shouldSkipDiskEnhancerCache(value)) {
+        return;
+      }
       entries[key] = value;
       await mkdir(dirname(cachePath), { recursive: true });
-      await writeFile(cachePath, `${JSON.stringify(entries, null, 2)}\n`, "utf8");
+      await writeJsonFile(cachePath, entries);
     },
   };
 }
@@ -2465,12 +3119,12 @@ async function writeEnhancerArtifacts(
 
   for (const artifact of result.artifacts) {
     const path = join(artifactDirectory, artifactFileName(artifact));
-    await writeFile(path, artifactContents(artifact), "utf8");
+    await writeArtifactFile(path, artifact);
   }
 
   const summary = enhancerPipelineResultToJson(result);
   const summaryPath = join(directory, "summary.json");
-  await writeFile(summaryPath, `${JSON.stringify(summary, null, 2)}\n`, "utf8");
+  await writeJsonFile(summaryPath, summary);
   return summaryPath;
 }
 
@@ -2539,11 +3193,69 @@ function artifactFileName(artifact: OntolyArtifact): string {
   }
 }
 
-function artifactContents(artifact: OntolyArtifact): string {
+function shouldSkipDiskEnhancerCache(result: EnhancerRunResult): boolean {
+  return result.artifacts.some((artifact) => ENHANCER_DISK_CACHE_EXCLUDED_ARTIFACTS.has(artifact.descriptor.id));
+}
+
+async function writeArtifactFile(path: string, artifact: OntolyArtifact): Promise<void> {
   if (typeof artifact.data === "string") {
-    return artifact.data.endsWith("\n") ? artifact.data : `${artifact.data}\n`;
+    await writeFile(path, artifact.data.endsWith("\n") ? artifact.data : `${artifact.data}\n`, "utf8");
+    return;
   }
-  return `${JSON.stringify(artifact.data, null, 2)}\n`;
+  await writeJsonFile(path, artifact.data);
+}
+
+async function writeJsonFile(path: string, value: unknown): Promise<void> {
+  const file = await open(path, "w");
+  try {
+    for (const chunk of stableJsonChunks(value)) {
+      await file.write(chunk, undefined, "utf8");
+    }
+    await file.write("\n", undefined, "utf8");
+  } finally {
+    await file.close();
+  }
+}
+
+function* stableJsonChunks(value: unknown, seen: WeakSet<object> = new WeakSet<object>(), path = "$"): Iterable<string> {
+  if (value === null || typeof value !== "object") {
+    yield JSON.stringify(value) ?? "null";
+    return;
+  }
+
+  if (seen.has(value)) {
+    throw new Error(`Cannot serialize cyclic enhancer artifact data at ${path}.`);
+  }
+  seen.add(value);
+
+  if (Array.isArray(value)) {
+    yield "[";
+    for (let index = 0; index < value.length; index += 1) {
+      if (index > 0) {
+        yield ",";
+      }
+      yield* stableJsonChunks(value[index], seen, `${path}[${index}]`);
+    }
+    yield "]";
+    seen.delete(value);
+    return;
+  }
+
+  const entries = Object.entries(value as Record<string, unknown>)
+    .filter(([, entry]) => entry !== undefined)
+    .sort(([left], [right]) => left.localeCompare(right));
+  yield "{";
+  for (let index = 0; index < entries.length; index += 1) {
+    const [key, entry] = entries[index]!;
+    if (index > 0) {
+      yield ",";
+    }
+    yield JSON.stringify(key);
+    yield ":";
+    yield* stableJsonChunks(entry, seen, `${path}.${key}`);
+  }
+  yield "}";
+  seen.delete(value);
 }
 
 function optionalArtifact<T extends JsonValue>(artifact: OntolyArtifact<T> | undefined): readonly OntolyArtifact<T>[] {
@@ -4270,6 +4982,7 @@ Help:
 
 export {
   OntolyCliError,
+  createBoundedEvidencePack,
   commandHelp,
   formatCliError,
   formatLogPrefix,
