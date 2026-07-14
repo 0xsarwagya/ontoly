@@ -7,6 +7,7 @@ Start with help:
 ```sh
 ontoly --help
 ontoly build --help
+ontoly output --help
 ontoly inspect --help
 ontoly trace --help
 ontoly evaluate --help
@@ -28,6 +29,7 @@ ontoly skills validate
 ## Commands
 
 - `ontoly build [root]`
+- `ontoly output [root]`
 - `ontoly analyze [root]`
 - `ontoly semantic [root]`
 - `ontoly frameworks [root]`
@@ -50,6 +52,40 @@ ontoly skills validate
 - `ontoly benchmark performance`
 
 Most commands support `--json`.
+
+## Output Bundle
+
+`ontoly build .` creates a deterministic `ontoly-output/` folder for inspection,
+agent consumption, website assets, and release artifacts by default:
+
+```sh
+ontoly build .
+ontoly output .
+ontoly output . --output ontoly-output
+ontoly output . --json
+```
+
+The bundle includes canonical graph JSON, diagnostics, indexes, statistics,
+semantic coverage, quality, semantic model, report JSONs, node files split by
+type, relationship files split by type, graph community files, and offline HTML
+explorers:
+
+```text
+ontoly-output/
+  SoftwareGraph.json
+  manifest.json
+  reports/
+  nodes/by-type/
+  relationships/by-type/
+  communities/
+  html/graph.html
+  html/architecture.html
+```
+
+Use `ontoly build . --output .ontoly` when you only want the compact cache-style
+graph artifacts. Use `ontoly build . --output .ontoly --bundle` when you want
+both `.ontoly/` and `ontoly-output/`. Use `--no-html` to skip HTML files and
+`--no-semantic` to skip `semantic-model.json`.
 
 ## Logging
 
@@ -113,6 +149,9 @@ graph coverage.
 - `--format graphml`
 - `--format html`
 
+HTML output opens the Software Graph Explorer: an offline graph debugger with
+Architecture, Dependency, Call Graph, and Full Graph modes.
+
 `ontoly query` supports:
 
 - `find`
@@ -134,6 +173,9 @@ graph coverage.
 - `--format html`
 - `--max-nodes`
 - `--max-edges`
+
+HTML architecture output opens the same Software Graph Explorer with
+Architecture mode selected first.
 
 `ontoly coverage` supports:
 

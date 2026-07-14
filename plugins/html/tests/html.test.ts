@@ -17,8 +17,23 @@ describe("interactive HTML graph plugin", () => {
     });
     expect(artifact.contents).toContain("<!doctype html>");
     expect(artifact.contents).toContain('id="graph-data"');
-    expect(artifact.contents).toContain("Interactive Software Graph");
+    expect(artifact.contents).toContain("Software Graph Explorer");
+    expect(artifact.contents).toContain("Architecture");
+    expect(artifact.contents).toContain("Explain Graph");
+    expect(artifact.contents).toContain('id="mini-map"');
     expect(createInteractiveHtmlArtifact(graph, { title: "Example Graph" }).contents).toBe(artifact.contents);
+  });
+
+  it("ships debugger-oriented explorer controls", () => {
+    const html = createInteractiveHtmlGraph(fixtureGraph());
+
+    expect(html).toContain("Dependency");
+    expect(html).toContain("Call Graph");
+    expect(html).toContain("Full Graph");
+    expect(html).toContain("Jump to AuthService");
+    expect(html).toContain("Deterministic graph summary");
+    expect(html).toContain("Focus");
+    expect(html).toContain("Trace");
   });
 
   it("filters node and edge payloads before rendering", () => {

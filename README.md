@@ -149,8 +149,44 @@ checkout flow above.
 
 ## Build Artifacts
 
-`ontoly build <repository>` writes graph artifacts to the target repository's
-`.ontoly/` directory:
+`ontoly build <repository>` writes the rich `ontoly-output/` bundle by default:
+
+```text
+ontoly-output/
+  SoftwareGraph.json
+  manifest.json
+  coverage.json
+  quality.json
+  semantic-model.json
+  reports/
+    architecture.json
+    api.json
+    dependencies.json
+    configuration.json
+    frameworks.json
+    workspace.json
+  nodes/
+    all.json
+    by-type/
+  relationships/
+    all.json
+    by-type/
+  communities/
+    communities.json
+    community-000.json
+  html/
+    graph.html
+    architecture.html
+```
+
+The output bundle is deterministic and intended for humans, agents, websites,
+release artifacts, and debugging Ontoly's own understanding.
+
+For the compact cache-style artifact directory, pass `--output .ontoly`:
+
+```sh
+ontoly build . --output .ontoly
+```
 
 ```text
 .ontoly/
@@ -271,6 +307,7 @@ Common commands:
 | Command | Purpose |
 | --- | --- |
 | `pnpm ontoly build <repo>` | Build a Software Graph. |
+| `pnpm ontoly output <repo>` | Generate `ontoly-output/` with JSON reports, graph communities, and HTML explorers. |
 | `pnpm ontoly inspect <graph-or-query>` | Inspect graph artifacts or entities. |
 | `pnpm ontoly trace <symbol>` | Trace graph relationships. |
 | `pnpm ontoly coverage <repo>` | Report semantic coverage. |

@@ -1,8 +1,10 @@
 # @0xsarwagya/ontoly-plugin-html
 
-Interactive HTML graph plugin for Ontoly Software Graphs.
+Software Graph Explorer plugin for Ontoly Software Graphs.
 
-This package emits a self-contained HTML file with searchable, filterable, draggable nodes and directed edges. It works offline and does not use a CDN or external runtime.
+This package emits a self-contained HTML explorer with architecture-first modes,
+search navigation, grouped filters, node relationship details, trace focus, and
+a minimap. It works offline and does not use a CDN or external runtime.
 
 ## Installation
 
@@ -27,11 +29,12 @@ The Ontoly CLI can also render the same artifact:
 
 ```bash
 ontoly graph --format html > graph.html
+ontoly architecture --format html > architecture.html
 ```
 
 ## Status
 
-Alpha package for Ontoly v0.1.0-alpha.2. The public API is versioned with the Software Graph and RFC process.
+Alpha package for Ontoly v0.1.0-alpha.3. The public API is versioned with the Software Graph and RFC process.
 
 ## Links
 

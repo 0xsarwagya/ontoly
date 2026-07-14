@@ -48,6 +48,7 @@ import {
   validateOntolySkills,
   type SkillValidationReport,
 } from "./skills";
+import { createOntolyOutputBundle, type OntolyOutputBundle } from "./output";
 
 interface ParsedCli {
   readonly command: string;
@@ -135,6 +136,11 @@ async function run(cli: ParsedCli): Promise<void> {
 
     case "build":
       await buildCommand(cli);
+      return;
+
+    case "output":
+    case "compile":
+      await outputCommand(cli);
       return;
 
     case "analyze":
@@ -248,37 +254,67 @@ async function initCommand(cli: ParsedCli): Promise<void> {
 
 async function buildCommand(cli: ParsedCli): Promise<void> {
   const root = rootFromCli(cli);
-  const outputDir = flagString(cli, "output", ".ontoly");
+  const outputDir = flagString(cli, "output", "ontoly-output");
+  const writeCompilerArtifacts = !isOntolyOutputDirectory(outputDir);
   const result = await buildSoftwareGraphWithArtifacts({
     root,
     outputDir,
-    write: true,
+    write: writeCompilerArtifacts,
     passes: defaultCompilerPasses(),
   });
+  let bundle: OntolyOutputBundle | undefined;
+
+  if (!result.graph || result.status === "failed") {
+    if (flagBoolean(cli, "json")) {
+      logger.write(JSON.stringify({
+        status: result.status,
+        files: result.discovery.files.length,
+        nodes: 0,
+        edges: 0,
+        diagnostics: result.diagnostics.length,
+        artifacts: result.artifacts,
+      }, null, 2));
+    } else {
+      logger.info(`Indexed ${result.discovery.files.length} files`);
+      logger.info("Built 0 nodes");
+      logger.info("Generated 0 relationships");
+    }
+    logger.error("Build failed before a validated Software Graph was produced");
+    process.exitCode = 1;
+    return;
+  }
+
+  if (shouldWriteOutputBundle(cli, outputDir)) {
+    bundle = await writeOutputBundle(
+      root,
+      flagString(cli, "bundle-output", isOntolyOutputDirectory(outputDir) ? outputDir : "ontoly-output"),
+      result.graph,
+      cli,
+    );
+  }
 
   if (flagBoolean(cli, "json")) {
     logger.write(JSON.stringify({
       status: result.status,
       files: result.discovery.files.length,
-      nodes: result.graph?.nodes.length ?? 0,
-      edges: result.graph?.edges.length ?? 0,
-      diagnostics: result.graph?.diagnostics.length ?? result.diagnostics.length,
-      hash: result.graph?.metadata.deterministicHash,
+      nodes: result.graph.nodes.length,
+      edges: result.graph.edges.length,
+      diagnostics: result.graph.diagnostics.length,
+      hash: result.graph.metadata.deterministicHash,
       artifacts: result.artifacts,
+      outputBundle: bundle ? {
+        directory: bundle.directory,
+        files: bundle.files.length,
+        communities: bundle.communities.length,
+      } : undefined,
     }, null, 2));
     process.exitCode = result.status === "success" ? 0 : 1;
     return;
   }
 
   logger.info(`Indexed ${result.discovery.files.length} files`);
-  logger.info(`Built ${result.graph?.nodes.length ?? 0} nodes${result.graph ? formatCounts(result.graph.nodes.map((node) => node.type)) : ""}`);
-  logger.info(`Generated ${result.graph?.edges.length ?? 0} relationships${result.graph ? formatCounts(result.graph.edges.map((edge) => edge.type)) : ""}`);
-
-  if (!result.graph || result.status === "failed") {
-    logger.error("Build failed before a validated Software Graph was produced");
-    process.exitCode = 1;
-    return;
-  }
+  logger.info(`Built ${result.graph.nodes.length} nodes${formatCounts(result.graph.nodes.map((node) => node.type))}`);
+  logger.info(`Generated ${result.graph.edges.length} relationships${formatCounts(result.graph.edges.map((edge) => edge.type))}`);
 
   const duration = result.graph.metadata.durationMs ?? 0;
   logger.success("Built Software Graph");
@@ -291,6 +327,55 @@ async function buildCommand(cli: ParsedCli): Promise<void> {
     logger.info(`Diagnostics: ${result.artifacts.diagnostics}`);
     logger.info(`Statistics: ${result.artifacts.statistics}`);
   }
+
+  if (bundle) {
+    logger.info(`Output bundle: ${bundle.directory}`);
+    logger.info(`Output files: ${bundle.files.length}`);
+    logger.info(`Communities: ${bundle.communities.length}`);
+    if (!flagBoolean(cli, "no-html")) {
+      logger.info(`HTML: ${bundle.directory}/html/graph.html`);
+      logger.info(`HTML architecture: ${bundle.directory}/html/architecture.html`);
+    }
+  }
+}
+
+async function outputCommand(cli: ParsedCli): Promise<void> {
+  const root = rootFromCli(cli);
+  const outputDir = flagString(cli, "output", "ontoly-output");
+  const result = await buildSoftwareGraphWithArtifacts({
+    root,
+    outputDir,
+    write: false,
+    passes: defaultCompilerPasses(),
+  });
+
+  if (!result.graph || result.status === "failed") {
+    throw new OntolyCliError({
+      code: "ONTOLY4001",
+      message: "Could not create ontoly-output because graph compilation failed.",
+      suggestion: "Run ontoly build . --debug and resolve compiler diagnostics first.",
+      docs: "docs/cli.md#output",
+    });
+  }
+
+  const bundle = await writeOutputBundle(root, outputDir, result.graph, cli);
+
+  if (flagBoolean(cli, "json")) {
+    logger.write(JSON.stringify({
+      directory: bundle.directory,
+      files: bundle.files,
+      communities: bundle.communities.length,
+      graphHash: result.graph.metadata.deterministicHash,
+    }, null, 2));
+    return;
+  }
+
+  logger.success(`Compiled Ontoly output bundle: ${bundle.directory}`);
+  logger.info(`Files: ${bundle.files.length}`);
+  logger.info(`Communities: ${bundle.communities.length}`);
+  logger.info(`Graph: ${bundle.directory}/SoftwareGraph.json`);
+  logger.info(`HTML: ${bundle.directory}/html/graph.html`);
+  logger.info(`HTML architecture: ${bundle.directory}/html/architecture.html`);
 }
 
 async function analyzeCommand(cli: ParsedCli): Promise<void> {
@@ -548,7 +633,7 @@ async function architectureCommand(cli: ParsedCli): Promise<void> {
 
   if (format === "html") {
     logger.write(createInteractiveHtmlGraph(architectureGraph(query), {
-      title: `${graph.repository.name} Architecture Graph`,
+      title: `${graph.repository.name} Software Graph Explorer`,
       maxNodes: flagNumber(cli, "max-nodes", 1200),
       maxEdges: flagNumber(cli, "max-edges", 2400),
       includeIsolatedNodes: false,
@@ -985,6 +1070,32 @@ async function writeCoverageArtifacts(
       confidenceHistogram: report.confidenceHistogram,
     }, null, 2)}\n`, "utf8"),
   ]);
+}
+
+function shouldWriteOutputBundle(cli: ParsedCli, outputDir: string): boolean {
+  return flagBoolean(cli, "bundle") || isOntolyOutputDirectory(outputDir);
+}
+
+function isOntolyOutputDirectory(path: string): boolean {
+  return path.replace(/\\/g, "/").split("/").pop() === "ontoly-output";
+}
+
+async function writeOutputBundle(
+  root: string,
+  outputDir: string,
+  graph: SoftwareGraph,
+  cli: ParsedCli,
+): Promise<OntolyOutputBundle> {
+  const semanticModel = flagBoolean(cli, "no-semantic") ? undefined : analyzeTypeScriptProject({ root });
+  return createOntolyOutputBundle({
+    root,
+    directory: outputDir,
+    graph,
+    semanticModel,
+    includeHtml: !flagBoolean(cli, "no-html"),
+    maxHtmlNodes: flagNumber(cli, "max-nodes", 2500),
+    maxHtmlEdges: flagNumber(cli, "max-edges", 5000),
+  });
 }
 
 function defaultCompilerPasses() {
@@ -1910,9 +2021,30 @@ function commandHelp(): Record<string, CommandHelp> {
   build: {
     title: "ontoly build",
     description: "Compile a repository into a deterministic Software Graph.",
-    usage: ["ontoly build [root] [--root path] [--output .ontoly] [--json]"],
-    options: ["--output path  Artifact directory.", "--json         Print a machine-readable summary.", "--debug        Print debug logs."],
-    examples: ["ontoly build .", "ontoly build examples/basic --output .ontoly", "ontoly build . --json"],
+    usage: ["ontoly build [root] [--root path] [--output ontoly-output] [--bundle] [--json]"],
+    options: [
+      "--output path        Artifact directory. Default: ontoly-output.",
+      "--bundle             Also write a rich ontoly-output bundle when using another --output path.",
+      "--bundle-output path Rich output directory. Default: ontoly-output.",
+      "--no-html            Skip HTML files in the rich output bundle.",
+      "--json               Print a machine-readable summary.",
+      "--debug              Print debug logs.",
+    ],
+    examples: ["ontoly build .", "ontoly build examples/basic --output .ontoly", "ontoly build . --output .ontoly --bundle", "ontoly build . --json"],
+  },
+  output: {
+    title: "ontoly output",
+    description: "Compile a repository into a rich ontoly-output folder with JSON reports, communities, and HTML explorers.",
+    usage: ["ontoly output [root] [--output ontoly-output] [--json]"],
+    options: [
+      "--output path   Output bundle directory. Default: ontoly-output.",
+      "--no-html       Skip html/graph.html and html/architecture.html.",
+      "--no-semantic   Skip semantic-model.json.",
+      "--max-nodes n   Maximum nodes for HTML graph output. Default: 2500.",
+      "--max-edges n   Maximum edges for HTML graph output. Default: 5000.",
+      "--json          Print JSON summary.",
+    ],
+    examples: ["ontoly output .", "ontoly output examples/basic", "ontoly output . --output ontoly-output --json"],
   },
   analyze: {
     title: "ontoly analyze",
@@ -2091,7 +2223,8 @@ TypeScript-native software intelligence. Ontoly builds deterministic Software Gr
 
 Usage:
   ontoly init [root] [--root path]
-  ontoly build [root] [--root path] [--output .ontoly]
+  ontoly build [root] [--root path] [--output ontoly-output] [--bundle]
+  ontoly output [root] [--root path] [--output ontoly-output]
   ontoly analyze [root] [--root path] [--output .ontoly] [--json]
   ontoly semantic [root] [--root path] [--format summary|json]
   ontoly frameworks [root] [--root path] [--json]
@@ -2118,6 +2251,8 @@ Usage:
 
 Examples:
   ontoly build .
+  ontoly output .
+  ontoly build . --bundle
   ontoly analyze .
   ontoly semantic
   ontoly frameworks

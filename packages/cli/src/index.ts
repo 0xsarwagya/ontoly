@@ -4,3 +4,4 @@ export * from "@0xsarwagya/ontoly-core";
 export * from "@0xsarwagya/ontoly-mcp";
 export * from "@0xsarwagya/ontoly-parser-typescript";
 export * from "@0xsarwagya/ontoly-query";
+export * from "./output";

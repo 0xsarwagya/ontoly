@@ -10,6 +10,7 @@ const IGNORED_PARTS = new Set([
   "coverage",
   "dist",
   "node_modules",
+  "ontoly-output",
   "outputs",
   "playwright-report",
   "test-results",

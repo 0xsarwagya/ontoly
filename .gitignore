@@ -1,6 +1,7 @@
 node_modules
 dist
 .ontoly
+ontoly-output
 .agents
 .turbo
 .DS_Store

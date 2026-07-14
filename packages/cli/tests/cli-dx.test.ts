@@ -26,7 +26,18 @@ describe("cli developer experience helpers", () => {
     expect(help).toContain("Compile a repository into a deterministic Software Graph.");
     expect(help).toContain("Usage:");
     expect(help).toContain("--output path");
+    expect(help).toContain("Default: ontoly-output");
+    expect(help).toContain("--bundle");
     expect(help).toContain("ontoly build . --json");
+  });
+
+  it("documents rich ontoly-output bundle generation", () => {
+    const help = renderCommandHelp(commandHelp().output);
+
+    expect(help).toContain("ontoly output");
+    expect(help).toContain("ontoly-output folder");
+    expect(help).toContain("--no-html");
+    expect(help).toContain("ontoly output .");
   });
 
   it("documents interactive HTML graph export", () => {

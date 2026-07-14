@@ -1,5 +1,5 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { isAbsolute, join } from "node:path";
 import type { SoftwareGraph } from "@0xsarwagya/ontoly-core";
 
 export interface GraphArtifactPaths {
@@ -20,7 +20,8 @@ export interface PersistGraphOptions {
 }
 
 export function getGraphArtifactPaths(options: PersistGraphOptions): GraphArtifactPaths {
-  const directory = join(options.root, options.directory ?? ".ontoly");
+  const outputDirectory = options.directory ?? ".ontoly";
+  const directory = isAbsolute(outputDirectory) ? outputDirectory : join(options.root, outputDirectory);
 
   return {
     root: options.root,

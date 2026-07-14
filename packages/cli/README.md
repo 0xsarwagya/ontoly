@@ -10,9 +10,21 @@ This package is part of [Ontoly](https://github.com/0xsarwagya/ontoly), a TypeSc
 pnpm add @0xsarwagya/ontoly-cli
 ```
 
+## Usage
+
+```bash
+ontoly build .
+ontoly build . --output .ontoly
+ontoly graph --format html > graph.html
+```
+
+`ontoly build .` writes a deterministic `ontoly-output/` folder with graph
+JSON, report JSON, per-type node and relationship files, graph communities, and
+offline HTML explorers.
+
 ## Status
 
-Alpha package for Ontoly v0.1.0-alpha.3. The public API is versioned with the Software Graph and RFC process.
+Alpha package for Ontoly v0.1.0-alpha.4. The public API is versioned with the Software Graph and RFC process.
 
 ## Links
 

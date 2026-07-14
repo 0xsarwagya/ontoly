@@ -3,8 +3,8 @@
 | Component | Version |
 | --------- | ------- |
 | Ontoly core packages | 0.1.0-alpha.1 |
-| Ontoly CLI | 0.1.0-alpha.3 |
-| HTML graph plugin | 0.1.0-alpha.2 |
+| Ontoly CLI | 0.1.0-alpha.4 |
+| HTML graph plugin | 0.1.0-alpha.3 |
 | Software Graph Spec | 1.0 draft |
 | Agent Skills | 0.1.0-alpha.1 |
 | Node.js engine | 22+ |
