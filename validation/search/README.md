@@ -5,12 +5,12 @@ artifacts.
 
 The corpus intentionally measures search quality rather than graph size. Every
 question is a software-engineering phrase that should resolve to graph evidence
-through `@0xsarwagya/ontoly-semantic-index`.
+through `@0xsarwagya/ontoly-core`.
 
 ## Run
 
 ```bash
-pnpm --filter @0xsarwagya/ontoly-semantic-index build
+pnpm --filter @0xsarwagya/ontoly-core build
 node validation/search/evaluate-search.mjs --graph .ontoly/SoftwareGraph.json
 ```
 

@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-cache",
-  "version": "0.1.0-alpha.2",
+  "version": "0.1.0-alpha.3",
   "description": "Local graph artifact persistence for Ontoly.",
   "type": "module",
   "license": "MIT",
@@ -27,8 +27,7 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@0xsarwagya/ontoly-core": "workspace:*",
-    "@0xsarwagya/ontoly-semantic-index": "workspace:*"
+    "@0xsarwagya/ontoly-core": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

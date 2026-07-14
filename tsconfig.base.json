@@ -21,7 +21,6 @@
       "@0xsarwagya/ontoly-core": ["packages/core/src/index.ts"],
       "@0xsarwagya/ontoly-diagnostics": ["packages/diagnostics/src/index.ts"],
       "@0xsarwagya/ontoly-enhancer": ["packages/enhancer/src/index.ts"],
-      "@0xsarwagya/ontoly-semantic-index": ["packages/semantic-index/src/index.ts"],
       "@0xsarwagya/ontoly-mcp": ["packages/mcp/src/index.ts"],
       "@0xsarwagya/ontoly-parser-openapi": ["packages/parser-openapi/src/index.ts"],
       "@0xsarwagya/ontoly-parser-typescript": ["packages/parser-typescript/src/index.ts"],

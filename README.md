@@ -20,7 +20,7 @@ generate embeddings, or make probabilistic guesses.
 
 ## Status
 
-Ontoly is in public alpha. The current CLI release is `v0.1.0-alpha.11`.
+Ontoly is in public alpha. The current CLI release is `v0.1.0-alpha.12`.
 
 The public contract is still experimental, but the repository already includes:
 
@@ -485,14 +485,13 @@ suite, not marketing claims.
 | Package | Purpose |
 | --- | --- |
 | `@0xsarwagya/ontoly-cli` | CLI and public convenience API. |
-| `@0xsarwagya/ontoly-core` | Software Graph schema, stable IDs, indexes, and graph helpers. |
+| `@0xsarwagya/ontoly-core` | Software Graph schema, stable IDs, indexes, graph helpers, and Semantic Index APIs. |
 | `@0xsarwagya/ontoly-compiler` | Repository discovery, graph build pipeline, validation, and watch mode. |
 | `@0xsarwagya/ontoly-parser-typescript` | TypeScript frontend and relationship extraction. |
 | `@0xsarwagya/ontoly-parser-openapi` | OpenAPI frontend for Software Graph facts. |
 | `@0xsarwagya/ontoly-typescript` | Pure TypeScript semantic model analyzer. |
 | `@0xsarwagya/ontoly-semantic` | Semantic generator and framework analyzer registry. |
 | `@0xsarwagya/ontoly-analyzers` | Semantic coverage and graph quality analyzers. |
-| `@0xsarwagya/ontoly-semantic-index` | Deterministic Semantic Index and intent resolution. |
 | `@0xsarwagya/ontoly-query` | Deterministic Software Graph query engine. |
 | `@0xsarwagya/ontoly-diagnostics` | Shared diagnostic constructors. |
 | `@0xsarwagya/ontoly-cache` | Local graph artifact persistence. |

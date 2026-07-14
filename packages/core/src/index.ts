@@ -502,6 +502,8 @@ export function getEdge(graph: SoftwareGraph, id: string): SoftwareGraphEdge | u
   return graph.edges.find((edge) => edge.id === id);
 }
 
+export * from "./semantic-index";
+
 function normalizeNode(node: SoftwareGraphNode): SoftwareGraphNode {
   const normalized: SoftwareGraphNode = {
     id: node.id,

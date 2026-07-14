@@ -22,7 +22,7 @@ import {
   findRepositoryConcept as searchRepositoryConcept,
   resolveIntent,
   type SemanticSearchResult,
-} from "@0xsarwagya/ontoly-semantic-index";
+} from "@0xsarwagya/ontoly-core";
 import { createQueryEngine, type GraphTraversal, type QueryEngine } from "@0xsarwagya/ontoly-query";
 
 const LEGACY_MCP_CAPABILITIES = [

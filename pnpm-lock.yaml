@@ -59,9 +59,6 @@ importers:
       '@0xsarwagya/ontoly-core':
         specifier: workspace:*
         version: link:../core
-      '@0xsarwagya/ontoly-semantic-index':
-        specifier: workspace:*
-        version: link:../semantic-index
     devDependencies:
       '@types/node':
         specifier: ^22.15.3
@@ -81,9 +78,6 @@ importers:
       '@0xsarwagya/ontoly-query':
         specifier: workspace:*
         version: link:../query
-      '@0xsarwagya/ontoly-semantic-index':
-        specifier: workspace:*
-        version: link:../semantic-index
     devDependencies:
       '@types/node':
         specifier: ^22.15.3
@@ -136,9 +130,6 @@ importers:
       '@0xsarwagya/ontoly-semantic':
         specifier: workspace:*
         version: link:../semantic
-      '@0xsarwagya/ontoly-semantic-index':
-        specifier: workspace:*
-        version: link:../semantic-index
       '@0xsarwagya/ontoly-typescript':
         specifier: workspace:*
         version: link:../typescript
@@ -217,9 +208,6 @@ importers:
       '@0xsarwagya/ontoly-core':
         specifier: workspace:*
         version: link:../core
-      '@0xsarwagya/ontoly-semantic-index':
-        specifier: workspace:*
-        version: link:../semantic-index
     devDependencies:
       '@types/node':
         specifier: ^22.15.3
@@ -245,9 +233,6 @@ importers:
       '@0xsarwagya/ontoly-query':
         specifier: workspace:*
         version: link:../query
-      '@0xsarwagya/ontoly-semantic-index':
-        specifier: workspace:*
-        version: link:../semantic-index
     devDependencies:
       '@types/node':
         specifier: ^22.15.3
@@ -342,25 +327,6 @@ importers:
       '@0xsarwagya/ontoly-typescript':
         specifier: workspace:*
         version: link:../typescript
-    devDependencies:
-      '@types/node':
-        specifier: ^22.15.3
-        version: 22.20.1
-      tsup:
-        specifier: ^8.3.5
-        version: 8.5.1(postcss@8.5.17)(typescript@5.9.2)
-      typescript:
-        specifier: 5.9.2
-        version: 5.9.2
-      vitest:
-        specifier: ^3.0.0
-        version: 3.2.7(@types/node@22.20.1)
-
-  packages/semantic-index:
-    dependencies:
-      '@0xsarwagya/ontoly-core':
-        specifier: workspace:*
-        version: link:../core
     devDependencies:
       '@types/node':
         specifier: ^22.15.3

@@ -12,7 +12,7 @@ import {
   type SoftwareGraphEdge,
   type SoftwareGraphNode,
 } from "@0xsarwagya/ontoly-core";
-import { createSemanticIndex } from "@0xsarwagya/ontoly-semantic-index";
+import { createSemanticIndex } from "@0xsarwagya/ontoly-core";
 import { createInteractiveHtmlGraph } from "@0xsarwagya/ontoly-plugin-html";
 import { createQueryEngine } from "@0xsarwagya/ontoly-query";
 import { serializeTypeScriptProject, type TypeScriptProject } from "@0xsarwagya/ontoly-typescript";

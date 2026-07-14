@@ -10,7 +10,7 @@ import {
   type SoftwareGraph,
   type SoftwareGraphDiagnostic,
 } from "@0xsarwagya/ontoly-core";
-import type { SemanticIndex } from "@0xsarwagya/ontoly-semantic-index";
+import type { SemanticIndex } from "@0xsarwagya/ontoly-core";
 
 export const ENHANCER_API_VERSION = "1.0.0";
 export const ENHANCER_MANIFEST_VERSION = "1.0.0";

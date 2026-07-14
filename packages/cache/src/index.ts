@@ -4,7 +4,7 @@ import type { SoftwareGraph } from "@0xsarwagya/ontoly-core";
 import {
   createSemanticIndex,
   type SemanticIndex,
-} from "@0xsarwagya/ontoly-semantic-index";
+} from "@0xsarwagya/ontoly-core";
 
 export interface GraphArtifactPaths {
   readonly root: string;

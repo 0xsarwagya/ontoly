@@ -8,7 +8,7 @@ import {
   type SoftwareGraph,
   type SoftwareGraphEdge,
   type SoftwareGraphNode,
-} from "@0xsarwagya/ontoly-core";
+} from "./index";
 
 export const SEMANTIC_INDEX_VERSION = "1.0.0";
 

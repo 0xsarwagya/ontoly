@@ -1,17 +1,31 @@
 # Alpha Release Notes
 
+## v0.1.0-alpha.12
+
+This release fixes external npm installation by removing the hidden standalone
+Semantic Index package dependency from the public CLI graph.
+
+- Semantic Index APIs are now exported by `@0xsarwagya/ontoly-core`.
+- Cache, enhancer, capabilities, MCP, and CLI now consume Semantic Index APIs
+  from core, so latest installs only depend on packages npm is publicly serving.
+- The standalone `@0xsarwagya/ontoly-semantic-index` package was removed from
+  the release graph after npm publish logs marked it public but unauthenticated
+  installs still received 404 responses.
+- Agent Skills now require Ontoly `0.1.0-alpha.12`.
+
 ## v0.1.0-alpha.11
 
-This release fixes external npm installation for the latest CLI and package set.
+This release attempted to fix external npm installation by renaming the
+standalone Semantic Index package.
 
-- The Semantic Index package is published as
+- The Semantic Index package was renamed to
   `@0xsarwagya/ontoly-semantic-index`.
-- Packages that consume the Semantic Index were republished against the new
-  public dependency name: cache, enhancer, capabilities, MCP, and CLI.
+- Packages that consume the Semantic Index were republished against that
+  dependency name: cache, enhancer, capabilities, MCP, and CLI.
 - Agent Skills now require Ontoly `0.1.0-alpha.11` so installed workflows target
   the fixed published artifact set.
-- Clean external installs should no longer fail on the unresolved
-  `@0xsarwagya/ontoly-index` dependency.
+- This package name also returned public npm 404s after successful publish logs,
+  so alpha.12 removes the standalone package from latest installs.
 
 ## v0.1.0-alpha.10
 

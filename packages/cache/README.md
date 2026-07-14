@@ -12,7 +12,7 @@ pnpm add @0xsarwagya/ontoly-cache
 
 ## Status
 
-Alpha package for Ontoly v0.1.0-alpha.2. The public API is versioned with the Software Graph and RFC process.
+Alpha package for Ontoly v0.1.0-alpha.3. The public API is versioned with the Software Graph and RFC process.
 
 ## Links
 

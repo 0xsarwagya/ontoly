@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-enhancer",
-  "version": "0.1.0-alpha.3",
+  "version": "0.1.0-alpha.4",
   "description": "Deterministic Enhancer API for immutable Ontoly Software Graph artifact transformations.",
   "type": "module",
   "license": "MIT",
@@ -28,8 +28,7 @@
     "test": "cd ../.. && vitest run packages/enhancer/tests"
   },
   "dependencies": {
-    "@0xsarwagya/ontoly-core": "workspace:*",
-    "@0xsarwagya/ontoly-semantic-index": "workspace:*"
+    "@0xsarwagya/ontoly-core": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

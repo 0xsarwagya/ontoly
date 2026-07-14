@@ -39,7 +39,7 @@ The output includes:
 ## API
 
 ```ts
-import { createSemanticIndex, resolveIntent } from "@0xsarwagya/ontoly-semantic-index";
+import { createSemanticIndex, resolveIntent } from "@0xsarwagya/ontoly-core";
 
 const index = createSemanticIndex(graph);
 const result = resolveIntent(index, "Plan Definition Resource");
@@ -54,7 +54,7 @@ importance, and architecture layer.
 The permanent search validation corpus lives in `validation/search`.
 
 ```sh
-pnpm --filter @0xsarwagya/ontoly-semantic-index build
+pnpm --filter @0xsarwagya/ontoly-core build
 node validation/search/evaluate-search.mjs --graph .ontoly/SoftwareGraph.json
 ```
 
