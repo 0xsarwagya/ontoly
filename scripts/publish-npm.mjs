@@ -94,7 +94,7 @@ function ensurePublicAccess(name, options) {
     return;
   }
 
-  const result = spawnSync("npm", ["access", "public", name], {
+  const result = spawnSync("npm", ["access", "set", "status=public", name], {
     cwd: root,
     encoding: "utf8",
     stdio: options.required ? "inherit" : ["ignore", "pipe", "pipe"],
