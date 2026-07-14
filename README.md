@@ -200,6 +200,17 @@ ontoly build . --output .ontoly
 The JSON graph is the canonical alpha serialization format. Binary formats are
 intentionally out of scope until the Software Graph specification is stable.
 
+Remote repositories can be compiled directly:
+
+```sh
+ontoly build --remote https://github.com/0xsarwagya/ontoly.git
+ontoly output --remote git@github.com:0xsarwagya/ontoly.git
+```
+
+Remote builds clone into a temporary checkout, write relative output paths into
+the directory where you ran Ontoly, and record the git URL in the output
+manifest.
+
 ## Software Graph
 
 The Software Graph is a versioned JSON model containing:

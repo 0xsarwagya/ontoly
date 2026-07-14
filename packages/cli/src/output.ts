@@ -21,9 +21,15 @@ export interface OntolyOutputBundleOptions {
   readonly directory?: string | undefined;
   readonly graph: SoftwareGraph;
   readonly semanticModel?: TypeScriptProject | undefined;
+  readonly source?: OntolyOutputSource | undefined;
   readonly includeHtml?: boolean | undefined;
   readonly maxHtmlNodes?: number | undefined;
   readonly maxHtmlEdges?: number | undefined;
+}
+
+export interface OntolyOutputSource {
+  readonly kind: "local" | "remote";
+  readonly remote?: string | undefined;
 }
 
 export interface OntolyOutputBundle {
@@ -38,6 +44,8 @@ export interface OutputBundleManifest {
   readonly repository: {
     readonly name: string;
     readonly root: string;
+    readonly source: "local" | "remote";
+    readonly remote?: string | undefined;
     readonly packageName?: string | undefined;
     readonly packageManager?: string | undefined;
   };
@@ -150,7 +158,7 @@ export async function createOntolyOutputBundle(
     }));
   }
 
-  const manifest = createManifest(graph, files);
+  const manifest = createManifest(graph, files, options.source);
   await writeJson("manifest.json", manifest);
 
   return {
@@ -171,13 +179,19 @@ async function writeBundleFile(root: string, path: string, contents: string): Pr
   await writeFile(target, contents, "utf8");
 }
 
-function createManifest(graph: SoftwareGraph, files: readonly string[]): OutputBundleManifest {
+function createManifest(
+  graph: SoftwareGraph,
+  files: readonly string[],
+  source?: OntolyOutputSource | undefined,
+): OutputBundleManifest {
   const allFiles = [...files, "manifest.json"].sort();
   return {
     version: "1.0.0",
     repository: {
       name: graph.repository.name,
       root: graph.repository.root,
+      source: source?.kind ?? "local",
+      remote: source?.remote,
       packageName: graph.repository.packageName,
       packageManager: graph.repository.packageManager,
     },

@@ -14,6 +14,7 @@ pnpm add @0xsarwagya/ontoly-cli
 
 ```bash
 ontoly build .
+ontoly build --remote https://github.com/0xsarwagya/ontoly.git
 ontoly build . --output .ontoly
 ontoly graph --format html > graph.html
 ```

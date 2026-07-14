@@ -10,10 +10,11 @@ import {
 
 describe("cli developer experience helpers", () => {
   it("parses positional arguments and boolean/string flags deterministically", () => {
-    const cli = parseCli(["build", "examples/basic", "--output", ".graph", "--json", "--no-color"]);
+    const cli = parseCli(["build", "examples/basic", "--remote", "https://github.com/owner/repo.git", "--output", ".graph", "--json", "--no-color"]);
 
     expect(cli.command).toBe("build");
     expect(cli.positional).toEqual(["examples/basic"]);
+    expect(cli.flags.get("remote")).toBe("https://github.com/owner/repo.git");
     expect(cli.flags.get("output")).toBe(".graph");
     expect(cli.flags.get("json")).toBe(true);
     expect(cli.flags.get("no-color")).toBe(true);
@@ -25,9 +26,11 @@ describe("cli developer experience helpers", () => {
     expect(help).toContain("ontoly build");
     expect(help).toContain("Compile a repository into a deterministic Software Graph.");
     expect(help).toContain("Usage:");
+    expect(help).toContain("--remote git_repo");
     expect(help).toContain("--output path");
     expect(help).toContain("Default: ontoly-output");
     expect(help).toContain("--bundle");
+    expect(help).toContain("ontoly build --remote https://github.com/0xsarwagya/ontoly.git");
     expect(help).toContain("ontoly build . --json");
   });
 
@@ -36,7 +39,9 @@ describe("cli developer experience helpers", () => {
 
     expect(help).toContain("ontoly output");
     expect(help).toContain("ontoly-output folder");
+    expect(help).toContain("--remote git_repo");
     expect(help).toContain("--no-html");
+    expect(help).toContain("ontoly output --remote https://github.com/0xsarwagya/ontoly.git");
     expect(help).toContain("ontoly output .");
   });
 

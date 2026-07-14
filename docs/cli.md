@@ -87,6 +87,28 @@ graph artifacts. Use `ontoly build . --output .ontoly --bundle` when you want
 both `.ontoly/` and `ontoly-output/`. Use `--no-html` to skip HTML files and
 `--no-semantic` to skip `semantic-model.json`.
 
+## Remote Repositories
+
+`ontoly build` and `ontoly output` can compile a git repository without a local
+checkout:
+
+```sh
+ontoly build --remote https://github.com/0xsarwagya/ontoly.git
+ontoly output --remote https://github.com/0xsarwagya/ontoly.git
+```
+
+Ontoly clones the repository into a temporary directory, builds the graph from
+that checkout, and removes the temporary checkout after the command completes.
+Relative output paths are resolved against the directory where you ran Ontoly,
+not against the temporary clone. The output manifest records the remote URL, and
+remote graph metadata uses the git URL as the repository root so hashes do not
+change because of temporary clone paths.
+
+```sh
+ontoly build --remote https://github.com/0xsarwagya/ontoly.git --output ontoly-output
+ontoly build --remote git@github.com:0xsarwagya/ontoly.git --output .ontoly
+```
+
 ## Logging
 
 Human logs are pretty by default. Automation can request structured logs:

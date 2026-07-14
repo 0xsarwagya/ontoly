@@ -1,7 +1,8 @@
 import { spawnSync } from "node:child_process";
 import { realpathSync } from "node:fs";
-import { access, mkdir, readFile, writeFile } from "node:fs/promises";
-import { dirname, join, resolve } from "node:path";
+import { access, mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { dirname, isAbsolute, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   analyzeSemanticCoverage,
@@ -19,8 +20,12 @@ import {
   doctorRepository,
   initializeOntolyProject,
   watchSoftwareGraph,
+  writeGraphArtifacts,
 } from "@0xsarwagya/ontoly-compiler";
 import {
+  createSoftwareGraph,
+  stableHash,
+  stableStringify,
   summarizeGraph,
   type JsonObject,
   type SoftwareGraph,
@@ -55,6 +60,23 @@ interface ParsedCli {
   readonly positional: readonly string[];
   readonly flags: ReadonlyMap<string, string | boolean>;
 }
+
+interface PreparedRepository {
+  readonly root: string;
+  readonly outputRoot: string;
+  readonly source: RepositorySource;
+  readonly cleanup: () => Promise<void>;
+}
+
+type RepositorySource =
+  | {
+    readonly kind: "local";
+  }
+  | {
+    readonly kind: "remote";
+    readonly remote: string;
+    readonly checkoutRoot: string;
+  };
 
 type CliLogLevel = "info" | "success" | "warning" | "error" | "debug" | "trace";
 
@@ -253,129 +275,170 @@ async function initCommand(cli: ParsedCli): Promise<void> {
 }
 
 async function buildCommand(cli: ParsedCli): Promise<void> {
-  const root = rootFromCli(cli);
-  const outputDir = flagString(cli, "output", "ontoly-output");
+  const repository = await prepareRepository(cli);
+  const outputDir = outputDirectoryForRepository(repository, flagString(cli, "output", "ontoly-output"));
   const writeCompilerArtifacts = !isOntolyOutputDirectory(outputDir);
-  const result = await buildSoftwareGraphWithArtifacts({
-    root,
-    outputDir,
-    write: writeCompilerArtifacts,
-    passes: defaultCompilerPasses(),
-  });
   let bundle: OntolyOutputBundle | undefined;
 
-  if (!result.graph || result.status === "failed") {
+  try {
+    const result = await buildSoftwareGraphWithArtifacts({
+      root: repository.root,
+      outputDir,
+      write: repository.source.kind === "local" ? writeCompilerArtifacts : false,
+      passes: defaultCompilerPasses(),
+    });
+    const graph = result.graph ? graphForRepositorySource(result.graph, repository.source) : undefined;
+    let artifacts = result.artifacts;
+
+    if (graph && result.status !== "failed" && writeCompilerArtifacts && repository.source.kind === "remote") {
+      artifacts = await writeGraphArtifacts(graph, {
+        root: repository.outputRoot,
+        directory: outputDir,
+      });
+    }
+
+    if (!graph || result.status === "failed") {
+      if (flagBoolean(cli, "json")) {
+        logger.write(JSON.stringify({
+          status: result.status,
+          source: sourceSummary(repository.source),
+          files: result.discovery.files.length,
+          nodes: 0,
+          edges: 0,
+          diagnostics: result.diagnostics.length,
+          artifacts,
+        }, null, 2));
+      } else {
+        logger.info(`Indexed ${result.discovery.files.length} files`);
+        logger.info("Built 0 nodes");
+        logger.info("Generated 0 relationships");
+      }
+      logger.error("Build failed before a validated Software Graph was produced");
+      process.exitCode = 1;
+      return;
+    }
+
+    if (shouldWriteOutputBundle(cli, outputDir)) {
+      bundle = await writeOutputBundle({
+        sourceRoot: repository.root,
+        outputRoot: repository.outputRoot,
+        outputDir: outputDirectoryForRepository(
+          repository,
+          flagString(cli, "bundle-output", isOntolyOutputDirectory(outputDir) ? outputDir : "ontoly-output"),
+        ),
+        graph,
+        cli,
+        source: repository.source,
+      });
+    }
+
     if (flagBoolean(cli, "json")) {
       logger.write(JSON.stringify({
         status: result.status,
+        source: sourceSummary(repository.source),
         files: result.discovery.files.length,
-        nodes: 0,
-        edges: 0,
-        diagnostics: result.diagnostics.length,
-        artifacts: result.artifacts,
+        nodes: graph.nodes.length,
+        edges: graph.edges.length,
+        diagnostics: graph.diagnostics.length,
+        hash: graph.metadata.deterministicHash,
+        artifacts,
+        outputBundle: bundle ? {
+          directory: bundle.directory,
+          files: bundle.files.length,
+          communities: bundle.communities.length,
+        } : undefined,
       }, null, 2));
-    } else {
-      logger.info(`Indexed ${result.discovery.files.length} files`);
-      logger.info("Built 0 nodes");
-      logger.info("Generated 0 relationships");
+      process.exitCode = result.status === "success" ? 0 : 1;
+      return;
     }
-    logger.error("Build failed before a validated Software Graph was produced");
-    process.exitCode = 1;
-    return;
-  }
 
-  if (shouldWriteOutputBundle(cli, outputDir)) {
-    bundle = await writeOutputBundle(
-      root,
-      flagString(cli, "bundle-output", isOntolyOutputDirectory(outputDir) ? outputDir : "ontoly-output"),
-      result.graph,
-      cli,
-    );
-  }
-
-  if (flagBoolean(cli, "json")) {
-    logger.write(JSON.stringify({
-      status: result.status,
-      files: result.discovery.files.length,
-      nodes: result.graph.nodes.length,
-      edges: result.graph.edges.length,
-      diagnostics: result.graph.diagnostics.length,
-      hash: result.graph.metadata.deterministicHash,
-      artifacts: result.artifacts,
-      outputBundle: bundle ? {
-        directory: bundle.directory,
-        files: bundle.files.length,
-        communities: bundle.communities.length,
-      } : undefined,
-    }, null, 2));
-    process.exitCode = result.status === "success" ? 0 : 1;
-    return;
-  }
-
-  logger.info(`Indexed ${result.discovery.files.length} files`);
-  logger.info(`Built ${result.graph.nodes.length} nodes${formatCounts(result.graph.nodes.map((node) => node.type))}`);
-  logger.info(`Generated ${result.graph.edges.length} relationships${formatCounts(result.graph.edges.map((edge) => edge.type))}`);
-
-  const duration = result.graph.metadata.durationMs ?? 0;
-  logger.success("Built Software Graph");
-  logger.info(`Diagnostics: ${result.graph.diagnostics.length}`);
-  logger.info(`Hash: ${result.graph.metadata.deterministicHash}`);
-  logger.success(`Build completed in ${(duration / 1000).toFixed(2)}s`);
-
-  if (result.artifacts) {
-    logger.info(`Graph: ${result.artifacts.graph}`);
-    logger.info(`Diagnostics: ${result.artifacts.diagnostics}`);
-    logger.info(`Statistics: ${result.artifacts.statistics}`);
-  }
-
-  if (bundle) {
-    logger.info(`Output bundle: ${bundle.directory}`);
-    logger.info(`Output files: ${bundle.files.length}`);
-    logger.info(`Communities: ${bundle.communities.length}`);
-    if (!flagBoolean(cli, "no-html")) {
-      logger.info(`HTML: ${bundle.directory}/html/graph.html`);
-      logger.info(`HTML architecture: ${bundle.directory}/html/architecture.html`);
+    if (repository.source.kind === "remote") {
+      logger.info(`Remote: ${repository.source.remote}`);
     }
+    logger.info(`Indexed ${result.discovery.files.length} files`);
+    logger.info(`Built ${graph.nodes.length} nodes${formatCounts(graph.nodes.map((node) => node.type))}`);
+    logger.info(`Generated ${graph.edges.length} relationships${formatCounts(graph.edges.map((edge) => edge.type))}`);
+
+    const duration = graph.metadata.durationMs ?? 0;
+    logger.success("Built Software Graph");
+    logger.info(`Diagnostics: ${graph.diagnostics.length}`);
+    logger.info(`Hash: ${graph.metadata.deterministicHash}`);
+    logger.success(`Build completed in ${(duration / 1000).toFixed(2)}s`);
+
+    if (artifacts) {
+      logger.info(`Graph: ${artifacts.graph}`);
+      logger.info(`Diagnostics: ${artifacts.diagnostics}`);
+      logger.info(`Statistics: ${artifacts.statistics}`);
+    }
+
+    if (bundle) {
+      logger.info(`Output bundle: ${bundle.directory}`);
+      logger.info(`Output files: ${bundle.files.length}`);
+      logger.info(`Communities: ${bundle.communities.length}`);
+      if (!flagBoolean(cli, "no-html")) {
+        logger.info(`HTML: ${bundle.directory}/html/graph.html`);
+        logger.info(`HTML architecture: ${bundle.directory}/html/architecture.html`);
+      }
+    }
+  } finally {
+    await repository.cleanup();
   }
 }
 
 async function outputCommand(cli: ParsedCli): Promise<void> {
-  const root = rootFromCli(cli);
-  const outputDir = flagString(cli, "output", "ontoly-output");
-  const result = await buildSoftwareGraphWithArtifacts({
-    root,
-    outputDir,
-    write: false,
-    passes: defaultCompilerPasses(),
-  });
+  const repository = await prepareRepository(cli);
+  const outputDir = outputDirectoryForRepository(repository, flagString(cli, "output", "ontoly-output"));
 
-  if (!result.graph || result.status === "failed") {
-    throw new OntolyCliError({
-      code: "ONTOLY4001",
-      message: "Could not create ontoly-output because graph compilation failed.",
-      suggestion: "Run ontoly build . --debug and resolve compiler diagnostics first.",
-      docs: "docs/cli.md#output",
+  try {
+    const result = await buildSoftwareGraphWithArtifacts({
+      root: repository.root,
+      outputDir,
+      write: false,
+      passes: defaultCompilerPasses(),
     });
+    const graph = result.graph ? graphForRepositorySource(result.graph, repository.source) : undefined;
+
+    if (!graph || result.status === "failed") {
+      throw new OntolyCliError({
+        code: "ONTOLY4001",
+        message: "Could not create ontoly-output because graph compilation failed.",
+        suggestion: "Run ontoly build . --debug and resolve compiler diagnostics first.",
+        docs: "docs/cli.md#output",
+      });
+    }
+
+    const bundle = await writeOutputBundle({
+      sourceRoot: repository.root,
+      outputRoot: repository.outputRoot,
+      outputDir,
+      graph,
+      cli,
+      source: repository.source,
+    });
+
+    if (flagBoolean(cli, "json")) {
+      logger.write(JSON.stringify({
+        source: sourceSummary(repository.source),
+        directory: bundle.directory,
+        files: bundle.files,
+        communities: bundle.communities.length,
+        graphHash: graph.metadata.deterministicHash,
+      }, null, 2));
+      return;
+    }
+
+    if (repository.source.kind === "remote") {
+      logger.info(`Remote: ${repository.source.remote}`);
+    }
+    logger.success(`Compiled Ontoly output bundle: ${bundle.directory}`);
+    logger.info(`Files: ${bundle.files.length}`);
+    logger.info(`Communities: ${bundle.communities.length}`);
+    logger.info(`Graph: ${bundle.directory}/SoftwareGraph.json`);
+    logger.info(`HTML: ${bundle.directory}/html/graph.html`);
+    logger.info(`HTML architecture: ${bundle.directory}/html/architecture.html`);
+  } finally {
+    await repository.cleanup();
   }
-
-  const bundle = await writeOutputBundle(root, outputDir, result.graph, cli);
-
-  if (flagBoolean(cli, "json")) {
-    logger.write(JSON.stringify({
-      directory: bundle.directory,
-      files: bundle.files,
-      communities: bundle.communities.length,
-      graphHash: result.graph.metadata.deterministicHash,
-    }, null, 2));
-    return;
-  }
-
-  logger.success(`Compiled Ontoly output bundle: ${bundle.directory}`);
-  logger.info(`Files: ${bundle.files.length}`);
-  logger.info(`Communities: ${bundle.communities.length}`);
-  logger.info(`Graph: ${bundle.directory}/SoftwareGraph.json`);
-  logger.info(`HTML: ${bundle.directory}/html/graph.html`);
-  logger.info(`HTML architecture: ${bundle.directory}/html/architecture.html`);
 }
 
 async function analyzeCommand(cli: ParsedCli): Promise<void> {
@@ -988,6 +1051,201 @@ async function findProjectFile(relativePath: string): Promise<string> {
   }
 }
 
+async function prepareRepository(cli: ParsedCli): Promise<PreparedRepository> {
+  const remote = remoteFromCli(cli);
+
+  if (!remote) {
+    const root = rootFromCli(cli);
+    return {
+      root,
+      outputRoot: root,
+      source: { kind: "local" },
+      cleanup: async () => {},
+    };
+  }
+
+  if (cli.flags.has("root") || cli.positional.length > 0) {
+    throw new OntolyCliError({
+      code: "ONTOLY5002",
+      message: "--remote cannot be combined with a local repository root.",
+      suggestion: "Use `ontoly build --remote <git_repo>` or remove --remote and pass a local path.",
+      docs: "docs/cli.md#remote-repositories",
+    });
+  }
+
+  const checkout = await cloneRemoteRepository(remote, cli);
+
+  return {
+    root: checkout.checkoutRoot,
+    outputRoot: process.cwd(),
+    source: {
+      kind: "remote",
+      remote,
+      checkoutRoot: checkout.checkoutRoot,
+    },
+    cleanup: async () => {
+      await rm(checkout.tempRoot, { recursive: true, force: true });
+    },
+  };
+}
+
+function remoteFromCli(cli: ParsedCli): string | undefined {
+  const value = cli.flags.get("remote");
+
+  if (value === undefined) {
+    return undefined;
+  }
+
+  if (typeof value !== "string" || value.trim() === "") {
+    throw new OntolyCliError({
+      code: "ONTOLY5001",
+      message: "--remote requires a git repository URL or path.",
+      suggestion: "Run `ontoly build --remote https://github.com/owner/repo.git`.",
+      docs: "docs/cli.md#remote-repositories",
+    });
+  }
+
+  return value.trim();
+}
+
+async function cloneRemoteRepository(
+  remote: string,
+  cli: ParsedCli,
+): Promise<{ readonly tempRoot: string; readonly checkoutRoot: string }> {
+  const tempRoot = await mkdtemp(join(tmpdir(), "ontoly-remote-"));
+  const checkoutRoot = join(tempRoot, "repo");
+
+  if (!flagBoolean(cli, "json")) {
+    logger.info(`Cloning remote repository: ${remote}`);
+  }
+
+  const result = spawnSync("git", ["clone", "--depth", "1", "--", remote, checkoutRoot], {
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+
+  if (result.error || result.status !== 0) {
+    await rm(tempRoot, { recursive: true, force: true });
+    throw new OntolyCliError({
+      code: "ONTOLY5003",
+      message: `Could not clone remote repository: ${remote}`,
+      suggestion: "Check that the git URL is reachable and that your local git credentials can access it.",
+      docs: "docs/cli.md#remote-repositories",
+      cause: result.error ?? result.stderr,
+    });
+  }
+
+  return { tempRoot, checkoutRoot };
+}
+
+function outputDirectoryForRepository(repository: PreparedRepository, outputDir: string): string {
+  if (repository.source.kind === "local" || isAbsolute(outputDir)) {
+    return outputDir;
+  }
+
+  return resolve(repository.outputRoot, outputDir);
+}
+
+function graphForRepositorySource(graph: SoftwareGraph, source: RepositorySource): SoftwareGraph {
+  if (source.kind === "local") {
+    return graph;
+  }
+
+  return createSoftwareGraph({
+    repository: {
+      ...graph.repository,
+      root: source.remote,
+    },
+    nodes: graph.nodes.map((node) => normalizeRemoteCheckoutValue(node, source) as SoftwareGraphNode),
+    edges: graph.edges.map((edge) => normalizeRemoteCheckoutValue(edge, source) as SoftwareGraphEdge),
+    diagnostics: graph.diagnostics.map((diagnostic) =>
+      normalizeRemoteCheckoutValue(diagnostic, source) as SoftwareGraphDiagnostic
+    ),
+    fileCount: graph.metadata.fileCount,
+    parserVersions: graph.metadata.parserVersions,
+    durationMs: graph.metadata.durationMs,
+  });
+}
+
+function semanticModelForRepositorySource(
+  project: TypeScriptProject,
+  source: RepositorySource,
+): TypeScriptProject {
+  if (source.kind === "local") {
+    return project;
+  }
+
+  const checkoutNormalized = normalizeRemoteCheckoutValue(project, source) as TypeScriptProject;
+  const normalized: TypeScriptProject = {
+    ...checkoutNormalized,
+    root: source.remote,
+    files: checkoutNormalized.files.map((file) => ({
+      ...file,
+      absoluteFile: remoteFileUrl(source.remote, file.file),
+    })),
+    sourceFiles: checkoutNormalized.sourceFiles.map((file) => ({
+      ...file,
+      absoluteFile: remoteFileUrl(source.remote, file.file),
+    })),
+    metadata: {
+      ...checkoutNormalized.metadata,
+      deterministicHash: "",
+    },
+  };
+
+  return {
+    ...normalized,
+    metadata: {
+      ...normalized.metadata,
+      deterministicHash: stableHash(stableStringify({ ...normalized, metadata: undefined })),
+    },
+  };
+}
+
+function remoteFileUrl(remote: string, file: string): string {
+  return `${remote.replace(/\/+$/, "")}/${file.replace(/^\/+/, "")}`;
+}
+
+function normalizeRemoteCheckoutValue(value: unknown, source: Extract<RepositorySource, { readonly kind: "remote" }>): unknown {
+  if (typeof value === "string") {
+    return replaceCheckoutRoot(value, source);
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((item) => normalizeRemoteCheckoutValue(item, source));
+  }
+
+  if (typeof value === "object" && value !== null) {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, entry]) => [key, normalizeRemoteCheckoutValue(entry, source)]),
+    );
+  }
+
+  return value;
+}
+
+function replaceCheckoutRoot(value: string, source: Extract<RepositorySource, { readonly kind: "remote" }>): string {
+  const checkoutRoot = source.checkoutRoot.replace(/\\/g, "/").replace(/\/+$/, "");
+  const normalizedValue = value.replace(/\\/g, "/");
+
+  if (!normalizedValue.includes(checkoutRoot)) {
+    return value;
+  }
+
+  return normalizedValue.split(checkoutRoot).join(source.remote.replace(/\/+$/, ""));
+}
+
+function sourceSummary(source: RepositorySource): JsonObject {
+  if (source.kind === "local") {
+    return { kind: "local" };
+  }
+
+  return {
+    kind: "remote",
+    remote: source.remote,
+  };
+}
+
 async function loadOrBuildGraph(
   cli: ParsedCli,
   options: { readonly positionalRoot?: boolean | undefined } = {},
@@ -1080,21 +1338,26 @@ function isOntolyOutputDirectory(path: string): boolean {
   return path.replace(/\\/g, "/").split("/").pop() === "ontoly-output";
 }
 
-async function writeOutputBundle(
-  root: string,
-  outputDir: string,
-  graph: SoftwareGraph,
-  cli: ParsedCli,
-): Promise<OntolyOutputBundle> {
-  const semanticModel = flagBoolean(cli, "no-semantic") ? undefined : analyzeTypeScriptProject({ root });
+async function writeOutputBundle(input: {
+  readonly sourceRoot: string;
+  readonly outputRoot: string;
+  readonly outputDir: string;
+  readonly graph: SoftwareGraph;
+  readonly cli: ParsedCli;
+  readonly source: RepositorySource;
+}): Promise<OntolyOutputBundle> {
+  const semanticModel = flagBoolean(input.cli, "no-semantic")
+    ? undefined
+    : semanticModelForRepositorySource(analyzeTypeScriptProject({ root: input.sourceRoot }), input.source);
   return createOntolyOutputBundle({
-    root,
-    directory: outputDir,
-    graph,
+    root: input.outputRoot,
+    directory: input.outputDir,
+    graph: input.graph,
     semanticModel,
-    includeHtml: !flagBoolean(cli, "no-html"),
-    maxHtmlNodes: flagNumber(cli, "max-nodes", 2500),
-    maxHtmlEdges: flagNumber(cli, "max-edges", 5000),
+    source: sourceSummary(input.source) as { readonly kind: "local" | "remote"; readonly remote?: string | undefined },
+    includeHtml: !flagBoolean(input.cli, "no-html"),
+    maxHtmlNodes: flagNumber(input.cli, "max-nodes", 2500),
+    maxHtmlEdges: flagNumber(input.cli, "max-edges", 5000),
   });
 }
 
@@ -2021,8 +2284,9 @@ function commandHelp(): Record<string, CommandHelp> {
   build: {
     title: "ontoly build",
     description: "Compile a repository into a deterministic Software Graph.",
-    usage: ["ontoly build [root] [--root path] [--output ontoly-output] [--bundle] [--json]"],
+    usage: ["ontoly build [root] [--root path] [--remote git_repo] [--output ontoly-output] [--bundle] [--json]"],
     options: [
+      "--remote git_repo   Clone and build a remote git repository.",
       "--output path        Artifact directory. Default: ontoly-output.",
       "--bundle             Also write a rich ontoly-output bundle when using another --output path.",
       "--bundle-output path Rich output directory. Default: ontoly-output.",
@@ -2030,13 +2294,20 @@ function commandHelp(): Record<string, CommandHelp> {
       "--json               Print a machine-readable summary.",
       "--debug              Print debug logs.",
     ],
-    examples: ["ontoly build .", "ontoly build examples/basic --output .ontoly", "ontoly build . --output .ontoly --bundle", "ontoly build . --json"],
+    examples: [
+      "ontoly build .",
+      "ontoly build --remote https://github.com/0xsarwagya/ontoly.git",
+      "ontoly build examples/basic --output .ontoly",
+      "ontoly build . --output .ontoly --bundle",
+      "ontoly build . --json",
+    ],
   },
   output: {
     title: "ontoly output",
     description: "Compile a repository into a rich ontoly-output folder with JSON reports, communities, and HTML explorers.",
-    usage: ["ontoly output [root] [--output ontoly-output] [--json]"],
+    usage: ["ontoly output [root] [--remote git_repo] [--output ontoly-output] [--json]"],
     options: [
+      "--remote git_repo Clone and compile a remote git repository.",
       "--output path   Output bundle directory. Default: ontoly-output.",
       "--no-html       Skip html/graph.html and html/architecture.html.",
       "--no-semantic   Skip semantic-model.json.",
@@ -2044,7 +2315,12 @@ function commandHelp(): Record<string, CommandHelp> {
       "--max-edges n   Maximum edges for HTML graph output. Default: 5000.",
       "--json          Print JSON summary.",
     ],
-    examples: ["ontoly output .", "ontoly output examples/basic", "ontoly output . --output ontoly-output --json"],
+    examples: [
+      "ontoly output .",
+      "ontoly output --remote https://github.com/0xsarwagya/ontoly.git",
+      "ontoly output examples/basic",
+      "ontoly output . --output ontoly-output --json",
+    ],
   },
   analyze: {
     title: "ontoly analyze",
@@ -2223,8 +2499,8 @@ TypeScript-native software intelligence. Ontoly builds deterministic Software Gr
 
 Usage:
   ontoly init [root] [--root path]
-  ontoly build [root] [--root path] [--output ontoly-output] [--bundle]
-  ontoly output [root] [--root path] [--output ontoly-output]
+  ontoly build [root] [--root path] [--remote git_repo] [--output ontoly-output] [--bundle]
+  ontoly output [root] [--root path] [--remote git_repo] [--output ontoly-output]
   ontoly analyze [root] [--root path] [--output .ontoly] [--json]
   ontoly semantic [root] [--root path] [--format summary|json]
   ontoly frameworks [root] [--root path] [--json]
@@ -2251,6 +2527,7 @@ Usage:
 
 Examples:
   ontoly build .
+  ontoly build --remote https://github.com/0xsarwagya/ontoly.git
   ontoly output .
   ontoly build . --bundle
   ontoly analyze .

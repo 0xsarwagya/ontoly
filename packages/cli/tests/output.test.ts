@@ -52,6 +52,10 @@ describe("ontoly output bundle", () => {
       root,
       directory: "ontoly-output",
       graph,
+      source: {
+        kind: "remote",
+        remote: "https://github.com/example/bundle-fixture.git",
+      },
       includeHtml: true,
     });
 
@@ -65,9 +69,12 @@ describe("ontoly output bundle", () => {
     expect(bundle.communities).toHaveLength(2);
 
     const manifest = JSON.parse(await readFile(join(bundle.directory, "manifest.json"), "utf8")) as {
+      readonly repository: { readonly source: string; readonly remote?: string };
       readonly graph: { readonly hash: string };
       readonly artifacts: { readonly html: readonly string[]; readonly communities: readonly string[] };
     };
+    expect(manifest.repository.source).toBe("remote");
+    expect(manifest.repository.remote).toBe("https://github.com/example/bundle-fixture.git");
     expect(manifest.graph.hash).toBe(graph.metadata.deterministicHash);
     expect(manifest.artifacts.html).toEqual(["html/architecture.html", "html/graph.html"]);
     expect(manifest.artifacts.communities).toContain("communities/community-000.json");
