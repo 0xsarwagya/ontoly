@@ -1,0 +1,27 @@
+{
+  "version": "1.0.0",
+  "name": "Ontoly Semantic Index Search Corpus",
+  "description": "Deterministic software-engineering concept phrases for Semantic Index validation.",
+  "minimumQuestions": 500,
+  "files": [
+    "questions/software-engineering-phrases.json"
+  ],
+  "metrics": [
+    "top1Accuracy",
+    "top5Accuracy",
+    "recall",
+    "precision",
+    "latencyMs",
+    "falsePositives"
+  ],
+  "repositories": [
+    "ovok-core",
+    "ghost",
+    "durable-local",
+    "innosphere",
+    "0xsarwagya",
+    "nextjs",
+    "nestjs",
+    "typescript"
+  ]
+}

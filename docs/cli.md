@@ -50,6 +50,9 @@ ontoly skills validate
 - `ontoly request-trace <route>`
 - `ontoly coverage [root]`
 - `ontoly report [summary|api|dependencies|configuration|framework|frameworks|controllers|routes|modules|providers|workspace]`
+- `ontoly search <concept>`
+- `ontoly find <concept>`
+- `ontoly locate <feature>`
 - `ontoly graph [root]`
 - `ontoly query <operation> [target]`
 - `ontoly doctor [root]`
@@ -210,6 +213,33 @@ graph coverage.
 HTML output opens the Software Graph Explorer: an offline graph debugger with
 Architecture, Dependency, Call Graph, and Full Graph modes.
 
+## Semantic Index Search
+
+Use Semantic Index commands when you know the concept but not the exact graph
+symbol:
+
+```sh
+ontoly search "sleep thresholds"
+ontoly search authentication
+ontoly find JWT
+ontoly locate notifications
+ontoly search "JWT secret" --category configuration --json
+```
+
+Supported categories:
+
+- `concept`
+- `symbol`
+- `feature`
+- `configuration`
+- `environment`
+- `route`
+- `entrypoint`
+- `repository`
+
+`search`, `find`, and `locate` return matched concepts, ranked candidate
+symbols, confidence, evidence, and a recommended capability.
+
 `ontoly query` supports:
 
 - `find`
@@ -224,10 +254,11 @@ Architecture, Dependency, Call Graph, and Full Graph modes.
 - `configuration`
 - `cycles`
 
-`find` and target-taking operations normalize human concept phrases, so agents
-and scripts should avoid spelling fan-out:
+For exact graph traversal, use `ontoly query`. For natural concepts, prefer
+`ontoly search` first:
 
 ```sh
+ontoly search "Plan Definition Resource" --json
 ontoly query find "Plan Definition Resource" --json
 ontoly query impact "Plan Definition Resource" --json
 ```

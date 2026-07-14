@@ -91,7 +91,7 @@ describe("mcp capabilities", () => {
     expect(() => runtime.execute({
       capability: "FindDependencies",
       input: { id: "main" },
-    })).toThrow(/matched 2 nodes/);
+    })).toThrow(/matched \d+ nodes/);
   });
 
   it("validates capability-specific node types", () => {

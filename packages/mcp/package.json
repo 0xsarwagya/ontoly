@@ -30,6 +30,7 @@
   "dependencies": {
     "@0xsarwagya/ontoly-capabilities": "workspace:*",
     "@0xsarwagya/ontoly-core": "workspace:*",
+    "@0xsarwagya/ontoly-index": "workspace:*",
     "@0xsarwagya/ontoly-query": "workspace:*"
   },
   "publishConfig": {

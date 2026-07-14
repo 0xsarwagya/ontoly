@@ -1,0 +1,5616 @@
+{
+  "version": "1.0.0",
+  "count": 510,
+  "questions": [
+    {
+      "id": "search-0001",
+      "phrase": "find login",
+      "concept": "login",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "login"
+        ]
+      }
+    },
+    {
+      "id": "search-0002",
+      "phrase": "locate login",
+      "concept": "login",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "login"
+        ]
+      }
+    },
+    {
+      "id": "search-0003",
+      "phrase": "search for login",
+      "concept": "login",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "login"
+        ]
+      }
+    },
+    {
+      "id": "search-0004",
+      "phrase": "show login",
+      "concept": "login",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "login"
+        ]
+      }
+    },
+    {
+      "id": "search-0005",
+      "phrase": "explain login",
+      "concept": "login",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "login"
+        ]
+      }
+    },
+    {
+      "id": "search-0006",
+      "phrase": "trace login",
+      "concept": "login",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "login"
+        ]
+      }
+    },
+    {
+      "id": "search-0007",
+      "phrase": "where is login",
+      "concept": "login",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "login"
+        ]
+      }
+    },
+    {
+      "id": "search-0008",
+      "phrase": "which owns login",
+      "concept": "login",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "login"
+        ]
+      }
+    },
+    {
+      "id": "search-0009",
+      "phrase": "what uses login",
+      "concept": "login",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "login"
+        ]
+      }
+    },
+    {
+      "id": "search-0010",
+      "phrase": "what depends on login",
+      "concept": "login",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "login"
+        ]
+      }
+    },
+    {
+      "id": "search-0011",
+      "phrase": "find authentication",
+      "concept": "authentication",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "authentication"
+        ]
+      }
+    },
+    {
+      "id": "search-0012",
+      "phrase": "locate authentication",
+      "concept": "authentication",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "authentication"
+        ]
+      }
+    },
+    {
+      "id": "search-0013",
+      "phrase": "search for authentication",
+      "concept": "authentication",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "authentication"
+        ]
+      }
+    },
+    {
+      "id": "search-0014",
+      "phrase": "show authentication",
+      "concept": "authentication",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "authentication"
+        ]
+      }
+    },
+    {
+      "id": "search-0015",
+      "phrase": "explain authentication",
+      "concept": "authentication",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "authentication"
+        ]
+      }
+    },
+    {
+      "id": "search-0016",
+      "phrase": "trace authentication",
+      "concept": "authentication",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "authentication"
+        ]
+      }
+    },
+    {
+      "id": "search-0017",
+      "phrase": "where is authentication",
+      "concept": "authentication",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "authentication"
+        ]
+      }
+    },
+    {
+      "id": "search-0018",
+      "phrase": "which owns authentication",
+      "concept": "authentication",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "authentication"
+        ]
+      }
+    },
+    {
+      "id": "search-0019",
+      "phrase": "what uses authentication",
+      "concept": "authentication",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "authentication"
+        ]
+      }
+    },
+    {
+      "id": "search-0020",
+      "phrase": "what depends on authentication",
+      "concept": "authentication",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "authentication"
+        ]
+      }
+    },
+    {
+      "id": "search-0021",
+      "phrase": "find authorization",
+      "concept": "authorization",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "authorization"
+        ]
+      }
+    },
+    {
+      "id": "search-0022",
+      "phrase": "locate authorization",
+      "concept": "authorization",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "authorization"
+        ]
+      }
+    },
+    {
+      "id": "search-0023",
+      "phrase": "search for authorization",
+      "concept": "authorization",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "authorization"
+        ]
+      }
+    },
+    {
+      "id": "search-0024",
+      "phrase": "show authorization",
+      "concept": "authorization",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "authorization"
+        ]
+      }
+    },
+    {
+      "id": "search-0025",
+      "phrase": "explain authorization",
+      "concept": "authorization",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "authorization"
+        ]
+      }
+    },
+    {
+      "id": "search-0026",
+      "phrase": "trace authorization",
+      "concept": "authorization",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "authorization"
+        ]
+      }
+    },
+    {
+      "id": "search-0027",
+      "phrase": "where is authorization",
+      "concept": "authorization",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "authorization"
+        ]
+      }
+    },
+    {
+      "id": "search-0028",
+      "phrase": "which owns authorization",
+      "concept": "authorization",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "authorization"
+        ]
+      }
+    },
+    {
+      "id": "search-0029",
+      "phrase": "what uses authorization",
+      "concept": "authorization",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "authorization"
+        ]
+      }
+    },
+    {
+      "id": "search-0030",
+      "phrase": "what depends on authorization",
+      "concept": "authorization",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "authorization"
+        ]
+      }
+    },
+    {
+      "id": "search-0031",
+      "phrase": "find JWT",
+      "concept": "JWT",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "jwt"
+        ]
+      }
+    },
+    {
+      "id": "search-0032",
+      "phrase": "locate JWT",
+      "concept": "JWT",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "jwt"
+        ]
+      }
+    },
+    {
+      "id": "search-0033",
+      "phrase": "search for JWT",
+      "concept": "JWT",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "jwt"
+        ]
+      }
+    },
+    {
+      "id": "search-0034",
+      "phrase": "show JWT",
+      "concept": "JWT",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "jwt"
+        ]
+      }
+    },
+    {
+      "id": "search-0035",
+      "phrase": "explain JWT",
+      "concept": "JWT",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "jwt"
+        ]
+      }
+    },
+    {
+      "id": "search-0036",
+      "phrase": "trace JWT",
+      "concept": "JWT",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "jwt"
+        ]
+      }
+    },
+    {
+      "id": "search-0037",
+      "phrase": "where is JWT",
+      "concept": "JWT",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "jwt"
+        ]
+      }
+    },
+    {
+      "id": "search-0038",
+      "phrase": "which owns JWT",
+      "concept": "JWT",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "jwt"
+        ]
+      }
+    },
+    {
+      "id": "search-0039",
+      "phrase": "what uses JWT",
+      "concept": "JWT",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "jwt"
+        ]
+      }
+    },
+    {
+      "id": "search-0040",
+      "phrase": "what depends on JWT",
+      "concept": "JWT",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "jwt"
+        ]
+      }
+    },
+    {
+      "id": "search-0041",
+      "phrase": "find session",
+      "concept": "session",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "session"
+        ]
+      }
+    },
+    {
+      "id": "search-0042",
+      "phrase": "locate session",
+      "concept": "session",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "session"
+        ]
+      }
+    },
+    {
+      "id": "search-0043",
+      "phrase": "search for session",
+      "concept": "session",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "session"
+        ]
+      }
+    },
+    {
+      "id": "search-0044",
+      "phrase": "show session",
+      "concept": "session",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "session"
+        ]
+      }
+    },
+    {
+      "id": "search-0045",
+      "phrase": "explain session",
+      "concept": "session",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "session"
+        ]
+      }
+    },
+    {
+      "id": "search-0046",
+      "phrase": "trace session",
+      "concept": "session",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "session"
+        ]
+      }
+    },
+    {
+      "id": "search-0047",
+      "phrase": "where is session",
+      "concept": "session",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "session"
+        ]
+      }
+    },
+    {
+      "id": "search-0048",
+      "phrase": "which owns session",
+      "concept": "session",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "session"
+        ]
+      }
+    },
+    {
+      "id": "search-0049",
+      "phrase": "what uses session",
+      "concept": "session",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "session"
+        ]
+      }
+    },
+    {
+      "id": "search-0050",
+      "phrase": "what depends on session",
+      "concept": "session",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "session"
+        ]
+      }
+    },
+    {
+      "id": "search-0051",
+      "phrase": "find identity",
+      "concept": "identity",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "identity"
+        ]
+      }
+    },
+    {
+      "id": "search-0052",
+      "phrase": "locate identity",
+      "concept": "identity",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "identity"
+        ]
+      }
+    },
+    {
+      "id": "search-0053",
+      "phrase": "search for identity",
+      "concept": "identity",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "identity"
+        ]
+      }
+    },
+    {
+      "id": "search-0054",
+      "phrase": "show identity",
+      "concept": "identity",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "identity"
+        ]
+      }
+    },
+    {
+      "id": "search-0055",
+      "phrase": "explain identity",
+      "concept": "identity",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "identity"
+        ]
+      }
+    },
+    {
+      "id": "search-0056",
+      "phrase": "trace identity",
+      "concept": "identity",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "identity"
+        ]
+      }
+    },
+    {
+      "id": "search-0057",
+      "phrase": "where is identity",
+      "concept": "identity",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "identity"
+        ]
+      }
+    },
+    {
+      "id": "search-0058",
+      "phrase": "which owns identity",
+      "concept": "identity",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "identity"
+        ]
+      }
+    },
+    {
+      "id": "search-0059",
+      "phrase": "what uses identity",
+      "concept": "identity",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "identity"
+        ]
+      }
+    },
+    {
+      "id": "search-0060",
+      "phrase": "what depends on identity",
+      "concept": "identity",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "identity"
+        ]
+      }
+    },
+    {
+      "id": "search-0061",
+      "phrase": "find permissions",
+      "concept": "permissions",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "permissions"
+        ]
+      }
+    },
+    {
+      "id": "search-0062",
+      "phrase": "locate permissions",
+      "concept": "permissions",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "permissions"
+        ]
+      }
+    },
+    {
+      "id": "search-0063",
+      "phrase": "search for permissions",
+      "concept": "permissions",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "permissions"
+        ]
+      }
+    },
+    {
+      "id": "search-0064",
+      "phrase": "show permissions",
+      "concept": "permissions",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "permissions"
+        ]
+      }
+    },
+    {
+      "id": "search-0065",
+      "phrase": "explain permissions",
+      "concept": "permissions",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "permissions"
+        ]
+      }
+    },
+    {
+      "id": "search-0066",
+      "phrase": "trace permissions",
+      "concept": "permissions",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "permissions"
+        ]
+      }
+    },
+    {
+      "id": "search-0067",
+      "phrase": "where is permissions",
+      "concept": "permissions",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "permissions"
+        ]
+      }
+    },
+    {
+      "id": "search-0068",
+      "phrase": "which owns permissions",
+      "concept": "permissions",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "permissions"
+        ]
+      }
+    },
+    {
+      "id": "search-0069",
+      "phrase": "what uses permissions",
+      "concept": "permissions",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "permissions"
+        ]
+      }
+    },
+    {
+      "id": "search-0070",
+      "phrase": "what depends on permissions",
+      "concept": "permissions",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "permissions"
+        ]
+      }
+    },
+    {
+      "id": "search-0071",
+      "phrase": "find guards",
+      "concept": "guards",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "guards"
+        ]
+      }
+    },
+    {
+      "id": "search-0072",
+      "phrase": "locate guards",
+      "concept": "guards",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "guards"
+        ]
+      }
+    },
+    {
+      "id": "search-0073",
+      "phrase": "search for guards",
+      "concept": "guards",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "guards"
+        ]
+      }
+    },
+    {
+      "id": "search-0074",
+      "phrase": "show guards",
+      "concept": "guards",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "guards"
+        ]
+      }
+    },
+    {
+      "id": "search-0075",
+      "phrase": "explain guards",
+      "concept": "guards",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "guards"
+        ]
+      }
+    },
+    {
+      "id": "search-0076",
+      "phrase": "trace guards",
+      "concept": "guards",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "guards"
+        ]
+      }
+    },
+    {
+      "id": "search-0077",
+      "phrase": "where is guards",
+      "concept": "guards",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "guards"
+        ]
+      }
+    },
+    {
+      "id": "search-0078",
+      "phrase": "which owns guards",
+      "concept": "guards",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "guards"
+        ]
+      }
+    },
+    {
+      "id": "search-0079",
+      "phrase": "what uses guards",
+      "concept": "guards",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "guards"
+        ]
+      }
+    },
+    {
+      "id": "search-0080",
+      "phrase": "what depends on guards",
+      "concept": "guards",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "guards"
+        ]
+      }
+    },
+    {
+      "id": "search-0081",
+      "phrase": "find roles",
+      "concept": "roles",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "roles"
+        ]
+      }
+    },
+    {
+      "id": "search-0082",
+      "phrase": "locate roles",
+      "concept": "roles",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "roles"
+        ]
+      }
+    },
+    {
+      "id": "search-0083",
+      "phrase": "search for roles",
+      "concept": "roles",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "roles"
+        ]
+      }
+    },
+    {
+      "id": "search-0084",
+      "phrase": "show roles",
+      "concept": "roles",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "roles"
+        ]
+      }
+    },
+    {
+      "id": "search-0085",
+      "phrase": "explain roles",
+      "concept": "roles",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "roles"
+        ]
+      }
+    },
+    {
+      "id": "search-0086",
+      "phrase": "trace roles",
+      "concept": "roles",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "roles"
+        ]
+      }
+    },
+    {
+      "id": "search-0087",
+      "phrase": "where is roles",
+      "concept": "roles",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "roles"
+        ]
+      }
+    },
+    {
+      "id": "search-0088",
+      "phrase": "which owns roles",
+      "concept": "roles",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "roles"
+        ]
+      }
+    },
+    {
+      "id": "search-0089",
+      "phrase": "what uses roles",
+      "concept": "roles",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "roles"
+        ]
+      }
+    },
+    {
+      "id": "search-0090",
+      "phrase": "what depends on roles",
+      "concept": "roles",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "roles"
+        ]
+      }
+    },
+    {
+      "id": "search-0091",
+      "phrase": "find tokens",
+      "concept": "tokens",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "tokens"
+        ]
+      }
+    },
+    {
+      "id": "search-0092",
+      "phrase": "locate tokens",
+      "concept": "tokens",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "tokens"
+        ]
+      }
+    },
+    {
+      "id": "search-0093",
+      "phrase": "search for tokens",
+      "concept": "tokens",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "tokens"
+        ]
+      }
+    },
+    {
+      "id": "search-0094",
+      "phrase": "show tokens",
+      "concept": "tokens",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "tokens"
+        ]
+      }
+    },
+    {
+      "id": "search-0095",
+      "phrase": "explain tokens",
+      "concept": "tokens",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "tokens"
+        ]
+      }
+    },
+    {
+      "id": "search-0096",
+      "phrase": "trace tokens",
+      "concept": "tokens",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "tokens"
+        ]
+      }
+    },
+    {
+      "id": "search-0097",
+      "phrase": "where is tokens",
+      "concept": "tokens",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "tokens"
+        ]
+      }
+    },
+    {
+      "id": "search-0098",
+      "phrase": "which owns tokens",
+      "concept": "tokens",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "tokens"
+        ]
+      }
+    },
+    {
+      "id": "search-0099",
+      "phrase": "what uses tokens",
+      "concept": "tokens",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "tokens"
+        ]
+      }
+    },
+    {
+      "id": "search-0100",
+      "phrase": "what depends on tokens",
+      "concept": "tokens",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "tokens"
+        ]
+      }
+    },
+    {
+      "id": "search-0101",
+      "phrase": "find sleep duration",
+      "concept": "sleep duration",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "sleep duration"
+        ]
+      }
+    },
+    {
+      "id": "search-0102",
+      "phrase": "locate sleep duration",
+      "concept": "sleep duration",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "sleep duration"
+        ]
+      }
+    },
+    {
+      "id": "search-0103",
+      "phrase": "search for sleep duration",
+      "concept": "sleep duration",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "sleep duration"
+        ]
+      }
+    },
+    {
+      "id": "search-0104",
+      "phrase": "show sleep duration",
+      "concept": "sleep duration",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "sleep duration"
+        ]
+      }
+    },
+    {
+      "id": "search-0105",
+      "phrase": "explain sleep duration",
+      "concept": "sleep duration",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "sleep duration"
+        ]
+      }
+    },
+    {
+      "id": "search-0106",
+      "phrase": "trace sleep duration",
+      "concept": "sleep duration",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "sleep duration"
+        ]
+      }
+    },
+    {
+      "id": "search-0107",
+      "phrase": "where is sleep duration",
+      "concept": "sleep duration",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "sleep duration"
+        ]
+      }
+    },
+    {
+      "id": "search-0108",
+      "phrase": "which owns sleep duration",
+      "concept": "sleep duration",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "sleep duration"
+        ]
+      }
+    },
+    {
+      "id": "search-0109",
+      "phrase": "what uses sleep duration",
+      "concept": "sleep duration",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "sleep duration"
+        ]
+      }
+    },
+    {
+      "id": "search-0110",
+      "phrase": "what depends on sleep duration",
+      "concept": "sleep duration",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "sleep duration"
+        ]
+      }
+    },
+    {
+      "id": "search-0111",
+      "phrase": "find sleep thresholds",
+      "concept": "sleep thresholds",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "sleep thresholds"
+        ]
+      }
+    },
+    {
+      "id": "search-0112",
+      "phrase": "locate sleep thresholds",
+      "concept": "sleep thresholds",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "sleep thresholds"
+        ]
+      }
+    },
+    {
+      "id": "search-0113",
+      "phrase": "search for sleep thresholds",
+      "concept": "sleep thresholds",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "sleep thresholds"
+        ]
+      }
+    },
+    {
+      "id": "search-0114",
+      "phrase": "show sleep thresholds",
+      "concept": "sleep thresholds",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "sleep thresholds"
+        ]
+      }
+    },
+    {
+      "id": "search-0115",
+      "phrase": "explain sleep thresholds",
+      "concept": "sleep thresholds",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "sleep thresholds"
+        ]
+      }
+    },
+    {
+      "id": "search-0116",
+      "phrase": "trace sleep thresholds",
+      "concept": "sleep thresholds",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "sleep thresholds"
+        ]
+      }
+    },
+    {
+      "id": "search-0117",
+      "phrase": "where is sleep thresholds",
+      "concept": "sleep thresholds",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "sleep thresholds"
+        ]
+      }
+    },
+    {
+      "id": "search-0118",
+      "phrase": "which owns sleep thresholds",
+      "concept": "sleep thresholds",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "sleep thresholds"
+        ]
+      }
+    },
+    {
+      "id": "search-0119",
+      "phrase": "what uses sleep thresholds",
+      "concept": "sleep thresholds",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "sleep thresholds"
+        ]
+      }
+    },
+    {
+      "id": "search-0120",
+      "phrase": "what depends on sleep thresholds",
+      "concept": "sleep thresholds",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "sleep thresholds"
+        ]
+      }
+    },
+    {
+      "id": "search-0121",
+      "phrase": "find patient averages",
+      "concept": "patient averages",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "patient averages"
+        ]
+      }
+    },
+    {
+      "id": "search-0122",
+      "phrase": "locate patient averages",
+      "concept": "patient averages",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "patient averages"
+        ]
+      }
+    },
+    {
+      "id": "search-0123",
+      "phrase": "search for patient averages",
+      "concept": "patient averages",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "patient averages"
+        ]
+      }
+    },
+    {
+      "id": "search-0124",
+      "phrase": "show patient averages",
+      "concept": "patient averages",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "patient averages"
+        ]
+      }
+    },
+    {
+      "id": "search-0125",
+      "phrase": "explain patient averages",
+      "concept": "patient averages",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "patient averages"
+        ]
+      }
+    },
+    {
+      "id": "search-0126",
+      "phrase": "trace patient averages",
+      "concept": "patient averages",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "patient averages"
+        ]
+      }
+    },
+    {
+      "id": "search-0127",
+      "phrase": "where is patient averages",
+      "concept": "patient averages",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "patient averages"
+        ]
+      }
+    },
+    {
+      "id": "search-0128",
+      "phrase": "which owns patient averages",
+      "concept": "patient averages",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "patient averages"
+        ]
+      }
+    },
+    {
+      "id": "search-0129",
+      "phrase": "what uses patient averages",
+      "concept": "patient averages",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "patient averages"
+        ]
+      }
+    },
+    {
+      "id": "search-0130",
+      "phrase": "what depends on patient averages",
+      "concept": "patient averages",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "patient averages"
+        ]
+      }
+    },
+    {
+      "id": "search-0131",
+      "phrase": "find resident signals",
+      "concept": "resident signals",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "resident signals"
+        ]
+      }
+    },
+    {
+      "id": "search-0132",
+      "phrase": "locate resident signals",
+      "concept": "resident signals",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "resident signals"
+        ]
+      }
+    },
+    {
+      "id": "search-0133",
+      "phrase": "search for resident signals",
+      "concept": "resident signals",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "resident signals"
+        ]
+      }
+    },
+    {
+      "id": "search-0134",
+      "phrase": "show resident signals",
+      "concept": "resident signals",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "resident signals"
+        ]
+      }
+    },
+    {
+      "id": "search-0135",
+      "phrase": "explain resident signals",
+      "concept": "resident signals",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "resident signals"
+        ]
+      }
+    },
+    {
+      "id": "search-0136",
+      "phrase": "trace resident signals",
+      "concept": "resident signals",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "resident signals"
+        ]
+      }
+    },
+    {
+      "id": "search-0137",
+      "phrase": "where is resident signals",
+      "concept": "resident signals",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "resident signals"
+        ]
+      }
+    },
+    {
+      "id": "search-0138",
+      "phrase": "which owns resident signals",
+      "concept": "resident signals",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "resident signals"
+        ]
+      }
+    },
+    {
+      "id": "search-0139",
+      "phrase": "what uses resident signals",
+      "concept": "resident signals",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "resident signals"
+        ]
+      }
+    },
+    {
+      "id": "search-0140",
+      "phrase": "what depends on resident signals",
+      "concept": "resident signals",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "resident signals"
+        ]
+      }
+    },
+    {
+      "id": "search-0141",
+      "phrase": "find notifications",
+      "concept": "notifications",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "notifications"
+        ]
+      }
+    },
+    {
+      "id": "search-0142",
+      "phrase": "locate notifications",
+      "concept": "notifications",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "notifications"
+        ]
+      }
+    },
+    {
+      "id": "search-0143",
+      "phrase": "search for notifications",
+      "concept": "notifications",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "notifications"
+        ]
+      }
+    },
+    {
+      "id": "search-0144",
+      "phrase": "show notifications",
+      "concept": "notifications",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "notifications"
+        ]
+      }
+    },
+    {
+      "id": "search-0145",
+      "phrase": "explain notifications",
+      "concept": "notifications",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "notifications"
+        ]
+      }
+    },
+    {
+      "id": "search-0146",
+      "phrase": "trace notifications",
+      "concept": "notifications",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "notifications"
+        ]
+      }
+    },
+    {
+      "id": "search-0147",
+      "phrase": "where is notifications",
+      "concept": "notifications",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "notifications"
+        ]
+      }
+    },
+    {
+      "id": "search-0148",
+      "phrase": "which owns notifications",
+      "concept": "notifications",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "notifications"
+        ]
+      }
+    },
+    {
+      "id": "search-0149",
+      "phrase": "what uses notifications",
+      "concept": "notifications",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "notifications"
+        ]
+      }
+    },
+    {
+      "id": "search-0150",
+      "phrase": "what depends on notifications",
+      "concept": "notifications",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "notifications"
+        ]
+      }
+    },
+    {
+      "id": "search-0151",
+      "phrase": "find FHIR",
+      "concept": "FHIR",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "fhir"
+        ]
+      }
+    },
+    {
+      "id": "search-0152",
+      "phrase": "locate FHIR",
+      "concept": "FHIR",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "fhir"
+        ]
+      }
+    },
+    {
+      "id": "search-0153",
+      "phrase": "search for FHIR",
+      "concept": "FHIR",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "fhir"
+        ]
+      }
+    },
+    {
+      "id": "search-0154",
+      "phrase": "show FHIR",
+      "concept": "FHIR",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "fhir"
+        ]
+      }
+    },
+    {
+      "id": "search-0155",
+      "phrase": "explain FHIR",
+      "concept": "FHIR",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "fhir"
+        ]
+      }
+    },
+    {
+      "id": "search-0156",
+      "phrase": "trace FHIR",
+      "concept": "FHIR",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "fhir"
+        ]
+      }
+    },
+    {
+      "id": "search-0157",
+      "phrase": "where is FHIR",
+      "concept": "FHIR",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "fhir"
+        ]
+      }
+    },
+    {
+      "id": "search-0158",
+      "phrase": "which owns FHIR",
+      "concept": "FHIR",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "fhir"
+        ]
+      }
+    },
+    {
+      "id": "search-0159",
+      "phrase": "what uses FHIR",
+      "concept": "FHIR",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "fhir"
+        ]
+      }
+    },
+    {
+      "id": "search-0160",
+      "phrase": "what depends on FHIR",
+      "concept": "FHIR",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "fhir"
+        ]
+      }
+    },
+    {
+      "id": "search-0161",
+      "phrase": "find PlanDefinition",
+      "concept": "PlanDefinition",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "plandefinition"
+        ]
+      }
+    },
+    {
+      "id": "search-0162",
+      "phrase": "locate PlanDefinition",
+      "concept": "PlanDefinition",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "plandefinition"
+        ]
+      }
+    },
+    {
+      "id": "search-0163",
+      "phrase": "search for PlanDefinition",
+      "concept": "PlanDefinition",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "plandefinition"
+        ]
+      }
+    },
+    {
+      "id": "search-0164",
+      "phrase": "show PlanDefinition",
+      "concept": "PlanDefinition",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "plandefinition"
+        ]
+      }
+    },
+    {
+      "id": "search-0165",
+      "phrase": "explain PlanDefinition",
+      "concept": "PlanDefinition",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "plandefinition"
+        ]
+      }
+    },
+    {
+      "id": "search-0166",
+      "phrase": "trace PlanDefinition",
+      "concept": "PlanDefinition",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "plandefinition"
+        ]
+      }
+    },
+    {
+      "id": "search-0167",
+      "phrase": "where is PlanDefinition",
+      "concept": "PlanDefinition",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "plandefinition"
+        ]
+      }
+    },
+    {
+      "id": "search-0168",
+      "phrase": "which owns PlanDefinition",
+      "concept": "PlanDefinition",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "plandefinition"
+        ]
+      }
+    },
+    {
+      "id": "search-0169",
+      "phrase": "what uses PlanDefinition",
+      "concept": "PlanDefinition",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "plandefinition"
+        ]
+      }
+    },
+    {
+      "id": "search-0170",
+      "phrase": "what depends on PlanDefinition",
+      "concept": "PlanDefinition",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "plandefinition"
+        ]
+      }
+    },
+    {
+      "id": "search-0171",
+      "phrase": "find Goal",
+      "concept": "Goal",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "goal"
+        ]
+      }
+    },
+    {
+      "id": "search-0172",
+      "phrase": "locate Goal",
+      "concept": "Goal",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "goal"
+        ]
+      }
+    },
+    {
+      "id": "search-0173",
+      "phrase": "search for Goal",
+      "concept": "Goal",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "goal"
+        ]
+      }
+    },
+    {
+      "id": "search-0174",
+      "phrase": "show Goal",
+      "concept": "Goal",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "goal"
+        ]
+      }
+    },
+    {
+      "id": "search-0175",
+      "phrase": "explain Goal",
+      "concept": "Goal",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "goal"
+        ]
+      }
+    },
+    {
+      "id": "search-0176",
+      "phrase": "trace Goal",
+      "concept": "Goal",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "goal"
+        ]
+      }
+    },
+    {
+      "id": "search-0177",
+      "phrase": "where is Goal",
+      "concept": "Goal",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "goal"
+        ]
+      }
+    },
+    {
+      "id": "search-0178",
+      "phrase": "which owns Goal",
+      "concept": "Goal",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "goal"
+        ]
+      }
+    },
+    {
+      "id": "search-0179",
+      "phrase": "what uses Goal",
+      "concept": "Goal",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "goal"
+        ]
+      }
+    },
+    {
+      "id": "search-0180",
+      "phrase": "what depends on Goal",
+      "concept": "Goal",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "goal"
+        ]
+      }
+    },
+    {
+      "id": "search-0181",
+      "phrase": "find Observation",
+      "concept": "Observation",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "observation"
+        ]
+      }
+    },
+    {
+      "id": "search-0182",
+      "phrase": "locate Observation",
+      "concept": "Observation",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "observation"
+        ]
+      }
+    },
+    {
+      "id": "search-0183",
+      "phrase": "search for Observation",
+      "concept": "Observation",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "observation"
+        ]
+      }
+    },
+    {
+      "id": "search-0184",
+      "phrase": "show Observation",
+      "concept": "Observation",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "observation"
+        ]
+      }
+    },
+    {
+      "id": "search-0185",
+      "phrase": "explain Observation",
+      "concept": "Observation",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "observation"
+        ]
+      }
+    },
+    {
+      "id": "search-0186",
+      "phrase": "trace Observation",
+      "concept": "Observation",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "observation"
+        ]
+      }
+    },
+    {
+      "id": "search-0187",
+      "phrase": "where is Observation",
+      "concept": "Observation",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "observation"
+        ]
+      }
+    },
+    {
+      "id": "search-0188",
+      "phrase": "which owns Observation",
+      "concept": "Observation",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "observation"
+        ]
+      }
+    },
+    {
+      "id": "search-0189",
+      "phrase": "what uses Observation",
+      "concept": "Observation",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "observation"
+        ]
+      }
+    },
+    {
+      "id": "search-0190",
+      "phrase": "what depends on Observation",
+      "concept": "Observation",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "observation"
+        ]
+      }
+    },
+    {
+      "id": "search-0191",
+      "phrase": "find Patient",
+      "concept": "Patient",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "patient"
+        ]
+      }
+    },
+    {
+      "id": "search-0192",
+      "phrase": "locate Patient",
+      "concept": "Patient",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "patient"
+        ]
+      }
+    },
+    {
+      "id": "search-0193",
+      "phrase": "search for Patient",
+      "concept": "Patient",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "patient"
+        ]
+      }
+    },
+    {
+      "id": "search-0194",
+      "phrase": "show Patient",
+      "concept": "Patient",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "patient"
+        ]
+      }
+    },
+    {
+      "id": "search-0195",
+      "phrase": "explain Patient",
+      "concept": "Patient",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "patient"
+        ]
+      }
+    },
+    {
+      "id": "search-0196",
+      "phrase": "trace Patient",
+      "concept": "Patient",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "patient"
+        ]
+      }
+    },
+    {
+      "id": "search-0197",
+      "phrase": "where is Patient",
+      "concept": "Patient",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "patient"
+        ]
+      }
+    },
+    {
+      "id": "search-0198",
+      "phrase": "which owns Patient",
+      "concept": "Patient",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "patient"
+        ]
+      }
+    },
+    {
+      "id": "search-0199",
+      "phrase": "what uses Patient",
+      "concept": "Patient",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "patient"
+        ]
+      }
+    },
+    {
+      "id": "search-0200",
+      "phrase": "what depends on Patient",
+      "concept": "Patient",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "patient"
+        ]
+      }
+    },
+    {
+      "id": "search-0201",
+      "phrase": "find configuration",
+      "concept": "configuration",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "configuration"
+        ]
+      }
+    },
+    {
+      "id": "search-0202",
+      "phrase": "locate configuration",
+      "concept": "configuration",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "configuration"
+        ]
+      }
+    },
+    {
+      "id": "search-0203",
+      "phrase": "search for configuration",
+      "concept": "configuration",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "configuration"
+        ]
+      }
+    },
+    {
+      "id": "search-0204",
+      "phrase": "show configuration",
+      "concept": "configuration",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "configuration"
+        ]
+      }
+    },
+    {
+      "id": "search-0205",
+      "phrase": "explain configuration",
+      "concept": "configuration",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "configuration"
+        ]
+      }
+    },
+    {
+      "id": "search-0206",
+      "phrase": "trace configuration",
+      "concept": "configuration",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "configuration"
+        ]
+      }
+    },
+    {
+      "id": "search-0207",
+      "phrase": "where is configuration",
+      "concept": "configuration",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "configuration"
+        ]
+      }
+    },
+    {
+      "id": "search-0208",
+      "phrase": "which owns configuration",
+      "concept": "configuration",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "configuration"
+        ]
+      }
+    },
+    {
+      "id": "search-0209",
+      "phrase": "what uses configuration",
+      "concept": "configuration",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "configuration"
+        ]
+      }
+    },
+    {
+      "id": "search-0210",
+      "phrase": "what depends on configuration",
+      "concept": "configuration",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "configuration"
+        ]
+      }
+    },
+    {
+      "id": "search-0211",
+      "phrase": "find environment variables",
+      "concept": "environment variables",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "environment variables"
+        ]
+      }
+    },
+    {
+      "id": "search-0212",
+      "phrase": "locate environment variables",
+      "concept": "environment variables",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "environment variables"
+        ]
+      }
+    },
+    {
+      "id": "search-0213",
+      "phrase": "search for environment variables",
+      "concept": "environment variables",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "environment variables"
+        ]
+      }
+    },
+    {
+      "id": "search-0214",
+      "phrase": "show environment variables",
+      "concept": "environment variables",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "environment variables"
+        ]
+      }
+    },
+    {
+      "id": "search-0215",
+      "phrase": "explain environment variables",
+      "concept": "environment variables",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "environment variables"
+        ]
+      }
+    },
+    {
+      "id": "search-0216",
+      "phrase": "trace environment variables",
+      "concept": "environment variables",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "environment variables"
+        ]
+      }
+    },
+    {
+      "id": "search-0217",
+      "phrase": "where is environment variables",
+      "concept": "environment variables",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "environment variables"
+        ]
+      }
+    },
+    {
+      "id": "search-0218",
+      "phrase": "which owns environment variables",
+      "concept": "environment variables",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "environment variables"
+        ]
+      }
+    },
+    {
+      "id": "search-0219",
+      "phrase": "what uses environment variables",
+      "concept": "environment variables",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "environment variables"
+        ]
+      }
+    },
+    {
+      "id": "search-0220",
+      "phrase": "what depends on environment variables",
+      "concept": "environment variables",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "environment variables"
+        ]
+      }
+    },
+    {
+      "id": "search-0221",
+      "phrase": "find secrets",
+      "concept": "secrets",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "secrets"
+        ]
+      }
+    },
+    {
+      "id": "search-0222",
+      "phrase": "locate secrets",
+      "concept": "secrets",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "secrets"
+        ]
+      }
+    },
+    {
+      "id": "search-0223",
+      "phrase": "search for secrets",
+      "concept": "secrets",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "secrets"
+        ]
+      }
+    },
+    {
+      "id": "search-0224",
+      "phrase": "show secrets",
+      "concept": "secrets",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "secrets"
+        ]
+      }
+    },
+    {
+      "id": "search-0225",
+      "phrase": "explain secrets",
+      "concept": "secrets",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "secrets"
+        ]
+      }
+    },
+    {
+      "id": "search-0226",
+      "phrase": "trace secrets",
+      "concept": "secrets",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "secrets"
+        ]
+      }
+    },
+    {
+      "id": "search-0227",
+      "phrase": "where is secrets",
+      "concept": "secrets",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "secrets"
+        ]
+      }
+    },
+    {
+      "id": "search-0228",
+      "phrase": "which owns secrets",
+      "concept": "secrets",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "secrets"
+        ]
+      }
+    },
+    {
+      "id": "search-0229",
+      "phrase": "what uses secrets",
+      "concept": "secrets",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "secrets"
+        ]
+      }
+    },
+    {
+      "id": "search-0230",
+      "phrase": "what depends on secrets",
+      "concept": "secrets",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "secrets"
+        ]
+      }
+    },
+    {
+      "id": "search-0231",
+      "phrase": "find database URL",
+      "concept": "database URL",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "database url"
+        ]
+      }
+    },
+    {
+      "id": "search-0232",
+      "phrase": "locate database URL",
+      "concept": "database URL",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "database url"
+        ]
+      }
+    },
+    {
+      "id": "search-0233",
+      "phrase": "search for database URL",
+      "concept": "database URL",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "database url"
+        ]
+      }
+    },
+    {
+      "id": "search-0234",
+      "phrase": "show database URL",
+      "concept": "database URL",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "database url"
+        ]
+      }
+    },
+    {
+      "id": "search-0235",
+      "phrase": "explain database URL",
+      "concept": "database URL",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "database url"
+        ]
+      }
+    },
+    {
+      "id": "search-0236",
+      "phrase": "trace database URL",
+      "concept": "database URL",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "database url"
+        ]
+      }
+    },
+    {
+      "id": "search-0237",
+      "phrase": "where is database URL",
+      "concept": "database URL",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "database url"
+        ]
+      }
+    },
+    {
+      "id": "search-0238",
+      "phrase": "which owns database URL",
+      "concept": "database URL",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "database url"
+        ]
+      }
+    },
+    {
+      "id": "search-0239",
+      "phrase": "what uses database URL",
+      "concept": "database URL",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "database url"
+        ]
+      }
+    },
+    {
+      "id": "search-0240",
+      "phrase": "what depends on database URL",
+      "concept": "database URL",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "database url"
+        ]
+      }
+    },
+    {
+      "id": "search-0241",
+      "phrase": "find Prisma",
+      "concept": "Prisma",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "prisma"
+        ]
+      }
+    },
+    {
+      "id": "search-0242",
+      "phrase": "locate Prisma",
+      "concept": "Prisma",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "prisma"
+        ]
+      }
+    },
+    {
+      "id": "search-0243",
+      "phrase": "search for Prisma",
+      "concept": "Prisma",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "prisma"
+        ]
+      }
+    },
+    {
+      "id": "search-0244",
+      "phrase": "show Prisma",
+      "concept": "Prisma",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "prisma"
+        ]
+      }
+    },
+    {
+      "id": "search-0245",
+      "phrase": "explain Prisma",
+      "concept": "Prisma",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "prisma"
+        ]
+      }
+    },
+    {
+      "id": "search-0246",
+      "phrase": "trace Prisma",
+      "concept": "Prisma",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "prisma"
+        ]
+      }
+    },
+    {
+      "id": "search-0247",
+      "phrase": "where is Prisma",
+      "concept": "Prisma",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "prisma"
+        ]
+      }
+    },
+    {
+      "id": "search-0248",
+      "phrase": "which owns Prisma",
+      "concept": "Prisma",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "prisma"
+        ]
+      }
+    },
+    {
+      "id": "search-0249",
+      "phrase": "what uses Prisma",
+      "concept": "Prisma",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "prisma"
+        ]
+      }
+    },
+    {
+      "id": "search-0250",
+      "phrase": "what depends on Prisma",
+      "concept": "Prisma",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "prisma"
+        ]
+      }
+    },
+    {
+      "id": "search-0251",
+      "phrase": "find repository",
+      "concept": "repository",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0252",
+      "phrase": "locate repository",
+      "concept": "repository",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0253",
+      "phrase": "search for repository",
+      "concept": "repository",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0254",
+      "phrase": "show repository",
+      "concept": "repository",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0255",
+      "phrase": "explain repository",
+      "concept": "repository",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0256",
+      "phrase": "trace repository",
+      "concept": "repository",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0257",
+      "phrase": "where is repository",
+      "concept": "repository",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0258",
+      "phrase": "which owns repository",
+      "concept": "repository",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0259",
+      "phrase": "what uses repository",
+      "concept": "repository",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0260",
+      "phrase": "what depends on repository",
+      "concept": "repository",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0261",
+      "phrase": "find controllers",
+      "concept": "controllers",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "controllers"
+        ]
+      }
+    },
+    {
+      "id": "search-0262",
+      "phrase": "locate controllers",
+      "concept": "controllers",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "controllers"
+        ]
+      }
+    },
+    {
+      "id": "search-0263",
+      "phrase": "search for controllers",
+      "concept": "controllers",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "controllers"
+        ]
+      }
+    },
+    {
+      "id": "search-0264",
+      "phrase": "show controllers",
+      "concept": "controllers",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "controllers"
+        ]
+      }
+    },
+    {
+      "id": "search-0265",
+      "phrase": "explain controllers",
+      "concept": "controllers",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "controllers"
+        ]
+      }
+    },
+    {
+      "id": "search-0266",
+      "phrase": "trace controllers",
+      "concept": "controllers",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "controllers"
+        ]
+      }
+    },
+    {
+      "id": "search-0267",
+      "phrase": "where is controllers",
+      "concept": "controllers",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "controllers"
+        ]
+      }
+    },
+    {
+      "id": "search-0268",
+      "phrase": "which owns controllers",
+      "concept": "controllers",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "controllers"
+        ]
+      }
+    },
+    {
+      "id": "search-0269",
+      "phrase": "what uses controllers",
+      "concept": "controllers",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "controllers"
+        ]
+      }
+    },
+    {
+      "id": "search-0270",
+      "phrase": "what depends on controllers",
+      "concept": "controllers",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "controllers"
+        ]
+      }
+    },
+    {
+      "id": "search-0271",
+      "phrase": "find services",
+      "concept": "services",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "services"
+        ]
+      }
+    },
+    {
+      "id": "search-0272",
+      "phrase": "locate services",
+      "concept": "services",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "services"
+        ]
+      }
+    },
+    {
+      "id": "search-0273",
+      "phrase": "search for services",
+      "concept": "services",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "services"
+        ]
+      }
+    },
+    {
+      "id": "search-0274",
+      "phrase": "show services",
+      "concept": "services",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "services"
+        ]
+      }
+    },
+    {
+      "id": "search-0275",
+      "phrase": "explain services",
+      "concept": "services",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "services"
+        ]
+      }
+    },
+    {
+      "id": "search-0276",
+      "phrase": "trace services",
+      "concept": "services",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "services"
+        ]
+      }
+    },
+    {
+      "id": "search-0277",
+      "phrase": "where is services",
+      "concept": "services",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "services"
+        ]
+      }
+    },
+    {
+      "id": "search-0278",
+      "phrase": "which owns services",
+      "concept": "services",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "services"
+        ]
+      }
+    },
+    {
+      "id": "search-0279",
+      "phrase": "what uses services",
+      "concept": "services",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "services"
+        ]
+      }
+    },
+    {
+      "id": "search-0280",
+      "phrase": "what depends on services",
+      "concept": "services",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "services"
+        ]
+      }
+    },
+    {
+      "id": "search-0281",
+      "phrase": "find providers",
+      "concept": "providers",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "providers"
+        ]
+      }
+    },
+    {
+      "id": "search-0282",
+      "phrase": "locate providers",
+      "concept": "providers",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "providers"
+        ]
+      }
+    },
+    {
+      "id": "search-0283",
+      "phrase": "search for providers",
+      "concept": "providers",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "providers"
+        ]
+      }
+    },
+    {
+      "id": "search-0284",
+      "phrase": "show providers",
+      "concept": "providers",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "providers"
+        ]
+      }
+    },
+    {
+      "id": "search-0285",
+      "phrase": "explain providers",
+      "concept": "providers",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "providers"
+        ]
+      }
+    },
+    {
+      "id": "search-0286",
+      "phrase": "trace providers",
+      "concept": "providers",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "providers"
+        ]
+      }
+    },
+    {
+      "id": "search-0287",
+      "phrase": "where is providers",
+      "concept": "providers",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "providers"
+        ]
+      }
+    },
+    {
+      "id": "search-0288",
+      "phrase": "which owns providers",
+      "concept": "providers",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "providers"
+        ]
+      }
+    },
+    {
+      "id": "search-0289",
+      "phrase": "what uses providers",
+      "concept": "providers",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "providers"
+        ]
+      }
+    },
+    {
+      "id": "search-0290",
+      "phrase": "what depends on providers",
+      "concept": "providers",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "providers"
+        ]
+      }
+    },
+    {
+      "id": "search-0291",
+      "phrase": "find modules",
+      "concept": "modules",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "modules"
+        ]
+      }
+    },
+    {
+      "id": "search-0292",
+      "phrase": "locate modules",
+      "concept": "modules",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "modules"
+        ]
+      }
+    },
+    {
+      "id": "search-0293",
+      "phrase": "search for modules",
+      "concept": "modules",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "modules"
+        ]
+      }
+    },
+    {
+      "id": "search-0294",
+      "phrase": "show modules",
+      "concept": "modules",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "modules"
+        ]
+      }
+    },
+    {
+      "id": "search-0295",
+      "phrase": "explain modules",
+      "concept": "modules",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "modules"
+        ]
+      }
+    },
+    {
+      "id": "search-0296",
+      "phrase": "trace modules",
+      "concept": "modules",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "modules"
+        ]
+      }
+    },
+    {
+      "id": "search-0297",
+      "phrase": "where is modules",
+      "concept": "modules",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "modules"
+        ]
+      }
+    },
+    {
+      "id": "search-0298",
+      "phrase": "which owns modules",
+      "concept": "modules",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "modules"
+        ]
+      }
+    },
+    {
+      "id": "search-0299",
+      "phrase": "what uses modules",
+      "concept": "modules",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "modules"
+        ]
+      }
+    },
+    {
+      "id": "search-0300",
+      "phrase": "what depends on modules",
+      "concept": "modules",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "modules"
+        ]
+      }
+    },
+    {
+      "id": "search-0301",
+      "phrase": "find routes",
+      "concept": "routes",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "routes"
+        ]
+      }
+    },
+    {
+      "id": "search-0302",
+      "phrase": "locate routes",
+      "concept": "routes",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "routes"
+        ]
+      }
+    },
+    {
+      "id": "search-0303",
+      "phrase": "search for routes",
+      "concept": "routes",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "routes"
+        ]
+      }
+    },
+    {
+      "id": "search-0304",
+      "phrase": "show routes",
+      "concept": "routes",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "routes"
+        ]
+      }
+    },
+    {
+      "id": "search-0305",
+      "phrase": "explain routes",
+      "concept": "routes",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "routes"
+        ]
+      }
+    },
+    {
+      "id": "search-0306",
+      "phrase": "trace routes",
+      "concept": "routes",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "routes"
+        ]
+      }
+    },
+    {
+      "id": "search-0307",
+      "phrase": "where is routes",
+      "concept": "routes",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "routes"
+        ]
+      }
+    },
+    {
+      "id": "search-0308",
+      "phrase": "which owns routes",
+      "concept": "routes",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "routes"
+        ]
+      }
+    },
+    {
+      "id": "search-0309",
+      "phrase": "what uses routes",
+      "concept": "routes",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "routes"
+        ]
+      }
+    },
+    {
+      "id": "search-0310",
+      "phrase": "what depends on routes",
+      "concept": "routes",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "routes"
+        ]
+      }
+    },
+    {
+      "id": "search-0311",
+      "phrase": "find request lifecycle",
+      "concept": "request lifecycle",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "request lifecycle"
+        ]
+      }
+    },
+    {
+      "id": "search-0312",
+      "phrase": "locate request lifecycle",
+      "concept": "request lifecycle",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "request lifecycle"
+        ]
+      }
+    },
+    {
+      "id": "search-0313",
+      "phrase": "search for request lifecycle",
+      "concept": "request lifecycle",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "request lifecycle"
+        ]
+      }
+    },
+    {
+      "id": "search-0314",
+      "phrase": "show request lifecycle",
+      "concept": "request lifecycle",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "request lifecycle"
+        ]
+      }
+    },
+    {
+      "id": "search-0315",
+      "phrase": "explain request lifecycle",
+      "concept": "request lifecycle",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "request lifecycle"
+        ]
+      }
+    },
+    {
+      "id": "search-0316",
+      "phrase": "trace request lifecycle",
+      "concept": "request lifecycle",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "request lifecycle"
+        ]
+      }
+    },
+    {
+      "id": "search-0317",
+      "phrase": "where is request lifecycle",
+      "concept": "request lifecycle",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "request lifecycle"
+        ]
+      }
+    },
+    {
+      "id": "search-0318",
+      "phrase": "which owns request lifecycle",
+      "concept": "request lifecycle",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "request lifecycle"
+        ]
+      }
+    },
+    {
+      "id": "search-0319",
+      "phrase": "what uses request lifecycle",
+      "concept": "request lifecycle",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "request lifecycle"
+        ]
+      }
+    },
+    {
+      "id": "search-0320",
+      "phrase": "what depends on request lifecycle",
+      "concept": "request lifecycle",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "request lifecycle"
+        ]
+      }
+    },
+    {
+      "id": "search-0321",
+      "phrase": "find dependency injection",
+      "concept": "dependency injection",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "dependency injection"
+        ]
+      }
+    },
+    {
+      "id": "search-0322",
+      "phrase": "locate dependency injection",
+      "concept": "dependency injection",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "dependency injection"
+        ]
+      }
+    },
+    {
+      "id": "search-0323",
+      "phrase": "search for dependency injection",
+      "concept": "dependency injection",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "dependency injection"
+        ]
+      }
+    },
+    {
+      "id": "search-0324",
+      "phrase": "show dependency injection",
+      "concept": "dependency injection",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "dependency injection"
+        ]
+      }
+    },
+    {
+      "id": "search-0325",
+      "phrase": "explain dependency injection",
+      "concept": "dependency injection",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "dependency injection"
+        ]
+      }
+    },
+    {
+      "id": "search-0326",
+      "phrase": "trace dependency injection",
+      "concept": "dependency injection",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "dependency injection"
+        ]
+      }
+    },
+    {
+      "id": "search-0327",
+      "phrase": "where is dependency injection",
+      "concept": "dependency injection",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "dependency injection"
+        ]
+      }
+    },
+    {
+      "id": "search-0328",
+      "phrase": "which owns dependency injection",
+      "concept": "dependency injection",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "dependency injection"
+        ]
+      }
+    },
+    {
+      "id": "search-0329",
+      "phrase": "what uses dependency injection",
+      "concept": "dependency injection",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "dependency injection"
+        ]
+      }
+    },
+    {
+      "id": "search-0330",
+      "phrase": "what depends on dependency injection",
+      "concept": "dependency injection",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "dependency injection"
+        ]
+      }
+    },
+    {
+      "id": "search-0331",
+      "phrase": "find package graph",
+      "concept": "package graph",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "package graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0332",
+      "phrase": "locate package graph",
+      "concept": "package graph",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "package graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0333",
+      "phrase": "search for package graph",
+      "concept": "package graph",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "package graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0334",
+      "phrase": "show package graph",
+      "concept": "package graph",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "package graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0335",
+      "phrase": "explain package graph",
+      "concept": "package graph",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "package graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0336",
+      "phrase": "trace package graph",
+      "concept": "package graph",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "package graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0337",
+      "phrase": "where is package graph",
+      "concept": "package graph",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "package graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0338",
+      "phrase": "which owns package graph",
+      "concept": "package graph",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "package graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0339",
+      "phrase": "what uses package graph",
+      "concept": "package graph",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "package graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0340",
+      "phrase": "what depends on package graph",
+      "concept": "package graph",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "package graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0341",
+      "phrase": "find workspace packages",
+      "concept": "workspace packages",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "workspace packages"
+        ]
+      }
+    },
+    {
+      "id": "search-0342",
+      "phrase": "locate workspace packages",
+      "concept": "workspace packages",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "workspace packages"
+        ]
+      }
+    },
+    {
+      "id": "search-0343",
+      "phrase": "search for workspace packages",
+      "concept": "workspace packages",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "workspace packages"
+        ]
+      }
+    },
+    {
+      "id": "search-0344",
+      "phrase": "show workspace packages",
+      "concept": "workspace packages",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "workspace packages"
+        ]
+      }
+    },
+    {
+      "id": "search-0345",
+      "phrase": "explain workspace packages",
+      "concept": "workspace packages",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "workspace packages"
+        ]
+      }
+    },
+    {
+      "id": "search-0346",
+      "phrase": "trace workspace packages",
+      "concept": "workspace packages",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "workspace packages"
+        ]
+      }
+    },
+    {
+      "id": "search-0347",
+      "phrase": "where is workspace packages",
+      "concept": "workspace packages",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "workspace packages"
+        ]
+      }
+    },
+    {
+      "id": "search-0348",
+      "phrase": "which owns workspace packages",
+      "concept": "workspace packages",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "workspace packages"
+        ]
+      }
+    },
+    {
+      "id": "search-0349",
+      "phrase": "what uses workspace packages",
+      "concept": "workspace packages",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "workspace packages"
+        ]
+      }
+    },
+    {
+      "id": "search-0350",
+      "phrase": "what depends on workspace packages",
+      "concept": "workspace packages",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "workspace packages"
+        ]
+      }
+    },
+    {
+      "id": "search-0351",
+      "phrase": "find entrypoints",
+      "concept": "entrypoints",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "entrypoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0352",
+      "phrase": "locate entrypoints",
+      "concept": "entrypoints",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "entrypoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0353",
+      "phrase": "search for entrypoints",
+      "concept": "entrypoints",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "entrypoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0354",
+      "phrase": "show entrypoints",
+      "concept": "entrypoints",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "entrypoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0355",
+      "phrase": "explain entrypoints",
+      "concept": "entrypoints",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "entrypoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0356",
+      "phrase": "trace entrypoints",
+      "concept": "entrypoints",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "entrypoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0357",
+      "phrase": "where is entrypoints",
+      "concept": "entrypoints",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "entrypoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0358",
+      "phrase": "which owns entrypoints",
+      "concept": "entrypoints",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "entrypoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0359",
+      "phrase": "what uses entrypoints",
+      "concept": "entrypoints",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "entrypoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0360",
+      "phrase": "what depends on entrypoints",
+      "concept": "entrypoints",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "entrypoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0361",
+      "phrase": "find call graph",
+      "concept": "call graph",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "call graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0362",
+      "phrase": "locate call graph",
+      "concept": "call graph",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "call graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0363",
+      "phrase": "search for call graph",
+      "concept": "call graph",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "call graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0364",
+      "phrase": "show call graph",
+      "concept": "call graph",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "call graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0365",
+      "phrase": "explain call graph",
+      "concept": "call graph",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "call graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0366",
+      "phrase": "trace call graph",
+      "concept": "call graph",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "call graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0367",
+      "phrase": "where is call graph",
+      "concept": "call graph",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "call graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0368",
+      "phrase": "which owns call graph",
+      "concept": "call graph",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "call graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0369",
+      "phrase": "what uses call graph",
+      "concept": "call graph",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "call graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0370",
+      "phrase": "what depends on call graph",
+      "concept": "call graph",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "call graph"
+        ]
+      }
+    },
+    {
+      "id": "search-0371",
+      "phrase": "find dead code",
+      "concept": "dead code",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "dead code"
+        ]
+      }
+    },
+    {
+      "id": "search-0372",
+      "phrase": "locate dead code",
+      "concept": "dead code",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "dead code"
+        ]
+      }
+    },
+    {
+      "id": "search-0373",
+      "phrase": "search for dead code",
+      "concept": "dead code",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "dead code"
+        ]
+      }
+    },
+    {
+      "id": "search-0374",
+      "phrase": "show dead code",
+      "concept": "dead code",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "dead code"
+        ]
+      }
+    },
+    {
+      "id": "search-0375",
+      "phrase": "explain dead code",
+      "concept": "dead code",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "dead code"
+        ]
+      }
+    },
+    {
+      "id": "search-0376",
+      "phrase": "trace dead code",
+      "concept": "dead code",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "dead code"
+        ]
+      }
+    },
+    {
+      "id": "search-0377",
+      "phrase": "where is dead code",
+      "concept": "dead code",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "dead code"
+        ]
+      }
+    },
+    {
+      "id": "search-0378",
+      "phrase": "which owns dead code",
+      "concept": "dead code",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "dead code"
+        ]
+      }
+    },
+    {
+      "id": "search-0379",
+      "phrase": "what uses dead code",
+      "concept": "dead code",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "dead code"
+        ]
+      }
+    },
+    {
+      "id": "search-0380",
+      "phrase": "what depends on dead code",
+      "concept": "dead code",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "dead code"
+        ]
+      }
+    },
+    {
+      "id": "search-0381",
+      "phrase": "find circular dependencies",
+      "concept": "circular dependencies",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "circular dependencies"
+        ]
+      }
+    },
+    {
+      "id": "search-0382",
+      "phrase": "locate circular dependencies",
+      "concept": "circular dependencies",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "circular dependencies"
+        ]
+      }
+    },
+    {
+      "id": "search-0383",
+      "phrase": "search for circular dependencies",
+      "concept": "circular dependencies",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "circular dependencies"
+        ]
+      }
+    },
+    {
+      "id": "search-0384",
+      "phrase": "show circular dependencies",
+      "concept": "circular dependencies",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "circular dependencies"
+        ]
+      }
+    },
+    {
+      "id": "search-0385",
+      "phrase": "explain circular dependencies",
+      "concept": "circular dependencies",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "circular dependencies"
+        ]
+      }
+    },
+    {
+      "id": "search-0386",
+      "phrase": "trace circular dependencies",
+      "concept": "circular dependencies",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "circular dependencies"
+        ]
+      }
+    },
+    {
+      "id": "search-0387",
+      "phrase": "where is circular dependencies",
+      "concept": "circular dependencies",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "circular dependencies"
+        ]
+      }
+    },
+    {
+      "id": "search-0388",
+      "phrase": "which owns circular dependencies",
+      "concept": "circular dependencies",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "circular dependencies"
+        ]
+      }
+    },
+    {
+      "id": "search-0389",
+      "phrase": "what uses circular dependencies",
+      "concept": "circular dependencies",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "circular dependencies"
+        ]
+      }
+    },
+    {
+      "id": "search-0390",
+      "phrase": "what depends on circular dependencies",
+      "concept": "circular dependencies",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "circular dependencies"
+        ]
+      }
+    },
+    {
+      "id": "search-0391",
+      "phrase": "find API endpoints",
+      "concept": "API endpoints",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "api endpoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0392",
+      "phrase": "locate API endpoints",
+      "concept": "API endpoints",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "api endpoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0393",
+      "phrase": "search for API endpoints",
+      "concept": "API endpoints",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "api endpoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0394",
+      "phrase": "show API endpoints",
+      "concept": "API endpoints",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "api endpoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0395",
+      "phrase": "explain API endpoints",
+      "concept": "API endpoints",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "api endpoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0396",
+      "phrase": "trace API endpoints",
+      "concept": "API endpoints",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "api endpoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0397",
+      "phrase": "where is API endpoints",
+      "concept": "API endpoints",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "api endpoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0398",
+      "phrase": "which owns API endpoints",
+      "concept": "API endpoints",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "api endpoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0399",
+      "phrase": "what uses API endpoints",
+      "concept": "API endpoints",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "api endpoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0400",
+      "phrase": "what depends on API endpoints",
+      "concept": "API endpoints",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "api endpoints"
+        ]
+      }
+    },
+    {
+      "id": "search-0401",
+      "phrase": "find webhooks",
+      "concept": "webhooks",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "webhooks"
+        ]
+      }
+    },
+    {
+      "id": "search-0402",
+      "phrase": "locate webhooks",
+      "concept": "webhooks",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "webhooks"
+        ]
+      }
+    },
+    {
+      "id": "search-0403",
+      "phrase": "search for webhooks",
+      "concept": "webhooks",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "webhooks"
+        ]
+      }
+    },
+    {
+      "id": "search-0404",
+      "phrase": "show webhooks",
+      "concept": "webhooks",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "webhooks"
+        ]
+      }
+    },
+    {
+      "id": "search-0405",
+      "phrase": "explain webhooks",
+      "concept": "webhooks",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "webhooks"
+        ]
+      }
+    },
+    {
+      "id": "search-0406",
+      "phrase": "trace webhooks",
+      "concept": "webhooks",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "webhooks"
+        ]
+      }
+    },
+    {
+      "id": "search-0407",
+      "phrase": "where is webhooks",
+      "concept": "webhooks",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "webhooks"
+        ]
+      }
+    },
+    {
+      "id": "search-0408",
+      "phrase": "which owns webhooks",
+      "concept": "webhooks",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "webhooks"
+        ]
+      }
+    },
+    {
+      "id": "search-0409",
+      "phrase": "what uses webhooks",
+      "concept": "webhooks",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "webhooks"
+        ]
+      }
+    },
+    {
+      "id": "search-0410",
+      "phrase": "what depends on webhooks",
+      "concept": "webhooks",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "webhooks"
+        ]
+      }
+    },
+    {
+      "id": "search-0411",
+      "phrase": "find threshold settings",
+      "concept": "threshold settings",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "threshold settings"
+        ]
+      }
+    },
+    {
+      "id": "search-0412",
+      "phrase": "locate threshold settings",
+      "concept": "threshold settings",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "threshold settings"
+        ]
+      }
+    },
+    {
+      "id": "search-0413",
+      "phrase": "search for threshold settings",
+      "concept": "threshold settings",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "threshold settings"
+        ]
+      }
+    },
+    {
+      "id": "search-0414",
+      "phrase": "show threshold settings",
+      "concept": "threshold settings",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "threshold settings"
+        ]
+      }
+    },
+    {
+      "id": "search-0415",
+      "phrase": "explain threshold settings",
+      "concept": "threshold settings",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "threshold settings"
+        ]
+      }
+    },
+    {
+      "id": "search-0416",
+      "phrase": "trace threshold settings",
+      "concept": "threshold settings",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "threshold settings"
+        ]
+      }
+    },
+    {
+      "id": "search-0417",
+      "phrase": "where is threshold settings",
+      "concept": "threshold settings",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "threshold settings"
+        ]
+      }
+    },
+    {
+      "id": "search-0418",
+      "phrase": "which owns threshold settings",
+      "concept": "threshold settings",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "threshold settings"
+        ]
+      }
+    },
+    {
+      "id": "search-0419",
+      "phrase": "what uses threshold settings",
+      "concept": "threshold settings",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "threshold settings"
+        ]
+      }
+    },
+    {
+      "id": "search-0420",
+      "phrase": "what depends on threshold settings",
+      "concept": "threshold settings",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "threshold settings"
+        ]
+      }
+    },
+    {
+      "id": "search-0421",
+      "phrase": "find alert events",
+      "concept": "alert events",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "alert events"
+        ]
+      }
+    },
+    {
+      "id": "search-0422",
+      "phrase": "locate alert events",
+      "concept": "alert events",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "alert events"
+        ]
+      }
+    },
+    {
+      "id": "search-0423",
+      "phrase": "search for alert events",
+      "concept": "alert events",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "alert events"
+        ]
+      }
+    },
+    {
+      "id": "search-0424",
+      "phrase": "show alert events",
+      "concept": "alert events",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "alert events"
+        ]
+      }
+    },
+    {
+      "id": "search-0425",
+      "phrase": "explain alert events",
+      "concept": "alert events",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "alert events"
+        ]
+      }
+    },
+    {
+      "id": "search-0426",
+      "phrase": "trace alert events",
+      "concept": "alert events",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "alert events"
+        ]
+      }
+    },
+    {
+      "id": "search-0427",
+      "phrase": "where is alert events",
+      "concept": "alert events",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "alert events"
+        ]
+      }
+    },
+    {
+      "id": "search-0428",
+      "phrase": "which owns alert events",
+      "concept": "alert events",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "alert events"
+        ]
+      }
+    },
+    {
+      "id": "search-0429",
+      "phrase": "what uses alert events",
+      "concept": "alert events",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "alert events"
+        ]
+      }
+    },
+    {
+      "id": "search-0430",
+      "phrase": "what depends on alert events",
+      "concept": "alert events",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "alert events"
+        ]
+      }
+    },
+    {
+      "id": "search-0431",
+      "phrase": "find signal ingestion",
+      "concept": "signal ingestion",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "signal ingestion"
+        ]
+      }
+    },
+    {
+      "id": "search-0432",
+      "phrase": "locate signal ingestion",
+      "concept": "signal ingestion",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "signal ingestion"
+        ]
+      }
+    },
+    {
+      "id": "search-0433",
+      "phrase": "search for signal ingestion",
+      "concept": "signal ingestion",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "signal ingestion"
+        ]
+      }
+    },
+    {
+      "id": "search-0434",
+      "phrase": "show signal ingestion",
+      "concept": "signal ingestion",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "signal ingestion"
+        ]
+      }
+    },
+    {
+      "id": "search-0435",
+      "phrase": "explain signal ingestion",
+      "concept": "signal ingestion",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "signal ingestion"
+        ]
+      }
+    },
+    {
+      "id": "search-0436",
+      "phrase": "trace signal ingestion",
+      "concept": "signal ingestion",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "signal ingestion"
+        ]
+      }
+    },
+    {
+      "id": "search-0437",
+      "phrase": "where is signal ingestion",
+      "concept": "signal ingestion",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "signal ingestion"
+        ]
+      }
+    },
+    {
+      "id": "search-0438",
+      "phrase": "which owns signal ingestion",
+      "concept": "signal ingestion",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "signal ingestion"
+        ]
+      }
+    },
+    {
+      "id": "search-0439",
+      "phrase": "what uses signal ingestion",
+      "concept": "signal ingestion",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "signal ingestion"
+        ]
+      }
+    },
+    {
+      "id": "search-0440",
+      "phrase": "what depends on signal ingestion",
+      "concept": "signal ingestion",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "signal ingestion"
+        ]
+      }
+    },
+    {
+      "id": "search-0441",
+      "phrase": "find carehub",
+      "concept": "carehub",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "carehub"
+        ]
+      }
+    },
+    {
+      "id": "search-0442",
+      "phrase": "locate carehub",
+      "concept": "carehub",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "carehub"
+        ]
+      }
+    },
+    {
+      "id": "search-0443",
+      "phrase": "search for carehub",
+      "concept": "carehub",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "carehub"
+        ]
+      }
+    },
+    {
+      "id": "search-0444",
+      "phrase": "show carehub",
+      "concept": "carehub",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "carehub"
+        ]
+      }
+    },
+    {
+      "id": "search-0445",
+      "phrase": "explain carehub",
+      "concept": "carehub",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "carehub"
+        ]
+      }
+    },
+    {
+      "id": "search-0446",
+      "phrase": "trace carehub",
+      "concept": "carehub",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "carehub"
+        ]
+      }
+    },
+    {
+      "id": "search-0447",
+      "phrase": "where is carehub",
+      "concept": "carehub",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "carehub"
+        ]
+      }
+    },
+    {
+      "id": "search-0448",
+      "phrase": "which owns carehub",
+      "concept": "carehub",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "carehub"
+        ]
+      }
+    },
+    {
+      "id": "search-0449",
+      "phrase": "what uses carehub",
+      "concept": "carehub",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "carehub"
+        ]
+      }
+    },
+    {
+      "id": "search-0450",
+      "phrase": "what depends on carehub",
+      "concept": "carehub",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "carehub"
+        ]
+      }
+    },
+    {
+      "id": "search-0451",
+      "phrase": "find user repository",
+      "concept": "user repository",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "user repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0452",
+      "phrase": "locate user repository",
+      "concept": "user repository",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "user repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0453",
+      "phrase": "search for user repository",
+      "concept": "user repository",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "user repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0454",
+      "phrase": "show user repository",
+      "concept": "user repository",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "user repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0455",
+      "phrase": "explain user repository",
+      "concept": "user repository",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "user repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0456",
+      "phrase": "trace user repository",
+      "concept": "user repository",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "user repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0457",
+      "phrase": "where is user repository",
+      "concept": "user repository",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "user repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0458",
+      "phrase": "which owns user repository",
+      "concept": "user repository",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "user repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0459",
+      "phrase": "what uses user repository",
+      "concept": "user repository",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "user repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0460",
+      "phrase": "what depends on user repository",
+      "concept": "user repository",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "user repository"
+        ]
+      }
+    },
+    {
+      "id": "search-0461",
+      "phrase": "find auth module",
+      "concept": "auth module",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "auth module"
+        ]
+      }
+    },
+    {
+      "id": "search-0462",
+      "phrase": "locate auth module",
+      "concept": "auth module",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "auth module"
+        ]
+      }
+    },
+    {
+      "id": "search-0463",
+      "phrase": "search for auth module",
+      "concept": "auth module",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "auth module"
+        ]
+      }
+    },
+    {
+      "id": "search-0464",
+      "phrase": "show auth module",
+      "concept": "auth module",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "auth module"
+        ]
+      }
+    },
+    {
+      "id": "search-0465",
+      "phrase": "explain auth module",
+      "concept": "auth module",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "auth module"
+        ]
+      }
+    },
+    {
+      "id": "search-0466",
+      "phrase": "trace auth module",
+      "concept": "auth module",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "auth module"
+        ]
+      }
+    },
+    {
+      "id": "search-0467",
+      "phrase": "where is auth module",
+      "concept": "auth module",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "auth module"
+        ]
+      }
+    },
+    {
+      "id": "search-0468",
+      "phrase": "which owns auth module",
+      "concept": "auth module",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "auth module"
+        ]
+      }
+    },
+    {
+      "id": "search-0469",
+      "phrase": "what uses auth module",
+      "concept": "auth module",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "auth module"
+        ]
+      }
+    },
+    {
+      "id": "search-0470",
+      "phrase": "what depends on auth module",
+      "concept": "auth module",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "auth module"
+        ]
+      }
+    },
+    {
+      "id": "search-0471",
+      "phrase": "find database access",
+      "concept": "database access",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "database access"
+        ]
+      }
+    },
+    {
+      "id": "search-0472",
+      "phrase": "locate database access",
+      "concept": "database access",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "database access"
+        ]
+      }
+    },
+    {
+      "id": "search-0473",
+      "phrase": "search for database access",
+      "concept": "database access",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "database access"
+        ]
+      }
+    },
+    {
+      "id": "search-0474",
+      "phrase": "show database access",
+      "concept": "database access",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "database access"
+        ]
+      }
+    },
+    {
+      "id": "search-0475",
+      "phrase": "explain database access",
+      "concept": "database access",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "database access"
+        ]
+      }
+    },
+    {
+      "id": "search-0476",
+      "phrase": "trace database access",
+      "concept": "database access",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "database access"
+        ]
+      }
+    },
+    {
+      "id": "search-0477",
+      "phrase": "where is database access",
+      "concept": "database access",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "database access"
+        ]
+      }
+    },
+    {
+      "id": "search-0478",
+      "phrase": "which owns database access",
+      "concept": "database access",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "database access"
+        ]
+      }
+    },
+    {
+      "id": "search-0479",
+      "phrase": "what uses database access",
+      "concept": "database access",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "database access"
+        ]
+      }
+    },
+    {
+      "id": "search-0480",
+      "phrase": "what depends on database access",
+      "concept": "database access",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "database access"
+        ]
+      }
+    },
+    {
+      "id": "search-0481",
+      "phrase": "find feature flags",
+      "concept": "feature flags",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "feature flags"
+        ]
+      }
+    },
+    {
+      "id": "search-0482",
+      "phrase": "locate feature flags",
+      "concept": "feature flags",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "feature flags"
+        ]
+      }
+    },
+    {
+      "id": "search-0483",
+      "phrase": "search for feature flags",
+      "concept": "feature flags",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "feature flags"
+        ]
+      }
+    },
+    {
+      "id": "search-0484",
+      "phrase": "show feature flags",
+      "concept": "feature flags",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "feature flags"
+        ]
+      }
+    },
+    {
+      "id": "search-0485",
+      "phrase": "explain feature flags",
+      "concept": "feature flags",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "feature flags"
+        ]
+      }
+    },
+    {
+      "id": "search-0486",
+      "phrase": "trace feature flags",
+      "concept": "feature flags",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "feature flags"
+        ]
+      }
+    },
+    {
+      "id": "search-0487",
+      "phrase": "where is feature flags",
+      "concept": "feature flags",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "feature flags"
+        ]
+      }
+    },
+    {
+      "id": "search-0488",
+      "phrase": "which owns feature flags",
+      "concept": "feature flags",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "feature flags"
+        ]
+      }
+    },
+    {
+      "id": "search-0489",
+      "phrase": "what uses feature flags",
+      "concept": "feature flags",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "feature flags"
+        ]
+      }
+    },
+    {
+      "id": "search-0490",
+      "phrase": "what depends on feature flags",
+      "concept": "feature flags",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "feature flags"
+        ]
+      }
+    },
+    {
+      "id": "search-0491",
+      "phrase": "find build scripts",
+      "concept": "build scripts",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "build scripts"
+        ]
+      }
+    },
+    {
+      "id": "search-0492",
+      "phrase": "locate build scripts",
+      "concept": "build scripts",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "build scripts"
+        ]
+      }
+    },
+    {
+      "id": "search-0493",
+      "phrase": "search for build scripts",
+      "concept": "build scripts",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "build scripts"
+        ]
+      }
+    },
+    {
+      "id": "search-0494",
+      "phrase": "show build scripts",
+      "concept": "build scripts",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "build scripts"
+        ]
+      }
+    },
+    {
+      "id": "search-0495",
+      "phrase": "explain build scripts",
+      "concept": "build scripts",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "build scripts"
+        ]
+      }
+    },
+    {
+      "id": "search-0496",
+      "phrase": "trace build scripts",
+      "concept": "build scripts",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "build scripts"
+        ]
+      }
+    },
+    {
+      "id": "search-0497",
+      "phrase": "where is build scripts",
+      "concept": "build scripts",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "build scripts"
+        ]
+      }
+    },
+    {
+      "id": "search-0498",
+      "phrase": "which owns build scripts",
+      "concept": "build scripts",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "build scripts"
+        ]
+      }
+    },
+    {
+      "id": "search-0499",
+      "phrase": "what uses build scripts",
+      "concept": "build scripts",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "build scripts"
+        ]
+      }
+    },
+    {
+      "id": "search-0500",
+      "phrase": "what depends on build scripts",
+      "concept": "build scripts",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "build scripts"
+        ]
+      }
+    },
+    {
+      "id": "search-0501",
+      "phrase": "find framework detection",
+      "concept": "framework detection",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "framework detection"
+        ]
+      }
+    },
+    {
+      "id": "search-0502",
+      "phrase": "locate framework detection",
+      "concept": "framework detection",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "framework detection"
+        ]
+      }
+    },
+    {
+      "id": "search-0503",
+      "phrase": "search for framework detection",
+      "concept": "framework detection",
+      "category": "entrypoint",
+      "expected": {
+        "top5Concepts": [
+          "framework detection"
+        ]
+      }
+    },
+    {
+      "id": "search-0504",
+      "phrase": "show framework detection",
+      "concept": "framework detection",
+      "category": "concept",
+      "expected": {
+        "top5Concepts": [
+          "framework detection"
+        ]
+      }
+    },
+    {
+      "id": "search-0505",
+      "phrase": "explain framework detection",
+      "concept": "framework detection",
+      "category": "feature",
+      "expected": {
+        "top5Concepts": [
+          "framework detection"
+        ]
+      }
+    },
+    {
+      "id": "search-0506",
+      "phrase": "trace framework detection",
+      "concept": "framework detection",
+      "category": "symbol",
+      "expected": {
+        "top5Concepts": [
+          "framework detection"
+        ]
+      }
+    },
+    {
+      "id": "search-0507",
+      "phrase": "where is framework detection",
+      "concept": "framework detection",
+      "category": "configuration",
+      "expected": {
+        "top5Concepts": [
+          "framework detection"
+        ]
+      }
+    },
+    {
+      "id": "search-0508",
+      "phrase": "which owns framework detection",
+      "concept": "framework detection",
+      "category": "environment",
+      "expected": {
+        "top5Concepts": [
+          "framework detection"
+        ]
+      }
+    },
+    {
+      "id": "search-0509",
+      "phrase": "what uses framework detection",
+      "concept": "framework detection",
+      "category": "route",
+      "expected": {
+        "top5Concepts": [
+          "framework detection"
+        ]
+      }
+    },
+    {
+      "id": "search-0510",
+      "phrase": "what depends on framework detection",
+      "concept": "framework detection",
+      "category": "repository",
+      "expected": {
+        "top5Concepts": [
+          "framework detection"
+        ]
+      }
+    }
+  ]
+}

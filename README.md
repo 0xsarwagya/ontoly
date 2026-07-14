@@ -93,6 +93,7 @@ Ontoly turns that repeated work into a reusable graph:
 - explicit provenance
 - stable serialization
 - query indexes
+- semantic concept indexes
 - validation reports
 - extension metadata
 
@@ -337,6 +338,9 @@ Common commands:
 | `pnpm ontoly build <repo>` | Build a Software Graph. |
 | `pnpm ontoly output <repo>` | Generate `ontoly-output/` with JSON reports, graph communities, and HTML explorers. |
 | `pnpm ontoly inspect <graph-or-query>` | Inspect graph artifacts or entities. |
+| `pnpm ontoly search <concept>` | Resolve natural concepts to ranked graph entities. |
+| `pnpm ontoly find <concept>` | Find symbols, acronyms, features, or configuration terms. |
+| `pnpm ontoly locate <feature>` | Locate feature-level graph touchpoints. |
 | `pnpm ontoly trace <symbol>` | Trace graph relationships. |
 | `pnpm ontoly coverage <repo>` | Report semantic coverage. |
 | `pnpm ontoly mcp` | Start MCP capabilities. |
@@ -473,6 +477,7 @@ suite, not marketing claims.
 | `@0xsarwagya/ontoly-typescript` | Pure TypeScript semantic model analyzer. |
 | `@0xsarwagya/ontoly-semantic` | Semantic generator and framework analyzer registry. |
 | `@0xsarwagya/ontoly-analyzers` | Semantic coverage and graph quality analyzers. |
+| `@0xsarwagya/ontoly-index` | Deterministic Semantic Index and intent resolution. |
 | `@0xsarwagya/ontoly-query` | Deterministic Software Graph query engine. |
 | `@0xsarwagya/ontoly-diagnostics` | Shared diagnostic constructors. |
 | `@0xsarwagya/ontoly-cache` | Local graph artifact persistence. |

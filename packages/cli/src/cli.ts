@@ -13,7 +13,7 @@ import {
   type SemanticCoverageReport,
   type SemanticEntityReport,
 } from "@0xsarwagya/ontoly-analyzers";
-import { getGraphArtifactPaths, loadGraph } from "@0xsarwagya/ontoly-cache";
+import { getGraphArtifactPaths, loadGraph, loadOrCreateSemanticIndex } from "@0xsarwagya/ontoly-cache";
 import {
   capabilityResultToJson,
   createCapabilityEngine,
@@ -42,6 +42,23 @@ import {
   type SoftwareGraphNode,
   type SourceSpan,
 } from "@0xsarwagya/ontoly-core";
+import {
+  createSemanticIndex,
+  findConcept,
+  findConfiguration as searchConfiguration,
+  findEntryPoint,
+  findEnvironment,
+  findFeature,
+  findRepositoryConcept,
+  findRoute as searchRoute,
+  findSymbol,
+  resolveIntent,
+  validateSemanticIndex,
+  type SearchCategory,
+  type SemanticCandidate,
+  type SemanticIndex,
+  type SemanticSearchResult,
+} from "@0xsarwagya/ontoly-index";
 import { createMcpRuntime, McpCapabilityError, type McpCapabilityName } from "@0xsarwagya/ontoly-mcp";
 import { createOpenApiFrontendPass } from "@0xsarwagya/ontoly-parser-openapi";
 import { createTypeScriptFrontendPass } from "@0xsarwagya/ontoly-parser-typescript";
@@ -254,6 +271,12 @@ async function run(cli: ParsedCli): Promise<void> {
       await reportCommand(cli);
       return;
 
+    case "search":
+    case "find":
+    case "locate":
+      await searchCommand(cli);
+      return;
+
     case "query":
       await queryCommand(cli);
       return;
@@ -413,6 +436,7 @@ async function buildCommand(cli: ParsedCli): Promise<void> {
     if (artifacts) {
       logger.info(`Graph: ${artifacts.graph}`);
       logger.info(`Diagnostics: ${artifacts.diagnostics}`);
+      logger.info(`Semantic Index: ${artifacts.semanticIndex}`);
       logger.info(`Statistics: ${artifacts.statistics}`);
     }
 
@@ -850,6 +874,33 @@ async function reportCommand(cli: ParsedCli): Promise<void> {
   }
 
   logger.write(formatReport(report));
+}
+
+async function searchCommand(cli: ParsedCli): Promise<void> {
+  const queryText = cli.positional.join(" ").trim() || flagString(cli, "query", "");
+  if (!queryText) {
+    throw new OntolyCliError({
+      code: "ONTOLY1010",
+      message: `${cli.command} requires a concept or symbol query.`,
+      suggestion: `Run ontoly ${cli.command} "authentication" or ontoly ${cli.command} "Plan Definition Resource".`,
+      docs: "docs/cli.md#search",
+    });
+  }
+
+  const graph = await loadOrBuildGraph(cli, { positionalRoot: false });
+  const semanticIndex = await loadSemanticIndexForCli(cli, graph);
+  const issues = validateSemanticIndex(semanticIndex, graph);
+  const index = issues.length === 0 ? semanticIndex : createSemanticIndex(graph);
+  const category = searchCategoryFromCli(cli);
+  const limit = flagNumber(cli, "limit", 10);
+  const result = executeSearch(index, queryText, category, limit, cli.command);
+
+  if (flagBoolean(cli, "json")) {
+    logger.write(JSON.stringify(searchResultToJson(result), null, 2));
+    return;
+  }
+
+  logger.write(formatSearchResult(result));
 }
 
 async function queryCommand(cli: ParsedCli): Promise<void> {
@@ -1458,6 +1509,17 @@ async function loadOrBuildGraph(
   }
 }
 
+async function loadSemanticIndexForCli(cli: ParsedCli, graph: SoftwareGraph): Promise<SemanticIndex> {
+  const root = rootFromCli(cli, { positional: false });
+  const outputDir = flagString(cli, "output", ".ontoly");
+  try {
+    const index = await loadOrCreateSemanticIndex({ root: resolve(root), directory: outputDir });
+    return index.graphHash === graph.metadata.deterministicHash ? index : createSemanticIndex(graph);
+  } catch {
+    return createSemanticIndex(graph);
+  }
+}
+
 async function writeSemanticModelArtifact(rootInput: string, outputDir: string): Promise<TypeScriptProject> {
   const root = resolve(rootInput);
   const directory = join(root, outputDir);
@@ -1994,6 +2056,133 @@ function serializeTraversal(traversal: GraphTraversal): JsonObject {
     nodes: traversal.nodes.map(serializeNode),
     edges: traversal.edges.map(serializeEdge),
   };
+}
+
+function executeSearch(
+  index: SemanticIndex,
+  query: string,
+  category: SearchCategory,
+  limit: number,
+  command: string,
+): SemanticSearchResult {
+  const options = { limit, category };
+
+  switch (category) {
+    case "symbol":
+      return findSymbol(index, query, options);
+    case "feature":
+      return findFeature(index, query, options);
+    case "configuration":
+      return searchConfiguration(index, query, options);
+    case "environment":
+      return findEnvironment(index, query, options);
+    case "route":
+      return searchRoute(index, query, options);
+    case "entrypoint":
+      return findEntryPoint(index, query, options);
+    case "repository":
+      return findRepositoryConcept(index, query, options);
+    case "concept":
+      return command === "locate" ? findFeature(index, query, { ...options, category: "feature" }) : findConcept(index, query, options);
+  }
+}
+
+function searchCategoryFromCli(cli: ParsedCli): SearchCategory {
+  const value = flagString(cli, "category", "");
+  if (!value) {
+    if (cli.command === "locate") {
+      return "feature";
+    }
+    return "concept";
+  }
+
+  if (isSearchCategory(value)) {
+    return value;
+  }
+
+  throw new OntolyCliError({
+    code: "ONTOLY1011",
+    message: `Unknown search category: ${value}`,
+    suggestion: "Use one of: concept, symbol, feature, configuration, environment, route, entrypoint, repository.",
+    docs: "docs/cli.md#search",
+  });
+}
+
+function isSearchCategory(value: string): value is SearchCategory {
+  return ["concept", "symbol", "feature", "configuration", "environment", "route", "entrypoint", "repository"].includes(value);
+}
+
+function searchResultToJson(result: SemanticSearchResult): JsonObject {
+  return {
+    query: result.query,
+    category: result.category,
+    confidence: result.confidence,
+    recommendedCapability: result.recommendedCapability,
+    latencyMs: result.latencyMs,
+    matchedConcepts: [...result.matchedConcepts],
+    intent: {
+      normalized: result.intent.normalized,
+      tokens: [...result.intent.tokens],
+      expandedTerms: [...result.intent.expandedTerms],
+    },
+    candidates: result.candidates.map(candidateToJson),
+    evidence: [...result.evidence],
+  };
+}
+
+function candidateToJson(candidate: SemanticCandidate): JsonObject {
+  return {
+    id: candidate.nodeId,
+    type: candidate.kind,
+    name: candidate.displayName,
+    score: candidate.score,
+    confidence: candidate.confidence,
+    matchedTerms: [...candidate.matchedTerms],
+    file: candidate.entry.filePath,
+    package: candidate.entry.package,
+    aliases: candidate.entry.aliases.slice(0, 12),
+    reasons: candidate.reasons.map((reason) => ({
+      factor: reason.factor,
+      score: reason.score,
+      evidence: reason.evidence,
+    })),
+  };
+}
+
+function formatSearchResult(result: SemanticSearchResult): string {
+  const top = result.candidates[0];
+  const lines = [
+    "# Semantic Search",
+    "",
+    `Query: ${result.query}`,
+    `Category: ${result.category}`,
+    `Summary: ${top ? `${top.displayName} (${top.kind}) is the top ranked candidate.` : "No graph candidates matched."}`,
+    `Confidence: ${result.confidence.toFixed(2)}`,
+    `Recommended Capability: ${result.recommendedCapability}`,
+    `Latency: ${result.latencyMs.toFixed(3)}ms`,
+    "",
+    "## Matched Concepts",
+    result.matchedConcepts.length > 0 ? result.matchedConcepts.slice(0, 20).join(", ") : "none",
+    "",
+    "## Candidate Symbols",
+  ];
+
+  if (result.candidates.length === 0) {
+    lines.push("none");
+  } else {
+    for (const candidate of result.candidates.slice(0, 10)) {
+      const file = candidate.entry.filePath ? ` ${candidate.entry.filePath}` : "";
+      lines.push(`- ${candidate.displayName} (${candidate.kind})`);
+      lines.push(`  id: ${candidate.nodeId}`);
+      lines.push(`  score: ${candidate.score.toFixed(2)} confidence: ${candidate.confidence.toFixed(2)}${file}`);
+      const reasons = candidate.reasons.slice(0, 3).map((reason) => `${reason.factor} +${reason.score}`).join(", ");
+      lines.push(`  evidence: ${reasons || "graph index match"}`);
+    }
+  }
+
+  lines.push("", "## Evidence");
+  lines.push(...(result.evidence.length > 0 ? result.evidence.map((item) => `- ${item}`) : ["none"]));
+  return lines.join("\n");
 }
 
 function formatInspection(inspection: JsonObject): string {
@@ -2795,6 +2984,37 @@ function commandHelp(): Record<string, CommandHelp> {
     options: ["--format kind  markdown, json, or mermaid.", "--json         Alias for --format json."],
     examples: ["ontoly report api", "ontoly report routes", "ontoly report dependencies --json"],
   },
+  search: {
+    title: "ontoly search",
+    description: "Resolve natural software concepts to ranked Software Graph candidates through the Semantic Index.",
+    usage: ["ontoly search <concept> [--category concept|symbol|feature|configuration|environment|route|entrypoint|repository] [--limit 10] [--json]"],
+    options: [
+      "--category kind Search category. Default: concept.",
+      "--limit n       Candidate limit. Default: 10.",
+      "--root path     Repository root.",
+      "--output path   Artifact directory. Default: .ontoly.",
+      "--json          Print JSON.",
+    ],
+    examples: [
+      "ontoly search authentication",
+      "ontoly search \"sleep thresholds\"",
+      "ontoly search \"JWT secret\" --category configuration --json",
+    ],
+  },
+  find: {
+    title: "ontoly find",
+    description: "Find a symbol, acronym, feature term, configuration name, or repository concept using intent resolution.",
+    usage: ["ontoly find <concept> [--category kind] [--limit 10] [--json]"],
+    options: ["--category kind Search category.", "--limit n       Candidate limit.", "--json          Print JSON."],
+    examples: ["ontoly find JWT", "ontoly find PlanDefinition", "ontoly find AuthService --category symbol"],
+  },
+  locate: {
+    title: "ontoly locate",
+    description: "Locate feature-level graph touchpoints such as routes, controllers, services, modules, and operations.",
+    usage: ["ontoly locate <feature> [--category kind] [--limit 10] [--json]"],
+    options: ["--category kind Search category. Default: feature.", "--limit n       Candidate limit.", "--json          Print JSON."],
+    examples: ["ontoly locate notifications", "ontoly locate \"patient averages\" --json"],
+  },
   query: {
     title: "ontoly query",
     description: "Run deterministic query-engine operations against the graph.",
@@ -2899,8 +3119,11 @@ Usage:
 	  ontoly repository-summary [root] [--json]
 	  ontoly risk [query] [--root path] [--depth 4] [--json]
 	  ontoly request-trace <route> [--root path] [--depth 5] [--json]
-	  ontoly coverage [root] [--root path] [--format human|markdown|json] [--json]
+  ontoly coverage [root] [--root path] [--format human|markdown|json] [--json]
   ontoly report [summary|api|dependencies|configuration|framework|frameworks|controllers|routes|modules|providers|workspace] [--root path] [--format markdown|json|mermaid]
+  ontoly search <concept> [--category kind] [--limit 10] [--json]
+  ontoly find <concept> [--category kind] [--limit 10] [--json]
+  ontoly locate <feature> [--category kind] [--limit 10] [--json]
   ontoly graph [root] [--root path] [--format summary|json|mermaid|dot|graphml|html]
   ontoly query <find|callers|callees|dependencies|dependents|related|impact|routes|frameworks|configuration|cycles> [target] [--json]
   ontoly doctor [root] [--root path] [--json]
@@ -2939,6 +3162,9 @@ Examples:
   ontoly report routes
   ontoly report dependencies
   ontoly report configuration
+  ontoly search authentication
+  ontoly find JWT
+  ontoly locate notifications
   ontoly query callers UserService.load
   ontoly skills list
   ontoly skills validate

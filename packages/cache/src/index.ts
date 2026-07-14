@@ -1,6 +1,10 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { isAbsolute, join } from "node:path";
 import type { SoftwareGraph } from "@0xsarwagya/ontoly-core";
+import {
+  createSemanticIndex,
+  type SemanticIndex,
+} from "@0xsarwagya/ontoly-index";
 
 export interface GraphArtifactPaths {
   readonly root: string;
@@ -10,6 +14,7 @@ export interface GraphArtifactPaths {
   readonly diagnostics: string;
   readonly metadata: string;
   readonly indexes: string;
+  readonly semanticIndex: string;
   readonly statistics: string;
   readonly cache: string;
 }
@@ -31,6 +36,7 @@ export function getGraphArtifactPaths(options: PersistGraphOptions): GraphArtifa
     diagnostics: join(directory, "diagnostics.json"),
     metadata: join(directory, "metadata.json"),
     indexes: join(directory, "indexes.json"),
+    semanticIndex: join(directory, "index.json"),
     statistics: join(directory, "statistics.json"),
     cache: join(directory, "cache.json"),
   };
@@ -41,6 +47,7 @@ export async function persistGraph(
   options: PersistGraphOptions,
 ): Promise<GraphArtifactPaths> {
   const paths = getGraphArtifactPaths(options);
+  const semanticIndex = createSemanticIndex(graph);
   await mkdir(paths.directory, { recursive: true });
 
   await Promise.all([
@@ -49,6 +56,7 @@ export async function persistGraph(
     writeJson(paths.diagnostics, graph.diagnostics),
     writeJson(paths.metadata, graph.metadata),
     writeJson(paths.indexes, graph.indexes),
+    writeJson(paths.semanticIndex, semanticIndex),
     writeJson(paths.statistics, createGraphStatistics(graph)),
   ]);
 
@@ -59,6 +67,27 @@ export async function loadGraph(options: PersistGraphOptions): Promise<SoftwareG
   const paths = getGraphArtifactPaths(options);
   const contents = await readFirstExisting([paths.graph, paths.legacyGraph]);
   return JSON.parse(contents) as SoftwareGraph;
+}
+
+export async function loadSemanticIndex(options: PersistGraphOptions): Promise<SemanticIndex> {
+  const paths = getGraphArtifactPaths(options);
+  const contents = await readFile(paths.semanticIndex, "utf8");
+  return JSON.parse(contents) as SemanticIndex;
+}
+
+export async function loadOrCreateSemanticIndex(options: PersistGraphOptions): Promise<SemanticIndex> {
+  try {
+    return await loadSemanticIndex(options);
+  } catch (error) {
+    if (!isMissingFileError(error)) {
+      throw error;
+    }
+    const graph = await loadGraph(options);
+    const semanticIndex = createSemanticIndex(graph);
+    await mkdir(getGraphArtifactPaths(options).directory, { recursive: true });
+    await writeJson(getGraphArtifactPaths(options).semanticIndex, semanticIndex);
+    return semanticIndex;
+  }
 }
 
 export async function persistCompilerCache(

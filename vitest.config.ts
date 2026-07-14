@@ -16,6 +16,7 @@ export default defineConfig({
       "@0xsarwagya/ontoly-compiler": fromRoot("./packages/compiler/src/index.ts"),
       "@0xsarwagya/ontoly-core": fromRoot("./packages/core/src/index.ts"),
       "@0xsarwagya/ontoly-diagnostics": fromRoot("./packages/diagnostics/src/index.ts"),
+      "@0xsarwagya/ontoly-index": fromRoot("./packages/index/src/index.ts"),
       "@0xsarwagya/ontoly-mcp": fromRoot("./packages/mcp/src/index.ts"),
       "@0xsarwagya/ontoly-parser-openapi": fromRoot("./packages/parser-openapi/src/index.ts"),
       "@0xsarwagya/ontoly-parser-typescript": fromRoot("./packages/parser-typescript/src/index.ts"),

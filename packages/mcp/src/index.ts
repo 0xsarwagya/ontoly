@@ -15,6 +15,14 @@ import {
   type CapabilityInput,
   type CapabilityName,
 } from "@0xsarwagya/ontoly-capabilities";
+import {
+  createSemanticIndex,
+  findConfiguration as searchConfiguration,
+  findFeature as searchFeature,
+  findRepositoryConcept as searchRepositoryConcept,
+  resolveIntent,
+  type SemanticSearchResult,
+} from "@0xsarwagya/ontoly-index";
 import { createQueryEngine, type GraphTraversal, type QueryEngine } from "@0xsarwagya/ontoly-query";
 
 const LEGACY_MCP_CAPABILITIES = [
@@ -44,9 +52,16 @@ const LEGACY_MCP_CAPABILITIES = [
 ] as const;
 
 const LEGACY_MCP_CAPABILITY_SET = new Set<string>(LEGACY_MCP_CAPABILITIES);
+const SEARCH_MCP_CAPABILITIES = [
+  "SearchConcept",
+  "FindFeature",
+  "FindRepositoryConcept",
+  "ResolveIntent",
+] as const;
 
 export const MCP_CAPABILITIES = [
   ...LEGACY_MCP_CAPABILITIES,
+  ...SEARCH_MCP_CAPABILITIES,
   ...SEMANTIC_CAPABILITY_NAMES.filter((name) => !LEGACY_MCP_CAPABILITY_SET.has(name)),
 ] as const;
 
@@ -217,12 +232,20 @@ function defaultCapabilities(): readonly RegisteredCapability[] {
         .filter((node) => ["Function", "Method", "Module"].includes(node.type))
         .filter((node) => query.incoming(node.id, ["CALLS", "IMPORTS"]).length === 0)
         .map(serializeNode)),
-    capability("FindConfiguration", "Find configuration and environment variable nodes.", objectInput(), arrayOutput("nodes"), [
+    capability("FindConfiguration", "Find configuration and environment variable nodes, optionally by natural concept.", optionalQueryInput(), objectOutput(), [
       { input: {} },
-    ], (query) =>
-      query.findNodes()
-        .filter((node) => node.type === "Configuration" || node.type === "EnvironmentVariable")
-        .map(serializeNode)),
+      { input: { query: "JWT secret" } },
+    ], (query, input) => {
+      const value = readString(input, "query");
+      if (value) {
+        return searchResultToJson(searchConfiguration(createSemanticIndex(query.graph), value));
+      }
+      return {
+        nodes: query.findNodes()
+          .filter((node) => node.type === "Configuration" || node.type === "EnvironmentVariable")
+          .map(serializeNode),
+      };
+    }),
     capability("FindResponsibleFunction", "Find functions or methods responsible for a route, node, or search query.", stringInput("query"), objectOutput(), [
       { input: { query: "GET:/login" } },
     ], (query, input) => findResponsibleFunction(query, readString(input, "query"))),
@@ -253,6 +276,18 @@ function defaultCapabilities(): readonly RegisteredCapability[] {
 	    capability("GraphStatistics", "Return deterministic graph statistics.", objectInput(), objectOutput(), [
 	      { input: {} },
 	    ], (query) => serializeUnknown(query.stats())),
+    capability("SearchConcept", "Resolve a natural software concept to ranked graph candidates.", stringInput("query"), searchOutput(), [
+      { input: { query: "sleep thresholds" } },
+    ], (query, input) => searchResultToJson(resolveIntent(createSemanticIndex(query.graph), readString(input, "query")))),
+    capability("FindFeature", "Resolve a feature concept to routes, controllers, services, modules, and operations.", stringInput("query"), searchOutput(), [
+      { input: { query: "authentication" } },
+    ], (query, input) => searchResultToJson(searchFeature(createSemanticIndex(query.graph), readString(input, "query")))),
+    capability("FindRepositoryConcept", "Resolve repository architecture concepts such as packages, modules, frameworks, and workspace terms.", stringInput("query"), searchOutput(), [
+      { input: { query: "workspace packages" } },
+    ], (query, input) => searchResultToJson(searchRepositoryConcept(createSemanticIndex(query.graph), readString(input, "query")))),
+    capability("ResolveIntent", "Expand natural language intent into deterministic search terms and ranked graph evidence.", stringInput("query"), searchOutput(), [
+      { input: { query: "what breaks if I remove PlanDefinition" } },
+    ], (query, input) => searchResultToJson(resolveIntent(createSemanticIndex(query.graph), readString(input, "query")))),
 	    ...semanticMcpCapabilities(),
 	  ];
 	}
@@ -420,7 +455,11 @@ function traceRequestLifecycle(query: QueryEngine, value: string, depth: number)
 }
 
 function findFeatureOwner(query: QueryEngine, value: string): JsonObject {
-  const matches = query.findNodes(value);
+  const semantic = searchFeature(createSemanticIndex(query.graph), value, { limit: 10 });
+  const semanticMatches = semantic.candidates
+    .map((candidate) => query.findNode(candidate.nodeId))
+    .filter(isNode);
+  const matches = uniqueNodes([...semanticMatches, ...query.findNodes(value)]);
   const owners = new Map<string, SoftwareGraphNode>();
 
   for (const node of matches) {
@@ -584,7 +623,21 @@ function resolveNode(
     return exact;
   }
 
-  const matches = query.findNodes(value);
+  const semantic = resolveIntent(createSemanticIndex(query.graph), value, {
+    limit: 10,
+    kinds: expectedTypes.length > 0 ? expectedTypes : undefined,
+  });
+  const semanticMatches = semantic.candidates
+    .map((candidate) => query.findNode(candidate.nodeId))
+    .filter(isNode);
+  const top = semantic.candidates[0];
+  const secondScore = semantic.candidates[1]?.score ?? 0;
+
+  if (top && semanticMatches[0] && top.confidence >= 0.62 && top.score - secondScore >= 90) {
+    return semanticMatches[0];
+  }
+
+  const matches = uniqueNodes([...semanticMatches, ...query.findNodes(value)]);
   const typedMatches = expectedTypes.length > 0
     ? matches.filter((node) => expectedTypes.includes(node.type))
     : matches;
@@ -922,9 +975,33 @@ function semanticCapabilityInput(): JsonObject {
   };
 }
 
+function optionalQueryInput(): JsonObject {
+  return {
+    type: "object",
+    properties: {
+      query: { type: "string" },
+      depth: { type: "number" },
+    },
+  };
+}
+
 function objectOutput(): JsonObject {
   return {
     type: "object",
+  };
+}
+
+function searchOutput(): JsonObject {
+  return {
+    type: "object",
+    properties: {
+      query: { type: "string" },
+      matchedConcepts: { type: "array" },
+      candidates: { type: "array" },
+      confidence: { type: "number" },
+      recommendedCapability: { type: "string" },
+      evidence: { type: "array" },
+    },
   };
 }
 
@@ -964,5 +1041,38 @@ function traversalOutput(): JsonObject {
       nodes: { type: "array" },
       edges: { type: "array" },
     },
+  };
+}
+
+function searchResultToJson(result: SemanticSearchResult): JsonObject {
+  return {
+    query: result.query,
+    category: result.category,
+    matchedConcepts: [...result.matchedConcepts],
+    confidence: result.confidence,
+    recommendedCapability: result.recommendedCapability,
+    latencyMs: result.latencyMs,
+    intent: {
+      normalized: result.intent.normalized,
+      tokens: [...result.intent.tokens],
+      expandedTerms: [...result.intent.expandedTerms],
+    },
+    candidates: result.candidates.map((candidate) => ({
+      id: candidate.nodeId,
+      type: candidate.kind,
+      name: candidate.displayName,
+      score: candidate.score,
+      confidence: candidate.confidence,
+      matchedTerms: [...candidate.matchedTerms],
+      file: candidate.entry.filePath,
+      package: candidate.entry.package,
+      aliases: candidate.entry.aliases.slice(0, 12),
+      reasons: candidate.reasons.map((reason) => ({
+        factor: reason.factor,
+        score: reason.score,
+        evidence: reason.evidence,
+      })),
+    })),
+    evidence: [...result.evidence],
   };
 }

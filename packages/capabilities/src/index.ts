@@ -10,6 +10,13 @@ import type {
   SoftwareGraphNode,
   SourceSpan,
 } from "@0xsarwagya/ontoly-core";
+import {
+  createSemanticIndex,
+  findFeature,
+  resolveIntent,
+  type SemanticIndex,
+  type SemanticSearchResult,
+} from "@0xsarwagya/ontoly-index";
 import { createQueryEngine, type GraphStatistics, type QueryEngine } from "@0xsarwagya/ontoly-query";
 
 export const CAPABILITY_NAMES = [
@@ -116,6 +123,7 @@ export interface Capability {
 export interface CapabilityContext {
   readonly graph: SoftwareGraph;
   readonly query: QueryEngine;
+  readonly semanticIndex: SemanticIndex;
 }
 
 export interface CapabilityRegistry {
@@ -183,7 +191,8 @@ const ARCHITECTURAL_GROUPS: readonly {
 
 export function createCapabilityEngine(graph: SoftwareGraph): CapabilityEngine {
   const query = createQueryEngine(graph);
-  const registry = createCapabilityRegistry({ graph, query }, defaultCapabilities());
+  const semanticIndex = createSemanticIndex(graph);
+  const registry = createCapabilityRegistry({ graph, query, semanticIndex }, defaultCapabilities());
   return {
     registry,
     execute: registry.execute,
@@ -836,7 +845,16 @@ function resolveTarget(
     return { query: value, node: direct, matches: [direct], diagnostics: [] };
   }
 
-  const matches = context.query.findNodes(value);
+  const intent = resolveIntent(context.semanticIndex, value, { limit: 10 });
+  const intentMatches = nodesFromSearch(context, intent);
+  const intentTop = intentMatches[0];
+  const secondScore = intent.candidates[1]?.score ?? 0;
+
+  if (intentTop && isConfidentIntentMatch(intent, secondScore)) {
+    return { query: value, node: intentTop, matches: intentMatches, diagnostics: [] };
+  }
+
+  const matches = uniqueNodes([...intentMatches, ...context.query.findNodes(value)]);
   if (matches.length === 1 && matches[0]) {
     return { query: value, node: matches[0], matches, diagnostics: [] };
   }
@@ -930,17 +948,39 @@ function repositoryRecommendations(context: CapabilityContext, stats: GraphStati
 }
 
 function featureMatches(context: CapabilityContext, value: string): readonly SoftwareGraphNode[] {
-  const terms = tokenize(value);
   const matches = new Map<string, SoftwareGraphNode>();
+  const semantic = findFeature(context.semanticIndex, value, { limit: 30 });
+  for (const node of nodesFromSearch(context, semantic)) {
+    matches.set(node.id, node);
+  }
   for (const node of context.query.findNodes(value)) {
     matches.set(node.id, node);
   }
+  const terms = tokenize(value);
   for (const term of terms) {
     for (const node of context.query.findNodes(term)) {
       matches.set(node.id, node);
     }
   }
   return [...matches.values()].sort(compareNodes);
+}
+
+function nodesFromSearch(context: CapabilityContext, search: SemanticSearchResult): readonly SoftwareGraphNode[] {
+  return search.candidates
+    .map((candidate) => context.query.findNode(candidate.nodeId))
+    .filter(isNode)
+    .sort(compareNodes);
+}
+
+function isConfidentIntentMatch(search: SemanticSearchResult, secondScore: number): boolean {
+  const top = search.candidates[0];
+  if (!top) {
+    return false;
+  }
+  if (top.reasons.some((reason) => reason.factor === "exact-symbol" || reason.factor === "exact-normalized-name")) {
+    return true;
+  }
+  return top.confidence >= 0.62 && top.score - secondScore >= 90;
 }
 
 function deadCodeNodes(context: CapabilityContext): readonly SoftwareGraphNode[] {

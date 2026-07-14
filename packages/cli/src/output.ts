@@ -12,6 +12,7 @@ import {
   type SoftwareGraphEdge,
   type SoftwareGraphNode,
 } from "@0xsarwagya/ontoly-core";
+import { createSemanticIndex } from "@0xsarwagya/ontoly-index";
 import { createInteractiveHtmlGraph } from "@0xsarwagya/ontoly-plugin-html";
 import { createQueryEngine } from "@0xsarwagya/ontoly-query";
 import { serializeTypeScriptProject, type TypeScriptProject } from "@0xsarwagya/ontoly-typescript";
@@ -84,6 +85,7 @@ export async function createOntolyOutputBundle(
   const directory = resolveOutputDirectory(root, options.directory ?? "ontoly-output");
   const graph = options.graph;
   const query = createQueryEngine(graph);
+  const semanticIndex = createSemanticIndex(graph);
   const coverage = analyzeSemanticCoverage(graph);
   const communityDetails = detectGraphCommunities(graph);
   const communities = communityDetails.map(({ nodes: _nodes, edges: _edges, ...summary }) => summary);
@@ -103,6 +105,7 @@ export async function createOntolyOutputBundle(
   await writeJson("diagnostics.json", graph.diagnostics);
   await writeJson("metadata.json", graph.metadata);
   await writeJson("indexes.json", graph.indexes);
+  await writeJson("index.json", semanticIndex);
   await writeJson("statistics.json", query.stats());
   await writeJson("coverage.json", coverage);
   await writeJson("quality.json", createQualityReport(coverage));
@@ -211,9 +214,10 @@ function createManifest(
         "diagnostics.json",
         "metadata.json",
         "indexes.json",
+        "index.json",
         "statistics.json",
       ],
-      semantic: ["semantic-model.json", "coverage.json", "quality.json"].filter((file) => allFiles.includes(file)),
+      semantic: ["index.json", "semantic-model.json", "coverage.json", "quality.json"].filter((file) => allFiles.includes(file)),
       reports: allFiles.filter((file) => file.startsWith("reports/")),
       nodes: allFiles.filter((file) => file.startsWith("nodes/")),
       relationships: allFiles.filter((file) => file.startsWith("relationships/")),
