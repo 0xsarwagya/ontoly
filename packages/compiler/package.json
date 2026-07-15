@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-compiler",
-  "version": "0.1.0-alpha.14",
+  "version": "0.1.0-alpha.15",
   "description": "Repository discovery, graph build pipeline, and watch mode for Ontoly.",
   "type": "module",
   "license": "MIT",
@@ -9,7 +9,7 @@
     "url": "git+https://github.com/0xsarwagya/ontoly.git",
     "directory": "packages/compiler"
   },
-  "homepage": "https://oss.sarwagya.wtf/ontoly",
+  "homepage": "https://ontoly.sarwagya.wtf",
   "sideEffects": false,
   "exports": {
     ".": {

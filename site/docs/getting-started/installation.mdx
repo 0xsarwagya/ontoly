@@ -2,7 +2,7 @@
 title: "Installation"
 description: "Install Ontoly and initialize repository-local graph artifacts."
 order: 1
-canonical: "https://oss.sarwagya.wtf/ontoly/docs/getting-started/installation"
+canonical: "https://ontoly.sarwagya.wtf/docs/getting-started/installation"
 source: "docs/getting-started/installation.mdx"
 keywords: ["Ontoly", "Software Graph", "TypeScript", "static analysis", "MCP", "AI coding agents", "developer tools", "Installation", "getting", "started"]
 ---
@@ -20,12 +20,19 @@ Install the CLI as a development dependency:
 pnpm add -D @0xsarwagya/ontoly-cli
 ```
 
+Run commands through your package manager:
+
+```sh
+pnpm exec ontoly --help
+pnpm exec ontoly build .
+```
+
 ## Initialize
 
 Initialize a repository:
 
 ```sh
-ontoly init
+pnpm exec ontoly init
 ```
 
 This creates:
@@ -53,6 +60,6 @@ Ontoly keeps generated graph artifacts local to the repository.
 ## Verify
 
 ```sh
-ontoly --help
-ontoly doctor .
+pnpm exec ontoly --help
+pnpm exec ontoly doctor .
 ```

@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-enhancer",
-  "version": "0.1.0-alpha.14",
+  "version": "0.1.0-alpha.15",
   "description": "Deterministic Enhancer API for immutable Ontoly Software Graph artifact transformations.",
   "type": "module",
   "license": "MIT",
@@ -9,7 +9,7 @@
     "url": "git+https://github.com/0xsarwagya/ontoly.git",
     "directory": "packages/enhancer"
   },
-  "homepage": "https://oss.sarwagya.wtf/ontoly",
+  "homepage": "https://ontoly.sarwagya.wtf",
   "sideEffects": false,
   "exports": {
     ".": {

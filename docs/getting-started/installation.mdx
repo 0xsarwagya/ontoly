@@ -17,12 +17,19 @@ Install the CLI as a development dependency:
 pnpm add -D @0xsarwagya/ontoly-cli
 ```
 
+Run commands through your package manager:
+
+```sh
+pnpm exec ontoly --help
+pnpm exec ontoly build .
+```
+
 ## Initialize
 
 Initialize a repository:
 
 ```sh
-ontoly init
+pnpm exec ontoly init
 ```
 
 This creates:
@@ -50,6 +57,6 @@ Ontoly keeps generated graph artifacts local to the repository.
 ## Verify
 
 ```sh
-ontoly --help
-ontoly doctor .
+pnpm exec ontoly --help
+pnpm exec ontoly doctor .
 ```

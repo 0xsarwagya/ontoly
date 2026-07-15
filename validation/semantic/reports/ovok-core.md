@@ -5,8 +5,8 @@ Frameworks: NestJS, Express
 
 | System | Questions | PASS | PARTIAL | FAIL | Precision | Recall | Score | Avg Latency |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Ontoly | 6 | 6 | 0 | 0 | 100 | 100 | 100 | 0.931ms |
-| Graphify | 6 | 0 | 0 | 6 | 0 | 0 | 0 | 0.003ms |
+| Ontoly | 6 | 6 | 0 | 0 | 100 | 100 | 100 | 0.994ms |
+| Graphify | 6 | 0 | 0 | 6 | 0 | 0 | 0 | 0.002ms |
 
 ## Questions
 

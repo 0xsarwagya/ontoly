@@ -1,39 +1,39 @@
 {
-  "generatedAt": "2026-07-14T23:12:34.236Z",
+  "generatedAt": "2026-07-15T00:30:40.040Z",
   "repositories": [
     {
       "repository": "0xsarwagya",
       "questions": 5,
-      "ontolyLatencyMs": 1.883,
-      "graphifyLatencyMs": 0.005
+      "ontolyLatencyMs": 1.781,
+      "graphifyLatencyMs": 0.006
     },
     {
       "repository": "durable-local",
       "questions": 6,
-      "ontolyLatencyMs": 0.051,
+      "ontolyLatencyMs": 0.052,
       "graphifyLatencyMs": 0.004
     },
     {
       "repository": "ghost",
       "questions": 6,
-      "ontolyLatencyMs": 0.031,
+      "ontolyLatencyMs": 0.029,
       "graphifyLatencyMs": 0.003
     },
     {
       "repository": "innosphere",
       "questions": 6,
-      "ontolyLatencyMs": 0.434,
-      "graphifyLatencyMs": 0.002
+      "ontolyLatencyMs": 0.282,
+      "graphifyLatencyMs": 0.001
     },
     {
       "repository": "ovok-core",
       "questions": 6,
-      "ontolyLatencyMs": 0.931,
-      "graphifyLatencyMs": 0.003
+      "ontolyLatencyMs": 0.994,
+      "graphifyLatencyMs": 0.002
     }
   ],
   "aggregate": {
-    "ontolyLatencyMs": 0.624,
+    "ontolyLatencyMs": 0.588,
     "graphifyLatencyMs": 0.003
   }
 }

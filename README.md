@@ -20,9 +20,9 @@ generate embeddings, or make probabilistic guesses.
 
 ## Status
 
-Ontoly is in public alpha. The current CLI release is `v0.1.0-alpha.14`.
+Ontoly's current Public Preview release is `v0.1.0-alpha.15`.
 
-The public contract is still experimental, but the repository already includes:
+The public contract is in Public Preview freeze, and the repository includes:
 
 - a Software Graph specification
 - a deterministic compiler pipeline
@@ -36,16 +36,16 @@ The public contract is still experimental, but the repository already includes:
 
 ## Links
 
-- Website: [oss.sarwagya.wtf/ontoly](https://oss.sarwagya.wtf/ontoly)
-- Docs: [oss.sarwagya.wtf/ontoly/docs](https://oss.sarwagya.wtf/ontoly/docs)
-- Agent Skills Catalog: [oss.sarwagya.wtf/ontoly/docs/skills](https://oss.sarwagya.wtf/ontoly/docs/skills)
-- Enhancers: [oss.sarwagya.wtf/ontoly/docs/enhancers](https://oss.sarwagya.wtf/ontoly/docs/enhancers)
+- Website: [ontoly.sarwagya.wtf](https://ontoly.sarwagya.wtf)
+- Docs: [ontoly.sarwagya.wtf/docs](https://ontoly.sarwagya.wtf/docs)
+- Agent Skills Catalog: [ontoly.sarwagya.wtf/docs/skills](https://ontoly.sarwagya.wtf/docs/skills)
+- Enhancers: [ontoly.sarwagya.wtf/docs/enhancers](https://ontoly.sarwagya.wtf/docs/enhancers)
 - Repository: [github.com/0xsarwagya/ontoly](https://github.com/0xsarwagya/ontoly)
 - Changelog: [CHANGELOG.md](CHANGELOG.md)
 - Roadmap: [ROADMAP.md](ROADMAP.md)
 - Architecture: [ARCHITECTURE.md](ARCHITECTURE.md)
 - RFC index: [RFC_INDEX.md](RFC_INDEX.md)
-- Alpha checklist: [ALPHA_CHECKLIST.md](ALPHA_CHECKLIST.md)
+- Public Preview readiness audit: [reports/alpha15-public-preview-readiness.md](reports/alpha15-public-preview-readiness.md)
 
 ## What Ontoly Is
 
@@ -107,7 +107,7 @@ ask whether Ontoly already knows.
 
 ## Quick Start From Source
 
-Use this path when evaluating the alpha from GitHub.
+Use this path when evaluating the Public Preview from GitHub.
 
 ```sh
 git clone https://github.com/0xsarwagya/ontoly.git
@@ -126,8 +126,10 @@ pnpm ontoly build examples/basic
 Inspect generated artifacts:
 
 ```sh
-ls examples/basic/.ontoly
+ls examples/basic/ontoly-output
 pnpm ontoly inspect src/service.ts --root examples/basic
+pnpm ontoly search UserService --root examples/basic
+pnpm ontoly impact UserService --root examples/basic
 pnpm ontoly stats examples/basic
 ```
 
@@ -151,7 +153,7 @@ pnpm release:gates
 
 The public package names are scoped under `@0xsarwagya`.
 
-After the alpha packages are published, a project can install the CLI with:
+After the Public Preview packages are published, a project can install the CLI with:
 
 ```sh
 pnpm add -D @0xsarwagya/ontoly-cli
@@ -220,7 +222,7 @@ ontoly build . --output .ontoly
   statistics.json
 ```
 
-The JSON graph is the canonical alpha serialization format. Binary formats are
+The JSON graph is the canonical Public Preview serialization format. Binary formats are
 intentionally out of scope until the Software Graph specification is stable.
 
 Remote repositories can be compiled directly:
@@ -435,7 +437,7 @@ pnpm skills:validate
 pnpm skills:validate-installed
 ```
 
-Read the public [Agent Skills Catalog](https://oss.sarwagya.wtf/ontoly/docs/skills),
+Read the public [Agent Skills Catalog](https://ontoly.sarwagya.wtf/docs/skills),
 [skills/SKILL_CATALOG.md](skills/SKILL_CATALOG.md), [docs/agent-skills.md](docs/agent-skills.md),
 and [docs/skills-validation.md](docs/skills-validation.md).
 
@@ -465,7 +467,7 @@ Validation outputs live under [validation](validation):
 Read [docs/validation-lab.md](docs/validation-lab.md) and
 [docs/semantic-evaluation-harness.md](docs/semantic-evaluation-harness.md).
 
-## Current Alpha Evidence
+## Current Public Preview Evidence
 
 The release readiness reports are generated artifacts from the local validation
 suite, not marketing claims.
@@ -473,7 +475,7 @@ suite, not marketing claims.
 | Area | Evidence |
 | --- | --- |
 | Package health | [reports/publish-readiness.md](reports/publish-readiness.md) |
-| Alpha readiness | [reports/release-readiness.md](reports/release-readiness.md) |
+| Public Preview readiness | [reports/alpha15-public-preview-readiness.md](reports/alpha15-public-preview-readiness.md) |
 | Clean-room install | [reports/clean-room.md](reports/clean-room.md) |
 | Validation summary | [validation/lab-summary.md](validation/lab-summary.md) |
 | Semantic leaderboard | [validation/semantic/leaderboard.md](validation/semantic/leaderboard.md) |
@@ -560,7 +562,11 @@ keywords, and source provenance. The landing page and project-level SEO live in
 On `main`, `.github/workflows/publish-site.yml` runs the same generation and
 validation flow, then calls `0xsarwagya/internet/scripts/oss-sync.mjs` to copy
 `site/manifest.json`, `site/landing.mdx`, `site/docs/**`, and `site/assets/**`
-into the OSS site content snapshot for `https://oss.sarwagya.wtf/ontoly`.
+into the OSS site content snapshot for `https://ontoly.sarwagya.wtf`.
+
+The previous `https://oss.sarwagya.wtf/ontoly` URL is expected to redirect to
+the dedicated Ontoly subdomain after the site deployment configuration is
+updated.
 
 Start here:
 
@@ -618,13 +624,13 @@ pnpm release:gates
 
 ## Known Limitations
 
-Ontoly is alpha software.
+Ontoly is Public Preview software.
 
 - TypeScript support is the primary implemented frontend.
 - Some framework analyzers are intentionally partial.
 - Binary graph formats are not implemented.
 - Hosted SaaS, vector search, and LLM reasoning are non-goals.
-- The Software Graph schema can still change before v1.
+- The Software Graph schema is in v1 Public Preview freeze.
 - MCP capabilities only answer from available graph evidence.
 - LLM-facing use requires LLM Enhancement; Ontoly itself remains AI-free.
 

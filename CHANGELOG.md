@@ -2,6 +2,32 @@
 
 All notable Ontoly changes are tracked here.
 
+## 0.1.0-alpha.15
+
+### Public Preview
+
+- Bumped the root workspace and all publishable Ontoly packages/plugins to
+  `0.1.0-alpha.15`.
+- Froze the public API surface for Public Preview validation; the CLI package remains an
+  intentional public aggregate API.
+- Updated public documentation, site metadata, skills, compatibility matrices,
+  and package READMEs from alpha language to Public Preview language.
+- Moved public site metadata to `https://ontoly.sarwagya.wtf` and declared the
+  legacy `https://oss.sarwagya.wtf/ontoly` redirect target.
+- Normalized CLI help formatting and added coverage for tab-free help output.
+- Added release engineering evidence for CODEOWNERS, package metadata, npm pack
+  dry-runs, public GitHub clean-room smoke tests, and Public Preview release notes.
+
+### Validation
+
+- Package validation: 16/16 packages pass.
+- Skills validation: 14/14 skills pass, including installed-artifact validation.
+- Semantic evaluation remains PASS with Ontoly Semantic Understanding Score 100.
+- Agent workflow validation remains PASS with 15/15 corpus queries, 2/2 stress
+  profiles, and 3/3 skill clients.
+- The GitHub publish workflow reruns typecheck, tests, build, and package
+  validation before publishing npm packages.
+
 ## 0.1.0-alpha.14
 
 ### Stabilized
@@ -88,7 +114,7 @@ All notable Ontoly changes are tracked here.
 
 ## 0.1.0-alpha.1
 
-Initial public alpha release candidate.
+Initial public alpha public preview.
 
 ### Added
 

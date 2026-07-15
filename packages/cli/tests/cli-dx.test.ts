@@ -20,13 +20,16 @@ import {
   shouldPromptForRepositoryRoot,
 } from "../src/cli";
 
+const ONTOLY_REMOTE_REPOSITORY = "https://github.com/0xsarwagya/ontoly.git";
+const INTERACTIVE_TTY = { stdinIsTTY: true, stdoutIsTTY: true };
+
 describe("cli developer experience helpers", () => {
   it("parses positional arguments and boolean/string flags deterministically", () => {
-    const cli = parseCli(["build", "examples/basic", "--remote", "https://github.com/owner/repo.git", "--output", ".graph", "--json", "--no-color"]);
+    const cli = parseCli(["build", "examples/basic", "--remote", ONTOLY_REMOTE_REPOSITORY, "--output", ".graph", "--json", "--no-color"]);
 
     expect(cli.command).toBe("build");
     expect(cli.positional).toEqual(["examples/basic"]);
-    expect(cli.flags.get("remote")).toBe("https://github.com/owner/repo.git");
+    expect(cli.flags.get("remote")).toBe(ONTOLY_REMOTE_REPOSITORY);
     expect(cli.flags.get("output")).toBe(".graph");
     expect(cli.flags.get("json")).toBe(true);
     expect(cli.flags.get("no-color")).toBe(true);
@@ -44,8 +47,14 @@ describe("cli developer experience helpers", () => {
     expect(help).toContain("--bundle");
     expect(help).toContain("--no-prompt");
     expect(help).toContain("--yes");
-    expect(help).toContain("ontoly build --remote https://github.com/0xsarwagya/ontoly.git");
+    expect(help).toContain(`ontoly build --remote ${ONTOLY_REMOTE_REPOSITORY}`);
     expect(help).toContain("ontoly build . --json");
+  });
+
+  it("renders command help without tab indentation", () => {
+    const helpText = Object.values(commandHelp()).map(renderCommandHelp).join("\n\n");
+
+    expect(helpText).not.toContain("\t");
   });
 
   it("documents rich ontoly-output bundle generation", () => {
@@ -57,24 +66,25 @@ describe("cli developer experience helpers", () => {
     expect(help).toContain("--no-html");
     expect(help).toContain("--no-prompt");
     expect(help).toContain("--yes");
-    expect(help).toContain("ontoly output --remote https://github.com/0xsarwagya/ontoly.git");
+    expect(help).toContain(`ontoly output --remote ${ONTOLY_REMOTE_REPOSITORY}`);
     expect(help).toContain("ontoly output .");
   });
 
-  it("prompts for a repository folder only for bare interactive build commands", () => {
-    const tty = { stdinIsTTY: true, stdoutIsTTY: true };
+  it("prompts for a repository folder for bare interactive build commands", () => {
+    expectRepositoryPrompt(["build"], true);
+    expectRepositoryPrompt(["output"], true);
+    expectRepositoryPrompt(["compile"], true);
+  });
 
-    expect(shouldPromptForRepositoryRoot(parseCli(["build"]), tty)).toBe(true);
-    expect(shouldPromptForRepositoryRoot(parseCli(["output"]), tty)).toBe(true);
-    expect(shouldPromptForRepositoryRoot(parseCli(["compile"]), tty)).toBe(true);
-    expect(shouldPromptForRepositoryRoot(parseCli(["build", "."]), tty)).toBe(false);
-    expect(shouldPromptForRepositoryRoot(parseCli(["build", "--root", "."]), tty)).toBe(false);
-    expect(shouldPromptForRepositoryRoot(parseCli(["build", "--remote", "https://github.com/0xsarwagya/ontoly.git"]), tty)).toBe(false);
-    expect(shouldPromptForRepositoryRoot(parseCli(["build", "--json"]), tty)).toBe(false);
-    expect(shouldPromptForRepositoryRoot(parseCli(["build", "--log-json"]), tty)).toBe(false);
-    expect(shouldPromptForRepositoryRoot(parseCli(["build", "--no-prompt"]), tty)).toBe(false);
-    expect(shouldPromptForRepositoryRoot(parseCli(["build", "--yes"]), tty)).toBe(false);
-    expect(shouldPromptForRepositoryRoot(parseCli(["inspect"]), tty)).toBe(false);
+  it("skips repository prompts when input is explicit or non-interactive", () => {
+    expectRepositoryPrompt(["build", "."], false);
+    expectRepositoryPrompt(["build", "--root", "."], false);
+    expectRepositoryPrompt(["build", "--remote", ONTOLY_REMOTE_REPOSITORY], false);
+    expectRepositoryPrompt(["build", "--json"], false);
+    expectRepositoryPrompt(["build", "--log-json"], false);
+    expectRepositoryPrompt(["build", "--no-prompt"], false);
+    expectRepositoryPrompt(["build", "--yes"], false);
+    expectRepositoryPrompt(["inspect"], false);
     expect(shouldPromptForRepositoryRoot(parseCli(["build"]), { stdinIsTTY: false, stdoutIsTTY: true })).toBe(false);
     expect(shouldPromptForRepositoryRoot(parseCli(["build"]), { stdinIsTTY: true, stdoutIsTTY: false })).toBe(false);
   });
@@ -184,6 +194,10 @@ describe("cli developer experience helpers", () => {
     }
   });
 });
+
+function expectRepositoryPrompt(argv: readonly string[], expected: boolean): void {
+  expect(shouldPromptForRepositoryRoot(parseCli(argv), INTERACTIVE_TTY)).toBe(expected);
+}
 
 function evidenceFixtureGraph(): SoftwareGraph {
   const moduleNode = evidenceNode("Module", "SleepDurationThresholdModule", "src/sleep/sleep-duration-threshold.module.ts", 1);

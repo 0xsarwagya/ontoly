@@ -3,8 +3,8 @@
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { existsSync } from "node:fs";
-import { cpus, homedir } from "node:os";
+import { existsSync, readFileSync } from "node:fs";
+import { arch, cpus, homedir, platform, release } from "node:os";
 import { basename, dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { performance } from "node:perf_hooks";
@@ -743,6 +743,7 @@ function compareRegression(previousBaseline, current) {
 function regressionSnapshot(results, performance) {
   return {
     generatedAt: new Date().toISOString(),
+    environment: benchmarkEnvironment(),
     repositories: results.map((result) => ({
       id: result.id,
       status: result.status,
@@ -776,6 +777,41 @@ function regressionSnapshot(results, performance) {
       performance: performance.summary,
     },
   };
+}
+
+function benchmarkEnvironment() {
+  const packageJson = readPackageJson();
+  const cpuList = cpus();
+  return {
+    node: process.version,
+    v8: process.versions.v8,
+    execPath: process.execPath,
+    platform: platform(),
+    arch: arch(),
+    osRelease: release(),
+    cpuModel: cpuList[0]?.model ?? null,
+    coresAvailable: cpuList.length,
+    pnpm: commandVersion("pnpm", ["--version"]),
+    packageManager: packageJson?.packageManager ?? null,
+    engines: packageJson?.engines ?? null,
+    typescript: packageJson?.devDependencies?.typescript ?? packageJson?.dependencies?.typescript ?? null,
+  };
+}
+
+function readPackageJson() {
+  try {
+    return JSON.parse(readFileSync(join(PROJECT_ROOT, "package.json"), "utf8"));
+  } catch {
+    return null;
+  }
+}
+
+function commandVersion(command, commandArgs) {
+  const result = spawnSync(command, commandArgs, {
+    cwd: PROJECT_ROOT,
+    encoding: "utf8",
+  });
+  return result.status === 0 ? result.stdout.trim() : null;
 }
 
 function performanceSummary(results, stress = null) {

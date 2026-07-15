@@ -19,41 +19,41 @@ builds indexes, and persists a graph that other tools can consume.
 
 ## Where to start
 
-- [Installation](/ontoly/docs/getting-started/installation) - add the package and initialize a repository.
-- [Build your first graph](/ontoly/docs/getting-started/build-a-graph) - run the compiler and inspect artifacts.
-- [Query the graph](/ontoly/docs/getting-started/query-the-graph) - use the deterministic query engine.
-- [Semantic Index](/ontoly/docs/semantic-index) - resolve natural software concepts to graph entities without AI.
-- [Software Graph](/ontoly/docs/concepts/software-graph) - understand the node and relationship model.
-- [Capabilities](/ontoly/docs/capabilities) - deterministic software-engineering answers over the graph.
-- [Capability API](/ontoly/docs/capability-api) - call the high-level capability engine from code, CLI, or MCP.
-- [Enhancers](/ontoly/docs/enhancers) - build deterministic artifacts above the immutable Software Graph.
-- [Evidence Model](/ontoly/docs/evidence-model) - understand how answers cite graph facts.
-- [Confidence Model](/ontoly/docs/confidence-model) - see how confidence is derived from graph evidence.
-- [LLM Enhancement](/ontoly/docs/llm-enhancement) - mandatory workflow rules when an LLM uses Ontoly.
-- [TypeScript Semantic Model](/ontoly/docs/typescript-semantic-model) - inspect the pure language model.
-- [Framework Analyzer API](/ontoly/docs/framework-analyzer-api) - add deterministic framework analyzers.
-- [Semantic Generator](/ontoly/docs/semantic-generator) - understand how semantic facts become graph artifacts.
-- [Plugin system](/ontoly/docs/concepts/plugin-system) - extend Ontoly without changing the compiler.
-- [Semantic Coverage](/ontoly/docs/semantic-coverage) - measure graph completeness, confidence, and trustworthiness.
-- [Semantic Evaluation Harness](/ontoly/docs/semantic-evaluation-harness) - gate releases on deterministic software-understanding questions.
-- [Validation Lab](/ontoly/docs/validation-lab) - continuously measure correctness, determinism, performance, and regression resistance.
-- [Agent Skills](/ontoly/docs/agent-skills) - install workflow-only skills that teach agents to use Ontoly first.
-- [Skills Overview](/ontoly/docs/skills-overview) - browse the official skill and capability matrix.
-- [Agent Skills Catalog](/ontoly/docs/skills) - browse public docs pages for every installable Ontoly Skill.
-- [Skills Validation](/ontoly/docs/skills-validation) - validate skill structure, references, examples, and agent behavior.
-- [FAQ](/ontoly/docs/faq) - common first-time user questions.
-- [Troubleshooting](/ontoly/docs/troubleshooting) - actionable fixes for common failures.
-- [Contributing](/ontoly/docs/contributing) - project workflow and release-gate expectations.
-- [NestJS Support](/ontoly/docs/nestjs-support) - inspect framework-specific graph semantics.
+- [Installation](/docs/getting-started/installation) - add the package and initialize a repository.
+- [Build your first graph](/docs/getting-started/build-a-graph) - run the compiler and inspect artifacts.
+- [Query the graph](/docs/getting-started/query-the-graph) - use the deterministic query engine.
+- [Semantic Index](/docs/semantic-index) - resolve natural software concepts to graph entities without AI.
+- [Software Graph](/docs/concepts/software-graph) - understand the node and relationship model.
+- [Capabilities](/docs/capabilities) - deterministic software-engineering answers over the graph.
+- [Capability API](/docs/capability-api) - call the high-level capability engine from code, CLI, or MCP.
+- [Enhancers](/docs/enhancers) - build deterministic artifacts above the immutable Software Graph.
+- [Evidence Model](/docs/evidence-model) - understand how answers cite graph facts.
+- [Confidence Model](/docs/confidence-model) - see how confidence is derived from graph evidence.
+- [LLM Enhancement](/docs/llm-enhancement) - mandatory workflow rules when an LLM uses Ontoly.
+- [TypeScript Semantic Model](/docs/typescript-semantic-model) - inspect the pure language model.
+- [Framework Analyzer API](/docs/framework-analyzer-api) - add deterministic framework analyzers.
+- [Semantic Generator](/docs/semantic-generator) - understand how semantic facts become graph artifacts.
+- [Plugin system](/docs/concepts/plugin-system) - extend Ontoly without changing the compiler.
+- [Semantic Coverage](/docs/semantic-coverage) - measure graph completeness, confidence, and trustworthiness.
+- [Semantic Evaluation Harness](/docs/semantic-evaluation-harness) - gate releases on deterministic software-understanding questions.
+- [Validation Lab](/docs/validation-lab) - continuously measure correctness, determinism, performance, and regression resistance.
+- [Agent Skills](/docs/agent-skills) - install workflow-only skills that teach agents to use Ontoly first.
+- [Skills Overview](/docs/skills-overview) - browse the official skill and capability matrix.
+- [Agent Skills Catalog](/docs/skills) - browse public docs pages for every installable Ontoly Skill.
+- [Skills Validation](/docs/skills-validation) - validate skill structure, references, examples, and agent behavior.
+- [FAQ](/docs/faq) - common first-time user questions.
+- [Troubleshooting](/docs/troubleshooting) - actionable fixes for common failures.
+- [Contributing](/docs/contributing) - project workflow and release-gate expectations.
+- [NestJS Support](/docs/nestjs-support) - inspect framework-specific graph semantics.
 
 ## Release references
 
-- [Alpha Release Notes](/ontoly/docs/release-notes-alpha) - what ships in v0.1.0-alpha.14.
-- [Known Limitations](/ontoly/docs/known-limitations) - what the alpha intentionally does not cover.
-- [Compatibility Matrix](/ontoly/docs/compatibility-matrix) - runtime, graph, skill, and MCP compatibility.
-- [Feature Matrix](/ontoly/docs/feature-matrix) - supported, alpha, and non-goal surfaces.
-- [Framework Matrix](/ontoly/docs/framework-matrix) - current framework validation status.
-- [Version Matrix](/ontoly/docs/version-matrix) - package and spec versions.
+- [Historical Alpha Release Notes](/docs/release-notes-alpha) - what shipped before the Public Preview freeze.
+- [Known Limitations](/docs/known-limitations) - what the Public Preview intentionally does not cover.
+- [Compatibility Matrix](/docs/compatibility-matrix) - runtime, graph, skill, and MCP compatibility.
+- [Feature Matrix](/docs/feature-matrix) - supported, Public Preview, and non-goal surfaces.
+- [Framework Matrix](/docs/framework-matrix) - current framework validation status.
+- [Version Matrix](/docs/version-matrix) - package and spec versions.
 
 ## Boundaries
 
@@ -68,6 +68,7 @@ reports. The compiler remains deterministic and AI-free.
 
 ## Status
 
-Experimental. The initial TypeScript parser and graph schema are usable for
-small projects, but the stable v1 graph contract must go through RFC before
-the public API is frozen.
+Public Preview. The TypeScript frontend, Software Graph, Query Engine,
+MCP, Skills, validation lab, and benchmarks are in v1 freeze. Changes that
+affect the graph contract, public APIs, packages, or skill compatibility still
+require the RFC and release-gate process.

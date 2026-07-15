@@ -22,6 +22,41 @@ const EXPECTED_IMPLEMENTATION_PLAN_STAGES = [
   "plan",
 ] as const;
 
+const SLEEP_DURATION_THRESHOLDS_QUERY = "sleep duration thresholds";
+const SLEEP_DURATION_THRESHOLD_EVIDENCE_IDS = [
+  "model:SleepDurationThreshold",
+  "config:SleepThresholds",
+] as const;
+const CAREHUB_SLEEP_THRESHOLD_SEED_IDS = [
+  "model:PatientThresholdDto",
+  "service:CarehubPatientThresholdService",
+  "fn:calculateSleepDurationAverages",
+] as const;
+const PARTIAL_PLAN_DIAGNOSTIC = expect.objectContaining({ code: "CAPABILITY_PARTIAL_PLAN" });
+const AMBIGUOUS_TARGET_DIAGNOSTIC = expect.objectContaining({ code: "CAPABILITY_AMBIGUOUS_TARGET" });
+
+interface CapabilityProfileStage {
+  readonly name: string;
+  readonly durationMs: number;
+  readonly status: string;
+  readonly nodesVisited?: number;
+  readonly edgesVisited?: number;
+}
+
+interface PlanEvidencePackStats {
+  readonly stableIds: readonly string[];
+  readonly filesToInspect: readonly string[];
+  readonly topNodes: readonly unknown[];
+  readonly topEdges: readonly unknown[];
+  readonly limits: { readonly nodes: number; readonly edges: number; readonly files: number };
+}
+
+interface RepositoryIntelligenceStats {
+  readonly scopedFiles: readonly string[];
+  readonly graphNodes: number;
+  readonly graphEdges: number;
+}
+
 describe("semantic capability engine", () => {
   it("registers deterministic software engineering capabilities", () => {
     const engine = createCapabilityEngine(graph());
@@ -115,27 +150,11 @@ describe("semantic capability engine", () => {
       maxEvidence: 8,
       maxTimeMs: 750,
     });
-    const profile = result.statistics.profile as readonly {
-      readonly name: string;
-      readonly durationMs: number;
-      readonly status: string;
-      readonly nodesVisited?: number;
-      readonly edgesVisited?: number;
-    }[];
-    const evidencePack = result.statistics.evidencePack as {
-      readonly stableIds: readonly string[];
-      readonly filesToInspect: readonly string[];
-      readonly topNodes: readonly unknown[];
-      readonly topEdges: readonly unknown[];
-      readonly limits: { readonly nodes: number; readonly edges: number; readonly files: number };
-    };
-    const repositoryIntelligence = result.statistics.repositoryIntelligence as {
-      readonly scopedFiles: readonly string[];
-      readonly graphNodes: number;
-      readonly graphEdges: number;
-    };
+    const profile = implementationPlanProfile(result);
+    const evidencePack = implementationPlanEvidencePack(result);
+    const repositoryIntelligence = repositoryIntelligenceStats(result);
 
-    expect(profile.map((stage) => stage.name)).toEqual([...EXPECTED_IMPLEMENTATION_PLAN_STAGES]);
+    expectPlanStages(profile);
     expect(result.statistics.progress).toEqual(profile.map((stage) => `${stage.name}: ${stage.status}`));
     expect(profile.every((stage) =>
       Number.isFinite(stage.durationMs) &&
@@ -178,7 +197,7 @@ describe("semantic capability engine", () => {
       reason: "NODE_BUDGET_EXCEEDED",
     });
     expect(result.diagnostics).toEqual(expect.arrayContaining([
-      expect.objectContaining({ code: "CAPABILITY_PARTIAL_PLAN" }),
+      PARTIAL_PLAN_DIAGNOSTIC,
     ]));
   });
 
@@ -205,9 +224,7 @@ describe("semantic capability engine", () => {
     });
     expect(Number(budget.visitedNodes)).toBeLessThanOrEqual(5);
     expect(Number(budget.visitedEdges)).toBeLessThanOrEqual(4);
-    expect((result.statistics.profile as readonly { readonly name: string }[]).map((stage) => stage.name)).toEqual([
-      ...EXPECTED_IMPLEMENTATION_PLAN_STAGES,
-    ]);
+    expectPlanStages(implementationPlanProfile(result));
     expect(result.statistics.progress).toEqual(expect.arrayContaining([
       "search: complete",
       "seed resolution: complete",
@@ -218,7 +235,7 @@ describe("semantic capability engine", () => {
       expect.stringContaining("ontoly implementation-plan"),
     ]));
     expect(result.diagnostics).toEqual(expect.arrayContaining([
-      expect.objectContaining({ code: "CAPABILITY_PARTIAL_PLAN" }),
+      PARTIAL_PLAN_DIAGNOSTIC,
     ]));
   });
 
@@ -245,7 +262,7 @@ describe("semantic capability engine", () => {
 
   it("keeps evidence packs bounded on large noisy graphs", () => {
     const result = createCapabilityEngine(largeEvidenceGraph()).execute("EvidencePack", {
-      query: "sleep duration thresholds",
+      query: SLEEP_DURATION_THRESHOLDS_QUERY,
       limit: 100,
     });
     const pack = result.statistics.evidencePack as Record<string, unknown>;
@@ -263,7 +280,7 @@ describe("semantic capability engine", () => {
 
   it("resolves natural sleep duration threshold impact through a stable semantic node", () => {
     const result = createCapabilityEngine(graph()).execute("ImpactAnalysis", {
-      query: "sleep duration thresholds",
+      query: SLEEP_DURATION_THRESHOLDS_QUERY,
       mode: "local",
     });
 
@@ -271,9 +288,7 @@ describe("semantic capability engine", () => {
       id: "model:SleepDurationThreshold",
       type: "Model",
     });
-    expect(result.diagnostics).not.toEqual(expect.arrayContaining([
-      expect.objectContaining({ code: "CAPABILITY_AMBIGUOUS_TARGET" }),
-    ]));
+    expect(result.diagnostics).not.toEqual(expect.arrayContaining([AMBIGUOUS_TARGET_DIAGNOSTIC]));
     expect(result.confidence.level).toBe("high");
     expect(result.affectedNodes.Persistence).toEqual(expect.arrayContaining([
       expect.objectContaining({ id: "model:SleepDurationThreshold" }),
@@ -298,9 +313,7 @@ describe("semantic capability engine", () => {
       edgeLimit: 40,
     });
     expect(result.affectedFiles.some((file) => file.includes("node_modules"))).toBe(false);
-    expect(result.diagnostics).not.toEqual(expect.arrayContaining([
-      expect.objectContaining({ code: "CAPABILITY_AMBIGUOUS_TARGET" }),
-    ]));
+    expect(result.diagnostics).not.toEqual(expect.arrayContaining([AMBIGUOUS_TARGET_DIAGNOSTIC]));
   });
 
   it("resolves the alpha.14 regression phrase set to stable repository-local nodes", () => {
@@ -338,13 +351,12 @@ describe("semantic capability engine", () => {
     }
   });
 
-  it("keeps agent workflow outputs deterministic and bounded", () => {
+  it("locates and inspects the canonical sleep threshold node for agent workflows", () => {
     const fixture = graph();
     const index = createSemanticIndex(fixture);
     const query = createQueryEngine(fixture);
-    const engine = createCapabilityEngine(fixture);
 
-    const search = resolveIntent(index, "sleep duration thresholds", {
+    const search = resolveIntent(index, SLEEP_DURATION_THRESHOLDS_QUERY, {
       category: "feature",
       limit: 5,
     });
@@ -363,9 +375,16 @@ describe("semantic capability engine", () => {
       "config:SleepThresholds",
     ]));
     expect(inspection.edges.map((item) => item.type)).toEqual(expect.arrayContaining(["READS", "REFERENCES"]));
+  });
+
+  it("keeps agent workflow impact and evidence bounded", () => {
+    const fixture = graph();
+    const query = createQueryEngine(fixture);
+    const engine = createCapabilityEngine(fixture);
+    const located = query.findNode("model:SleepDurationThreshold")!;
 
     const impact = engine.execute("ImpactAnalysis", {
-      id: located!.id,
+      id: located.id,
       mode: "local",
     });
     expect(impact.affectedFiles).toEqual(expect.arrayContaining([
@@ -382,7 +401,7 @@ describe("semantic capability engine", () => {
     expect(impact.confidence.score).toBeLessThanOrEqual(1);
 
     const evidence = engine.execute("EvidencePack", {
-      query: "sleep duration thresholds",
+      query: SLEEP_DURATION_THRESHOLDS_QUERY,
       limit: 5,
     });
     const pack = evidence.statistics.evidencePack as {
@@ -392,15 +411,16 @@ describe("semantic capability engine", () => {
       readonly stableIds: readonly string[];
       readonly confidence: { readonly score: number };
     };
-    expect(pack.stableIds).toEqual(expect.arrayContaining([
-      "model:SleepDurationThreshold",
-      "config:SleepThresholds",
-    ]));
+    expect(pack.stableIds).toEqual(expect.arrayContaining([...SLEEP_DURATION_THRESHOLD_EVIDENCE_IDS]));
     expect(pack.filesToInspect).toEqual(expect.arrayContaining(["src/sleep/thresholds.ts"]));
     expect(pack.topNodes.length).toBeLessThanOrEqual(5);
     expect(pack.topEdges.length).toBeLessThanOrEqual(50);
     expect(pack.confidence.score).toBeGreaterThanOrEqual(0.6);
     expect(pack.confidence.score).toBeLessThanOrEqual(1);
+  });
+
+  it("returns partial implementation plans for bounded agent workflows", () => {
+    const engine = createCapabilityEngine(graph());
 
     const plan = engine.execute("ImplementationPlan", {
       task: "Add sleep duration thresholds to batch-data observations",
@@ -415,11 +435,9 @@ describe("semantic capability engine", () => {
       reason: "NODE_BUDGET_EXCEEDED",
     });
     expect(plan.diagnostics).toEqual(expect.arrayContaining([
-      expect.objectContaining({ code: "CAPABILITY_PARTIAL_PLAN" }),
+      PARTIAL_PLAN_DIAGNOSTIC,
     ]));
-    expect((plan.statistics.profile as readonly { readonly name: string }[]).map((stage) => stage.name)).toEqual([
-      ...EXPECTED_IMPLEMENTATION_PLAN_STAGES,
-    ]);
+    expectPlanStages(implementationPlanProfile(plan));
     expect(plan.statistics.evidencePack).toMatchObject({
       stableIds: expect.arrayContaining(["model:SleepDurationThreshold"]),
       limits: expect.objectContaining({ nodes: expect.any(Number), edges: expect.any(Number), files: 10 }),
@@ -439,27 +457,22 @@ describe("semantic capability engine", () => {
 
   it("uses stable repository-local seed resolution for sleep duration threshold capabilities", () => {
     const engine = createCapabilityEngine(carehubSeedGraph());
-    const allowedSeedIds = [
-      "model:PatientThresholdDto",
-      "service:CarehubPatientThresholdService",
-      "fn:calculateSleepDurationAverages",
-    ];
 
     const impact = engine.execute("ImpactAnalysis", {
-      query: "sleep duration thresholds",
+      query: SLEEP_DURATION_THRESHOLDS_QUERY,
       mode: "local",
     });
     const target = impact.statistics.target as { readonly id?: string; readonly type?: string };
-    expect(allowedSeedIds).toContain(target.id);
+    expect(CAREHUB_SLEEP_THRESHOLD_SEED_IDS).toContain(target.id);
     expect(target.id).not.toContain("@medplum/fhirtypes");
     expect(target.id).not.toContain("node_modules");
 
     const evidence = engine.execute("EvidencePack", {
-      query: "sleep duration thresholds",
+      query: SLEEP_DURATION_THRESHOLDS_QUERY,
       limit: 8,
     });
     const pack = evidence.statistics.evidencePack as { readonly stableIds: readonly string[] };
-    expect(pack.stableIds).toEqual(expect.arrayContaining(allowedSeedIds));
+    expect(pack.stableIds).toEqual(expect.arrayContaining([...CAREHUB_SLEEP_THRESHOLD_SEED_IDS]));
     expect(pack.stableIds.slice(0, 5).some((id) => id.includes("@medplum/fhirtypes") || id.includes("node_modules"))).toBe(false);
 
     const plan = engine.execute("ImplementationPlan", {
@@ -469,10 +482,30 @@ describe("semantic capability engine", () => {
       maxEvidence: 8,
     });
     const planPack = plan.statistics.evidencePack as { readonly stableIds?: readonly string[] } | undefined;
-    expect(planPack?.stableIds?.some((id) => allowedSeedIds.includes(id))).toBe(true);
+    expect(planPack?.stableIds?.some(isCarehubSleepThresholdSeed)).toBe(true);
     expect(planPack?.stableIds?.slice(0, 5).some((id) => id.includes("@medplum/fhirtypes") || id.includes("node_modules"))).toBe(false);
   });
 });
+
+function expectPlanStages(profile: readonly { readonly name: string }[]): void {
+  expect(profile.map((stage) => stage.name)).toEqual([...EXPECTED_IMPLEMENTATION_PLAN_STAGES]);
+}
+
+function implementationPlanProfile(result: { readonly statistics: unknown }): readonly CapabilityProfileStage[] {
+  return (result.statistics as { readonly profile: readonly CapabilityProfileStage[] }).profile;
+}
+
+function implementationPlanEvidencePack(result: { readonly statistics: unknown }): PlanEvidencePackStats {
+  return (result.statistics as { readonly evidencePack: PlanEvidencePackStats }).evidencePack;
+}
+
+function repositoryIntelligenceStats(result: { readonly statistics: unknown }): RepositoryIntelligenceStats {
+  return (result.statistics as { readonly repositoryIntelligence: RepositoryIntelligenceStats }).repositoryIntelligence;
+}
+
+function isCarehubSleepThresholdSeed(id: string): boolean {
+  return (CAREHUB_SLEEP_THRESHOLD_SEED_IDS as readonly string[]).includes(id);
+}
 
 function graph(): SoftwareGraph {
   return createSoftwareGraph({

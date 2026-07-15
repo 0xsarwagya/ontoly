@@ -47,7 +47,7 @@ This shape is used by:
 - Agent Skills that consume MCP
 
 If an LLM turns a capability result into a user-facing answer, it must do so
-through [LLM Enhancement](/ontoly/docs/llm-enhancement). Capabilities remain
+through [LLM Enhancement](/docs/llm-enhancement). Capabilities remain
 deterministic and AI-free; LLM Enhancement governs evidence, confidence, and
 fallback behavior around them.
 
@@ -132,11 +132,11 @@ question.
 
 ## Related Docs
 
-- [Capability API](/ontoly/docs/capability-api)
-- [Capability Registry](/ontoly/docs/capability-registry)
-- [Evidence Model](/ontoly/docs/evidence-model)
-- [Confidence Model](/ontoly/docs/confidence-model)
-- [Implementation Planning](/ontoly/docs/implementation-planning)
-- [Question Corpus](/ontoly/docs/question-corpus)
-- [Benchmark Methodology](/ontoly/docs/benchmark-methodology)
-- [Agent Skills](/ontoly/docs/agent-skills)
+- [Capability API](/docs/capability-api)
+- [Capability Registry](/docs/capability-registry)
+- [Evidence Model](/docs/evidence-model)
+- [Confidence Model](/docs/confidence-model)
+- [Implementation Planning](/docs/implementation-planning)
+- [Question Corpus](/docs/question-corpus)
+- [Benchmark Methodology](/docs/benchmark-methodology)
+- [Agent Skills](/docs/agent-skills)

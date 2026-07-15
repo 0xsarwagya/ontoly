@@ -4,8 +4,8 @@ This is an official Ontoly Agent Skill. It is independently installable and teac
 
 ## Version
 
-- Skill version: 0.1.0-alpha.14
-- Minimum Ontoly version: 0.1.0-alpha.14
+- Skill version: 0.1.0-alpha.15
+- Minimum Ontoly version: 0.1.0-alpha.15
 - Required capabilities: `FindAuthenticationFlow`, `FindResponsibleFunction`, `TraceRequestLifecycle`, `FindConfigurationUsage`, `EvidencePack`
 - Enhancement: LLM Enhancement
 - Deprecated: no
@@ -24,11 +24,11 @@ The agent should build or verify the Ontoly graph, use MCP capabilities, cite ev
 
 ## Public Docs
 
-- [Agent Skills](https://oss.sarwagya.wtf/ontoly/docs/agent-skills)
-- [Skills Overview](https://oss.sarwagya.wtf/ontoly/docs/skills-overview)
-- [MCP](https://oss.sarwagya.wtf/ontoly/docs/mcp)
-- [Capabilities](https://oss.sarwagya.wtf/ontoly/docs/capabilities)
-- [Skills Validation](https://oss.sarwagya.wtf/ontoly/docs/skills-validation)
+- [Agent Skills](https://ontoly.sarwagya.wtf/docs/agent-skills)
+- [Skills Overview](https://ontoly.sarwagya.wtf/docs/skills-overview)
+- [MCP](https://ontoly.sarwagya.wtf/docs/mcp)
+- [Capabilities](https://ontoly.sarwagya.wtf/docs/capabilities)
+- [Skills Validation](https://ontoly.sarwagya.wtf/docs/skills-validation)
 
 ## Shared References
 

@@ -6,7 +6,7 @@ Generated: 2026-07-13T15:35:06Z
 
 READY
 
-The release candidate satisfies the local release gates required for `v0.1.0-alpha.1`.
+The public preview satisfies the local release gates required for `v0.1.0-alpha.1`.
 
 ## Scorecard
 

@@ -12,6 +12,9 @@ Evidence routing is modeled as the `EvidencePack` artifact and `evidence-pack`
 enhancer so agents, MCP, CLI, and Workbench can share the same deterministic
 payload without introducing an `ontoly-router` package.
 
+See the repository [architecture map](../../ARCHITECTURE.md) for package
+boundaries.
+
 ```ts
 import {
   createEnhancerPipeline,

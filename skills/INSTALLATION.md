@@ -6,9 +6,9 @@ Each skill is independently installable. Installed skills do not depend on a sib
 
 Public docs:
 
-- [Agent Skills](https://oss.sarwagya.wtf/ontoly/docs/agent-skills)
-- [Skills Overview](https://oss.sarwagya.wtf/ontoly/docs/skills-overview)
-- [Skills Validation](https://oss.sarwagya.wtf/ontoly/docs/skills-validation)
+- [Agent Skills](https://ontoly.sarwagya.wtf/docs/agent-skills)
+- [Skills Overview](https://ontoly.sarwagya.wtf/docs/skills-overview)
+- [Skills Validation](https://ontoly.sarwagya.wtf/docs/skills-validation)
 
 ## Public Repository Install
 

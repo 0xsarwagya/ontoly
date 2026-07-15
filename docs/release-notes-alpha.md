@@ -147,7 +147,7 @@ This CLI release adds interactive Software Graph HTML export.
 
 ## v0.1.0-alpha.1
 
-This release candidate prepares Ontoly for its first public alpha.
+This public preview prepares Ontoly for its first public alpha.
 
 ## What Works
 
@@ -158,7 +158,7 @@ This release candidate prepares Ontoly for its first public alpha.
 - Install Ontoly Agent Skills as self-contained folders.
 - Run validation, semantic evaluation, package checks, docs checks, and release gates.
 
-## What Changed in the RC Pass
+## What Changed in the Public Preview Pass
 
 - Skill installation no longer depends on a sibling `skills/shared` folder after install.
 - Installed skill artifacts are validated in CI.

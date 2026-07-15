@@ -2,14 +2,14 @@
 
 | Framework or Surface | Status | Notes |
 | -------------------- | ------ | ----- |
-| TypeScript projects | Supported | Primary alpha target |
-| NestJS-style APIs | Alpha | Validated through examples and corpus fixtures |
-| Turborepo workspaces | Alpha | Workspace graph validation present |
+| TypeScript projects | Supported | Primary Public Preview target |
+| NestJS-style APIs | Public Preview | Validated through examples and corpus fixtures |
+| Turborepo workspaces | Public Preview | Workspace graph validation present |
 | React | Corpus fixture | Validation evidence only |
 | Next.js | Corpus fixture | Validation evidence only |
 | Express | Corpus fixture | Validation evidence only |
 | Hono | Corpus fixture | Validation evidence only |
-| OpenAPI | Alpha frontend | Schema-driven graph facts |
+| OpenAPI | Public Preview frontend | Schema-driven graph facts |
 | Prisma | Roadmap | Not implemented |
 | GraphQL | Roadmap | Not implemented |
 

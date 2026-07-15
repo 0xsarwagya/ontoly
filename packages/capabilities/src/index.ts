@@ -1810,7 +1810,7 @@ function repositoryRecommendations(context: CapabilityContext, stats: GraphStati
     "Use ImpactAnalysis before removing or renaming high-degree nodes.",
   ];
   if (stats.cycles.length > 0) {
-    recommendations.push("Resolve circular dependencies before public alpha release.");
+    recommendations.push("Resolve circular dependencies before Public Preview publication.");
   }
   if (context.graph.diagnostics.some((item) => item.severity === "error")) {
     recommendations.push("Fix graph diagnostics with severity error.");

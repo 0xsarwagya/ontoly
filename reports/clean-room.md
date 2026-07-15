@@ -6,7 +6,7 @@ Generated: 2026-07-13T15:35:06.668Z
 
 - Source: local source export from /Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository
 - Clean room: /tmp/ontoly-clean-room-kt2qcy
-- Reason source export was used: the current working tree is not committed to a public remote yet, so a literal git clone would not contain the release-candidate files.
+- Reason source export was used: the current working tree is not committed to a public remote yet, so a literal git clone would not contain the public-preview files.
 - Package manager: 11.7.0
 - Node: v24.16.0
 
@@ -87,7 +87,7 @@ Issues:
 
 ## Confusing Steps
 
-- Public GitHub installation cannot be fully verified until the release-candidate files are pushed to the public repository.
+- Public GitHub installation cannot be fully verified until the public-preview files are pushed to the public repository.
 - The documented package name is scoped as `@0xsarwagya/ontoly-cli`; future docs may add a short unscoped `ontoly` package if that distribution alias is created.
 
 ## Unexpected Assumptions

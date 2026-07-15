@@ -13,7 +13,7 @@ graph through MCP or plugins, but every LLM-facing Ontoly workflow must use
 
 ## What languages are supported?
 
-The alpha focuses on TypeScript and repository intelligence. OpenAPI support is
+The Public Preview focuses on TypeScript and repository intelligence. OpenAPI support is
 available as a frontend. Other frontends are planned through RFCs and plugins.
 
 ## Where are artifacts written?

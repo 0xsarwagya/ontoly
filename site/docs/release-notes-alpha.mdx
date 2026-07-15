@@ -1,10 +1,50 @@
 ---
 title: "Alpha Release Notes"
-description: "This release fixes external npm installation by removing the hidden standalone Semantic Index package dependency from the public CLI graph."
-canonical: "https://oss.sarwagya.wtf/ontoly/docs/release-notes-alpha"
+description: "This stabilization release fixes retrieval quality, bounded evidence, and capability latency issues discovered during real-world Ovok Core evaluation."
+canonical: "https://ontoly.sarwagya.wtf/docs/release-notes-alpha"
 source: "docs/release-notes-alpha.md"
 keywords: ["Ontoly", "Software Graph", "TypeScript", "static analysis", "MCP", "AI coding agents", "developer tools", "Alpha", "Release", "Notes"]
 ---
+
+## v0.1.0-alpha.14
+
+This stabilization release fixes retrieval quality, bounded evidence, and
+capability latency issues discovered during real-world Ovok Core evaluation.
+
+- Natural-language seed resolution now favors repository-local feature owners
+  and penalizes expanded-term false positives, so `sleep duration thresholds`
+  resolves to threshold services/methods instead of observation helpers or
+  external FHIR package symbols.
+- Evidence Packs remain compact and ranked through serialization, include
+  scoped diagnostics, and avoid unrelated repository-wide warnings lowering
+  confidence.
+- Semantic Index artifacts are versioned at `1.0.1`; stale or incompatible
+  indexes are rebuilt and persisted automatically.
+- CLI capability commands now reuse the loaded Semantic Index instead of
+  rebuilding it for each `impact`, `evidence`, or `implementation-plan` call.
+- The agent workflow regression corpus now covers sleep thresholds, batch-data
+  observations, authentication, JWT, signals, FHIR, and PlanDefinition queries.
+- Agent Skills now require Ontoly `0.1.0-alpha.14`.
+
+## v0.1.0-alpha.13
+
+This stabilization release fixes the real-world agent workflow bugs discovered
+against Ovok Core and the validation corpus.
+
+- `ImplementationPlan`, `ImpactAnalysis`, and `EvidencePack` now enforce
+  deterministic execution budgets and return `PARTIAL` with diagnostics instead
+  of hanging.
+- Evidence Packs are compact and ranked: top nodes, top edges, relevant files,
+  and bounded metadata only.
+- Semantic Index hashing no longer builds huge monolithic strings for large
+  repositories.
+- Fuzzy impact queries resolve through the Semantic Index before traversal, so
+  phrases such as `sleep duration thresholds` resolve to stable graph nodes.
+- `ontoly profile implementation-plan` reports capability timing, visited
+  nodes/edges, budget status, and memory.
+- Validation Lab now distinguishes true compiler nondeterminism from active
+  repository input changes during rebuild checks.
+- Agent Skills now require Ontoly `0.1.0-alpha.13`.
 
 ## v0.1.0-alpha.12
 
@@ -113,7 +153,7 @@ This CLI release adds interactive Software Graph HTML export.
 
 ## v0.1.0-alpha.1
 
-This release candidate prepares Ontoly for its first public alpha.
+This public preview prepares Ontoly for its first public alpha.
 
 ## What Works
 
@@ -124,7 +164,7 @@ This release candidate prepares Ontoly for its first public alpha.
 - Install Ontoly Agent Skills as self-contained folders.
 - Run validation, semantic evaluation, package checks, docs checks, and release gates.
 
-## What Changed in the RC Pass
+## What Changed in the Public Preview Pass
 
 - Skill installation no longer depends on a sibling `skills/shared` folder after install.
 - Installed skill artifacts are validated in CI.

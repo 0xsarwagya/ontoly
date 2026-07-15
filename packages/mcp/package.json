@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-mcp",
-  "version": "0.1.0-alpha.14",
+  "version": "0.1.0-alpha.15",
   "description": "Structured graph capabilities for AI agents consuming Ontoly.",
   "type": "module",
   "license": "MIT",
@@ -9,7 +9,7 @@
     "url": "git+https://github.com/0xsarwagya/ontoly.git",
     "directory": "packages/mcp"
   },
-  "homepage": "https://oss.sarwagya.wtf/ontoly",
+  "homepage": "https://ontoly.sarwagya.wtf",
   "sideEffects": false,
   "exports": {
     ".": {

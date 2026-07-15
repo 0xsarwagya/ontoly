@@ -1,6 +1,8 @@
 {
   "status": "PASS",
   "failures": [],
-  "warnings": [],
+  "warnings": [
+    "durable-local: performance variance was 26.69% but only 195.99ms."
+  ],
   "improvements": []
 }

@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-cache",
-  "version": "0.1.0-alpha.14",
+  "version": "0.1.0-alpha.15",
   "description": "Local graph artifact persistence for Ontoly.",
   "type": "module",
   "license": "MIT",
@@ -9,7 +9,7 @@
     "url": "git+https://github.com/0xsarwagya/ontoly.git",
     "directory": "packages/cache"
   },
-  "homepage": "https://oss.sarwagya.wtf/ontoly",
+  "homepage": "https://ontoly.sarwagya.wtf",
   "sideEffects": false,
   "exports": {
     ".": {

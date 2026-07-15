@@ -77,6 +77,8 @@ export async function loadSemanticIndex(options: PersistGraphOptions): Promise<S
 }
 
 export async function loadOrCreateSemanticIndex(options: PersistGraphOptions): Promise<SemanticIndex> {
+  const paths = getGraphArtifactPaths(options);
+
   try {
     const [semanticIndex, graph] = await Promise.all([
       loadSemanticIndex(options),
@@ -86,8 +88,8 @@ export async function loadOrCreateSemanticIndex(options: PersistGraphOptions): P
       return semanticIndex;
     }
     const rebuilt = createSemanticIndex(graph);
-    await mkdir(getGraphArtifactPaths(options).directory, { recursive: true });
-    await writeJson(getGraphArtifactPaths(options).semanticIndex, rebuilt);
+    await mkdir(paths.directory, { recursive: true });
+    await writeJson(paths.semanticIndex, rebuilt);
     return rebuilt;
   } catch (error) {
     if (!isMissingFileError(error)) {
@@ -95,8 +97,8 @@ export async function loadOrCreateSemanticIndex(options: PersistGraphOptions): P
     }
     const graph = await loadGraph(options);
     const semanticIndex = createSemanticIndex(graph);
-    await mkdir(getGraphArtifactPaths(options).directory, { recursive: true });
-    await writeJson(getGraphArtifactPaths(options).semanticIndex, semanticIndex);
+    await mkdir(paths.directory, { recursive: true });
+    await writeJson(paths.semanticIndex, semanticIndex);
     return semanticIndex;
   }
 }

@@ -184,6 +184,7 @@ const logger = createCliLogger(parsed);
 
 const ENHANCER_CACHE_MAX_BYTES = 5_000_000;
 const ENHANCER_DISK_CACHE_EXCLUDED_ARTIFACTS = new Set(["SemanticIndex", "SoftwareGraph", "HtmlGraph"]);
+const JSON_WRITE_BUFFER_BYTES = 1024 * 1024;
 const EVIDENCE_PACK_NODE_LIMIT = 20;
 const EVIDENCE_PACK_EDGE_LIMIT = 50;
 const EVIDENCE_PACK_FILE_LIMIT = 10;
@@ -3207,11 +3208,26 @@ async function writeArtifactFile(path: string, artifact: OntolyArtifact): Promis
 
 async function writeJsonFile(path: string, value: unknown): Promise<void> {
   const file = await open(path, "w");
+  let buffer = "";
+  let bufferedBytes = 0;
+  const flush = async (): Promise<void> => {
+    if (buffer.length === 0) {
+      return;
+    }
+    await file.write(buffer, undefined, "utf8");
+    buffer = "";
+    bufferedBytes = 0;
+  };
   try {
     for (const chunk of stableJsonChunks(value)) {
-      await file.write(chunk, undefined, "utf8");
+      buffer += chunk;
+      bufferedBytes += Buffer.byteLength(chunk);
+      if (bufferedBytes >= JSON_WRITE_BUFFER_BYTES) {
+        await flush();
+      }
     }
-    await file.write("\n", undefined, "utf8");
+    buffer += "\n";
+    await flush();
   } finally {
     await file.close();
   }
@@ -4514,348 +4530,348 @@ interface CommandHelp {
 function commandHelp(): Record<string, CommandHelp> {
   return {
     init: {
-    title: "ontoly init",
-    description: "Create the local Ontoly artifact directory and default config.",
-    usage: ["ontoly init [root] [--root path]"],
-    options: ["--root path    Repository root."],
-    examples: ["ontoly init", "ontoly init packages/api"],
-  },
-  build: {
-    title: "ontoly build",
-    description: "Compile a repository into a deterministic Software Graph.",
-    usage: ["ontoly build [root] [--root path] [--remote git_repo] [--output ontoly-output] [--bundle] [--json]"],
-    options: [
-      "--remote git_repo   Clone and build a remote git repository.",
-      "--output path        Artifact directory. Default: ontoly-output.",
-      "--bundle             Also write a rich ontoly-output bundle when using another --output path.",
-      "--bundle-output path Rich output directory. Default: ontoly-output.",
-      "--no-html            Skip HTML files in the rich output bundle.",
-      "--no-prompt          Use the current directory when no root is provided.",
-      "--yes                Accept prompt defaults for automation.",
-      "--json               Print a machine-readable summary.",
-      "--debug              Print debug logs.",
-    ],
-    examples: [
-      "ontoly build .",
-      "ontoly build --remote https://github.com/0xsarwagya/ontoly.git",
-      "ontoly build examples/basic --output .ontoly",
-      "ontoly build . --output .ontoly --bundle",
-      "ontoly build . --json",
-    ],
-  },
-  output: {
-    title: "ontoly output",
-    description: "Compile a repository into a rich ontoly-output folder with JSON reports, communities, and HTML explorers.",
-    usage: ["ontoly output [root] [--remote git_repo] [--output ontoly-output] [--json]"],
-    options: [
-      "--remote git_repo Clone and compile a remote git repository.",
-      "--output path   Output bundle directory. Default: ontoly-output.",
-      "--no-html       Skip html/graph.html and html/architecture.html.",
-      "--no-semantic   Skip semantic-model.json.",
-      "--max-nodes n   Maximum nodes for HTML graph output. Default: 2500.",
-      "--max-edges n   Maximum edges for HTML graph output. Default: 5000.",
-      "--no-prompt     Use the current directory when no root is provided.",
-      "--yes           Accept prompt defaults for automation.",
-      "--json          Print JSON summary.",
-    ],
-    examples: [
-      "ontoly output .",
-      "ontoly output --remote https://github.com/0xsarwagya/ontoly.git",
-      "ontoly output examples/basic",
-      "ontoly output . --output ontoly-output --json",
-    ],
-  },
-  analyze: {
-    title: "ontoly analyze",
-    description: "Write the TypeScript Semantic Model without requiring graph consumers.",
-    usage: ["ontoly analyze [root] [--output .ontoly] [--json]"],
-    options: ["--output path  Artifact directory.", "--json         Print JSON summary."],
-    examples: ["ontoly analyze .", "ontoly analyze examples/basic --json"],
-  },
-  semantic: {
-    title: "ontoly semantic",
-    description: "Read or create the TypeScript Semantic Model and print a summary or JSON.",
-    usage: ["ontoly semantic [root] [--format summary|json] [--json]"],
-    options: ["--format kind  summary or json.", "--json         Alias for --format json."],
-    examples: ["ontoly semantic", "ontoly semantic . --format json"],
-  },
-  frameworks: {
-    title: "ontoly frameworks",
-    description: "Detect framework evidence from the semantic model and graph.",
-    usage: ["ontoly frameworks [root] [--json]"],
-    options: ["--json         Print JSON."],
-    examples: ["ontoly frameworks", "ontoly frameworks examples/basic --json"],
-  },
-  watch: {
-    title: "ontoly watch",
-    description: "Watch a repository and rebuild its graph when files change.",
-    usage: ["ontoly watch [root] [--root path]"],
-    options: ["--root path    Repository root."],
-    examples: ["ontoly watch .", "ontoly watch apps/api"],
-  },
-  inspect: {
-    title: "ontoly inspect",
-    description: "Inspect a file, node id, or symbol name in the Software Graph.",
-    usage: ["ontoly inspect [file-or-node] [--root path] [--json]"],
-    options: ["--root path    Repository root.", "--json         Print JSON."],
-    examples: ["ontoly inspect src/auth.service.ts", "ontoly inspect AuthService", "ontoly inspect fn:src/auth.ts:login --json"],
-  },
-  trace: {
-    title: "ontoly trace",
-    description: "Trace graph relationships from a node.",
-    usage: ["ontoly trace <node-id-or-name> [--depth 3] [--format mermaid] [--json]"],
-    options: ["--depth n      Traversal depth.", "--format mermaid  Render a Mermaid graph.", "--json         Print JSON."],
-    examples: ["ontoly trace AuthController.login", "ontoly trace fn:src/auth.ts:login --depth 4", "ontoly trace AuthService --format mermaid"],
-  },
-  graph: {
-    title: "ontoly graph",
-    description: "Print or export the current Software Graph.",
-    usage: ["ontoly graph [root] [--format summary|json|mermaid|dot|graphml|html]"],
-    options: ["--format kind  summary, json, mermaid, dot, graphml, or html.", "--json         Alias for --format json."],
-    examples: ["ontoly graph .", "ontoly graph --format mermaid", "ontoly graph --format html > graph.html", "ontoly graph --json"],
-  },
-  stats: {
-    title: "ontoly stats",
-    description: "Print graph statistics from the query engine.",
-    usage: ["ontoly stats [root] [--json]"],
-    options: ["--json         Print JSON."],
-    examples: ["ontoly stats", "ontoly stats . --json"],
-  },
-	  architecture: {
-	    title: "ontoly architecture",
-	    description: "Print an architecture summary from graph entities.",
-	    usage: ["ontoly architecture [root] [--format mermaid|html] [--json]"],
-    options: [
-      "--format kind  mermaid or html.",
-      "--max-nodes n  Maximum nodes for HTML output. Default: 1200.",
-      "--max-edges n  Maximum edges for HTML output. Default: 2400.",
-      "--json         Print JSON.",
-	    ],
-	    examples: ["ontoly architecture", "ontoly architecture --format mermaid", "ontoly architecture --format html > architecture.html"],
-	  },
-	  explain: {
-	    title: "ontoly explain",
-	    description: "Explain repository architecture or feature touchpoints using the Semantic Capability Engine.",
-	    usage: ["ontoly explain [query] [--root path] [--depth 3] [--json]"],
-	    options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--json         Print JSON."],
-	    examples: ["ontoly explain", "ontoly explain AuthService", "ontoly explain \"login threshold\" --json"],
-	  },
-	  impact: {
-	    title: "ontoly impact",
-	    description: "Analyze deterministic blast radius for a node id or search query.",
-	    usage: ["ontoly impact <node-id-or-query> [--root path] [--mode direct|local|feature|semantic|blast-radius] [--depth 4] [--json]"],
-	    options: [
-	      "--root path    Repository root.",
-	      "--mode kind    Scope: direct, local, feature, semantic, or blast-radius.",
-	      "--depth n      Override expansion depth.",
-	      "--json         Print JSON.",
-	    ],
-	    examples: ["ontoly impact AuthService", "ontoly impact fn:src/auth.ts:login --mode local", "ontoly impact UserRepository --mode blast-radius --json"],
-	  },
-	  evidence: {
-	    title: "ontoly evidence",
-	    description: "Generate a compact deterministic Evidence Pack for agent workflows.",
-	    usage: ["ontoly evidence <query> [--root path] [--limit 12] [--json]"],
-	    options: ["--root path    Repository root.", "--limit n      Maximum entities, clamped to 5-20.", "--json         Print JSON."],
-	    examples: ["ontoly evidence AuthService", "ontoly evidence \"remove PlanDefinition\" --json"],
-	  },
-	  "implementation-plan": {
-	    title: "ontoly implementation-plan",
-	    description: "Generate a graph-backed implementation plan for a task without AI reasoning.",
-	    usage: ["ontoly implementation-plan <task> [--root path] [--max-time-ms 2000] [--max-nodes 80] [--max-edges 160] [--max-depth 3] [--json]"],
-	    options: ["--root path       Repository root.", "--depth n         Expansion depth alias for --max-depth.", "--budget n        Node budget alias for --max-nodes.", "--timeout-ms n    Time budget alias for --max-time-ms.", "--max-time-ms n   Execution time budget.", "--max-nodes n     Traversal node budget, clamped to 1-250.", "--max-edges n     Traversal edge budget, clamped to 1-1000.", "--max-depth n     Traversal depth budget, clamped to 0-8.", "--max-evidence n  Evidence item budget, clamped to 1-50.", "--json            Print JSON."],
-	    examples: ["ontoly implementation-plan \"add login threshold\"", "ontoly implementation-plan \"remove PlanDefinition\" --max-nodes 40 --json"],
-	  },
-	  profile: {
-	    title: "ontoly profile",
-	    description: "Profile bounded capability execution and report stage status, traversal counts, and known hotspots.",
-	    usage: ["ontoly profile <implementation-plan|evidence|impact> <target> [--root path] [--json]"],
-	    options: ["--root path       Repository root.", "--max-time-ms n  Execution time budget.", "--max-nodes n    Traversal node budget.", "--max-edges n    Traversal edge budget.", "--json           Print JSON."],
-	    examples: ["ontoly profile implementation-plan \"add login threshold\"", "ontoly profile evidence \"sleep duration thresholds\" --json"],
-	  },
-	  ownership: {
-	    title: "ontoly ownership",
-	    description: "Find likely owners for a feature or graph node.",
-	    usage: ["ontoly ownership <query> [--root path] [--depth 3] [--json]"],
-	    options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--json         Print JSON."],
-	    examples: ["ontoly ownership auth", "ontoly ownership PlanDefinition --json"],
-	  },
-	  health: {
-	    title: "ontoly health",
-	    description: "Summarize repository health from diagnostics, cycles, and orphan graph regions.",
-	    usage: ["ontoly health [root] [--json]"],
-	    options: ["--json         Print JSON."],
-	    examples: ["ontoly health", "ontoly health examples/basic --json"],
-	  },
-	  "repository-summary": {
-	    title: "ontoly repository-summary",
-	    description: "Print a deterministic repository summary from Software Graph statistics.",
-	    usage: ["ontoly repository-summary [root] [--json]"],
-	    options: ["--json         Print JSON."],
-	    examples: ["ontoly repository-summary", "ontoly repository-summary examples/basic --json"],
-	  },
-	  risk: {
-	    title: "ontoly risk",
-	    description: "Identify structural risk around a repository or target node.",
-	    usage: ["ontoly risk [query] [--root path] [--depth 4] [--json]"],
-	    options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--json         Print JSON."],
-	    examples: ["ontoly risk", "ontoly risk AuthService", "ontoly risk PlanDefinition --json"],
-	  },
-	  "request-trace": {
-	    title: "ontoly request-trace",
-	    description: "Trace a route through handler and call relationships.",
-	    usage: ["ontoly request-trace <route> [--root path] [--depth 5] [--json]"],
-	    options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--json         Print JSON."],
-	    examples: ["ontoly request-trace \"POST /login\"", "ontoly request-trace route:POST:/login --json"],
-	  },
-	  evaluate: {
-	    title: "ontoly evaluate",
-    description: "Run deterministic semantic evaluation questions against validation artifacts.",
-    usage: ["ontoly evaluate [repository] [--json] [--ci] [--refresh]"],
-    options: ["--ci          Fail on semantic regression.", "--refresh     Rebuild validation artifacts before scoring.", "--json        Print JSON."],
-    examples: ["ontoly evaluate", "ontoly evaluate ovok-core", "ontoly evaluate --ci"],
-  },
-  validate: {
-    title: "ontoly validate",
-    description: "Run the permanent validation lab and release gates.",
-    usage: ["ontoly validate [all|repository|framework] [--json] [--ci] [--clone] [--install]"],
-    options: ["--ci          Fail on release-gate failure.", "--clone       Clone remote corpus entries.", "--install     Install dependencies for validation-owned clones.", "--json        Print JSON."],
-    examples: ["ontoly validate all", "ontoly validate ovok-core", "ontoly validate nextjs --clone"],
-  },
-  coverage: {
-    title: "ontoly coverage",
-    description: "Analyze graph coverage, trust, quality diagnostics, and recommendations.",
-    usage: ["ontoly coverage [root] [--format human|markdown|json] [--json]"],
-    options: ["--format kind  Output format.", "--json         Print JSON."],
-    examples: ["ontoly coverage .", "ontoly coverage . --format markdown", "ontoly coverage . --json"],
-  },
-  report: {
-    title: "ontoly report",
-    description: "Generate graph-native reports for APIs, dependencies, frameworks, and workspace entities.",
-    usage: ["ontoly report [summary|api|dependencies|configuration|framework|frameworks|controllers|routes|modules|providers|workspace] [--format markdown|json|mermaid]"],
-    options: ["--format kind  markdown, json, or mermaid.", "--json         Alias for --format json."],
-    examples: ["ontoly report api", "ontoly report routes", "ontoly report dependencies --json"],
-  },
-  search: {
-    title: "ontoly search",
-    description: "Resolve natural software concepts to ranked Software Graph candidates through the Semantic Index.",
-    usage: ["ontoly search <concept> [--category concept|symbol|feature|configuration|environment|route|entrypoint|repository] [--limit 10] [--json]"],
-    options: [
-      "--category kind Search category. Default: concept.",
-      "--limit n       Candidate limit. Default: 10.",
-      "--root path     Repository root.",
-      "--output path   Artifact directory. Default: .ontoly.",
-      "--json          Print JSON.",
-    ],
-    examples: [
-      "ontoly search authentication",
-      "ontoly search \"sleep thresholds\"",
-      "ontoly search \"JWT secret\" --category configuration --json",
-    ],
-  },
-  find: {
-    title: "ontoly find",
-    description: "Find a symbol, acronym, feature term, configuration name, or repository concept using intent resolution.",
-    usage: ["ontoly find <concept> [--category kind] [--limit 10] [--json]"],
-    options: ["--category kind Search category.", "--limit n       Candidate limit.", "--json          Print JSON."],
-    examples: ["ontoly find JWT", "ontoly find PlanDefinition", "ontoly find AuthService --category symbol"],
-  },
-  locate: {
-    title: "ontoly locate",
-    description: "Locate feature-level graph touchpoints such as routes, controllers, services, modules, and operations.",
-    usage: ["ontoly locate <feature> [--category kind] [--limit 10] [--json]"],
-    options: ["--category kind Search category. Default: feature.", "--limit n       Candidate limit.", "--json          Print JSON."],
-    examples: ["ontoly locate notifications", "ontoly locate \"patient averages\" --json"],
-  },
-  query: {
-    title: "ontoly query",
-    description: "Run deterministic query-engine operations against the graph.",
-    usage: ["ontoly query <find|callers|callees|dependencies|dependents|related|impact|routes|frameworks|configuration|cycles> [target] [--json]"],
-    options: ["--depth n      Traversal depth for dependency operations.", "--json         Print JSON."],
-    examples: [
-      "ontoly query find AuthService",
-      "ontoly query impact \"Plan Definition Resource\" --json",
-      "ontoly query callers UserService.load",
-      "ontoly query routes --json",
-    ],
-  },
-  leaderboard: {
-    title: "ontoly leaderboard",
-    description: "Print the latest semantic evaluation leaderboard.",
-    usage: ["ontoly leaderboard [--json]"],
-    options: ["--json         Print JSON."],
-    examples: ["ontoly leaderboard", "ontoly leaderboard --json"],
-  },
-  benchmark: {
-    title: "ontoly benchmark",
-    description: "Benchmark graph builds, semantic evaluation, or the performance lab.",
-    usage: ["ontoly benchmark [root] [--runs 3]", "ontoly benchmark semantic", "ontoly benchmark performance"],
-    options: ["--runs n      Number of graph build runs.", "--json        Print JSON when supported."],
-    examples: ["ontoly benchmark .", "ontoly benchmark semantic", "ontoly benchmark performance"],
-  },
-  diff: {
-    title: "ontoly diff",
-    description: "Compare two Software Graph JSON artifacts.",
-    usage: ["ontoly diff <old.graph> <new.graph> [--json] [--output path]"],
-    options: ["--json         Print JSON.", "--output path  Write the diff to a file."],
-    examples: ["ontoly diff old.graph new.graph", "ontoly diff before.json after.json --json"],
-  },
-  export: {
-    title: "ontoly export",
-    description: "Write the Software Graph JSON to a chosen path.",
-    usage: ["ontoly export [path]"],
-    options: ["--root path    Repository root."],
-    examples: ["ontoly export software-graph.json", "ontoly export /tmp/graph.json"],
-  },
-  mcp: {
-    title: "ontoly mcp",
-    description: "Start the structured MCP runtime over the Software Graph.",
-    usage: ["ontoly mcp [--list]"],
-    options: ["--list         Print supported capabilities instead of starting the runtime."],
-    examples: ["ontoly mcp --list", "ontoly mcp"],
-  },
-  skills: {
-    title: "ontoly skills",
-    description: "List, validate, and diagnose portable Ontoly Agent Skills.",
-    usage: ["ontoly skills list [--json]", "ontoly skills validate [--json] [--ci]", "ontoly skills doctor [--json] [--ci]"],
-    options: ["--json         Print JSON.", "--ci           Fail on validation failure."],
-    examples: ["ontoly skills list", "ontoly skills validate", "ontoly skills doctor --json"],
-  },
-  enhancer: {
-    title: "ontoly enhancer",
-    description: "List, inspect, run, validate, and visualize deterministic graph artifact enhancers.",
-    usage: [
-      "ontoly enhancer list [--json]",
-      "ontoly enhancer inspect <id>",
-      "ontoly enhancer run <id|artifact|all> [root] [--json] [--no-cache] [--no-parallel]",
-      "ontoly enhancer graph [--format mermaid|dot|json]",
-      "ontoly enhancer doctor [root] [--json] [--ci]",
-      "ontoly enhancer validate [root] [--json] [--ci]",
-    ],
-    options: [
-      "--format kind   mermaid, dot, or json for enhancer graph.",
-      "--output path   Artifact directory. Default: .ontoly.",
-      "--no-cache      Disable incremental cache reads for run.",
-      "--no-parallel   Execute compatible enhancers serially.",
-      "--json          Print JSON.",
-      "--ci            Fail validation on errors.",
-    ],
-    examples: [
-      "ontoly enhancer list",
-      "ontoly enhancer inspect semantic-index",
-      "ontoly enhancer run semantic-index .",
-      "ontoly enhancer run MarkdownDocs .",
-      "ontoly enhancer graph --format mermaid",
-      "ontoly enhancer validate --ci",
-    ],
-  },
-  doctor: {
-    title: "ontoly doctor",
-    description: "Check repository readiness and print actionable recommendations.",
-    usage: ["ontoly doctor [root] [--json]"],
-    options: ["--json         Print JSON."],
-    examples: ["ontoly doctor", "ontoly doctor examples/basic --json"],
-  },
+      title: "ontoly init",
+      description: "Create the local Ontoly artifact directory and default config.",
+      usage: ["ontoly init [root] [--root path]"],
+      options: ["--root path    Repository root."],
+      examples: ["ontoly init", "ontoly init packages/api"],
+    },
+    build: {
+      title: "ontoly build",
+      description: "Compile a repository into a deterministic Software Graph.",
+      usage: ["ontoly build [root] [--root path] [--remote git_repo] [--output ontoly-output] [--bundle] [--json]"],
+      options: [
+        "--remote git_repo   Clone and build a remote git repository.",
+        "--output path        Artifact directory. Default: ontoly-output.",
+        "--bundle             Also write a rich ontoly-output bundle when using another --output path.",
+        "--bundle-output path Rich output directory. Default: ontoly-output.",
+        "--no-html            Skip HTML files in the rich output bundle.",
+        "--no-prompt          Use the current directory when no root is provided.",
+        "--yes                Accept prompt defaults for automation.",
+        "--json               Print a machine-readable summary.",
+        "--debug              Print debug logs.",
+      ],
+      examples: [
+        "ontoly build .",
+        "ontoly build --remote https://github.com/0xsarwagya/ontoly.git",
+        "ontoly build examples/basic --output .ontoly",
+        "ontoly build . --output .ontoly --bundle",
+        "ontoly build . --json",
+      ],
+    },
+    output: {
+      title: "ontoly output",
+      description: "Compile a repository into a rich ontoly-output folder with JSON reports, communities, and HTML explorers.",
+      usage: ["ontoly output [root] [--remote git_repo] [--output ontoly-output] [--json]"],
+      options: [
+        "--remote git_repo Clone and compile a remote git repository.",
+        "--output path   Output bundle directory. Default: ontoly-output.",
+        "--no-html       Skip html/graph.html and html/architecture.html.",
+        "--no-semantic   Skip semantic-model.json.",
+        "--max-nodes n   Maximum nodes for HTML graph output. Default: 2500.",
+        "--max-edges n   Maximum edges for HTML graph output. Default: 5000.",
+        "--no-prompt     Use the current directory when no root is provided.",
+        "--yes           Accept prompt defaults for automation.",
+        "--json          Print JSON summary.",
+      ],
+      examples: [
+        "ontoly output .",
+        "ontoly output --remote https://github.com/0xsarwagya/ontoly.git",
+        "ontoly output examples/basic",
+        "ontoly output . --output ontoly-output --json",
+      ],
+    },
+    analyze: {
+      title: "ontoly analyze",
+      description: "Write the TypeScript Semantic Model without requiring graph consumers.",
+      usage: ["ontoly analyze [root] [--output .ontoly] [--json]"],
+      options: ["--output path  Artifact directory.", "--json         Print JSON summary."],
+      examples: ["ontoly analyze .", "ontoly analyze examples/basic --json"],
+    },
+    semantic: {
+      title: "ontoly semantic",
+      description: "Read or create the TypeScript Semantic Model and print a summary or JSON.",
+      usage: ["ontoly semantic [root] [--format summary|json] [--json]"],
+      options: ["--format kind  summary or json.", "--json         Alias for --format json."],
+      examples: ["ontoly semantic", "ontoly semantic . --format json"],
+    },
+    frameworks: {
+      title: "ontoly frameworks",
+      description: "Detect framework evidence from the semantic model and graph.",
+      usage: ["ontoly frameworks [root] [--json]"],
+      options: ["--json         Print JSON."],
+      examples: ["ontoly frameworks", "ontoly frameworks examples/basic --json"],
+    },
+    watch: {
+      title: "ontoly watch",
+      description: "Watch a repository and rebuild its graph when files change.",
+      usage: ["ontoly watch [root] [--root path]"],
+      options: ["--root path    Repository root."],
+      examples: ["ontoly watch .", "ontoly watch apps/api"],
+    },
+    inspect: {
+      title: "ontoly inspect",
+      description: "Inspect a file, node id, or symbol name in the Software Graph.",
+      usage: ["ontoly inspect [file-or-node] [--root path] [--json]"],
+      options: ["--root path    Repository root.", "--json         Print JSON."],
+      examples: ["ontoly inspect src/auth.service.ts", "ontoly inspect AuthService", "ontoly inspect fn:src/auth.ts:login --json"],
+    },
+    trace: {
+      title: "ontoly trace",
+      description: "Trace graph relationships from a node.",
+      usage: ["ontoly trace <node-id-or-name> [--depth 3] [--format mermaid] [--json]"],
+      options: ["--depth n      Traversal depth.", "--format mermaid  Render a Mermaid graph.", "--json         Print JSON."],
+      examples: ["ontoly trace AuthController.login", "ontoly trace fn:src/auth.ts:login --depth 4", "ontoly trace AuthService --format mermaid"],
+    },
+    graph: {
+      title: "ontoly graph",
+      description: "Print or export the current Software Graph.",
+      usage: ["ontoly graph [root] [--format summary|json|mermaid|dot|graphml|html]"],
+      options: ["--format kind  summary, json, mermaid, dot, graphml, or html.", "--json         Alias for --format json."],
+      examples: ["ontoly graph .", "ontoly graph --format mermaid", "ontoly graph --format html > graph.html", "ontoly graph --json"],
+    },
+    stats: {
+      title: "ontoly stats",
+      description: "Print graph statistics from the query engine.",
+      usage: ["ontoly stats [root] [--json]"],
+      options: ["--json         Print JSON."],
+      examples: ["ontoly stats", "ontoly stats . --json"],
+    },
+    architecture: {
+      title: "ontoly architecture",
+      description: "Print an architecture summary from graph entities.",
+      usage: ["ontoly architecture [root] [--format mermaid|html] [--json]"],
+      options: [
+        "--format kind  mermaid or html.",
+        "--max-nodes n  Maximum nodes for HTML output. Default: 1200.",
+        "--max-edges n  Maximum edges for HTML output. Default: 2400.",
+        "--json         Print JSON.",
+      ],
+      examples: ["ontoly architecture", "ontoly architecture --format mermaid", "ontoly architecture --format html > architecture.html"],
+    },
+    explain: {
+      title: "ontoly explain",
+      description: "Explain repository architecture or feature touchpoints using the Semantic Capability Engine.",
+      usage: ["ontoly explain [query] [--root path] [--depth 3] [--json]"],
+      options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--json         Print JSON."],
+      examples: ["ontoly explain", "ontoly explain AuthService", "ontoly explain \"login threshold\" --json"],
+    },
+    impact: {
+      title: "ontoly impact",
+      description: "Analyze deterministic blast radius for a node id or search query.",
+      usage: ["ontoly impact <node-id-or-query> [--root path] [--mode direct|local|feature|semantic|blast-radius] [--depth 4] [--json]"],
+      options: [
+        "--root path    Repository root.",
+        "--mode kind    Scope: direct, local, feature, semantic, or blast-radius.",
+        "--depth n      Override expansion depth.",
+        "--json         Print JSON.",
+      ],
+      examples: ["ontoly impact AuthService", "ontoly impact fn:src/auth.ts:login --mode local", "ontoly impact UserRepository --mode blast-radius --json"],
+    },
+    evidence: {
+      title: "ontoly evidence",
+      description: "Generate a compact deterministic Evidence Pack for agent workflows.",
+      usage: ["ontoly evidence <query> [--root path] [--limit 12] [--json]"],
+      options: ["--root path    Repository root.", "--limit n      Maximum entities, clamped to 5-20.", "--json         Print JSON."],
+      examples: ["ontoly evidence AuthService", "ontoly evidence \"remove PlanDefinition\" --json"],
+    },
+    "implementation-plan": {
+      title: "ontoly implementation-plan",
+      description: "Generate a graph-backed implementation plan for a task without AI reasoning.",
+      usage: ["ontoly implementation-plan <task> [--root path] [--max-time-ms 2000] [--max-nodes 80] [--max-edges 160] [--max-depth 3] [--json]"],
+      options: ["--root path       Repository root.", "--depth n         Expansion depth alias for --max-depth.", "--budget n        Node budget alias for --max-nodes.", "--timeout-ms n    Time budget alias for --max-time-ms.", "--max-time-ms n   Execution time budget.", "--max-nodes n     Traversal node budget, clamped to 1-250.", "--max-edges n     Traversal edge budget, clamped to 1-1000.", "--max-depth n     Traversal depth budget, clamped to 0-8.", "--max-evidence n  Evidence item budget, clamped to 1-50.", "--json            Print JSON."],
+      examples: ["ontoly implementation-plan \"add login threshold\"", "ontoly implementation-plan \"remove PlanDefinition\" --max-nodes 40 --json"],
+    },
+    profile: {
+      title: "ontoly profile",
+      description: "Profile bounded capability execution and report stage status, traversal counts, and known hotspots.",
+      usage: ["ontoly profile <implementation-plan|evidence|impact> <target> [--root path] [--json]"],
+      options: ["--root path       Repository root.", "--max-time-ms n  Execution time budget.", "--max-nodes n    Traversal node budget.", "--max-edges n    Traversal edge budget.", "--json           Print JSON."],
+      examples: ["ontoly profile implementation-plan \"add login threshold\"", "ontoly profile evidence \"sleep duration thresholds\" --json"],
+    },
+    ownership: {
+      title: "ontoly ownership",
+      description: "Find likely owners for a feature or graph node.",
+      usage: ["ontoly ownership <query> [--root path] [--depth 3] [--json]"],
+      options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--json         Print JSON."],
+      examples: ["ontoly ownership auth", "ontoly ownership PlanDefinition --json"],
+    },
+    health: {
+      title: "ontoly health",
+      description: "Summarize repository health from diagnostics, cycles, and orphan graph regions.",
+      usage: ["ontoly health [root] [--json]"],
+      options: ["--json         Print JSON."],
+      examples: ["ontoly health", "ontoly health examples/basic --json"],
+    },
+    "repository-summary": {
+      title: "ontoly repository-summary",
+      description: "Print a deterministic repository summary from Software Graph statistics.",
+      usage: ["ontoly repository-summary [root] [--json]"],
+      options: ["--json         Print JSON."],
+      examples: ["ontoly repository-summary", "ontoly repository-summary examples/basic --json"],
+    },
+    risk: {
+      title: "ontoly risk",
+      description: "Identify structural risk around a repository or target node.",
+      usage: ["ontoly risk [query] [--root path] [--depth 4] [--json]"],
+      options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--json         Print JSON."],
+      examples: ["ontoly risk", "ontoly risk AuthService", "ontoly risk PlanDefinition --json"],
+    },
+    "request-trace": {
+      title: "ontoly request-trace",
+      description: "Trace a route through handler and call relationships.",
+      usage: ["ontoly request-trace <route> [--root path] [--depth 5] [--json]"],
+      options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--json         Print JSON."],
+      examples: ["ontoly request-trace \"POST /login\"", "ontoly request-trace route:POST:/login --json"],
+    },
+    evaluate: {
+      title: "ontoly evaluate",
+      description: "Run deterministic semantic evaluation questions against validation artifacts.",
+      usage: ["ontoly evaluate [repository] [--json] [--ci] [--refresh]"],
+      options: ["--ci          Fail on semantic regression.", "--refresh     Rebuild validation artifacts before scoring.", "--json        Print JSON."],
+      examples: ["ontoly evaluate", "ontoly evaluate ovok-core", "ontoly evaluate --ci"],
+    },
+    validate: {
+      title: "ontoly validate",
+      description: "Run the permanent validation lab and release gates.",
+      usage: ["ontoly validate [all|repository|framework] [--json] [--ci] [--clone] [--install]"],
+      options: ["--ci          Fail on release-gate failure.", "--clone       Clone remote corpus entries.", "--install     Install dependencies for validation-owned clones.", "--json        Print JSON."],
+      examples: ["ontoly validate all", "ontoly validate ovok-core", "ontoly validate nextjs --clone"],
+    },
+    coverage: {
+      title: "ontoly coverage",
+      description: "Analyze graph coverage, trust, quality diagnostics, and recommendations.",
+      usage: ["ontoly coverage [root] [--format human|markdown|json] [--json]"],
+      options: ["--format kind  Output format.", "--json         Print JSON."],
+      examples: ["ontoly coverage .", "ontoly coverage . --format markdown", "ontoly coverage . --json"],
+    },
+    report: {
+      title: "ontoly report",
+      description: "Generate graph-native reports for APIs, dependencies, frameworks, and workspace entities.",
+      usage: ["ontoly report [summary|api|dependencies|configuration|framework|frameworks|controllers|routes|modules|providers|workspace] [--format markdown|json|mermaid]"],
+      options: ["--format kind  markdown, json, or mermaid.", "--json         Alias for --format json."],
+      examples: ["ontoly report api", "ontoly report routes", "ontoly report dependencies --json"],
+    },
+    search: {
+      title: "ontoly search",
+      description: "Resolve natural software concepts to ranked Software Graph candidates through the Semantic Index.",
+      usage: ["ontoly search <concept> [--category concept|symbol|feature|configuration|environment|route|entrypoint|repository] [--limit 10] [--json]"],
+      options: [
+        "--category kind Search category. Default: concept.",
+        "--limit n       Candidate limit. Default: 10.",
+        "--root path     Repository root.",
+        "--output path   Artifact directory. Default: .ontoly.",
+        "--json          Print JSON.",
+      ],
+      examples: [
+        "ontoly search authentication",
+        "ontoly search \"sleep thresholds\"",
+        "ontoly search \"JWT secret\" --category configuration --json",
+      ],
+    },
+    find: {
+      title: "ontoly find",
+      description: "Find a symbol, acronym, feature term, configuration name, or repository concept using intent resolution.",
+      usage: ["ontoly find <concept> [--category kind] [--limit 10] [--json]"],
+      options: ["--category kind Search category.", "--limit n       Candidate limit.", "--json          Print JSON."],
+      examples: ["ontoly find JWT", "ontoly find PlanDefinition", "ontoly find AuthService --category symbol"],
+    },
+    locate: {
+      title: "ontoly locate",
+      description: "Locate feature-level graph touchpoints such as routes, controllers, services, modules, and operations.",
+      usage: ["ontoly locate <feature> [--category kind] [--limit 10] [--json]"],
+      options: ["--category kind Search category. Default: feature.", "--limit n       Candidate limit.", "--json          Print JSON."],
+      examples: ["ontoly locate notifications", "ontoly locate \"patient averages\" --json"],
+    },
+    query: {
+      title: "ontoly query",
+      description: "Run deterministic query-engine operations against the graph.",
+      usage: ["ontoly query <find|callers|callees|dependencies|dependents|related|impact|routes|frameworks|configuration|cycles> [target] [--json]"],
+      options: ["--depth n      Traversal depth for dependency operations.", "--json         Print JSON."],
+      examples: [
+        "ontoly query find AuthService",
+        "ontoly query impact \"Plan Definition Resource\" --json",
+        "ontoly query callers UserService.load",
+        "ontoly query routes --json",
+      ],
+    },
+    leaderboard: {
+      title: "ontoly leaderboard",
+      description: "Print the latest semantic evaluation leaderboard.",
+      usage: ["ontoly leaderboard [--json]"],
+      options: ["--json         Print JSON."],
+      examples: ["ontoly leaderboard", "ontoly leaderboard --json"],
+    },
+    benchmark: {
+      title: "ontoly benchmark",
+      description: "Benchmark graph builds, semantic evaluation, or the performance lab.",
+      usage: ["ontoly benchmark [root] [--runs 3]", "ontoly benchmark semantic", "ontoly benchmark performance"],
+      options: ["--runs n      Number of graph build runs.", "--json        Print JSON when supported."],
+      examples: ["ontoly benchmark .", "ontoly benchmark semantic", "ontoly benchmark performance"],
+    },
+    diff: {
+      title: "ontoly diff",
+      description: "Compare two Software Graph JSON artifacts.",
+      usage: ["ontoly diff <old.graph> <new.graph> [--json] [--output path]"],
+      options: ["--json         Print JSON.", "--output path  Write the diff to a file."],
+      examples: ["ontoly diff old.graph new.graph", "ontoly diff before.json after.json --json"],
+    },
+    export: {
+      title: "ontoly export",
+      description: "Write the Software Graph JSON to a chosen path.",
+      usage: ["ontoly export [path]"],
+      options: ["--root path    Repository root."],
+      examples: ["ontoly export software-graph.json", "ontoly export /tmp/graph.json"],
+    },
+    mcp: {
+      title: "ontoly mcp",
+      description: "Start the structured MCP runtime over the Software Graph.",
+      usage: ["ontoly mcp [--list]"],
+      options: ["--list         Print supported capabilities instead of starting the runtime."],
+      examples: ["ontoly mcp --list", "ontoly mcp"],
+    },
+    skills: {
+      title: "ontoly skills",
+      description: "List, validate, and diagnose portable Ontoly Agent Skills.",
+      usage: ["ontoly skills list [--json]", "ontoly skills validate [--json] [--ci]", "ontoly skills doctor [--json] [--ci]"],
+      options: ["--json         Print JSON.", "--ci           Fail on validation failure."],
+      examples: ["ontoly skills list", "ontoly skills validate", "ontoly skills doctor --json"],
+    },
+    enhancer: {
+      title: "ontoly enhancer",
+      description: "List, inspect, run, validate, and visualize deterministic graph artifact enhancers.",
+      usage: [
+        "ontoly enhancer list [--json]",
+        "ontoly enhancer inspect <id>",
+        "ontoly enhancer run <id|artifact|all> [root] [--json] [--no-cache] [--no-parallel]",
+        "ontoly enhancer graph [--format mermaid|dot|json]",
+        "ontoly enhancer doctor [root] [--json] [--ci]",
+        "ontoly enhancer validate [root] [--json] [--ci]",
+      ],
+      options: [
+        "--format kind   mermaid, dot, or json for enhancer graph.",
+        "--output path   Artifact directory. Default: .ontoly.",
+        "--no-cache      Disable incremental cache reads for run.",
+        "--no-parallel   Execute compatible enhancers serially.",
+        "--json          Print JSON.",
+        "--ci            Fail validation on errors.",
+      ],
+      examples: [
+        "ontoly enhancer list",
+        "ontoly enhancer inspect semantic-index",
+        "ontoly enhancer run semantic-index .",
+        "ontoly enhancer run MarkdownDocs .",
+        "ontoly enhancer graph --format mermaid",
+        "ontoly enhancer validate --ci",
+      ],
+    },
+    doctor: {
+      title: "ontoly doctor",
+      description: "Check repository readiness and print actionable recommendations.",
+      usage: ["ontoly doctor [root] [--json]"],
+      options: ["--json         Print JSON."],
+      examples: ["ontoly doctor", "ontoly doctor examples/basic --json"],
+    },
   };
 }
 
@@ -4889,18 +4905,18 @@ Usage:
   ontoly watch [root] [--root path]
   ontoly inspect [file-or-node] [--root path] [--json]
   ontoly trace <node-id-or-name> [--depth 3] [--format mermaid] [--json]
-	  ontoly stats [root] [--root path] [--json]
-	  ontoly architecture [root] [--root path] [--format mermaid|html] [--json]
-	  ontoly explain [query] [--root path] [--depth 3] [--json]
-	  ontoly impact <node-id-or-query> [--root path] [--mode direct|local|feature|semantic|blast-radius] [--json]
-	  ontoly evidence <query> [--root path] [--limit 12] [--json]
-	  ontoly implementation-plan <task> [--root path] [--max-time-ms 2000] [--max-nodes 80] [--max-edges 160] [--max-depth 3] [--json]
-	  ontoly profile <implementation-plan|evidence|impact> <target> [--root path] [--json]
-	  ontoly ownership <query> [--root path] [--depth 3] [--json]
-	  ontoly health [root] [--json]
-	  ontoly repository-summary [root] [--json]
-	  ontoly risk [query] [--root path] [--depth 4] [--json]
-	  ontoly request-trace <route> [--root path] [--depth 5] [--json]
+  ontoly stats [root] [--root path] [--json]
+  ontoly architecture [root] [--root path] [--format mermaid|html] [--json]
+  ontoly explain [query] [--root path] [--depth 3] [--json]
+  ontoly impact <node-id-or-query> [--root path] [--mode direct|local|feature|semantic|blast-radius] [--json]
+  ontoly evidence <query> [--root path] [--limit 12] [--json]
+  ontoly implementation-plan <task> [--root path] [--max-time-ms 2000] [--max-nodes 80] [--max-edges 160] [--max-depth 3] [--json]
+  ontoly profile <implementation-plan|evidence|impact> <target> [--root path] [--json]
+  ontoly ownership <query> [--root path] [--depth 3] [--json]
+  ontoly health [root] [--json]
+  ontoly repository-summary [root] [--json]
+  ontoly risk [query] [--root path] [--depth 4] [--json]
+  ontoly request-trace <route> [--root path] [--depth 5] [--json]
   ontoly coverage [root] [--root path] [--format human|markdown|json] [--json]
   ontoly report [summary|api|dependencies|configuration|framework|frameworks|controllers|routes|modules|providers|workspace] [--root path] [--format markdown|json|mermaid]
   ontoly search <concept> [--category kind] [--limit 10] [--json]
@@ -4934,15 +4950,15 @@ Examples:
   ontoly trace fn:src/index.ts:main
   ontoly graph --format mermaid
   ontoly graph --format html > graph.html
-	  ontoly architecture
-	  ontoly architecture --format html > architecture.html
-	  ontoly explain AuthService
-	  ontoly impact UserRepository --mode local --json
-	  ontoly evidence "remove PlanDefinition"
-	  ontoly implementation-plan "remove PlanDefinition support" --max-nodes 80
-	  ontoly profile implementation-plan "remove PlanDefinition support"
-	  ontoly request-trace "POST /login"
-	  ontoly coverage
+  ontoly architecture
+  ontoly architecture --format html > architecture.html
+  ontoly explain AuthService
+  ontoly impact UserRepository --mode local --json
+  ontoly evidence "remove PlanDefinition"
+  ontoly implementation-plan "remove PlanDefinition support" --max-nodes 80
+  ontoly profile implementation-plan "remove PlanDefinition support"
+  ontoly request-trace "POST /login"
+  ontoly coverage
   ontoly report api
   ontoly report routes
   ontoly report dependencies

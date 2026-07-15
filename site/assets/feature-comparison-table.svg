@@ -3,7 +3,7 @@
 <text x="50" y="70" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700" fill="#17202A">Feature Comparison</text>
 <rect x="50" y="105" width="900" height="224" rx="10" fill="#FFFFFF" stroke="#C9D3DE"/>
 <text x="70" y="140" font-family="Inter, Arial, sans-serif" font-size="14" fill="#17202A">Surface</text>
-<text x="370" y="140" font-family="Inter, Arial, sans-serif" font-size="14" fill="#17202A">Ontoly Alpha</text>
+<text x="370" y="140" font-family="Inter, Arial, sans-serif" font-size="14" fill="#17202A">Ontoly Public Preview</text>
 <text x="670" y="140" font-family="Inter, Arial, sans-serif" font-size="14" fill="#17202A">Non-goal</text>
 <path d="M50 161 H950" stroke="#C9D3DE"/>
 <text x="70" y="196" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">Graph</text>

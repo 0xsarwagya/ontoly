@@ -1,24 +1,24 @@
 # Ontoly Validation Dashboard
 
-Generated: 2026-07-14T23:12:33.721Z
+Generated: 2026-07-15T00:30:39.527Z
 Release gate: PASS
 
 ## History
 
 - Average coverage: 98.8
 - Average trust: 98.8
-- Average duration: 18882.96ms
-- Total graph size: 80.1 MB
+- Average duration: 18645.22ms
+- Total graph size: 79.8 MB
 
 ## Repositories
 
 | Repository | Frameworks | Status | Coverage | Trust | Nodes | Edges | Time |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| Ovok Core | nestjs, express | PASS | 99 | 98 | 21649 | 47620 | 54487.489ms |
-| 0xsarwagya | nextjs, react, turborepo | PASS | 95 | 96 | 1191 | 2087 | 4442.854ms |
-| Innosphere | nestjs, react, turborepo, vite | PASS | 100 | 100 | 6810 | 12389 | 32461.743ms |
-| Ghost | react, vite | PASS | 100 | 100 | 350 | 657 | 1630.401ms |
-| durable-local | react, vite | PASS | 100 | 100 | 226 | 384 | 1392.29ms |
+| Ovok Core | nestjs, express | PASS | 99 | 98 | 21649 | 47620 | 52954.018ms |
+| 0xsarwagya | nextjs, react, turborepo | PASS | 95 | 96 | 1191 | 2087 | 4290.826ms |
+| Innosphere | nestjs, react, turborepo, vite | PASS | 100 | 100 | 6740 | 12176 | 32617.237ms |
+| Ghost | react, vite | PASS | 100 | 100 | 350 | 657 | 1756.919ms |
+| durable-local | react, vite | PASS | 100 | 100 | 226 | 384 | 1607.083ms |
 
 ## Framework Support Matrix
 

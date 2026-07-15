@@ -1,8 +1,26 @@
 ---
 title: "Query the Graph"
-description: "Use Ontoly's deterministic query engine from TypeScript."
+description: "Use Ontoly's deterministic CLI and query engine."
 order: 3
 ---
+
+## CLI
+
+After building the included example, start with a symbol that exists in that
+graph:
+
+```sh
+ontoly build examples/basic
+ontoly search UserService --root examples/basic
+ontoly impact UserService --root examples/basic
+ontoly evidence UserService --root examples/basic
+```
+
+`UserService` is used in first-run docs because it is present in
+`examples/basic`; made-up placeholder terms are intentionally avoided because
+they do not resolve to graph candidates.
+
+## TypeScript API
 
 ```ts
 import { buildSoftwareGraph } from "@0xsarwagya/ontoly-compiler";

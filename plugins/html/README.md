@@ -6,6 +6,15 @@ This package emits a self-contained HTML explorer with architecture-first modes,
 search navigation, grouped filters, node relationship details, trace focus, and
 a minimap. It works offline and does not use a CDN or external runtime.
 
+## Responsibility
+
+`@0xsarwagya/ontoly-plugin-html` renders existing Software Graph input into an
+offline HTML artifact. It does not build graphs, run the query engine, change
+compiler behavior, or expose MCP transport.
+
+See the repository [architecture map](../../ARCHITECTURE.md) for package
+boundaries.
+
 ## Installation
 
 ```bash
@@ -34,10 +43,10 @@ ontoly architecture --format html > architecture.html
 
 ## Status
 
-Alpha package for Ontoly v0.1.0-alpha.14. The public API is versioned with the Software Graph and RFC process.
+Public Preview package for Ontoly v0.1.0-alpha.15. The public API is versioned with the Software Graph and RFC process.
 
 ## Links
 
 - [Repository](https://github.com/0xsarwagya/ontoly)
-- [Documentation](https://oss.sarwagya.wtf/ontoly)
+- [Documentation](https://ontoly.sarwagya.wtf)
 - [Issues](https://github.com/0xsarwagya/ontoly/issues)

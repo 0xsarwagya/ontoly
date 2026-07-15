@@ -1,0 +1,15 @@
+# Ontoly release ownership.
+#
+# Keep this file small: it exists to make public release review explicit, not to
+# route every implementation detail through a different process.
+
+* @0xsarwagya
+
+/packages/ @0xsarwagya
+/plugins/ @0xsarwagya
+/skills/ @0xsarwagya
+/docs/ @0xsarwagya
+/site/ @0xsarwagya
+/rfcs/ @0xsarwagya
+/.github/ @0xsarwagya
+

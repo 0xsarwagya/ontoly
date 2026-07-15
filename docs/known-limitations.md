@@ -1,11 +1,11 @@
 # Known Limitations
 
-Ontoly v0.1.0-alpha.14 is intentionally conservative.
+Ontoly v0.1.0-alpha.15 is intentionally conservative.
 
 ## Language Support
 
 - TypeScript is the primary supported language.
-- OpenAPI support is present as an alpha frontend.
+- OpenAPI support is present as a Public Preview frontend.
 - Prisma, GraphQL, SQL, and cross-language relationships remain roadmap work.
 
 ## Framework Support

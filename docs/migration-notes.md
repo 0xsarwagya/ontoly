@@ -1,8 +1,22 @@
 # Migration Notes
 
+## 0.1.0-alpha.15
+
+This is the first Public Preview. Projects upgrading from
+`0.1.0-alpha.14` do not need a Software Graph schema migration.
+
+Recommended upgrade steps:
+
+1. Upgrade Ontoly packages together to `0.1.0-alpha.15`.
+2. Rebuild the repository graph.
+3. Rerun semantic evaluation, skills validation, and release gates for your
+   repository.
+4. Reinstall Agent Skills so installed artifacts match the Public Preview source.
+
 ## 0.1.0-alpha.1
 
-This is the first public alpha, so there is no previous public API to migrate from.
+This was the first public alpha, so there was no previous public API to migrate
+from.
 
 ## Internal Alpha Changes
 

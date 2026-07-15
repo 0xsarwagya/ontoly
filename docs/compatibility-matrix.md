@@ -1,6 +1,6 @@
 ---
 title: "Compatibility Matrix"
-description: "Runtime, package, Software Graph, Agent Skill, MCP, CLI, and release compatibility for Ontoly alpha builds."
+description: "Runtime, package, Software Graph, Agent Skill, MCP, CLI, and release compatibility for Ontoly Public Preview builds."
 ---
 
 | Surface | Version | Status |
@@ -11,7 +11,7 @@ description: "Runtime, package, Software Graph, Agent Skill, MCP, CLI, and relea
 | Package module format | ESM | Supported |
 | Software Graph Spec | 1.0 draft | Supported |
 | Agent Skills | Vercel-style `SKILL.md` folders | Supported |
-| MCP transport | JSON lines through CLI runtime | Alpha |
+| MCP transport | JSON lines through CLI runtime | Public Preview |
 
 ## Package Compatibility
 

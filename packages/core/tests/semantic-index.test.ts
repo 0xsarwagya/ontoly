@@ -18,6 +18,17 @@ import {
   validateSemanticIndex,
 } from "../src/index";
 
+const SLEEP_DURATION_THRESHOLDS_QUERY = "sleep duration thresholds";
+const CAREHUB_SLEEP_THRESHOLD_TOP_CANDIDATES = [
+  "PatientThresholdDto",
+  "CarehubPatientThresholdService",
+  "calculateSleepDurationAverages",
+] as const;
+const EXTERNAL_SLEEP_THRESHOLD_NOISE = [
+  "@medplum/fhirtypes",
+  "isSleepStatisticsObservation",
+] as const;
+
 describe("semantic index", () => {
   it("normalizes identifier variants deterministically", () => {
     expect(normalizeIntent("AuthService").expandedTerms).toContain("authentication");
@@ -37,14 +48,24 @@ describe("semantic index", () => {
     expect(validateSemanticIndex(index, exampleGraph())).toEqual([]);
   });
 
-  it("resolves natural concepts to ranked candidates", () => {
+  it("resolves authentication intent to AuthService", () => {
     const index = createSemanticIndex(exampleGraph());
     const auth = resolveIntent(index, "login authentication");
-    const threshold = findFeature(index, "sleep thresholds");
-    const planDefinition = findSymbol(index, "Plan Definition Resource");
 
     expect(auth.candidates.map((candidate) => candidate.displayName)).toContain("AuthService");
+  });
+
+  it("resolves feature intent to the strongest threshold service candidate", () => {
+    const index = createSemanticIndex(exampleGraph());
+    const threshold = findFeature(index, "sleep thresholds");
+
     expect(threshold.candidates[0]?.displayName).toBe("PatientThresholdService");
+  });
+
+  it("resolves resource symbols with the expected recommended capability", () => {
+    const index = createSemanticIndex(exampleGraph());
+    const planDefinition = findSymbol(index, "Plan Definition Resource");
+
     expect(planDefinition.candidates[0]?.displayName).toBe("PlanDefinition");
     expect(planDefinition.recommendedCapability).toBe("FeatureTouchpoints");
   });
@@ -59,7 +80,7 @@ describe("semantic index", () => {
 
   it("ranks repository feature symbols above framework and utility noise", () => {
     const index = createSemanticIndex(featureRankingGraph());
-    const result = findFeature(index, "sleep duration thresholds", { limit: 8 });
+    const result = findFeature(index, SLEEP_DURATION_THRESHOLDS_QUERY, { limit: 8 });
 
     expect(result.candidates[0]).toMatchObject({
       displayName: "SleepDurationThresholdService",
@@ -78,18 +99,12 @@ describe("semantic index", () => {
 
   it("resolves sleep duration threshold seeds to repository-local carehub nodes", () => {
     const index = createSemanticIndex(carehubThresholdGraph());
-    const result = findFeature(index, "sleep duration thresholds", { limit: 10 });
+    const result = findFeature(index, SLEEP_DURATION_THRESHOLDS_QUERY, { limit: 10 });
     const names = result.candidates.map((candidate) => candidate.displayName);
-    const allowed = [
-      "PatientThresholdDto",
-      "CarehubPatientThresholdService",
-      "calculateSleepDurationAverages",
-    ];
 
-    expect(allowed).toContain(result.candidates[0]?.displayName);
-    expect(names).toEqual(expect.arrayContaining(allowed));
-    expect(names.slice(0, 5)).not.toContain("@medplum/fhirtypes");
-    expect(names[0]).not.toBe("isSleepStatisticsObservation");
+    expect(CAREHUB_SLEEP_THRESHOLD_TOP_CANDIDATES).toContain(result.candidates[0]?.displayName);
+    expect(names).toEqual(expect.arrayContaining([...CAREHUB_SLEEP_THRESHOLD_TOP_CANDIDATES]));
+    expectTopCandidatesToExcludeExternalNoise(names);
     expect(result.confidence).toBeLessThanOrEqual(0.9);
 
     const external = result.candidates.find((candidate) => candidate.displayName === "@medplum/fhirtypes");
@@ -116,6 +131,11 @@ describe("semantic index", () => {
     expect(validateSemanticIndex(first, graph)).toEqual([]);
   });
 });
+
+function expectTopCandidatesToExcludeExternalNoise(candidateNames: readonly string[]): void {
+  expect(candidateNames.slice(0, 5)).not.toContain(EXTERNAL_SLEEP_THRESHOLD_NOISE[0]);
+  expect(candidateNames[0]).not.toBe(EXTERNAL_SLEEP_THRESHOLD_NOISE[1]);
+}
 
 function exampleGraph(): SoftwareGraph {
   const nodes: SoftwareGraphNode[] = [

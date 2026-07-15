@@ -35,7 +35,7 @@
       "precision": 100,
       "recall": 100,
       "confidence": 100,
-      "latencyMs": 0.051,
+      "latencyMs": 0.052,
       "semanticUnderstandingScore": 100
     },
     "graphify": {
@@ -77,7 +77,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.045,
+        "latencyMs": 0.046,
         "answers": [
           {
             "label": "createDurable",
@@ -130,7 +130,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.019,
+        "latencyMs": 0.018,
         "answers": [
           {
             "label": "Durable",
@@ -183,7 +183,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.022,
+        "latencyMs": 0.025,
         "answers": [
           {
             "label": "@0xsarwagya/durable-local",
@@ -206,7 +206,7 @@
           "@0xsarwagya/durable-local"
         ],
         "confidence": 0,
-        "latencyMs": 0.007,
+        "latencyMs": 0.008,
         "answers": [],
         "explanation": "0 candidate node(s) matched Package with terms @0xsarwagya/durable-local."
       },
@@ -295,7 +295,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.145,
+        "latencyMs": 0.154,
         "answers": [
           {
             "label": "@0xsarwagya/durable-local -> fake-indexeddb",
@@ -354,7 +354,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.064,
+        "latencyMs": 0.056,
         "answers": [
           {
             "label": "withReadWrite -> openDatabase",

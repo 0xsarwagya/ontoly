@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-repository",
-  "version": "0.1.0-alpha.14",
+  "version": "0.1.0-alpha.15",
   "description": "TypeScript-native software intelligence engine that builds a deterministic Software Graph.",
   "private": true,
   "type": "module",
@@ -9,7 +9,7 @@
     "type": "git",
     "url": "git+https://github.com/0xsarwagya/ontoly.git"
   },
-  "homepage": "https://oss.sarwagya.wtf/ontoly",
+  "homepage": "https://ontoly.sarwagya.wtf",
   "scripts": {
     "build": "pnpm -r build",
     "check-types": "pnpm -r check-types",
