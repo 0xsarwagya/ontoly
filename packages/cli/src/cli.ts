@@ -75,7 +75,6 @@ import {
   findRepositoryConcept,
   findRoute as searchRoute,
   findSymbol,
-  resolveIntent,
   validateSemanticIndex,
   type SearchCategory,
   type SemanticCandidate,
@@ -2047,7 +2046,7 @@ function createBoundedEvidencePack(
     boundedNodeEvidenceItem(graph, node, topEdges, seedIds, semanticScores, query),
   );
   const edgeEvidence = topEdges.map((edge) =>
-    boundedEdgeEvidenceItem(graph, edge, nodeById, topNodeIds, seedIds, query),
+    boundedEdgeEvidenceItem(edge, nodeById, topNodeIds, seedIds, query),
   );
   const evidence = [...nodeEvidence, ...edgeEvidence];
   const confidence = evidenceConfidence(evidence, diagnostics);
@@ -2621,7 +2620,6 @@ function boundedNodeEvidenceItem(
 }
 
 function boundedEdgeEvidenceItem(
-  graph: SoftwareGraph,
   edge: SoftwareGraphEdge,
   nodeById: ReadonlyMap<string, SoftwareGraphNode>,
   nodeIds: ReadonlySet<string>,
