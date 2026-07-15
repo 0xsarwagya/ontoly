@@ -4,8 +4,8 @@ description: Plan refactors with Ontoly impact and dependency evidence. Use when
 license: MIT
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "1.0.0-rc.1"
-  ontoly.min.version: "1.0.0-rc.1"
+  ontoly.skill.version: "1.0.0-rc.3"
+  ontoly.min.version: "1.0.0-rc.3"
   ontoly.capabilities: "ImpactAnalysis, FindDependencies, FindDependents, FindCycles, EvidencePack"
   ontoly.category: "refactoring"
   ontoly.enhancement: "LLM Enhancement"

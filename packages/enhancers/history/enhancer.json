@@ -1,0 +1,77 @@
+{
+  "id": "history",
+  "name": "History",
+  "description": "Generate deterministic repository history, ownership, hotspots, co-change, and drift artifacts.",
+  "version": "1.0.0",
+  "apiVersion": "1.0.0",
+  "inputs": [
+    {
+      "artifact": "SoftwareGraph"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "History",
+      "kind": "Custom",
+      "name": "Repository History",
+      "version": "1.0.0",
+      "description": "Deterministic repository temporal intelligence derived from Git history and Software Graph nodes.",
+      "schema": {
+        "version": "1.0.0",
+        "mediaType": "application/vnd.ontoly.history+json",
+        "description": "Deterministic repository temporal intelligence derived from Git history and Software Graph nodes."
+      }
+    },
+    {
+      "id": "Ownership",
+      "kind": "Custom",
+      "name": "Repository Ownership",
+      "version": "1.0.0",
+      "description": "Deterministic ownership artifact derived from Git history.",
+      "schema": {
+        "version": "1.0.0",
+        "mediaType": "application/vnd.ontoly.ownership+json",
+        "description": "Deterministic ownership artifact derived from Git history."
+      }
+    },
+    {
+      "id": "Hotspots",
+      "kind": "Custom",
+      "name": "Repository Hotspots",
+      "version": "1.0.0",
+      "description": "Deterministic hotspot artifact derived from Git churn and modification frequency.",
+      "schema": {
+        "version": "1.0.0",
+        "mediaType": "application/vnd.ontoly.hotspots+json",
+        "description": "Deterministic hotspot artifact derived from Git churn and modification frequency."
+      }
+    },
+    {
+      "id": "Cochanges",
+      "kind": "Custom",
+      "name": "Repository Co-changes",
+      "version": "1.0.0",
+      "description": "Deterministic co-change relationships derived from Git commits.",
+      "schema": {
+        "version": "1.0.0",
+        "mediaType": "application/vnd.ontoly.cochanges+json",
+        "description": "Deterministic co-change relationships derived from Git commits."
+      }
+    },
+    {
+      "id": "Drift",
+      "kind": "Custom",
+      "name": "Architectural Drift",
+      "version": "1.0.0",
+      "description": "Deterministic feature drift artifact derived from temporal file and coupling evidence.",
+      "schema": {
+        "version": "1.0.0",
+        "mediaType": "application/vnd.ontoly.drift+json",
+        "description": "Deterministic feature drift artifact derived from temporal file and coupling evidence."
+      }
+    }
+  ],
+  "dependencies": [],
+  "supportedGraphVersion": "1.0.0",
+  "supportsIncremental": true
+}

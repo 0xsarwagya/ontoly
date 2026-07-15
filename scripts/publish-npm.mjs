@@ -17,6 +17,7 @@ const packageDirs = [
   "packages/typescript",
   "packages/analyzers",
   "packages/enhancer",
+  "packages/enhancers/history",
   "packages/enhancers/semantics",
   "packages/intelligence",
   "packages/capabilities",

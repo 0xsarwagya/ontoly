@@ -36,7 +36,7 @@
       "precision": 100,
       "recall": 100,
       "confidence": 100,
-      "latencyMs": 1.006,
+      "latencyMs": 0.939,
       "semanticUnderstandingScore": 100
     },
     "graphify": {
@@ -48,7 +48,7 @@
       "precision": 0,
       "recall": 0,
       "confidence": 0,
-      "latencyMs": 0.003,
+      "latencyMs": 0.002,
       "semanticUnderstandingScore": 0
     },
     "winner": "Ontoly"
@@ -78,7 +78,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.257,
+        "latencyMs": 0.206,
         "answers": [
           {
             "label": "@0xsarwagya/ghost",
@@ -101,7 +101,7 @@
           "@0xsarwagya/ghost"
         ],
         "confidence": 0,
-        "latencyMs": 0.004,
+        "latencyMs": 0.003,
         "answers": [],
         "explanation": "0 candidate node(s) matched Package with terms @0xsarwagya/ghost."
       },
@@ -131,7 +131,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.057,
+        "latencyMs": 0.051,
         "answers": [
           {
             "label": "@0xsarwagya/durable-local",
@@ -186,7 +186,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.084,
+        "latencyMs": 0.079,
         "answers": [
           {
             "label": "Next.js",
@@ -241,7 +241,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 4.595,
+        "latencyMs": 4.33,
         "answers": [
           {
             "label": "React",
@@ -271,7 +271,7 @@
           "React"
         ],
         "confidence": 0,
-        "latencyMs": 0.005,
+        "latencyMs": 0.002,
         "answers": [],
         "explanation": "Architecture summary searched Framework, Package."
       },
@@ -303,7 +303,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.035,
+        "latencyMs": 0.03,
         "answers": [
           {
             "label": "turbo",
@@ -333,7 +333,7 @@
           "turbo"
         ],
         "confidence": 0,
-        "latencyMs": 0.004,
+        "latencyMs": 0.003,
         "answers": [],
         "explanation": "0 candidate node(s) matched Configuration, Pipeline with terms turbo."
       },

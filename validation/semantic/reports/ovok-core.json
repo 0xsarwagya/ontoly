@@ -37,7 +37,7 @@
       "precision": 100,
       "recall": 100,
       "confidence": 100,
-      "latencyMs": 0.621,
+      "latencyMs": 0.548,
       "semanticUnderstandingScore": 100
     },
     "graphify": {
@@ -84,7 +84,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.427,
+        "latencyMs": 0.442,
         "answers": [
           {
             "label": "AuthController",
@@ -142,7 +142,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.289,
+        "latencyMs": 0.233,
         "answers": [
           {
             "label": "AuthService",
@@ -201,7 +201,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 1.733,
+        "latencyMs": 1.611,
         "answers": [
           {
             "label": "AuthController -> AuthService",
@@ -224,7 +224,7 @@
           "AuthController -> AuthService"
         ],
         "confidence": 0,
-        "latencyMs": 0.003,
+        "latencyMs": 0.002,
         "answers": [],
         "explanation": "0 candidate edge-derived answer(s) matched INJECTS."
       },
@@ -259,7 +259,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.32,
+        "latencyMs": 0.271,
         "answers": [
           {
             "label": "ALL:/fhir/R4",
@@ -312,7 +312,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.693,
+        "latencyMs": 0.56,
         "answers": [
           {
             "label": "AuthModule",
@@ -335,7 +335,7 @@
           "AuthModule"
         ],
         "confidence": 0,
-        "latencyMs": 0.001,
+        "latencyMs": 0,
         "answers": [],
         "explanation": "0 candidate node(s) matched Module with terms AuthModule."
       },
@@ -365,7 +365,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.265,
+        "latencyMs": 0.171,
         "answers": [
           {
             "label": "FHIR_DEFAULT_VERSION",

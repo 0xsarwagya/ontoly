@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { realpathSync } from "node:fs";
+import { readFileSync, realpathSync } from "node:fs";
 import { access, mkdir, mkdtemp, open, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import { dirname, isAbsolute, join, resolve } from "node:path";
@@ -65,6 +65,15 @@ import {
   type EnhancerValidationIssue,
   type OntolyArtifact,
 } from "@0xsarwagya/ontoly-enhancer";
+import {
+  createHistoryArtifact,
+  createHistoryEnhancer,
+  HistoryIndexingError,
+  validateHistoryArtifact,
+  type CoChangeRelationship,
+  type HistoryArtifact,
+  type NodeHistory,
+} from "@0xsarwagya/ontoly-enhancer-history";
 import {
   createSemanticsEnhancer,
   validateSemanticsArtifact,
@@ -219,7 +228,16 @@ function canonicalPath(file: string): string {
   }
 }
 
+function isVersionCommand(cli: ParsedCli): boolean {
+  return cli.command === "version" || cli.command === "--version" || cli.command === "-v";
+}
+
 async function run(cli: ParsedCli): Promise<void> {
+  if (isVersionCommand(cli)) {
+    printVersion(cli);
+    return;
+  }
+
   if (flagBoolean(cli, "help") && cli.command !== "help") {
     printCommandHelp(cli.command);
     return;
@@ -300,7 +318,11 @@ async function run(cli: ParsedCli): Promise<void> {
       return;
 
     case "ownership":
-      await capabilityCommand(cli, "OwnershipAnalysis", { targetKey: "query" });
+    case "hotspots":
+    case "churn":
+    case "cochanges":
+    case "stability":
+      await historyCommand({ ...cli, command: "history", positional: [cli.command, ...cli.positional] });
       return;
 
     case "health":
@@ -361,6 +383,10 @@ async function run(cli: ParsedCli): Promise<void> {
       await semanticsCommand(cli);
       return;
 
+    case "history":
+      await historyCommand(cli);
+      return;
+
     case "validate":
       await validateCommand(cli);
       return;
@@ -385,6 +411,12 @@ async function run(cli: ParsedCli): Promise<void> {
     case "--help":
     case "-h":
       printHelp();
+      return;
+
+    case "version":
+    case "--version":
+    case "-v":
+      printVersion(cli);
       return;
 
     default:
@@ -1167,7 +1199,10 @@ async function exportCommand(cli: ParsedCli): Promise<void> {
 
 async function mcpCommand(cli: ParsedCli): Promise<void> {
   const graph = await loadOrBuildGraph(cli);
-  const runtime = createMcpRuntime(graph);
+  const root = rootFromCli(cli);
+  const outputDir = flagString(cli, "output", ".ontoly");
+  const history = await loadOptionalHistoryArtifactForCli(root, outputDir);
+  const runtime = createMcpRuntime(graph, { history });
 
   if (flagBoolean(cli, "list")) {
     logger.write(JSON.stringify(runtime.capabilities, null, 2));
@@ -1557,6 +1592,126 @@ async function semanticsCommand(cli: ParsedCli): Promise<void> {
         suggestion: "Use one of: build, inspect, validate.",
         docs: "docs/semantic-intelligence.md",
       });
+  }
+}
+
+async function historyCommand(cli: ParsedCli): Promise<void> {
+  const knownActions = new Set(["build", "inspect", "validate", "feature", "ownership", "hotspots", "churn", "cochanges", "stability"]);
+  const first = cli.positional[0];
+  const action = first && knownActions.has(first) ? first : "inspect";
+  const root = historyRootFromCli(cli, action === "build" || action === "validate" ? 1 : -1);
+  const outputDir = flagString(cli, "output", ".ontoly");
+  const limit = flagNumber(cli, "limit", 10);
+
+  switch (action) {
+    case "build": {
+      const graph = await loadOrBuildGraph({ ...cli, positional: [root] });
+      const semanticIndex = await loadSemanticIndexForGraph(cli, graph);
+      const cache = await createFileEnhancerCache(resolve(root), outputDir);
+      const context = createDefaultEnhancerContext({
+        graph,
+        semanticIndex,
+        logger: enhancerLoggerFromCli(),
+        cache,
+        configuration: {
+          historyRoot: resolve(root),
+        },
+      });
+      const result = await runEnhancerPipeline({
+        enhancers: [createHistoryEnhancer()],
+        context,
+        parallel: false,
+        incremental: !flagBoolean(cli, "no-cache"),
+      });
+      const summaryPath = await writeEnhancerArtifacts(resolve(root), outputDir, result);
+      const artifact = result.artifacts.find((item) => item.descriptor.id === "History");
+      const artifactsRoot = join(resolve(root), outputDir, "enhancers", "artifacts");
+
+      if (flagBoolean(cli, "json")) {
+        logger.write(JSON.stringify({
+          status: artifact ? "PASS" : "FAIL",
+          outputs: {
+            history: join(artifactsRoot, "history.json"),
+            ownership: join(artifactsRoot, "ownership.json"),
+            hotspots: join(artifactsRoot, "hotspots.json"),
+            cochanges: join(artifactsRoot, "cochanges.json"),
+            drift: join(artifactsRoot, "drift.json"),
+          },
+          summary: summaryPath,
+          graphHash: graph.metadata.deterministicHash,
+          artifactHash: artifact?.hash,
+        }, null, 2));
+        return;
+      }
+
+      if (!artifact) {
+        throw new OntolyCliError({
+          code: "ONTOLY5401",
+          message: "History enhancer did not produce a History artifact.",
+          suggestion: "Run ontoly enhancer validate --with-graph to inspect enhancer configuration.",
+          docs: "docs/repository-intelligence.md",
+        });
+      }
+
+      logger.success("Built repository intelligence artifacts");
+      logger.info(`Graph: ${graph.metadata.deterministicHash}`);
+      logger.info(`History: ${join(artifactsRoot, "history.json")}`);
+      logger.info(`Ownership: ${join(artifactsRoot, "ownership.json")}`);
+      logger.info(`Hotspots: ${join(artifactsRoot, "hotspots.json")}`);
+      logger.info(`Co-changes: ${join(artifactsRoot, "cochanges.json")}`);
+      logger.info(`Drift: ${join(artifactsRoot, "drift.json")}`);
+      logger.info(`Hash: ${artifact.hash}`);
+      logger.info(`Summary: ${summaryPath}`);
+      return;
+    }
+
+    case "validate": {
+      const graph = await loadOrBuildGraph({ ...cli, positional: [root] });
+      const artifact = await loadHistoryArtifactForCli(root, outputDir);
+      const issues = validateHistoryArtifact(artifact, graph);
+      const status = issues.some((issue) => issue.severity === "error") ? "FAIL" : "PASS";
+      const result = {
+        status,
+        graphHash: graph.metadata.deterministicHash,
+        historyHash: artifact.deterministicHash,
+        issues,
+      };
+
+      if (flagBoolean(cli, "json")) {
+        logger.write(JSON.stringify(result, null, 2));
+      } else {
+        logger.write(`History validation: ${status}`);
+        if (issues.length === 0) {
+          logger.success("History artifact is compatible with the current Software Graph.");
+        } else {
+          for (const issue of issues) {
+            logger.write(`${issue.severity.toUpperCase()} ${issue.code}: ${issue.message}`);
+          }
+        }
+      }
+
+      if ((flagBoolean(cli, "ci") || flagBoolean(cli, "strict")) && status === "FAIL") {
+        process.exitCode = 1;
+      }
+      return;
+    }
+
+    default: {
+      const graph = await loadOrBuildGraph({ ...cli, positional: [root] });
+      const semanticIndex = await loadSemanticIndexForGraph(cli, graph);
+      const artifact = await loadOrCreateHistoryArtifactForCli(root, outputDir, graph);
+      const intelligence = createIntelligence(graph, { semanticIndex, history: artifact });
+      const query = historyQueryFromCli(cli, action);
+      const result = executeHistoryQuery(action, query, intelligence, artifact, limit);
+
+      if (flagBoolean(cli, "json")) {
+        logger.write(JSON.stringify(result, null, 2));
+        return;
+      }
+
+      logger.write(formatHistoryQueryResult(action, query, result));
+      return;
+    }
   }
 }
 
@@ -2015,7 +2170,8 @@ async function loadSemanticIndexForCli(cli: ParsedCli, graph: SoftwareGraph): Pr
 async function createCapabilityEngineForCli(cli: ParsedCli, graph: SoftwareGraph): Promise<CapabilityEngine> {
   const semanticIndex = await loadSemanticIndexForCli(cli, graph);
   const query = createQueryEngine(graph);
-  const registry = createCapabilityRegistry({ graph, query, semanticIndex }, defaultCapabilities());
+  const history = await loadOptionalHistoryArtifactForCli(rootFromCli(cli, { positional: false }), flagString(cli, "output", ".ontoly"));
+  const registry = createCapabilityRegistry({ graph, query, semanticIndex, history }, defaultCapabilities());
   return {
     registry,
     execute: registry.execute,
@@ -2344,6 +2500,7 @@ function defaultCliEnhancers(): readonly Enhancer[] {
       },
     }),
     createSemanticsEnhancer(),
+    createHistoryEnhancer(),
     defineEnhancer({
       id: "validation-report",
       name: "Validation Report",
@@ -3153,6 +3310,14 @@ function semanticsRootFromCli(cli: ParsedCli, positionalIndex: number): string {
   return cli.positional[positionalIndex] ?? ".";
 }
 
+function historyRootFromCli(cli: ParsedCli, positionalIndex: number): string {
+  const explicit = flagString(cli, "root", "");
+  if (explicit) {
+    return explicit;
+  }
+  return positionalIndex >= 0 ? cli.positional[positionalIndex] ?? "." : ".";
+}
+
 async function loadSemanticsArtifactForCli(rootInput: string, outputDir: string): Promise<SemanticsArtifact> {
   const path = join(resolve(rootInput), outputDir, "enhancers", "artifacts", "semantics.json");
   try {
@@ -3165,6 +3330,41 @@ async function loadSemanticsArtifactForCli(rootInput: string, outputDir: string)
       docs: "docs/semantic-intelligence.md",
       cause: error,
     });
+  }
+}
+
+async function loadHistoryArtifactForCli(rootInput: string, outputDir: string): Promise<HistoryArtifact> {
+  const path = join(resolve(rootInput), outputDir, "enhancers", "artifacts", "history.json");
+  try {
+    return JSON.parse(await readFile(path, "utf8")) as HistoryArtifact;
+  } catch (error) {
+    throw new OntolyCliError({
+      code: "ONTOLY5402",
+      message: `Could not read history artifact at ${path}.`,
+      suggestion: "Run ontoly history build first.",
+      docs: "docs/repository-intelligence.md",
+      cause: error,
+    });
+  }
+}
+
+async function loadOrCreateHistoryArtifactForCli(
+  rootInput: string,
+  outputDir: string,
+  graph: SoftwareGraph,
+): Promise<HistoryArtifact> {
+  try {
+    return await loadHistoryArtifactForCli(rootInput, outputDir);
+  } catch {
+    return createHistoryArtifact(graph, { repositoryRoot: resolve(rootInput) });
+  }
+}
+
+async function loadOptionalHistoryArtifactForCli(rootInput: string, outputDir: string): Promise<HistoryArtifact | undefined> {
+  try {
+    return await loadHistoryArtifactForCli(rootInput, outputDir);
+  } catch {
+    return undefined;
   }
 }
 
@@ -3208,6 +3408,256 @@ function formatSemanticsSummary(summary: JsonObject): string {
       return `  ${item.name} (${item.nodes} nodes, confidence ${item.confidence})${owners ? ` - ${owners}` : ""}`;
     }),
   ].join("\n");
+}
+
+function historyArtifactSummary(artifact: HistoryArtifact): JsonObject {
+  return {
+    version: artifact.version,
+    graphHash: artifact.graphHash,
+    repository: artifact.repository.name,
+    deterministicHash: artifact.deterministicHash,
+    commits: serializeJsonValue(artifact.commits),
+    statistics: artifact.statistics,
+    topHotspots: artifact.hotspots.nodes.slice(0, 10).map((node) => serializeHistoryNode(node)) as unknown as JsonValue,
+    topOwners: artifact.ownership.nodes.slice(0, 10).map((node) => ({
+      nodeId: node.nodeId,
+      name: node.name,
+      file: node.file,
+      owner: node.ownership.owner,
+      confidence: node.ownershipConfidence,
+      busFactor: node.ownership.busFactor,
+    })) as unknown as JsonValue,
+    driftWarnings: artifact.drift.features
+      .filter((feature) => feature.warning)
+      .slice(0, 10)
+      .map((feature) => ({
+        feature: feature.name,
+        warning: feature.warning,
+        files: feature.files.length,
+        coupling: feature.currentCoupling,
+      })) as unknown as JsonValue,
+  };
+}
+
+function historyQueryFromCli(cli: ParsedCli, action: string): string {
+  if (action === "hotspots" || action === "churn") {
+    return flagString(cli, "query", "");
+  }
+  if (action === "inspect") {
+    const first = cli.positional[0];
+    const queryParts = first === "inspect" ? cli.positional.slice(1) : cli.positional;
+    return flagString(cli, "query", queryParts.join(" "));
+  }
+  return flagString(cli, "query", cli.positional.slice(1).join(" "));
+}
+
+function executeHistoryQuery(
+  action: string,
+  query: string,
+  intelligence: ReturnType<typeof createIntelligence>,
+  artifact: HistoryArtifact,
+  requestedLimit: number,
+): JsonObject {
+  const limit = Math.max(1, Math.min(Number.isFinite(requestedLimit) ? requestedLimit : 10, 100));
+  if (action === "inspect" && !query) {
+    return historyArtifactSummary(artifact);
+  }
+  if (action === "hotspots") {
+    return {
+      kind: "hotspots",
+      nodes: intelligence.hotspots({ limit }).map((node) => serializeHistoryNode(node)) as unknown as JsonValue,
+    };
+  }
+  if (action === "churn") {
+    return {
+      kind: "churn",
+      nodes: intelligence.churn({ limit }).map((node) => serializeHistoryNode(node)) as unknown as JsonValue,
+    };
+  }
+  if (action === "feature") {
+    return {
+      kind: "feature",
+      query,
+      features: historyFeaturesForQuery(artifact, query, limit) as unknown as JsonValue,
+    };
+  }
+  if (!query) {
+    throw new OntolyCliError({
+      code: "ONTOLY5403",
+      message: `${action} requires a node, symbol, feature, or file query.`,
+      suggestion: `Use ontoly ${action} UserService or pass --query "UserService".`,
+      docs: "docs/repository-intelligence.md#cli",
+    });
+  }
+
+  if (action === "cochanges") {
+    return {
+      kind: "cochanges",
+      query,
+      relationships: intelligence.cochanges(query, { limit }).map((relationship) => serializeCochange(relationship)) as unknown as JsonValue,
+    };
+  }
+
+  const node = intelligence.history(query);
+  const ownership = intelligence.ownership(query);
+  const stability = intelligence.stability(query);
+  const result = {
+    kind: action,
+    query,
+    node: node ? serializeHistoryNode(node) : null,
+    ownership: ownership ?? null,
+    stability: stability ?? null,
+    cochanges: intelligence.cochanges(query, { limit: Math.min(limit, 5) }).map((relationship) => serializeCochange(relationship)),
+  };
+  return result as unknown as JsonObject;
+}
+
+function formatHistoryQueryResult(action: string, query: string, result: JsonObject): string {
+  if (action === "inspect" && !query) {
+    const statistics = result.statistics as JsonObject | undefined;
+    const commits = result.commits as JsonObject | undefined;
+    return [
+      `Repository intelligence ${result.version}`,
+      `Graph hash: ${result.graphHash}`,
+      `History hash: ${result.deterministicHash}`,
+      "",
+      `Commits: ${statistics?.commits ?? commits?.total ?? 0}`,
+      `Files with history: ${statistics?.files ?? 0}`,
+      `Nodes with history: ${statistics?.nodesWithHistory ?? 0}`,
+      `Contributors: ${statistics?.contributors ?? 0}`,
+      `Co-changes: ${statistics?.cochanges ?? 0}`,
+      `Hotspots: ${statistics?.hotspots ?? 0}`,
+      `Drift warnings: ${statistics?.driftWarnings ?? 0}`,
+    ].join("\n");
+  }
+
+  if (action === "hotspots" || action === "churn") {
+    const nodes = Array.isArray(result.nodes) ? result.nodes as JsonObject[] : [];
+    return [
+      action === "hotspots" ? "Hotspots" : "Churn",
+      ...nodes.map((node) => formatHistoryNodeLine(node)),
+    ].join("\n");
+  }
+
+  if (action === "feature") {
+    const features = Array.isArray(result.features) ? result.features as JsonObject[] : [];
+    return [
+      `Feature history: ${query || "all"}`,
+      ...features.map((feature) =>
+        `${feature.name} - ${feature.files} files, ${feature.currentCoupling} coupling${feature.warning ? `, ${feature.warning}` : ""}`,
+      ),
+    ].join("\n");
+  }
+
+  if (action === "cochanges") {
+    const relationships = Array.isArray(result.relationships) ? result.relationships as JsonObject[] : [];
+    return [
+      `Co-changes: ${query}`,
+      ...relationships.map((relationship) =>
+        `${relationship.leftFile} <-> ${relationship.rightFile} (${relationship.count} commits, score ${relationship.score})`,
+      ),
+    ].join("\n");
+  }
+
+  const node = result.node as JsonObject | null;
+  if (!node) {
+    return `No repository history found for ${query}.`;
+  }
+  const ownership = result.ownership as JsonObject | null;
+  const stability = result.stability as JsonObject | null;
+  return [
+    `${node.name}`,
+    `Stable ID: ${node.nodeId}`,
+    `File: ${node.file ?? "unknown"}`,
+    `Owner: ${ownership?.owner ?? "unknown"} (${ownership?.confidence ?? 0}% confidence)`,
+    `Bus factor: ${ownership?.busFactor ?? 0}`,
+    `Modified: ${node.modificationCount} commits`,
+    `Hotspot: ${node.hotspotScore}`,
+    `Churn: ${node.churnScore}`,
+    `Stability: ${stability?.classification ?? "unknown"} (${stability?.stabilityScore ?? 0})`,
+  ].join("\n");
+}
+
+function serializeHistoryNode(node: NodeHistory): JsonObject {
+  return {
+    nodeId: node.nodeId,
+    name: node.name,
+    kind: node.kind,
+    file: node.file,
+    modificationCount: node.modificationCount,
+    owner: node.ownership.owner,
+    ownershipConfidence: node.ownershipConfidence,
+    busFactor: node.ownership.busFactor,
+    hotspotScore: node.hotspotScore,
+    churnScore: node.churnScore,
+    stabilityScore: node.stabilityScore,
+    firstIntroductionCommit: node.firstIntroductionCommit,
+    lastModification: node.lastModification,
+    categoryRatios: node.categoryRatios,
+  } as unknown as JsonObject;
+}
+
+function serializeCochange(relationship: CoChangeRelationship): JsonObject {
+  return {
+    id: relationship.id,
+    leftFile: relationship.leftFile,
+    rightFile: relationship.rightFile,
+    leftNodeIds: relationship.leftNodeIds,
+    rightNodeIds: relationship.rightNodeIds,
+    count: relationship.count,
+    score: relationship.score,
+    categories: relationship.categories,
+    lastCommit: relationship.lastCommit,
+  } as unknown as JsonObject;
+}
+
+function historyFeaturesForQuery(artifact: HistoryArtifact, query: string, limit: number): readonly JsonObject[] {
+  const terms = new Set(historyTerms(query));
+  return artifact.drift.features
+    .map((feature) => {
+      const featureTerms = historyTerms(`${feature.id} ${feature.name} ${feature.files.join(" ")}`);
+      const overlap = featureTerms.filter((term) => terms.size === 0 || terms.has(term));
+      return {
+        feature,
+        score: overlap.length + (feature.warning ? 1 : 0),
+      };
+    })
+    .filter((item) => terms.size === 0 || item.score > 0)
+    .sort((left, right) => right.score - left.score || left.feature.name.localeCompare(right.feature.name))
+    .slice(0, limit)
+    .map(({ feature }) => serializeJsonObject({
+      id: feature.id,
+      name: feature.name,
+      files: feature.files.length,
+      nodeIds: [...feature.nodeIds],
+      timeline: feature.timeline.map((item) => ({ ...item })),
+      currentCoupling: feature.currentCoupling,
+      complexityTrend: feature.complexityTrend,
+      couplingTrend: feature.couplingTrend,
+      cohesion: feature.cohesion,
+      warning: feature.warning,
+    }));
+}
+
+function historyTerms(value: string): readonly string[] {
+  return uniqueStrings(value
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .toLowerCase()
+    .split(/[^a-z0-9]+/g)
+    .map((term) => term.trim())
+    .filter((term) => term.length > 1));
+}
+
+function formatHistoryNodeLine(node: JsonObject): string {
+  return `${node.name} (${node.file ?? "unknown"}) - hotspot ${node.hotspotScore}, churn ${node.churnScore}, owner ${node.owner ?? "unknown"}`;
+}
+
+function serializeJsonObject(value: unknown): JsonObject {
+  return JSON.parse(stableStringify(value)) as JsonObject;
+}
+
+function serializeJsonValue(value: unknown): JsonValue {
+  return JSON.parse(stableStringify(value)) as JsonValue;
 }
 
 function enhancerConfigurationFromCli(cli: ParsedCli, target: string): JsonObject {
@@ -4686,6 +5136,23 @@ function formatCliError(error: unknown): string {
     ].filter(Boolean).join("\n");
   }
 
+  if (error instanceof HistoryIndexingError) {
+    return [
+      error.code,
+      "",
+      error.message,
+      "",
+      "Reason:",
+      error.reason,
+      "",
+      "Suggestion:",
+      "Run the command again after reducing repository history scope, or upgrade to a release with streaming Git history indexing when available.",
+      "",
+      "Documentation:",
+      "docs/repository-intelligence.md",
+    ].join("\n");
+  }
+
   if (error instanceof Error) {
     return [
       "ONTOLY0000",
@@ -4716,6 +5183,26 @@ function printCommandHelp(command: string): void {
   }
 
   logger.write(renderCommandHelp(help));
+}
+
+function printVersion(cli: ParsedCli): void {
+  const version = cliVersion();
+  if (flagBoolean(cli, "json")) {
+    logger.write(JSON.stringify({ name: "@0xsarwagya/ontoly-cli", version }, null, 2));
+    return;
+  }
+
+  logger.write(`ontoly ${version}`);
+}
+
+function cliVersion(): string {
+  try {
+    const manifestPath = resolve(dirname(fileURLToPath(import.meta.url)), "..", "package.json");
+    const manifest = JSON.parse(readFileSync(manifestPath, "utf8")) as { readonly version?: string };
+    return manifest.version ?? "0.0.0";
+  } catch {
+    return "0.0.0";
+  }
 }
 
 interface CommandHelp {
@@ -4907,12 +5394,72 @@ function commandHelp(): Record<string, CommandHelp> {
       options: ["--root path       Repository root.", "--max-time-ms n  Execution time budget.", "--max-nodes n    Traversal node budget.", "--max-edges n    Traversal edge budget.", "--json           Print JSON."],
       examples: ["ontoly profile implementation-plan \"add login threshold\"", "ontoly profile evidence \"sleep duration thresholds\" --json"],
     },
+    version: {
+      title: "ontoly version",
+      description: "Print the installed Ontoly CLI version.",
+      usage: ["ontoly version [--json]", "ontoly --version", "ontoly -v"],
+      options: ["--json         Print JSON."],
+      examples: ["ontoly --version", "ontoly version --json"],
+    },
+    history: {
+      title: "ontoly history",
+      description: "Build, inspect, validate, and query deterministic repository history intelligence.",
+      usage: [
+        "ontoly history build [root] [--output .ontoly] [--json]",
+        "ontoly history inspect [query] [--root path] [--json]",
+        "ontoly history validate [root] [--ci] [--json]",
+        "ontoly history feature <query> [--root path] [--limit 10] [--json]",
+      ],
+      options: [
+        "--root path    Repository root.",
+        "--output path  Artifact directory. Default: .ontoly.",
+        "--limit n      Maximum results. Default: 10.",
+        "--query text   Query text for inspect or feature.",
+        "--no-cache     Recompute instead of using enhancer cache.",
+        "--ci           Fail validation when errors exist.",
+        "--json         Print JSON.",
+      ],
+      examples: [
+        "ontoly history build .",
+        "ontoly history inspect AuthService",
+        "ontoly history feature authentication --json",
+        "ontoly history validate --ci",
+      ],
+    },
     ownership: {
       title: "ontoly ownership",
       description: "Find likely owners for a feature or graph node.",
       usage: ["ontoly ownership <query> [--root path] [--depth 3] [--json]"],
       options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--json         Print JSON."],
       examples: ["ontoly ownership auth", "ontoly ownership PlanDefinition --json"],
+    },
+    hotspots: {
+      title: "ontoly hotspots",
+      description: "List high-churn and high-modification graph nodes from repository history.",
+      usage: ["ontoly hotspots [--root path] [--limit 10] [--json]"],
+      options: ["--root path    Repository root.", "--limit n      Maximum hotspot nodes. Default: 10.", "--json         Print JSON."],
+      examples: ["ontoly hotspots", "ontoly hotspots --limit 20 --json"],
+    },
+    churn: {
+      title: "ontoly churn",
+      description: "List graph nodes ranked by Git churn.",
+      usage: ["ontoly churn [--root path] [--limit 10] [--json]"],
+      options: ["--root path    Repository root.", "--limit n      Maximum churn nodes. Default: 10.", "--json         Print JSON."],
+      examples: ["ontoly churn", "ontoly churn --limit 20 --json"],
+    },
+    cochanges: {
+      title: "ontoly cochanges",
+      description: "Find files and graph nodes that commonly change together with a target.",
+      usage: ["ontoly cochanges <query> [--root path] [--limit 10] [--json]"],
+      options: ["--root path    Repository root.", "--limit n      Maximum relationships. Default: 10.", "--json         Print JSON."],
+      examples: ["ontoly cochanges AuthService", "ontoly cochanges \"sleep thresholds\" --json"],
+    },
+    stability: {
+      title: "ontoly stability",
+      description: "Return hotspot, churn, and stability scores for a feature or graph node.",
+      usage: ["ontoly stability <query> [--root path] [--json]"],
+      options: ["--root path    Repository root.", "--json         Print JSON."],
+      examples: ["ontoly stability AuthService", "ontoly stability PlanDefinition --json"],
     },
     health: {
       title: "ontoly health",
@@ -5114,6 +5661,8 @@ function printHelp(): void {
 TypeScript-native software intelligence. Ontoly builds deterministic Software Graphs.
 
 Usage:
+  ontoly --version
+  ontoly version [--json]
   ontoly init [root] [--root path]
   ontoly build [root] [--root path] [--remote git_repo] [--output ontoly-output] [--bundle]
   ontoly output [root] [--root path] [--remote git_repo] [--output ontoly-output]
@@ -5131,7 +5680,12 @@ Usage:
   ontoly evidence <query> [--root path] [--limit 12] [--json]
   ontoly implementation-plan <task> [--root path] [--max-time-ms 2000] [--max-nodes 80] [--max-edges 160] [--max-depth 3] [--json]
   ontoly profile <implementation-plan|evidence|impact> <target> [--root path] [--json]
+  ontoly history <build|inspect|validate|feature> [root-or-query] [--root path] [--json]
   ontoly ownership <query> [--root path] [--depth 3] [--json]
+  ontoly hotspots [--root path] [--limit 10] [--json]
+  ontoly churn [--root path] [--limit 10] [--json]
+  ontoly cochanges <query> [--root path] [--limit 10] [--json]
+  ontoly stability <query> [--root path] [--json]
   ontoly health [root] [--json]
   ontoly repository-summary [root] [--json]
   ontoly risk [query] [--root path] [--depth 4] [--json]
@@ -5157,6 +5711,7 @@ Usage:
   ontoly benchmark performance [--json]
 
 Examples:
+  ontoly --version
   ontoly build .
   ontoly build --remote https://github.com/0xsarwagya/ontoly.git
   ontoly output .
@@ -5178,6 +5733,11 @@ Examples:
   ontoly evidence "remove PlanDefinition"
   ontoly implementation-plan "remove PlanDefinition support" --max-nodes 80
   ontoly profile implementation-plan "remove PlanDefinition support"
+  ontoly history build .
+  ontoly history inspect AuthService
+  ontoly hotspots
+  ontoly cochanges AuthService
+  ontoly stability AuthService
   ontoly request-trace "POST /login"
   ontoly coverage
   ontoly report api

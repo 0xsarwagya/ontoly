@@ -24,6 +24,12 @@ import {
   type SemanticSearchResult,
 } from "@0xsarwagya/ontoly-core";
 import { createIntelligence } from "@0xsarwagya/ontoly-intelligence";
+import {
+  createHistoryArtifact,
+  type CoChangeRelationship,
+  type HistoryArtifact,
+  type NodeHistory,
+} from "@0xsarwagya/ontoly-enhancer-history";
 import { createQueryEngine, type GraphTraversal, type QueryEngine } from "@0xsarwagya/ontoly-query";
 
 const LEGACY_MCP_CAPABILITIES = [
@@ -63,10 +69,18 @@ const SEARCH_MCP_CAPABILITIES = [
   "IntentExpansion",
   "SemanticContext",
 ] as const;
+const HISTORY_MCP_CAPABILITIES = [
+  "History",
+  "Ownership",
+  "Hotspots",
+  "Cochanges",
+  "Stability",
+] as const;
 
 export const MCP_CAPABILITIES = [
   ...LEGACY_MCP_CAPABILITIES,
   ...SEARCH_MCP_CAPABILITIES,
+  ...HISTORY_MCP_CAPABILITIES,
   ...SEMANTIC_CAPABILITY_NAMES.filter((name) => !LEGACY_MCP_CAPABILITY_SET.has(name)),
 ] as const;
 
@@ -104,6 +118,10 @@ export interface McpRuntime {
   readonly execute: (request: McpCapabilityRequest) => McpCapabilityResponse;
 }
 
+export interface McpRuntimeOptions {
+  readonly history?: HistoryArtifact | undefined;
+}
+
 interface RegisteredCapability extends McpCapability {
   readonly execute: (query: QueryEngine, input: JsonObject) => JsonValue;
 }
@@ -129,9 +147,9 @@ export class McpCapabilityError extends Error {
   }
 }
 
-export function createMcpRuntime(graph: SoftwareGraph): McpRuntime {
+export function createMcpRuntime(graph: SoftwareGraph, options: McpRuntimeOptions = {}): McpRuntime {
   const query = createQueryEngine(graph);
-  const registry = createCapabilityRegistry(query, defaultCapabilities());
+  const registry = createCapabilityRegistry(query, defaultCapabilities(options));
 
   return {
     capabilities: registry.capabilities(),
@@ -188,7 +206,7 @@ export function createMcpCapabilities(): readonly McpCapability[] {
   return defaultCapabilities().map(publicCapability).sort(compareCapabilities);
 }
 
-function defaultCapabilities(): readonly RegisteredCapability[] {
+function defaultCapabilities(options: McpRuntimeOptions = {}): readonly RegisteredCapability[] {
   return [
     capability("FindFunction", "Find functions and methods by id, name, file, or free-text query.", stringInput("query"), arrayOutput("nodes"), [
       { input: { query: "main" } },
@@ -295,19 +313,34 @@ function defaultCapabilities(): readonly RegisteredCapability[] {
     ], (query, input) => searchResultToJson(resolveIntent(createSemanticIndex(query.graph), readString(input, "query")))),
     capability("IntentExpansion", "Expand natural language into deterministic semantics-derived vocabulary and candidates.", stringInput("query"), objectOutput(), [
       { input: { query: "redis cache device alerts" } },
-    ], (query, input) => serializeUnknown(createIntelligence(query.graph).expand(readString(input, "query")))),
+    ], (query, input) => serializeUnknown(createRuntimeIntelligence(query, options).expand(readString(input, "query")))),
     capability("FeatureOwnership", "Find deterministic feature ownership from the Semantics artifact.", stringInput("query"), objectOutput(), [
       { input: { query: "authentication" } },
     ], (query, input) => ({
       query: readString(input, "query"),
-      features: serializeUnknown(createIntelligence(query.graph).feature(readString(input, "query"))),
+      features: serializeUnknown(createRuntimeIntelligence(query, options).feature(readString(input, "query"))),
     })),
     capability("SemanticNeighborhood", "Explain related graph concepts for a node or natural query using Semantics neighborhoods.", stringInput("query"), objectOutput(), [
       { input: { query: "AuthService" } },
-    ], (query, input) => semanticNeighborhoodCapability(query, readString(input, "query"))),
+    ], (query, input) => semanticNeighborhoodCapability(query, readString(input, "query"), options)),
     capability("SemanticContext", "Return expansion, feature ownership, semantic neighborhood, and bounded evidence for a query.", stringInput("query"), objectOutput(), [
       { input: { query: "sleep duration thresholds" } },
-    ], (query, input) => semanticContextCapability(query, readString(input, "query"))),
+    ], (query, input) => semanticContextCapability(query, readString(input, "query"), options)),
+    capability("History", "Return deterministic Git-history intelligence for a node or natural query.", stringInput("query"), objectOutput(), [
+      { input: { query: "AuthService" } },
+    ], (query, input) => historyCapability(query, readString(input, "query"), options)),
+    capability("Ownership", "Return deterministic repository ownership for a node or natural query.", stringInput("query"), objectOutput(), [
+      { input: { query: "AuthService" } },
+    ], (query, input) => ownershipCapability(query, readString(input, "query"), options)),
+    capability("Hotspots", "Return bounded repository hotspots from Git churn and modification frequency.", objectInput(), objectOutput(), [
+      { input: { limit: 10 } },
+    ], (query, input) => hotspotsCapability(query, readNumber(input, "limit", 10), options)),
+    capability("Cochanges", "Return files and graph nodes that frequently evolve with a node.", stringInput("query"), objectOutput(), [
+      { input: { query: "AuthService" } },
+    ], (query, input) => cochangesCapability(query, readString(input, "query"), readNumber(input, "limit", 10), options)),
+    capability("Stability", "Return deterministic hotspot, churn, and stability scores for a node.", stringInput("query"), objectOutput(), [
+      { input: { query: "AuthService" } },
+    ], (query, input) => stabilityCapability(query, readString(input, "query"), options)),
 	    ...semanticMcpCapabilities(),
 	  ];
 	}
@@ -369,8 +402,14 @@ function semanticCapabilityExamples(name: CapabilityName): readonly JsonObject[]
   return [{ input: { query: "AuthService", depth: 3 } }];
 }
 
-function semanticNeighborhoodCapability(query: QueryEngine, value: string): JsonObject {
-  const intelligence = createIntelligence(query.graph);
+function createRuntimeIntelligence(query: QueryEngine, options: McpRuntimeOptions) {
+  return createIntelligence(query.graph, {
+    history: options.history ?? createHistoryArtifact(query.graph, { commits: [] }),
+  });
+}
+
+function semanticNeighborhoodCapability(query: QueryEngine, value: string, options: McpRuntimeOptions): JsonObject {
+  const intelligence = createRuntimeIntelligence(query, options);
   const neighborhood = intelligence.related(value);
   if (!neighborhood) {
     return {
@@ -391,8 +430,8 @@ function semanticNeighborhoodCapability(query: QueryEngine, value: string): Json
   };
 }
 
-function semanticContextCapability(query: QueryEngine, value: string): JsonObject {
-  const intelligence = createIntelligence(query.graph);
+function semanticContextCapability(query: QueryEngine, value: string, options: McpRuntimeOptions): JsonObject {
+  const intelligence = createRuntimeIntelligence(query, options);
   const neighborhood = intelligence.related(value);
   return {
     status: neighborhood ? "PASS" : "PARTIAL",
@@ -402,6 +441,119 @@ function semanticContextCapability(query: QueryEngine, value: string): JsonObjec
     neighborhood: neighborhood ? serializeUnknown(neighborhood) : null,
     evidence: serializeUnknown(intelligence.evidence(value)),
   };
+}
+
+function historyCapability(query: QueryEngine, value: string, options: McpRuntimeOptions): JsonObject {
+  const intelligence = createRuntimeIntelligence(query, options);
+  const history = intelligence.history(value);
+  if (!history) {
+    return notFoundHistory(value);
+  }
+  return {
+    status: "PASS",
+    query: value,
+    history: serializeHistoryNode(history),
+    ownership: serializeUnknown(history.ownership),
+    stability: serializeUnknown(intelligence.stability(value) ?? null),
+    cochanges: serializeUnknown(intelligence.cochanges(value, { limit: 5 }).map(serializeCochange)),
+  };
+}
+
+function ownershipCapability(query: QueryEngine, value: string, options: McpRuntimeOptions): JsonObject {
+  const intelligence = createRuntimeIntelligence(query, options);
+  const history = intelligence.history(value);
+  if (!history) {
+    return notFoundHistory(value);
+  }
+  return {
+    status: "PASS",
+    query: value,
+    node: serializeHistoryNode(history),
+    ownership: serializeUnknown(history.ownership),
+  };
+}
+
+function hotspotsCapability(query: QueryEngine, limit: number, options: McpRuntimeOptions): JsonObject {
+  const intelligence = createRuntimeIntelligence(query, options);
+  const safeLimit = Math.max(1, Math.min(Number.isFinite(limit) ? limit : 10, 50));
+  return {
+    status: "PASS",
+    nodes: serializeUnknown(intelligence.hotspots({ limit: safeLimit }).map(serializeHistoryNode)),
+  };
+}
+
+function cochangesCapability(query: QueryEngine, value: string, limit: number, options: McpRuntimeOptions): JsonObject {
+  const intelligence = createRuntimeIntelligence(query, options);
+  const relationships = intelligence.cochanges(value, { limit: Math.max(1, Math.min(Number.isFinite(limit) ? limit : 10, 50)) });
+  return {
+    status: relationships.length > 0 ? "PASS" : "NOT_FOUND",
+    query: value,
+    relationships: serializeUnknown(relationships.map(serializeCochange)),
+    diagnostics: relationships.length > 0 ? [] : [{
+      code: "MCP_NOT_FOUND",
+      message: `No co-change relationships matched "${value}".`,
+      suggestedFix: "Run ontoly history build after generating a Software Graph with file-backed nodes.",
+    }],
+  };
+}
+
+function stabilityCapability(query: QueryEngine, value: string, options: McpRuntimeOptions): JsonObject {
+  const intelligence = createRuntimeIntelligence(query, options);
+  const history = intelligence.history(value);
+  if (!history) {
+    return notFoundHistory(value);
+  }
+  return {
+    status: "PASS",
+    query: value,
+    node: serializeHistoryNode(history),
+    stability: serializeUnknown(intelligence.stability(value) ?? null),
+  };
+}
+
+function notFoundHistory(value: string): JsonObject {
+  return {
+    status: "NOT_FOUND",
+    query: value,
+    diagnostics: [{
+      code: "MCP_NOT_FOUND",
+      message: `No repository history matched "${value}".`,
+      suggestedFix: "Run ontoly history build and retry with a stable node id, symbol name, or file-backed graph node.",
+    }],
+  };
+}
+
+function serializeHistoryNode(node: NodeHistory): JsonObject {
+  return {
+    nodeId: node.nodeId,
+    name: node.name,
+    kind: node.kind,
+    file: node.file,
+    modificationCount: node.modificationCount,
+    owner: node.ownership.owner,
+    ownershipConfidence: node.ownershipConfidence,
+    busFactor: node.ownership.busFactor,
+    hotspotScore: node.hotspotScore,
+    churnScore: node.churnScore,
+    stabilityScore: node.stabilityScore,
+    firstIntroductionCommit: node.firstIntroductionCommit,
+    lastModification: node.lastModification,
+    categoryRatios: node.categoryRatios,
+  } as unknown as JsonObject;
+}
+
+function serializeCochange(relationship: CoChangeRelationship): JsonObject {
+  return {
+    id: relationship.id,
+    leftFile: relationship.leftFile,
+    rightFile: relationship.rightFile,
+    leftNodeIds: relationship.leftNodeIds,
+    rightNodeIds: relationship.rightNodeIds,
+    count: relationship.count,
+    score: relationship.score,
+    categories: relationship.categories,
+    lastCommit: relationship.lastCommit,
+  } as unknown as JsonObject;
 }
 
 function inspectFile(query: QueryEngine, file: string): JsonObject {

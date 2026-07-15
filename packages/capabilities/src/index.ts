@@ -17,6 +17,11 @@ import {
   type SemanticIndex,
   type SemanticSearchResult,
 } from "@0xsarwagya/ontoly-core";
+import type {
+  HistoryArtifact,
+  NodeHistory,
+  StabilityInfo,
+} from "@0xsarwagya/ontoly-enhancer-history";
 import { createQueryEngine, type GraphStatistics, type QueryEngine } from "@0xsarwagya/ontoly-query";
 
 export const CAPABILITY_NAMES = [
@@ -143,6 +148,9 @@ export interface EvidencePack {
   readonly topEdges: readonly SerializedEdge[];
   readonly relevantFiles: readonly string[];
   readonly relationships: JsonObject;
+  readonly history: readonly EvidencePackHistory[];
+  readonly ownership: readonly EvidencePackOwnership[];
+  readonly stability: readonly EvidencePackStability[];
   readonly items: readonly EvidencePackItem[];
   readonly diagnostics: readonly CapabilityDiagnostic[];
   readonly confidence: CapabilityConfidence;
@@ -151,6 +159,32 @@ export interface EvidencePack {
   readonly filesToInspect: readonly string[];
   readonly fallbacks: readonly string[];
   readonly provenance: JsonObject;
+}
+
+export interface EvidencePackHistory {
+  readonly stableId: string;
+  readonly name: string;
+  readonly file: string | null;
+  readonly modificationCount: number;
+  readonly hotspotScore: number;
+  readonly churnScore: number;
+  readonly lastModified?: JsonObject | undefined;
+}
+
+export interface EvidencePackOwnership {
+  readonly stableId: string;
+  readonly owner: string | null;
+  readonly confidence: number;
+  readonly busFactor: number;
+  readonly contributors: readonly JsonObject[];
+}
+
+export interface EvidencePackStability {
+  readonly stableId: string;
+  readonly hotspotScore: number;
+  readonly churnScore: number;
+  readonly stabilityScore: number;
+  readonly classification: StabilityInfo["classification"];
 }
 
 interface PlanEvidencePack {
@@ -178,6 +212,7 @@ export interface CapabilityContext {
   readonly graph: SoftwareGraph;
   readonly query: QueryEngine;
   readonly semanticIndex: SemanticIndex;
+  readonly history?: HistoryArtifact | undefined;
 }
 
 export interface CapabilityRegistry {
@@ -305,10 +340,14 @@ const OWNER_RELATIONSHIPS: readonly RelationshipType[] = [
   "BELONGS_TO",
 ];
 
-export function createCapabilityEngine(graph: SoftwareGraph): CapabilityEngine {
+export interface CapabilityEngineOptions {
+  readonly history?: HistoryArtifact | undefined;
+}
+
+export function createCapabilityEngine(graph: SoftwareGraph, options: CapabilityEngineOptions = {}): CapabilityEngine {
   const query = createQueryEngine(graph);
   const semanticIndex = createSemanticIndex(graph);
-  const registry = createCapabilityRegistry({ graph, query, semanticIndex }, defaultCapabilities());
+  const registry = createCapabilityRegistry({ graph, query, semanticIndex, history: options.history }, defaultCapabilities());
   return {
     registry,
     execute: registry.execute,
@@ -1112,6 +1151,7 @@ function evidencePackCapability(context: CapabilityContext, input: CapabilityInp
   const files = evidencePackFiles(context, serializedNodes, serializedEdges);
   const commands = suggestedEvidenceCommands(query, topNodes);
   const items = evidencePackItems(context, query, topNodes, topEdges, semanticScores);
+  const temporalEvidence = evidencePackTemporalEvidence(context.history, topNodes);
   const pack: EvidencePack = {
     version: "1.0.0",
     query,
@@ -1134,6 +1174,9 @@ function evidencePackCapability(context: CapabilityContext, input: CapabilityInp
     topEdges: serializedEdges,
     relevantFiles: files,
     relationships: countEdges(topEdges),
+    history: temporalEvidence.history,
+    ownership: temporalEvidence.ownership,
+    stability: temporalEvidence.stability,
     items,
     diagnostics,
     confidence,
@@ -1897,6 +1940,76 @@ function evidencePackItems(
       nextCommands: nodeEvidenceCommands(query, node),
     };
   });
+}
+
+function evidencePackTemporalEvidence(
+  history: HistoryArtifact | undefined,
+  nodes: readonly SoftwareGraphNode[],
+): {
+  readonly history: readonly EvidencePackHistory[];
+  readonly ownership: readonly EvidencePackOwnership[];
+  readonly stability: readonly EvidencePackStability[];
+} {
+  if (!history) {
+    return {
+      history: [],
+      ownership: [],
+      stability: [],
+    };
+  }
+  const historyByNode = new Map(history.nodes.map((node) => [node.nodeId, node] as const));
+  const nodeHistories = nodes
+    .map((node) => historyByNode.get(node.id))
+    .filter(isNodeHistory)
+    .slice(0, EVIDENCE_PACK_NODE_LIMIT);
+
+  return {
+    history: nodeHistories.map(evidencePackHistory),
+    ownership: nodeHistories.map(evidencePackOwnership),
+    stability: nodeHistories.map(evidencePackStability),
+  };
+}
+
+function evidencePackHistory(node: NodeHistory): EvidencePackHistory {
+  return {
+    stableId: node.nodeId,
+    name: node.name,
+    file: node.file,
+    modificationCount: node.modificationCount,
+    hotspotScore: node.hotspotScore,
+    churnScore: node.churnScore,
+    ...(node.lastModification ? { lastModified: node.lastModification as unknown as JsonObject } : {}),
+  };
+}
+
+function evidencePackOwnership(node: NodeHistory): EvidencePackOwnership {
+  return {
+    stableId: node.nodeId,
+    owner: node.ownership.owner,
+    confidence: node.ownershipConfidence,
+    busFactor: node.ownership.busFactor,
+    contributors: node.ownership.contributors.slice(0, 5).map((contributor) => contributor as unknown as JsonObject),
+  };
+}
+
+function evidencePackStability(node: NodeHistory): EvidencePackStability {
+  return {
+    stableId: node.nodeId,
+    hotspotScore: node.hotspotScore,
+    churnScore: node.churnScore,
+    stabilityScore: node.stabilityScore,
+    classification: historyClassification(node),
+  };
+}
+
+function historyClassification(node: NodeHistory): StabilityInfo["classification"] {
+  if (node.hotspotScore >= 70) return "hotspot";
+  if (node.hotspotScore >= 40) return "watch";
+  return "stable";
+}
+
+function isNodeHistory(value: NodeHistory | undefined): value is NodeHistory {
+  return Boolean(value);
 }
 
 function evidenceItemConfidence(

@@ -38,8 +38,8 @@ for (const packageJsonPath of packageFiles) {
     }
   }
 
-  if (manifest.name === "@0xsarwagya/ontoly-enhancer-semantics" && !files.has("enhancer.json")) {
-    issues.push(`${relative(packageJsonPath)}: semantics enhancer package must include enhancer.json`);
+  if (manifest.name?.startsWith("@0xsarwagya/ontoly-enhancer-") && fs.existsSync(path.join(directory, "enhancer.json")) && !files.has("enhancer.json")) {
+    issues.push(`${relative(packageJsonPath)}: enhancer package must include enhancer.json`);
   }
 
   const forbidden = [...files].filter((file) =>

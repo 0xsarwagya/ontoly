@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createEdgeId, createSoftwareGraph } from "@0xsarwagya/ontoly-core";
+import { createHistoryArtifact } from "@0xsarwagya/ontoly-enhancer-history";
 import { createMcpRuntime } from "../src/index";
 
 describe("MCP semantic capabilities", () => {
@@ -13,10 +14,15 @@ describe("MCP semantic capabilities", () => {
       "ImplementationPlan",
       "ImpactAnalysis",
       "IntentExpansion",
+      "History",
+      "Hotspots",
       "RepositoryHealth",
       "RequestTrace",
       "SemanticContext",
       "SemanticNeighborhood",
+      "Ownership",
+      "Cochanges",
+      "Stability",
     ]));
   });
 
@@ -71,6 +77,75 @@ describe("MCP semantic capabilities", () => {
       status: expect.stringMatching(/PASS|PARTIAL/),
       expansion: expect.any(Object),
       evidence: expect.any(Object),
+    });
+  });
+
+  it("executes temporal intelligence capabilities from history artifacts", () => {
+    const repositoryGraph = graph();
+    const runtime = createMcpRuntime(repositoryGraph, {
+      history: createHistoryArtifact(repositoryGraph, {
+        commits: [
+          {
+            hash: "0001",
+            authoredAt: "2026-01-01T00:00:00.000Z",
+            author: "Alice",
+            subject: "feat: add authentication",
+            changes: [
+              { file: "src/auth.service.ts", additions: 60, deletions: 0 },
+              { file: "src/auth.controller.ts", additions: 25, deletions: 0 },
+            ],
+          },
+          {
+            hash: "0002",
+            authoredAt: "2026-02-01T00:00:00.000Z",
+            author: "Bob",
+            subject: "fix: patch authentication",
+            changes: [
+              { file: "src/auth.service.ts", additions: 4, deletions: 2 },
+            ],
+          },
+        ],
+      }),
+    });
+
+    expect(runtime.execute({
+      capability: "History",
+      input: { query: "AuthService" },
+    }).result).toMatchObject({
+      status: "PASS",
+      history: expect.objectContaining({
+        name: "AuthService",
+        modificationCount: 2,
+      }),
+    });
+    expect(runtime.execute({
+      capability: "Ownership",
+      input: { query: "AuthService" },
+    }).result).toMatchObject({
+      ownership: expect.objectContaining({ owner: "Alice" }),
+    });
+    expect(runtime.execute({
+      capability: "Hotspots",
+      input: { limit: 2 },
+    }).result).toMatchObject({
+      nodes: expect.arrayContaining([
+        expect.objectContaining({ name: "AuthService" }),
+      ]),
+    });
+    expect(runtime.execute({
+      capability: "Cochanges",
+      input: { query: "AuthService" },
+    }).result).toMatchObject({
+      status: "PASS",
+      relationships: expect.any(Array),
+    });
+    expect(runtime.execute({
+      capability: "Stability",
+      input: { query: "AuthService" },
+    }).result).toMatchObject({
+      stability: expect.objectContaining({
+        classification: expect.stringMatching(/hotspot|watch|stable/),
+      }),
     });
   });
 });

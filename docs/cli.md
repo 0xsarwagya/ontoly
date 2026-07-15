@@ -243,6 +243,9 @@ The command returns the shared capability result schema. Its
 - `stableIds`
 - `filesToInspect`
 - `fallbacks`
+- `history`
+- `ownership`
+- `stability`
 
 Evidence Packs are also available through MCP as `EvidencePack` and through the
 enhancer pipeline as `evidence-pack`. There is no separate Ontoly router
@@ -259,6 +262,10 @@ ontoly enhancer inspect semantic-index
 ontoly enhancer run semantic-index .
 ontoly semantics build .
 ontoly semantics inspect "sleep duration thresholds" --json
+ontoly history build .
+ontoly ownership AuthService
+ontoly hotspots --limit 10
+ontoly cochanges AuthService --json
 ontoly enhancer run MarkdownDocs .
 ontoly enhancer graph --format mermaid
 ontoly enhancer validate --ci
@@ -272,6 +279,9 @@ manifests, and pipeline visualization.
 
 See [Semantic Intelligence](semantic-intelligence.md) for the derived Semantics
 artifact and concept graph.
+
+See [Repository Intelligence](repository-intelligence.md) for the derived
+History, Ownership, Hotspots, Cochanges, and Drift artifacts.
 
 ## Semantic Index Search
 
