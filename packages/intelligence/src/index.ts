@@ -17,10 +17,19 @@ import {
   type SemanticGraphLink,
   type SemanticNeighborhood,
 } from "@0xsarwagya/ontoly-enhancer-semantics";
+import {
+  createHistoryArtifact,
+  type CoChangeRelationship,
+  type HistoryArtifact,
+  type NodeHistory,
+  type OwnershipInfo,
+  type StabilityInfo,
+} from "@0xsarwagya/ontoly-enhancer-history";
 
 export interface CreateIntelligenceOptions {
   readonly semanticIndex?: SemanticIndex | undefined;
   readonly semantics?: SemanticsArtifact | undefined;
+  readonly history?: HistoryArtifact | undefined;
 }
 
 export interface IntentExpansionResult {
@@ -46,6 +55,9 @@ export interface IntelligenceEvidencePack {
   readonly links: readonly SemanticGraphLink[];
   readonly files: readonly string[];
   readonly features: readonly FeatureMatch[];
+  readonly history: readonly NodeHistory[];
+  readonly ownership: readonly IntelligenceOwnershipSummary[];
+  readonly stability: readonly IntelligenceStabilitySummary[];
   readonly expansion: IntentExpansionResult;
   readonly confidence: number;
   readonly diagnostics: readonly JsonObject[];
@@ -89,15 +101,44 @@ export interface SemanticNeighborhoodResult {
   readonly related: readonly IntelligenceEvidenceNode[];
 }
 
+export interface IntelligenceOwnershipSummary {
+  readonly nodeId: string;
+  readonly name: string;
+  readonly file: string | null;
+  readonly ownership: OwnershipInfo;
+}
+
+export interface IntelligenceStabilitySummary {
+  readonly nodeId: string;
+  readonly name: string;
+  readonly file: string | null;
+  readonly stability: StabilityInfo;
+}
+
+export interface HistoryListOptions {
+  readonly limit?: number | undefined;
+}
+
+export interface CochangeOptions {
+  readonly limit?: number | undefined;
+}
+
 export interface OntolyIntelligence {
   readonly graph: SoftwareGraph;
   readonly semanticIndex: SemanticIndex;
   readonly semantics: SemanticsArtifact;
+  readonly historyArtifact: HistoryArtifact;
   readonly expand: (query: string) => IntentExpansionResult;
   readonly intent: (query: string) => IntentResolutionResult;
   readonly evidence: (query: string, options?: EvidenceOptions) => IntelligenceEvidencePack;
   readonly feature: (query: string, options?: FeatureOptions) => readonly FeatureMatch[];
   readonly related: (nodeIdOrQuery: string, options?: RelatedOptions) => SemanticNeighborhoodResult | undefined;
+  readonly history: (nodeIdOrQuery: string) => NodeHistory | undefined;
+  readonly ownership: (nodeIdOrQuery: string) => OwnershipInfo | undefined;
+  readonly hotspots: (options?: HistoryListOptions) => readonly NodeHistory[];
+  readonly churn: (options?: HistoryListOptions) => readonly NodeHistory[];
+  readonly cochanges: (nodeIdOrQuery: string, options?: CochangeOptions) => readonly CoChangeRelationship[];
+  readonly stability: (nodeIdOrQuery: string) => StabilityInfo | undefined;
 }
 
 export interface EvidenceOptions {
@@ -119,6 +160,8 @@ const DEFAULT_LINK_LIMIT = 50;
 const DEFAULT_FILE_LIMIT = 10;
 const DEFAULT_FEATURE_LIMIT = 10;
 const DEFAULT_RELATED_LIMIT = 20;
+const DEFAULT_HISTORY_LIMIT = 20;
+const DEFAULT_COCHANGE_LIMIT = 20;
 const EXECUTABLE_QUERY_TERMS = new Set(["average", "averages", "calculate", "code", "compute", "function", "method"]);
 const EXECUTABLE_KINDS = new Set<NodeType>(["Function", "Method", "Operation"]);
 const GENERIC_EXPANSION_TERMS = new Set([
@@ -152,7 +195,9 @@ export function createIntelligence(
 ): OntolyIntelligence {
   const semanticIndex = options.semanticIndex ?? createSemanticIndex(graph);
   const semantics = options.semantics ?? createSemanticsArtifact(graph, semanticIndex);
+  const historyArtifact = options.history ?? createHistoryArtifact(graph, { commits: [] });
   const nodeById = new Map(graph.nodes.map((node) => [node.id, node] as const));
+  const historyByNodeId = new Map(historyArtifact.nodes.map((node) => [node.nodeId, node] as const));
   const neighborhoodByNodeId = new Map(semantics.neighborhoods.map((neighborhood) => [neighborhood.nodeId, neighborhood] as const));
   const featureIdsByNode = nodeFeatureIndex(semantics.featureOwnership);
 
@@ -222,6 +267,11 @@ export function createIntelligence(
       .sort(compareSemanticGraphLinks)
       .slice(0, linkLimit);
     const files = uniqueStrings(nodes.map((node) => node.file ?? "").filter(Boolean)).slice(0, fileLimit);
+    const history = nodeIds
+      .map((nodeId) => historyByNodeId.get(nodeId))
+      .filter(isNodeHistory)
+      .sort(compareNodeHistoryByRisk)
+      .slice(0, nodeLimit);
     const diagnostics = nodes.length === 0
       ? [{
         code: "INTELLIGENCE_NOT_FOUND",
@@ -237,6 +287,24 @@ export function createIntelligence(
       links,
       files,
       features: expansion.matchedFeatures,
+      history,
+      ownership: history.map((item) => ({
+        nodeId: item.nodeId,
+        name: item.name,
+        file: item.file,
+        ownership: item.ownership,
+      })),
+      stability: history.map((item) => ({
+        nodeId: item.nodeId,
+        name: item.name,
+        file: item.file,
+        stability: {
+          hotspotScore: item.hotspotScore,
+          churnScore: item.churnScore,
+          stabilityScore: item.stabilityScore,
+          classification: item.hotspotScore >= 70 ? "hotspot" : item.hotspotScore >= 40 ? "watch" : "stable",
+        },
+      })),
       expansion,
       confidence: expansion.confidence,
       diagnostics,
@@ -287,15 +355,76 @@ export function createIntelligence(
     };
   }
 
+  function history(nodeIdOrQuery: string): NodeHistory | undefined {
+    const node = resolveNode(nodeIdOrQuery, graph, semanticIndex);
+    return node ? historyByNodeId.get(node.id) : undefined;
+  }
+
+  function ownership(nodeIdOrQuery: string): OwnershipInfo | undefined {
+    return history(nodeIdOrQuery)?.ownership;
+  }
+
+  function hotspots(options: HistoryListOptions = {}): readonly NodeHistory[] {
+    const limit = clamp(options.limit ?? DEFAULT_HISTORY_LIMIT, 1, 200);
+    return [...historyArtifact.nodes].sort(compareNodeHistoryByRisk).slice(0, limit);
+  }
+
+  function churn(options: HistoryListOptions = {}): readonly NodeHistory[] {
+    const limit = clamp(options.limit ?? DEFAULT_HISTORY_LIMIT, 1, 200);
+    return [...historyArtifact.nodes]
+      .sort((left, right) =>
+        right.churnScore - left.churnScore ||
+        right.modificationCount - left.modificationCount ||
+        left.nodeId.localeCompare(right.nodeId),
+      )
+      .slice(0, limit);
+  }
+
+  function cochanges(nodeIdOrQuery: string, options: CochangeOptions = {}): readonly CoChangeRelationship[] {
+    const node = resolveNode(nodeIdOrQuery, graph, semanticIndex);
+    if (!node) {
+      return [];
+    }
+    const limit = clamp(options.limit ?? DEFAULT_COCHANGE_LIMIT, 1, 200);
+    return historyArtifact.cochanges.relationships
+      .filter((relationship) =>
+        relationship.leftNodeIds.includes(node.id) ||
+        relationship.rightNodeIds.includes(node.id) ||
+        Boolean(node.file && (relationship.leftFile === node.file || relationship.rightFile === node.file)),
+      )
+      .sort((left, right) => right.score - left.score || right.count - left.count || left.id.localeCompare(right.id))
+      .slice(0, limit);
+  }
+
+  function stability(nodeIdOrQuery: string): StabilityInfo | undefined {
+    const item = history(nodeIdOrQuery);
+    if (!item) {
+      return undefined;
+    }
+    return {
+      hotspotScore: item.hotspotScore,
+      churnScore: item.churnScore,
+      stabilityScore: item.stabilityScore,
+      classification: item.hotspotScore >= 70 ? "hotspot" : item.hotspotScore >= 40 ? "watch" : "stable",
+    };
+  }
+
   return {
     graph,
     semanticIndex,
     semantics,
+    historyArtifact,
     expand,
     intent,
     evidence,
     feature,
     related,
+    history,
+    ownership,
+    hotspots,
+    churn,
+    cochanges,
+    stability,
   };
 }
 
@@ -516,6 +645,17 @@ function round(value: number): number {
 
 function isEvidenceNode(value: IntelligenceEvidenceNode | undefined): value is IntelligenceEvidenceNode {
   return Boolean(value);
+}
+
+function isNodeHistory(value: NodeHistory | undefined): value is NodeHistory {
+  return Boolean(value);
+}
+
+function compareNodeHistoryByRisk(left: NodeHistory, right: NodeHistory): number {
+  return right.hotspotScore - left.hotspotScore ||
+    right.churnScore - left.churnScore ||
+    right.modificationCount - left.modificationCount ||
+    left.nodeId.localeCompare(right.nodeId);
 }
 
 function compareCandidates(left: IntelligenceCandidate, right: IntelligenceCandidate): number {

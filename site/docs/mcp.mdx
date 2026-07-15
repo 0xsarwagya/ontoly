@@ -26,6 +26,13 @@ const response = runtime.execute({
 });
 ```
 
+If a History artifact is available, pass it into the runtime so temporal
+capabilities and Evidence Packs include repository evolution facts:
+
+```ts
+const runtime = createMcpRuntime(graph, { history });
+```
+
 ## Capabilities
 
 - `FindFunction`
@@ -48,6 +55,11 @@ const response = runtime.execute({
 - `FeatureOwnership`
 - `SemanticNeighborhood`
 - `SemanticContext`
+- `History`
+- `Ownership`
+- `Hotspots`
+- `Cochanges`
+- `Stability`
 
 Each capability declares a name, version, description, input schema, output
 schema, and examples.

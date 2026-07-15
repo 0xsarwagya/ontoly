@@ -1,4 +1,5 @@
 import { createEdgeId, createSemanticIndex, createSoftwareGraph, type SoftwareGraph } from "@0xsarwagya/ontoly-core";
+import { createHistoryArtifact } from "@0xsarwagya/ontoly-enhancer-history";
 import { createSemanticsArtifact } from "@0xsarwagya/ontoly-enhancer-semantics";
 import { describe, expect, it } from "vitest";
 import { createIntelligence } from "../src/index";
@@ -49,6 +50,58 @@ describe("intelligence", () => {
     expect(exact?.node.name).toBe("CarehubPatientThresholdService");
     expect(exact?.related.map((node) => node.name)).toContain("calculateSleepDurationAverages");
     expect(fuzzy?.node.name).toBe("calculateSleepDurationAverages");
+  });
+
+  it("answers temporal intelligence queries from history artifacts", () => {
+    const graph = intelligenceFixtureGraph();
+    const history = createHistoryArtifact(graph, {
+      commits: [
+        {
+          hash: "0001",
+          authoredAt: "2025-01-01T00:00:00.000Z",
+          author: "Alice",
+          subject: "feat: introduce sleep thresholds",
+          changes: [
+            { file: "src/carehub/threshold.service.ts", additions: 50, deletions: 0 },
+            { file: "src/carehub/sleep.ts", additions: 30, deletions: 0 },
+          ],
+        },
+        {
+          hash: "0002",
+          authoredAt: "2025-02-01T00:00:00.000Z",
+          author: "Bob",
+          subject: "fix: patch sleep thresholds",
+          changes: [
+            { file: "src/carehub/threshold.service.ts", additions: 6, deletions: 2 },
+          ],
+        },
+        {
+          hash: "0003",
+          authoredAt: "2026-01-01T00:00:00.000Z",
+          author: "Alice",
+          subject: "refactor: simplify threshold averages",
+          changes: [
+            { file: "src/carehub/threshold.service.ts", additions: 10, deletions: 12 },
+            { file: "src/carehub/sleep.ts", additions: 8, deletions: 4 },
+          ],
+        },
+      ],
+    });
+    const intelligence = createIntelligence(graph, { history });
+
+    expect(intelligence.history("CarehubPatientThresholdService")?.modificationCount).toBe(3);
+    expect(intelligence.ownership("CarehubPatientThresholdService")?.owner).toBe("Alice");
+    expect(intelligence.hotspots({ limit: 1 })[0]?.nodeId).toBe("svc:CarehubPatientThresholdService");
+    const cochangeNodeIds = intelligence.cochanges("CarehubPatientThresholdService").flatMap((relationship) => [
+      ...relationship.leftNodeIds,
+      ...relationship.rightNodeIds,
+    ]);
+    expect(cochangeNodeIds).toContain("fn:calculateSleepDurationAverages");
+    expect(intelligence.stability("CarehubPatientThresholdService")?.classification).toMatch(/hotspot|watch|stable/);
+
+    const evidence = intelligence.evidence("sleep thresholds", { nodeLimit: 5 });
+    expect(evidence.history.some((node) => node.nodeId === "svc:CarehubPatientThresholdService")).toBe(true);
+    expect(evidence.ownership.some((node) => node.ownership.owner === "Alice")).toBe(true);
   });
 });
 

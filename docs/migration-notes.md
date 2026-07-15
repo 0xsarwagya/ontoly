@@ -1,13 +1,13 @@
 # Migration Notes
 
-## 1.0.0-rc.1
+## 1.0.0-rc.2
 
 Projects upgrading from `0.1.0-alpha.19` do not need a Software Graph schema
 migration.
 
 Recommended upgrade steps:
 
-1. Upgrade Ontoly packages together to `1.0.0-rc.1`.
+1. Upgrade Ontoly packages together to `1.0.0-rc.2`.
 2. Rebuild the repository graph.
 3. Run `ontoly semantics build .` to create the derived Semantics artifact.
 4. Run `ontoly semantics validate --ci`.

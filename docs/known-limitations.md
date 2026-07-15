@@ -1,6 +1,6 @@
 # Known Limitations
 
-Ontoly v1.0.0-rc.1 is intentionally conservative.
+Ontoly v1.0.0-rc.2 is intentionally conservative.
 
 ## Language Support
 

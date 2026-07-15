@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-enhancer-semantics",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.2",
   "description": "Deterministic semantics enhancer for Ontoly feature ownership, vocabulary, neighborhoods, and concept graphs.",
   "type": "module",
   "license": "MIT",

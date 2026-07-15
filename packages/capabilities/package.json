@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-capabilities",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.2",
   "description": "Deterministic software engineering capabilities over the Ontoly Software Graph.",
   "type": "module",
   "license": "MIT",
@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@0xsarwagya/ontoly-core": "workspace:*",
+    "@0xsarwagya/ontoly-enhancer-history": "workspace:*",
     "@0xsarwagya/ontoly-query": "workspace:*"
   },
   "publishConfig": {
