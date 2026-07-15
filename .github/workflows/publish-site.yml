@@ -28,7 +28,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: pnpm/action-setup@v4
         with:
@@ -49,7 +49,7 @@ jobs:
           pnpm docs:check-links
 
       - name: Checkout internet
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: 0xsarwagya/internet
           token: ${{ secrets.INTERNET_SYNC_TOKEN }}
