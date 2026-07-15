@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-cli",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
   "description": "CLI and public convenience API for Ontoly.",
   "type": "module",
   "license": "MIT",

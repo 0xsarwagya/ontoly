@@ -2,6 +2,23 @@
 
 All notable Ontoly changes are tracked here.
 
+## 1.0.0-rc.3
+
+### Fixed
+
+- History indexing now fails closed with a structured
+  `HISTORY_INDEXING_FAILED` error instead of silently producing empty history
+  artifacts when Git history collection fails.
+- Git history collection now uses a 128 MiB output buffer and reports buffer
+  failures explicitly.
+- Successful History artifacts now include `historyIndexed` and
+  `historyStatus` provenance so users and agents can distinguish indexed-empty
+  history from unavailable history.
+- Added CLI version support through `ontoly --version`, `ontoly -v`, and
+  `ontoly version --json`.
+- Added command-specific help for `ontoly history`, `ontoly hotspots`,
+  `ontoly ownership`, `ontoly cochanges`, and `ontoly stability`.
+
 ## 1.0.0-rc.2
 
 ### Added

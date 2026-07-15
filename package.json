@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-repository",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
   "description": "TypeScript-native software intelligence engine that builds a deterministic Software Graph.",
   "private": true,
   "type": "module",

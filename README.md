@@ -19,7 +19,7 @@ generate embeddings, or make probabilistic guesses.
 
 ## Status
 
-Ontoly's current Release Candidate is `v1.0.0-rc.2`.
+Ontoly's current Release Candidate is `v1.0.0-rc.3`.
 
 The public contract is in Release Candidate freeze, and the repository includes:
 

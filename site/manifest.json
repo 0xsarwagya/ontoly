@@ -3,7 +3,7 @@
   "mdxVersion": 1,
   "slug": "ontoly",
   "name": "Ontoly",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
   "description": "TypeScript-native software intelligence engine that builds deterministic Software Graphs for MCP, AI agents, query tooling, validation, and architecture analysis.",
   "status": "release-candidate",
   "license": "MIT",
