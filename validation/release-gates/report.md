@@ -8,7 +8,7 @@ Status: PASS
 
 ## Warnings
 
-- durable-local: performance variance was 26.69% but only 195.99ms.
+- None.
 
 ## Improvements
 

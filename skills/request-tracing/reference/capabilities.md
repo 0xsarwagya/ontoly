@@ -15,6 +15,6 @@ Use [../reference/mcp.md](../reference/mcp.md) for common capability behavior an
 
 ## Compatibility
 
-- Skill version: 0.1.0-alpha.16
-- Minimum Ontoly version: 0.1.0-alpha.16
+- Skill version: 0.1.0-alpha.17
+- Minimum Ontoly version: 0.1.0-alpha.17
 - Deprecation status: active

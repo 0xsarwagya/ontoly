@@ -1,5 +1,18 @@
 # Alpha Release Notes
 
+## v0.1.0-alpha.17
+
+This engineering-excellence release keeps alpha.16 behavior intact while
+cleaning private CLI source and publishing the measured alpha.17 audit report.
+
+- Removed unused private CLI plumbing with no public API changes.
+- Added `reports/alpha17-engineering-excellence.md` with runtime/docs LOC,
+  public export counts, package dependency graph, complexity observations, and
+  validation evidence.
+- Preserved the Ovok 40-question benchmark at 40 PASS, 0 PARTIAL, 0 FAIL, and
+  38 Top-1 results.
+- Agent Skills now require Ontoly `0.1.0-alpha.17`.
+
 ## v0.1.0-alpha.16
 
 This retrieval stabilization release restores the alpha.14 Ovok benchmark

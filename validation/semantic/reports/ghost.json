@@ -36,7 +36,7 @@
       "precision": 100,
       "recall": 100,
       "confidence": 100,
-      "latencyMs": 0.029,
+      "latencyMs": 0.014,
       "semanticUnderstandingScore": 100
     },
     "graphify": {
@@ -48,7 +48,7 @@
       "precision": 0,
       "recall": 0,
       "confidence": 0,
-      "latencyMs": 0.003,
+      "latencyMs": 0.002,
       "semanticUnderstandingScore": 0
     },
     "winner": "Ontoly"
@@ -78,7 +78,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.047,
+        "latencyMs": 0.022,
         "answers": [
           {
             "label": "createGhost",
@@ -101,7 +101,7 @@
           "createGhost"
         ],
         "confidence": 0,
-        "latencyMs": 0.002,
+        "latencyMs": 0.001,
         "answers": [],
         "explanation": "0 candidate node(s) matched Function with terms createGhost."
       },
@@ -131,7 +131,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.021,
+        "latencyMs": 0.01,
         "answers": [
           {
             "label": "Ghost",
@@ -154,7 +154,7 @@
           "Ghost"
         ],
         "confidence": 0,
-        "latencyMs": 0.002,
+        "latencyMs": 0.001,
         "answers": [],
         "explanation": "Architecture summary searched Interface, Class."
       },
@@ -184,7 +184,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.012,
+        "latencyMs": 0.006,
         "answers": [
           {
             "label": "GhostError",
@@ -207,7 +207,7 @@
           "GhostError"
         ],
         "confidence": 0,
-        "latencyMs": 0.007,
+        "latencyMs": 0.004,
         "answers": [],
         "explanation": "Architecture summary searched Class."
       },
@@ -237,7 +237,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.01,
+        "latencyMs": 0.004,
         "answers": [
           {
             "label": "CI",
@@ -290,7 +290,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.012,
+        "latencyMs": 0.006,
         "answers": [
           {
             "label": "@0xsarwagya/ghost",
@@ -349,7 +349,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.073,
+        "latencyMs": 0.038,
         "answers": [
           {
             "label": "loadOrCreateRecord -> createGhostId",
@@ -372,7 +372,7 @@
           "loadOrCreateRecord -> createGhostId"
         ],
         "confidence": 0,
-        "latencyMs": 0.003,
+        "latencyMs": 0.001,
         "answers": [],
         "explanation": "0 candidate edge-derived answer(s) matched CALLS."
       },

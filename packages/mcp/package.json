@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-mcp",
-  "version": "0.1.0-alpha.16",
+  "version": "0.1.0-alpha.17",
   "description": "Structured graph capabilities for AI agents consuming Ontoly.",
   "type": "module",
   "license": "MIT",

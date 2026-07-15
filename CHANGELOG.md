@@ -2,6 +2,26 @@
 
 All notable Ontoly changes are tracked here.
 
+## 0.1.0-alpha.17
+
+### Maintained
+
+- Completed a behavior-preserving engineering-excellence sweep before the next
+  release candidate.
+- Removed unused private CLI plumbing without changing compiler, graph,
+  retrieval, MCP, capability, or Skills behavior.
+- Added `reports/alpha17-engineering-excellence.md` with measured runtime LOC,
+  public exports, package dependency graph, largest functions, and validation
+  evidence.
+
+### Validation
+
+- Verified `pnpm check-types`, `pnpm test`, `pnpm build`, documentation checks,
+  package validation, skills validation, semantic evaluation, validation lab,
+  and performance benchmark.
+- Preserved the alpha.16 Ovok retrieval target: 40 PASS, 0 PARTIAL, 0 FAIL,
+  38 Top-1, 40 Top-K, and 0 errors.
+
 ## 0.1.0-alpha.16
 
 ### Stabilized

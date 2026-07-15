@@ -4,8 +4,8 @@ This is an official Ontoly Agent Skill. It is independently installable and teac
 
 ## Version
 
-- Skill version: 0.1.0-alpha.16
-- Minimum Ontoly version: 0.1.0-alpha.16
+- Skill version: 0.1.0-alpha.17
+- Minimum Ontoly version: 0.1.0-alpha.17
 - Required capabilities: `ExplainArchitecture`, `ImpactAnalysis`, `FindConfigurationUsage`, `FindDependencies`, `EvidencePack`
 - Enhancement: LLM Enhancement
 - Deprecated: no
