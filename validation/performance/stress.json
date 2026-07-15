@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-15T02:04:41.095Z",
+  "generatedAt": "2026-07-15T11:18:51.564Z",
   "mode": "virtual-deterministic",
   "note": "Stress profiles use deterministic virtual graph workloads so release validation can run without writing hundreds of thousands of files.",
   "profiles": [
@@ -9,13 +9,13 @@
       "nodes": 100000,
       "edges": 180000,
       "materializedNodes": 100000,
-      "graphGenerationMs": 10.124,
-      "indexGenerationMs": 10.154,
-      "queryLatencyMs": 0.00009,
-      "peakMemoryBytes": 71909376,
+      "graphGenerationMs": 29.369,
+      "indexGenerationMs": 29.411,
+      "queryLatencyMs": 0.0004,
+      "peakMemoryBytes": 72122368,
       "cpu": {
-        "user": 13149,
-        "system": 902
+        "user": 24333,
+        "system": 2232
       },
       "hash": 3686109669
     },
@@ -25,13 +25,13 @@
       "nodes": 200000,
       "edges": 360000,
       "materializedNodes": 100000,
-      "graphGenerationMs": 16.405,
-      "indexGenerationMs": 8.209,
-      "queryLatencyMs": 0.00008,
-      "peakMemoryBytes": 84426752,
+      "graphGenerationMs": 48.413,
+      "indexGenerationMs": 24.215,
+      "queryLatencyMs": 0.00041,
+      "peakMemoryBytes": 84672512,
       "cpu": {
-        "user": 8430,
-        "system": 790
+        "user": 19643,
+        "system": 1662
       },
       "hash": 3686109669
     },
@@ -41,13 +41,13 @@
       "nodes": 500000,
       "edges": 900000,
       "materializedNodes": 100000,
-      "graphGenerationMs": 42.5,
-      "indexGenerationMs": 8.503,
-      "queryLatencyMs": 0.00008,
-      "peakMemoryBytes": 80019456,
+      "graphGenerationMs": 140.891,
+      "indexGenerationMs": 28.183,
+      "queryLatencyMs": 0.00036,
+      "peakMemoryBytes": 80363520,
       "cpu": {
-        "user": 11512,
-        "system": 1231
+        "user": 26150,
+        "system": 1831
       },
       "hash": 3686109669
     },
@@ -57,13 +57,13 @@
       "nodes": 1000000,
       "edges": 1800000,
       "materializedNodes": 100000,
-      "graphGenerationMs": 97.764,
-      "indexGenerationMs": 9.782,
-      "queryLatencyMs": 0.00008,
-      "peakMemoryBytes": 90882048,
+      "graphGenerationMs": 136.794,
+      "indexGenerationMs": 13.685,
+      "queryLatencyMs": 0.00018,
+      "peakMemoryBytes": 89735168,
       "cpu": {
-        "user": 11966,
-        "system": 1117
+        "user": 13766,
+        "system": 2121
       },
       "hash": 3686109669
     },
@@ -73,13 +73,13 @@
       "nodes": 1000000,
       "edges": 2000000,
       "materializedNodes": 100000,
-      "graphGenerationMs": 65.953,
-      "indexGenerationMs": 6.597,
-      "queryLatencyMs": 0.00008,
-      "peakMemoryBytes": 102612992,
+      "graphGenerationMs": 108.243,
+      "indexGenerationMs": 10.826,
+      "queryLatencyMs": 0.0001,
+      "peakMemoryBytes": 101220352,
       "cpu": {
-        "user": 6029,
-        "system": 540
+        "user": 8179,
+        "system": 1427
       },
       "hash": 3686109669
     }

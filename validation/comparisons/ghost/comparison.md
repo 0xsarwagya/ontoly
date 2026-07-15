@@ -4,7 +4,7 @@
 
 - Requested path: /Users/shrey/Desktop/personal/ghost
 - Actual path: /Users/shrey/Desktop/personal/ghost
-- Files: 58
+- Files: 59
 - Source files: 37
 - Packages: 1
 - Frameworks: Vite
@@ -13,7 +13,7 @@
 
 | Tool | Nodes | Edges | Diagnostics | Hash |
 | --- | ---: | ---: | ---: | --- |
-| Ontoly | 350 | 657 | 0 | 04fwlj9 |
+| Ontoly | 350 | 661 | 0 | 0qqdyqg |
 | Graphify | 0 | 0 | 0 | e36634175223f5b2f5abd7582c60155c47fc3947ec8ae82165c8dcbe7d7ae4b2 |
 
 ## Semantic Comparison
@@ -38,7 +38,7 @@
 
 | Item | Ontoly | Graphify | Delta | Status | Incorrect |
 | --- | ---: | ---: | ---: | --- | --- |
-| CALLS | 84 | 0 | 84 | graphify_missing | not measured |
+| CALLS | 88 | 0 | 88 | graphify_missing | not measured |
 | IMPORTS | 69 | 0 | 69 | graphify_missing | not measured |
 | EXPORTS | 105 | 0 | 105 | graphify_missing | not measured |
 | CONTAINS | 292 | 0 | 292 | graphify_missing | not measured |
@@ -70,8 +70,8 @@
 
 | Tool | Cold Analysis | Peak Memory | Graph Hash |
 | --- | ---: | ---: | --- |
-| Ontoly | 1462.7ms | 467.3 MB | 04fwlj9 |
-| Graphify | 282.31ms | 40.5 MB | e36634175223f5b2f5abd7582c60155c47fc3947ec8ae82165c8dcbe7d7ae4b2 |
+| Ontoly | 1184.5ms | 548.1 MB | 0qqdyqg |
+| Graphify | 128.14ms | 40.2 MB | e36634175223f5b2f5abd7582c60155c47fc3947ec8ae82165c8dcbe7d7ae4b2 |
 
 ## Diagnostics
 

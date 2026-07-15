@@ -7,7 +7,8 @@ import { spawnSync } from "node:child_process";
 
 const __filename = fileURLToPath(import.meta.url);
 const root = resolve(dirname(__filename), "..");
-const publishTag = process.env.NPM_PUBLISH_TAG || "latest";
+const publishTag = process.env.NPM_PUBLISH_TAG || "rc";
+const releaseVersion = process.env.RELEASE_VERSION;
 const packageDirs = [
   "packages/core",
   "packages/cache",
@@ -36,6 +37,47 @@ for (const directory of packageDirs) {
   }
 }
 
+const manifests = packageDirs.map((directory) => {
+  const packageJsonPath = join(root, directory, "package.json");
+  return {
+    directory,
+    manifest: JSON.parse(readFileSync(packageJsonPath, "utf8")),
+  };
+});
+
+const publishableManifests = manifests.filter(
+  ({ manifest }) => !manifest.private && manifest.name?.startsWith("@0xsarwagya/ontoly-")
+);
+const versions = new Set(publishableManifests.map(({ manifest }) => manifest.version));
+if (versions.size !== 1) {
+  throw new Error(`Publishable packages must share one version. Found: ${[...versions].join(", ")}`);
+}
+
+const packageVersion = [...versions][0];
+if (releaseVersion && packageVersion !== releaseVersion) {
+  throw new Error(`RELEASE_VERSION=${releaseVersion} does not match package version ${packageVersion}.`);
+}
+
+if (isPrerelease(packageVersion) && publishTag === "latest") {
+  throw new Error(`Refusing to publish prerelease ${packageVersion} with npm dist-tag latest.`);
+}
+
+if (releaseVersion) {
+  const expectedTag = `v${releaseVersion}`;
+  const result = spawnSync("git", ["tag", "--points-at", "HEAD"], {
+    cwd: root,
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  if (result.status !== 0) {
+    throw new Error(`Could not inspect git tags:\n${result.stderr || result.stdout}`);
+  }
+  const tags = result.stdout.split("\n").map((tag) => tag.trim());
+  if (!tags.includes(expectedTag)) {
+    throw new Error(`HEAD must be tagged ${expectedTag} before publishing. Found: ${tags.filter(Boolean).join(", ") || "none"}`);
+  }
+}
+
 for (const directory of packageDirs) {
   const packageJsonPath = join(root, directory, "package.json");
   const manifest = JSON.parse(readFileSync(packageJsonPath, "utf8"));
@@ -57,7 +99,11 @@ for (const directory of packageDirs) {
   }
 
   console.log(`Publishing ${manifest.name}@${manifest.version} with dist-tag ${publishTag}...`);
-  run("pnpm", ["publish", "--access", "public", "--no-git-checks", "--tag", publishTag], join(root, directory));
+  const publishArgs = ["publish", "--access", "public", "--no-git-checks", "--tag", publishTag];
+  if (process.env.NPM_PROVENANCE === "true") {
+    publishArgs.push("--provenance");
+  }
+  run("pnpm", publishArgs, join(root, directory));
   ensurePublicAccess(manifest.name, { required: true });
 }
 
@@ -115,4 +161,8 @@ function ensurePublicAccess(name, options) {
   }
 
   throw new Error(`Could not confirm public npm access for ${name}:\n${output}`);
+}
+
+function isPrerelease(version) {
+  return /-\w/.test(version);
 }

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-14T20:18:05.550Z",
-  "startedAt": "2026-07-14T20:16:52.331Z",
+  "generatedAt": "2026-07-15T11:19:25.842Z",
+  "startedAt": "2026-07-15T11:18:51.355Z",
   "repositoriesAnalyzed": 5,
   "repositoriesRequested": 5,
   "repositories": [
@@ -14,21 +14,21 @@
         "Express",
         "NestJS"
       ],
-      "files": 11574,
+      "files": 11601,
       "packages": 1,
       "ontoly": {
-        "nodes": 21696,
-        "edges": 47725,
-        "diagnostics": 13,
+        "nodes": 21686,
+        "edges": 52365,
+        "diagnostics": 18,
         "trust": 98,
-        "coverage": 98,
-        "durationMs": 24495.925499999998
+        "coverage": 99,
+        "durationMs": 10508.745208
       },
       "graphify": {
         "nodes": 0,
         "edges": 0,
         "diagnostics": 3,
-        "durationMs": 424.7916669999995
+        "durationMs": 190.97462499999892
       }
     },
     {
@@ -42,21 +42,21 @@
         "React",
         "Turborepo"
       ],
-      "files": 537,
+      "files": 555,
       "packages": 10,
       "ontoly": {
-        "nodes": 1204,
-        "edges": 2095,
-        "diagnostics": 13,
-        "trust": 95,
+        "nodes": 1191,
+        "edges": 2087,
+        "diagnostics": 5,
+        "trust": 96,
         "coverage": 95,
-        "durationMs": 11227.137708000002
+        "durationMs": 1821.3637080000008
       },
       "graphify": {
         "nodes": 0,
         "edges": 0,
         "diagnostics": 3,
-        "durationMs": 389.46774999999616
+        "durationMs": 150.1710000000021
       }
     },
     {
@@ -71,21 +71,21 @@
         "Turborepo",
         "Vite"
       ],
-      "files": 874,
+      "files": 846,
       "packages": 8,
       "ontoly": {
-        "nodes": 6981,
-        "edges": 12739,
-        "diagnostics": 20,
+        "nodes": 6742,
+        "edges": 12510,
+        "diagnostics": 12,
         "trust": 100,
         "coverage": 100,
-        "durationMs": 13433.23391699999
+        "durationMs": 7645.48575
       },
       "graphify": {
         "nodes": 0,
         "edges": 0,
         "diagnostics": 3,
-        "durationMs": 186.0052080000023
+        "durationMs": 120.70833299999867
       }
     },
     {
@@ -97,21 +97,21 @@
       "frameworks": [
         "Vite"
       ],
-      "files": 58,
+      "files": 59,
       "packages": 1,
       "ontoly": {
         "nodes": 350,
-        "edges": 657,
+        "edges": 661,
         "diagnostics": 0,
         "trust": 100,
         "coverage": 100,
-        "durationMs": 1462.7041250000038
+        "durationMs": 1184.4966250000034
       },
       "graphify": {
         "nodes": 0,
         "edges": 0,
         "diagnostics": 3,
-        "durationMs": 282.30829200000153
+        "durationMs": 128.13575000000128
       }
     },
     {
@@ -123,7 +123,7 @@
       "frameworks": [
         "Vite"
       ],
-      "files": 55,
+      "files": 56,
       "packages": 1,
       "ontoly": {
         "nodes": 226,
@@ -131,38 +131,38 @@
         "diagnostics": 0,
         "trust": 100,
         "coverage": 100,
-        "durationMs": 1335.3034580000094
+        "durationMs": 965.0018340000024
       },
       "graphify": {
         "nodes": 0,
         "edges": 0,
         "diagnostics": 3,
-        "durationMs": 220.80929200000537
+        "durationMs": 126.83983299999818
       }
     }
   ],
   "totals": {
-    "files": 13098,
-    "sourceFiles": 10164,
-    "ontolyNodes": 30457,
-    "ontolyEdges": 63600,
+    "files": 13117,
+    "sourceFiles": 10191,
+    "ontolyNodes": 30195,
+    "ontolyEdges": 68007,
     "graphifyNodes": 0,
     "graphifyEdges": 0,
-    "ontolyDurationMs": 51954.304708,
-    "graphifyDurationMs": 1503.3822090000049
+    "ontolyDurationMs": 22125.093125000007,
+    "graphifyDurationMs": 716.8295409999992
   },
   "averages": {
-    "semanticCoverage": 98.6,
-    "trustScore": 98.6,
-    "graphQuality": 98.6,
+    "semanticCoverage": 98.8,
+    "trustScore": 98.8,
+    "graphQuality": 98.8,
     "frameworkCoverage": 71.36,
-    "ontolyAnalysisTimeMs": 10390.86,
-    "graphifyAnalysisTimeMs": 300.68
+    "ontolyAnalysisTimeMs": 4425.02,
+    "graphifyAnalysisTimeMs": 143.37
   },
   "graphSize": {
     "ontoly": {
-      "nodes": 30457,
-      "edges": 63600
+      "nodes": 30195,
+      "edges": 68007
     },
     "graphify": {
       "nodes": 0,
@@ -170,88 +170,88 @@
     }
   },
   "memory": {
-    "ontolyPeakBytes": 7877324496,
-    "graphifyPeakBytes": 210911232
+    "ontolyPeakBytes": 7206271152,
+    "graphifyPeakBytes": 210845696
   },
   "performance": {
-    "ontolyTotalMs": 51954.3,
-    "graphifyTotalMs": 1503.38
+    "ontolyTotalMs": 22125.09,
+    "graphifyTotalMs": 716.83
   },
   "relationshipCoverage": [
     {
       "relationship": "CALLS",
       "repositoriesObserved": 5,
-      "ontolyTotal": 4272,
+      "ontolyTotal": 7580,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
     {
       "relationship": "IMPORTS",
       "repositoriesObserved": 5,
-      "ontolyTotal": 11763,
+      "ontolyTotal": 11685,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
     {
       "relationship": "EXPORTS",
       "repositoriesObserved": 5,
-      "ontolyTotal": 4451,
+      "ontolyTotal": 4412,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
     {
       "relationship": "CONTAINS",
       "repositoriesObserved": 5,
-      "ontolyTotal": 25816,
+      "ontolyTotal": 25559,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
     {
       "relationship": "HANDLES",
       "repositoriesObserved": 2,
-      "ontolyTotal": 503,
+      "ontolyTotal": 505,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
     {
       "relationship": "MOUNTS",
       "repositoriesObserved": 2,
-      "ontolyTotal": 500,
+      "ontolyTotal": 502,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
     {
       "relationship": "INJECTS",
       "repositoriesObserved": 4,
-      "ontolyTotal": 1008,
+      "ontolyTotal": 1944,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
     {
       "relationship": "READS",
-      "repositoriesObserved": 4,
-      "ontolyTotal": 239,
+      "repositoriesObserved": 5,
+      "ontolyTotal": 243,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
     {
       "relationship": "WRITES",
-      "repositoriesObserved": 0,
-      "ontolyTotal": 0,
+      "repositoriesObserved": 1,
+      "ontolyTotal": 2,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
     {
       "relationship": "USES",
       "repositoriesObserved": 5,
-      "ontolyTotal": 4116,
+      "ontolyTotal": 3974,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
     {
       "relationship": "DEPENDS_ON",
       "repositoriesObserved": 5,
-      "ontolyTotal": 586,
+      "ontolyTotal": 532,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
@@ -265,7 +265,7 @@
     {
       "relationship": "REGISTERED_IN",
       "repositoriesObserved": 2,
-      "ontolyTotal": 650,
+      "ontolyTotal": 652,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
@@ -293,21 +293,21 @@
     {
       "relationship": "CREATES",
       "repositoriesObserved": 5,
-      "ontolyTotal": 617,
+      "ontolyTotal": 616,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
     {
       "relationship": "THROWS",
       "repositoriesObserved": 5,
-      "ontolyTotal": 552,
+      "ontolyTotal": 551,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
     {
       "relationship": "RETURNS",
       "repositoriesObserved": 5,
-      "ontolyTotal": 1883,
+      "ontolyTotal": 1859,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     },
@@ -320,8 +320,8 @@
     },
     {
       "relationship": "SUBSCRIBES",
-      "repositoriesObserved": 0,
-      "ontolyTotal": 0,
+      "repositoriesObserved": 1,
+      "ontolyTotal": 2,
       "graphifyTotal": 0,
       "supportedRepositories": 0
     }
@@ -380,7 +380,15 @@
       "count": 5
     },
     {
+      "name": "Environment Variables",
+      "count": 5
+    },
+    {
       "name": "Functions",
+      "count": 5
+    },
+    {
+      "name": "Interfaces",
       "count": 5
     },
     {
@@ -396,15 +404,7 @@
       "count": 4
     },
     {
-      "name": "Environment Variables",
-      "count": 4
-    },
-    {
       "name": "INJECTS",
-      "count": 4
-    },
-    {
-      "name": "Interfaces",
       "count": 4
     },
     {
@@ -506,7 +506,7 @@
       "evidence": [
         "Graphify exited with code 1.",
         "Full Graphify extraction required an LLM backend for repository docs/images.",
-        "Graphify comparison uses a code-only projection with 187 files."
+        "Graphify comparison uses a code-only projection with 205 files."
       ]
     },
     {
@@ -567,7 +567,7 @@
       "evidence": [
         "Graphify exited with code 1.",
         "Full Graphify extraction required an LLM backend for repository docs/images.",
-        "Graphify comparison uses a code-only projection with 563 files."
+        "Graphify comparison uses a code-only projection with 562 files."
       ]
     },
     {
@@ -597,7 +597,7 @@
       "evidence": [
         "Graphify exited with code 1.",
         "Full Graphify extraction required an LLM backend for repository docs/images.",
-        "Graphify comparison uses a code-only projection with 9325 files."
+        "Graphify comparison uses a code-only projection with 9340 files."
       ]
     }
   ],
@@ -605,82 +605,77 @@
     "status": "PASS",
     "baseline": "compared",
     "failures": [],
-    "warnings": [
-      "ovok-core: Ontoly analysis time increased by 76.67%.",
-      "0xsarwagya: Ontoly analysis time increased by 123.38%.",
-      "innosphere: Ontoly analysis time increased by 62.83%.",
-      "durable-local: Ontoly analysis time increased by 39.67%."
-    ],
+    "warnings": [],
     "current": {
-      "generatedAt": "2026-07-14T20:18:05.550Z",
+      "generatedAt": "2026-07-15T11:19:25.842Z",
       "repositories": [
         {
           "slug": "ovok-core",
           "status": "partial",
           "ontoly": {
-            "nodes": 21696,
-            "edges": 47725,
-            "coverage": 98,
+            "nodes": 21686,
+            "edges": 52365,
+            "coverage": 99,
             "trustworthiness": 98,
-            "durationMs": 24495.925499999998
+            "durationMs": 10508.745208
           },
           "graphify": {
             "nodes": 0,
             "edges": 0,
-            "durationMs": 424.7916669999995
+            "durationMs": 190.97462499999892
           },
-          "graphHash": "1mydjnw"
+          "graphHash": "0io8q3z"
         },
         {
           "slug": "0xsarwagya",
           "status": "partial",
           "ontoly": {
-            "nodes": 1204,
-            "edges": 2095,
+            "nodes": 1191,
+            "edges": 2087,
             "coverage": 95,
-            "trustworthiness": 95,
-            "durationMs": 11227.137708000002
+            "trustworthiness": 96,
+            "durationMs": 1821.3637080000008
           },
           "graphify": {
             "nodes": 0,
             "edges": 0,
-            "durationMs": 389.46774999999616
+            "durationMs": 150.1710000000021
           },
-          "graphHash": "0y006e0"
+          "graphHash": "0k3l2hs"
         },
         {
           "slug": "innosphere",
           "status": "partial",
           "ontoly": {
-            "nodes": 6981,
-            "edges": 12739,
+            "nodes": 6742,
+            "edges": 12510,
             "coverage": 100,
             "trustworthiness": 100,
-            "durationMs": 13433.23391699999
+            "durationMs": 7645.48575
           },
           "graphify": {
             "nodes": 0,
             "edges": 0,
-            "durationMs": 186.0052080000023
+            "durationMs": 120.70833299999867
           },
-          "graphHash": "12xhppw"
+          "graphHash": "1hdfa3y"
         },
         {
           "slug": "ghost",
           "status": "partial",
           "ontoly": {
             "nodes": 350,
-            "edges": 657,
+            "edges": 661,
             "coverage": 100,
             "trustworthiness": 100,
-            "durationMs": 1462.7041250000038
+            "durationMs": 1184.4966250000034
           },
           "graphify": {
             "nodes": 0,
             "edges": 0,
-            "durationMs": 282.30829200000153
+            "durationMs": 128.13575000000128
           },
-          "graphHash": "04fwlj9"
+          "graphHash": "0qqdyqg"
         },
         {
           "slug": "durable-local",
@@ -690,12 +685,12 @@
             "edges": 384,
             "coverage": 100,
             "trustworthiness": 100,
-            "durationMs": 1335.3034580000094
+            "durationMs": 965.0018340000024
           },
           "graphify": {
             "nodes": 0,
             "edges": 0,
-            "durationMs": 220.80929200000537
+            "durationMs": 126.83983299999818
           },
           "graphHash": "1xd5unc"
         }

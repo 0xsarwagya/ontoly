@@ -5,8 +5,8 @@ Frameworks: Next.js, React, Turborepo
 
 | System | Questions | PASS | PARTIAL | FAIL | Precision | Recall | Score | Avg Latency |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Ontoly | 5 | 5 | 0 | 0 | 100 | 100 | 100 | 1.787ms |
-| Graphify | 5 | 0 | 0 | 5 | 0 | 0 | 0 | 0.005ms |
+| Ontoly | 5 | 5 | 0 | 0 | 100 | 100 | 100 | 1.006ms |
+| Graphify | 5 | 0 | 0 | 5 | 0 | 0 | 0 | 0.003ms |
 
 ## Questions
 

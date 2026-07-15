@@ -11,7 +11,7 @@ describe("compiler pipeline", () => {
     await mkdir(join(root, "src"), { recursive: true });
     await writeFile(
       join(root, "package.json"),
-      JSON.stringify({ name: "fixture", packageManager: "pnpm@11.5.3" }, null, 2),
+      JSON.stringify({ name: "fixture", packageManager: "pnpm@10.15.1" }, null, 2),
       "utf8",
     );
     await writeFile(join(root, "src", "index.ts"), "export const value = 1;\n", "utf8");

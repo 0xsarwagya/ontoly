@@ -4,8 +4,8 @@ description: Investigate performance-sensitive architecture using Ontoly call, d
 license: MIT
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "0.1.0-alpha.19"
-  ontoly.min.version: "0.1.0-alpha.19"
+  ontoly.skill.version: "1.0.0-rc.1"
+  ontoly.min.version: "1.0.0-rc.1"
   ontoly.capabilities: "TraceExecution, TraceRequestLifecycle, FindDependencies, GraphStatistics, EvidencePack"
   ontoly.category: "performance"
   ontoly.enhancement: "LLM Enhancement"

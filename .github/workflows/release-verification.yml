@@ -1,0 +1,78 @@
+name: Release Verification
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/**"
+      - "docs/**"
+      - "examples/**"
+      - "package.json"
+      - "packages/**"
+      - "plugins/**"
+      - "scripts/**"
+      - "skills/**"
+      - "validation/**"
+
+permissions:
+  contents: read
+
+jobs:
+  release-verification:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Check types
+        run: pnpm check-types
+
+      - name: Tests
+        run: pnpm test
+
+      - name: Documentation checks
+        run: |
+          pnpm docs:check-links
+          pnpm docs:lint
+          pnpm docs:check-site
+
+      - name: Package checks
+        run: |
+          pnpm validate:packages
+          pnpm validate:pack
+          pnpm validate:release-version
+          pnpm license:check
+
+      - name: Skills checks
+        run: |
+          pnpm skills:validate
+          pnpm skills:validate-installed
+
+      - name: New user smoke
+        run: pnpm new-user:smoke
+
+      - name: Validation lab
+        run: pnpm validate:ci
+
+      - name: Semantic evaluation
+        run: node validation/semantic/evaluators/run-semantic-evaluation.mjs --ci
+
+      - name: Release gates
+        run: node validation/tools/run-validation-lab.mjs gates --ci
+
+      - name: Performance benchmark
+        run: pnpm benchmark:performance

@@ -1,11 +1,11 @@
 # Semantic Evaluation Summary
 
-Generated: 2026-07-15T02:55:12.094Z
+Generated: 2026-07-15T11:22:52.451Z
 
 | System | Questions | PASS | PARTIAL | FAIL | Precision | Recall | Score | Avg Latency |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Ontoly | 29 | 29 | 0 | 0 | 100 | 100 | 100 | 0.565ms |
-| Graphify | 29 | 0 | 0 | 29 | 0 | 0 | 0 | 0.003ms |
+| Ontoly | 29 | 29 | 0 | 0 | 100 | 100 | 100 | 0.352ms |
+| Graphify | 29 | 0 | 0 | 29 | 0 | 0 | 0 | 0.002ms |
 
 ## Category Scores
 
@@ -35,8 +35,8 @@ Frameworks: Next.js, React, Turborepo
 
 | System | Questions | PASS | PARTIAL | FAIL | Precision | Recall | Score | Avg Latency |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Ontoly | 5 | 5 | 0 | 0 | 100 | 100 | 100 | 1.787ms |
-| Graphify | 5 | 0 | 0 | 5 | 0 | 0 | 0 | 0.005ms |
+| Ontoly | 5 | 5 | 0 | 0 | 100 | 100 | 100 | 1.006ms |
+| Graphify | 5 | 0 | 0 | 5 | 0 | 0 | 0 | 0.003ms |
 
 ## Questions
 
@@ -55,8 +55,8 @@ Frameworks: React, Vite
 
 | System | Questions | PASS | PARTIAL | FAIL | Precision | Recall | Score | Avg Latency |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Ontoly | 6 | 6 | 0 | 0 | 100 | 100 | 100 | 0.05ms |
-| Graphify | 6 | 0 | 0 | 6 | 0 | 0 | 0 | 0.004ms |
+| Ontoly | 6 | 6 | 0 | 0 | 100 | 100 | 100 | 0.029ms |
+| Graphify | 6 | 0 | 0 | 6 | 0 | 0 | 0 | 0.003ms |
 
 ## Questions
 
@@ -76,8 +76,8 @@ Frameworks: React, Vite
 
 | System | Questions | PASS | PARTIAL | FAIL | Precision | Recall | Score | Avg Latency |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Ontoly | 6 | 6 | 0 | 0 | 100 | 100 | 100 | 0.025ms |
-| Graphify | 6 | 0 | 0 | 6 | 0 | 0 | 0 | 0.003ms |
+| Ontoly | 6 | 6 | 0 | 0 | 100 | 100 | 100 | 0.019ms |
+| Graphify | 6 | 0 | 0 | 6 | 0 | 0 | 0 | 0.002ms |
 
 ## Questions
 
@@ -97,8 +97,8 @@ Frameworks: NestJS, React, Turborepo, Vite
 
 | System | Questions | PASS | PARTIAL | FAIL | Precision | Recall | Score | Avg Latency |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Ontoly | 6 | 6 | 0 | 0 | 100 | 100 | 100 | 0.381ms |
-| Graphify | 6 | 0 | 0 | 6 | 0 | 0 | 0 | 0.002ms |
+| Ontoly | 6 | 6 | 0 | 0 | 100 | 100 | 100 | 0.196ms |
+| Graphify | 6 | 0 | 0 | 6 | 0 | 0 | 0 | 0.001ms |
 
 ## Questions
 
@@ -118,8 +118,8 @@ Frameworks: NestJS, Express
 
 | System | Questions | PASS | PARTIAL | FAIL | Precision | Recall | Score | Avg Latency |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Ontoly | 6 | 6 | 0 | 0 | 100 | 100 | 100 | 0.784ms |
-| Graphify | 6 | 0 | 0 | 6 | 0 | 0 | 0 | 0.002ms |
+| Ontoly | 6 | 6 | 0 | 0 | 100 | 100 | 100 | 0.621ms |
+| Graphify | 6 | 0 | 0 | 6 | 0 | 0 | 0 | 0.001ms |
 
 ## Questions
 

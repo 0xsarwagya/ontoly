@@ -18,8 +18,11 @@ pnpm test
 
 For graph or validation issues, attach:
 
-- `.ontoly/diagnostics.json`
-- `.ontoly/statistics.json`
+- `ontoly-output/diagnostics.json`, if present
+- `ontoly-output/statistics.json`, if present
+- `ontoly-output/manifest.json`, if present
+- `.ontoly/diagnostics.json`, when you built with `--output .ontoly`
+- `.ontoly/statistics.json`, when you built with `--output .ontoly`
 - relevant `validation/` report
 
 Do not attach private source code unless it is safe to share.
