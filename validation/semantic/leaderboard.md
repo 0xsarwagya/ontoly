@@ -1,6 +1,6 @@
 # Ontoly Semantic Evaluation Leaderboard
 
-Generated: 2026-07-15T02:07:10.980Z
+Generated: 2026-07-15T02:55:12.094Z
 
 | Repository | Question | Category | Ontoly | Graphify | Winner |
 | --- | --- | --- | ---: | ---: | --- |

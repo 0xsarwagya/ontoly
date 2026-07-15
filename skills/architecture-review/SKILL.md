@@ -4,8 +4,8 @@ description: Review repository architecture using Ontoly Software Graph and MCP 
 license: MIT
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "0.1.0-alpha.17"
-  ontoly.min.version: "0.1.0-alpha.17"
+  ontoly.skill.version: "0.1.0-alpha.18"
+  ontoly.min.version: "0.1.0-alpha.18"
   ontoly.capabilities: "ExplainArchitecture, GraphStatistics, FindCycles, FindDependencies, EvidencePack"
   ontoly.category: "architecture"
   ontoly.enhancement: "LLM Enhancement"

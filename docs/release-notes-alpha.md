@@ -1,5 +1,24 @@
 # Alpha Release Notes
 
+## v0.1.0-alpha.18
+
+This NestJS semantic-resolution release completes deterministic method-level
+impact analysis for common NestJS runtime paths while preserving the Software
+Graph schema.
+
+- TypeScript symbol resolution now backs method-level `CALLS` edges for
+  `this.*`, `super.*`, local method, and injected-service method calls.
+- NestJS runtime topology now models BullMQ processors, cron handlers, event
+  handlers, websocket gateways, repository injection, queue injection, and model
+  injection with existing graph node and relationship types.
+- A synthetic NestJS runtime-topology corpus records deterministic expected
+  questions for processor, service, repository, queue, model, and handler flows.
+- Fresh Ovok graph validation produced 21,686 nodes, 52,548 edges, and 5,823
+  `CALLS` edges.
+- The Ovok 40-question benchmark passed at 40 PASS, 0 PARTIAL, 0 FAIL, and
+  39 Top-1 results.
+- Agent Skills now require Ontoly `0.1.0-alpha.18`.
+
 ## v0.1.0-alpha.17
 
 This engineering-excellence release keeps alpha.16 behavior intact while

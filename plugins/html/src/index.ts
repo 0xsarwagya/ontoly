@@ -81,7 +81,7 @@ export function createInteractiveHtmlPlugin(
 ): OntolyPlugin {
   return {
     name: "@0xsarwagya/ontoly-plugin-html",
-    version: "0.1.0-alpha.17",
+    version: "0.1.0-alpha.18",
     run: ({ graph }) => ({
       artifacts: [createInteractiveHtmlArtifact(graph, options)],
     }),

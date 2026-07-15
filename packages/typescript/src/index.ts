@@ -312,6 +312,7 @@ interface AnalyzerContext {
   readonly absoluteFile: string;
   readonly relativeFile: string;
   readonly sourceFile: ts.SourceFile;
+  readonly checker: ts.TypeChecker;
   readonly compilerOptions: ts.CompilerOptions;
   readonly moduleId: string;
   readonly symbols: Map<string, TypeScriptSymbol>;
@@ -333,6 +334,7 @@ interface AnalyzerContext {
   readonly throws: TypeScriptThrowExpression[];
   readonly environmentAccesses: TypeScriptEnvironmentAccess[];
   readonly diagnostics: SoftwareGraphDiagnostic[];
+  readonly declarationIds: Map<ts.Node, string>;
   readonly localSymbols: Map<string, string>;
   readonly importedIdentifiers: Map<string, string>;
   readonly variableTypes: Map<string, string>;
@@ -376,6 +378,7 @@ export function analyzeTypeScriptProject(input: AnalyzeTypeScriptProjectInput): 
     ...loadProjectCompilerOptions(root, input.compilerOptions),
   };
   const program = ts.createProgram(files, compilerOptions);
+  const checker = program.getTypeChecker();
   const sourceFiles = program
     .getSourceFiles()
     .filter((sourceFile) => !sourceFile.isDeclarationFile)
@@ -385,6 +388,7 @@ export function analyzeTypeScriptProject(input: AnalyzeTypeScriptProjectInput): 
   const symbols = new Map<string, TypeScriptSymbol>();
   const diagnostics: SoftwareGraphDiagnostic[] = [];
   const projectMethodsByQualifiedName = new Map<string, string>();
+  const declarationIds = new Map<ts.Node, string>();
   const contexts: AnalyzerContext[] = [];
   const filesModel: TypeScriptSourceFile[] = [];
 
@@ -405,6 +409,7 @@ export function analyzeTypeScriptProject(input: AnalyzeTypeScriptProjectInput): 
       absoluteFile: sourceFileModel.absoluteFile,
       relativeFile,
       sourceFile,
+      checker,
       compilerOptions: program.getCompilerOptions(),
       moduleId,
       symbols,
@@ -426,6 +431,7 @@ export function analyzeTypeScriptProject(input: AnalyzeTypeScriptProjectInput): 
       throws: [],
       environmentAccesses: [],
       diagnostics,
+      declarationIds,
       localSymbols: new Map(),
       importedIdentifiers: new Map(),
       variableTypes: new Map(),
@@ -730,6 +736,8 @@ function addDeclarationSymbol(
   } else {
     context.localSymbols.set(name, id);
   }
+
+  context.declarationIds.set(node, id);
 
   return id;
 }
@@ -1500,7 +1508,75 @@ function resolveCallTarget(
     }
   }
 
-  return context.methodsByQualifiedName.get(callee) ?? context.projectMethodsByQualifiedName.get(callee);
+  return context.methodsByQualifiedName.get(callee) ??
+    context.projectMethodsByQualifiedName.get(callee) ??
+    resolveCallTargetBySymbol(context, expression);
+}
+
+function resolveCallTargetBySymbol(context: AnalyzerContext, expression: ts.Expression): string | undefined {
+  if (!isThisOrSuperPropertyAccess(expression)) {
+    return undefined;
+  }
+
+  const symbol = symbolForCallExpression(context, expression);
+  return symbol ? resolveSymbolTarget(context, symbol) : undefined;
+}
+
+function isThisOrSuperPropertyAccess(expression: ts.Expression): boolean {
+  if (!ts.isPropertyAccessExpression(expression)) {
+    return false;
+  }
+
+  return isThisOrSuperRoot(expression.expression);
+}
+
+function isThisOrSuperRoot(expression: ts.Expression): boolean {
+  if (expression.kind === ts.SyntaxKind.ThisKeyword || expression.kind === ts.SyntaxKind.SuperKeyword) {
+    return true;
+  }
+
+  if (ts.isPropertyAccessExpression(expression) || ts.isElementAccessExpression(expression)) {
+    return isThisOrSuperRoot(expression.expression);
+  }
+
+  return false;
+}
+
+function symbolForCallExpression(context: AnalyzerContext, expression: ts.Expression): ts.Symbol | undefined {
+  if (ts.isPropertyAccessExpression(expression)) {
+    return context.checker.getSymbolAtLocation(expression.name);
+  }
+
+  return context.checker.getSymbolAtLocation(expression);
+}
+
+function resolveSymbolTarget(context: AnalyzerContext, symbol: ts.Symbol): string | undefined {
+  return declarationTargetId(context, aliasedSymbol(context, symbol))
+    ?? declarationTargetId(context, symbol);
+}
+
+function aliasedSymbol(context: AnalyzerContext, symbol: ts.Symbol): ts.Symbol {
+  if ((symbol.flags & ts.SymbolFlags.Alias) === 0) {
+    return symbol;
+  }
+
+  try {
+    return context.checker.getAliasedSymbol(symbol);
+  } catch {
+    return symbol;
+  }
+}
+
+function declarationTargetId(context: AnalyzerContext, symbol: ts.Symbol): string | undefined {
+  for (const declaration of symbol.declarations ?? []) {
+    const targetId = context.declarationIds.get(declaration);
+
+    if (targetId) {
+      return targetId;
+    }
+  }
+
+  return undefined;
 }
 
 function resolveExpressionTarget(context: AnalyzerContext, expression: ts.Expression): string | undefined {

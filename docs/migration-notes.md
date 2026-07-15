@@ -1,15 +1,15 @@
 # Migration Notes
 
-## 0.1.0-alpha.17
+## 0.1.0-alpha.18
 
-Projects upgrading from `0.1.0-alpha.16` do not need a Software Graph schema
+Projects upgrading from `0.1.0-alpha.17` do not need a Software Graph schema
 migration.
 
 Recommended upgrade steps:
 
-1. Upgrade Ontoly packages together to `0.1.0-alpha.17`.
+1. Upgrade Ontoly packages together to `0.1.0-alpha.18`.
 2. Rebuild the repository graph.
-3. Reinstall Agent Skills so installed artifacts match the alpha.17 source.
+3. Reinstall Agent Skills so installed artifacts match the alpha.18 source.
 4. Rerun semantic evaluation, skills validation, and release gates for your
    repository.
 

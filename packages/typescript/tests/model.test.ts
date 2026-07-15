@@ -45,6 +45,21 @@ describe("typescript semantic model", () => {
     expect(validateTypeScriptSemanticModel(roundTrip).ok).toBe(true);
   });
 
+  it("resolves method calls with TypeScript symbols", async () => {
+    const root = await createCallResolutionFixture();
+    const project = analyzeTypeScriptProject({
+      root,
+      files: ["src/base.ts", "src/repository.ts", "src/service.ts"],
+    });
+    const callsByExpression = new Map(project.calls.map((call) => [call.expression, call.targetId]));
+
+    expect(callsByExpression.get("this.validate")).toBe("method:src/service.ts:UserService.validate");
+    expect(callsByExpression.get("this.repository.save")).toBe("method:src/repository.ts:UserRepository.save");
+    expect(callsByExpression.get("super.audit")).toBe("method:src/base.ts:BaseWorkflow.audit");
+    expect(callsByExpression.get("this.finalize")).toBe("method:src/service.ts:UserService.finalize");
+    expect(callsByExpression.get("this.repository.find")).toBe("method:src/repository.ts:UserRepository.find");
+  });
+
   it("ignores generated artifact and dev-server directories during automatic discovery", async () => {
     const root = await createFixture();
     await mkdir(join(root, ".artifacts", "prototype"), { recursive: true });
@@ -96,6 +111,65 @@ async function createFixture(): Promise<string> {
       "  @Trace()",
       "  load(): User {",
       "    return helper();",
+      "  }",
+      "}",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+
+  return root;
+}
+
+async function createCallResolutionFixture(): Promise<string> {
+  const root = await mkdtemp(join(tmpdir(), "ontoly-typescript-calls-"));
+  await mkdir(join(root, "src"), { recursive: true });
+  await writeFile(
+    join(root, "src", "base.ts"),
+    [
+      "export class BaseWorkflow {",
+      "  protected audit(): string {",
+      "    return 'audit';",
+      "  }",
+      "}",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+  await writeFile(
+    join(root, "src", "repository.ts"),
+    [
+      "export class UserRepository {",
+      "  save(): string { return 'saved'; }",
+      "  find(): string { return 'found'; }",
+      "}",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+  await writeFile(
+    join(root, "src", "service.ts"),
+    [
+      "import { BaseWorkflow } from './base';",
+      "import { UserRepository } from './repository';",
+      "",
+      "export class UserService extends BaseWorkflow {",
+      "  constructor(private readonly repository: UserRepository) {",
+      "    super();",
+      "  }",
+      "",
+      "  async update(): Promise<string> {",
+      "    await this.validate();",
+      "    return this.repository.save();",
+      "  }",
+      "",
+      "  protected validate(): string {",
+      "    super.audit();",
+      "    return this.finalize();",
+      "  }",
+      "",
+      "  private finalize(): string {",
+      "    return this.repository.find();",
       "  }",
       "}",
       "",

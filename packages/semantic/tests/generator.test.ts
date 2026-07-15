@@ -112,6 +112,119 @@ describe("semantic generator", () => {
       to: "pkg:external-lib",
     });
   });
+
+  it("emits deterministic NestJS runtime topology", async () => {
+    const root = await createNestRuntimeFixture();
+    const project = analyzeTypeScriptProject({
+      root,
+      files: [
+        "src/alert.entity.ts",
+        "src/signals.gateway.ts",
+        "src/signals.module.ts",
+        "src/signals.processor.ts",
+        "src/signals.scheduler.ts",
+        "src/signals.service.ts",
+      ],
+    });
+    const artifacts = generateCompilerArtifacts({ project });
+    const symbolIds = new Set(artifacts.symbols.map((symbol) => symbol.id));
+    const relationships = artifacts.relationships.map((relationship) => ({
+      type: relationship.type,
+      from: relationship.from,
+      to: relationship.to,
+    }));
+
+    expect([...symbolIds]).toEqual(expect.arrayContaining([
+      "provider:src/signals.processor.ts:SignalsProcessor",
+      "provider:src/signals.gateway.ts:SignalsGateway",
+      "provider:src/signals.scheduler.ts:SignalsScheduler",
+      "service:src/signals.service.ts:SignalsService",
+      "repo:AlertEntityRepository",
+      "provider:Queue:signals",
+      "model:AlertModel",
+      "event:bullmq:signals:webhook",
+      "event:cron:EVERY_5_MINUTES",
+      "event:event:signals.alert",
+      "event:websocket:signals.message",
+    ]));
+    expect(artifacts.facts.map((fact) => fact.kind)).toEqual(expect.arrayContaining([
+      "RuntimeHandlerDeclared",
+      "DependencyInjected",
+      "ProviderDeclared",
+    ]));
+    expect(relationships).toEqual(expect.arrayContaining([
+      {
+        type: "HANDLES",
+        from: "event:bullmq:signals:webhook",
+        to: "method:src/signals.processor.ts:SignalsProcessor.process",
+      },
+      {
+        type: "EXECUTES",
+        from: "event:bullmq:signals:webhook",
+        to: "provider:src/signals.processor.ts:SignalsProcessor",
+      },
+      {
+        type: "CONTAINS",
+        from: "provider:src/signals.processor.ts:SignalsProcessor",
+        to: "method:src/signals.processor.ts:SignalsProcessor.process",
+      },
+      {
+        type: "SUBSCRIBES",
+        from: "provider:src/signals.processor.ts:SignalsProcessor",
+        to: "event:bullmq:signals:webhook",
+      },
+      {
+        type: "INJECTS",
+        from: "provider:src/signals.processor.ts:SignalsProcessor",
+        to: "service:src/signals.service.ts:SignalsService",
+      },
+      {
+        type: "CALLS",
+        from: "method:src/signals.processor.ts:SignalsProcessor.process",
+        to: "method:src/signals.service.ts:SignalsService.handleSignalsAlert",
+      },
+      {
+        type: "CALLS",
+        from: "method:src/signals.service.ts:SignalsService.handleSignalsAlert",
+        to: "method:src/signals.service.ts:SignalsService.clearDeviceDisconnectAlerts",
+      },
+      {
+        type: "INJECTS",
+        from: "service:src/signals.service.ts:SignalsService",
+        to: "repo:AlertEntityRepository",
+      },
+      {
+        type: "INJECTS",
+        from: "service:src/signals.service.ts:SignalsService",
+        to: "provider:Queue:signals",
+      },
+      {
+        type: "INJECTS",
+        from: "service:src/signals.service.ts:SignalsService",
+        to: "model:AlertModel",
+      },
+      {
+        type: "HANDLES",
+        from: "event:cron:EVERY_5_MINUTES",
+        to: "method:src/signals.scheduler.ts:SignalsScheduler.tick",
+      },
+      {
+        type: "HANDLES",
+        from: "event:event:signals.alert",
+        to: "method:src/signals.scheduler.ts:SignalsScheduler.onAlert",
+      },
+      {
+        type: "HANDLES",
+        from: "event:websocket:signals.message",
+        to: "method:src/signals.gateway.ts:SignalsGateway.onMessage",
+      },
+      {
+        type: "PROVIDES",
+        from: "mod:src/signals.module.ts:SignalsModule",
+        to: "provider:src/signals.processor.ts:SignalsProcessor",
+      },
+    ]));
+  });
 });
 
 async function createNestFixture(): Promise<string> {
@@ -276,6 +389,144 @@ async function createNestFixture(): Promise<string> {
     join(root, "src", "tokens.ts"),
     [
       "export const KEY = 'KEY';",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+
+  return root;
+}
+
+async function createNestRuntimeFixture(): Promise<string> {
+  const root = await mkdtemp(join(tmpdir(), "ontoly-semantic-nest-runtime-"));
+  await mkdir(join(root, "src"), { recursive: true });
+  await writeFile(
+    join(root, "tsconfig.json"),
+    JSON.stringify({
+      compilerOptions: {
+        experimentalDecorators: true,
+      },
+    }),
+    "utf8",
+  );
+  await writeFile(
+    join(root, "src", "alert.entity.ts"),
+    [
+      "export class AlertEntity {}",
+      "export class AlertModel {",
+      "  static name = 'AlertModel';",
+      "}",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+  await writeFile(
+    join(root, "src", "signals.service.ts"),
+    [
+      "import { Inject, Injectable } from '@nestjs/common';",
+      "import { InjectQueue } from '@nestjs/bull';",
+      "import { InjectModel } from '@nestjs/mongoose';",
+      "import { InjectRepository } from '@nestjs/typeorm';",
+      "import { AlertEntity, AlertModel } from './alert.entity';",
+      "",
+      "@Injectable()",
+      "export class SignalsService {",
+      "  constructor(",
+      "    @InjectRepository(AlertEntity) private readonly alerts: unknown,",
+      "    @InjectQueue('signals') private readonly queue: unknown,",
+      "    @InjectModel(AlertModel.name) private readonly model: unknown,",
+      "    @Inject('SIGNALS_TOKEN') private readonly token: unknown,",
+      "  ) {}",
+      "",
+      "  handleSignalsAlert(_input: unknown): string {",
+      "    return this.clearDeviceDisconnectAlerts();",
+      "  }",
+      "",
+      "  clearDeviceDisconnectAlerts(): string {",
+      "    return 'cleared';",
+      "  }",
+      "}",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+  await writeFile(
+    join(root, "src", "signals.processor.ts"),
+    [
+      "import { Process, Processor } from '@nestjs/bull';",
+      "import { SignalsService } from './signals.service';",
+      "",
+      "@Processor('signals')",
+      "export class SignalsProcessor {",
+      "  constructor(private readonly signals: SignalsService) {}",
+      "",
+      "  @Process('webhook')",
+      "  async process(job: { data: unknown }): Promise<string> {",
+      "    return this.signals.handleSignalsAlert(job.data);",
+      "  }",
+      "}",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+  await writeFile(
+    join(root, "src", "signals.scheduler.ts"),
+    [
+      "import { Injectable } from '@nestjs/common';",
+      "import { OnEvent } from '@nestjs/event-emitter';",
+      "import { Cron, CronExpression } from '@nestjs/schedule';",
+      "import { SignalsService } from './signals.service';",
+      "",
+      "@Injectable()",
+      "export class SignalsScheduler {",
+      "  constructor(private readonly signals: SignalsService) {}",
+      "",
+      "  @Cron(CronExpression.EVERY_5_MINUTES)",
+      "  tick(): string {",
+      "    return this.signals.clearDeviceDisconnectAlerts();",
+      "  }",
+      "",
+      "  @OnEvent('signals.alert')",
+      "  onAlert(): string {",
+      "    return this.signals.handleSignalsAlert({});",
+      "  }",
+      "}",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+  await writeFile(
+    join(root, "src", "signals.gateway.ts"),
+    [
+      "import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';",
+      "import { SignalsService } from './signals.service';",
+      "",
+      "@WebSocketGateway()",
+      "export class SignalsGateway {",
+      "  constructor(private readonly signals: SignalsService) {}",
+      "",
+      "  @SubscribeMessage('signals.message')",
+      "  onMessage(): string {",
+      "    return this.signals.handleSignalsAlert({});",
+      "  }",
+      "}",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+  await writeFile(
+    join(root, "src", "signals.module.ts"),
+    [
+      "import { Module } from '@nestjs/common';",
+      "import { SignalsGateway } from './signals.gateway';",
+      "import { SignalsProcessor } from './signals.processor';",
+      "import { SignalsScheduler } from './signals.scheduler';",
+      "import { SignalsService } from './signals.service';",
+      "",
+      "@Module({",
+      "  providers: [SignalsService, SignalsProcessor, SignalsScheduler, SignalsGateway],",
+      "})",
+      "export class SignalsModule {}",
       "",
     ].join("\n"),
     "utf8",

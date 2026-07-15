@@ -9,9 +9,9 @@
     ],
     "coverage": 99,
     "trust": 98,
-    "nodes": 21649,
-    "edges": 47620,
-    "durationMs": 28837.122
+    "nodes": 21686,
+    "edges": 52365,
+    "durationMs": 58454.905
   },
   {
     "id": "0xsarwagya",
@@ -26,7 +26,7 @@
     "trust": 96,
     "nodes": 1191,
     "edges": 2087,
-    "durationMs": 2298.935
+    "durationMs": 4765.04
   },
   {
     "id": "innosphere",
@@ -40,9 +40,9 @@
     ],
     "coverage": 100,
     "trust": 100,
-    "nodes": 6740,
-    "edges": 12176,
-    "durationMs": 16410.249
+    "nodes": 6742,
+    "edges": 12510,
+    "durationMs": 33034.71
   },
   {
     "id": "ghost",
@@ -55,8 +55,8 @@
     "coverage": 100,
     "trust": 100,
     "nodes": 350,
-    "edges": 657,
-    "durationMs": 759.826
+    "edges": 661,
+    "durationMs": 1868.41
   },
   {
     "id": "durable-local",
@@ -70,6 +70,6 @@
     "trust": 100,
     "nodes": 226,
     "edges": 384,
-    "durationMs": 686.901
+    "durationMs": 1559.618
   }
 ]

@@ -1,0 +1,60 @@
+[
+  {
+    "id": "nestjs-bullmq-processor-to-service",
+    "question": "Which BullMQ processor can reach SignalsService.handleSignalsAlert?",
+    "expectedNodes": [
+      "event:bullmq:signals:webhook",
+      "provider:src/signals.processor.ts:SignalsProcessor",
+      "method:src/signals.processor.ts:SignalsProcessor.process",
+      "method:src/signals.service.ts:SignalsService.handleSignalsAlert"
+    ],
+    "expectedEdges": [
+      ["HANDLES", "event:bullmq:signals:webhook", "method:src/signals.processor.ts:SignalsProcessor.process"],
+      ["EXECUTES", "event:bullmq:signals:webhook", "provider:src/signals.processor.ts:SignalsProcessor"],
+      ["CALLS", "method:src/signals.processor.ts:SignalsProcessor.process", "method:src/signals.service.ts:SignalsService.handleSignalsAlert"]
+    ]
+  },
+  {
+    "id": "nestjs-method-impact-clear-device-alerts",
+    "question": "Who ultimately invokes clearDeviceDisconnectAlerts?",
+    "expectedNodes": [
+      "method:src/signals.service.ts:SignalsService.handleSignalsAlert",
+      "method:src/signals.service.ts:SignalsService.clearDeviceDisconnectAlerts"
+    ],
+    "expectedEdges": [
+      ["CALLS", "method:src/signals.service.ts:SignalsService.handleSignalsAlert", "method:src/signals.service.ts:SignalsService.clearDeviceDisconnectAlerts"]
+    ]
+  },
+  {
+    "id": "nestjs-injected-repositories-and-runtime-providers",
+    "question": "What repositories, queues, and models are injected into SignalsService?",
+    "expectedNodes": [
+      "service:src/signals.service.ts:SignalsService",
+      "repo:AlertEntityRepository",
+      "provider:Queue:signals",
+      "model:AlertModel"
+    ],
+    "expectedEdges": [
+      ["INJECTS", "service:src/signals.service.ts:SignalsService", "repo:AlertEntityRepository"],
+      ["INJECTS", "service:src/signals.service.ts:SignalsService", "provider:Queue:signals"],
+      ["INJECTS", "service:src/signals.service.ts:SignalsService", "model:AlertModel"]
+    ]
+  },
+  {
+    "id": "nestjs-runtime-decorators",
+    "question": "Which cron, event, and websocket handlers are mounted?",
+    "expectedNodes": [
+      "event:cron:EVERY_5_MINUTES",
+      "event:event:signals.alert",
+      "event:websocket:signals.message",
+      "method:src/signals.scheduler.ts:SignalsScheduler.tick",
+      "method:src/signals.scheduler.ts:SignalsScheduler.onAlert",
+      "method:src/signals.gateway.ts:SignalsGateway.onMessage"
+    ],
+    "expectedEdges": [
+      ["HANDLES", "event:cron:EVERY_5_MINUTES", "method:src/signals.scheduler.ts:SignalsScheduler.tick"],
+      ["HANDLES", "event:event:signals.alert", "method:src/signals.scheduler.ts:SignalsScheduler.onAlert"],
+      ["HANDLES", "event:websocket:signals.message", "method:src/signals.gateway.ts:SignalsGateway.onMessage"]
+    ]
+  }
+]

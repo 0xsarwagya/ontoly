@@ -2,6 +2,29 @@
 
 All notable Ontoly changes are tracked here.
 
+## 0.1.0-alpha.18
+
+### Improved
+
+- Completed deterministic NestJS method-level semantic resolution for
+  `this.*`, `super.*`, local method, and injected-service method calls using
+  TypeScript symbol resolution.
+- Added NestJS runtime topology facts for BullMQ processors, cron handlers,
+  event handlers, websocket gateways, repository injection, queue injection, and
+  model injection without changing the Software Graph schema.
+- Added deterministic NestJS runtime-topology corpus metadata and unit coverage
+  for processor-to-service-to-repository traversal.
+
+### Validation
+
+- Verified `pnpm check-types`, `pnpm test`, `pnpm build`, documentation checks,
+  package validation, semantic evaluation, validation lab, and Ovok retrieval
+  benchmark.
+- Fresh Ovok graph build produced 21,686 nodes, 52,548 edges, and 5,823 `CALLS`
+  edges.
+- Preserved and improved the Ovok retrieval target: 40 PASS, 0 PARTIAL, 0 FAIL,
+  39 Top-1, 40 Top-K, and 0 errors.
+
 ## 0.1.0-alpha.17
 
 ### Maintained

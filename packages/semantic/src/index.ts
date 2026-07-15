@@ -64,6 +64,7 @@ export type SemanticFact =
   | ModuleDeclaredFact
   | ProviderDeclaredFact
   | DependencyInjectedFact
+  | RuntimeHandlerDeclaredFact
   | GuardRegisteredFact
   | MiddlewareRegisteredFact;
 
@@ -133,6 +134,20 @@ export interface DependencyInjectedFact extends BaseSemanticFact {
   readonly target?: SemanticTarget | undefined;
   readonly parameter: string;
   readonly token?: string | undefined;
+}
+
+export interface RuntimeHandlerDeclaredFact extends BaseSemanticFact {
+  readonly kind: "RuntimeHandlerDeclared";
+  readonly eventId: string;
+  readonly eventName: string;
+  readonly eventKind: "bullmq" | "cron" | "event" | "websocket";
+  readonly file: string;
+  readonly handlerId: string;
+  readonly providerId?: string | undefined;
+  readonly classId?: string | undefined;
+  readonly decorator: string;
+  readonly trigger?: string | undefined;
+  readonly queue?: string | undefined;
 }
 
 export interface GuardRegisteredFact extends BaseSemanticFact {
@@ -250,6 +265,7 @@ export function createNestJsAnalyzer(): FrameworkAnalyzer {
       "providers",
       "dependency-injection",
       "guards",
+      "runtime-topology",
     ],
     compatibleModelVersions: ["1.0.0"],
     detect: (project) => {
@@ -632,6 +648,8 @@ function addSemanticFacts(
   symbols: Map<string, CompilerSymbol>,
   relationships: Map<string, CompilerRelationship>,
 ): void {
+  const semanticRoleIdByClassId = semanticRoleIdsByClassId(project, facts);
+
   for (const fact of facts) {
     const frameworkId = createNodeId({ type: "Framework", name: fact.framework });
 
@@ -708,6 +726,16 @@ function addSemanticFacts(
           to: fact.handlerId,
           evidence: evidence(fact.span, "controller contains route handler method"),
           metadata: { ownerKind: "Controller" },
+        });
+      }
+
+      if (fact.controllerId) {
+        addRelationship(relationships, {
+          type: "BELONGS_TO",
+          from: fact.routeId,
+          to: fact.controllerId,
+          evidence: evidence(fact.span, "route belongs to controller"),
+          metadata: { method: fact.method, path: fact.path },
         });
       }
 
@@ -880,6 +908,18 @@ function addSemanticFacts(
           to: fact.classId,
           evidence: evidence(fact.span, "framework provider references class"),
         });
+
+        const roleId = semanticRoleIdByClassId.get(fact.classId);
+
+        if (roleId && roleId !== fact.providerId) {
+          addRelationship(relationships, {
+            type: "PROVIDES",
+            from: fact.providerId,
+            to: roleId,
+            evidence: evidence(fact.span, "framework provider exposes semantic role"),
+            metadata: { semanticFact: fact.kind },
+          });
+        }
       }
 
       if (fact.implementationId && fact.implementationId !== fact.providerId) {
@@ -913,6 +953,105 @@ function addSemanticFacts(
           token: fact.token,
         }),
       });
+
+      const roleId = semanticRoleIdByClassId.get(fact.fromClassId);
+
+      if (roleId && roleId !== fact.fromClassId) {
+        addRelationship(relationships, {
+          type: "INJECTS",
+          from: roleId,
+          to: fact.toId,
+          evidence: evidence(fact.span, "semantic role injects dependency"),
+          metadata: withOptionalProperties<JsonObject, JsonObject>({
+            parameter: fact.parameter,
+            semanticFact: fact.kind,
+          }, {
+            token: fact.token,
+          }),
+        });
+      }
+      continue;
+    }
+
+    if (fact.kind === "RuntimeHandlerDeclared") {
+      addSymbol(symbols, {
+        id: fact.eventId,
+        kind: "Event",
+        name: fact.eventName,
+        file: fact.file,
+        span: fact.span,
+        language: "typescript",
+        metadata: withOptionalProperties<JsonObject, JsonObject>({
+          framework: fact.framework,
+          eventKind: fact.eventKind,
+          handlerId: fact.handlerId,
+          semanticFact: fact.kind,
+          decorator: fact.decorator,
+        }, {
+          providerId: fact.providerId,
+          classId: fact.classId,
+          trigger: fact.trigger,
+          queue: fact.queue,
+        }),
+        provenance: provenance(fact.analyzerId),
+      });
+      addRelationship(relationships, {
+        type: "REGISTERED_IN",
+        from: fact.eventId,
+        to: frameworkId,
+        evidence: evidence(fact.span, `${fact.eventKind} handler registered in ${fact.framework}`, fact.confidence),
+      });
+      addRelationship(relationships, {
+        type: "HANDLES",
+        from: fact.eventId,
+        to: fact.handlerId,
+        evidence: evidence(fact.span, `${fact.decorator} binds runtime event to handler`, fact.confidence),
+        metadata: withOptionalProperties<JsonObject, JsonObject>({
+          eventKind: fact.eventKind,
+        }, {
+          trigger: fact.trigger,
+          queue: fact.queue,
+        }),
+      });
+      addRelationship(relationships, {
+        type: "EXECUTES",
+        from: fact.eventId,
+        to: fact.handlerId,
+        evidence: evidence(fact.span, "runtime event executes handler", fact.confidence),
+        metadata: { eventKind: fact.eventKind },
+      });
+
+      if (fact.providerId) {
+        addRelationship(relationships, {
+          type: "CONTAINS",
+          from: fact.providerId,
+          to: fact.handlerId,
+          evidence: evidence(fact.span, "provider contains runtime handler method", fact.confidence),
+          metadata: { ownerKind: "Provider", eventKind: fact.eventKind },
+        });
+        addRelationship(relationships, {
+          type: "EXECUTES",
+          from: fact.eventId,
+          to: fact.providerId,
+          evidence: evidence(fact.span, "runtime event executes provider", fact.confidence),
+          metadata: { eventKind: fact.eventKind },
+        });
+        addRelationship(relationships, {
+          type: "SUBSCRIBES",
+          from: fact.providerId,
+          to: fact.eventId,
+          evidence: evidence(fact.span, "provider subscribes to runtime event", fact.confidence),
+          metadata: { eventKind: fact.eventKind },
+        });
+        addRelationship(relationships, {
+          type: "MOUNTS",
+          from: fact.providerId,
+          to: fact.eventId,
+          evidence: evidence(fact.span, "provider mounts runtime handler", fact.confidence),
+          metadata: { eventKind: fact.eventKind },
+        });
+      }
+
       continue;
     }
 
@@ -1013,48 +1152,51 @@ function analyzeNestJs(project: TypeScriptProject): readonly SemanticFact[] {
 
   for (const item of project.methods) {
     const controller = controllers.get(item.classId);
+    const provider = providers.get(item.classId);
 
-    if (!controller) {
-      continue;
+    if (provider) {
+      facts.push(...runtimeHandlerFactsForMethod(item, provider));
     }
 
-    for (const decorator of item.decorators) {
-      const route = nestRouteDefinition(indexes, item.file, decorator);
+    if (controller) {
+      for (const decorator of item.decorators) {
+        const route = nestRouteDefinition(indexes, item.file, decorator);
 
-      if (!route) {
-        continue;
-      }
+        if (!route) {
+          continue;
+        }
 
-      for (const controllerPath of controller.paths) {
-        for (const methodPath of route.paths) {
-          const path = joinRoutePaths(controllerPath, methodPath);
-          const name = `${route.method}:${path}`;
-          facts.push({
-            kind: "RouteDeclared",
-            analyzerId: "@0xsarwagya/ontoly-semantic:nestjs",
-            framework: "NestJS",
-            confidence: "exact",
-            span: decorator.span,
-            routeId: createNodeId({ type: "Route", name }),
-            name,
-            method: route.method,
-            path,
-            file: item.file,
-            controllerId: controller.controllerId,
-            classId: item.classId,
-            handlerId: item.id,
-            mountedById: controller.controllerId,
-            controllerPath,
-            methodPath: normalizeRoutePath(methodPath) ?? "/",
-            decorator: decorator.name,
-            metadata: { semanticFact: "RouteDeclared" },
-          });
+        for (const controllerPath of controller.paths) {
+          for (const methodPath of route.paths) {
+            const path = joinRoutePaths(controllerPath, methodPath);
+            const name = `${route.method}:${path}`;
+            facts.push({
+              kind: "RouteDeclared",
+              analyzerId: "@0xsarwagya/ontoly-semantic:nestjs",
+              framework: "NestJS",
+              confidence: "exact",
+              span: decorator.span,
+              routeId: createNodeId({ type: "Route", name }),
+              name,
+              method: route.method,
+              path,
+              file: item.file,
+              controllerId: controller.controllerId,
+              classId: item.classId,
+              handlerId: item.id,
+              mountedById: controller.controllerId,
+              controllerPath,
+              methodPath: normalizeRoutePath(methodPath) ?? "/",
+              decorator: decorator.name,
+              metadata: { semanticFact: "RouteDeclared" },
+            });
+          }
         }
       }
-    }
 
-    facts.push(...guardFactsForDecoratedTarget(item.decorators, item.id, item.file, "NestJS"));
-    facts.push(...guardFactsForDecoratedTarget(item.decorators, controller.controllerId, item.file, "NestJS"));
+      facts.push(...guardFactsForDecoratedTarget(item.decorators, item.id, item.file, "NestJS"));
+      facts.push(...guardFactsForDecoratedTarget(item.decorators, controller.controllerId, item.file, "NestJS"));
+    }
   }
 
   for (const controller of controllers.values()) {
@@ -1067,13 +1209,11 @@ function analyzeNestJs(project: TypeScriptProject): readonly SemanticFact[] {
 
   for (const constructor of project.constructors) {
     for (const parameter of constructor.parameters) {
-      const explicit = parameter.decorators.find((decorator) => decorator.name === "Inject");
+      const explicit = parameter.decorators.find((decorator) => isNestInjectionDecoratorName(decorator.name));
 
       if (explicit) {
-        const token = providerTokenName(explicit.arguments[0]);
-        const target = token
-          ? resolveSemanticTargetByName(indexes, token, providers) ?? providerTargetForToken(token, explicit.span)
-          : undefined;
+        const token = providerTokenName(explicit.arguments[0]) ?? parameter.typeName;
+        const target = token ? resolveInjectedTarget(indexes, providers, explicit, token) : undefined;
 
         if (target) {
           facts.push({
@@ -1256,6 +1396,34 @@ function analyzeHttpCallFramework(
   return facts.sort(compareFacts);
 }
 
+function semanticRoleIdsByClassId(
+  project: TypeScriptProject,
+  facts: readonly SemanticFact[],
+): ReadonlyMap<string, string> {
+  const classById = new Map(project.classes.map((item) => [item.id, item] as const));
+  const roles = new Map<string, string>();
+
+  for (const fact of facts) {
+    if (fact.kind === "ControllerDeclared") {
+      roles.set(fact.classId, fact.controllerId);
+      continue;
+    }
+
+    if (fact.kind !== "ProviderDeclared" || !fact.classId) {
+      continue;
+    }
+
+    const classItem = classById.get(fact.classId);
+    const roleKind = classItem ? semanticRoleKind(classItem.name) : undefined;
+    const roleId = roleKind && classItem
+      ? createNodeId({ type: roleKind, file: classItem.file, name: classItem.name })
+      : fact.providerId;
+    roles.set(fact.classId, roleId);
+  }
+
+  return roles;
+}
+
 function createProjectIndexes(project: TypeScriptProject) {
   const symbolsById = new Map(project.symbols.map((symbol) => [symbol.id, symbol] as const));
   const classesById = new Map(project.classes.map((item) => [item.id, item] as const));
@@ -1279,6 +1447,7 @@ function providerFactForClass(item: TypeScriptClass, decorator: TypeScriptDecora
     : decorator.name === "Resolver"
       ? "resolver"
       : "class";
+  const queue = decorator.name === "Processor" ? providerTokenName(decorator.arguments[0]) : undefined;
   return {
     kind: "ProviderDeclared",
     analyzerId: "@0xsarwagya/ontoly-semantic:nestjs",
@@ -1290,7 +1459,132 @@ function providerFactForClass(item: TypeScriptClass, decorator: TypeScriptDecora
     file: item.file,
     classId: item.id,
     providerKind,
+    metadata: withOptionalProperties<JsonObject, JsonObject>({
+      decorator: decorator.name,
+    }, {
+      runtimeRole: providerRuntimeRole(decorator.name),
+      queue,
+    }),
   };
+}
+
+function runtimeHandlerFactsForMethod(
+  item: TypeScriptMethod,
+  provider: ProviderDeclaredFact,
+): readonly RuntimeHandlerDeclaredFact[] {
+  const facts: RuntimeHandlerDeclaredFact[] = [];
+  const queue = typeof provider.metadata?.queue === "string" ? provider.metadata.queue : undefined;
+
+  for (const decorator of item.decorators) {
+    const runtime = runtimeHandlerDefinition(decorator, queue);
+
+    if (!runtime) {
+      continue;
+    }
+
+    facts.push({
+      kind: "RuntimeHandlerDeclared",
+      analyzerId: "@0xsarwagya/ontoly-semantic:nestjs",
+      framework: "NestJS",
+      confidence: "exact",
+      span: decorator.span,
+      eventId: runtime.eventId,
+      eventName: runtime.eventName,
+      eventKind: runtime.eventKind,
+      file: item.file,
+      handlerId: item.id,
+      providerId: provider.providerId,
+      classId: item.classId,
+      decorator: decorator.name,
+      trigger: runtime.trigger,
+      queue,
+      metadata: { semanticFact: "RuntimeHandlerDeclared" },
+    });
+  }
+
+  return facts;
+}
+
+interface RuntimeHandlerDefinition {
+  readonly eventId: string;
+  readonly eventName: string;
+  readonly eventKind: RuntimeHandlerDeclaredFact["eventKind"];
+  readonly trigger?: string | undefined;
+}
+
+function providerRuntimeRole(decoratorName: string): string | undefined {
+  switch (decoratorName) {
+    case "Processor":
+      return "bullmq-processor";
+    case "Resolver":
+      return "graphql-resolver";
+    case "WebSocketGateway":
+      return "websocket-gateway";
+    case "Catch":
+      return "exception-filter";
+    default:
+      return undefined;
+  }
+}
+
+function runtimeHandlerDefinition(
+  decorator: TypeScriptDecorator,
+  queue: string | undefined,
+): RuntimeHandlerDefinition | undefined {
+  const trigger = runtimeTriggerName(decorator.arguments[0]) ?? "default";
+
+  switch (decorator.name) {
+    case "Process":
+      return {
+        eventId: createNodeId({ type: "Event", name: `bullmq:${queue ?? "default"}:${trigger}` }),
+        eventName: queue ? `BullMQ ${queue}:${trigger}` : `BullMQ ${trigger}`,
+        eventKind: "bullmq",
+        trigger,
+      };
+    case "Cron":
+      return {
+        eventId: createNodeId({ type: "Event", name: `cron:${trigger}` }),
+        eventName: `Cron ${trigger}`,
+        eventKind: "cron",
+        trigger,
+      };
+    case "OnEvent":
+      return {
+        eventId: createNodeId({ type: "Event", name: `event:${trigger}` }),
+        eventName: `Event ${trigger}`,
+        eventKind: "event",
+        trigger,
+      };
+    case "SubscribeMessage":
+      return {
+        eventId: createNodeId({ type: "Event", name: `websocket:${trigger}` }),
+        eventName: `WebSocket ${trigger}`,
+        eventKind: "websocket",
+        trigger,
+      };
+    default:
+      return undefined;
+  }
+}
+
+function resolveInjectedTarget(
+  indexes: ReturnType<typeof createProjectIndexes>,
+  providers: ReadonlyMap<string, ProviderDeclaredFact>,
+  decorator: TypeScriptDecorator,
+  token: string,
+): SemanticTarget | undefined {
+  switch (decorator.name) {
+    case "InjectRepository":
+      return repositoryTargetForToken(token, decorator.span);
+    case "InjectQueue":
+      return queueProviderTargetForToken(token, decorator.span);
+    case "InjectModel":
+      return modelTargetForToken(token, decorator.span);
+    case "Inject":
+      return resolveSemanticTargetByName(indexes, token, providers) ?? providerTargetForToken(token, decorator.span);
+    default:
+      return resolveSemanticTargetByName(indexes, token, providers) ?? providerTargetForToken(token, decorator.span);
+  }
 }
 
 function guardFactsForDecoratedTarget(
@@ -1535,6 +1829,67 @@ function providerTargetForToken(token: string, span: SourceSpan | undefined): Se
     providerKind: "token",
     span,
   };
+}
+
+function repositoryTargetForToken(token: string, span: SourceSpan | undefined): SemanticTarget {
+  const name = repositoryNameForToken(token);
+  return {
+    id: createNodeId({ type: "Repository", name }),
+    name,
+    kind: "Repository",
+    span,
+    metadata: {
+      injectionDecorator: "InjectRepository",
+      token,
+    },
+  };
+}
+
+function queueProviderTargetForToken(token: string, span: SourceSpan | undefined): SemanticTarget {
+  const name = `Queue:${cleanTokenName(token)}`;
+  return {
+    id: createNodeId({ type: "Provider", name }),
+    name,
+    kind: "Provider",
+    providerKind: "token",
+    span,
+    metadata: {
+      injectionDecorator: "InjectQueue",
+      queue: cleanTokenName(token),
+    },
+  };
+}
+
+function modelTargetForToken(token: string, span: SourceSpan | undefined): SemanticTarget {
+  const name = cleanTokenName(token);
+  return {
+    id: createNodeId({ type: "Model", name }),
+    name,
+    kind: "Model",
+    span,
+    metadata: {
+      injectionDecorator: "InjectModel",
+      token,
+    },
+  };
+}
+
+function repositoryNameForToken(token: string): string {
+  const name = cleanTokenName(token);
+  return name.endsWith("Repository") ? name : `${name}Repository`;
+}
+
+function cleanTokenName(token: string): string {
+  const cleaned = token
+    .replace(/^['"`]|['"`]$/g, "")
+    .replace(/<.*>$/g, "")
+    .trim();
+
+  if (cleaned.endsWith(".name")) {
+    return unqualifiedName(cleaned.slice(0, -".name".length));
+  }
+
+  return unqualifiedName(cleaned);
 }
 
 function routeHandlerTarget(indexes: ReturnType<typeof createProjectIndexes>, call: TypeScriptCall): string | undefined {
@@ -1924,7 +2279,21 @@ function providerTokenName(expression: TypeScriptExpression | undefined): string
     return undefined;
   }
 
-  return expression.literal ?? expression.name?.split(".").at(-1) ?? expression.text.replace(/^['"`]|['"`]$/g, "");
+  return expression.literal ?? expression.name ?? expression.text.replace(/^['"`]|['"`]$/g, "");
+}
+
+function runtimeTriggerName(expression: TypeScriptExpression | undefined): string | undefined {
+  const token = providerTokenName(expression);
+
+  if (!token) {
+    return undefined;
+  }
+
+  if (expression?.literal !== undefined && expression.kind !== "Identifier") {
+    return token;
+  }
+
+  return unqualifiedName(token);
 }
 
 function unwrapForwardRefName(value: string): string {
@@ -1966,7 +2335,11 @@ function isNestControllerDecoratorName(name: string): boolean {
 }
 
 function isNestProviderDecoratorName(name: string): boolean {
-  return ["Catch", "Injectable", "Resolver"].includes(name);
+  return ["Catch", "Injectable", "Processor", "Resolver", "WebSocketGateway"].includes(name);
+}
+
+function isNestInjectionDecoratorName(name: string): boolean {
+  return ["Inject", "InjectModel", "InjectQueue", "InjectRepository"].includes(name);
 }
 
 function isAuthorizationName(name: string): boolean {

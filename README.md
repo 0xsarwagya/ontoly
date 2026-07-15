@@ -20,7 +20,7 @@ generate embeddings, or make probabilistic guesses.
 
 ## Status
 
-Ontoly's current Public Preview release is `v0.1.0-alpha.17`.
+Ontoly's current Public Preview release is `v0.1.0-alpha.18`.
 
 The public contract is in Public Preview freeze, and the repository includes:
 

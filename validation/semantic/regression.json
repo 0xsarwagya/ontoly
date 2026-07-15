@@ -5,7 +5,7 @@
   "improvements": [],
   "warnings": [],
   "current": {
-    "generatedAt": "2026-07-15T02:07:10.980Z",
+    "generatedAt": "2026-07-15T02:55:12.094Z",
     "repositories": [
       {
         "repository": "0xsarwagya",
@@ -18,7 +18,7 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.978,
+          "latencyMs": 1.787,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
@@ -30,7 +30,7 @@
           "precision": 0,
           "recall": 0,
           "confidence": 0,
-          "latencyMs": 0.003,
+          "latencyMs": 0.005,
           "semanticUnderstandingScore": 0
         },
         "questions": [
@@ -72,7 +72,7 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.033,
+          "latencyMs": 0.05,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
@@ -84,7 +84,7 @@
           "precision": 0,
           "recall": 0,
           "confidence": 0,
-          "latencyMs": 0.003,
+          "latencyMs": 0.004,
           "semanticUnderstandingScore": 0
         },
         "questions": [
@@ -131,7 +131,7 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.014,
+          "latencyMs": 0.025,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
@@ -143,7 +143,7 @@
           "precision": 0,
           "recall": 0,
           "confidence": 0,
-          "latencyMs": 0.002,
+          "latencyMs": 0.003,
           "semanticUnderstandingScore": 0
         },
         "questions": [
@@ -190,7 +190,7 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.209,
+          "latencyMs": 0.381,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
@@ -202,7 +202,7 @@
           "precision": 0,
           "recall": 0,
           "confidence": 0,
-          "latencyMs": 0.001,
+          "latencyMs": 0.002,
           "semanticUnderstandingScore": 0
         },
         "questions": [
@@ -249,7 +249,7 @@
           "precision": 100,
           "recall": 100,
           "confidence": 100,
-          "latencyMs": 0.45,
+          "latencyMs": 0.784,
           "semanticUnderstandingScore": 100
         },
         "graphify": {
@@ -261,7 +261,7 @@
           "precision": 0,
           "recall": 0,
           "confidence": 0,
-          "latencyMs": 0.001,
+          "latencyMs": 0.002,
           "semanticUnderstandingScore": 0
         },
         "questions": [
@@ -308,7 +308,7 @@
         "precision": 100,
         "recall": 100,
         "confidence": 100,
-        "latencyMs": 0.315,
+        "latencyMs": 0.565,
         "semanticUnderstandingScore": 100
       },
       "graphify": {
@@ -320,7 +320,7 @@
         "precision": 0,
         "recall": 0,
         "confidence": 0,
-        "latencyMs": 0.002,
+        "latencyMs": 0.003,
         "semanticUnderstandingScore": 0
       },
       "categoryScores": [
@@ -335,7 +335,7 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 0.026,
+            "latencyMs": 0.05,
             "semanticUnderstandingScore": 100
           },
           "graphify": {
@@ -347,7 +347,7 @@
             "precision": 0,
             "recall": 0,
             "confidence": 0,
-            "latencyMs": 0.002,
+            "latencyMs": 0.003,
             "semanticUnderstandingScore": 0
           }
         },
@@ -362,7 +362,7 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 0.006,
+            "latencyMs": 0.011,
             "semanticUnderstandingScore": 100
           },
           "graphify": {
@@ -374,7 +374,7 @@
             "precision": 0,
             "recall": 0,
             "confidence": 0,
-            "latencyMs": 0.004,
+            "latencyMs": 0.007,
             "semanticUnderstandingScore": 0
           }
         },
@@ -389,7 +389,7 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 0.01,
+            "latencyMs": 0.018,
             "semanticUnderstandingScore": 100
           },
           "graphify": {
@@ -401,7 +401,7 @@
             "precision": 0,
             "recall": 0,
             "confidence": 0,
-            "latencyMs": 0.002,
+            "latencyMs": 0.003,
             "semanticUnderstandingScore": 0
           }
         },
@@ -416,7 +416,7 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 0.218,
+            "latencyMs": 0.344,
             "semanticUnderstandingScore": 100
           },
           "graphify": {
@@ -443,7 +443,7 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 0.374,
+            "latencyMs": 0.723,
             "semanticUnderstandingScore": 100
           },
           "graphify": {
@@ -455,7 +455,7 @@
             "precision": 0,
             "recall": 0,
             "confidence": 0,
-            "latencyMs": 0.001,
+            "latencyMs": 0.003,
             "semanticUnderstandingScore": 0
           }
         },
@@ -470,7 +470,7 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 0.206,
+            "latencyMs": 0.335,
             "semanticUnderstandingScore": 100
           },
           "graphify": {
@@ -497,7 +497,7 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 0.42,
+            "latencyMs": 0.742,
             "semanticUnderstandingScore": 100
           },
           "graphify": {
@@ -509,7 +509,7 @@
             "precision": 0,
             "recall": 0,
             "confidence": 0,
-            "latencyMs": 0.001,
+            "latencyMs": 0.002,
             "semanticUnderstandingScore": 0
           }
         },
@@ -524,7 +524,7 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 0.078,
+            "latencyMs": 0.133,
             "semanticUnderstandingScore": 100
           },
           "graphify": {
@@ -536,7 +536,7 @@
             "precision": 0,
             "recall": 0,
             "confidence": 0,
-            "latencyMs": 0.003,
+            "latencyMs": 0.005,
             "semanticUnderstandingScore": 0
           }
         },
@@ -551,7 +551,7 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 0.449,
+            "latencyMs": 0.747,
             "semanticUnderstandingScore": 100
           },
           "graphify": {
@@ -563,7 +563,7 @@
             "precision": 0,
             "recall": 0,
             "confidence": 0,
-            "latencyMs": 0.002,
+            "latencyMs": 0.004,
             "semanticUnderstandingScore": 0
           }
         },
@@ -578,7 +578,7 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 0.061,
+            "latencyMs": 0.11,
             "semanticUnderstandingScore": 100
           },
           "graphify": {
@@ -590,7 +590,7 @@
             "precision": 0,
             "recall": 0,
             "confidence": 0,
-            "latencyMs": 0.001,
+            "latencyMs": 0.002,
             "semanticUnderstandingScore": 0
           }
         },
@@ -605,7 +605,7 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 0.038,
+            "latencyMs": 0.057,
             "semanticUnderstandingScore": 100
           },
           "graphify": {
@@ -632,7 +632,7 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 0.038,
+            "latencyMs": 0.08,
             "semanticUnderstandingScore": 100
           },
           "graphify": {
@@ -644,7 +644,7 @@
             "precision": 0,
             "recall": 0,
             "confidence": 0,
-            "latencyMs": 0.004,
+            "latencyMs": 0.006,
             "semanticUnderstandingScore": 0
           }
         },
@@ -659,7 +659,7 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 0.126,
+            "latencyMs": 0.295,
             "semanticUnderstandingScore": 100
           },
           "graphify": {
@@ -686,7 +686,7 @@
             "precision": 100,
             "recall": 100,
             "confidence": 100,
-            "latencyMs": 2.281,
+            "latencyMs": 4.178,
             "semanticUnderstandingScore": 100
           },
           "graphify": {

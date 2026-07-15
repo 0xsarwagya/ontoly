@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "priority": "critical",
+  "category": "nestjs",
+  "expected": {
+    "analyzer": "nestjs",
+    "semanticCoverage": 100,
+    "trust": 100,
+    "diagnosticsMax": 0,
+    "requiredNodeKinds": [
+      "Event",
+      "Method",
+      "Model",
+      "Module",
+      "Provider",
+      "Repository",
+      "Service"
+    ],
+    "requiredRelationshipKinds": [
+      "CALLS",
+      "CONTAINS",
+      "EXECUTES",
+      "HANDLES",
+      "INJECTS",
+      "PROVIDES",
+      "SUBSCRIBES"
+    ]
+  }
+}

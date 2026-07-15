@@ -1,0 +1,19 @@
+{
+  "id": "nestjs-runtime-topology",
+  "name": "NestJS Runtime Topology",
+  "source": "packages/semantic/tests/generator.test.ts#createNestRuntimeFixture",
+  "corpusPath": "nestjs/runtime-topology",
+  "frameworks": [
+    "nestjs",
+    "bullmq",
+    "typeorm",
+    "mongoose",
+    "nestjs-schedule",
+    "nestjs-event-emitter",
+    "nestjs-websockets"
+  ],
+  "language": "typescript",
+  "repositoryType": "synthetic-fixture",
+  "expectedAnalyzer": "nestjs",
+  "default": false
+}

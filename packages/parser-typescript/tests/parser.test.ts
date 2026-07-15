@@ -133,6 +133,47 @@ describe("typescript frontend", () => {
     });
   });
 
+  it("emits method-level CALLS from TypeScript symbol resolution", async () => {
+    const root = await createMethodCallFixture();
+    const result = parseTypeScriptFrontend({
+      root,
+      files: ["src/base.ts", "src/repository.ts", "src/service.ts"],
+    });
+    const relationships = result.relationships.map((relationship) => ({
+      type: relationship.type,
+      from: relationship.from,
+      to: relationship.to,
+    }));
+
+    expect(relationships).toEqual(expect.arrayContaining([
+      {
+        type: "CALLS",
+        from: "method:src/service.ts:UserService.update",
+        to: "method:src/service.ts:UserService.validate",
+      },
+      {
+        type: "CALLS",
+        from: "method:src/service.ts:UserService.update",
+        to: "method:src/repository.ts:UserRepository.save",
+      },
+      {
+        type: "CALLS",
+        from: "method:src/service.ts:UserService.validate",
+        to: "method:src/base.ts:BaseWorkflow.audit",
+      },
+      {
+        type: "CALLS",
+        from: "method:src/service.ts:UserService.validate",
+        to: "method:src/service.ts:UserService.finalize",
+      },
+      {
+        type: "CALLS",
+        from: "method:src/service.ts:UserService.finalize",
+        to: "method:src/repository.ts:UserRepository.find",
+      },
+    ]));
+  });
+
   it("emits deterministic semantic relationships for TypeScript and Express code", async () => {
     const root = await createSemanticFixture();
     const result = parseTypeScriptFrontend({
@@ -244,6 +285,16 @@ describe("typescript frontend", () => {
         to: "route:GET:/users/live",
       },
       {
+        type: "BELONGS_TO",
+        from: "route:GET:/users/live",
+        to: "controller:src/users.controller.ts:UsersController",
+      },
+      {
+        type: "CALLS",
+        from: "method:src/users.controller.ts:UsersController.live",
+        to: "method:src/users.service.ts:UsersService.load",
+      },
+      {
         type: "DECLARES",
         from: "mod:src/users.module.ts:UsersModule",
         to: "controller:src/users.controller.ts:UsersController",
@@ -256,6 +307,11 @@ describe("typescript frontend", () => {
       {
         type: "INJECTS",
         from: "class:src/users.controller.ts:UsersController",
+        to: "service:src/users.service.ts:UsersService",
+      },
+      {
+        type: "INJECTS",
+        from: "controller:src/users.controller.ts:UsersController",
         to: "service:src/users.service.ts:UsersService",
       },
       {
@@ -328,6 +384,65 @@ async function createFixture(): Promise<string> {
       "",
       "export function main(): UserService {",
       "  return lazy();",
+      "}",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+
+  return root;
+}
+
+async function createMethodCallFixture(): Promise<string> {
+  const root = await mkdtemp(join(tmpdir(), "ontoly-parser-calls-"));
+  await mkdir(join(root, "src"), { recursive: true });
+  await writeFile(
+    join(root, "src", "base.ts"),
+    [
+      "export class BaseWorkflow {",
+      "  protected audit(): string {",
+      "    return 'audit';",
+      "  }",
+      "}",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+  await writeFile(
+    join(root, "src", "repository.ts"),
+    [
+      "export class UserRepository {",
+      "  save(): string { return 'saved'; }",
+      "  find(): string { return 'found'; }",
+      "}",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+  await writeFile(
+    join(root, "src", "service.ts"),
+    [
+      "import { BaseWorkflow } from './base';",
+      "import { UserRepository } from './repository';",
+      "",
+      "export class UserService extends BaseWorkflow {",
+      "  constructor(private readonly repository: UserRepository) {",
+      "    super();",
+      "  }",
+      "",
+      "  async update(): Promise<string> {",
+      "    await this.validate();",
+      "    return this.repository.save();",
+      "  }",
+      "",
+      "  protected validate(): string {",
+      "    super.audit();",
+      "    return this.finalize();",
+      "  }",
+      "",
+      "  private finalize(): string {",
+      "    return this.repository.find();",
+      "  }",
       "}",
       "",
     ].join("\n"),

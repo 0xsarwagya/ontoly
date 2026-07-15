@@ -44,7 +44,7 @@ export function createMermaidArtifact(
 export function createMermaidPlugin(options: MermaidOptions = {}): OntolyPlugin {
   return {
     name: "@0xsarwagya/ontoly-plugin-mermaid",
-    version: "0.1.0-alpha.17",
+    version: "0.1.0-alpha.18",
     run: ({ graph }) => ({
       artifacts: [createMermaidArtifact(graph, options)],
     }),
