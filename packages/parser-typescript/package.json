@@ -32,15 +32,15 @@
     "@0xsarwagya/ontoly-core": "workspace:*",
     "@0xsarwagya/ontoly-semantic": "workspace:*",
     "@0xsarwagya/ontoly-typescript": "workspace:*",
-    "typescript": "5.9.2"
+    "typescript": "7.0.2"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
-    "@types/node": "^22.15.3",
+    "@types/node": "^26.1.1",
     "tsup": "^8.3.5",
-    "vitest": "^3.0.0"
+    "vitest": "^4.1.10"
   },
   "bugs": {
     "url": "https://github.com/0xsarwagya/ontoly/issues"
