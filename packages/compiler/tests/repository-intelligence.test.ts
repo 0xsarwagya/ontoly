@@ -13,7 +13,7 @@ describe("repository intelligence pass", () => {
       JSON.stringify({
         name: "@0xsarwagya/workspace",
         private: true,
-        packageManager: "pnpm@11.5.3",
+        packageManager: "pnpm@10.15.1",
         scripts: { build: "turbo build" },
         dependencies: { express: "^5.0.0" },
         devDependencies: { turbo: "^2.0.0" },

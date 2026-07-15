@@ -10,16 +10,22 @@ Start the local capability runtime:
 ontoly mcp
 ```
 
-Ontoly exposes structured capabilities backed by the query engine:
+List the capability names available in the current runtime:
 
+```sh
+ontoly mcp --list
+```
+
+Representative capabilities include:
+
+- `ExplainArchitecture`
+- `FindAuthenticationFlow`
+- `FindDependencies`
 - `FindResponsibleFunction`
-- `TraceRoute`
-- `DependencyTree`
+- `GraphStatistics`
 - `ImpactAnalysis`
-- `AuthenticationFlow`
-- `ExplainModule`
-- `FindConfiguration`
-- `FindDeadCode`
+- `SemanticContext`
+- `TraceRequestLifecycle`
 
 The MCP layer consumes the Software Graph. It does not rebuild repository
 context, search files, or use AI to infer relationships.

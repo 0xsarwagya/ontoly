@@ -1,9 +1,5 @@
 # @0xsarwagya/ontoly-plugin-mermaid
 
-Mermaid diagram plugin for Ontoly Software Graphs.
-
-This package is part of [Ontoly](https://github.com/0xsarwagya/ontoly), a TypeScript-native software intelligence engine that builds a deterministic Software Graph.
-
 ## Responsibility
 
 `@0xsarwagya/ontoly-plugin-mermaid` renders existing Software Graph input into
@@ -19,12 +15,25 @@ boundaries.
 pnpm add @0xsarwagya/ontoly-plugin-mermaid
 ```
 
+## API
+
+- Mermaid graph rendering helpers for existing Software Graphs.
+- Deterministic Mermaid string output for documentation and reports.
+
+## Example
+
+```ts
+import { createMermaidDiagram } from "@0xsarwagya/ontoly-plugin-mermaid";
+
+const diagram = createMermaidDiagram(graph);
+```
+
 ## Status
 
-Public Preview package for Ontoly v0.1.0-alpha.19. The public API is versioned with the Software Graph and RFC process.
+Release Candidate package for Ontoly v1.0.0-rc.1. Public contracts are governed by the Software Graph specification and RFC process.
 
 ## Links
 
 - [Repository](https://github.com/0xsarwagya/ontoly)
-- [Documentation](https://ontoly.sarwagya.wtf)
+- [Documentation](https://oss.sarwagya.wtf/ontoly)
 - [Issues](https://github.com/0xsarwagya/ontoly/issues)

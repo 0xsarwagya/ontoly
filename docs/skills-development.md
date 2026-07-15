@@ -27,11 +27,11 @@ name must match the directory.
 Every skill `README.md` should link back to the canonical public docs with
 absolute URLs so installed skills stay self-contained:
 
-- `https://ontoly.sarwagya.wtf/docs/agent-skills`
-- `https://ontoly.sarwagya.wtf/docs/skills-overview`
-- `https://ontoly.sarwagya.wtf/docs/mcp`
-- `https://ontoly.sarwagya.wtf/docs/capabilities`
-- `https://ontoly.sarwagya.wtf/docs/skills-validation`
+- `https://oss.sarwagya.wtf/ontoly/docs/agent-skills`
+- `https://oss.sarwagya.wtf/ontoly/docs/skills-overview`
+- `https://oss.sarwagya.wtf/ontoly/docs/mcp`
+- `https://oss.sarwagya.wtf/ontoly/docs/capabilities`
+- `https://oss.sarwagya.wtf/ontoly/docs/skills-validation`
 
 ## Metadata
 
@@ -39,8 +39,8 @@ Use Ontoly metadata keys:
 
 ```yaml
 metadata:
-  ontoly.skill.version: "0.1.0-alpha.19"
-  ontoly.min.version: "0.1.0-alpha.19"
+  ontoly.skill.version: "1.0.0-rc.1"
+  ontoly.min.version: "1.0.0-rc.1"
   ontoly.capabilities: "ExplainArchitecture, GraphStatistics"
   ontoly.category: "architecture"
   ontoly.enhancement: "LLM Enhancement"

@@ -1,9 +1,5 @@
 # @0xsarwagya/ontoly-core
 
-Software Graph schema, stable IDs, indexes, and graph helpers for Ontoly.
-
-This package is part of [Ontoly](https://github.com/0xsarwagya/ontoly), a TypeScript-native software intelligence engine that builds a deterministic Software Graph.
-
 ## Responsibility
 
 `@0xsarwagya/ontoly-core` is the innermost package. It owns Software Graph
@@ -20,12 +16,27 @@ boundaries.
 pnpm add @0xsarwagya/ontoly-core
 ```
 
+## API
+
+- Software Graph node, edge, diagnostic, metadata, and index types.
+- Stable ID helpers and graph utility functions.
+- Semantic Index primitives shared by CLI, capabilities, and validation.
+
+## Example
+
+```ts
+import { createNodeId, createSemanticIndex } from "@0xsarwagya/ontoly-core";
+
+const id = createNodeId("Function", "src/auth.ts", "login");
+const index = createSemanticIndex(graph);
+```
+
 ## Status
 
-Public Preview package for Ontoly v0.1.0-alpha.19. The public API is versioned with the Software Graph and RFC process.
+Release Candidate package for Ontoly v1.0.0-rc.1. Public contracts are governed by the Software Graph specification and RFC process.
 
 ## Links
 
 - [Repository](https://github.com/0xsarwagya/ontoly)
-- [Documentation](https://ontoly.sarwagya.wtf)
+- [Documentation](https://oss.sarwagya.wtf/ontoly)
 - [Issues](https://github.com/0xsarwagya/ontoly/issues)

@@ -1,9 +1,9 @@
 ---
 title: "Feature Matrix"
-description: "Supported, Public Preview, and non-goal surfaces across Ontoly packages, validation, MCP, skills, and graph tooling."
+description: "Supported, Release Candidate, and non-goal surfaces across Ontoly packages, validation, MCP, skills, and graph tooling."
 ---
 
-| Feature | Public Preview Status | Evidence |
+| Feature | Release Candidate Status | Evidence |
 | ------- | ------------ | -------- |
 | Software Graph JSON | Supported | `@0xsarwagya/ontoly-core` |
 | TypeScript frontend | Supported | `@0xsarwagya/ontoly-parser-typescript` |

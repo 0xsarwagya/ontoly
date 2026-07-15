@@ -1,9 +1,5 @@
 # @0xsarwagya/ontoly-cli
 
-CLI and public convenience API for Ontoly.
-
-This package is part of [Ontoly](https://github.com/0xsarwagya/ontoly), a TypeScript-native software intelligence engine that builds a deterministic Software Graph.
-
 ## Responsibility
 
 `@0xsarwagya/ontoly-cli` is the user-facing composition boundary. It wires the
@@ -20,31 +16,27 @@ boundaries.
 pnpm add @0xsarwagya/ontoly-cli
 ```
 
-## Usage
+## API
+
+- The `ontoly` binary.
+- Public CLI orchestration for build, output, search, impact, evidence, semantics, MCP, skills, validation, and release commands.
+- Convenience exports from the CLI package entrypoint for embedding Ontoly workflows.
+
+## Example
 
 ```bash
-ontoly build
 ontoly build .
-ontoly build --remote https://github.com/0xsarwagya/ontoly.git
-ontoly build . --output .ontoly
-ontoly evidence "what owns authentication?"
-ontoly graph --format html > graph.html
+ontoly search authentication
+ontoly impact AuthService --json
+ontoly semantics build .
 ```
-
-`ontoly build .` writes a deterministic `ontoly-output/` folder with graph
-JSON, report JSON, per-type node and relationship files, graph communities, and
-offline HTML explorers.
-
-In an interactive terminal, bare `ontoly build` asks which folder to index.
-Pass a root path, `--remote`, `--json`, `--no-prompt`, or `--yes` to keep
-automation noninteractive.
 
 ## Status
 
-Public Preview package for Ontoly v0.1.0-alpha.19. The public API is versioned with the Software Graph and RFC process.
+Release Candidate package for Ontoly v1.0.0-rc.1. Public contracts are governed by the Software Graph specification and RFC process.
 
 ## Links
 
 - [Repository](https://github.com/0xsarwagya/ontoly)
-- [Documentation](https://ontoly.sarwagya.wtf)
+- [Documentation](https://oss.sarwagya.wtf/ontoly)
 - [Issues](https://github.com/0xsarwagya/ontoly/issues)

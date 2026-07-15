@@ -4,7 +4,7 @@
 
 - Requested path: /Users/shrey/Desktop/personal/durable-local
 - Actual path: /Users/shrey/Desktop/personal/durable-local
-- Files: 55
+- Files: 56
 - Source files: 30
 - Packages: 1
 - Frameworks: Vite
@@ -70,8 +70,8 @@
 
 | Tool | Cold Analysis | Peak Memory | Graph Hash |
 | --- | ---: | ---: | --- |
-| Ontoly | 1335.3ms | 465.4 MB | 1xd5unc |
-| Graphify | 220.81ms | 40 MB | e36634175223f5b2f5abd7582c60155c47fc3947ec8ae82165c8dcbe7d7ae4b2 |
+| Ontoly | 965ms | 539.9 MB | 1xd5unc |
+| Graphify | 126.84ms | 40.4 MB | e36634175223f5b2f5abd7582c60155c47fc3947ec8ae82165c8dcbe7d7ae4b2 |
 
 ## Diagnostics
 

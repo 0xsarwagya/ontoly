@@ -31,17 +31,24 @@ body:
     attributes:
       label: Evidence
       description: Attach diagnostics, statistics, validation reports, or MCP request and response JSON.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Artifact privacy
+      options:
+        - label: I have sanitized attached artifacts and have not included private source code, secrets, customer data, or production graph artifacts.
+          required: true
   - type: input
     id: version
     attributes:
       label: Ontoly version
-      placeholder: 0.1.0-alpha.1
+      placeholder: 1.0.0-rc.1
     validations:
       required: true
   - type: input
     id: environment
     attributes:
       label: Environment
-      placeholder: Node 22, pnpm 11, macOS/Linux/Windows
+      placeholder: Node 20 or 22, pnpm 10, macOS/Linux/Windows
     validations:
       required: true

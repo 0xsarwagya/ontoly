@@ -8,13 +8,14 @@ import { createOntolyOutputBundle } from "../src/output";
 
 describe("ontoly output bundle", () => {
   it("respects absolute artifact output directories", () => {
+    const directory = join("/", "tmp", "ontoly-output");
     const paths = getGraphArtifactPaths({
       root: "/repo",
-      directory: "/tmp/ontoly-output",
+      directory,
     });
 
-    expect(paths.directory).toBe("/tmp/ontoly-output");
-    expect(paths.graph).toBe("/tmp/ontoly-output/SoftwareGraph.json");
+    expect(paths.directory).toBe(directory);
+    expect(paths.graph).toBe(join(directory, "SoftwareGraph.json"));
   });
 
   it("writes deterministic JSON, community, and HTML artifacts", async () => {

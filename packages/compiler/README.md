@@ -1,9 +1,5 @@
 # @0xsarwagya/ontoly-compiler
 
-Repository discovery, graph build pipeline, and watch mode for Ontoly.
-
-This package is part of [Ontoly](https://github.com/0xsarwagya/ontoly), a TypeScript-native software intelligence engine that builds a deterministic Software Graph.
-
 ## Responsibility
 
 `@0xsarwagya/ontoly-compiler` owns repository discovery, compiler context,
@@ -20,12 +16,26 @@ boundaries.
 pnpm add @0xsarwagya/ontoly-compiler
 ```
 
+## API
+
+- `buildSoftwareGraph(options)` compiles a repository to a Software Graph.
+- Compiler context, passes, pipeline stages, graph builder, and validation hooks.
+- `defaultCompilerPasses()` for the standard deterministic pipeline.
+
+## Example
+
+```ts
+import { buildSoftwareGraph } from "@0xsarwagya/ontoly-compiler";
+
+const graph = await buildSoftwareGraph({ root: process.cwd() });
+```
+
 ## Status
 
-Public Preview package for Ontoly v0.1.0-alpha.19. The public API is versioned with the Software Graph and RFC process.
+Release Candidate package for Ontoly v1.0.0-rc.1. Public contracts are governed by the Software Graph specification and RFC process.
 
 ## Links
 
 - [Repository](https://github.com/0xsarwagya/ontoly)
-- [Documentation](https://ontoly.sarwagya.wtf)
+- [Documentation](https://oss.sarwagya.wtf/ontoly)
 - [Issues](https://github.com/0xsarwagya/ontoly/issues)

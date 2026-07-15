@@ -1,9 +1,5 @@
 # @0xsarwagya/ontoly-analyzers
 
-Semantic coverage and graph quality analyzers for Ontoly.
-
-This package is part of [Ontoly](https://github.com/0xsarwagya/ontoly), a TypeScript-native software intelligence engine that builds a deterministic Software Graph.
-
 ## Responsibility
 
 `@0xsarwagya/ontoly-analyzers` evaluates existing Software Graphs for semantic
@@ -19,12 +15,25 @@ boundaries.
 pnpm add @0xsarwagya/ontoly-analyzers
 ```
 
+## API
+
+- Semantic coverage and graph quality report builders.
+- Framework and graph-trust summaries over existing Software Graphs.
+
+## Example
+
+```ts
+import { analyzeSemanticCoverage } from "@0xsarwagya/ontoly-analyzers";
+
+const report = analyzeSemanticCoverage(graph);
+```
+
 ## Status
 
-Public Preview package for Ontoly v0.1.0-alpha.19. The public API is versioned with the Software Graph and RFC process.
+Release Candidate package for Ontoly v1.0.0-rc.1. Public contracts are governed by the Software Graph specification and RFC process.
 
 ## Links
 
 - [Repository](https://github.com/0xsarwagya/ontoly)
-- [Documentation](https://ontoly.sarwagya.wtf)
+- [Documentation](https://oss.sarwagya.wtf/ontoly)
 - [Issues](https://github.com/0xsarwagya/ontoly/issues)

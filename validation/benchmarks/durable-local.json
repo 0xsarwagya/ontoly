@@ -15,12 +15,12 @@
       "note": "Runs Ontoly through its built package APIs with write:false so source repositories are not modified."
     },
     "exitCode": 0,
-    "durationMs": 1335.3034580000094,
+    "durationMs": 965.0018340000024,
     "time": {
-      "realSeconds": 1.33,
-      "maxResidentSetBytes": 488030208,
-      "peakMemoryFootprintBytes": 476070464,
-      "peakMemoryBytes": 488030208,
+      "realSeconds": 0.96,
+      "maxResidentSetBytes": 566149120,
+      "peakMemoryFootprintBytes": 559472752,
+      "peakMemoryBytes": 566149120,
       "source": "/usr/bin/time -l"
     },
     "graphHash": "1xd5unc",
@@ -44,7 +44,7 @@
     ],
     "graphDurationMs": null,
     "statistics": {
-      "files": 55,
+      "files": 90,
       "nodes": 226,
       "edges": 384,
       "diagnostics": 0,
@@ -139,12 +139,12 @@
         "note": "Uses graphify extract with --out to avoid writing into the source repository. --no-cluster keeps the run headless and deterministic for release validation."
       },
       "exitCode": 1,
-      "durationMs": 140.6570830000128,
+      "durationMs": 102.69029199999932,
       "time": {
-        "realSeconds": 0.13,
-        "maxResidentSetBytes": 28114944,
-        "peakMemoryFootprintBytes": 17826248,
-        "peakMemoryBytes": 28114944,
+        "realSeconds": 0.1,
+        "maxResidentSetBytes": 33767424,
+        "peakMemoryFootprintBytes": 23478728,
+        "peakMemoryBytes": 33767424,
         "source": "/usr/bin/time -l"
       },
       "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/full/stdout.log",
@@ -168,12 +168,12 @@
         "note": "Structural fallback: full Graphify extraction required an LLM backend for docs/images, so this run analyzes a validation-side code projection only. Source repositories remain untouched."
       },
       "exitCode": 0,
-      "durationMs": 220.80929200000537,
+      "durationMs": 126.83983299999818,
       "time": {
-        "realSeconds": 0.21,
-        "maxResidentSetBytes": 41959424,
-        "peakMemoryFootprintBytes": 31392200,
-        "peakMemoryBytes": 41959424,
+        "realSeconds": 0.12,
+        "maxResidentSetBytes": 42319872,
+        "peakMemoryFootprintBytes": 31752648,
+        "peakMemoryBytes": 42319872,
         "source": "/usr/bin/time -l"
       },
       "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/structural/stdout.log",
@@ -184,7 +184,7 @@
         "projectionRoot": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/durable-local/graphify/code-projection",
         "mode": "code-only projection for Graphify structural fallback",
         "includedFiles": 26,
-        "excludedFiles": 29,
+        "excludedFiles": 30,
         "includedExtensions": {
           ".json": 4,
           ".ts": 21,
@@ -221,12 +221,12 @@
       }
     },
     "exitCode": 0,
-    "durationMs": 220.80929200000537,
+    "durationMs": 126.83983299999818,
     "time": {
-      "realSeconds": 0.21,
-      "maxResidentSetBytes": 41959424,
-      "peakMemoryFootprintBytes": 31392200,
-      "peakMemoryBytes": 41959424,
+      "realSeconds": 0.12,
+      "maxResidentSetBytes": 42319872,
+      "peakMemoryFootprintBytes": 31752648,
+      "peakMemoryBytes": 42319872,
       "source": "/usr/bin/time -l"
     },
     "graphHash": "e36634175223f5b2f5abd7582c60155c47fc3947ec8ae82165c8dcbe7d7ae4b2",

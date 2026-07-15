@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="192" height="20" role="img" aria-label="0xsarwagya perf: 4765.04ms">
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="20" role="img" aria-label="0xsarwagya perf: 2618.67ms">
   <linearGradient id="s" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient>
   <rect width="117" height="20" fill="#555"/>
   <rect x="117" width="75" height="20" fill="#0969da"/>
   <rect width="192" height="20" fill="url(#s)"/>
   <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,sans-serif" font-size="11">
     <text x="58.5" y="15">0xsarwagya perf</text>
-    <text x="154.5" y="15">4765.04ms</text>
+    <text x="154.5" y="15">2618.67ms</text>
   </g>
 </svg>

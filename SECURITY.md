@@ -2,11 +2,13 @@
 
 ## Supported Versions
 
-Security fixes are accepted for the current alpha line.
+Security fixes are accepted for the current release-candidate line.
 
 | Version | Supported |
 | ------- | --------- |
-| 0.1.x alpha | Yes |
+| 1.0.0-rc.x | Yes |
+| 0.1.x alpha | Security-only when the fix is low risk |
+| < 0.1.0-alpha | No |
 
 ## Reporting a Vulnerability
 
@@ -18,6 +20,18 @@ Include:
 - Reproduction steps.
 - Expected impact.
 - Whether the issue affects generated graph artifacts, MCP responses, package installation, or CI release gates.
+- Whether attached graph artifacts are sanitized.
+
+Do not attach private source code, secrets, production graph artifacts, or
+customer repository names unless they are required to reproduce the issue and
+safe to disclose privately.
+
+## Response Timeline
+
+- Initial acknowledgement: within 72 hours when possible.
+- Triage update: within 7 days.
+- Coordinated disclosure target: after a fix is available, unless active
+  exploitation requires a different timeline.
 
 ## Scope
 

@@ -590,7 +590,8 @@ function renderAgentEvaluationMarkdown(report: SkillAgentEvaluationReport): stri
 }
 
 function parseSkillFrontmatter(content: string): SkillFrontmatter {
-  const match = /^---\n([\s\S]*?)\n---/.exec(content);
+  const normalizedContent = content.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+  const match = /^---\n([\s\S]*?)\n---/.exec(normalizedContent);
   if (!match) {
     return { metadata: new Map() };
   }

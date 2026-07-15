@@ -14,9 +14,18 @@ graph-first evidence, confidence, and fallback rules in
 
 ## Install
 
+Prerequisites:
+
+- Install Ontoly.
+- Build a graph for the repository with `ontoly build .`.
+- Verify the runtime can list capabilities with `ontoly mcp --list`.
+- Use a published repository install after release, or the local `--copy` flow
+  while validating a source checkout.
+
 ```bash
-pnpm add -D @0xsarwagya/ontoly-cli
+pnpm add -D @0xsarwagya/ontoly-cli@rc
 ontoly build .
+ontoly mcp --list
 ontoly mcp
 ```
 

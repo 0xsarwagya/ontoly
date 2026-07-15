@@ -1,42 +1,42 @@
 [
   {
     "id": "ovok-core",
-    "durationMs": 58454.905,
-    "memoryBytes": 2576646144,
-    "queryLatencyMs": 4.0357,
-    "agentWorkflowMs": 31289.233,
-    "agentWorkflowMemoryBytes": 1766817792
+    "durationMs": 30951.356,
+    "memoryBytes": 2573008896,
+    "queryLatencyMs": 2.1697,
+    "agentWorkflowMs": 16158.445,
+    "agentWorkflowMemoryBytes": 1777172480
   },
   {
     "id": "0xsarwagya",
-    "durationMs": 4765.04,
-    "memoryBytes": 2247016448,
-    "queryLatencyMs": 0.1738,
-    "agentWorkflowMs": 1469.195,
-    "agentWorkflowMemoryBytes": 2218082304
+    "durationMs": 2618.668,
+    "memoryBytes": 2241888256,
+    "queryLatencyMs": 0.0859,
+    "agentWorkflowMs": 814.458,
+    "agentWorkflowMemoryBytes": 2209726464
   },
   {
     "id": "innosphere",
-    "durationMs": 33034.71,
-    "memoryBytes": 2624307200,
-    "queryLatencyMs": 1.3627,
-    "agentWorkflowMs": 8038.846,
-    "agentWorkflowMemoryBytes": 2148106240
+    "durationMs": 17345.888,
+    "memoryBytes": 2891104256,
+    "queryLatencyMs": 0.6529,
+    "agentWorkflowMs": 4106.645,
+    "agentWorkflowMemoryBytes": 2144223232
   },
   {
     "id": "ghost",
-    "durationMs": 1868.41,
-    "memoryBytes": 2658009088,
-    "queryLatencyMs": 0.0487,
-    "agentWorkflowMs": 450.291,
-    "agentWorkflowMemoryBytes": 1834106880
+    "durationMs": 943.479,
+    "memoryBytes": 2924806144,
+    "queryLatencyMs": 0.0243,
+    "agentWorkflowMs": 230.899,
+    "agentWorkflowMemoryBytes": 2877816832
   },
   {
     "id": "durable-local",
-    "durationMs": 1559.618,
-    "memoryBytes": 1859534848,
-    "queryLatencyMs": 0.0485,
-    "agentWorkflowMs": 239.122,
-    "agentWorkflowMemoryBytes": 1858125824
+    "durationMs": 839.976,
+    "memoryBytes": 2905702400,
+    "queryLatencyMs": 0.5819,
+    "agentWorkflowMs": 132.094,
+    "agentWorkflowMemoryBytes": 2894675968
   }
 ]

@@ -15,8 +15,9 @@ derived from graph facts only:
 - keywords from source paths, metadata, relationships, and parent chains
 - relationship context and graph importance
 
-`ontoly build` writes the compact index to `.ontoly/index.json` beside the
-Software Graph. `ontoly output` also writes `ontoly-output/index.json`.
+`ontoly build` writes the default output bundle to `ontoly-output/`, including
+the Software Graph and derived indexes. Use `ontoly build . --output .ontoly`
+when you want the compact cache-style `.ontoly/` directory instead.
 
 ## CLI
 

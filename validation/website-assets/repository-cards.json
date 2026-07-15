@@ -11,7 +11,7 @@
     "trust": 98,
     "nodes": 21686,
     "edges": 52365,
-    "durationMs": 58454.905
+    "durationMs": 30951.356
   },
   {
     "id": "0xsarwagya",
@@ -26,7 +26,7 @@
     "trust": 96,
     "nodes": 1191,
     "edges": 2087,
-    "durationMs": 4765.04
+    "durationMs": 2618.668
   },
   {
     "id": "innosphere",
@@ -42,7 +42,7 @@
     "trust": 100,
     "nodes": 6742,
     "edges": 12510,
-    "durationMs": 33034.71
+    "durationMs": 17345.888
   },
   {
     "id": "ghost",
@@ -56,7 +56,7 @@
     "trust": 100,
     "nodes": 350,
     "edges": 661,
-    "durationMs": 1868.41
+    "durationMs": 943.479
   },
   {
     "id": "durable-local",
@@ -70,6 +70,6 @@
     "trust": 100,
     "nodes": 226,
     "edges": 384,
-    "durationMs": 1559.618
+    "durationMs": 839.976
   }
 ]

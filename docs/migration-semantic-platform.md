@@ -6,7 +6,7 @@ description: "The migration path from frontend-owned framework extraction to Ont
 Ontoly separates language analysis, framework analysis, and graph generation.
 
 Earlier alpha builds had the TypeScript frontend emit compiler symbols and
-contain framework extraction rules. Current Public Preview builds use the frontend as an
+contain framework extraction rules. Current Release Candidate builds use the frontend as an
 adapter around the TypeScript Semantic Model and the Semantic Generator.
 
 ## New Packages

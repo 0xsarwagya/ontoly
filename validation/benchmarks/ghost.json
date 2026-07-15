@@ -15,15 +15,15 @@
       "note": "Runs Ontoly through its built package APIs with write:false so source repositories are not modified."
     },
     "exitCode": 0,
-    "durationMs": 1462.7041250000038,
+    "durationMs": 1184.4966250000034,
     "time": {
-      "realSeconds": 1.46,
-      "maxResidentSetBytes": 489996288,
-      "peakMemoryFootprintBytes": 477921904,
-      "peakMemoryBytes": 489996288,
+      "realSeconds": 1.18,
+      "maxResidentSetBytes": 574734336,
+      "peakMemoryFootprintBytes": 568353576,
+      "peakMemoryBytes": 574734336,
       "source": "/usr/bin/time -l"
     },
-    "graphHash": "04fwlj9",
+    "graphHash": "0qqdyqg",
     "outputFiles": [
       "command.json",
       "coverage.json",
@@ -44,9 +44,9 @@
     ],
     "graphDurationMs": null,
     "statistics": {
-      "files": 56,
+      "files": 86,
       "nodes": 350,
-      "edges": 657,
+      "edges": 661,
       "diagnostics": 0,
       "nodesByType": {
         "BuildTarget": 1,
@@ -73,7 +73,7 @@
         "Workspace": 1
       },
       "edgesByType": {
-        "CALLS": 84,
+        "CALLS": 88,
         "CONFIGURES": 5,
         "CONTAINS": 292,
         "CREATES": 17,
@@ -93,7 +93,7 @@
         "typescript": "5.9.2",
         "repository": "1.0.0"
       },
-      "deterministicHash": "04fwlj9"
+      "deterministicHash": "0qqdyqg"
     },
     "coverage": {
       "coverage": 100,
@@ -141,12 +141,12 @@
         "note": "Uses graphify extract with --out to avoid writing into the source repository. --no-cluster keeps the run headless and deterministic for release validation."
       },
       "exitCode": 1,
-      "durationMs": 204.04733299999498,
+      "durationMs": 93.22045899999648,
       "time": {
-        "realSeconds": 0.19,
-        "maxResidentSetBytes": 27967488,
-        "peakMemoryFootprintBytes": 17678792,
-        "peakMemoryBytes": 27967488,
+        "realSeconds": 0.09,
+        "maxResidentSetBytes": 39731200,
+        "peakMemoryFootprintBytes": 29442504,
+        "peakMemoryBytes": 39731200,
         "source": "/usr/bin/time -l"
       },
       "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/full/stdout.log",
@@ -170,12 +170,12 @@
         "note": "Structural fallback: full Graphify extraction required an LLM backend for docs/images, so this run analyzes a validation-side code projection only. Source repositories remain untouched."
       },
       "exitCode": 0,
-      "durationMs": 282.30829200000153,
+      "durationMs": 128.13575000000128,
       "time": {
-        "realSeconds": 0.27,
-        "maxResidentSetBytes": 42467328,
-        "peakMemoryFootprintBytes": 31916512,
-        "peakMemoryBytes": 42467328,
+        "realSeconds": 0.12,
+        "maxResidentSetBytes": 42172416,
+        "peakMemoryFootprintBytes": 31605192,
+        "peakMemoryBytes": 42172416,
         "source": "/usr/bin/time -l"
       },
       "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/structural/stdout.log",
@@ -186,7 +186,7 @@
         "projectionRoot": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ghost/graphify/code-projection",
         "mode": "code-only projection for Graphify structural fallback",
         "includedFiles": 33,
-        "excludedFiles": 25,
+        "excludedFiles": 26,
         "includedExtensions": {
           ".json": 5,
           ".ts": 27,
@@ -230,12 +230,12 @@
       }
     },
     "exitCode": 0,
-    "durationMs": 282.30829200000153,
+    "durationMs": 128.13575000000128,
     "time": {
-      "realSeconds": 0.27,
-      "maxResidentSetBytes": 42467328,
-      "peakMemoryFootprintBytes": 31916512,
-      "peakMemoryBytes": 42467328,
+      "realSeconds": 0.12,
+      "maxResidentSetBytes": 42172416,
+      "peakMemoryFootprintBytes": 31605192,
+      "peakMemoryBytes": 42172416,
       "source": "/usr/bin/time -l"
     },
     "graphHash": "e36634175223f5b2f5abd7582c60155c47fc3947ec8ae82165c8dcbe7d7ae4b2",

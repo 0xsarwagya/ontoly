@@ -1,17 +1,18 @@
 ---
 title: "Compatibility Matrix"
-description: "Runtime, package, Software Graph, Agent Skill, MCP, CLI, and release compatibility for Ontoly Public Preview builds."
+description: "Runtime, package, Software Graph, Agent Skill, MCP, CLI, and release compatibility for Ontoly Release Candidate builds."
 ---
 
 | Surface | Version | Status |
 | ------- | ------- | ------ |
-| Node.js | 22+ | Supported |
-| pnpm | 11+ | Supported |
+| Ontoly packages | 1.0.0-rc.1 | Release Candidate |
+| Node.js | 20+ | Supported |
+| pnpm | 10+ | Supported |
 | TypeScript | 5.9 | Supported |
 | Package module format | ESM | Supported |
 | Software Graph Spec | 1.0 draft | Supported |
 | Agent Skills | Vercel-style `SKILL.md` folders | Supported |
-| MCP transport | JSON lines through CLI runtime | Public Preview |
+| MCP transport | JSON lines through CLI runtime | Release Candidate |
 
 ## Package Compatibility
 

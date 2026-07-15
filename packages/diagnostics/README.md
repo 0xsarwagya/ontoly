@@ -1,9 +1,5 @@
 # @0xsarwagya/ontoly-diagnostics
 
-Shared diagnostic constructors for Ontoly.
-
-This package is part of [Ontoly](https://github.com/0xsarwagya/ontoly), a TypeScript-native software intelligence engine that builds a deterministic Software Graph.
-
 ## Responsibility
 
 `@0xsarwagya/ontoly-diagnostics` keeps diagnostic construction and diagnostic
@@ -19,12 +15,29 @@ boundaries.
 pnpm add @0xsarwagya/ontoly-diagnostics
 ```
 
+## API
+
+- Diagnostic constructors shared across packages.
+- Stable diagnostic severity, code, and provenance helpers.
+
+## Example
+
+```ts
+import { createDiagnostic } from "@0xsarwagya/ontoly-diagnostics";
+
+const diagnostic = createDiagnostic({
+  severity: "warning",
+  code: "EXAMPLE_WARNING",
+  message: "Example graph warning.",
+});
+```
+
 ## Status
 
-Public Preview package for Ontoly v0.1.0-alpha.19. The public API is versioned with the Software Graph and RFC process.
+Release Candidate package for Ontoly v1.0.0-rc.1. Public contracts are governed by the Software Graph specification and RFC process.
 
 ## Links
 
 - [Repository](https://github.com/0xsarwagya/ontoly)
-- [Documentation](https://ontoly.sarwagya.wtf)
+- [Documentation](https://oss.sarwagya.wtf/ontoly)
 - [Issues](https://github.com/0xsarwagya/ontoly/issues)

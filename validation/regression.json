@@ -2,82 +2,77 @@
   "status": "PASS",
   "baseline": "compared",
   "failures": [],
-  "warnings": [
-    "ovok-core: Ontoly analysis time increased by 76.67%.",
-    "0xsarwagya: Ontoly analysis time increased by 123.38%.",
-    "innosphere: Ontoly analysis time increased by 62.83%.",
-    "durable-local: Ontoly analysis time increased by 39.67%."
-  ],
+  "warnings": [],
   "current": {
-    "generatedAt": "2026-07-14T20:18:05.550Z",
+    "generatedAt": "2026-07-15T11:19:25.842Z",
     "repositories": [
       {
         "slug": "ovok-core",
         "status": "partial",
         "ontoly": {
-          "nodes": 21696,
-          "edges": 47725,
-          "coverage": 98,
+          "nodes": 21686,
+          "edges": 52365,
+          "coverage": 99,
           "trustworthiness": 98,
-          "durationMs": 24495.925499999998
+          "durationMs": 10508.745208
         },
         "graphify": {
           "nodes": 0,
           "edges": 0,
-          "durationMs": 424.7916669999995
+          "durationMs": 190.97462499999892
         },
-        "graphHash": "1mydjnw"
+        "graphHash": "0io8q3z"
       },
       {
         "slug": "0xsarwagya",
         "status": "partial",
         "ontoly": {
-          "nodes": 1204,
-          "edges": 2095,
+          "nodes": 1191,
+          "edges": 2087,
           "coverage": 95,
-          "trustworthiness": 95,
-          "durationMs": 11227.137708000002
+          "trustworthiness": 96,
+          "durationMs": 1821.3637080000008
         },
         "graphify": {
           "nodes": 0,
           "edges": 0,
-          "durationMs": 389.46774999999616
+          "durationMs": 150.1710000000021
         },
-        "graphHash": "0y006e0"
+        "graphHash": "0k3l2hs"
       },
       {
         "slug": "innosphere",
         "status": "partial",
         "ontoly": {
-          "nodes": 6981,
-          "edges": 12739,
+          "nodes": 6742,
+          "edges": 12510,
           "coverage": 100,
           "trustworthiness": 100,
-          "durationMs": 13433.23391699999
+          "durationMs": 7645.48575
         },
         "graphify": {
           "nodes": 0,
           "edges": 0,
-          "durationMs": 186.0052080000023
+          "durationMs": 120.70833299999867
         },
-        "graphHash": "12xhppw"
+        "graphHash": "1hdfa3y"
       },
       {
         "slug": "ghost",
         "status": "partial",
         "ontoly": {
           "nodes": 350,
-          "edges": 657,
+          "edges": 661,
           "coverage": 100,
           "trustworthiness": 100,
-          "durationMs": 1462.7041250000038
+          "durationMs": 1184.4966250000034
         },
         "graphify": {
           "nodes": 0,
           "edges": 0,
-          "durationMs": 282.30829200000153
+          "durationMs": 128.13575000000128
         },
-        "graphHash": "04fwlj9"
+        "graphHash": "0qqdyqg"
       },
       {
         "slug": "durable-local",
@@ -87,12 +82,12 @@
           "edges": 384,
           "coverage": 100,
           "trustworthiness": 100,
-          "durationMs": 1335.3034580000094
+          "durationMs": 965.0018340000024
         },
         "graphify": {
           "nodes": 0,
           "edges": 0,
-          "durationMs": 220.80929200000537
+          "durationMs": 126.83983299999818
         },
         "graphHash": "1xd5unc"
       }

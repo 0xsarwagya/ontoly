@@ -1,6 +1,5 @@
 # Ontoly
 
-[![HOL Guard](https://img.shields.io/endpoint?url=https%3A%2F%2Fhol.org%2Fapi%2Fregistry%2Fbadges%2Fguard%2Fhashgraph-online%2Fhol-guard-plugin)](https://hol.org/go/guard/sarwagyasingh69?dest=%2Fguard%2Fbilling%3Fpromo%3DGUARD20-SARWAGYASINGH69%23upgrade&link_id=8aab4f0e-d950-4ba5-89f1-5689b7c867c8&utm_source=insights_share&utm_medium=affiliate_cta&utm_campaign=share20)
 [![Validation Lab](https://github.com/0xsarwagya/ontoly/actions/workflows/semantic-evaluation.yml/badge.svg)](https://github.com/0xsarwagya/ontoly/actions/workflows/semantic-evaluation.yml)
 [![npm install](https://img.shields.io/npm/v/@0xsarwagya/ontoly-cli?label=npm%20install)](https://www.npmjs.com/package/@0xsarwagya/ontoly-cli)
 [![License](https://img.shields.io/github/license/0xsarwagya/ontoly)](LICENSE)
@@ -20,9 +19,9 @@ generate embeddings, or make probabilistic guesses.
 
 ## Status
 
-Ontoly's current Public Preview release is `v0.1.0-alpha.19`.
+Ontoly's current Release Candidate is `v1.0.0-rc.1`.
 
-The public contract is in Public Preview freeze, and the repository includes:
+The public contract is in Release Candidate freeze, and the repository includes:
 
 - a Software Graph specification
 - a deterministic compiler pipeline
@@ -37,16 +36,19 @@ The public contract is in Public Preview freeze, and the repository includes:
 
 ## Links
 
-- Website: [ontoly.sarwagya.wtf](https://ontoly.sarwagya.wtf)
-- Docs: [ontoly.sarwagya.wtf/docs](https://ontoly.sarwagya.wtf/docs)
-- Agent Skills Catalog: [ontoly.sarwagya.wtf/docs/skills](https://ontoly.sarwagya.wtf/docs/skills)
-- Enhancers: [ontoly.sarwagya.wtf/docs/enhancers](https://ontoly.sarwagya.wtf/docs/enhancers)
+- Website: [oss.sarwagya.wtf/ontoly](https://oss.sarwagya.wtf/ontoly)
+- Docs: [oss.sarwagya.wtf/ontoly/docs](https://oss.sarwagya.wtf/ontoly/docs)
+- Agent Skills Catalog: [oss.sarwagya.wtf/ontoly/docs/skills](https://oss.sarwagya.wtf/ontoly/docs/skills)
+- Enhancers: [oss.sarwagya.wtf/ontoly/docs/enhancers](https://oss.sarwagya.wtf/ontoly/docs/enhancers)
 - Repository: [github.com/0xsarwagya/ontoly](https://github.com/0xsarwagya/ontoly)
 - Changelog: [CHANGELOG.md](CHANGELOG.md)
 - Roadmap: [ROADMAP.md](ROADMAP.md)
 - Architecture: [ARCHITECTURE.md](ARCHITECTURE.md)
 - RFC index: [RFC_INDEX.md](RFC_INDEX.md)
-- Public Preview readiness audit: [reports/alpha15-public-preview-readiness.md](reports/alpha15-public-preview-readiness.md)
+- Governance: [GOVERNANCE.md](GOVERNANCE.md)
+- Third-party notices: [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
+- Release Candidate readiness audit: [RC_READINESS.md](RC_READINESS.md)
+- HOL Guard: [![HOL Guard](https://img.shields.io/endpoint?url=https%3A%2F%2Fhol.org%2Fapi%2Fregistry%2Fbadges%2Fguard%2Fhashgraph-online%2Fhol-guard-plugin)](https://hol.org/go/guard/sarwagyasingh69?dest=%2Fguard%2Fbilling%3Fpromo%3DGUARD20-SARWAGYASINGH69%23upgrade&link_id=8aab4f0e-d950-4ba5-89f1-5689b7c867c8&utm_source=insights_share&utm_medium=affiliate_cta&utm_campaign=share20)
 
 ## What Ontoly Is
 
@@ -109,7 +111,7 @@ ask whether Ontoly already knows.
 
 ## Quick Start From Source
 
-Use this path when evaluating the Public Preview from GitHub.
+Use this path when evaluating the Release Candidate from GitHub.
 
 ```sh
 git clone https://github.com/0xsarwagya/ontoly.git
@@ -155,10 +157,10 @@ pnpm release:gates
 
 The public package names are scoped under `@0xsarwagya`.
 
-After the Public Preview packages are published, a project can install the CLI with:
+Install the Release Candidate with:
 
 ```sh
-pnpm add -D @0xsarwagya/ontoly-cli
+pnpm add -D @0xsarwagya/ontoly-cli@rc
 pnpm exec ontoly build .
 ```
 
@@ -224,7 +226,7 @@ ontoly build . --output .ontoly
   statistics.json
 ```
 
-The JSON graph is the canonical Public Preview serialization format. Binary formats are
+The JSON graph is the canonical Release Candidate serialization format. Binary formats are
 intentionally out of scope until the Software Graph specification is stable.
 
 Remote repositories can be compiled directly:
@@ -383,15 +385,14 @@ pnpm ontoly mcp
 Representative capabilities:
 
 - `GraphStatistics`
-- `ExplainModule`
+- `ExplainArchitecture`
 - `FindDependencies`
 - `ImpactAnalysis`
-- `EvidencePack`
 - `TraceExecution`
 - `FindConfigurationUsage`
 - `FindAuthenticationFlow`
-- `FindAuthorization`
-- `FrameworkReport`
+- `FindFeatureOwner`
+- `SemanticContext`
 
 Every capability is deterministic and evidence-backed. Confidence is derived
 from graph evidence, not guessed.
@@ -440,7 +441,7 @@ pnpm skills:validate
 pnpm skills:validate-installed
 ```
 
-Read the public [Agent Skills Catalog](https://ontoly.sarwagya.wtf/docs/skills),
+Read the public [Agent Skills Catalog](https://oss.sarwagya.wtf/ontoly/docs/skills),
 [skills/SKILL_CATALOG.md](skills/SKILL_CATALOG.md), [docs/agent-skills.md](docs/agent-skills.md),
 and [docs/skills-validation.md](docs/skills-validation.md).
 
@@ -470,7 +471,7 @@ Validation outputs live under [validation](validation):
 Read [docs/validation-lab.md](docs/validation-lab.md) and
 [docs/semantic-evaluation-harness.md](docs/semantic-evaluation-harness.md).
 
-## Current Public Preview Evidence
+## Current Release Candidate Evidence
 
 The release readiness reports are generated artifacts from the local validation
 suite, not marketing claims.
@@ -478,7 +479,7 @@ suite, not marketing claims.
 | Area | Evidence |
 | --- | --- |
 | Package health | [reports/publish-readiness.md](reports/publish-readiness.md) |
-| Public Preview readiness | [reports/alpha15-public-preview-readiness.md](reports/alpha15-public-preview-readiness.md) |
+| Release Candidate readiness | [RC_READINESS.md](RC_READINESS.md) |
 | Clean-room install | [reports/clean-room.md](reports/clean-room.md) |
 | Validation summary | [validation/lab-summary.md](validation/lab-summary.md) |
 | Semantic leaderboard | [validation/semantic/leaderboard.md](validation/semantic/leaderboard.md) |
@@ -568,11 +569,10 @@ keywords, and source provenance. The landing page and project-level SEO live in
 On `main`, `.github/workflows/publish-site.yml` runs the same generation and
 validation flow, then calls `0xsarwagya/internet/scripts/oss-sync.mjs` to copy
 `site/manifest.json`, `site/landing.mdx`, `site/docs/**`, and `site/assets/**`
-into the OSS site content snapshot for `https://ontoly.sarwagya.wtf`.
+into the OSS site content snapshot for `https://oss.sarwagya.wtf/ontoly`.
 
-The previous `https://oss.sarwagya.wtf/ontoly` URL is expected to redirect to
-the dedicated Ontoly subdomain after the site deployment configuration is
-updated.
+The dedicated `https://ontoly.sarwagya.wtf` domain is reserved for launch, but
+the RC documentation uses the live OSS route until that domain is attached.
 
 Start here:
 
@@ -617,6 +617,8 @@ Release gates include:
 - license checking
 - skill validation
 - installed artifact skill validation
+- npm pack validation
+- clean first-user smoke
 - validation lab
 - semantic evaluation
 - regression gates
@@ -630,13 +632,13 @@ pnpm release:gates
 
 ## Known Limitations
 
-Ontoly is Public Preview software.
+Ontoly is Release Candidate software.
 
 - TypeScript support is the primary implemented frontend.
 - Some framework analyzers are intentionally partial.
 - Binary graph formats are not implemented.
 - Hosted SaaS, vector search, and LLM reasoning are non-goals.
-- The Software Graph schema is in v1 Public Preview freeze.
+- The Software Graph schema is in v1 Release Candidate freeze.
 - MCP capabilities only answer from available graph evidence.
 - LLM-facing use requires LLM Enhancement; Ontoly itself remains AI-free.
 

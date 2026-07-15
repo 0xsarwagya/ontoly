@@ -1,9 +1,5 @@
 # @0xsarwagya/ontoly-parser-typescript
 
-TypeScript parser and relationship extractor for Ontoly.
-
-This package is part of [Ontoly](https://github.com/0xsarwagya/ontoly), a TypeScript-native software intelligence engine that builds a deterministic Software Graph.
-
 ## Responsibility
 
 `@0xsarwagya/ontoly-parser-typescript` is the TypeScript compiler frontend. It
@@ -20,12 +16,25 @@ boundaries.
 pnpm add @0xsarwagya/ontoly-parser-typescript
 ```
 
+## API
+
+- TypeScript frontend pass factory.
+- Compiler-symbol emission and TypeScript relationship extraction through the TypeScript Compiler API.
+
+## Example
+
+```ts
+import { createTypeScriptFrontendPass } from "@0xsarwagya/ontoly-parser-typescript";
+
+const pass = createTypeScriptFrontendPass();
+```
+
 ## Status
 
-Public Preview package for Ontoly v0.1.0-alpha.19. The public API is versioned with the Software Graph and RFC process.
+Release Candidate package for Ontoly v1.0.0-rc.1. Public contracts are governed by the Software Graph specification and RFC process.
 
 ## Links
 
 - [Repository](https://github.com/0xsarwagya/ontoly)
-- [Documentation](https://ontoly.sarwagya.wtf)
+- [Documentation](https://oss.sarwagya.wtf/ontoly)
 - [Issues](https://github.com/0xsarwagya/ontoly/issues)

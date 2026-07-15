@@ -3,29 +3,24 @@
   "mdxVersion": 1,
   "slug": "ontoly",
   "name": "Ontoly",
+  "version": "1.0.0-rc.1",
   "description": "TypeScript-native software intelligence engine that builds deterministic Software Graphs for MCP, AI agents, query tooling, validation, and architecture analysis.",
-  "status": "public-preview",
+  "status": "release-candidate",
   "license": "MIT",
   "packageName": "@0xsarwagya/ontoly-cli",
   "repository": "https://github.com/0xsarwagya/ontoly",
-  "homepage": "https://ontoly.sarwagya.wtf",
-  "legacyUrls": [
-    "https://oss.sarwagya.wtf/ontoly"
+  "homepage": "https://oss.sarwagya.wtf/ontoly",
+  "alternateUrls": [
+    "https://ontoly.sarwagya.wtf"
   ],
-  "redirects": [
-    {
-      "from": "https://oss.sarwagya.wtf/ontoly",
-      "to": "https://ontoly.sarwagya.wtf",
-      "status": 301
-    }
-  ],
+  "redirects": [],
   "landing": "site/landing.mdx",
   "docs": "site/docs",
   "assets": "site/assets",
   "seo": {
     "title": "Ontoly - Deterministic Software Graphs",
-    "canonical": "https://ontoly.sarwagya.wtf",
-    "image": "https://ontoly.sarwagya.wtf/opengraph-image",
+    "canonical": "https://oss.sarwagya.wtf/ontoly",
+    "image": "https://oss.sarwagya.wtf/ontoly/opengraph-image",
     "keywords": [
       "Ontoly",
       "Software Graph",
@@ -40,8 +35,8 @@
   },
   "links": {
     "github": "https://github.com/0xsarwagya/ontoly",
-    "docs": "https://ontoly.sarwagya.wtf/docs",
-    "skills": "https://ontoly.sarwagya.wtf/docs/skills",
+    "docs": "https://oss.sarwagya.wtf/ontoly/docs",
+    "skills": "https://oss.sarwagya.wtf/ontoly/docs/skills",
     "npm": "https://www.npmjs.com/package/@0xsarwagya/ontoly-cli"
   }
 }
