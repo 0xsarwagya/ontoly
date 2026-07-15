@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { realpathSync } from "node:fs";
+import { readFileSync, realpathSync } from "node:fs";
 import { access, mkdir, mkdtemp, open, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import { dirname, isAbsolute, join, resolve } from "node:path";
@@ -68,6 +68,7 @@ import {
 import {
   createHistoryArtifact,
   createHistoryEnhancer,
+  HistoryIndexingError,
   validateHistoryArtifact,
   type CoChangeRelationship,
   type HistoryArtifact,
@@ -227,7 +228,16 @@ function canonicalPath(file: string): string {
   }
 }
 
+function isVersionCommand(cli: ParsedCli): boolean {
+  return cli.command === "version" || cli.command === "--version" || cli.command === "-v";
+}
+
 async function run(cli: ParsedCli): Promise<void> {
+  if (isVersionCommand(cli)) {
+    printVersion(cli);
+    return;
+  }
+
   if (flagBoolean(cli, "help") && cli.command !== "help") {
     printCommandHelp(cli.command);
     return;
@@ -401,6 +411,12 @@ async function run(cli: ParsedCli): Promise<void> {
     case "--help":
     case "-h":
       printHelp();
+      return;
+
+    case "version":
+    case "--version":
+    case "-v":
+      printVersion(cli);
       return;
 
     default:
@@ -5120,6 +5136,23 @@ function formatCliError(error: unknown): string {
     ].filter(Boolean).join("\n");
   }
 
+  if (error instanceof HistoryIndexingError) {
+    return [
+      error.code,
+      "",
+      error.message,
+      "",
+      "Reason:",
+      error.reason,
+      "",
+      "Suggestion:",
+      "Run the command again after reducing repository history scope, or upgrade to a release with streaming Git history indexing when available.",
+      "",
+      "Documentation:",
+      "docs/repository-intelligence.md",
+    ].join("\n");
+  }
+
   if (error instanceof Error) {
     return [
       "ONTOLY0000",
@@ -5150,6 +5183,26 @@ function printCommandHelp(command: string): void {
   }
 
   logger.write(renderCommandHelp(help));
+}
+
+function printVersion(cli: ParsedCli): void {
+  const version = cliVersion();
+  if (flagBoolean(cli, "json")) {
+    logger.write(JSON.stringify({ name: "@0xsarwagya/ontoly-cli", version }, null, 2));
+    return;
+  }
+
+  logger.write(`ontoly ${version}`);
+}
+
+function cliVersion(): string {
+  try {
+    const manifestPath = resolve(dirname(fileURLToPath(import.meta.url)), "..", "package.json");
+    const manifest = JSON.parse(readFileSync(manifestPath, "utf8")) as { readonly version?: string };
+    return manifest.version ?? "0.0.0";
+  } catch {
+    return "0.0.0";
+  }
 }
 
 interface CommandHelp {
@@ -5341,12 +5394,72 @@ function commandHelp(): Record<string, CommandHelp> {
       options: ["--root path       Repository root.", "--max-time-ms n  Execution time budget.", "--max-nodes n    Traversal node budget.", "--max-edges n    Traversal edge budget.", "--json           Print JSON."],
       examples: ["ontoly profile implementation-plan \"add login threshold\"", "ontoly profile evidence \"sleep duration thresholds\" --json"],
     },
+    version: {
+      title: "ontoly version",
+      description: "Print the installed Ontoly CLI version.",
+      usage: ["ontoly version [--json]", "ontoly --version", "ontoly -v"],
+      options: ["--json         Print JSON."],
+      examples: ["ontoly --version", "ontoly version --json"],
+    },
+    history: {
+      title: "ontoly history",
+      description: "Build, inspect, validate, and query deterministic repository history intelligence.",
+      usage: [
+        "ontoly history build [root] [--output .ontoly] [--json]",
+        "ontoly history inspect [query] [--root path] [--json]",
+        "ontoly history validate [root] [--ci] [--json]",
+        "ontoly history feature <query> [--root path] [--limit 10] [--json]",
+      ],
+      options: [
+        "--root path    Repository root.",
+        "--output path  Artifact directory. Default: .ontoly.",
+        "--limit n      Maximum results. Default: 10.",
+        "--query text   Query text for inspect or feature.",
+        "--no-cache     Recompute instead of using enhancer cache.",
+        "--ci           Fail validation when errors exist.",
+        "--json         Print JSON.",
+      ],
+      examples: [
+        "ontoly history build .",
+        "ontoly history inspect AuthService",
+        "ontoly history feature authentication --json",
+        "ontoly history validate --ci",
+      ],
+    },
     ownership: {
       title: "ontoly ownership",
       description: "Find likely owners for a feature or graph node.",
       usage: ["ontoly ownership <query> [--root path] [--depth 3] [--json]"],
       options: ["--root path    Repository root.", "--depth n      Expansion depth.", "--json         Print JSON."],
       examples: ["ontoly ownership auth", "ontoly ownership PlanDefinition --json"],
+    },
+    hotspots: {
+      title: "ontoly hotspots",
+      description: "List high-churn and high-modification graph nodes from repository history.",
+      usage: ["ontoly hotspots [--root path] [--limit 10] [--json]"],
+      options: ["--root path    Repository root.", "--limit n      Maximum hotspot nodes. Default: 10.", "--json         Print JSON."],
+      examples: ["ontoly hotspots", "ontoly hotspots --limit 20 --json"],
+    },
+    churn: {
+      title: "ontoly churn",
+      description: "List graph nodes ranked by Git churn.",
+      usage: ["ontoly churn [--root path] [--limit 10] [--json]"],
+      options: ["--root path    Repository root.", "--limit n      Maximum churn nodes. Default: 10.", "--json         Print JSON."],
+      examples: ["ontoly churn", "ontoly churn --limit 20 --json"],
+    },
+    cochanges: {
+      title: "ontoly cochanges",
+      description: "Find files and graph nodes that commonly change together with a target.",
+      usage: ["ontoly cochanges <query> [--root path] [--limit 10] [--json]"],
+      options: ["--root path    Repository root.", "--limit n      Maximum relationships. Default: 10.", "--json         Print JSON."],
+      examples: ["ontoly cochanges AuthService", "ontoly cochanges \"sleep thresholds\" --json"],
+    },
+    stability: {
+      title: "ontoly stability",
+      description: "Return hotspot, churn, and stability scores for a feature or graph node.",
+      usage: ["ontoly stability <query> [--root path] [--json]"],
+      options: ["--root path    Repository root.", "--json         Print JSON."],
+      examples: ["ontoly stability AuthService", "ontoly stability PlanDefinition --json"],
     },
     health: {
       title: "ontoly health",
@@ -5548,6 +5661,8 @@ function printHelp(): void {
 TypeScript-native software intelligence. Ontoly builds deterministic Software Graphs.
 
 Usage:
+  ontoly --version
+  ontoly version [--json]
   ontoly init [root] [--root path]
   ontoly build [root] [--root path] [--remote git_repo] [--output ontoly-output] [--bundle]
   ontoly output [root] [--root path] [--remote git_repo] [--output ontoly-output]
@@ -5565,7 +5680,12 @@ Usage:
   ontoly evidence <query> [--root path] [--limit 12] [--json]
   ontoly implementation-plan <task> [--root path] [--max-time-ms 2000] [--max-nodes 80] [--max-edges 160] [--max-depth 3] [--json]
   ontoly profile <implementation-plan|evidence|impact> <target> [--root path] [--json]
+  ontoly history <build|inspect|validate|feature> [root-or-query] [--root path] [--json]
   ontoly ownership <query> [--root path] [--depth 3] [--json]
+  ontoly hotspots [--root path] [--limit 10] [--json]
+  ontoly churn [--root path] [--limit 10] [--json]
+  ontoly cochanges <query> [--root path] [--limit 10] [--json]
+  ontoly stability <query> [--root path] [--json]
   ontoly health [root] [--json]
   ontoly repository-summary [root] [--json]
   ontoly risk [query] [--root path] [--depth 4] [--json]
@@ -5591,6 +5711,7 @@ Usage:
   ontoly benchmark performance [--json]
 
 Examples:
+  ontoly --version
   ontoly build .
   ontoly build --remote https://github.com/0xsarwagya/ontoly.git
   ontoly output .
@@ -5612,6 +5733,11 @@ Examples:
   ontoly evidence "remove PlanDefinition"
   ontoly implementation-plan "remove PlanDefinition support" --max-nodes 80
   ontoly profile implementation-plan "remove PlanDefinition support"
+  ontoly history build .
+  ontoly history inspect AuthService
+  ontoly hotspots
+  ontoly cochanges AuthService
+  ontoly stability AuthService
   ontoly request-trace "POST /login"
   ontoly coverage
   ontoly report api

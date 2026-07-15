@@ -143,6 +143,19 @@ describe("cli developer experience helpers", () => {
     expect(help).toContain("--max-edges n");
   });
 
+  it("documents version and repository history commands", () => {
+    expect(parseCli(["--version"]).command).toBe("--version");
+    expect(parseCli(["version", "--json"]).flags.get("json")).toBe(true);
+
+    const help = commandHelp();
+    expect(renderCommandHelp(help.version)).toContain("ontoly --version");
+    expect(renderCommandHelp(help.history)).toContain("ontoly history build");
+    expect(renderCommandHelp(help.hotspots)).toContain("ontoly hotspots");
+    expect(renderCommandHelp(help.ownership)).toContain("ontoly ownership");
+    expect(renderCommandHelp(help.cochanges)).toContain("ontoly cochanges");
+    expect(renderCommandHelp(help.stability)).toContain("ontoly stability");
+  });
+
   it("formats structured CLI errors with codes, suggestions, and docs", () => {
     const message = formatCliError(new OntolyCliError({
       code: "ONTOLY0001",

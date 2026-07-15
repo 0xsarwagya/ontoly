@@ -196,6 +196,8 @@ export interface HistoryArtifact {
   readonly version: string;
   readonly graphVersion: string;
   readonly graphHash: string;
+  readonly historyIndexed: boolean;
+  readonly historyStatus: HistoryIndexStatus;
   readonly repository: {
     readonly name: string;
     readonly root: string;
@@ -225,9 +227,46 @@ export interface HistoryArtifact {
   readonly deterministicHash: string;
 }
 
+export interface HistoryIndexStatus {
+  readonly indexed: boolean;
+  readonly source: "git" | "provided";
+  readonly reason: string | null;
+  readonly commitsCollected: number;
+  readonly maxBufferBytes?: number | undefined;
+}
+
 export interface CreateHistoryArtifactOptions {
   readonly commits?: readonly GitHistoryCommit[] | undefined;
   readonly repositoryRoot?: string | undefined;
+}
+
+export interface HistoryIndexingErrorInput {
+  readonly reason: string;
+  readonly message: string;
+  readonly root: string;
+  readonly command: readonly string[];
+  readonly exitCode?: number | null | undefined;
+  readonly stderr?: string | undefined;
+  readonly cause?: unknown;
+}
+
+export class HistoryIndexingError extends Error {
+  readonly code = "HISTORY_INDEXING_FAILED";
+  readonly reason: string;
+  readonly root: string;
+  readonly command: readonly string[];
+  readonly exitCode?: number | null | undefined;
+  readonly stderr?: string | undefined;
+
+  constructor(input: HistoryIndexingErrorInput) {
+    super(input.message, { cause: input.cause });
+    this.name = "HistoryIndexingError";
+    this.reason = input.reason;
+    this.root = input.root;
+    this.command = input.command;
+    this.exitCode = input.exitCode;
+    this.stderr = input.stderr;
+  }
 }
 
 interface FileAccumulator {
@@ -251,6 +290,7 @@ interface PairAccumulator {
 const MAX_COCHANGE_FILES_PER_COMMIT = 80;
 const MAX_COCHANGES = 5000;
 const MAX_HOTSPOTS = 200;
+export const GIT_HISTORY_MAX_BUFFER_BYTES = 128 * 1024 * 1024;
 const GENERIC_PATH_SEGMENTS = new Set([
   "app",
   "apps",
@@ -292,11 +332,14 @@ export function createHistoryEnhancer(): Enhancer {
     supportsIncremental: true,
     run: (context) => {
       const graphArtifact = context.artifacts.require("SoftwareGraph");
-      const history = createHistoryArtifact(context.graph, {
-        repositoryRoot: typeof context.configuration.historyRoot === "string"
-          ? context.configuration.historyRoot
-          : context.graph.repository.root,
-      });
+      const configuredCommits = historyCommitsFromConfiguration(context.configuration);
+      const history = createHistoryArtifact(context.graph, configuredCommits
+        ? { commits: configuredCommits }
+        : {
+          repositoryRoot: typeof context.configuration.historyRoot === "string"
+            ? context.configuration.historyRoot
+            : context.graph.repository.root,
+        });
       const base = {
         graphHash: context.graph.metadata.deterministicHash,
         graphGeneratedAt: context.graph.metadata.generatedAt,
@@ -343,6 +386,7 @@ export function createHistoryEnhancer(): Enhancer {
         version: HISTORY_ENHANCER_VERSION,
         graphHash: context.graph.metadata.deterministicHash,
         root: context.graph.repository.root,
+        commits: historyCommitsFromConfiguration(context.configuration),
       })),
   });
 }
@@ -351,7 +395,15 @@ export function createHistoryArtifact(
   graph: SoftwareGraph,
   options: CreateHistoryArtifactOptions = {},
 ): HistoryArtifact {
-  const commits = normalizeCommits(options.commits ?? collectGitHistory(options.repositoryRoot ?? graph.repository.root));
+  const hasProvidedCommits = options.commits !== undefined;
+  const commits = normalizeCommits(hasProvidedCommits ? options.commits ?? [] : collectGitHistory(options.repositoryRoot ?? graph.repository.root));
+  const historyStatus: HistoryIndexStatus = {
+    indexed: true,
+    source: hasProvidedCommits ? "provided" : "git",
+    reason: null,
+    commitsCollected: commits.length,
+    ...(hasProvidedCommits ? {} : { maxBufferBytes: GIT_HISTORY_MAX_BUFFER_BYTES }),
+  };
   const references = commits.map(commitReference);
   const fileAccumulators = accumulateFiles(commits);
   const fileHistories = createFileHistories(fileAccumulators);
@@ -372,6 +424,8 @@ export function createHistoryArtifact(
     version: HISTORY_ARTIFACT_VERSION,
     graphVersion: graph.version,
     graphHash: graph.metadata.deterministicHash,
+    historyIndexed: historyStatus.indexed,
+    historyStatus,
     repository: {
       name: graph.repository.name,
       root: graph.repository.root,
@@ -407,7 +461,7 @@ export function createHistoryArtifact(
 }
 
 export function collectGitHistory(root: string): readonly GitHistoryCommit[] {
-  const result = spawnSync("git", [
+  const command = [
     "log",
     "--reverse",
     "--date=iso-strict",
@@ -415,17 +469,121 @@ export function collectGitHistory(root: string): readonly GitHistoryCommit[] {
     "--format=--ONTOLY-COMMIT--%H%x1f%aI%x1f%an%x1f%s",
     "--",
     ".",
-  ], {
+  ];
+  const result = spawnSync("git", command, {
     cwd: root,
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
+    maxBuffer: GIT_HISTORY_MAX_BUFFER_BYTES,
   });
 
-  if (result.error || result.status !== 0) {
-    return [];
+  if (result.error) {
+    throw historyIndexingErrorFromSpawn(root, command, result.error, result.stderr);
+  }
+
+  if (result.status !== 0) {
+    throw new HistoryIndexingError({
+      reason: "GIT_LOG_FAILED",
+      message: historyIndexingFailureMessage(`git log exited with status ${result.status ?? "unknown"}`, result.stderr),
+      root,
+      command: ["git", ...command],
+      exitCode: result.status,
+      stderr: result.stderr,
+    });
   }
 
   return parseGitLog(result.stdout);
+}
+
+function historyIndexingErrorFromSpawn(
+  root: string,
+  command: readonly string[],
+  error: Error,
+  stderr: string | undefined,
+): HistoryIndexingError {
+  const nodeError = error as NodeJS.ErrnoException;
+  const reason = nodeError.code ?? "SPAWN_FAILED";
+  const exceededBuffer = reason === "ENOBUFS";
+  return new HistoryIndexingError({
+    reason,
+    message: exceededBuffer
+      ? `History indexing failed: git output exceeded the ${formatBytes(GIT_HISTORY_MAX_BUFFER_BYTES)} buffer. Ontoly did not produce an empty history artifact because the repository history was not fully indexed.`
+      : historyIndexingFailureMessage(error.message, stderr),
+    root,
+    command: ["git", ...command],
+    stderr,
+    cause: error,
+  });
+}
+
+function historyIndexingFailureMessage(summary: string, stderr: string | undefined): string {
+  const detail = stderr?.trim() ?? "";
+  return [
+    `History indexing failed: ${summary}.`,
+    detail ? `Git stderr: ${detail}` : "",
+    "Ontoly did not produce an empty history artifact because repository history was unavailable.",
+  ].filter(Boolean).join(" ");
+}
+
+function formatBytes(bytes: number): string {
+  const mib = bytes / (1024 * 1024);
+  return `${Number.isInteger(mib) ? mib : mib.toFixed(1)} MiB`;
+}
+
+function historyCommitsFromConfiguration(configuration: JsonObject): readonly GitHistoryCommit[] | undefined {
+  const commits = configuration.historyCommits;
+  if (!Array.isArray(commits)) {
+    return undefined;
+  }
+
+  return commits
+    .map(gitHistoryCommitFromJson)
+    .filter(isGitHistoryCommit);
+}
+
+function gitHistoryCommitFromJson(value: JsonValue): GitHistoryCommit | undefined {
+  if (!isJsonObject(value)) {
+    return undefined;
+  }
+
+  const changes = Array.isArray(value.changes)
+    ? value.changes.map(gitHistoryChangeFromJson).filter(isGitHistoryChange)
+    : [];
+
+  return {
+    hash: typeof value.hash === "string" ? value.hash : "",
+    authoredAt: typeof value.authoredAt === "string" ? value.authoredAt : "",
+    author: typeof value.author === "string" ? value.author : "unknown",
+    subject: typeof value.subject === "string" ? value.subject : "",
+    changes,
+  };
+}
+
+function gitHistoryChangeFromJson(value: JsonValue): GitHistoryChange | undefined {
+  if (!isJsonObject(value)) {
+    return undefined;
+  }
+  return {
+    file: typeof value.file === "string" ? value.file : "",
+    additions: numberFromJson(value.additions),
+    deletions: numberFromJson(value.deletions),
+  };
+}
+
+function numberFromJson(value: JsonValue | undefined): number {
+  return typeof value === "number" && Number.isFinite(value) ? value : 0;
+}
+
+function isJsonObject(value: JsonValue): value is JsonObject {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function isGitHistoryCommit(commit: GitHistoryCommit | undefined): commit is GitHistoryCommit {
+  return Boolean(commit);
+}
+
+function isGitHistoryChange(change: GitHistoryChange | undefined): change is GitHistoryChange {
+  return Boolean(change);
 }
 
 export function parseGitLog(output: string): readonly GitHistoryCommit[] {

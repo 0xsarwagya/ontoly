@@ -81,6 +81,30 @@ The enhancer derives:
 The enhancer never reparses source files and never mutates
 `SoftwareGraph.json`.
 
+### History Availability
+
+History collection is fail-closed. If Git history cannot be indexed, Ontoly
+returns a structured `HISTORY_INDEXING_FAILED` error instead of producing empty
+history artifacts. This prevents users and agents from mistaking unavailable
+history for evidence that no history exists.
+
+Successful artifacts include:
+
+```json
+{
+  "historyIndexed": true,
+  "historyStatus": {
+    "indexed": true,
+    "source": "git",
+    "reason": null,
+    "commitsCollected": 42
+  }
+}
+```
+
+The current Git collector uses a 128 MiB output buffer. Repositories whose Git
+history exceeds that limit fail explicitly rather than silently degrading.
+
 ## CLI
 
 ```sh

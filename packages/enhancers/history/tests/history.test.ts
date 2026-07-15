@@ -2,8 +2,10 @@ import { createEdgeId, createSoftwareGraph, stableStringify, type SoftwareGraph 
 import { createEnhancerTestHarness } from "@0xsarwagya/ontoly-enhancer";
 import { describe, expect, it } from "vitest";
 import {
+  collectGitHistory,
   createHistoryArtifact,
   createHistoryEnhancer,
+  HistoryIndexingError,
   parseGitLog,
   validateHistoryArtifact,
   type GitHistoryCommit,
@@ -18,6 +20,13 @@ describe("history enhancer", () => {
     expect(first.deterministicHash).toBe(second.deterministicHash);
     expect(stableStringify(first)).toBe(stableStringify(second));
     expect(first.graphHash).toBe(graph.metadata.deterministicHash);
+    expect(first.historyIndexed).toBe(true);
+    expect(first.historyStatus).toMatchObject({
+      indexed: true,
+      source: "provided",
+      reason: null,
+      commitsCollected: 4,
+    });
     expect(first.statistics.commits).toBe(4);
     expect(first.statistics.nodesWithHistory).toBeGreaterThan(0);
 
@@ -75,7 +84,7 @@ describe("history enhancer", () => {
     const harness = createEnhancerTestHarness({
       graph,
       configuration: {
-        historyRoot: "/missing-history-root",
+        historyCommits: JSON.parse(JSON.stringify(historyFixtureCommits())),
       },
     });
 
@@ -91,10 +100,14 @@ describe("history enhancer", () => {
       "Ownership",
     ]);
     expect(result.executions[0]?.statistics).toMatchObject({
-      commits: 0,
-      nodesWithHistory: 0,
+      commits: 4,
+      nodesWithHistory: 4,
     });
     await expect(harness.assertDeterministic([enhancer])).resolves.toBeUndefined();
+  });
+
+  it("fails explicitly when git history cannot be indexed", () => {
+    expect(() => collectGitHistory("/definitely/missing/ontoly-history-root")).toThrow(HistoryIndexingError);
   });
 });
 
