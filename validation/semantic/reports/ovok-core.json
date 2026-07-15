@@ -37,7 +37,7 @@
       "precision": 100,
       "recall": 100,
       "confidence": 100,
-      "latencyMs": 0.784,
+      "latencyMs": 0.621,
       "semanticUnderstandingScore": 100
     },
     "graphify": {
@@ -49,7 +49,7 @@
       "precision": 0,
       "recall": 0,
       "confidence": 0,
-      "latencyMs": 0.002,
+      "latencyMs": 0.001,
       "semanticUnderstandingScore": 0
     },
     "winner": "Ontoly"
@@ -84,7 +84,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 1.094,
+        "latencyMs": 0.427,
         "answers": [
           {
             "label": "AuthController",
@@ -107,7 +107,7 @@
           "AuthController"
         ],
         "confidence": 0,
-        "latencyMs": 0.002,
+        "latencyMs": 0.001,
         "answers": [],
         "explanation": "0 candidate node(s) matched Controller with terms AuthController."
       },
@@ -142,7 +142,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.465,
+        "latencyMs": 0.289,
         "answers": [
           {
             "label": "AuthService",
@@ -201,17 +201,17 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 1.354,
+        "latencyMs": 1.733,
         "answers": [
           {
             "label": "AuthController -> AuthService",
             "type": "INJECTS",
-            "id": "edge:injects:065brkc",
+            "id": "edge:injects:05kd04s",
             "file": null,
             "explanation": "Matched INJECTS relationship."
           }
         ],
-        "explanation": "2 candidate edge-derived answer(s) matched INJECTS."
+        "explanation": "4 candidate edge-derived answer(s) matched INJECTS."
       },
       "graphify": {
         "system": "graphify",
@@ -224,7 +224,7 @@
           "AuthController -> AuthService"
         ],
         "confidence": 0,
-        "latencyMs": 0.004,
+        "latencyMs": 0.003,
         "answers": [],
         "explanation": "0 candidate edge-derived answer(s) matched INJECTS."
       },
@@ -259,7 +259,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.411,
+        "latencyMs": 0.32,
         "answers": [
           {
             "label": "ALL:/fhir/R4",
@@ -312,7 +312,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 1.068,
+        "latencyMs": 0.693,
         "answers": [
           {
             "label": "AuthModule",
@@ -365,7 +365,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.309,
+        "latencyMs": 0.265,
         "answers": [
           {
             "label": "FHIR_DEFAULT_VERSION",

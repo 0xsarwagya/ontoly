@@ -7,7 +7,7 @@ Ontoly ships portable Agent Skills for architecture review, request tracing, imp
 ## Quick install
 
 ```bash
-pnpm add -D @0xsarwagya/ontoly-cli
+pnpm add -D @0xsarwagya/ontoly-cli@rc
 ontoly build .
 ontoly evidence "what owns authentication?"
 ontoly mcp

@@ -12,15 +12,21 @@ function readJson(file) {
 
 function packageFiles() {
   return ["packages", "plugins"].flatMap((group) => {
-    const dir = path.join(root, group);
-    if (!fs.existsSync(dir)) {
-      return [];
-    }
-    return fs
-      .readdirSync(dir)
-      .map((name) => path.join(dir, name, "package.json"))
-      .filter((file) => fs.existsSync(file));
+    const directory = path.join(root, group);
+    return fs.existsSync(directory) ? findPackageFiles(directory) : [];
   });
+}
+
+function findPackageFiles(directory) {
+  const packageJson = path.join(directory, "package.json");
+  if (fs.existsSync(packageJson)) {
+    return [packageJson];
+  }
+
+  return fs
+    .readdirSync(directory, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && entry.name !== "node_modules" && entry.name !== "dist")
+    .flatMap((entry) => findPackageFiles(path.join(directory, entry.name)));
 }
 
 for (const file of [path.join(root, "package.json"), ...packageFiles()]) {

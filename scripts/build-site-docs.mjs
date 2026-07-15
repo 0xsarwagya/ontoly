@@ -10,7 +10,7 @@ const sourceRoot = path.join(root, "docs");
 const outputRoot = path.join(root, "site", "docs");
 const skillsCatalogPath = path.join(root, "skills", "website-assets", "skill-catalog.json");
 const repositoryBlobUrl = "https://github.com/0xsarwagya/ontoly/blob/main";
-const siteBaseUrl = "https://ontoly.sarwagya.wtf";
+const siteBaseUrl = "https://oss.sarwagya.wtf/ontoly";
 const docsBasePath = "/docs";
 const commonKeywords = [
   "Ontoly",

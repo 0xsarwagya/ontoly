@@ -1,9 +1,5 @@
 # @0xsarwagya/ontoly-semantic
 
-Semantic generator and framework analyzer registry for Ontoly.
-
-This package is part of [Ontoly](https://github.com/0xsarwagya/ontoly), a TypeScript-native software intelligence engine that builds a deterministic Software Graph.
-
 ## Responsibility
 
 `@0xsarwagya/ontoly-semantic` owns semantic generation and the Framework
@@ -20,12 +16,26 @@ boundaries.
 pnpm add @0xsarwagya/ontoly-semantic
 ```
 
+## API
+
+- `generateCompilerArtifacts(project)` lowers semantic inputs into compiler facts.
+- Framework analyzer registry and deterministic framework facts.
+- Semantic relationship extraction for TypeScript and framework concepts.
+
+## Example
+
+```ts
+import { generateCompilerArtifacts } from "@0xsarwagya/ontoly-semantic";
+
+const artifacts = generateCompilerArtifacts(project);
+```
+
 ## Status
 
-Public Preview package for Ontoly v0.1.0-alpha.19. The public API is versioned with the Software Graph and RFC process.
+Release Candidate package for Ontoly v1.0.0-rc.1. Public contracts are governed by the Software Graph specification and RFC process.
 
 ## Links
 
 - [Repository](https://github.com/0xsarwagya/ontoly)
-- [Documentation](https://ontoly.sarwagya.wtf)
+- [Documentation](https://oss.sarwagya.wtf/ontoly)
 - [Issues](https://github.com/0xsarwagya/ontoly/issues)

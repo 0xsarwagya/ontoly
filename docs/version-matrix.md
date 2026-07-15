@@ -2,22 +2,22 @@
 
 | Component | Version |
 | --------- | ------- |
-| Ontoly core packages | 0.1.0-alpha.19 |
-| Query Engine | 0.1.0-alpha.19 |
-| TypeScript analyzer | 0.1.0-alpha.19 |
-| TypeScript parser frontend | 0.1.0-alpha.19 |
-| Semantic Index | exported by `@0xsarwagya/ontoly-core` 0.1.0-alpha.19 |
-| Semantic Capability Engine | 0.1.0-alpha.19 |
-| Enhancer API | 0.1.0-alpha.19 |
-| Semantics Enhancer | 0.1.0-alpha.19 |
-| Intelligence API | 0.1.0-alpha.19 |
-| MCP runtime | 0.1.0-alpha.19 |
-| Ontoly CLI | 0.1.0-alpha.19 |
-| HTML graph plugin | 0.1.0-alpha.19 |
+| Ontoly core packages | 1.0.0-rc.1 |
+| Query Engine | 1.0.0-rc.1 |
+| TypeScript analyzer | 1.0.0-rc.1 |
+| TypeScript parser frontend | 1.0.0-rc.1 |
+| Semantic Index | exported by `@0xsarwagya/ontoly-core` 1.0.0-rc.1 |
+| Semantic Capability Engine | 1.0.0-rc.1 |
+| Enhancer API | 1.0.0-rc.1 |
+| Semantics Enhancer | 1.0.0-rc.1 |
+| Intelligence API | 1.0.0-rc.1 |
+| MCP runtime | 1.0.0-rc.1 |
+| Ontoly CLI | 1.0.0-rc.1 |
+| HTML graph plugin | 1.0.0-rc.1 |
 | Software Graph Spec | 1.0 draft |
-| Agent Skills | 0.1.0-alpha.19 |
-| Node.js engine | 22+ |
-| pnpm engine | 11+ |
+| Agent Skills | 1.0.0-rc.1 |
+| Node.js engine | 20+ |
+| pnpm engine | 10+ |
 | TypeScript | 5.9 |
 
 The Software Graph version is negotiated independently from Ontoly package versions.

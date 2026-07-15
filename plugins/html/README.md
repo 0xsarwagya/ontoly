@@ -1,11 +1,5 @@
 # @0xsarwagya/ontoly-plugin-html
 
-Software Graph Explorer plugin for Ontoly Software Graphs.
-
-This package emits a self-contained HTML explorer with architecture-first modes,
-search navigation, grouped filters, node relationship details, trace focus, and
-a minimap. It works offline and does not use a CDN or external runtime.
-
 ## Responsibility
 
 `@0xsarwagya/ontoly-plugin-html` renders existing Software Graph input into an
@@ -21,32 +15,25 @@ boundaries.
 pnpm add @0xsarwagya/ontoly-plugin-html
 ```
 
-## Usage
+## API
+
+- `createInteractiveHtmlArtifact(graph, options)` renders the offline Software Graph Explorer.
+- Architecture-first HTML graph payload and deterministic static asset generation.
+
+## Example
 
 ```ts
 import { createInteractiveHtmlArtifact } from "@0xsarwagya/ontoly-plugin-html";
 
-const artifact = createInteractiveHtmlArtifact(graph, {
-  title: "Software Graph",
-  maxEdges: 500,
-});
-
-await writeFile(artifact.path, artifact.contents);
-```
-
-The Ontoly CLI can also render the same artifact:
-
-```bash
-ontoly graph --format html > graph.html
-ontoly architecture --format html > architecture.html
+const artifact = createInteractiveHtmlArtifact(graph, { title: "Software Graph" });
 ```
 
 ## Status
 
-Public Preview package for Ontoly v0.1.0-alpha.19. The public API is versioned with the Software Graph and RFC process.
+Release Candidate package for Ontoly v1.0.0-rc.1. Public contracts are governed by the Software Graph specification and RFC process.
 
 ## Links
 
 - [Repository](https://github.com/0xsarwagya/ontoly)
-- [Documentation](https://ontoly.sarwagya.wtf)
+- [Documentation](https://oss.sarwagya.wtf/ontoly)
 - [Issues](https://github.com/0xsarwagya/ontoly/issues)

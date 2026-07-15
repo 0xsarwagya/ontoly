@@ -39,7 +39,7 @@
       "precision": 100,
       "recall": 100,
       "confidence": 100,
-      "latencyMs": 0.381,
+      "latencyMs": 0.196,
       "semanticUnderstandingScore": 100
     },
     "graphify": {
@@ -51,7 +51,7 @@
       "precision": 0,
       "recall": 0,
       "confidence": 0,
-      "latencyMs": 0.002,
+      "latencyMs": 0.001,
       "semanticUnderstandingScore": 0
     },
     "winner": "Ontoly"
@@ -81,7 +81,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.352,
+        "latencyMs": 0.16,
         "answers": [
           {
             "label": "AuthController",
@@ -104,7 +104,7 @@
           "AuthController"
         ],
         "confidence": 0,
-        "latencyMs": 0.003,
+        "latencyMs": 0.001,
         "answers": [],
         "explanation": "0 candidate node(s) matched Controller with terms AuthController."
       },
@@ -134,7 +134,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.276,
+        "latencyMs": 0.146,
         "answers": [
           {
             "label": "GET:/auth/me",
@@ -187,7 +187,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.596,
+        "latencyMs": 0.324,
         "answers": [
           {
             "label": "AuthModule",
@@ -210,7 +210,7 @@
           "AuthModule"
         ],
         "confidence": 0,
-        "latencyMs": 0.003,
+        "latencyMs": 0.001,
         "answers": [],
         "explanation": "0 candidate node(s) matched Module with terms AuthModule."
       },
@@ -240,7 +240,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.295,
+        "latencyMs": 0.145,
         "answers": [
           {
             "label": "DATABASE_URL",
@@ -293,7 +293,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.205,
+        "latencyMs": 0.104,
         "answers": [
           {
             "label": "OvokService",
@@ -346,7 +346,7 @@
         "falsePositives": [],
         "falseNegatives": [],
         "confidence": 100,
-        "latencyMs": 0.562,
+        "latencyMs": 0.298,
         "answers": [
           {
             "label": "AppModule",
@@ -369,7 +369,7 @@
           "AppModule"
         ],
         "confidence": 0,
-        "latencyMs": 0.001,
+        "latencyMs": 0.002,
         "answers": [],
         "explanation": "0 candidate node(s) matched Module with terms AppModule."
       },

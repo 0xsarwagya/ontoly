@@ -1,5 +1,7 @@
 # @0xsarwagya/ontoly-capabilities
 
+## Responsibility
+
 Deterministic software engineering capabilities over the Ontoly Software Graph.
 
 This package owns high-level reasoning such as impact analysis, repository
@@ -19,13 +21,27 @@ boundaries.
 pnpm add @0xsarwagya/ontoly-capabilities
 ```
 
+## API
+
+- Default deterministic capability catalog.
+- Capability execution contracts, confidence, evidence, diagnostics, and implementation planning results.
+- High-level capabilities such as impact analysis, evidence packs, request tracing, and configuration usage.
+
+## Example
+
+```ts
+import { createCapabilityRegistry, defaultCapabilities } from "@0xsarwagya/ontoly-capabilities";
+
+const registry = createCapabilityRegistry(context, defaultCapabilities());
+const result = await registry.execute("ImpactAnalysis", { target: "AuthService" });
+```
+
 ## Status
 
-Public Preview package for Ontoly v0.1.0-alpha.19. The public API is versioned with the
-Software Graph and RFC process.
+Release Candidate package for Ontoly v1.0.0-rc.1. Public contracts are governed by the Software Graph specification and RFC process.
 
 ## Links
 
 - [Repository](https://github.com/0xsarwagya/ontoly)
-- [Documentation](https://ontoly.sarwagya.wtf)
+- [Documentation](https://oss.sarwagya.wtf/ontoly)
 - [Issues](https://github.com/0xsarwagya/ontoly/issues)

@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-plugin-mermaid",
-  "version": "0.1.0-alpha.19",
+  "version": "1.0.0-rc.1",
   "description": "Mermaid diagram plugin for Ontoly Software Graphs.",
   "type": "module",
   "license": "MIT",
@@ -9,7 +9,7 @@
     "url": "git+https://github.com/0xsarwagya/ontoly.git",
     "directory": "plugins/mermaid"
   },
-  "homepage": "https://ontoly.sarwagya.wtf",
+  "homepage": "https://oss.sarwagya.wtf/ontoly",
   "sideEffects": false,
   "exports": {
     ".": {
@@ -45,8 +45,8 @@
     "url": "https://github.com/sponsors/0xsarwagya"
   },
   "engines": {
-    "node": ">=22.0.0",
-    "pnpm": ">=11.0.0"
+    "node": ">=20.0.0",
+    "pnpm": ">=10.0.0"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

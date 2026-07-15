@@ -39,5 +39,5 @@ software-engineering logic.
 
 ## Versioning
 
-Capability versions start at `1.0.0` for the Public Preview surface. Breaking changes to
+Capability versions start at `1.0.0` for the Release Candidate surface. Breaking changes to
 input or output shape require a new capability version and documentation update.

@@ -1,52 +1,52 @@
 # Ontoly vs Graphify Validation Summary
 
-Generated: 2026-07-14T20:18:05.550Z
+Generated: 2026-07-15T11:19:25.842Z
 Repositories analyzed: 5/5
 
 ## Totals
 
-- Files analyzed: 13098
-- Ontoly graph size: 30457 nodes, 63600 edges
+- Files analyzed: 13117
+- Ontoly graph size: 30195 nodes, 68007 edges
 - Graphify graph size: 0 nodes, 0 edges
-- Average semantic coverage: 98.6
-- Average trust score: 98.6
+- Average semantic coverage: 98.8
+- Average trust score: 98.8
 - Regression: PASS
 
 ## Benchmark Dashboard
 
 | Repository | Framework | Files | Graphify | Ontoly | Trust | Coverage |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| Ovok Core | Express, NestJS | 11574 | 0 nodes / 0 edges | 21696 nodes / 47725 edges | 98 | 98 |
-| 0xsarwagya | Next.js, React, Turborepo | 537 | 0 nodes / 0 edges | 1204 nodes / 2095 edges | 95 | 95 |
-| Innosphere | NestJS, React, Turborepo, Vite | 874 | 0 nodes / 0 edges | 6981 nodes / 12739 edges | 100 | 100 |
-| Ghost | Vite | 58 | 0 nodes / 0 edges | 350 nodes / 657 edges | 100 | 100 |
-| durable-local | Vite | 55 | 0 nodes / 0 edges | 226 nodes / 384 edges | 100 | 100 |
+| Ovok Core | Express, NestJS | 11601 | 0 nodes / 0 edges | 21686 nodes / 52365 edges | 98 | 99 |
+| 0xsarwagya | Next.js, React, Turborepo | 555 | 0 nodes / 0 edges | 1191 nodes / 2087 edges | 96 | 95 |
+| Innosphere | NestJS, React, Turborepo, Vite | 846 | 0 nodes / 0 edges | 6742 nodes / 12510 edges | 100 | 100 |
+| Ghost | Vite | 59 | 0 nodes / 0 edges | 350 nodes / 661 edges | 100 | 100 |
+| durable-local | Vite | 56 | 0 nodes / 0 edges | 226 nodes / 384 edges | 100 | 100 |
 
 ## Relationship Coverage
 
 | Relationship | Ontoly Total | Graphify Total | Supported Repos |
 | --- | ---: | ---: | ---: |
-| CALLS | 4272 | 0 | 0 |
-| IMPORTS | 11763 | 0 | 0 |
-| EXPORTS | 4451 | 0 | 0 |
-| CONTAINS | 25816 | 0 | 0 |
-| HANDLES | 503 | 0 | 0 |
-| MOUNTS | 500 | 0 | 0 |
-| INJECTS | 1008 | 0 | 0 |
-| READS | 239 | 0 | 0 |
-| WRITES | 0 | 0 | 0 |
-| USES | 4116 | 0 | 0 |
-| DEPENDS_ON | 586 | 0 | 0 |
+| CALLS | 7580 | 0 | 0 |
+| IMPORTS | 11685 | 0 | 0 |
+| EXPORTS | 4412 | 0 | 0 |
+| CONTAINS | 25559 | 0 | 0 |
+| HANDLES | 505 | 0 | 0 |
+| MOUNTS | 502 | 0 | 0 |
+| INJECTS | 1944 | 0 | 0 |
+| READS | 243 | 0 | 0 |
+| WRITES | 2 | 0 | 0 |
+| USES | 3974 | 0 | 0 |
+| DEPENDS_ON | 532 | 0 | 0 |
 | AUTHORIZES | 255 | 0 | 0 |
-| REGISTERED_IN | 650 | 0 | 0 |
+| REGISTERED_IN | 652 | 0 | 0 |
 | IMPLEMENTS | 126 | 0 | 0 |
 | EXTENDS | 508 | 0 | 0 |
 | REFERENCES | 870 | 0 | 0 |
-| CREATES | 617 | 0 | 0 |
-| THROWS | 552 | 0 | 0 |
-| RETURNS | 1883 | 0 | 0 |
+| CREATES | 616 | 0 | 0 |
+| THROWS | 551 | 0 | 0 |
+| RETURNS | 1859 | 0 | 0 |
 | PUBLISHES | 0 | 0 | 0 |
-| SUBSCRIBES | 0 | 0 | 0 |
+| SUBSCRIBES | 2 | 0 | 0 |
 
 ## Framework Coverage
 
@@ -63,13 +63,13 @@ Repositories analyzed: 5/5
 
 - Configuration: 5
 - Deterministic graph validation: 5
+- Environment Variables: 5
 - Functions: 5
+- Interfaces: 5
 - Modules: 5
 - Packages: 5
 - Classes: 4
-- Environment Variables: 4
 - INJECTS: 4
-- Interfaces: 4
 - Methods: 3
 
 ## Top Weaknesses
@@ -102,7 +102,4 @@ Repositories analyzed: 5/5
 
 Status: PASS
 - No failures.
-- WARN: ovok-core: Ontoly analysis time increased by 76.67%.
-- WARN: 0xsarwagya: Ontoly analysis time increased by 123.38%.
-- WARN: innosphere: Ontoly analysis time increased by 62.83%.
-- WARN: durable-local: Ontoly analysis time increased by 39.67%.
+

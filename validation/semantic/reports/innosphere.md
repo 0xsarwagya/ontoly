@@ -5,8 +5,8 @@ Frameworks: NestJS, React, Turborepo, Vite
 
 | System | Questions | PASS | PARTIAL | FAIL | Precision | Recall | Score | Avg Latency |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Ontoly | 6 | 6 | 0 | 0 | 100 | 100 | 100 | 0.381ms |
-| Graphify | 6 | 0 | 0 | 6 | 0 | 0 | 0 | 0.002ms |
+| Ontoly | 6 | 6 | 0 | 0 | 100 | 100 | 100 | 0.196ms |
+| Graphify | 6 | 0 | 0 | 6 | 0 | 0 | 0 | 0.001ms |
 
 ## Questions
 

@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-repository",
-  "version": "0.1.0-alpha.19",
+  "version": "1.0.0-rc.1",
   "description": "TypeScript-native software intelligence engine that builds a deterministic Software Graph.",
   "private": true,
   "type": "module",
@@ -9,7 +9,7 @@
     "type": "git",
     "url": "git+https://github.com/0xsarwagya/ontoly.git"
   },
-  "homepage": "https://ontoly.sarwagya.wtf",
+  "homepage": "https://oss.sarwagya.wtf/ontoly",
   "scripts": {
     "build": "pnpm -r build",
     "check-types": "pnpm -r check-types",
@@ -33,9 +33,13 @@
     "site:docs": "node scripts/build-site-docs.mjs",
     "docs:check-links": "node validation/tools/check-markdown-links.mjs",
     "docs:lint": "node validation/tools/check-markdown-style.mjs",
+    "docs:check-site": "pnpm site:docs && git diff --exit-code -- site/docs",
     "license:check": "node validation/tools/check-licenses.mjs",
     "validate:packages": "node validation/tools/validate-packages.mjs",
-    "release:gates": "pnpm check-types && pnpm test && pnpm build && pnpm skills:validate && pnpm skills:validate-installed && pnpm docs:check-links && pnpm docs:lint && pnpm license:check && pnpm validate:packages && pnpm validate:ci && node validation/semantic/evaluators/run-semantic-evaluation.mjs --ci && node validation/tools/run-validation-lab.mjs gates --ci"
+    "validate:pack": "node validation/tools/check-npm-packs.mjs",
+    "validate:release-version": "node validation/tools/check-release-version.mjs",
+    "new-user:smoke": "node validation/tools/new-user-smoke.mjs",
+    "release:gates": "pnpm check-types && pnpm test && pnpm build && pnpm skills:validate && pnpm skills:validate-installed && pnpm docs:check-links && pnpm docs:lint && pnpm docs:check-site && pnpm license:check && pnpm validate:packages && pnpm validate:pack && pnpm validate:release-version && pnpm new-user:smoke && pnpm validate:ci && node validation/semantic/evaluators/run-semantic-evaluation.mjs --ci && node validation/tools/run-validation-lab.mjs gates --ci"
   },
   "devDependencies": {
     "@types/node": "^22.15.3",
@@ -43,7 +47,7 @@
     "typescript": "5.9.2",
     "vitest": "^3.0.0"
   },
-  "packageManager": "pnpm@11.5.3",
+  "packageManager": "pnpm@10.15.1",
   "keywords": [
     "ontoly",
     "software-graph",
@@ -59,7 +63,7 @@
     "url": "https://github.com/sponsors/0xsarwagya"
   },
   "engines": {
-    "node": ">=22.0.0",
-    "pnpm": ">=11.0.0"
+    "node": ">=20.0.0",
+    "pnpm": ">=10.0.0"
   }
 }

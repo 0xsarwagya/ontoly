@@ -7,7 +7,7 @@
     "pathSubstitution": null
   },
   "status": "partial",
-  "generatedAt": "2026-07-14T20:17:32.264Z",
+  "generatedAt": "2026-07-15T11:19:10.869Z",
   "measured": {
     "note": "Counts and timings are measured from generated artifacts. Strengths, weaknesses, and recommendations are inferred from normalized counts, diagnostics, and coverage metrics.",
     "ontolyStatus": "success",
@@ -25,10 +25,10 @@
     "packageJsonCount": 1,
     "workspacePackages": [],
     "files": {
-      "total": 11574,
-      "source": 9333,
+      "total": 11601,
+      "source": 9348,
       "typescript": 1765,
-      "documentation": 427,
+      "documentation": 439,
       "byExtension": {
         ".env": 3,
         ".err": 2,
@@ -38,10 +38,10 @@
         ".ico": 1,
         ".info": 2,
         ".js": 1757,
-        ".json": 5786,
+        ".json": 5798,
         ".map": 1754,
-        ".md": 409,
-        ".mjs": 14,
+        ".md": 421,
+        ".mjs": 17,
         ".railway": 1,
         ".sh": 4,
         ".snap": 20,
@@ -232,10 +232,10 @@
   },
   "graphStatistics": {
     "ontoly": {
-      "files": 22111,
-      "nodes": 21696,
-      "edges": 47725,
-      "diagnostics": 13,
+      "files": 16553,
+      "nodes": 21686,
+      "edges": 52365,
+      "diagnostics": 18,
       "nodesByType": {
         "Application": 1,
         "BuildTarget": 1,
@@ -248,18 +248,18 @@
         "Enum": 70,
         "EnvironmentVariable": 162,
         "Exception": 1,
-        "Export": 2532,
+        "Export": 2522,
         "Framework": 2,
-        "Function": 1272,
+        "Function": 1262,
         "Guard": 231,
-        "Import": 9602,
+        "Import": 9579,
         "Interface": 266,
         "Job": 13,
         "Method": 2457,
-        "Module": 1970,
+        "Module": 1965,
         "Namespace": 1,
-        "Package": 120,
-        "Provider": 382,
+        "Package": 121,
+        "Provider": 419,
         "Route": 418,
         "Script": 23,
         "Service": 237,
@@ -271,37 +271,39 @@
       },
       "edgesByType": {
         "AUTHORIZES": 231,
-        "CALLS": 2477,
-        "CONFIGURES": 98,
-        "CONTAINS": 18486,
+        "BELONGS_TO": 420,
+        "CALLS": 5640,
+        "CONFIGURES": 99,
+        "CONTAINS": 18443,
         "CREATES": 512,
         "DECLARES": 117,
         "DECORATES": 2440,
         "DEPENDS_ON": 142,
         "EXECUTES": 23,
-        "EXPORTS": 2707,
+        "EXPORTS": 2697,
         "EXPOSES": 420,
         "EXTENDS": 490,
         "HANDLES": 423,
         "IMPLEMENTS": 122,
-        "IMPORTS": 10083,
-        "INJECTS": 992,
+        "IMPORTS": 10056,
+        "INJECTS": 1916,
         "MOUNTS": 420,
-        "PROVIDES": 672,
-        "READS": 159,
+        "PROVIDES": 907,
+        "READS": 157,
         "REFERENCES": 795,
         "REGISTERED_IN": 555,
         "REGISTERS": 538,
-        "RETURNS": 1353,
+        "RETURNS": 1348,
         "THROWS": 433,
-        "USES": 3037
+        "USES": 3019,
+        "WRITES": 2
       },
       "parserVersions": {
         "openapi": "1.0.0",
         "typescript": "5.9.2",
         "repository": "1.0.0"
       },
-      "deterministicHash": "1mydjnw"
+      "deterministicHash": "0io8q3z"
     },
     "graphify": {
       "nodes": 0,
@@ -315,16 +317,16 @@
       "semanticRelationships": {}
     },
     "ontolyCoverage": {
-      "coverage": 98,
-      "confidence": 95,
-      "completeness": 98,
+      "coverage": 99,
+      "confidence": 96,
+      "completeness": 99,
       "consistency": 100,
       "trustworthiness": 98
     },
     "ontolyQuality": {
-      "coverage": 98,
-      "confidence": 95,
-      "completeness": 98,
+      "coverage": 99,
+      "confidence": 96,
+      "completeness": 99,
       "consistency": 100,
       "trustworthiness": 98
     },
@@ -344,7 +346,7 @@
       {
         "severity": "warning",
         "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
-        "message": "Graphify comparison uses a code-only projection with 9325 files.",
+        "message": "Graphify comparison uses a code-only projection with 9340 files.",
         "source": "validation harness"
       }
     ],
@@ -364,6 +366,42 @@
         "metadata": {
           "file": "src/actimi/partner/patient/patient.service.ts",
           "specifier": "../../types/Aidbox",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:0f8a3h4",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./build/buildOccupancyObservation\" from src/radar/micradar-60sp/micradar-60sp.service.ts.",
+        "span": {
+          "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+          "startLine": 11,
+          "startColumn": 1,
+          "endLine": 11,
+          "endColumn": 79
+        },
+        "metadata": {
+          "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+          "specifier": "./build/buildOccupancyObservation",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:0i1vhtz",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./build/buildHeartRateObservation\" from src/radar/micradar-60sp/micradar-60sp.service.ts.",
+        "span": {
+          "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+          "startLine": 10,
+          "startColumn": 1,
+          "endLine": 10,
+          "endColumn": 79
+        },
+        "metadata": {
+          "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+          "specifier": "./build/buildHeartRateObservation",
           "analyzer": "typescript"
         }
       },
@@ -494,6 +532,24 @@
         }
       },
       {
+        "id": "diag:typescript_broken_import:1dli1af",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./build/buildConnectionObservation\" from src/radar/micradar-60sp/micradar-60sp.service.ts.",
+        "span": {
+          "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+          "startLine": 9,
+          "startColumn": 1,
+          "endLine": 9,
+          "endColumn": 81
+        },
+        "metadata": {
+          "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+          "specifier": "./build/buildConnectionObservation",
+          "analyzer": "typescript"
+        }
+      },
+      {
         "id": "diag:typescript_broken_import:1fjsag0",
         "code": "TYPESCRIPT_BROKEN_IMPORT",
         "severity": "warning",
@@ -512,6 +568,24 @@
         }
       },
       {
+        "id": "diag:typescript_broken_import:1k3t2ui",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./build/buildSleepObservation\" from src/radar/micradar-60sp/micradar-60sp.service.ts.",
+        "span": {
+          "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+          "startLine": 12,
+          "startColumn": 1,
+          "endLine": 12,
+          "endColumn": 71
+        },
+        "metadata": {
+          "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+          "specifier": "./build/buildSleepObservation",
+          "analyzer": "typescript"
+        }
+      },
+      {
         "id": "diag:typescript_broken_import:1l212nv",
         "code": "TYPESCRIPT_BROKEN_IMPORT",
         "severity": "warning",
@@ -526,6 +600,24 @@
         "metadata": {
           "file": "src/actimi/partner/__tests__/actimi-fhir-mapper.test.ts",
           "specifier": "./fixtures/test_questionnaire.json",
+          "analyzer": "typescript"
+        }
+      },
+      {
+        "id": "diag:typescript_broken_import:1oiopn9",
+        "code": "TYPESCRIPT_BROKEN_IMPORT",
+        "severity": "warning",
+        "message": "Could not resolve import \"./build/buildBreathObservation\" from src/radar/micradar-60sp/micradar-60sp.service.ts.",
+        "span": {
+          "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+          "startLine": 8,
+          "startColumn": 1,
+          "endLine": 8,
+          "endColumn": 73
+        },
+        "metadata": {
+          "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+          "specifier": "./build/buildBreathObservation",
           "analyzer": "typescript"
         }
       },
@@ -1017,34 +1109,35 @@
         "Configuration": 10,
         "Controllers": 118,
         "Environment Variables": 162,
-        "Functions": 1272,
+        "Functions": 1262,
         "Interfaces": 266,
         "Methods": 2457,
-        "Modules": 1970,
-        "Packages": 120,
-        "Providers": 382,
+        "Modules": 1965,
+        "Packages": 121,
+        "Providers": 419,
         "Routes": 418,
         "Services": 237
       },
       "relationships": {
         "AUTHORIZES": 231,
-        "CALLS": 2477,
-        "CONTAINS": 18486,
+        "CALLS": 5640,
+        "CONTAINS": 18443,
         "CREATES": 512,
         "DEPENDS_ON": 142,
-        "EXPORTS": 2707,
+        "EXPORTS": 2697,
         "EXTENDS": 490,
         "HANDLES": 423,
         "IMPLEMENTS": 122,
-        "IMPORTS": 10083,
-        "INJECTS": 992,
+        "IMPORTS": 10056,
+        "INJECTS": 1916,
         "MOUNTS": 420,
-        "READS": 159,
+        "READS": 157,
         "REFERENCES": 795,
         "REGISTERED_IN": 555,
-        "RETURNS": 1353,
+        "RETURNS": 1348,
         "THROWS": 433,
-        "USES": 3037
+        "USES": 3019,
+        "WRITES": 2
       },
       "frameworks": [
         {
@@ -1139,6 +1232,42 @@
           "metadata": {
             "file": "src/actimi/partner/patient/patient.service.ts",
             "specifier": "../../types/Aidbox",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:0f8a3h4",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./build/buildOccupancyObservation\" from src/radar/micradar-60sp/micradar-60sp.service.ts.",
+          "span": {
+            "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+            "startLine": 11,
+            "startColumn": 1,
+            "endLine": 11,
+            "endColumn": 79
+          },
+          "metadata": {
+            "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+            "specifier": "./build/buildOccupancyObservation",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:0i1vhtz",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./build/buildHeartRateObservation\" from src/radar/micradar-60sp/micradar-60sp.service.ts.",
+          "span": {
+            "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+            "startLine": 10,
+            "startColumn": 1,
+            "endLine": 10,
+            "endColumn": 79
+          },
+          "metadata": {
+            "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+            "specifier": "./build/buildHeartRateObservation",
             "analyzer": "typescript"
           }
         },
@@ -1269,6 +1398,24 @@
           }
         },
         {
+          "id": "diag:typescript_broken_import:1dli1af",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./build/buildConnectionObservation\" from src/radar/micradar-60sp/micradar-60sp.service.ts.",
+          "span": {
+            "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+            "startLine": 9,
+            "startColumn": 1,
+            "endLine": 9,
+            "endColumn": 81
+          },
+          "metadata": {
+            "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+            "specifier": "./build/buildConnectionObservation",
+            "analyzer": "typescript"
+          }
+        },
+        {
           "id": "diag:typescript_broken_import:1fjsag0",
           "code": "TYPESCRIPT_BROKEN_IMPORT",
           "severity": "warning",
@@ -1287,6 +1434,24 @@
           }
         },
         {
+          "id": "diag:typescript_broken_import:1k3t2ui",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./build/buildSleepObservation\" from src/radar/micradar-60sp/micradar-60sp.service.ts.",
+          "span": {
+            "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+            "startLine": 12,
+            "startColumn": 1,
+            "endLine": 12,
+            "endColumn": 71
+          },
+          "metadata": {
+            "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+            "specifier": "./build/buildSleepObservation",
+            "analyzer": "typescript"
+          }
+        },
+        {
           "id": "diag:typescript_broken_import:1l212nv",
           "code": "TYPESCRIPT_BROKEN_IMPORT",
           "severity": "warning",
@@ -1301,6 +1466,24 @@
           "metadata": {
             "file": "src/actimi/partner/__tests__/actimi-fhir-mapper.test.ts",
             "specifier": "./fixtures/test_questionnaire.json",
+            "analyzer": "typescript"
+          }
+        },
+        {
+          "id": "diag:typescript_broken_import:1oiopn9",
+          "code": "TYPESCRIPT_BROKEN_IMPORT",
+          "severity": "warning",
+          "message": "Could not resolve import \"./build/buildBreathObservation\" from src/radar/micradar-60sp/micradar-60sp.service.ts.",
+          "span": {
+            "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+            "startLine": 8,
+            "startColumn": 1,
+            "endLine": 8,
+            "endColumn": 73
+          },
+          "metadata": {
+            "file": "src/radar/micradar-60sp/micradar-60sp.service.ts",
+            "specifier": "./build/buildBreathObservation",
             "analyzer": "typescript"
           }
         },
@@ -1380,7 +1563,7 @@
         {
           "severity": "warning",
           "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
-          "message": "Graphify comparison uses a code-only projection with 9325 files.",
+          "message": "Graphify comparison uses a code-only projection with 9340 files.",
           "source": "validation harness"
         }
       ]
@@ -1390,9 +1573,9 @@
     {
       "concept": "Functions",
       "relationship": "Functions",
-      "ontoly": 1272,
+      "ontoly": 1262,
       "graphify": 0,
-      "delta": 1272,
+      "delta": 1262,
       "supported": false,
       "missing": [
         "graphify"
@@ -1486,9 +1669,9 @@
     {
       "concept": "Modules",
       "relationship": "Modules",
-      "ontoly": 1970,
+      "ontoly": 1965,
       "graphify": 0,
-      "delta": 1970,
+      "delta": 1965,
       "supported": false,
       "missing": [
         "graphify"
@@ -1518,9 +1701,9 @@
     {
       "concept": "Providers",
       "relationship": "Providers",
-      "ontoly": 382,
+      "ontoly": 419,
       "graphify": 0,
-      "delta": 382,
+      "delta": 419,
       "supported": false,
       "missing": [
         "graphify"
@@ -1546,9 +1729,9 @@
     {
       "concept": "Packages",
       "relationship": "Packages",
-      "ontoly": 120,
+      "ontoly": 121,
       "graphify": 0,
-      "delta": 120,
+      "delta": 121,
       "supported": false,
       "missing": [
         "graphify"
@@ -1596,9 +1779,9 @@
     {
       "concept": "CALLS",
       "relationship": "CALLS",
-      "ontoly": 2477,
+      "ontoly": 5640,
       "graphify": 0,
-      "delta": 2477,
+      "delta": 5640,
       "supported": false,
       "missing": [
         "graphify"
@@ -1612,9 +1795,9 @@
     {
       "concept": "IMPORTS",
       "relationship": "IMPORTS",
-      "ontoly": 10083,
+      "ontoly": 10056,
       "graphify": 0,
-      "delta": 10083,
+      "delta": 10056,
       "supported": false,
       "missing": [
         "graphify"
@@ -1628,9 +1811,9 @@
     {
       "concept": "EXPORTS",
       "relationship": "EXPORTS",
-      "ontoly": 2707,
+      "ontoly": 2697,
       "graphify": 0,
-      "delta": 2707,
+      "delta": 2697,
       "supported": false,
       "missing": [
         "graphify"
@@ -1644,9 +1827,9 @@
     {
       "concept": "CONTAINS",
       "relationship": "CONTAINS",
-      "ontoly": 18486,
+      "ontoly": 18443,
       "graphify": 0,
-      "delta": 18486,
+      "delta": 18443,
       "supported": false,
       "missing": [
         "graphify"
@@ -1692,9 +1875,9 @@
     {
       "concept": "INJECTS",
       "relationship": "INJECTS",
-      "ontoly": 992,
+      "ontoly": 1916,
       "graphify": 0,
-      "delta": 992,
+      "delta": 1916,
       "supported": false,
       "missing": [
         "graphify"
@@ -1708,9 +1891,9 @@
     {
       "concept": "READS",
       "relationship": "READS",
-      "ontoly": 159,
+      "ontoly": 157,
       "graphify": 0,
-      "delta": 159,
+      "delta": 157,
       "supported": false,
       "missing": [
         "graphify"
@@ -1724,21 +1907,25 @@
     {
       "concept": "WRITES",
       "relationship": "WRITES",
-      "ontoly": 0,
+      "ontoly": 2,
       "graphify": 0,
-      "delta": 0,
+      "delta": 2,
       "supported": false,
-      "missing": [],
-      "additional": [],
+      "missing": [
+        "graphify"
+      ],
+      "additional": [
+        "ontoly"
+      ],
       "incorrect": "not measured",
-      "status": "not_observed"
+      "status": "graphify_missing"
     },
     {
       "concept": "USES",
       "relationship": "USES",
-      "ontoly": 3037,
+      "ontoly": 3019,
       "graphify": 0,
-      "delta": 3037,
+      "delta": 3019,
       "supported": false,
       "missing": [
         "graphify"
@@ -1880,9 +2067,9 @@
     {
       "concept": "RETURNS",
       "relationship": "RETURNS",
-      "ontoly": 1353,
+      "ontoly": 1348,
       "graphify": 0,
-      "delta": 1353,
+      "delta": 1348,
       "supported": false,
       "missing": [
         "graphify"
@@ -1981,15 +2168,15 @@
         "note": "Runs Ontoly through its built package APIs with write:false so source repositories are not modified."
       },
       "exitCode": 0,
-      "durationMs": 24495.925499999998,
+      "durationMs": 10508.745208,
       "time": {
-        "realSeconds": 24.5,
-        "maxResidentSetBytes": 3022503936,
-        "peakMemoryFootprintBytes": 2869357184,
-        "peakMemoryBytes": 3022503936,
+        "realSeconds": 10.5,
+        "maxResidentSetBytes": 3305930752,
+        "peakMemoryFootprintBytes": 3344428992,
+        "peakMemoryBytes": 3344428992,
         "source": "/usr/bin/time -l"
       },
-      "graphHash": "1mydjnw",
+      "graphHash": "0io8q3z",
       "outputFiles": [
         "command.json",
         "coverage.json",
@@ -2010,10 +2197,10 @@
       ],
       "graphDurationMs": null,
       "statistics": {
-        "files": 22111,
-        "nodes": 21696,
-        "edges": 47725,
-        "diagnostics": 13,
+        "files": 16553,
+        "nodes": 21686,
+        "edges": 52365,
+        "diagnostics": 18,
         "nodesByType": {
           "Application": 1,
           "BuildTarget": 1,
@@ -2026,18 +2213,18 @@
           "Enum": 70,
           "EnvironmentVariable": 162,
           "Exception": 1,
-          "Export": 2532,
+          "Export": 2522,
           "Framework": 2,
-          "Function": 1272,
+          "Function": 1262,
           "Guard": 231,
-          "Import": 9602,
+          "Import": 9579,
           "Interface": 266,
           "Job": 13,
           "Method": 2457,
-          "Module": 1970,
+          "Module": 1965,
           "Namespace": 1,
-          "Package": 120,
-          "Provider": 382,
+          "Package": 121,
+          "Provider": 419,
           "Route": 418,
           "Script": 23,
           "Service": 237,
@@ -2049,46 +2236,48 @@
         },
         "edgesByType": {
           "AUTHORIZES": 231,
-          "CALLS": 2477,
-          "CONFIGURES": 98,
-          "CONTAINS": 18486,
+          "BELONGS_TO": 420,
+          "CALLS": 5640,
+          "CONFIGURES": 99,
+          "CONTAINS": 18443,
           "CREATES": 512,
           "DECLARES": 117,
           "DECORATES": 2440,
           "DEPENDS_ON": 142,
           "EXECUTES": 23,
-          "EXPORTS": 2707,
+          "EXPORTS": 2697,
           "EXPOSES": 420,
           "EXTENDS": 490,
           "HANDLES": 423,
           "IMPLEMENTS": 122,
-          "IMPORTS": 10083,
-          "INJECTS": 992,
+          "IMPORTS": 10056,
+          "INJECTS": 1916,
           "MOUNTS": 420,
-          "PROVIDES": 672,
-          "READS": 159,
+          "PROVIDES": 907,
+          "READS": 157,
           "REFERENCES": 795,
           "REGISTERED_IN": 555,
           "REGISTERS": 538,
-          "RETURNS": 1353,
+          "RETURNS": 1348,
           "THROWS": 433,
-          "USES": 3037
+          "USES": 3019,
+          "WRITES": 2
         },
         "parserVersions": {
           "openapi": "1.0.0",
           "typescript": "5.9.2",
           "repository": "1.0.0"
         },
-        "deterministicHash": "1mydjnw"
+        "deterministicHash": "0io8q3z"
       },
       "coverage": {
-        "coverage": 98,
-        "confidence": 95,
-        "completeness": 98,
+        "coverage": 99,
+        "confidence": 96,
+        "completeness": 99,
         "consistency": 100,
         "trustworthiness": 98
       },
-      "diagnostics": 13
+      "diagnostics": 18
     },
     "graphify": {
       "tool": "graphify",
@@ -2127,12 +2316,12 @@
           "note": "Uses graphify extract with --out to avoid writing into the source repository. --no-cluster keeps the run headless and deterministic for release validation."
         },
         "exitCode": 1,
-        "durationMs": 10870.689459,
+        "durationMs": 5021.53975,
         "time": {
-          "realSeconds": 10.86,
-          "maxResidentSetBytes": 3025551360,
-          "peakMemoryFootprintBytes": 3021163088,
-          "peakMemoryBytes": 3025551360,
+          "realSeconds": 5.01,
+          "maxResidentSetBytes": 1160642560,
+          "peakMemoryFootprintBytes": 1150944552,
+          "peakMemoryBytes": 1160642560,
           "source": "/usr/bin/time -l"
         },
         "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ovok-core/graphify/full/stdout.log",
@@ -2156,12 +2345,12 @@
           "note": "Structural fallback: full Graphify extraction required an LLM backend for docs/images, so this run analyzes a validation-side code projection only. Source repositories remain untouched."
         },
         "exitCode": 0,
-        "durationMs": 424.7916669999995,
+        "durationMs": 190.97462499999892,
         "time": {
-          "realSeconds": 0.41,
-          "maxResidentSetBytes": 42057728,
-          "peakMemoryFootprintBytes": 31490504,
-          "peakMemoryBytes": 42057728,
+          "realSeconds": 0.18,
+          "maxResidentSetBytes": 42106880,
+          "peakMemoryFootprintBytes": 31556064,
+          "peakMemoryBytes": 42106880,
           "source": "/usr/bin/time -l"
         },
         "stdout": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ovok-core/graphify/structural/stdout.log",
@@ -2171,13 +2360,13 @@
           "sourceRoot": "/Users/shrey/Desktop/work/ovok-core",
           "projectionRoot": "/Users/shrey/Documents/Codex/2026-07-13/product-requirements-document-prd-ontoly-repository/validation/ovok-core/graphify/code-projection",
           "mode": "code-only projection for Graphify structural fallback",
-          "includedFiles": 9325,
-          "excludedFiles": 2249,
+          "includedFiles": 9340,
+          "excludedFiles": 2261,
           "includedExtensions": {
             ".example": 1,
             ".js": 1757,
-            ".json": 5786,
-            ".mjs": 14,
+            ".json": 5798,
+            ".mjs": 17,
             ".sql": 1,
             ".ts": 1765,
             "Dockerfile": 1
@@ -9732,6 +9921,7 @@
             "scripts/medplum-indexes.sql",
             "scripts/migrate-device-init-manufacturer-projects.mjs",
             "scripts/post-webhook-payloads.mjs",
+            "scripts/qa/benchmark-graph-tools.mjs",
             "scripts/qa/casa-mia-device-assignments.mjs",
             "scripts/qa/casa-mia-fix-3-locations.mjs",
             "scripts/qa/night-watch.v4.js",
@@ -11505,6 +11695,20 @@
             "tsconfig.build.json",
             "tsconfig.json",
             "tsconfig.test.json",
+            "validation/graph-tools/benchmark-questions.json",
+            "validation/graph-tools/multirepo-benchmark.mjs",
+            "validation/graph-tools/multirepo/results/benchmark-20260715T013737Z.json",
+            "validation/graph-tools/multirepo/results/latest.json",
+            "validation/graph-tools/multirepo/verification/results/latest.json",
+            "validation/graph-tools/multirepo/verification/results/verification-20260715T014426Z.json",
+            "validation/graph-tools/multirepo/verification/results/verification-20260715T014614Z.json",
+            "validation/graph-tools/multirepo/verification/results/verification-20260715T014808Z.json",
+            "validation/graph-tools/results/benchmark-20260714T223113Z.json",
+            "validation/graph-tools/results/benchmark-20260714T235418Z.json",
+            "validation/graph-tools/results/benchmark-20260715T004339Z.json",
+            "validation/graph-tools/results/benchmark-20260715T012755Z.json",
+            "validation/graph-tools/results/latest.json",
+            "validation/graph-tools/verify-multirepo-results.mjs",
             "validation/skills/agent-evaluation.json",
             "validation/skills/regression-baseline.json",
             "validation/skills/report.json"
@@ -11512,12 +11716,12 @@
         }
       },
       "exitCode": 0,
-      "durationMs": 424.7916669999995,
+      "durationMs": 190.97462499999892,
       "time": {
-        "realSeconds": 0.41,
-        "maxResidentSetBytes": 42057728,
-        "peakMemoryFootprintBytes": 31490504,
-        "peakMemoryBytes": 42057728,
+        "realSeconds": 0.18,
+        "maxResidentSetBytes": 42106880,
+        "peakMemoryFootprintBytes": 31556064,
+        "peakMemoryBytes": 42106880,
         "source": "/usr/bin/time -l"
       },
       "graphHash": "e36634175223f5b2f5abd7582c60155c47fc3947ec8ae82165c8dcbe7d7ae4b2",
@@ -11552,7 +11756,7 @@
         {
           "severity": "warning",
           "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
-          "message": "Graphify comparison uses a code-only projection with 9325 files.",
+          "message": "Graphify comparison uses a code-only projection with 9340 files.",
           "source": "validation harness"
         }
       ]
@@ -11560,7 +11764,7 @@
   },
   "diagnostics": {
     "ontoly": {
-      "compilerDiagnostics": 13,
+      "compilerDiagnostics": 18,
       "graphValidation": {
         "ok": true,
         "issues": 84,
@@ -11572,7 +11776,7 @@
           "PROVIDER_WITHOUT_CONSUMERS": 69
         }
       },
-      "coverageWarnings": 17
+      "coverageWarnings": 16
     },
     "graphify": [
       {
@@ -11590,7 +11794,7 @@
       {
         "severity": "warning",
         "code": "GRAPHIFY_STRUCTURAL_FALLBACK_USED",
-        "message": "Graphify comparison uses a code-only projection with 9325 files.",
+        "message": "Graphify comparison uses a code-only projection with 9340 files.",
         "source": "validation harness"
       }
     ]
@@ -11603,7 +11807,7 @@
     },
     {
       "area": "Functions",
-      "evidence": "Ontoly produced 1272 Functions; Graphify produced 0 in the normalized model.",
+      "evidence": "Ontoly produced 1262 Functions; Graphify produced 0 in the normalized model.",
       "basis": "inferred from normalized counts"
     },
     {
@@ -11633,7 +11837,7 @@
     },
     {
       "area": "Modules",
-      "evidence": "Ontoly produced 1970 Modules; Graphify produced 0 in the normalized model.",
+      "evidence": "Ontoly produced 1965 Modules; Graphify produced 0 in the normalized model.",
       "basis": "inferred from normalized counts"
     },
     {
@@ -11643,12 +11847,12 @@
     },
     {
       "area": "Providers",
-      "evidence": "Ontoly produced 382 Providers; Graphify produced 0 in the normalized model.",
+      "evidence": "Ontoly produced 419 Providers; Graphify produced 0 in the normalized model.",
       "basis": "inferred from normalized counts"
     },
     {
       "area": "Packages",
-      "evidence": "Ontoly produced 120 Packages; Graphify produced 0 in the normalized model.",
+      "evidence": "Ontoly produced 121 Packages; Graphify produced 0 in the normalized model.",
       "basis": "inferred from normalized counts"
     },
     {
@@ -11673,7 +11877,7 @@
     },
     {
       "area": "INJECTS",
-      "evidence": "Ontoly produced 992 INJECTS relationships; Graphify produced 0.",
+      "evidence": "Ontoly produced 1916 INJECTS relationships; Graphify produced 0.",
       "basis": "inferred from normalized counts"
     },
     {
@@ -11752,7 +11956,7 @@
       "evidence": [
         "Graphify exited with code 1.",
         "Full Graphify extraction required an LLM backend for repository docs/images.",
-        "Graphify comparison uses a code-only projection with 9325 files."
+        "Graphify comparison uses a code-only projection with 9340 files."
       ]
     }
   ]

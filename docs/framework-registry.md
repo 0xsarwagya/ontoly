@@ -37,7 +37,7 @@ It does not construct graph nodes and does not run compiler passes.
 
 ## Default Analyzers
 
-The Public Preview registry includes:
+The Release Candidate registry includes:
 
 - NestJS
 - Express

@@ -2,6 +2,29 @@
 
 All notable Ontoly changes are tracked here.
 
+## 1.0.0-rc.1
+
+### Release Engineering
+
+- Bumped the root workspace, publishable packages, plugins, Agent Skills, site
+  metadata, and compatibility matrices to `1.0.0-rc.1`.
+- Added RC-safe npm publish guards, release-version validation, npm pack
+  artifact validation, and clean first-user smoke validation.
+- Expanded GitHub Actions coverage for PR CI, release verification, package
+  validation, docs validation, security checks, CodeQL, and Dependabot.
+- Refreshed public package READMEs so every package documents purpose,
+  installation, API entrypoint, example usage, and release status.
+- Added `NEW_USER_REPORT.md`, `RC_READINESS.md`, `GOVERNANCE.md`, and
+  `THIRD_PARTY_NOTICES.md` release-readiness evidence.
+
+### Unchanged
+
+- No Software Graph schema changes.
+- No compiler behavior changes.
+- No CALLS generation changes.
+- No retrieval, ranking, semantic generation, framework analyzer, MCP, or
+  capability behavior changes.
+
 ## 0.1.0-alpha.19
 
 ### Added
@@ -89,19 +112,19 @@ All notable Ontoly changes are tracked here.
 
 ## 0.1.0-alpha.15
 
-### Public Preview
+### Release Candidate
 
 - Bumped the root workspace and all publishable Ontoly packages/plugins to
   `0.1.0-alpha.15`.
-- Froze the public API surface for Public Preview validation; the CLI package remains an
+- Froze the public API surface for Release Candidate validation; the CLI package remains an
   intentional public aggregate API.
 - Updated public documentation, site metadata, skills, compatibility matrices,
-  and package READMEs from alpha language to Public Preview language.
-- Moved public site metadata to `https://ontoly.sarwagya.wtf` and declared the
+  and package READMEs from alpha language to Release Candidate language.
+- Moved public site metadata to `https://oss.sarwagya.wtf/ontoly` and declared the
   legacy `https://oss.sarwagya.wtf/ontoly` redirect target.
 - Normalized CLI help formatting and added coverage for tab-free help output.
 - Added release engineering evidence for CODEOWNERS, package metadata, npm pack
-  dry-runs, public GitHub clean-room smoke tests, and Public Preview release notes.
+  dry-runs, public GitHub clean-room smoke tests, and Release Candidate notes.
 
 ### Validation
 

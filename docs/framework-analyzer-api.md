@@ -104,7 +104,7 @@ The NestJS analyzer is the first complete analyzer. It supports:
 
 The default registry also includes deterministic detection for Express,
 Fastify, Hono, Next.js, React, and Prisma. Only NestJS performs complete
-semantic extraction in the current Public Preview.
+semantic extraction in the current Release Candidate.
 
 ## Flow
 

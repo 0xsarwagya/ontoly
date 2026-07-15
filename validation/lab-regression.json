@@ -2,13 +2,10 @@
   "status": "PASS",
   "baseline": "compared",
   "failures": [],
-  "warnings": [
-    "ghost: performance variance was 38.45% but only 267.31ms.",
-    "durable-local: performance variance was 17.01% but only 124.9ms."
-  ],
+  "warnings": [],
   "improvements": [],
   "current": {
-    "generatedAt": "2026-07-15T02:55:11.283Z",
+    "generatedAt": "2026-07-15T11:22:51.978Z",
     "environment": {
       "node": "v24.16.0",
       "v8": "13.6.233.17-node.49",
@@ -21,7 +18,7 @@
       "pnpm": "11.5.3",
       "packageManager": "pnpm@11.5.3",
       "engines": {
-        "node": ">=22.0.0",
+        "node": ">=20.0.0",
         "pnpm": ">=11.0.0"
       },
       "typescript": "5.9.2"
@@ -40,15 +37,15 @@
           "coverageWarnings": 16
         },
         "performance": {
-          "totalDurationMs": 58454.905,
-          "analysisDurationMs": 15426.461,
-          "peakMemoryBytes": 2576646144,
-          "queryLatencyMs": 4.0357,
-          "searchLatencyMs": 4615.3165,
-          "impactLatencyMs": 1.9244,
-          "evidencePackLatencyMs": 4595.8495,
-          "implementationPlanLatencyMs": 4952.9519,
-          "agentWorkflowMemoryBytes": 1766817792
+          "totalDurationMs": 30951.356,
+          "analysisDurationMs": 8497.316,
+          "peakMemoryBytes": 2573008896,
+          "queryLatencyMs": 2.1697,
+          "searchLatencyMs": 2399.4944,
+          "impactLatencyMs": 1.0978,
+          "evidencePackLatencyMs": 2376.3105,
+          "implementationPlanLatencyMs": 2566.9321,
+          "agentWorkflowMemoryBytes": 1777172480
         },
         "graph": {
           "nodes": 21686,
@@ -62,8 +59,8 @@
           "inputStable": true,
           "inputHashBefore": "81578f9b8f4c24f88d3a5089e6e7510d6f858610f624a5d4436312dd78a02e57",
           "inputHashAfter": "81578f9b8f4c24f88d3a5089e6e7510d6f858610f624a5d4436312dd78a02e57",
-          "rebuildMs": 8769.754,
-          "inputCheckMs": 2952.135
+          "rebuildMs": 4661.36,
+          "inputCheckMs": 1625.884
         }
       },
       {
@@ -79,15 +76,15 @@
           "coverageWarnings": 5
         },
         "performance": {
-          "totalDurationMs": 4765.04,
-          "analysisDurationMs": 2019.4,
-          "peakMemoryBytes": 2247016448,
-          "queryLatencyMs": 0.1738,
-          "searchLatencyMs": 187.8113,
-          "impactLatencyMs": 0.5923,
-          "evidencePackLatencyMs": 220.0223,
-          "implementationPlanLatencyMs": 187.1691,
-          "agentWorkflowMemoryBytes": 2218082304
+          "totalDurationMs": 2618.668,
+          "analysisDurationMs": 1130.555,
+          "peakMemoryBytes": 2241888256,
+          "queryLatencyMs": 0.0859,
+          "searchLatencyMs": 104.6288,
+          "impactLatencyMs": 0.2958,
+          "evidencePackLatencyMs": 115.2102,
+          "implementationPlanLatencyMs": 95.553,
+          "agentWorkflowMemoryBytes": 2209726464
         },
         "graph": {
           "nodes": 1191,
@@ -101,8 +98,8 @@
           "inputStable": true,
           "inputHashBefore": "f339b7c2cc3faae5efb1985b033e052e9dd81bc25c02304911a8ea012d7e28cb",
           "inputHashAfter": "f339b7c2cc3faae5efb1985b033e052e9dd81bc25c02304911a8ea012d7e28cb",
-          "rebuildMs": 1045.497,
-          "inputCheckMs": 230.066
+          "rebuildMs": 549.986,
+          "inputCheckMs": 123.186
         }
       },
       {
@@ -118,15 +115,15 @@
           "coverageWarnings": 0
         },
         "performance": {
-          "totalDurationMs": 33034.71,
-          "analysisDurationMs": 9907.137,
-          "peakMemoryBytes": 2624307200,
-          "queryLatencyMs": 1.3627,
-          "searchLatencyMs": 823.0595,
-          "impactLatencyMs": 1.0665,
-          "evidencePackLatencyMs": 877.7425,
-          "implementationPlanLatencyMs": 715.9546,
-          "agentWorkflowMemoryBytes": 2148106240
+          "totalDurationMs": 17345.888,
+          "analysisDurationMs": 5349.753,
+          "peakMemoryBytes": 2891104256,
+          "queryLatencyMs": 0.6529,
+          "searchLatencyMs": 422.843,
+          "impactLatencyMs": 0.3346,
+          "evidencePackLatencyMs": 445.9042,
+          "implementationPlanLatencyMs": 366.7735,
+          "agentWorkflowMemoryBytes": 2144223232
         },
         "graph": {
           "nodes": 6742,
@@ -140,8 +137,8 @@
           "inputStable": true,
           "inputHashBefore": "8bf26fbf5b7130e7e51a54650e53dd0b787ba5fc0d2f0054a63f885c8a88c24e",
           "inputHashAfter": "8bf26fbf5b7130e7e51a54650e53dd0b787ba5fc0d2f0054a63f885c8a88c24e",
-          "rebuildMs": 7045.04,
-          "inputCheckMs": 8041.964
+          "rebuildMs": 3700.873,
+          "inputCheckMs": 4187.735
         }
       },
       {
@@ -157,15 +154,15 @@
           "coverageWarnings": 0
         },
         "performance": {
-          "totalDurationMs": 1868.41,
-          "analysisDurationMs": 962.457,
-          "peakMemoryBytes": 2658009088,
-          "queryLatencyMs": 0.0487,
-          "searchLatencyMs": 63.661,
-          "impactLatencyMs": 0.8563,
-          "evidencePackLatencyMs": 86.9277,
-          "implementationPlanLatencyMs": 65.1448,
-          "agentWorkflowMemoryBytes": 1834106880
+          "totalDurationMs": 943.479,
+          "analysisDurationMs": 471.464,
+          "peakMemoryBytes": 2924806144,
+          "queryLatencyMs": 0.0243,
+          "searchLatencyMs": 32.4752,
+          "impactLatencyMs": 0.2565,
+          "evidencePackLatencyMs": 44.2413,
+          "implementationPlanLatencyMs": 34.154,
+          "agentWorkflowMemoryBytes": 2877816832
         },
         "graph": {
           "nodes": 350,
@@ -179,8 +176,8 @@
           "inputStable": true,
           "inputHashBefore": "d427d5216c4fad653f6dd47f2382b3312ff850dbcd52995dd3c89e9cbeab3d22",
           "inputHashAfter": "d427d5216c4fad653f6dd47f2382b3312ff850dbcd52995dd3c89e9cbeab3d22",
-          "rebuildMs": 434.585,
-          "inputCheckMs": 20.739
+          "rebuildMs": 230.704,
+          "inputCheckMs": 10.251
         }
       },
       {
@@ -196,15 +193,15 @@
           "coverageWarnings": 0
         },
         "performance": {
-          "totalDurationMs": 1559.618,
-          "analysisDurationMs": 859.295,
-          "peakMemoryBytes": 1859534848,
-          "queryLatencyMs": 0.0485,
-          "searchLatencyMs": 28.5951,
-          "impactLatencyMs": 0.7647,
-          "evidencePackLatencyMs": 45.2101,
-          "implementationPlanLatencyMs": 29.1534,
-          "agentWorkflowMemoryBytes": 1858125824
+          "totalDurationMs": 839.976,
+          "analysisDurationMs": 474.345,
+          "peakMemoryBytes": 2905702400,
+          "queryLatencyMs": 0.5819,
+          "searchLatencyMs": 16.1235,
+          "impactLatencyMs": 0.4331,
+          "evidencePackLatencyMs": 21.9321,
+          "implementationPlanLatencyMs": 16.919,
+          "agentWorkflowMemoryBytes": 2894675968
         },
         "graph": {
           "nodes": 226,
@@ -218,8 +215,8 @@
           "inputStable": true,
           "inputHashBefore": "f362a33acfb06542552412e6467bb7a8f8275b7623254e4d2faf5f2758e5a7af",
           "inputHashAfter": "f362a33acfb06542552412e6467bb7a8f8275b7623254e4d2faf5f2758e5a7af",
-          "rebuildMs": 442.687,
-          "inputCheckMs": 18.236
+          "rebuildMs": 223.848,
+          "inputCheckMs": 9.538
         }
       }
     ],
@@ -229,13 +226,13 @@
         "measured": 5,
         "skipped": 0,
         "failed": 0,
-        "averageDurationMs": 19936.54,
+        "averageDurationMs": 10539.87,
         "averageCoverage": 98.8,
         "averageTrust": 98.8,
         "totalNodes": 30195,
         "totalEdges": 68007,
         "totalGraphSizeBytes": 88097403,
-        "maxMemoryBytes": 2658009088
+        "maxMemoryBytes": 2924806144
       }
     }
   }
