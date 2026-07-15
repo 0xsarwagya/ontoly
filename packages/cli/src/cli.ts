@@ -66,6 +66,12 @@ import {
   type OntolyArtifact,
 } from "@0xsarwagya/ontoly-enhancer";
 import {
+  createSemanticsEnhancer,
+  validateSemanticsArtifact,
+  type SemanticsArtifact,
+} from "@0xsarwagya/ontoly-enhancer-semantics";
+import { createIntelligence } from "@0xsarwagya/ontoly-intelligence";
+import {
   createSemanticIndex,
   findConcept,
   findConfiguration as searchConfiguration,
@@ -182,7 +188,7 @@ const parsed = parseCli(process.argv.slice(2));
 const logger = createCliLogger(parsed);
 
 const ENHANCER_CACHE_MAX_BYTES = 5_000_000;
-const ENHANCER_DISK_CACHE_EXCLUDED_ARTIFACTS = new Set(["SemanticIndex", "SoftwareGraph", "HtmlGraph"]);
+const ENHANCER_DISK_CACHE_EXCLUDED_ARTIFACTS = new Set(["SemanticIndex", "Semantics", "SoftwareGraph", "HtmlGraph"]);
 const JSON_WRITE_BUFFER_BYTES = 1024 * 1024;
 const EVIDENCE_PACK_NODE_LIMIT = 20;
 const EVIDENCE_PACK_EDGE_LIMIT = 50;
@@ -349,6 +355,10 @@ async function run(cli: ParsedCli): Promise<void> {
 
     case "enhancer":
       await enhancerCommand(cli);
+      return;
+
+    case "semantics":
+      await semanticsCommand(cli);
       return;
 
     case "validate":
@@ -1385,6 +1395,7 @@ async function enhancerCommand(cli: ParsedCli): Promise<void> {
       const cache = await createFileEnhancerCache(resolve(root), outputDir);
       const context = createDefaultEnhancerContext({
         graph,
+        semanticIndex: await loadSemanticIndexForGraph(cli, graph),
         configuration: enhancerConfigurationFromCli(cli, target),
         logger: enhancerLoggerFromCli(),
         cache,
@@ -1421,6 +1432,130 @@ async function enhancerCommand(cli: ParsedCli): Promise<void> {
         message: `Unknown enhancer command: ${action}`,
         suggestion: "Use one of: list, inspect, run, graph, doctor, validate.",
         docs: "docs/enhancers.md",
+      });
+  }
+}
+
+async function semanticsCommand(cli: ParsedCli): Promise<void> {
+  const knownActions = new Set(["build", "inspect", "validate"]);
+  const first = cli.positional[0];
+  const action = first && knownActions.has(first) ? first : "build";
+  const rootIndex = action === "build" && first !== "build" ? 0 : 1;
+  const root = semanticsRootFromCli(cli, rootIndex);
+  const outputDir = flagString(cli, "output", ".ontoly");
+
+  switch (action) {
+    case "build": {
+      const graph = await loadOrBuildGraph({ ...cli, positional: [root] });
+      const semanticIndex = await loadSemanticIndexForGraph(cli, graph);
+      const cache = await createFileEnhancerCache(resolve(root), outputDir);
+      const context = createDefaultEnhancerContext({
+        graph,
+        semanticIndex,
+        logger: enhancerLoggerFromCli(),
+        cache,
+      });
+      const result = await runEnhancerPipeline({
+        enhancers: [createSemanticsEnhancer()],
+        context,
+        parallel: false,
+        incremental: !flagBoolean(cli, "no-cache"),
+      });
+      const summaryPath = await writeEnhancerArtifacts(resolve(root), outputDir, result);
+      const artifact = result.artifacts.find((item) => item.descriptor.id === "Semantics");
+      const artifactPath = join(resolve(root), outputDir, "enhancers", "artifacts", "semantics.json");
+
+      if (flagBoolean(cli, "json")) {
+        logger.write(JSON.stringify({
+          status: artifact ? "PASS" : "FAIL",
+          output: artifactPath,
+          summary: summaryPath,
+          graphHash: graph.metadata.deterministicHash,
+          artifactHash: artifact?.hash,
+          statistics: artifact && typeof artifact.data === "object" && artifact.data && !Array.isArray(artifact.data)
+            ? (artifact.data as JsonObject).statistics
+            : {},
+        }, null, 2));
+        return;
+      }
+
+      if (!artifact) {
+        throw new OntolyCliError({
+          code: "ONTOLY5301",
+          message: "Semantics enhancer did not produce a Semantics artifact.",
+          suggestion: "Run ontoly enhancer validate --with-graph to inspect enhancer configuration.",
+          docs: "docs/enhancers.md",
+        });
+      }
+
+      logger.success("Built semantics artifact");
+      logger.info(`Graph: ${graph.metadata.deterministicHash}`);
+      logger.info(`Artifact: ${artifactPath}`);
+      logger.info(`Hash: ${artifact.hash}`);
+      logger.info(`Summary: ${summaryPath}`);
+      return;
+    }
+
+    case "inspect": {
+      const query = cli.positional[rootIndex] ?? flagString(cli, "query", "");
+      const artifact = await loadSemanticsArtifactForCli(root, outputDir);
+
+      if (!query) {
+        const summary = semanticsArtifactSummary(artifact);
+        logger.write(flagBoolean(cli, "json") ? JSON.stringify(summary, null, 2) : formatSemanticsSummary(summary));
+        return;
+      }
+
+      const graph = await loadOrBuildGraph({ ...cli, positional: [root] });
+      const semanticIndex = await loadSemanticIndexForGraph(cli, graph);
+      const intelligence = createIntelligence(graph, { semanticIndex, semantics: artifact });
+      const context = {
+        query,
+        expansion: intelligence.expand(query),
+        features: intelligence.feature(query),
+        evidence: intelligence.evidence(query),
+      };
+      logger.write(JSON.stringify(context, null, 2));
+      return;
+    }
+
+    case "validate": {
+      const graph = await loadOrBuildGraph({ ...cli, positional: [root] });
+      const artifact = await loadSemanticsArtifactForCli(root, outputDir);
+      const issues = validateSemanticsArtifact(artifact, graph);
+      const status = issues.some((issue) => issue.severity === "error") ? "FAIL" : "PASS";
+      const result = {
+        status,
+        graphHash: graph.metadata.deterministicHash,
+        semanticsHash: artifact.deterministicHash,
+        issues,
+      };
+
+      if (flagBoolean(cli, "json")) {
+        logger.write(JSON.stringify(result, null, 2));
+      } else {
+        logger.write(`Semantics validation: ${status}`);
+        if (issues.length === 0) {
+          logger.success("Semantics artifact is compatible with the current Software Graph.");
+        } else {
+          for (const issue of issues) {
+            logger.write(`${issue.severity.toUpperCase()} ${issue.code}: ${issue.message}`);
+          }
+        }
+      }
+
+      if ((flagBoolean(cli, "ci") || flagBoolean(cli, "strict")) && status === "FAIL") {
+        process.exitCode = 1;
+      }
+      return;
+    }
+
+    default:
+      throw new OntolyCliError({
+        code: "ONTOLY5300",
+        message: `Unknown semantics command: ${action}`,
+        suggestion: "Use one of: build, inspect, validate.",
+        docs: "docs/semantic-intelligence.md",
       });
   }
 }
@@ -2208,6 +2343,7 @@ function defaultCliEnhancers(): readonly Enhancer[] {
         };
       },
     }),
+    createSemanticsEnhancer(),
     defineEnhancer({
       id: "validation-report",
       name: "Validation Report",
@@ -3007,6 +3143,71 @@ function enhancerRootFromCli(cli: ParsedCli, positionalIndex: number): string {
     return explicit;
   }
   return cli.positional[positionalIndex] ?? ".";
+}
+
+function semanticsRootFromCli(cli: ParsedCli, positionalIndex: number): string {
+  const explicit = flagString(cli, "root", "");
+  if (explicit) {
+    return explicit;
+  }
+  return cli.positional[positionalIndex] ?? ".";
+}
+
+async function loadSemanticsArtifactForCli(rootInput: string, outputDir: string): Promise<SemanticsArtifact> {
+  const path = join(resolve(rootInput), outputDir, "enhancers", "artifacts", "semantics.json");
+  try {
+    return JSON.parse(await readFile(path, "utf8")) as SemanticsArtifact;
+  } catch (error) {
+    throw new OntolyCliError({
+      code: "ONTOLY5302",
+      message: `Could not read semantics artifact at ${path}.`,
+      suggestion: "Run ontoly semantics build first.",
+      docs: "docs/semantic-intelligence.md",
+      cause: error,
+    });
+  }
+}
+
+function semanticsArtifactSummary(artifact: SemanticsArtifact): JsonObject {
+  return {
+    version: artifact.version,
+    graphHash: artifact.graphHash,
+    repository: artifact.repository,
+    deterministicHash: artifact.deterministicHash,
+    statistics: artifact.statistics,
+    semanticGraph: artifact.semanticGraph.statistics,
+    topFeatures: artifact.featureOwnership.slice(0, 10).map((feature) => ({
+      id: feature.id,
+      name: feature.name,
+      nodes: feature.ownedNodeIds.length,
+      owners: feature.owners.slice(0, 3).map((owner) => owner.name),
+      confidence: feature.confidence.overall,
+    })) as unknown as JsonValue,
+  };
+}
+
+function formatSemanticsSummary(summary: JsonObject): string {
+  const statistics = summary.statistics as JsonObject | undefined;
+  const semanticGraph = summary.semanticGraph as JsonObject | undefined;
+  const topFeatures = Array.isArray(summary.topFeatures) ? summary.topFeatures : [];
+  return [
+    `Semantics ${summary.version}`,
+    `Graph hash: ${summary.graphHash}`,
+    `Semantics hash: ${summary.deterministicHash}`,
+    "",
+    `Features: ${statistics?.features ?? 0}`,
+    `Domain terms: ${statistics?.domainTerms ?? 0}`,
+    `Intent terms: ${statistics?.intentTerms ?? 0}`,
+    `Neighborhoods: ${statistics?.neighborhoods ?? 0}`,
+    `Semantic graph: ${semanticGraph?.nodes ?? 0} nodes, ${semanticGraph?.links ?? 0} links`,
+    "",
+    "Top features:",
+    ...topFeatures.slice(0, 10).map((feature) => {
+      const item = feature as JsonObject;
+      const owners = Array.isArray(item.owners) ? item.owners.join(", ") : "";
+      return `  ${item.name} (${item.nodes} nodes, confidence ${item.confidence})${owners ? ` - ${owners}` : ""}`;
+    }),
+  ].join("\n");
 }
 
 function enhancerConfigurationFromCli(cli: ParsedCli, target: string): JsonObject {
@@ -4593,6 +4794,25 @@ function commandHelp(): Record<string, CommandHelp> {
       options: ["--format kind  summary or json.", "--json         Alias for --format json."],
       examples: ["ontoly semantic", "ontoly semantic . --format json"],
     },
+    semantics: {
+      title: "ontoly semantics",
+      description: "Build, inspect, or validate the deterministic Semantics enhancer artifact.",
+      usage: ["ontoly semantics <build|inspect|validate> [root-or-query] [--root path] [--output .ontoly] [--json]"],
+      options: [
+        "--root path    Repository root.",
+        "--output path  Artifact directory. Default: .ontoly.",
+        "--query text   Query to inspect against the Semantics artifact.",
+        "--no-cache     Recompute instead of using enhancer cache.",
+        "--json         Print JSON.",
+        "--ci           Fail validation when errors exist.",
+      ],
+      examples: [
+        "ontoly semantics build .",
+        "ontoly semantics inspect",
+        "ontoly semantics inspect \"sleep duration thresholds\" --json",
+        "ontoly semantics validate --ci",
+      ],
+    },
     frameworks: {
       title: "ontoly frameworks",
       description: "Detect framework evidence from the semantic model and graph.",
@@ -4899,6 +5119,7 @@ Usage:
   ontoly output [root] [--root path] [--remote git_repo] [--output ontoly-output]
   ontoly analyze [root] [--root path] [--output .ontoly] [--json]
   ontoly semantic [root] [--root path] [--format summary|json]
+  ontoly semantics <build|inspect|validate> [root-or-query] [--root path] [--json]
   ontoly frameworks [root] [--root path] [--json]
   ontoly watch [root] [--root path]
   ontoly inspect [file-or-node] [--root path] [--json]
@@ -4942,6 +5163,8 @@ Examples:
   ontoly build . --bundle
   ontoly analyze .
   ontoly semantic
+  ontoly semantics build .
+  ontoly semantics inspect "sleep duration thresholds" --json
   ontoly frameworks
   ontoly stats
   ontoly inspect src/service.ts

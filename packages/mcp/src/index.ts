@@ -23,6 +23,7 @@ import {
   resolveIntent,
   type SemanticSearchResult,
 } from "@0xsarwagya/ontoly-core";
+import { createIntelligence } from "@0xsarwagya/ontoly-intelligence";
 import { createQueryEngine, type GraphTraversal, type QueryEngine } from "@0xsarwagya/ontoly-query";
 
 const LEGACY_MCP_CAPABILITIES = [
@@ -57,6 +58,10 @@ const SEARCH_MCP_CAPABILITIES = [
   "FindFeature",
   "FindRepositoryConcept",
   "ResolveIntent",
+  "SemanticNeighborhood",
+  "FeatureOwnership",
+  "IntentExpansion",
+  "SemanticContext",
 ] as const;
 
 export const MCP_CAPABILITIES = [
@@ -288,6 +293,21 @@ function defaultCapabilities(): readonly RegisteredCapability[] {
     capability("ResolveIntent", "Expand natural language intent into deterministic search terms and ranked graph evidence.", stringInput("query"), searchOutput(), [
       { input: { query: "what breaks if I remove PlanDefinition" } },
     ], (query, input) => searchResultToJson(resolveIntent(createSemanticIndex(query.graph), readString(input, "query")))),
+    capability("IntentExpansion", "Expand natural language into deterministic semantics-derived vocabulary and candidates.", stringInput("query"), objectOutput(), [
+      { input: { query: "redis cache device alerts" } },
+    ], (query, input) => serializeUnknown(createIntelligence(query.graph).expand(readString(input, "query")))),
+    capability("FeatureOwnership", "Find deterministic feature ownership from the Semantics artifact.", stringInput("query"), objectOutput(), [
+      { input: { query: "authentication" } },
+    ], (query, input) => ({
+      query: readString(input, "query"),
+      features: serializeUnknown(createIntelligence(query.graph).feature(readString(input, "query"))),
+    })),
+    capability("SemanticNeighborhood", "Explain related graph concepts for a node or natural query using Semantics neighborhoods.", stringInput("query"), objectOutput(), [
+      { input: { query: "AuthService" } },
+    ], (query, input) => semanticNeighborhoodCapability(query, readString(input, "query"))),
+    capability("SemanticContext", "Return expansion, feature ownership, semantic neighborhood, and bounded evidence for a query.", stringInput("query"), objectOutput(), [
+      { input: { query: "sleep duration thresholds" } },
+    ], (query, input) => semanticContextCapability(query, readString(input, "query"))),
 	    ...semanticMcpCapabilities(),
 	  ];
 	}
@@ -347,6 +367,41 @@ function semanticCapabilityExamples(name: CapabilityName): readonly JsonObject[]
   }
 
   return [{ input: { query: "AuthService", depth: 3 } }];
+}
+
+function semanticNeighborhoodCapability(query: QueryEngine, value: string): JsonObject {
+  const intelligence = createIntelligence(query.graph);
+  const neighborhood = intelligence.related(value);
+  if (!neighborhood) {
+    return {
+      status: "NOT_FOUND",
+      query: value,
+      diagnostics: [{
+        code: "MCP_NOT_FOUND",
+        message: `No semantic neighborhood matched "${value}".`,
+        suggestedFix: "Call IntentExpansion or FindNode first, then retry with a stable node id or stronger repository term.",
+      }],
+    };
+  }
+  const serialized = serializeUnknown(neighborhood) as JsonObject;
+  return {
+    status: "PASS",
+    query: value,
+    ...serialized,
+  };
+}
+
+function semanticContextCapability(query: QueryEngine, value: string): JsonObject {
+  const intelligence = createIntelligence(query.graph);
+  const neighborhood = intelligence.related(value);
+  return {
+    status: neighborhood ? "PASS" : "PARTIAL",
+    query: value,
+    expansion: serializeUnknown(intelligence.expand(value)),
+    features: serializeUnknown(intelligence.feature(value)),
+    neighborhood: neighborhood ? serializeUnknown(neighborhood) : null,
+    evidence: serializeUnknown(intelligence.evidence(value)),
+  };
 }
 
 function inspectFile(query: QueryEngine, file: string): JsonObject {

@@ -8,17 +8,17 @@ Public docs:
 
 | Skill | Category | Enhancement | Version | Capabilities |
 | --- | --- | --- | --- | --- |
-| [Architecture Review](architecture-review/README.md) | architecture | LLM Enhancement | 0.1.0-alpha.18 | `ExplainArchitecture`, `GraphStatistics`, `FindCycles`, `FindDependencies`, `EvidencePack` |
-| [Impact Analysis](impact-analysis/README.md) | change-analysis | LLM Enhancement | 0.1.0-alpha.18 | `ImpactAnalysis`, `FindDependents`, `FindDependencies`, `FindNode`, `EvidencePack` |
-| [Codebase Onboarding](codebase-onboarding/README.md) | onboarding | LLM Enhancement | 0.1.0-alpha.18 | `ExplainArchitecture`, `FindEntrypoints`, `GraphStatistics`, `FindFeatureOwner`, `EvidencePack` |
-| [Request Tracing](request-tracing/README.md) | request-flow | LLM Enhancement | 0.1.0-alpha.18 | `TraceRequestLifecycle`, `FindResponsibleFunction`, `TraceExecution`, `FindNode`, `EvidencePack` |
-| [Dependency Analysis](dependency-analysis/README.md) | dependencies | LLM Enhancement | 0.1.0-alpha.18 | `FindDependencies`, `FindDependents`, `FindCycles`, `GraphStatistics`, `EvidencePack` |
-| [Security Review](security-review/README.md) | security | LLM Enhancement | 0.1.0-alpha.18 | `FindAuthenticationFlow`, `FindResponsibleFunction`, `TraceRequestLifecycle`, `FindConfigurationUsage`, `EvidencePack` |
-| [Configuration Analysis](configuration-analysis/README.md) | configuration | LLM Enhancement | 0.1.0-alpha.18 | `FindConfiguration`, `FindConfigurationUsage`, `FindDependencies`, `GraphStatistics`, `EvidencePack` |
-| [Framework Analysis](framework-analysis/README.md) | frameworks | LLM Enhancement | 0.1.0-alpha.18 | `ExplainArchitecture`, `GraphStatistics`, `FindNode`, `FindFeatureOwner`, `EvidencePack` |
-| [Documentation](documentation/README.md) | documentation | LLM Enhancement | 0.1.0-alpha.18 | `ExplainArchitecture`, `TraceRequestLifecycle`, `InspectModule`, `GraphStatistics`, `EvidencePack` |
-| [Refactoring](refactoring/README.md) | refactoring | LLM Enhancement | 0.1.0-alpha.18 | `ImpactAnalysis`, `FindDependencies`, `FindDependents`, `FindCycles`, `EvidencePack` |
-| [Performance Analysis](performance-analysis/README.md) | performance | LLM Enhancement | 0.1.0-alpha.18 | `TraceExecution`, `TraceRequestLifecycle`, `FindDependencies`, `GraphStatistics`, `EvidencePack` |
-| [Dead Code Analysis](dead-code-analysis/README.md) | static-analysis | LLM Enhancement | 0.1.0-alpha.18 | `FindDeadCode`, `FindUnusedFeature`, `FindEntrypoints`, `FindDependents`, `EvidencePack` |
-| [Migration Analysis](migration-analysis/README.md) | migration | LLM Enhancement | 0.1.0-alpha.18 | `ExplainArchitecture`, `ImpactAnalysis`, `FindConfigurationUsage`, `FindDependencies`, `EvidencePack` |
-| [SDK Generation](sdk-generation/README.md) | sdk-planning | LLM Enhancement | 0.1.0-alpha.18 | `ExplainArchitecture`, `TraceRequestLifecycle`, `FindResponsibleFunction`, `GraphStatistics`, `EvidencePack` |
+| [Architecture Review](architecture-review/README.md) | architecture | LLM Enhancement | 0.1.0-alpha.19 | `ExplainArchitecture`, `GraphStatistics`, `FindCycles`, `FindDependencies`, `EvidencePack` |
+| [Impact Analysis](impact-analysis/README.md) | change-analysis | LLM Enhancement | 0.1.0-alpha.19 | `ImpactAnalysis`, `FindDependents`, `FindDependencies`, `FindNode`, `EvidencePack` |
+| [Codebase Onboarding](codebase-onboarding/README.md) | onboarding | LLM Enhancement | 0.1.0-alpha.19 | `ExplainArchitecture`, `FindEntrypoints`, `GraphStatistics`, `FindFeatureOwner`, `EvidencePack` |
+| [Request Tracing](request-tracing/README.md) | request-flow | LLM Enhancement | 0.1.0-alpha.19 | `TraceRequestLifecycle`, `FindResponsibleFunction`, `TraceExecution`, `FindNode`, `EvidencePack` |
+| [Dependency Analysis](dependency-analysis/README.md) | dependencies | LLM Enhancement | 0.1.0-alpha.19 | `FindDependencies`, `FindDependents`, `FindCycles`, `GraphStatistics`, `EvidencePack` |
+| [Security Review](security-review/README.md) | security | LLM Enhancement | 0.1.0-alpha.19 | `FindAuthenticationFlow`, `FindResponsibleFunction`, `TraceRequestLifecycle`, `FindConfigurationUsage`, `EvidencePack` |
+| [Configuration Analysis](configuration-analysis/README.md) | configuration | LLM Enhancement | 0.1.0-alpha.19 | `FindConfiguration`, `FindConfigurationUsage`, `FindDependencies`, `GraphStatistics`, `EvidencePack` |
+| [Framework Analysis](framework-analysis/README.md) | frameworks | LLM Enhancement | 0.1.0-alpha.19 | `ExplainArchitecture`, `GraphStatistics`, `FindNode`, `FindFeatureOwner`, `EvidencePack` |
+| [Documentation](documentation/README.md) | documentation | LLM Enhancement | 0.1.0-alpha.19 | `ExplainArchitecture`, `TraceRequestLifecycle`, `InspectModule`, `GraphStatistics`, `EvidencePack` |
+| [Refactoring](refactoring/README.md) | refactoring | LLM Enhancement | 0.1.0-alpha.19 | `ImpactAnalysis`, `FindDependencies`, `FindDependents`, `FindCycles`, `EvidencePack` |
+| [Performance Analysis](performance-analysis/README.md) | performance | LLM Enhancement | 0.1.0-alpha.19 | `TraceExecution`, `TraceRequestLifecycle`, `FindDependencies`, `GraphStatistics`, `EvidencePack` |
+| [Dead Code Analysis](dead-code-analysis/README.md) | static-analysis | LLM Enhancement | 0.1.0-alpha.19 | `FindDeadCode`, `FindUnusedFeature`, `FindEntrypoints`, `FindDependents`, `EvidencePack` |
+| [Migration Analysis](migration-analysis/README.md) | migration | LLM Enhancement | 0.1.0-alpha.19 | `ExplainArchitecture`, `ImpactAnalysis`, `FindConfigurationUsage`, `FindDependencies`, `EvidencePack` |
+| [SDK Generation](sdk-generation/README.md) | sdk-planning | LLM Enhancement | 0.1.0-alpha.19 | `ExplainArchitecture`, `TraceRequestLifecycle`, `FindResponsibleFunction`, `GraphStatistics`, `EvidencePack` |

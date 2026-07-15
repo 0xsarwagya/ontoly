@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-enhancer",
-  "version": "0.1.0-alpha.18",
+  "version": "0.1.0-alpha.19",
   "description": "Deterministic Enhancer API for immutable Ontoly Software Graph artifact transformations.",
   "type": "module",
   "license": "MIT",

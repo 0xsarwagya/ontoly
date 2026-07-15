@@ -2,6 +2,29 @@
 
 All notable Ontoly changes are tracked here.
 
+## 0.1.0-alpha.19
+
+### Added
+
+- Added `@0xsarwagya/ontoly-enhancer-semantics`, an official deterministic
+  enhancer that derives feature ownership, domain vocabulary, intent
+  vocabulary, semantic neighborhoods, confidence, and a Graphify-style concept
+  graph from the immutable Software Graph and Semantic Index.
+- Added `@0xsarwagya/ontoly-intelligence`, a deterministic API over
+  `SoftwareGraph`, `SemanticIndex`, and `Semantics` for query expansion,
+  feature ownership, bounded evidence, and semantic neighborhoods.
+- Added `ontoly semantics build`, `ontoly semantics inspect`, and
+  `ontoly semantics validate`.
+- Added MCP capabilities `SemanticNeighborhood`, `FeatureOwnership`,
+  `IntentExpansion`, and `SemanticContext`.
+
+### Unchanged
+
+- No Software Graph schema changes.
+- No compiler behavior changes.
+- No CALLS generation changes.
+- No LLMs, embeddings, vector search, or AI reasoning.
+
 ## 0.1.0-alpha.18
 
 ### Improved

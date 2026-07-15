@@ -1,5 +1,6 @@
 packages:
   - "packages/*"
+  - "packages/enhancers/*"
   - "plugins/*"
   - "apps/*"
   - "examples/*"

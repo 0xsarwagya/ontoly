@@ -20,7 +20,7 @@ generate embeddings, or make probabilistic guesses.
 
 ## Status
 
-Ontoly's current Public Preview release is `v0.1.0-alpha.18`.
+Ontoly's current Public Preview release is `v0.1.0-alpha.19`.
 
 The public contract is in Public Preview freeze, and the repository includes:
 
@@ -30,6 +30,7 @@ The public contract is in Public Preview freeze, and the repository includes:
 - a query engine
 - MCP capabilities
 - deterministic Enhancers for artifact generation
+- a derived Semantics artifact for feature ownership, intent vocabulary, and concept graphs
 - portable Agent Skills
 - validation and semantic evaluation infrastructure
 - release gates for docs, packaging, skills, examples, and regression checks
@@ -58,6 +59,7 @@ Repository
   -> Semantic Model
   -> Software Graph
   -> Enhancers
+  -> Semantics
   -> Query Engine
   -> MCP, Skills, SDKs, Docs, IDEs, Analysis
 ```
@@ -349,6 +351,7 @@ Common commands:
 | `pnpm ontoly find <concept>` | Find symbols, acronyms, features, or configuration terms. |
 | `pnpm ontoly locate <feature>` | Locate feature-level graph touchpoints. |
 | `pnpm ontoly evidence <query>` | Generate a compact graph-backed Evidence Pack for agents and reviews. |
+| `pnpm ontoly semantics build <repo>` | Generate the derived Semantics artifact and concept graph. |
 | `pnpm ontoly trace <symbol>` | Trace graph relationships. |
 | `pnpm ontoly coverage <repo>` | Report semantic coverage. |
 | `pnpm ontoly mcp` | Start MCP capabilities. |
@@ -495,6 +498,9 @@ suite, not marketing claims.
 | `@0xsarwagya/ontoly-semantic` | Semantic generator and framework analyzer registry. |
 | `@0xsarwagya/ontoly-analyzers` | Semantic coverage and graph quality analyzers. |
 | `@0xsarwagya/ontoly-query` | Deterministic Software Graph query engine. |
+| `@0xsarwagya/ontoly-enhancer` | Public Enhancer API for immutable graph artifact transformations. |
+| `@0xsarwagya/ontoly-enhancer-semantics` | Deterministic Semantics enhancer for feature ownership, vocabulary, neighborhoods, and concept graphs. |
+| `@0xsarwagya/ontoly-intelligence` | Deterministic intelligence APIs over Software Graph, Semantic Index, and Semantics artifacts. |
 | `@0xsarwagya/ontoly-diagnostics` | Shared diagnostic constructors. |
 | `@0xsarwagya/ontoly-cache` | Local graph artifact persistence. |
 | `@0xsarwagya/ontoly-mcp` | Structured graph capabilities for AI agents and tools. |

@@ -257,6 +257,8 @@ parse repositories or mutate the Software Graph.
 ontoly enhancer list
 ontoly enhancer inspect semantic-index
 ontoly enhancer run semantic-index .
+ontoly semantics build .
+ontoly semantics inspect "sleep duration thresholds" --json
 ontoly enhancer run MarkdownDocs .
 ontoly enhancer graph --format mermaid
 ontoly enhancer validate --ci
@@ -267,6 +269,9 @@ ontoly enhancer validate --ci
 
 See [Enhancers](enhancers.md) for the API, lifecycle, artifact model, caching,
 manifests, and pipeline visualization.
+
+See [Semantic Intelligence](semantic-intelligence.md) for the derived Semantics
+artifact and concept graph.
 
 ## Semantic Index Search
 

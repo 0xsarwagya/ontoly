@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-core",
-  "version": "0.1.0-alpha.18",
+  "version": "0.1.0-alpha.19",
   "description": "Software Graph schema, stable IDs, indexes, and graph helpers for Ontoly.",
   "type": "module",
   "license": "MIT",

@@ -1,0 +1,38 @@
+{
+  "version": "1.0.0",
+  "description": "Deterministic semantic intelligence validation questions for Ontoly Alpha.19.",
+  "questions": [
+    {
+      "id": "sleep-duration-thresholds-related-concepts",
+      "query": "sleep duration thresholds",
+      "expectations": {
+        "categories": ["featureOwnership", "domainVocabulary", "semanticNeighborhood"],
+        "terms": ["sleep", "threshold", "thresholds"]
+      }
+    },
+    {
+      "id": "authentication-feature-ownership",
+      "query": "authentication",
+      "expectations": {
+        "categories": ["featureOwnership", "intentVocabulary"],
+        "terms": ["auth", "authentication"]
+      }
+    },
+    {
+      "id": "redis-cache-terminology",
+      "query": "redis cache",
+      "expectations": {
+        "categories": ["intentExpansion", "domainVocabulary"],
+        "terms": ["redis", "cache"]
+      }
+    },
+    {
+      "id": "device-alerts-neighborhood",
+      "query": "device alerts",
+      "expectations": {
+        "categories": ["semanticNeighborhood", "semanticGraph"],
+        "terms": ["device", "alert"]
+      }
+    }
+  ]
+}

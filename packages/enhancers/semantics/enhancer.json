@@ -1,0 +1,33 @@
+{
+  "id": "semantics",
+  "name": "Semantics",
+  "description": "Generate deterministic feature ownership, vocabulary, intent, neighborhoods, and a Graphify-style semantic graph.",
+  "version": "1.0.0",
+  "apiVersion": "1.0.0",
+  "inputs": [
+    {
+      "artifact": "SoftwareGraph"
+    },
+    {
+      "artifact": "SemanticIndex",
+      "optional": true
+    }
+  ],
+  "outputs": [
+    {
+      "id": "Semantics",
+      "kind": "Semantics",
+      "name": "Semantics",
+      "version": "1.0.0",
+      "description": "Deterministic feature, vocabulary, intent, and semantic-neighborhood artifact.",
+      "schema": {
+        "version": "1.0.0",
+        "mediaType": "application/vnd.ontoly.semantics+json",
+        "description": "Deterministic feature, vocabulary, intent, and semantic-neighborhood artifact."
+      }
+    }
+  ],
+  "dependencies": [],
+  "supportedGraphVersion": "1.0.0",
+  "supportsIncremental": true
+}

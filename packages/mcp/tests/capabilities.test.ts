@@ -9,10 +9,14 @@ describe("MCP semantic capabilities", () => {
 
     expect(names).toEqual(expect.arrayContaining([
       "ArchitectureSummary",
+      "FeatureOwnership",
       "ImplementationPlan",
       "ImpactAnalysis",
+      "IntentExpansion",
       "RepositoryHealth",
       "RequestTrace",
+      "SemanticContext",
+      "SemanticNeighborhood",
     ]));
   });
 
@@ -33,6 +37,41 @@ describe("MCP semantic capabilities", () => {
     });
     expect(response.provenance.source).toBe("Ontoly Software Graph");
     expect(response.confidence.level).toBe("high");
+  });
+
+  it("executes semantic intelligence capabilities from derived graph artifacts", () => {
+    const runtime = createMcpRuntime(graph());
+
+    expect(runtime.execute({
+      capability: "IntentExpansion",
+      input: { query: "login authentication jwt" },
+    }).result).toMatchObject({
+      expandedTerms: expect.arrayContaining(["authentication", "jwt", "login"]),
+      candidates: expect.arrayContaining([
+        expect.objectContaining({ name: "AuthService" }),
+      ]),
+    });
+    expect(runtime.execute({
+      capability: "FeatureOwnership",
+      input: { query: "authentication" },
+    }).result).toMatchObject({
+      features: expect.any(Array),
+    });
+    expect(runtime.execute({
+      capability: "SemanticNeighborhood",
+      input: { query: "AuthService" },
+    }).result).toMatchObject({
+      status: "PASS",
+      node: expect.objectContaining({ name: "AuthService" }),
+    });
+    expect(runtime.execute({
+      capability: "SemanticContext",
+      input: { query: "JWT secret authentication" },
+    }).result).toMatchObject({
+      status: expect.stringMatching(/PASS|PARTIAL/),
+      expansion: expect.any(Object),
+      evidence: expect.any(Object),
+    });
   });
 });
 

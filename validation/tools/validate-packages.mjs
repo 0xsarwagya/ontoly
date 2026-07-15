@@ -35,11 +35,19 @@ function packageFiles() {
     if (!fs.existsSync(dir)) {
       return [];
     }
-    return fs
-      .readdirSync(dir)
-      .map((name) => path.join(dir, name, "package.json"))
-      .filter((file) => fs.existsSync(file));
+    return findPackageFiles(dir);
   });
+}
+
+function findPackageFiles(dir) {
+  const packageJson = path.join(dir, "package.json");
+  if (fs.existsSync(packageJson)) {
+    return [packageJson];
+  }
+  return fs
+    .readdirSync(dir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && entry.name !== "node_modules" && entry.name !== "dist")
+    .flatMap((entry) => findPackageFiles(path.join(dir, entry.name)));
 }
 
 function fail(file, message) {

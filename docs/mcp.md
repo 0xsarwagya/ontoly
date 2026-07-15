@@ -36,6 +36,12 @@ const response = runtime.execute({
 - `FindEntrypoints`
 - `FindConfiguration`
 - `GraphStatistics`
+- `SearchConcept`
+- `ResolveIntent`
+- `IntentExpansion`
+- `FeatureOwnership`
+- `SemanticNeighborhood`
+- `SemanticContext`
 
 Each capability declares a name, version, description, input schema, output
 schema, and examples.

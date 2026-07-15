@@ -4,8 +4,8 @@ description: Onboard a developer to a repository using Ontoly graph summaries. U
 license: MIT
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "0.1.0-alpha.18"
-  ontoly.min.version: "0.1.0-alpha.18"
+  ontoly.skill.version: "0.1.0-alpha.19"
+  ontoly.min.version: "0.1.0-alpha.19"
   ontoly.capabilities: "ExplainArchitecture, FindEntrypoints, GraphStatistics, FindFeatureOwner, EvidencePack"
   ontoly.category: "onboarding"
   ontoly.enhancement: "LLM Enhancement"

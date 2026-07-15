@@ -19,6 +19,7 @@ export const ARTIFACT_MODEL_VERSION = "1.0.0";
 export type ArtifactKind =
   | "SoftwareGraph"
   | "SemanticIndex"
+  | "Semantics"
   | "RepositorySummary"
   | "ArchitectureReport"
   | "HealthReport"
@@ -261,6 +262,14 @@ export const ARTIFACT_DESCRIPTORS = {
     name: "Semantic Index",
     version: "1.0.0",
     description: "Deterministic repository vocabulary and intent index.",
+  }),
+  Semantics: artifactDescriptor({
+    id: "Semantics",
+    kind: "Semantics",
+    name: "Semantics",
+    version: "1.0.0",
+    description: "Deterministic feature, vocabulary, intent, and semantic-neighborhood artifact.",
+    mediaType: "application/vnd.ontoly.semantics+json",
   }),
   CapabilityCatalog: artifactDescriptor({
     id: "CapabilityCatalog",

@@ -1,5 +1,18 @@
 # Migration Notes
 
+## 0.1.0-alpha.19
+
+Projects upgrading from `0.1.0-alpha.18` do not need a Software Graph schema
+migration.
+
+Recommended upgrade steps:
+
+1. Upgrade Ontoly packages together to `0.1.0-alpha.19`.
+2. Rebuild the repository graph.
+3. Run `ontoly semantics build .` to create the derived Semantics artifact.
+4. Run `ontoly semantics validate --ci`.
+5. Reinstall Agent Skills so installed artifacts match the alpha.19 source.
+
 ## 0.1.0-alpha.18
 
 Projects upgrading from `0.1.0-alpha.17` do not need a Software Graph schema

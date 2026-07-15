@@ -41,7 +41,7 @@ automation noninteractive.
 
 ## Status
 
-Public Preview package for Ontoly v0.1.0-alpha.18. The public API is versioned with the Software Graph and RFC process.
+Public Preview package for Ontoly v0.1.0-alpha.19. The public API is versioned with the Software Graph and RFC process.
 
 ## Links
 

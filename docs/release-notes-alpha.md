@@ -1,5 +1,26 @@
 # Alpha Release Notes
 
+## v0.1.0-alpha.19
+
+This Semantic Intelligence release turns the trusted Software Graph into richer
+deterministic derived intelligence without changing the compiler or graph
+schema.
+
+- Added the official `semantics` enhancer, published as
+  `@0xsarwagya/ontoly-enhancer-semantics`.
+- Added `@0xsarwagya/ontoly-intelligence` for deterministic query expansion,
+  evidence, feature ownership, and semantic neighborhoods over graph artifacts.
+- Added `ontoly semantics build`, `ontoly semantics inspect`, and
+  `ontoly semantics validate`.
+- Added MCP capabilities `SemanticNeighborhood`, `FeatureOwnership`,
+  `IntentExpansion`, and `SemanticContext`.
+- The generated `semantics.json` includes a Graphify-style `semanticGraph`
+  with concept nodes and links for feature, vocabulary, intent, and software
+  node relationships.
+- Software Graph hash, graph schema, compiler behavior, CALLS generation, and
+  framework analyzers remain unchanged.
+- Agent Skills now require Ontoly `0.1.0-alpha.19`.
+
 ## v0.1.0-alpha.18
 
 This NestJS semantic-resolution release completes deterministic method-level

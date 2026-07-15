@@ -108,6 +108,7 @@ Examples:
 
 - `SoftwareGraph`
 - `SemanticIndex`
+- `Semantics`
 - `RepositorySummary`
 - `ArchitectureReport`
 - `HealthReport`
@@ -236,6 +237,7 @@ Built-ins wrap existing Ontoly behavior without changing compiler output:
 | Enhancer | Produces |
 | --- | --- |
 | `semantic-index` | `SemanticIndex` |
+| `semantics` | `Semantics` |
 | `capability-catalog` | `CapabilityCatalog` |
 | `evidence-pack` | `EvidencePack` |
 | `validation-report` | `ValidationReport`, `Coverage` |
