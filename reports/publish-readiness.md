@@ -74,16 +74,16 @@ This verdict is based on local release evidence. Remote GitHub clone and npm reg
 | Source validation | PASS | 14/14 skills PASS |
 | Installed artifact validation | PASS | Single-skill and full-skill installs PASS |
 | Clean-room skill | PASS | `architecture-review` installed and validated from a temp workspace |
-| Skill metadata | PASS | Skills aligned to `0.1.0-alpha.1` |
+| Skill metadata | PASS | Skills aligned to `0.1.0-alpha.15` |
 
 ## Known Limitations
 
-- Public GitHub clone was not verified because this working tree is not yet committed to a public remote.
-- npm registry install was not verified because the alpha package is not published yet.
-- Clean-room source export used local filesystem paths as a pre-publish substitute.
+- Website redirect deployment is verified outside npm publication.
+- npm registry smoke tests should be rerun after each package publication.
+- Public Preview APIs can still change before stable v1.
 
 ## Remaining Recommendations
 
-1. Publish the GitHub repository, then rerun the clean-room report using a literal public clone.
-2. Publish npm packages with the `alpha` dist-tag, then run an npm install smoke test in a fresh project.
+1. Keep the GitHub publish workflow as the source of truth for npm publication.
+2. Run an npm install smoke test in a fresh project after every package publish.
 3. Keep validation baselines in review when semantic or performance outputs change.
