@@ -17,6 +17,7 @@ export default defineConfig({
       "@0xsarwagya/ontoly-core": fromRoot("./packages/core/src/index.ts"),
       "@0xsarwagya/ontoly-diagnostics": fromRoot("./packages/diagnostics/src/index.ts"),
       "@0xsarwagya/ontoly-enhancer": fromRoot("./packages/enhancer/src/index.ts"),
+      "@0xsarwagya/ontoly-enhancer-history": fromRoot("./packages/enhancers/history/src/index.ts"),
       "@0xsarwagya/ontoly-enhancer-semantics": fromRoot("./packages/enhancers/semantics/src/index.ts"),
       "@0xsarwagya/ontoly-intelligence": fromRoot("./packages/intelligence/src/index.ts"),
       "@0xsarwagya/ontoly-mcp": fromRoot("./packages/mcp/src/index.ts"),

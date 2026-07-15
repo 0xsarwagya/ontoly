@@ -1,0 +1,67 @@
+{
+  "name": "@0xsarwagya/ontoly-enhancer-history",
+  "version": "1.0.0-rc.3",
+  "description": "Deterministic repository history, ownership, hotspot, co-change, and drift enhancer for Ontoly.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xsarwagya/ontoly.git",
+    "directory": "packages/enhancers/history"
+  },
+  "homepage": "https://oss.sarwagya.wtf/ontoly",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./enhancer.json": "./enhancer.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "enhancer.json"
+  ],
+  "scripts": {
+    "build": "tsup && tsc -p tsconfig.build.json",
+    "check-types": "tsc --noEmit",
+    "test": "cd ../../.. && vitest run packages/enhancers/history/tests"
+  },
+  "dependencies": {
+    "@0xsarwagya/ontoly-core": "workspace:*",
+    "@0xsarwagya/ontoly-enhancer": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "tsup": "^8.3.5",
+    "typescript": "5.9.2",
+    "vitest": "^3.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/0xsarwagya/ontoly/issues"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/0xsarwagya"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "ontoly",
+    "software-graph",
+    "history",
+    "ownership",
+    "hotspots",
+    "enhancer",
+    "developer-tools"
+  ]
+}

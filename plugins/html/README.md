@@ -30,7 +30,7 @@ const artifact = createInteractiveHtmlArtifact(graph, { title: "Software Graph" 
 
 ## Status
 
-Release Candidate package for Ontoly v1.0.0-rc.1. Public contracts are governed by the Software Graph specification and RFC process.
+Release Candidate package for Ontoly v1.0.0-rc.3. Public contracts are governed by the Software Graph specification and RFC process.
 
 ## Links
 

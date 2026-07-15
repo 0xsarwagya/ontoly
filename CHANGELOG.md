@@ -2,6 +2,50 @@
 
 All notable Ontoly changes are tracked here.
 
+## 1.0.0-rc.3
+
+### Fixed
+
+- History indexing now fails closed with a structured
+  `HISTORY_INDEXING_FAILED` error instead of silently producing empty history
+  artifacts when Git history collection fails.
+- Git history collection now uses a 128 MiB output buffer and reports buffer
+  failures explicitly.
+- Successful History artifacts now include `historyIndexed` and
+  `historyStatus` provenance so users and agents can distinguish indexed-empty
+  history from unavailable history.
+- Added CLI version support through `ontoly --version`, `ontoly -v`, and
+  `ontoly version --json`.
+- Added command-specific help for `ontoly history`, `ontoly hotspots`,
+  `ontoly ownership`, `ontoly cochanges`, and `ontoly stability`.
+
+## 1.0.0-rc.2
+
+### Added
+
+- Added `@0xsarwagya/ontoly-enhancer-history`, an official deterministic
+  enhancer that derives repository history, ownership, hotspots, co-change
+  relationships, churn, stability, and architectural drift from Git history and
+  the immutable Software Graph.
+- Added temporal intelligence APIs to `@0xsarwagya/ontoly-intelligence`:
+  `history`, `ownership`, `hotspots`, `churn`, `cochanges`, and `stability`.
+- Added CLI commands `ontoly history`, `ontoly history build`,
+  `ontoly history feature`, `ontoly hotspots`, `ontoly ownership`,
+  `ontoly churn`, `ontoly cochanges`, and `ontoly stability`.
+- Added MCP capabilities `History`, `Ownership`, `Hotspots`, `Cochanges`, and
+  `Stability`.
+- Added temporal sections to Evidence Packs when a History artifact is
+  available: `history`, `ownership`, and `stability`.
+- Added repository-history validation questions under `validation/history`.
+
+### Unchanged
+
+- No Software Graph schema changes.
+- No compiler behavior changes.
+- No retrieval or ranking changes.
+- No framework analyzer changes.
+- No LLMs, embeddings, vector search, or AI reasoning.
+
 ## 1.0.0-rc.1
 
 ### Release Engineering

@@ -8,6 +8,7 @@ import {
   type SoftwareGraph,
   type SoftwareGraphNode,
 } from "@0xsarwagya/ontoly-core";
+import { createHistoryArtifact } from "@0xsarwagya/ontoly-enhancer-history";
 import { createQueryEngine } from "@0xsarwagya/ontoly-query";
 import { CAPABILITY_NAMES, capabilityResultToJson, createCapabilityEngine } from "../src/index";
 
@@ -258,6 +259,54 @@ describe("semantic capability engine", () => {
     expect((pack.topNodes as readonly unknown[]).length).toBeLessThanOrEqual(6);
     expect((pack.topEdges as readonly unknown[]).length).toBeLessThanOrEqual(50);
     expect((pack.relevantFiles as readonly unknown[]).length).toBeLessThanOrEqual(10);
+  });
+
+  it("adds bounded temporal evidence when a history artifact is available", () => {
+    const fixture = graph();
+    const engine = createCapabilityEngine(fixture, {
+      history: createHistoryArtifact(fixture, {
+        commits: [
+          {
+            hash: "0001",
+            authoredAt: "2026-01-01T00:00:00.000Z",
+            author: "Alice",
+            subject: "feat: add authentication",
+            changes: [
+              { file: "src/auth.service.ts", additions: 60, deletions: 0 },
+              { file: "src/auth.controller.ts", additions: 20, deletions: 0 },
+            ],
+          },
+          {
+            hash: "0002",
+            authoredAt: "2026-02-01T00:00:00.000Z",
+            author: "Alice",
+            subject: "fix: patch authentication",
+            changes: [
+              { file: "src/auth.service.ts", additions: 5, deletions: 1 },
+            ],
+          },
+        ],
+      }),
+    });
+    const result = engine.execute("EvidencePack", {
+      query: "auth service",
+      limit: 5,
+    });
+    const pack = result.statistics.evidencePack as {
+      readonly history: readonly Record<string, unknown>[];
+      readonly ownership: readonly Record<string, unknown>[];
+      readonly stability: readonly Record<string, unknown>[];
+    };
+
+    expect(pack.history).toEqual(expect.arrayContaining([
+      expect.objectContaining({ stableId: "service:AuthService", modificationCount: 2 }),
+    ]));
+    expect(pack.ownership).toEqual(expect.arrayContaining([
+      expect.objectContaining({ stableId: "service:AuthService", owner: "Alice" }),
+    ]));
+    expect(pack.stability).toEqual(expect.arrayContaining([
+      expect.objectContaining({ stableId: "service:AuthService", classification: expect.stringMatching(/hotspot|watch|stable/) }),
+    ]));
   });
 
   it("keeps evidence packs bounded on large noisy graphs", () => {

@@ -1,0 +1,60 @@
+{
+  "version": "1.0.0",
+  "artifact": "history",
+  "questions": [
+    {
+      "id": "history-owner-auth-service",
+      "category": "ownership",
+      "question": "Who owns AuthService?",
+      "expected": {
+        "capability": "Ownership",
+        "requires": ["ownership.owner", "ownership.confidence", "node.nodeId"]
+      }
+    },
+    {
+      "id": "history-hotspots",
+      "category": "hotspots",
+      "question": "Which services are repository hotspots?",
+      "expected": {
+        "capability": "Hotspots",
+        "requires": ["nodes[].hotspotScore", "nodes[].modificationCount", "nodes[].file"]
+      }
+    },
+    {
+      "id": "history-cochanges",
+      "category": "cochanges",
+      "question": "Which files evolve together with AuthService?",
+      "expected": {
+        "capability": "Cochanges",
+        "requires": ["relationships[].leftFile", "relationships[].rightFile", "relationships[].count"]
+      }
+    },
+    {
+      "id": "history-last-modified",
+      "category": "history",
+      "question": "What was last modified for AuthService?",
+      "expected": {
+        "capability": "History",
+        "requires": ["history.lastModification", "history.modificationCount"]
+      }
+    },
+    {
+      "id": "history-stability",
+      "category": "stability",
+      "question": "How stable is AuthService?",
+      "expected": {
+        "capability": "Stability",
+        "requires": ["stability.hotspotScore", "stability.churnScore", "stability.classification"]
+      }
+    },
+    {
+      "id": "history-drift",
+      "category": "architectural-drift",
+      "question": "Which features show architectural drift?",
+      "expected": {
+        "artifact": "drift.json",
+        "requires": ["features[].timeline", "features[].currentCoupling", "features[].cohesion"]
+      }
+    }
+  ]
+}

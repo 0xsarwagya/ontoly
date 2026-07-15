@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-intelligence",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.3",
   "description": "Deterministic intelligence APIs over Ontoly Software Graph, Semantic Index, and Semantics artifacts.",
   "type": "module",
   "license": "MIT",
@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@0xsarwagya/ontoly-core": "workspace:*",
+    "@0xsarwagya/ontoly-enhancer-history": "workspace:*",
     "@0xsarwagya/ontoly-enhancer-semantics": "workspace:*"
   },
   "publishConfig": {

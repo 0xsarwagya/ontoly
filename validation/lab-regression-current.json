@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-15T11:22:51.978Z",
+  "generatedAt": "2026-07-15T12:55:53.882Z",
   "environment": {
     "node": "v24.16.0",
     "v8": "13.6.233.17-node.49",
@@ -9,11 +9,11 @@
     "osRelease": "25.4.0",
     "cpuModel": "Apple M5",
     "coresAvailable": 10,
-    "pnpm": "11.5.3",
-    "packageManager": "pnpm@11.5.3",
+    "pnpm": "10.15.1",
+    "packageManager": "pnpm@10.15.1",
     "engines": {
       "node": ">=20.0.0",
-      "pnpm": ">=11.0.0"
+      "pnpm": ">=10.0.0"
     },
     "typescript": "5.9.2"
   },
@@ -21,7 +21,7 @@
     {
       "id": "ovok-core",
       "status": "PASS",
-      "graphHash": "0io8q3z",
+      "graphHash": "1gmclp5",
       "coverage": 99,
       "trust": 98,
       "diagnostics": {
@@ -31,30 +31,30 @@
         "coverageWarnings": 16
       },
       "performance": {
-        "totalDurationMs": 30951.356,
-        "analysisDurationMs": 8497.316,
-        "peakMemoryBytes": 2573008896,
-        "queryLatencyMs": 2.1697,
-        "searchLatencyMs": 2399.4944,
-        "impactLatencyMs": 1.0978,
-        "evidencePackLatencyMs": 2376.3105,
-        "implementationPlanLatencyMs": 2566.9321,
-        "agentWorkflowMemoryBytes": 1777172480
+        "totalDurationMs": 31289.391,
+        "analysisDurationMs": 8843.021,
+        "peakMemoryBytes": 2564521984,
+        "queryLatencyMs": 1.9736,
+        "searchLatencyMs": 2326.4497,
+        "impactLatencyMs": 1.0576,
+        "evidencePackLatencyMs": 2484.3388,
+        "implementationPlanLatencyMs": 2520.1869,
+        "agentWorkflowMemoryBytes": 1780776960
       },
       "graph": {
-        "nodes": 21686,
-        "edges": 52365,
-        "graphSizeBytes": 67334369
+        "nodes": 21727,
+        "edges": 52483,
+        "graphSizeBytes": 67487363
       },
       "deterministic": {
-        "status": "PASS",
-        "firstHash": "0io8q3z",
-        "secondHash": "0io8q3z",
-        "inputStable": true,
-        "inputHashBefore": "81578f9b8f4c24f88d3a5089e6e7510d6f858610f624a5d4436312dd78a02e57",
-        "inputHashAfter": "81578f9b8f4c24f88d3a5089e6e7510d6f858610f624a5d4436312dd78a02e57",
-        "rebuildMs": 4661.36,
-        "inputCheckMs": 1625.884
+        "status": "UNSTABLE_INPUT",
+        "firstHash": "1gmclp5",
+        "secondHash": "1gmclp5",
+        "inputStable": false,
+        "inputHashBefore": "85a6058ca9bcf57248e485269197d18c5ed2dcc8ececaa0bda34e933e5ca5b56",
+        "inputHashAfter": "05ae6e30aec0faf9430d34647e33c8fd4839a036ca45a98a7d246f86e9645b8d",
+        "rebuildMs": 4644.211,
+        "inputCheckMs": 1722.613
       }
     },
     {
@@ -70,15 +70,15 @@
         "coverageWarnings": 5
       },
       "performance": {
-        "totalDurationMs": 2618.668,
-        "analysisDurationMs": 1130.555,
-        "peakMemoryBytes": 2241888256,
-        "queryLatencyMs": 0.0859,
-        "searchLatencyMs": 104.6288,
-        "impactLatencyMs": 0.2958,
-        "evidencePackLatencyMs": 115.2102,
-        "implementationPlanLatencyMs": 95.553,
-        "agentWorkflowMemoryBytes": 2209726464
+        "totalDurationMs": 2734.227,
+        "analysisDurationMs": 1300.24,
+        "peakMemoryBytes": 2233745408,
+        "queryLatencyMs": 0.0842,
+        "searchLatencyMs": 95.7966,
+        "impactLatencyMs": 0.2784,
+        "evidencePackLatencyMs": 114.1835,
+        "implementationPlanLatencyMs": 104.9164,
+        "agentWorkflowMemoryBytes": 2204942336
       },
       "graph": {
         "nodes": 1191,
@@ -92,8 +92,8 @@
         "inputStable": true,
         "inputHashBefore": "f339b7c2cc3faae5efb1985b033e052e9dd81bc25c02304911a8ea012d7e28cb",
         "inputHashAfter": "f339b7c2cc3faae5efb1985b033e052e9dd81bc25c02304911a8ea012d7e28cb",
-        "rebuildMs": 549.986,
-        "inputCheckMs": 123.186
+        "rebuildMs": 542.605,
+        "inputCheckMs": 121.624
       }
     },
     {
@@ -109,15 +109,15 @@
         "coverageWarnings": 0
       },
       "performance": {
-        "totalDurationMs": 17345.888,
-        "analysisDurationMs": 5349.753,
-        "peakMemoryBytes": 2891104256,
-        "queryLatencyMs": 0.6529,
-        "searchLatencyMs": 422.843,
-        "impactLatencyMs": 0.3346,
-        "evidencePackLatencyMs": 445.9042,
-        "implementationPlanLatencyMs": 366.7735,
-        "agentWorkflowMemoryBytes": 2144223232
+        "totalDurationMs": 18658.525,
+        "analysisDurationMs": 6481.582,
+        "peakMemoryBytes": 2900803584,
+        "queryLatencyMs": 0.5958,
+        "searchLatencyMs": 412.1469,
+        "impactLatencyMs": 0.3227,
+        "evidencePackLatencyMs": 440.3492,
+        "implementationPlanLatencyMs": 362.5062,
+        "agentWorkflowMemoryBytes": 2574729216
       },
       "graph": {
         "nodes": 6742,
@@ -131,8 +131,8 @@
         "inputStable": true,
         "inputHashBefore": "8bf26fbf5b7130e7e51a54650e53dd0b787ba5fc0d2f0054a63f885c8a88c24e",
         "inputHashAfter": "8bf26fbf5b7130e7e51a54650e53dd0b787ba5fc0d2f0054a63f885c8a88c24e",
-        "rebuildMs": 3700.873,
-        "inputCheckMs": 4187.735
+        "rebuildMs": 3798.355,
+        "inputCheckMs": 4296.884
       }
     },
     {
@@ -148,15 +148,15 @@
         "coverageWarnings": 0
       },
       "performance": {
-        "totalDurationMs": 943.479,
-        "analysisDurationMs": 471.464,
-        "peakMemoryBytes": 2924806144,
-        "queryLatencyMs": 0.0243,
-        "searchLatencyMs": 32.4752,
-        "impactLatencyMs": 0.2565,
-        "evidencePackLatencyMs": 44.2413,
-        "implementationPlanLatencyMs": 34.154,
-        "agentWorkflowMemoryBytes": 2877816832
+        "totalDurationMs": 1015.523,
+        "analysisDurationMs": 532.591,
+        "peakMemoryBytes": 2934505472,
+        "queryLatencyMs": 0.0232,
+        "searchLatencyMs": 34.8031,
+        "impactLatencyMs": 0.2872,
+        "evidencePackLatencyMs": 45.623,
+        "implementationPlanLatencyMs": 34.4738,
+        "agentWorkflowMemoryBytes": 2880454656
       },
       "graph": {
         "nodes": 350,
@@ -170,8 +170,8 @@
         "inputStable": true,
         "inputHashBefore": "d427d5216c4fad653f6dd47f2382b3312ff850dbcd52995dd3c89e9cbeab3d22",
         "inputHashAfter": "d427d5216c4fad653f6dd47f2382b3312ff850dbcd52995dd3c89e9cbeab3d22",
-        "rebuildMs": 230.704,
-        "inputCheckMs": 10.251
+        "rebuildMs": 238.323,
+        "inputCheckMs": 6.412
       }
     },
     {
@@ -187,15 +187,15 @@
         "coverageWarnings": 0
       },
       "performance": {
-        "totalDurationMs": 839.976,
-        "analysisDurationMs": 474.345,
-        "peakMemoryBytes": 2905702400,
-        "queryLatencyMs": 0.5819,
-        "searchLatencyMs": 16.1235,
-        "impactLatencyMs": 0.4331,
-        "evidencePackLatencyMs": 21.9321,
-        "implementationPlanLatencyMs": 16.919,
-        "agentWorkflowMemoryBytes": 2894675968
+        "totalDurationMs": 934.918,
+        "analysisDurationMs": 574.894,
+        "peakMemoryBytes": 2897821696,
+        "queryLatencyMs": 0.027,
+        "searchLatencyMs": 15.7123,
+        "impactLatencyMs": 0.4128,
+        "evidencePackLatencyMs": 21.0866,
+        "implementationPlanLatencyMs": 16.1112,
+        "agentWorkflowMemoryBytes": 2114994176
       },
       "graph": {
         "nodes": 226,
@@ -209,8 +209,8 @@
         "inputStable": true,
         "inputHashBefore": "f362a33acfb06542552412e6467bb7a8f8275b7623254e4d2faf5f2758e5a7af",
         "inputHashAfter": "f362a33acfb06542552412e6467bb7a8f8275b7623254e4d2faf5f2758e5a7af",
-        "rebuildMs": 223.848,
-        "inputCheckMs": 9.538
+        "rebuildMs": 219.078,
+        "inputCheckMs": 10.058
       }
     }
   ],
@@ -220,13 +220,13 @@
       "measured": 5,
       "skipped": 0,
       "failed": 0,
-      "averageDurationMs": 10539.87,
+      "averageDurationMs": 10926.52,
       "averageCoverage": 98.8,
       "averageTrust": 98.8,
-      "totalNodes": 30195,
-      "totalEdges": 68007,
-      "totalGraphSizeBytes": 88097403,
-      "maxMemoryBytes": 2924806144
+      "totalNodes": 30236,
+      "totalEdges": 68125,
+      "totalGraphSizeBytes": 88250397,
+      "maxMemoryBytes": 2934505472
     }
   }
 }
