@@ -74,7 +74,7 @@ This verdict is based on local release evidence. Remote GitHub clone and npm reg
 | Source validation | PASS | 14/14 skills PASS |
 | Installed artifact validation | PASS | Single-skill and full-skill installs PASS |
 | Clean-room skill | PASS | `architecture-review` installed and validated from a temp workspace |
-| Skill metadata | PASS | Skills aligned to `0.1.0-alpha.15` |
+| Skill metadata | PASS | Skills aligned to `0.1.0-alpha.16` |
 
 ## Known Limitations
 

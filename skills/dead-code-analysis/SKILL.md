@@ -4,8 +4,8 @@ description: Find potentially unused functions, methods, services, routes, or fe
 license: MIT
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "0.1.0-alpha.15"
-  ontoly.min.version: "0.1.0-alpha.15"
+  ontoly.skill.version: "0.1.0-alpha.16"
+  ontoly.min.version: "0.1.0-alpha.16"
   ontoly.capabilities: "FindDeadCode, FindUnusedFeature, FindEntrypoints, FindDependents, EvidencePack"
   ontoly.category: "static-analysis"
   ontoly.enhancement: "LLM Enhancement"

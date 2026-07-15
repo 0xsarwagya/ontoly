@@ -112,6 +112,17 @@ describe("semantic index", () => {
     expect(external?.score ?? 0).toBeLessThan(result.candidates[0]?.score ?? 0);
   });
 
+  it("ranks executable code above owner services for action-oriented queries", () => {
+    const index = createSemanticIndex(carehubThresholdGraph());
+    const result = resolveIntent(index, "What code calculates sleep duration averages for thresholds?", { limit: 8 });
+
+    expect(result.candidates[0]).toMatchObject({
+      displayName: "calculateSleepDurationAverages",
+      kind: "Function",
+    });
+    expect(result.candidates[0]?.reasons.map((reason) => reason.factor)).toContain("executable-action-match");
+  });
+
   it("bounds metadata-derived aliases and documentation", () => {
     const index = createSemanticIndex(metadataHeavyGraph());
     const entry = index.entries.find((item) => item.displayName === "SleepDurationThresholdService");

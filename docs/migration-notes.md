@@ -1,13 +1,13 @@
 # Migration Notes
 
-## 0.1.0-alpha.15
+## 0.1.0-alpha.16
 
 This is the first Public Preview. Projects upgrading from
 `0.1.0-alpha.14` do not need a Software Graph schema migration.
 
 Recommended upgrade steps:
 
-1. Upgrade Ontoly packages together to `0.1.0-alpha.15`.
+1. Upgrade Ontoly packages together to `0.1.0-alpha.16`.
 2. Rebuild the repository graph.
 3. Rerun semantic evaluation, skills validation, and release gates for your
    repository.

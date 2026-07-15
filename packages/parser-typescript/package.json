@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-parser-typescript",
-  "version": "0.1.0-alpha.15",
+  "version": "0.1.0-alpha.16",
   "description": "TypeScript parser and relationship extractor for Ontoly.",
   "type": "module",
   "license": "MIT",

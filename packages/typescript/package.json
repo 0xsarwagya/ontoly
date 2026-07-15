@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-typescript",
-  "version": "0.1.0-alpha.15",
+  "version": "0.1.0-alpha.16",
   "description": "Pure TypeScript semantic model analyzer for Ontoly.",
   "type": "module",
   "license": "MIT",

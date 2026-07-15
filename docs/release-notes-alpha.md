@@ -1,5 +1,19 @@
 # Alpha Release Notes
 
+## v0.1.0-alpha.16
+
+This retrieval stabilization release restores the alpha.14 Ovok benchmark
+quality line while keeping the alpha.15 enhancer fixes.
+
+- Action-oriented code queries now include a bounded executable-action ranking
+  signal, so methods/functions can outrank owner classes when the user asks what
+  code calculates, builds, resolves, writes, or performs a similar action.
+- The regression query `What code calculates sleep duration averages for
+  thresholds?` now ranks `calculateSleepDurationAverages` first.
+- The Ovok 40-question Ontoly benchmark is back to 37 PASS, 1 PARTIAL, 2 FAIL,
+  and 33 Top-1 results.
+- Agent Skills now require Ontoly `0.1.0-alpha.16`.
+
 ## v0.1.0-alpha.14
 
 This stabilization release fixes retrieval quality, bounded evidence, and

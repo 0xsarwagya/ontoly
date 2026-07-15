@@ -336,6 +336,38 @@ const REPOSITORY_LOCAL_KIND_BOOSTS: Partial<Record<NodeType, number>> = {
   Provider: 42,
 };
 
+const EXECUTABLE_CODE_KINDS = new Set<NodeType>(["Function", "Method", "Operation"]);
+const EXECUTABLE_ACTION_TERMS = new Set([
+  "add",
+  "apply",
+  "build",
+  "calculate",
+  "check",
+  "compute",
+  "convert",
+  "create",
+  "delete",
+  "fetch",
+  "find",
+  "generate",
+  "get",
+  "handle",
+  "load",
+  "map",
+  "parse",
+  "persist",
+  "read",
+  "resolve",
+  "save",
+  "set",
+  "trace",
+  "transform",
+  "update",
+  "validate",
+  "write",
+]);
+const EXECUTABLE_QUERY_TERMS = new Set(["code", "codes", "function", "functions", "method", "methods"]);
+
 const FRAMEWORK_PACKAGE_PATTERN = /@nestjs\/|@medplum\/|next\/dist|react\/|typescript\/lib|@types\/|@babel\/|@typescript-eslint\/|tslib|rxjs|zone\.js/i;
 
 export function createSemanticIndex(graph: SoftwareGraph): SemanticIndex {
@@ -895,6 +927,7 @@ function scoreEntry(entry: SemanticIndexEntry, intent: NormalizedIntent, categor
 
   const queryCoverage = originalQueryCoverage(entry, intent);
   addScore(reasons, "query-token-coverage", queryCoverage.ratio * 110, `${Math.round(queryCoverage.ratio * 100)}% original query token coverage`);
+  addScore(reasons, "executable-action-match", executableActionBoostFor(entry, intent, queryCoverage), "executable symbol matches action-oriented code query");
 
   const architectureAgreement = architectureAgreementConfidence(entry, category);
   addScore(reasons, "architecture-agreement", architectureAgreement * 90, `${entry.kind} agreement for ${category}`);
@@ -1165,6 +1198,55 @@ function semanticFeaturePenalty(entry: SemanticIndexEntry, intent: NormalizedInt
     penalty += 80;
   }
   return penalty;
+}
+
+function executableActionBoostFor(
+  entry: SemanticIndexEntry,
+  intent: NormalizedIntent,
+  queryCoverage: ReturnType<typeof originalQueryCoverage>,
+): number {
+  if (!EXECUTABLE_CODE_KINDS.has(entry.kind)) {
+    return 0;
+  }
+  const queryTerms = uniqueStrings(intent.tokens.map(singularize));
+  const actionMatches = queryTerms.filter((term) => EXECUTABLE_ACTION_TERMS.has(term));
+  if (actionMatches.length === 0) {
+    return 0;
+  }
+  const asksForCode = queryTerms.some((term) => EXECUTABLE_QUERY_TERMS.has(term));
+  const domainTerms = queryTerms.filter((term) =>
+    term.length > 2 &&
+    !EXECUTABLE_ACTION_TERMS.has(term) &&
+    !EXECUTABLE_QUERY_TERMS.has(term)
+  );
+  if (!asksForCode && domainTerms.length === 0) {
+    return 0;
+  }
+
+  const executableTerms = new Set(tokenize([
+    entry.stableId,
+    entry.displayName,
+    entry.normalizedName,
+    entry.filePath ?? "",
+    entry.documentation ?? "",
+    entry.comments ?? "",
+  ].join(" ")).map(singularize));
+  const executableActionMatches = actionMatches.filter((term) => executableTerms.has(term));
+  if (executableActionMatches.length === 0) {
+    return 0;
+  }
+
+  const coveredDomainTerms = domainTerms.filter((term) =>
+    executableTerms.has(term) ||
+    queryCoverage.matched.includes(term)
+  );
+  const domainCoverage = domainTerms.length === 0 ? 1 : coveredDomainTerms.length / domainTerms.length;
+  if (domainCoverage < 0.45) {
+    return 0;
+  }
+
+  const codeIntentBoost = asksForCode ? 40 : 0;
+  return Math.min(260, 105 + codeIntentBoost + executableActionMatches.length * 45 + coveredDomainTerms.length * 20);
 }
 
 function repositoryLocalityConfidence(entry: SemanticIndexEntry): number {

@@ -2,6 +2,24 @@
 
 All notable Ontoly changes are tracked here.
 
+## 0.1.0-alpha.16
+
+### Stabilized
+
+- Restored alpha.14 retrieval quality after the alpha.15 enhancer release by
+  fixing action-oriented Semantic Index ranking for queries such as
+  `What code calculates sleep duration averages for thresholds?`.
+- Added a bounded executable-action ranking signal so method/function candidates
+  can outrank owner classes when the user is explicitly asking for code that
+  performs an action.
+- Preserved the alpha.15 enhancer fixes while returning the Ovok 40-question
+  Ontoly benchmark to 37 PASS, 1 PARTIAL, 2 FAIL, and 33 Top-1 results.
+
+### Validation
+
+- Added a regression test for `calculateSleepDurationAverages` ranking.
+- Verified `pnpm check-types`, `pnpm test`, and `pnpm build`.
+
 ## 0.1.0-alpha.15
 
 ### Public Preview

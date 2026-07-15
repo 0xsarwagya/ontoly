@@ -1,6 +1,6 @@
 # Known Limitations
 
-Ontoly v0.1.0-alpha.15 is intentionally conservative.
+Ontoly v0.1.0-alpha.16 is intentionally conservative.
 
 ## Language Support
 
