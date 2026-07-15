@@ -123,6 +123,27 @@ describe("semantic index", () => {
     expect(result.candidates[0]?.reasons.map((reason) => reason.factor)).toContain("executable-action-match");
   });
 
+  it("ranks file modules for utility location intent", () => {
+    const index = createSemanticIndex(fileLocationGraph());
+    const result = findSymbol(index, "Where are carehub sleep utilities?", { limit: 8 });
+
+    expect(result.candidates[0]).toMatchObject({
+      displayName: "src/carehub/sleep/sleep.utils.ts",
+      kind: "Module",
+    });
+    expect(result.candidates[0]?.reasons.map((reason) => reason.factor)).toContain("file-location-match");
+  });
+
+  it("keeps exact identifier symbols seeded when common term buckets are capped", () => {
+    const index = createSemanticIndex(cappedDefinitionGraph());
+    const result = findSymbol(index, "Where are threshold metric keys and threshold types defined?", { limit: 8 });
+
+    expect(result.candidates[0]).toMatchObject({
+      displayName: "ThresholdMetricKey",
+      kind: "TypeAlias",
+    });
+  });
+
   it("bounds metadata-derived aliases and documentation", () => {
     const index = createSemanticIndex(metadataHeavyGraph());
     const entry = index.entries.find((item) => item.displayName === "SleepDurationThresholdService");
@@ -281,6 +302,46 @@ function metadataHeavyGraph(): SoftwareGraph {
     ],
     edges: [],
     fileCount: 1,
+  });
+}
+
+function fileLocationGraph(): SoftwareGraph {
+  const nodes: SoftwareGraphNode[] = [
+    node("Module", "src/carehub/sleep/sleep.utils.ts", "src/carehub/sleep/sleep.utils.ts"),
+    node("Function", "mergeNumberMetric", "src/carehub/sleep/sleep.utils.ts"),
+    node("Service", "CarehubSleepService", "src/carehub/sleep/carehubSleep.service.ts"),
+    node("TypeAlias", "SleepStatisticsCalculation", "src/carehub/sleep/types.ts"),
+  ];
+  const byName = new Map(nodes.map((item) => [item.name, item] as const));
+  return createSoftwareGraph({
+    repository: {
+      root: "/repo",
+      name: "carehub",
+      packageName: "@repo/carehub",
+    },
+    nodes,
+    edges: [
+      edge("CONTAINS", byName.get("src/carehub/sleep/sleep.utils.ts")!, byName.get("mergeNumberMetric")!),
+      edge("REFERENCES", byName.get("CarehubSleepService")!, byName.get("mergeNumberMetric")!),
+    ],
+    fileCount: nodes.length,
+  });
+}
+
+function cappedDefinitionGraph(): SoftwareGraph {
+  const noise = Array.from({ length: 260 }, (_, index) =>
+    node("Function", `thresholdMetricKeyNoise${String(index).padStart(3, "0")}`, `src/noise/threshold-metric-key-${index}.ts`),
+  );
+  const target = node("TypeAlias", "ThresholdMetricKey", "src/carehub/audit/metricCategory.ts");
+  return createSoftwareGraph({
+    repository: {
+      root: "/repo",
+      name: "carehub",
+      packageName: "@repo/carehub",
+    },
+    nodes: [...noise, target],
+    edges: [],
+    fileCount: noise.length + 1,
   });
 }
 

@@ -196,7 +196,7 @@ const FRAMEWORK_SUFFIXES = new Set([
 
 const CATEGORY_TYPES: Record<SearchCategory, readonly NodeType[]> = {
   concept: [],
-  symbol: ["Function", "Method", "Class", "Interface", "TypeAlias", "Enum", "Field", "Service", "Provider", "Controller", "Repository", "Resource", "Model", "Route"],
+  symbol: ["Module", "Function", "Method", "Class", "Interface", "TypeAlias", "Enum", "Field", "Service", "Provider", "Controller", "Repository", "Resource", "Model", "Route"],
   feature: ["Route", "Controller", "Service", "Provider", "Module", "Package", "Repository", "Model", "Resource", "Class", "Interface", "TypeAlias", "Function", "Method", "Operation", "Configuration", "EnvironmentVariable", "Guard", "Permission", "Middleware"],
   configuration: ["Configuration", "EnvironmentVariable", "BuildTarget", "Script", "Task"],
   environment: ["EnvironmentVariable"],
@@ -367,6 +367,46 @@ const EXECUTABLE_ACTION_TERMS = new Set([
   "write",
 ]);
 const EXECUTABLE_QUERY_TERMS = new Set(["code", "codes", "function", "functions", "method", "methods"]);
+const LOCATION_QUERY_TERMS = new Set([
+  "defined",
+  "definition",
+  "implemented",
+  "implementation",
+  "mapping",
+  "mappings",
+  "parameter",
+  "parameters",
+  "param",
+  "params",
+  "type",
+  "types",
+  "utility",
+  "utilities",
+  "util",
+  "utils",
+]);
+const LOCATION_DOMAIN_NOISE_TERMS = new Set([
+  "code",
+  "defined",
+  "definition",
+  "implemented",
+  "implementation",
+  "mapping",
+  "mappings",
+  "parameter",
+  "parameters",
+  "param",
+  "params",
+  "service",
+  "services",
+  "type",
+  "types",
+  "utility",
+  "utilities",
+  "util",
+  "utils",
+]);
+const DEFINITION_KINDS = new Set<NodeType>(["Module", "Class", "Interface", "TypeAlias", "Enum", "Model", "Field", "Resource"]);
 
 const FRAMEWORK_PACKAGE_PATTERN = /@nestjs\/|@medplum\/|next\/dist|react\/|typescript\/lib|@types\/|@babel\/|@typescript-eslint\/|tslib|rxjs|zone\.js/i;
 
@@ -804,6 +844,10 @@ function candidateIdsFor(index: SemanticIndex, intent: NormalizedIntent): readon
     ids.add(id);
   }
 
+  for (const id of priorityFuzzyCandidateIds(index, intent)) {
+    ids.add(id);
+  }
+
   const fuzzyIds = index.entries
     .filter((entry) => fuzzyEntryMatch(entry, intent))
     .map((entry) => entry.stableId)
@@ -816,6 +860,23 @@ function candidateIdsFor(index: SemanticIndex, intent: NormalizedIntent): readon
     return [...expandCandidateIds(index, intent, [...ids])].sort();
   }
   return [...expandCandidateIds(index, intent, fuzzyIds)].sort();
+}
+
+function priorityFuzzyCandidateIds(index: SemanticIndex, intent: NormalizedIntent): readonly string[] {
+  const queryTerms = new Set(intent.tokens.map(singularize).flatMap((term) => relatedLocationTerms(term)));
+  const queryCompact = compactTokenString(intent.raw);
+  return index.entries
+    .filter((entry) => {
+      const nameTerms = tokenize(entry.displayName).map(singularize).filter((term) => term.length > 1);
+      const meaningfulNameTerms = nameTerms.filter((term) => !["src", "ts"].includes(term));
+      if (meaningfulNameTerms.length > 0 && meaningfulNameTerms.every((term) => queryTerms.has(term))) {
+        return true;
+      }
+      const compactName = compactTokenString(entry.displayName);
+      return compactName.length >= 6 && queryCompact.includes(compactName);
+    })
+    .map((entry) => entry.stableId)
+    .sort();
 }
 
 function repositoryVocabularyCandidateIds(index: SemanticIndex, terms: readonly string[]): readonly string[] {
@@ -928,6 +989,7 @@ function scoreEntry(entry: SemanticIndexEntry, intent: NormalizedIntent, categor
   const queryCoverage = originalQueryCoverage(entry, intent);
   addScore(reasons, "query-token-coverage", queryCoverage.ratio * 110, `${Math.round(queryCoverage.ratio * 100)}% original query token coverage`);
   addScore(reasons, "executable-action-match", executableActionBoostFor(entry, intent, queryCoverage), "executable symbol matches action-oriented code query");
+  addScore(reasons, "file-location-match", fileLocationBoostFor(entry, intent, category, queryCoverage), "file path and definition intent match query");
 
   const architectureAgreement = architectureAgreementConfidence(entry, category);
   addScore(reasons, "architecture-agreement", architectureAgreement * 90, `${entry.kind} agreement for ${category}`);
@@ -1247,6 +1309,168 @@ function executableActionBoostFor(
 
   const codeIntentBoost = asksForCode ? 40 : 0;
   return Math.min(260, 105 + codeIntentBoost + executableActionMatches.length * 45 + coveredDomainTerms.length * 20);
+}
+
+function fileLocationBoostFor(
+  entry: SemanticIndexEntry,
+  intent: NormalizedIntent,
+  category: SearchCategory,
+  queryCoverage: ReturnType<typeof originalQueryCoverage>,
+): number {
+  if (!isRepositoryLocalEntry(entry) || !hasFileLocationIntent(intent)) {
+    return 0;
+  }
+
+  const queryTerms = uniqueStrings(intent.tokens.map(singularize));
+  const entryTerms = fileLocationTerms(entry);
+  const domainTerms = queryTerms.filter((term) =>
+    term.length > 2 &&
+    !LOCATION_DOMAIN_NOISE_TERMS.has(term)
+  );
+  const matchedDomainTerms = domainTerms.filter((term) => relatedLocationTerms(term).some((related) => entryTerms.has(related)));
+  const domainCoverage = domainTerms.length === 0 ? 0 : matchedDomainTerms.length / domainTerms.length;
+  const stemMatch = fileStemMatchesIntent(entry, intent);
+  const locationTermMatches = queryTerms.filter((term) => LOCATION_QUERY_TERMS.has(term) && relatedLocationTerms(term).some((related) => entryTerms.has(related)));
+
+  if (!stemMatch && matchedDomainTerms.length < 2 && locationTermMatches.length === 0) {
+    return 0;
+  }
+
+  let score = matchedDomainTerms.length * 34 + domainCoverage * 90 + locationTermMatches.length * 24;
+  if (stemMatch) {
+    score += entry.kind === "Module" ? 300 : 220;
+  }
+  if (entry.kind === "Module") {
+    score += 72;
+  }
+  if (hasDefinitionIntent(intent) && isDefinitionEntry(entry)) {
+    score += 150;
+  }
+  if (hasUtilityIntent(intent) && hasAnyTerm(entryTerms, ["util", "utils", "utility"])) {
+    score += 190;
+  }
+  if (hasMappingIntent(intent) && hasAnyTerm(entryTerms, ["map", "mapper", "mapping", "dto", "fhir"])) {
+    score += hasAnyTerm(entryTerms, ["fhir", "map", "mapper"]) ? 170 : 80;
+  }
+  if (hasParameterIntent(intent) && hasAnyTerm(entryTerms, ["param", "params", "parameter", "parameters", "dto", "query"])) {
+    score += 180;
+  }
+  if (category === "feature" && entry.kind === "Service" && hasAnyTerm(entryTerms, ["query"]) && queryTerms.includes("query")) {
+    score += 55;
+  }
+
+  const missingPenalty = queryCoverage.missing.filter((term) => !LOCATION_DOMAIN_NOISE_TERMS.has(term)).length * 18;
+  return Math.min(520, Math.max(0, score - missingPenalty));
+}
+
+function hasFileLocationIntent(intent: NormalizedIntent): boolean {
+  return /\b(where|defined|definition|implemented|implementation|mapping|mappings|utilities|utility|utils?|params?|parameters?)\b/i.test(intent.raw) ||
+    intent.tokens.some((term) => LOCATION_QUERY_TERMS.has(singularize(term)));
+}
+
+function hasDefinitionIntent(intent: NormalizedIntent): boolean {
+  const terms = new Set(intent.tokens.map(singularize));
+  return /\b(defined|definition|types?|keys?)\b/i.test(intent.raw) ||
+    terms.has("defined") ||
+    terms.has("definition") ||
+    terms.has("type") ||
+    terms.has("key");
+}
+
+function hasUtilityIntent(intent: NormalizedIntent): boolean {
+  const terms = new Set(intent.tokens.map(singularize));
+  return /\b(utilities|utility|utils?)\b/i.test(intent.raw) ||
+    terms.has("utility") ||
+    terms.has("util");
+}
+
+function hasMappingIntent(intent: NormalizedIntent): boolean {
+  const terms = new Set(intent.tokens.map(singularize));
+  return /\b(mapping|mappings|mapper|mappers)\b/i.test(intent.raw) ||
+    terms.has("mapping") ||
+    terms.has("mapper");
+}
+
+function hasParameterIntent(intent: NormalizedIntent): boolean {
+  const terms = new Set(intent.tokens.map(singularize));
+  return /\b(params?|parameters?)\b/i.test(intent.raw) ||
+    terms.has("param") ||
+    terms.has("parameter");
+}
+
+function isDefinitionEntry(entry: SemanticIndexEntry): boolean {
+  return DEFINITION_KINDS.has(entry.kind) ||
+    hasAnyTerm(fileLocationTerms(entry), ["type", "types", "const", "constants", "enum", "schema"]);
+}
+
+function fileLocationTerms(entry: SemanticIndexEntry): ReadonlySet<string> {
+  return new Set(tokenize([
+    entry.stableId,
+    entry.displayName,
+    entry.normalizedName,
+    entry.filePath ?? "",
+    entry.folderPath ?? "",
+  ].join(" ")).map(singularize));
+}
+
+function fileStemMatchesIntent(entry: SemanticIndexEntry, intent: NormalizedIntent): boolean {
+  const stem = fileStem(entry);
+  if (!stem) {
+    return false;
+  }
+  const stemTerms = tokenize(stem).map(singularize).filter((term) => term.length > 1 && !["src", "ts"].includes(term));
+  if (stemTerms.length === 0) {
+    return false;
+  }
+  const queryTerms = new Set(intent.tokens.map(singularize).flatMap((term) => relatedLocationTerms(term)));
+  const matchedTerms = stemTerms.filter((term) => queryTerms.has(term));
+  if (matchedTerms.length === stemTerms.length) {
+    return true;
+  }
+
+  const stemCompact = compactTokenString(stem);
+  const queryCompact = compactTokenString(intent.raw);
+  return stemCompact.length >= 6 && queryCompact.includes(stemCompact);
+}
+
+function fileStem(entry: SemanticIndexEntry): string {
+  const source = entry.filePath || entry.displayName;
+  const last = source.split("/").pop() ?? source;
+  return last.replace(/\.[^.]+$/, "");
+}
+
+function compactTokenString(value: string): string {
+  return tokenize(value).map(singularize).join("");
+}
+
+function relatedLocationTerms(term: string): readonly string[] {
+  switch (singularize(term)) {
+    case "mapping":
+    case "mapper":
+      return ["map", "mapper", "mapping"];
+    case "utilities":
+    case "utility":
+    case "util":
+    case "utils":
+      return ["util", "utils", "utility"];
+    case "params":
+    case "param":
+    case "parameter":
+    case "parameters":
+      return ["param", "params", "parameter", "parameters"];
+    case "types":
+    case "type":
+      return ["type", "types"];
+    case "keys":
+    case "key":
+      return ["key", "keys"];
+    default:
+      return [singularize(term)];
+  }
+}
+
+function hasAnyTerm(terms: ReadonlySet<string>, values: readonly string[]): boolean {
+  return values.some((value) => terms.has(value));
 }
 
 function repositoryLocalityConfidence(entry: SemanticIndexEntry): number {

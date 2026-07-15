@@ -12,12 +12,13 @@ All notable Ontoly changes are tracked here.
 - Added a bounded executable-action ranking signal so method/function candidates
   can outrank owner classes when the user is explicitly asking for code that
   performs an action.
-- Preserved the alpha.15 enhancer fixes while returning the Ovok 40-question
-  Ontoly benchmark to 37 PASS, 1 PARTIAL, 2 FAIL, and 33 Top-1 results.
+- Preserved the alpha.15 enhancer fixes while improving the Ovok 40-question
+  Ontoly benchmark to 40 PASS, 0 PARTIAL, 0 FAIL, and 38 Top-1 results.
 
 ### Validation
 
-- Added a regression test for `calculateSleepDurationAverages` ranking.
+- Added regression tests for `calculateSleepDurationAverages` ranking,
+  file-location utility lookup, and capped-bucket identifier seeding.
 - Verified `pnpm check-types`, `pnpm test`, and `pnpm build`.
 
 ## 0.1.0-alpha.15
