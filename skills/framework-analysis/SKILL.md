@@ -4,8 +4,8 @@ description: Explain detected frameworks and framework-specific graph coverage u
 license: MIT
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "1.0.0-rc.3"
-  ontoly.min.version: "1.0.0-rc.3"
+  ontoly.skill.version: "1.0.0-rc.5"
+  ontoly.min.version: "1.0.0-rc.5"
   ontoly.capabilities: "ExplainArchitecture, GraphStatistics, FindNode, FindFeatureOwner, EvidencePack"
   ontoly.category: "frameworks"
   ontoly.enhancement: "LLM Enhancement"

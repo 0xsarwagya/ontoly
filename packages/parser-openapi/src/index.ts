@@ -9,7 +9,7 @@ import {
   type SoftwareGraphDiagnostic,
   type SourceSpan,
 } from "@0xsarwagya/ontoly-core";
-import { compilerDiagnostic, type CompilerPass, type CompilerRelationship, type CompilerSymbol } from "@0xsarwagya/ontoly-compiler";
+import { compilerDiagnostic, type CompilerPass, type CompilerRelationship, type CompilerSymbol, type SourceProvider } from "@0xsarwagya/ontoly-compiler";
 
 export const OPENAPI_FRONTEND_NAME = "openapi";
 export const OPENAPI_FRONTEND_PASS_ID = "@0xsarwagya/ontoly-parser-openapi:frontend";
@@ -50,7 +50,7 @@ export function createOpenApiFrontendPass(options: {
       let documentCount = 0;
 
       for (const file of files) {
-        const parsed = await readOpenApiDocument(context.invocation.root, file, diagnostics);
+        const parsed = await readOpenApiDocument(context.invocation.root, file, diagnostics, context.invocation.sourceProvider);
 
         if (!parsed) {
           continue;
@@ -88,11 +88,13 @@ async function readOpenApiDocument(
   root: string,
   file: string,
   diagnostics: SoftwareGraphDiagnostic[],
+  provider?: SourceProvider,
 ): Promise<JsonRecord | undefined> {
   let contents: string;
 
   try {
-    contents = await readFile(join(root, file), "utf8");
+    const fromProvider = provider?.readFile(normalizePath(file));
+    contents = fromProvider !== undefined ? fromProvider : await readFile(join(root, file), "utf8");
   } catch (error) {
     diagnostics.push(compilerDiagnostic({
       code: "OPENAPI_FILE_READ_FAILED",

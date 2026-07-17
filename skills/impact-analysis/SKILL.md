@@ -4,8 +4,8 @@ description: Analyze change impact using Ontoly dependency and dependent travers
 license: MIT
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "1.0.0-rc.3"
-  ontoly.min.version: "1.0.0-rc.3"
+  ontoly.skill.version: "1.0.0-rc.5"
+  ontoly.min.version: "1.0.0-rc.5"
   ontoly.capabilities: "ImpactAnalysis, FindDependents, FindDependencies, FindNode, EvidencePack"
   ontoly.category: "change-analysis"
   ontoly.enhancement: "LLM Enhancement"

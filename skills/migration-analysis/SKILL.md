@@ -4,8 +4,8 @@ description: Plan migrations using Ontoly architecture, dependency, impact, and 
 license: MIT
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "1.0.0-rc.3"
-  ontoly.min.version: "1.0.0-rc.3"
+  ontoly.skill.version: "1.0.0-rc.5"
+  ontoly.min.version: "1.0.0-rc.5"
   ontoly.capabilities: "ExplainArchitecture, ImpactAnalysis, FindConfigurationUsage, FindDependencies, EvidencePack"
   ontoly.category: "migration"
   ontoly.enhancement: "LLM Enhancement"
