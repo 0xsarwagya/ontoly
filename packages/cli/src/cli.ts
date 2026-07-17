@@ -27,7 +27,6 @@ import {
 import {
   buildSoftwareGraph,
   buildSoftwareGraphWithArtifacts,
-  createRepositoryIntelligencePass,
   doctorRepository,
   initializeOntolyProject,
   watchSoftwareGraph,
@@ -97,8 +96,7 @@ import {
   type SemanticSearchResult,
 } from "@0xsarwagya/ontoly-core";
 import { createMcpRuntime, McpCapabilityError, type McpCapabilityName } from "@0xsarwagya/ontoly-mcp";
-import { createOpenApiFrontendPass } from "@0xsarwagya/ontoly-parser-openapi";
-import { createTypeScriptFrontendPass } from "@0xsarwagya/ontoly-parser-typescript";
+import { defaultCompilerPasses } from "./passes";
 import { createInteractiveHtmlGraph } from "@0xsarwagya/ontoly-plugin-html";
 import { createQueryEngine, type GraphStatistics, type GraphTraversal } from "@0xsarwagya/ontoly-query";
 import { createDefaultFrameworkRegistry } from "@0xsarwagya/ontoly-semantic";
@@ -2273,9 +2271,6 @@ async function writeOutputBundle(input: {
   });
 }
 
-function defaultCompilerPasses() {
-  return [createRepositoryIntelligencePass(), createTypeScriptFrontendPass(), createOpenApiFrontendPass()];
-}
 
 interface BoundedEvidencePack {
   readonly version: "1.0.0";

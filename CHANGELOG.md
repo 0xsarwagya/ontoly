@@ -2,6 +2,27 @@
 
 All notable Ontoly changes are tracked here.
 
+## 1.0.0-rc.5
+
+### Added
+
+- Added in-memory source processing. `buildSoftwareGraphFromMemory` (exported
+  from `@0xsarwagya/ontoly-compiler`) builds a Software Graph from a
+  `{ path: contents }` map with two strategies:
+  - `materialize` (default): writes sources to a private scratch directory,
+    runs the standard on-disk pipeline, then removes the directory.
+  - `zero-disk`: serves sources from memory end to end via a `SourceProvider`
+    and an in-memory `ts.CompilerHost`; no provided source touches disk.
+- Added the `SourceProvider` contract, `InMemorySources` type, and
+  `createInMemorySourceProvider` to `@0xsarwagya/ontoly-compiler`. The compiler
+  discovery, source inventory, repository-intelligence, TypeScript frontend, and
+  OpenAPI frontend now read through the provider when one is supplied.
+- Added `createInMemoryCompilerHost` to `@0xsarwagya/ontoly-typescript` and an
+  optional `host` on the TypeScript frontend/analyzer inputs.
+- Exposed `defaultCompilerPasses()` as a public convenience from
+  `@0xsarwagya/ontoly-cli` so callers can supply the batteries-included pass set
+  to `buildSoftwareGraph` and `buildSoftwareGraphFromMemory`.
+
 ## 1.0.0-rc.3
 
 ### Fixed

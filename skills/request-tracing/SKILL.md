@@ -4,8 +4,8 @@ description: Trace request lifecycle behavior through Ontoly route, handler, and
 license: MIT
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "1.0.0-rc.3"
-  ontoly.min.version: "1.0.0-rc.3"
+  ontoly.skill.version: "1.0.0-rc.5"
+  ontoly.min.version: "1.0.0-rc.5"
   ontoly.capabilities: "TraceRequestLifecycle, FindResponsibleFunction, TraceExecution, FindNode, EvidencePack"
   ontoly.category: "request-flow"
   ontoly.enhancement: "LLM Enhancement"

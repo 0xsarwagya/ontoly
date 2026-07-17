@@ -24,13 +24,18 @@ export async function createCompilerInvocation(
   const config = await loadOntolyConfig(options.root ?? process.cwd(), options.configPath);
   const root = resolve(options.root ?? config.root ?? process.cwd());
 
-  return {
-    root,
-    configPath: options.configPath,
-    outputDir: options.outputDir ?? config.outputDir ?? ".ontoly",
-    write: options.write ?? false,
-    mode: options.mode ?? "clean",
-  };
+  return withOptionalProperties(
+    {
+      root,
+      outputDir: options.outputDir ?? config.outputDir ?? ".ontoly",
+      write: options.write ?? false,
+      mode: options.mode ?? "clean",
+    },
+    {
+      configPath: options.configPath,
+      sourceProvider: options.sourceProvider,
+    },
+  );
 }
 
 export async function createCompilerContext(input: {
@@ -40,7 +45,7 @@ export async function createCompilerContext(input: {
   readonly validationHooks?: readonly GraphValidationHook[] | undefined;
 }): Promise<CompilerContext> {
   const config = input.config ?? (await loadOntolyConfig(input.invocation.root, input.invocation.configPath));
-  const discovery = await discoverRepository(input.invocation.root);
+  const discovery = await discoverRepository(input.invocation.root, input.invocation.sourceProvider);
   const repository: SoftwareGraphRepository = withOptionalProperties(
     {
       root: discovery.root,

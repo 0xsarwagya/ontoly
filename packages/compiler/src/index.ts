@@ -19,6 +19,7 @@ import type {
 export * from "./context";
 export * from "./diagnostics";
 export * from "./graph";
+export * from "./memory";
 export * from "./passes";
 export * from "./pipeline";
 export * from "./repository";
@@ -88,7 +89,7 @@ export async function buildSoftwareGraphWithArtifacts(
     mode: invocation.mode,
     graph,
     diagnostics: context.diagnostics.list(),
-    discovery: state.discovery ?? (await discoverRepository(invocation.root)),
+    discovery: state.discovery ?? (await discoverRepository(invocation.root, invocation.sourceProvider)),
     artifacts: state.artifacts,
     stages: state.stageTrace,
   };

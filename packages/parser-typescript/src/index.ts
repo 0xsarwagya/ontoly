@@ -13,6 +13,7 @@ import {
 } from "@0xsarwagya/ontoly-semantic";
 import {
   analyzeTypeScriptProject,
+  createInMemoryCompilerHost,
   TYPESCRIPT_ANALYZER_NAME,
   TYPESCRIPT_ANALYZER_VERSION,
   type TypeScriptProject,
@@ -26,6 +27,7 @@ export interface ParseTypeScriptFrontendInput {
   readonly root: string;
   readonly files: readonly string[];
   readonly compilerOptions?: ts.CompilerOptions | undefined;
+  readonly host?: ts.CompilerHost | undefined;
 }
 
 export interface TypeScriptFrontendResult {
@@ -64,10 +66,15 @@ export function createTypeScriptFrontendPass(
     ],
     run: async (context, state) => {
       const files = options.files ?? state.sources?.sources.map((source) => source.path) ?? [];
+      const provider = context.invocation.sourceProvider;
+      const host = provider
+        ? createInMemoryCompilerHost(context.invocation.root, provider, options.compilerOptions ?? {})
+        : undefined;
       const result = parseTypeScriptFrontend({
         root: context.invocation.root,
         files,
         compilerOptions: options.compilerOptions,
+        host,
       });
       const symbols = result.symbols.map((symbol) => ({
         ...symbol,
@@ -105,6 +112,7 @@ export function parseTypeScriptFrontend(
     root: input.root,
     files: input.files,
     compilerOptions: input.compilerOptions,
+    host: input.host,
   });
   const artifacts = generateCompilerArtifacts({
     project: semanticModel,

@@ -59,12 +59,43 @@ export interface OntolyConfig {
   readonly parsers?: Record<string, boolean> | undefined;
 }
 
+/**
+ * A map of repository-relative paths to file contents.
+ *
+ * Keys are POSIX-style relative paths (forward slashes, no leading `./`);
+ * values are the UTF-8 file contents. Used to feed source into the compiler
+ * without a repository on disk.
+ */
+export type InMemorySources = Record<string, string>;
+
+/**
+ * Read-only source access for the compiler.
+ *
+ * The default implementation reads from the filesystem, but callers can supply
+ * an in-memory provider to build a Software Graph from source that never
+ * touches disk. All paths are repository-relative and normalized.
+ */
+export interface SourceProvider {
+  /** Repository-relative paths of every file the provider can serve, sorted. */
+  readonly listFiles: () => readonly string[];
+  /** File contents for a repository-relative path, or `undefined` if absent. */
+  readonly readFile: (relativePath: string) => string | undefined;
+  /** Whether the provider can serve the given repository-relative path. */
+  readonly hasFile: (relativePath: string) => boolean;
+}
+
 export interface CompilerInvocation {
   readonly root: string;
   readonly mode: BuildMode;
   readonly configPath?: string | undefined;
   readonly outputDir: string;
   readonly write: boolean;
+  /**
+   * When set, source is read from this provider instead of the filesystem,
+   * enabling zero-disk builds. `root` is still used to root relative paths and
+   * to label the repository.
+   */
+  readonly sourceProvider?: SourceProvider | undefined;
 }
 
 export interface BuildSoftwareGraphOptions {
@@ -75,6 +106,11 @@ export interface BuildSoftwareGraphOptions {
   readonly mode?: BuildMode | undefined;
   readonly passes?: readonly CompilerPass[] | undefined;
   readonly validationHooks?: readonly GraphValidationHook[] | undefined;
+  /**
+   * Read source from this provider instead of the filesystem. When set, the
+   * pipeline performs a zero-disk build rooted at `root`.
+   */
+  readonly sourceProvider?: SourceProvider | undefined;
 }
 
 export interface RepositoryDiscovery {
