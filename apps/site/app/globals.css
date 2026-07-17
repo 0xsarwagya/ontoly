@@ -377,3 +377,54 @@ footer.ft { border-top: 1px solid var(--border); padding: 54px 0 40px; backgroun
   .docs-sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
   .docs-main { padding: 24px 20px 60px; }
 }
+
+/* ============ Motion & polish refresh (design pass v2 · better-auth-inspired) ============ */
+@keyframes ontoly-fade-up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes ontoly-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* Marquee strip */
+.marquee { position: relative; overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--panel-2); padding: 15px 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.marquee-track { display: flex; align-items: center; width: max-content; }
+.marquee-item { display: inline-flex; align-items: center; font-family: var(--font-mono); font-size: 13px; letter-spacing: .03em; color: var(--muted); white-space: nowrap; padding: 0 26px; }
+.marquee-item::after { content: "/"; color: var(--accent-2); margin-left: 26px; opacity: .5; }
+
+/* Refined hover micro-interactions */
+.skill-card, .proof-card, .cli-row, .pn, .rcard, .demo, .cmp-wrap, .figure { transition: border-color .18s ease, transform .18s ease, box-shadow .22s ease, background .18s ease; }
+.skill-card:hover, .cli-row:hover, .pn:hover, .rcard:hover { box-shadow: 0 0 0 1px var(--accent-line), var(--shadow-sm); }
+.fcell { transition: background .18s ease, box-shadow .18s ease; }
+.fcell:hover { box-shadow: inset 0 0 0 1px var(--accent-line); }
+.btn-primary { position: relative; overflow: hidden; }
+.btn-primary::after { content: ""; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,.18), transparent 70%); transform: translateX(-120%); }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Hero entrance — staggered fade-up */
+  .hero-copy > * { opacity: 0; animation: ontoly-fade-up .62s cubic-bezier(.22,.7,.24,1) forwards; }
+  .hero-copy > *:nth-child(1) { animation-delay: .02s; }
+  .hero-copy > *:nth-child(2) { animation-delay: .09s; }
+  .hero-copy > *:nth-child(3) { animation-delay: .16s; }
+  .hero-copy > *:nth-child(4) { animation-delay: .23s; }
+  .hero-copy > *:nth-child(5) { animation-delay: .30s; }
+  .hero-copy > *:nth-child(6) { animation-delay: .37s; }
+  .hero-visual { opacity: 0; animation: ontoly-fade-up .8s .30s cubic-bezier(.22,.7,.24,1) forwards; }
+
+  /* Marquee motion */
+  .marquee-track { animation: ontoly-marquee 36s linear infinite; }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+
+  /* Staggered grid reveals: container stops fading, children cascade */
+  .stagger.reveal { opacity: 1; transform: none; }
+  .stagger.reveal:not(.in) > * { opacity: 0; }
+  .stagger.reveal.in > * { animation: ontoly-fade-up .5s both cubic-bezier(.22,.7,.24,1); }
+  .stagger.reveal.in > *:nth-child(1) { animation-delay: .03s; }
+  .stagger.reveal.in > *:nth-child(2) { animation-delay: .08s; }
+  .stagger.reveal.in > *:nth-child(3) { animation-delay: .13s; }
+  .stagger.reveal.in > *:nth-child(4) { animation-delay: .18s; }
+  .stagger.reveal.in > *:nth-child(5) { animation-delay: .23s; }
+  .stagger.reveal.in > *:nth-child(6) { animation-delay: .28s; }
+  .stagger.reveal.in > *:nth-child(7) { animation-delay: .33s; }
+  .stagger.reveal.in > *:nth-child(8) { animation-delay: .38s; }
+
+  /* Primary button sheen on hover */
+  .btn-primary:hover::after { transform: translateX(120%); transition: transform .7s ease; }
+}

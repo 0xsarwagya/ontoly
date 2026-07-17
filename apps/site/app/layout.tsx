@@ -121,6 +121,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${GeistSans.variable} ${jetbrains.variable}`} suppressHydrationWarning>
       <body>
+        <noscript>
+          <style>{`.reveal{opacity:1 !important;transform:none !important}.stagger.reveal>*{opacity:1 !important}.hero-copy>*,.hero-visual{opacity:1 !important;animation:none !important}`}</style>
+        </noscript>
         <StructuredData />
         {children}
         <ScrollReveal />

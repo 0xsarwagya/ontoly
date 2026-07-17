@@ -96,7 +96,7 @@ export async function GithubStats() {
           <span className="eyebrow">Open source</span>
           <span className="gh-live"><span className="dot" /> live · GitHub &amp; npm</span>
         </div>
-        <div className="gh reveal">
+        <div className="gh reveal stagger">
           {cells.map((c) => (
             <div className="gcell" key={c.k}>
               <span className={`v${c.tnum ? " tnum" : ""}${c.mono ? " mono" : ""}`}>{c.v}</span>
