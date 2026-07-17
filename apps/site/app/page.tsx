@@ -6,6 +6,7 @@ import { HeroTerminal } from "@/components/hero-terminal";
 import { DemoTabs } from "@/components/demo-tabs";
 import { CopyButton } from "@/components/copy-button";
 import { GithubStats } from "@/components/github-stats";
+import { Marquee } from "@/components/marquee";
 import { SITE, SKILLS } from "@/lib/site";
 
 const CLI = [
@@ -49,6 +50,9 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Marquee */}
+        <Marquee items={["TypeScript", "NestJS", "Express", "Next.js", "React", "OpenAPI", "MCP", "Agent Skills", "CALLS", "IMPORTS", "INJECTS", "MOUNTS", "DECORATES", "Semantic Index", "Repository Intelligence", "Evidence Packs", "Deterministic", "Local-first"]} />
+
         {/* Features */}
         <section className="band" id="features">
           <div className="wrap">
@@ -57,7 +61,7 @@ export default function Home() {
               <h2 className="section-title" style={{ marginTop: 12 }}>One graph. Every question about your code.</h2>
               <p className="lead">Ontoly compiles your repository into a typed, provenance-tracked Software Graph — then answers architecture, impact, and lifecycle questions deterministically.</p>
             </div>
-            <div className="fgrid reveal">
+            <div className="fgrid reveal stagger">
               <Feature title="Deterministic Graph" icon="graph"><span className="flow"><b>Same repository.</b><span>Same graph.</span><span className="ar">Every time.</span></span></Feature>
               <Feature title="Semantic Search" icon="search"><span className="flow"><span>Natural language</span><span className="ar">↓</span><span>Real symbols</span><span className="ar">↓</span><b>Evidence</b></span></Feature>
               <Feature title="Request Tracing" icon="trace"><p>Trace request flow across controllers, services, jobs and queues.</p></Feature>
@@ -78,7 +82,7 @@ export default function Home() {
               <h2 className="section-title" style={{ marginTop: 12 }}>14 portable Skills for Claude Code, Cursor &amp; Copilot.</h2>
               <p className="lead">Give your AI agent an evidence base. Ontoly ships portable Agent Skills and an MCP server — install once, and your agent answers architecture, impact, and tracing questions from a deterministic graph instead of guessing.</p>
             </div>
-            <div className="skill-grid reveal">
+            <div className="skill-grid reveal stagger">
               {SKILLS.slice(0, 6).map((s) => (
                 <Link className="skill-card" key={s.slug} href={`/skills#${s.slug}`}>
                   <span className="cat">{s.category}</span>
@@ -153,7 +157,7 @@ export default function Home() {
               <h2 className="section-title" style={{ marginTop: 12 }}>A deterministic pipeline, end to end.</h2>
               <p className="lead">Every stage consumes the immutable contract of the one before it. No stage guesses; each adds provenance.</p>
             </div>
-            <div className="pipe reveal">
+            <div className="pipe reveal stagger">
               {[
                 ["01", "Source", "Repository", "Discovery over your files, workspace-aware."],
                 ["02", "Frontend", "Compiler", "TypeScript & OpenAPI frontends emit symbols."],
@@ -182,7 +186,7 @@ export default function Home() {
               <span className="eyebrow">Command line</span>
               <h2 className="section-title" style={{ marginTop: 12 }}>Eight commands. The whole graph.</h2>
             </div>
-            <div className="cli-grid reveal">
+            <div className="cli-grid reveal stagger">
               {CLI.map((c) => (
                 <div className="cli-row" key={c.cmd}>
                   <code><span className="cx">ontoly</span>{c.cmd.replace("ontoly", "")}</code>
@@ -201,7 +205,7 @@ export default function Home() {
               <span className="eyebrow">Roadmap</span>
               <h2 className="section-title" style={{ marginTop: 12 }}>Shipping in the open.</h2>
             </div>
-            <div className="road reveal">
+            <div className="road reveal stagger">
               <div className="rcard">
                 <div className="rv"><span className="v">v1.0</span><span className="badge shipped">Shipped</span></div>
                 <ul className="rlist">
