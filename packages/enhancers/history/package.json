@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-enhancer-history",
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0-rc.5",
   "description": "Deterministic repository history, ownership, hotspot, co-change, and drift enhancer for Ontoly.",
   "type": "module",
   "license": "MIT",

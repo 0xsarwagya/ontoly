@@ -8,3 +8,4 @@ export * from "@0xsarwagya/ontoly-intelligence";
 export * from "@0xsarwagya/ontoly-parser-typescript";
 export * from "@0xsarwagya/ontoly-query";
 export * from "./output";
+export * from "./passes";

@@ -23,6 +23,12 @@ export interface AnalyzeTypeScriptProjectInput {
   readonly root: string;
   readonly files?: readonly string[] | undefined;
   readonly compilerOptions?: ts.CompilerOptions | undefined;
+  /**
+   * Optional TypeScript compiler host. When provided, the program is built
+   * against this host instead of the default filesystem host, and on-disk
+   * `tsconfig.json` discovery is skipped. Used for zero-disk (in-memory) builds.
+   */
+  readonly host?: ts.CompilerHost | undefined;
 }
 
 export interface TypeScriptProject {
@@ -361,6 +367,63 @@ export async function analyze(rootOrInput: string | AnalyzeTypeScriptProjectInpu
   return analyzeTypeScriptProject(input);
 }
 
+/**
+ * Read-only, repository-relative source access used to build an in-memory
+ * TypeScript compiler host. Structurally compatible with the compiler's
+ * `SourceProvider`.
+ */
+export interface InMemoryHostSources {
+  readonly listFiles: () => readonly string[];
+  readonly readFile: (relativePath: string) => string | undefined;
+  readonly hasFile: (relativePath: string) => boolean;
+}
+
+/**
+ * Build a {@link ts.CompilerHost} that serves the given repository-relative
+ * sources from memory, rooted at `root`. Files known to the provider never
+ * touch disk; anything else (notably the TypeScript default library
+ * declarations) is delegated to the default filesystem host so type resolution
+ * still works.
+ */
+export function createInMemoryCompilerHost(
+  root: string,
+  sources: InMemoryHostSources,
+  options: ts.CompilerOptions = {},
+): ts.CompilerHost {
+  const resolvedRoot = resolve(root);
+  const base = ts.createCompilerHost(options, true);
+  const toRelative = (fileName: string): string => normalizePath(relative(resolvedRoot, resolve(fileName)));
+  const fromSources = (fileName: string): string | undefined => {
+    const relativePath = toRelative(fileName);
+    return sources.hasFile(relativePath) ? sources.readFile(relativePath) : undefined;
+  };
+
+  return {
+    ...base,
+    getCurrentDirectory: () => resolvedRoot,
+    getSourceFile: (fileName, languageVersionOrOptions, onError, shouldCreateNewSourceFile) => {
+      const contents = fromSources(fileName);
+
+      if (contents !== undefined) {
+        return ts.createSourceFile(fileName, contents, languageVersionOrOptions, true);
+      }
+
+      return base.getSourceFile(fileName, languageVersionOrOptions, onError, shouldCreateNewSourceFile);
+    },
+    readFile: (fileName) => {
+      const contents = fromSources(fileName);
+      return contents !== undefined ? contents : base.readFile(fileName);
+    },
+    fileExists: (fileName) => {
+      const relativePath = toRelative(fileName);
+      return sources.hasFile(relativePath) || base.fileExists(fileName);
+    },
+    writeFile: () => {
+      // Zero-disk: never emit.
+    },
+  };
+}
+
 export function analyzeTypeScriptProject(input: AnalyzeTypeScriptProjectInput): TypeScriptProject {
   const root = resolve(input.root);
   const files = (input.files ?? listTypeScriptFiles(root))
@@ -375,9 +438,13 @@ export function analyzeTypeScriptProject(input: AnalyzeTypeScriptProjectInput): 
     jsx: ts.JsxEmit.Preserve,
     skipLibCheck: true,
     allowJs: false,
-    ...loadProjectCompilerOptions(root, input.compilerOptions),
+    // A caller-provided host implies an in-memory build, so skip on-disk
+    // tsconfig discovery and honor only the explicit overrides.
+    ...(input.host ? (input.compilerOptions ?? {}) : loadProjectCompilerOptions(root, input.compilerOptions)),
   };
-  const program = ts.createProgram(files, compilerOptions);
+  const program = input.host
+    ? ts.createProgram(files, compilerOptions, input.host)
+    : ts.createProgram(files, compilerOptions);
   const checker = program.getTypeChecker();
   const sourceFiles = program
     .getSourceFiles()

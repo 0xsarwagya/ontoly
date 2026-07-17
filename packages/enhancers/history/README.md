@@ -43,7 +43,7 @@ const history = createHistoryEnhancer();
 
 ## Status
 
-Release Candidate package for Ontoly v1.0.0-rc.3. Public contracts are governed by the Software Graph specification and RFC process.
+Release Candidate package for Ontoly v1.0.0-rc.5. Public contracts are governed by the Software Graph specification and RFC process.
 
 ## Links
 

@@ -1,7 +1,7 @@
 import { access, readFile, readdir } from "node:fs/promises";
 import { basename, dirname, join, relative, resolve } from "node:path";
 import { normalizePath, stableHash } from "@0xsarwagya/ontoly-core";
-import type { RepositoryDiscovery, SourceArtifact, SourceInventory } from "../types";
+import type { RepositoryDiscovery, SourceArtifact, SourceInventory, SourceProvider } from "../types";
 
 const IGNORED_PARTS = new Set([
   ".artifacts",
@@ -30,8 +30,16 @@ const IGNORED_PARTS = new Set([
   "work",
 ]);
 
-export async function discoverRepository(rootInput = process.cwd()): Promise<RepositoryDiscovery> {
+export async function discoverRepository(
+  rootInput = process.cwd(),
+  provider?: SourceProvider,
+): Promise<RepositoryDiscovery> {
   const root = resolve(rootInput);
+
+  if (provider) {
+    return discoverFromProvider(root, provider);
+  }
+
   const packageJsonPath = await findUp("package.json", root);
   const packageJson = packageJsonPath ? await readPackageJson(packageJsonPath) : undefined;
   const files = await discoverFiles(root);
@@ -53,7 +61,26 @@ export async function discoverRepository(rootInput = process.cwd()): Promise<Rep
   );
 }
 
-export async function createSourceInventory(root: string): Promise<SourceInventory> {
+export async function createSourceInventory(
+  root: string,
+  provider?: SourceProvider,
+): Promise<SourceInventory> {
+  if (provider) {
+    const sources = provider.listFiles().map((file): SourceArtifact => {
+      const contents = provider.readFile(file) ?? "";
+
+      return {
+        path: file,
+        kind: classifySource(file),
+        digest: `sha256:${stableHash(contents)}`,
+      };
+    });
+
+    return {
+      sources: sources.sort((left, right) => left.path.localeCompare(right.path)),
+    };
+  }
+
   const files = await discoverFiles(root);
   const sources = await Promise.all(
     files.map(async (file): Promise<SourceArtifact> => {
@@ -70,6 +97,41 @@ export async function createSourceInventory(root: string): Promise<SourceInvento
   return {
     sources: sources.sort((left, right) => left.path.localeCompare(right.path)),
   };
+}
+
+function discoverFromProvider(root: string, provider: SourceProvider): RepositoryDiscovery {
+  const files = [...provider.listFiles()].sort();
+  const packageJson = readProviderPackageJson(provider);
+  const packageName = typeof packageJson?.name === "string" ? packageJson.name : undefined;
+  const packageManager = typeof packageJson?.packageManager === "string" ? packageJson.packageManager : undefined;
+  const name = packageName ?? basename(root);
+
+  return withOptionalProperties(
+    {
+      root,
+      name,
+      files,
+    },
+    {
+      packageName,
+      packageManager,
+      packageJsonPath: provider.hasFile("package.json") ? normalizePath(join(root, "package.json")) : undefined,
+    },
+  );
+}
+
+function readProviderPackageJson(provider: SourceProvider): Record<string, unknown> | undefined {
+  const contents = provider.readFile("package.json");
+
+  if (contents === undefined) {
+    return undefined;
+  }
+
+  try {
+    return JSON.parse(contents) as Record<string, unknown>;
+  } catch {
+    return undefined;
+  }
 }
 
 export async function pathExists(path: string): Promise<boolean> {

@@ -10,7 +10,7 @@ import {
   type SourceSpan,
 } from "@0xsarwagya/ontoly-core";
 import { compilerDiagnostic } from "../diagnostics";
-import type { CompilerPass, CompilerRelationship, CompilerSymbol } from "../types";
+import type { CompilerPass, CompilerRelationship, CompilerSymbol, SourceProvider } from "../types";
 
 export const REPOSITORY_INTELLIGENCE_PASS_ID = "@0xsarwagya/ontoly-compiler:repository-intelligence";
 export const REPOSITORY_INTELLIGENCE_VERSION = "1.0.0";
@@ -24,6 +24,7 @@ interface RepositoryFactContext {
   readonly symbols: Map<string, CompilerSymbol>;
   readonly relationships: Map<string, CompilerRelationship>;
   readonly diagnostics: SoftwareGraphDiagnostic[];
+  readonly provider?: SourceProvider | undefined;
 }
 
 interface FrameworkSignature {
@@ -79,6 +80,7 @@ export function createRepositoryIntelligencePass(options: {
         symbols: new Map(),
         relationships: new Map(),
         diagnostics: [],
+        provider: context.invocation.sourceProvider,
       };
       const files = state.sources?.sources.map((source) => source.path).sort() ?? [];
 
@@ -532,6 +534,10 @@ function addRelationship(
 }
 
 async function readUtf8(context: RepositoryFactContext, file: string): Promise<string | undefined> {
+  if (context.provider) {
+    return context.provider.readFile(normalizePath(file));
+  }
+
   try {
     return await readFile(join(context.root, file), "utf8");
   } catch (error) {
