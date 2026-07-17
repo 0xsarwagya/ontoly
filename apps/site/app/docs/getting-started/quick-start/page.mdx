@@ -1,0 +1,70 @@
+export const metadata = {
+  title: "Quick Start",
+  description: "Build a deterministic Software Graph and run your first semantic search, trace, and impact query in under two minutes.",
+};
+
+# Quick Start
+
+This guide takes you from zero to a queryable Software Graph in about two minutes.
+
+## 1. Build the graph
+
+From the root of any TypeScript repository:
+
+```bash
+ontoly build .
+```
+
+```text
+✓ 2,888 nodes
+✓ 7,853 edges
+✓ NestJS detected
+✓ Semantic Index built
+✓ History indexed  · hash 0eaau5s
+```
+
+The graph bundle is written to `ontoly-output/` and a trust cache to `.ontoly/`.
+
+<Callout type="note" title="Deterministic by construction">
+Re-run <code>ontoly build .</code> on the same commit and you get the same node ids, edges, and graph hash. That is what makes the graph safe to cache and diff.
+</Callout>
+
+## 2. Search in natural language
+
+```bash
+ontoly search "who owns authentication?"
+```
+
+Ontoly resolves the query to real symbols with a confidence score and evidence — not a list of string matches.
+
+## 3. Trace a request
+
+```bash
+ontoly trace "POST /auth/login" --depth 5
+```
+
+You get the lifecycle hop by hop: route → controller → service → repository, with the typed edge on every step.
+
+## 4. Understand impact before changing
+
+```bash
+ontoly impact AuthService --mode blast-radius
+```
+
+```text
+AuthService has 26 dependent node(s); 81 in deterministic scope.
+Confidence: 0.95
+```
+
+## 5. Give it to your agent
+
+```bash
+ontoly mcp
+```
+
+This starts an MCP server exposing every capability to Claude Code, Cursor, or Copilot. See [MCP → Installation](/docs/mcp/installation) and the [Agent Skills](https://ontoly.sarwagya.wtf/skills).
+
+## Next steps
+
+- [First Software Graph](/docs/getting-started/first-software-graph) — read what you just built.
+- [CLI Overview](/docs/getting-started/cli-overview) — the full command surface.

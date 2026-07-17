@@ -1,0 +1,35 @@
+export const metadata = {
+  title: "FAQ",
+  description: "Frequently asked questions about Ontoly — is it AI, how agents use it, whether source leaves your machine, language support, and determinism.",
+};
+
+# Frequently Asked Questions
+
+## Is Ontoly an AI tool?
+
+No. Ontoly does not call language models. It builds a **deterministic** Software Graph — the same repository produces the same graph every time — that AI agents and developers query with evidence.
+
+## How do AI agents use Ontoly?
+
+Through an **MCP server** and **14 portable Agent Skills** installable into Claude Code, Cursor, GitHub Copilot, and other agents. Every answer carries graph evidence: node ids, typed edges, source spans, and a reproducible graph hash. Find them on the [Skills page](https://ontoly.sarwagya.wtf/skills) and [skills.sh](https://www.skills.sh/?q=0xsarwagya/ontoly).
+
+## Does my source code leave my machine?
+
+No. Ontoly is **local-first**. The graph is built and queried locally; no source is uploaded.
+
+## Which languages are supported?
+
+TypeScript is supported deeply today, including framework awareness for NestJS, Express, Next.js, and React. OpenAPI is supported as a frontend. More languages are on the [roadmap](/roadmap).
+
+## Is the output really deterministic?
+
+Yes. Node ids are repository-relative and the whole graph reduces to a stable hash. Two builds of the same commit are byte-for-byte equivalent — the basis for caching, diffing, and reproducible evidence.
+
+## Where is the graph stored?
+
+The bundle is written to `ontoly-output/` and a trust cache to `.ontoly/`. Both are safe to gitignore.
+
+## Related
+
+- [Introduction](/docs/getting-started/introduction)
+- [What is Ontoly?](/docs/core-concepts/what-is-ontoly)

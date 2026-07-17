@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="374" viewBox="0 0 1000 374" role="img">
+  <rect width="1000" height="374" fill="#F8FAFC"/>
+<text x="50" y="70" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700" fill="#17202A">Benchmark Table</text>
+<rect x="50" y="105" width="900" height="224" rx="10" fill="#FFFFFF" stroke="#C9D3DE"/>
+<text x="70" y="140" font-family="Inter, Arial, sans-serif" font-size="14" fill="#17202A">Repository</text>
+<text x="295" y="140" font-family="Inter, Arial, sans-serif" font-size="14" fill="#17202A">Coverage</text>
+<text x="520" y="140" font-family="Inter, Arial, sans-serif" font-size="14" fill="#17202A">Trust</text>
+<text x="745" y="140" font-family="Inter, Arial, sans-serif" font-size="14" fill="#17202A">Time</text>
+<path d="M50 161 H950" stroke="#C9D3DE"/>
+<text x="70" y="196" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">Ovok Core</text>
+<text x="295" y="196" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">98</text>
+<text x="520" y="196" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">High</text>
+<text x="745" y="196" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">23.1s</text>
+<path d="M50 217 H950" stroke="#C9D3DE"/>
+<text x="70" y="252" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">Ghost</text>
+<text x="295" y="252" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">100</text>
+<text x="520" y="252" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">High</text>
+<text x="745" y="252" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">0.6s</text>
+<path d="M50 273 H950" stroke="#C9D3DE"/>
+<text x="70" y="308" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">durable-local</text>
+<text x="295" y="308" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">100</text>
+<text x="520" y="308" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">High</text>
+<text x="745" y="308" font-family="Inter, Arial, sans-serif" font-size="14" fill="#5B6673">0.6s</text>
+</svg>

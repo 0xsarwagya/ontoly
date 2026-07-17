@@ -1,0 +1,63 @@
+export const metadata = {
+  title: "Installation",
+  description: "Install the Ontoly CLI from npm with pnpm, npm, or yarn, or run it directly with npx. Requires Node.js 20+.",
+};
+
+# Installation
+
+Ontoly ships as the `@0xsarwagya/ontoly-cli` package on npm. It requires **Node.js 20+**.
+
+## Add to a project
+
+```bash
+pnpm add -D @0xsarwagya/ontoly-cli@rc
+```
+
+```bash
+npm install --save-dev @0xsarwagya/ontoly-cli@rc
+```
+
+```bash
+yarn add -D @0xsarwagya/ontoly-cli@rc
+```
+
+<Callout type="tip" title="Try it without installing">
+You can run any command through <code>npx</code> without adding a dependency:
+<code>npx @0xsarwagya/ontoly-cli build .</code>
+</Callout>
+
+## Verify
+
+```bash
+ontoly --version
+```
+
+```text
+ontoly 1.0.0-rc.5
+```
+
+## From source
+
+To build the ecosystem locally:
+
+```bash
+git clone https://github.com/0xsarwagya/ontoly.git
+cd ontoly
+corepack enable
+pnpm install --frozen-lockfile
+pnpm build
+pnpm ontoly build examples/basic
+```
+
+## Requirements
+
+| Requirement | Version |
+| --- | --- |
+| Node.js | ≥ 20 |
+| Package manager | pnpm ≥ 10 (npm / yarn supported) |
+| Git | required for History and Repository Intelligence |
+
+## Next steps
+
+- [Quick Start](/docs/getting-started/quick-start) — build your first graph.
+- [CLI Overview](/docs/getting-started/cli-overview) — the command surface.

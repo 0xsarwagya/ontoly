@@ -43,3 +43,10 @@ Do not implement compiler, query, MCP, SDK, or business logic in the skill. Do n
 - [Examples](examples.md)
 - [Prompt template](templates/repository-onboarding.md)
 - [Capability notes](reference/capabilities.md)
+
+## Learn more
+
+- Documentation: https://ontoly.sarwagya.wtf/docs
+- This skill on the web: https://ontoly.sarwagya.wtf/skills#codebase-onboarding
+- All Ontoly Agent Skills: https://ontoly.sarwagya.wtf/skills
+- Install via skills.sh: https://www.skills.sh/?q=0xsarwagya/ontoly

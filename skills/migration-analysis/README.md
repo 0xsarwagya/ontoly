@@ -33,3 +33,10 @@ The agent should build or verify the Ontoly graph, use MCP capabilities, cite ev
 ## Shared References
 
 This skill depends on the shared Ontoly workflow in [reference/workflow.md](reference/workflow.md).
+
+## Learn more
+
+- Documentation: https://ontoly.sarwagya.wtf/docs
+- This skill on the web: https://ontoly.sarwagya.wtf/skills#migration-analysis
+- All Ontoly Agent Skills: https://ontoly.sarwagya.wtf/skills
+- Install via skills.sh: https://www.skills.sh/?q=0xsarwagya/ontoly

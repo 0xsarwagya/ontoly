@@ -1,0 +1,58 @@
+export const metadata = {
+  title: "First Software Graph",
+  description: "Understand the artifacts Ontoly produces — the Software Graph bundle, nodes, edges, indexes, and the deterministic hash — and how to inspect them.",
+};
+
+# Your First Software Graph
+
+After `ontoly build .`, Ontoly writes a deterministic bundle. This page explains what it contains and how to read it.
+
+## What gets written
+
+```text
+ontoly-output/
+  SoftwareGraph.json   # the graph: nodes + edges + metadata
+  nodes/               # per-kind node records
+  relationships/       # typed edges
+  communities/         # detected module communities
+  indexes.json         # lookup + semantic indexes
+  reports/             # coverage, quality, statistics
+  html/graph.html      # interactive explorer
+.ontoly/               # trust cache (coverage.json, quality.json)
+```
+
+## Inspect the graph
+
+```bash
+ontoly stats .
+```
+
+```text
+nodeCount: 2888
+edgeCount: 7853
+Function: 1297   Interface: 267   Export: 462   Module: 93 ...
+CALLS: 2268   CONTAINS: 2612   IMPORTS: 267   RETURNS: 595 ...
+```
+
+Inspect a single symbol:
+
+```bash
+ontoly inspect "buildSoftwareGraphWithArtifacts"
+```
+
+<Callout type="tip" title="Trust the graph before you query it">
+Run <code>ontoly coverage .</code> to see completeness, consistency, and trustworthiness scores. Skills and agents check this before answering.
+</Callout>
+
+## Node ids are stable and relative
+
+Every node has an id like `fn:packages/compiler/src/index.ts:buildSoftwareGraph`. IDs are **repository-relative**, so they are identical whether you build on your laptop, in CI, or in memory.
+
+## The graph hash
+
+The build prints a hash (e.g. `0eaau5s`). It is a deterministic digest of the whole graph. Two builds with the same hash are byte-for-byte equivalent — the basis for caching, diffing, and reproducible evidence.
+
+## Next steps
+
+- [Software Graph](/docs/core-concepts/software-graph) — nodes, edges, and provenance in depth.
+- [CLI → build](/docs/cli/build) — every build flag and output.

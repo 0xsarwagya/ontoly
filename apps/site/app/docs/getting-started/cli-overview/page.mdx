@@ -1,0 +1,58 @@
+export const metadata = {
+  title: "CLI Overview",
+  description: "A tour of the Ontoly command line — build the graph, then search, trace, impact, inspect, and mine repository history, all deterministically.",
+};
+
+# CLI Overview
+
+The `ontoly` CLI is the primary way to build and query the Software Graph. Every command reads the same deterministic graph.
+
+## Build
+
+| Command | What it does |
+| --- | --- |
+| `ontoly build` | Compile the repository into a Software Graph. |
+| `ontoly watch` | Rebuild on change. |
+
+## Query
+
+| Command | What it does |
+| --- | --- |
+| `ontoly search` | Natural-language search that resolves to real symbols. |
+| `ontoly locate` | Find a feature or concept by name. |
+| `ontoly inspect` | Show a node's callers, callees, and edges. |
+| `ontoly trace` | Trace a request lifecycle across the graph. |
+| `ontoly impact` | Compute blast radius before a change. |
+| `ontoly evidence` | Return a bounded evidence pack for a question. |
+
+## Intelligence
+
+| Command | What it does |
+| --- | --- |
+| `ontoly history` | Ownership, churn, and temporal intelligence from Git. |
+| `ontoly hotspots` | Files with high churn and low stability. |
+| `ontoly semantics` | Build and inspect the derived semantic model. |
+| `ontoly architecture` | Package topology and cycles. |
+
+## Agents
+
+| Command | What it does |
+| --- | --- |
+| `ontoly mcp` | Start an MCP server exposing every capability. |
+
+## Common flags
+
+```bash
+ontoly <command> --root <path>   # target a different repo root
+ontoly <command> --json          # machine-readable output
+ontoly impact <node> --mode blast-radius
+```
+
+<Callout type="note" title="Everything is deterministic">
+Commands never call a language model. Output for a given commit and query is reproducible, which is what makes it safe for CI gates and agent evidence.
+</Callout>
+
+## Next steps
+
+- [CLI → build](/docs/cli/build) — the full reference for `build`.
+- [CLI → search](/docs/cli/search) — semantic search reference.

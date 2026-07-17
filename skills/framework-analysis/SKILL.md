@@ -43,3 +43,10 @@ Do not implement compiler, query, MCP, SDK, or business logic in the skill. Do n
 - [Examples](examples.md)
 - [Prompt template](templates/architecture-review.md)
 - [Capability notes](reference/capabilities.md)
+
+## Learn more
+
+- Documentation: https://ontoly.sarwagya.wtf/docs
+- This skill on the web: https://ontoly.sarwagya.wtf/skills#framework-analysis
+- All Ontoly Agent Skills: https://ontoly.sarwagya.wtf/skills
+- Install via skills.sh: https://www.skills.sh/?q=0xsarwagya/ontoly

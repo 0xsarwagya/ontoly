@@ -1,0 +1,39 @@
+export const metadata = {
+  title: "What is Ontoly?",
+  description: "Ontoly is a deterministic software intelligence engine: a compiler pipeline that turns a repository into a typed, provenance-tracked Software Graph for developers and AI agents.",
+};
+
+# What is Ontoly?
+
+Ontoly is a **software intelligence engine**. It compiles a repository into a stable semantic model — the **Software Graph** — so every tool and agent can query one source of truth instead of re-parsing files.
+
+## The core idea
+
+Most code tools re-derive understanding on every run: grep re-scans, an agent re-reads, a linter re-parses. Ontoly derives understanding **once**, deterministically, and makes it queryable.
+
+- **Deterministic** — identical input produces an identical graph and hash.
+- **Auditable** — every relationship has provenance: a source span and the pass that produced it.
+- **Local-first** — the graph is built and queried on your machine; no source is uploaded.
+- **Evidence-based** — every answer cites the graph it came from.
+
+## Built for agents, not by agents
+
+The graph is produced by deterministic compiler infrastructure — not model output. Agents sit *on top*:
+
+- an **MCP server** exposes capabilities as tools;
+- **14 portable Agent Skills** teach agents to use Ontoly first and preserve evidence;
+- **Evidence Packs** bound and cite what the agent is allowed to claim.
+
+<Callout type="note" title="The principle">
+Build understanding, not AI. The graph is deterministic for identical input; relationships must have provenance; downstream tools consume graph contracts, not compiler internals.
+</Callout>
+
+## How it is organized
+
+Ontoly is a monorepo of focused packages, each with one reason to change: `core` (schema), `compiler` (pipeline), `parser-typescript` / `parser-openapi` (frontends), `query` (traversal), `semantic` (models), `capabilities` (workflows), `mcp` (transport), and `cli` (composition).
+
+## Related
+
+- [Software Graph](/docs/core-concepts/software-graph) — the data model.
+- [Architecture → Compiler Pipeline](/docs/architecture/compiler-pipeline) — how the graph is built.
+- [Introduction](/docs/getting-started/introduction) — the short version.

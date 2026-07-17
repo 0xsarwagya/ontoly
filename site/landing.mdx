@@ -1,57 +1,48 @@
 ---
-title: "Ontoly - Deterministic Software Graphs"
-description: "Build deterministic Software Graphs from TypeScript repositories for MCP, AI agents, query tooling, validation, and architecture analysis."
-canonical: "https://oss.sarwagya.wtf/ontoly"
-keywords: ["Ontoly", "Software Graph", "TypeScript static analysis", "MCP", "AI coding agents", "Query Engine", "developer tools"]
+title: "Ontoly — Now a Software Intelligence Ecosystem"
+description: "Ontoly has grown from a single CLI into a full deterministic software-intelligence ecosystem — Software Graph, MCP, and 14 AI Agent Skills. Explore it at ontoly.sarwagya.wtf."
+canonical: "https://ontoly.sarwagya.wtf"
+keywords: ["Ontoly", "Software Graph", "TypeScript static analysis", "MCP", "AI agent skills", "Claude Code skills", "AI coding agents", "Query Engine", "developer tools"]
 ---
 
 <ProjectHero package="@0xsarwagya/ontoly-cli" status="release-candidate">
-Turn a TypeScript repository into a deterministic Software Graph that every developer tool can share.
+Ontoly has evolved into a full software intelligence ecosystem — with its own home at ontoly.sarwagya.wtf.
 </ProjectHero>
+
+Ontoly started here as a deterministic Software Graph for TypeScript. It has
+since grown into a complete ecosystem — 19 packages, an MCP server, 14 portable
+Agent Skills, repository intelligence, and evidence packs — and now has a
+dedicated home.
+
+> **Ontoly now lives at [ontoly.sarwagya.wtf](https://ontoly.sarwagya.wtf).**
+> Explore the Software Graph, the AI Agent Skills, benchmarks, architecture, the
+> roadmap, and the changelog on the dedicated site. This page remains part of
+> the wider open-source ecosystem by [Sarwagya Singh](https://sarwagya.wtf).
 
 Ontoly is a software intelligence engine. It builds a stable semantic graph of a
 repository so agents, MCP clients, documentation tools, SDK generators,
 architecture tools, and static analyzers can query one source of truth instead
-of repeatedly searching files.
-
-Ontoly does not call language models. The graph is deterministic, explainable,
-versioned, and portable.
+of repeatedly searching files. Ontoly does not call language models — the graph
+is deterministic, explainable, versioned, and portable.
 
 <Install package="@0xsarwagya/ontoly-cli" />
 
-Install the Release Candidate from npm or clone the repository and run:
+## Explore the ecosystem
 
-```sh
-git clone https://github.com/0xsarwagya/ontoly.git
-cd ontoly
-corepack enable
-pnpm install --frozen-lockfile
-pnpm build
-pnpm ontoly build examples/basic
-```
+- **Dedicated site — [ontoly.sarwagya.wtf](https://ontoly.sarwagya.wtf)**
+- **AI Agent Skills — [ontoly.sarwagya.wtf/skills](https://ontoly.sarwagya.wtf/skills)** (Claude Code, Cursor, Copilot)
+- **Roadmap — [ontoly.sarwagya.wtf/roadmap](https://ontoly.sarwagya.wtf/roadmap)**
+- **Changelog — [ontoly.sarwagya.wtf/changelog](https://ontoly.sarwagya.wtf/changelog)**
 
-## The pipeline
+## What the ecosystem includes
 
-![Ontoly architecture](./assets/architecture-diagram.svg)
-
-```text
-Repository
-  -> Compiler Frontends
-  -> Semantic Model
-  -> Software Graph
-  -> Query Engine
-  -> MCP, Skills, Docs, SDKs, IDEs, Analysis
-```
-
-## What it gives you
-
-- deterministic Software Graph JSON
-- stable IDs for graph diffing and cache keys
-- TypeScript semantic analysis
-- graph-native diagnostics
+- deterministic Software Graph JSON with stable IDs for diffing and cache keys
+- TypeScript semantic analysis and graph-native diagnostics
 - query APIs for traversal, impact analysis, and dependency lookup
-- MCP capabilities for AI coding agents
-- portable Agent Skills that teach agents to use Ontoly first
+- an MCP server that exposes structured capabilities to AI coding agents
+- 14 portable Agent Skills that teach agents to use Ontoly first
+- repository intelligence: ownership, history, hotspots, stability, cochanges
+- evidence packs so every answer carries graph provenance
 - validation, semantic evaluation, benchmarks, and release gates
 
 ## Built for agents, not by agents
@@ -60,15 +51,9 @@ The Skill layer teaches workflow. MCP exposes structured capabilities. The graph
 itself is still produced by deterministic compiler infrastructure, not model
 output.
 
-Browse the public [Agent Skills Catalog](/docs/skills) for install
-commands, capability mappings, and source references for every official Skill.
-
-## Validation-first Release Candidate
-
-Ontoly includes a validation lab, semantic evaluation harness, skill validator,
-package validator, documentation checker, benchmark runner, graph diff tooling,
-and release readiness reports. Release Candidate readiness is based on evidence, not graph
-size.
+Browse the public [Agent Skills Catalog](/docs/skills) for install commands,
+capability mappings, and source references for every official Skill — or find
+Ontoly on [skills.sh](https://www.skills.sh/?q=0xsarwagya/ontoly).
 
 <ProjectLinks
   docs="/docs"

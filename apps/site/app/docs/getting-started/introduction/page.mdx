@@ -1,0 +1,50 @@
+export const metadata = {
+  title: "Introduction",
+  description: "Ontoly is a deterministic software intelligence engine. It compiles a repository into a Software Graph that developers and AI agents can query with evidence — no language models involved.",
+};
+
+# Introduction
+
+**Ontoly** turns a repository into a **deterministic Software Graph** — a typed, provenance-tracked model of your code that developers and AI agents can query instead of repeatedly grepping files.
+
+Ontoly does **not** call language models. The graph is produced by a deterministic compiler pipeline: the same repository always produces the same graph, down to a stable content hash.
+
+<Callout type="note" title="Not AI. Infrastructure for AI.">
+Ontoly is the deterministic layer *underneath* your agents. The graph is auditable and reproducible; agents consume it through an MCP server and portable Agent Skills, and every answer they get carries graph evidence.
+</Callout>
+
+## Why a Software Graph
+
+Text search finds strings. Generic graph tools store untyped nodes. Ontoly resolves **meaning** and keeps **provenance**:
+
+- **Typed nodes** — functions, classes, modules, controllers, services, routes, jobs, packages, configuration, and more.
+- **Typed edges** — `CALLS`, `IMPORTS`, `INJECTS`, `MOUNTS`, `DECORATES`, `DEPENDS_ON`, and others — each with source spans.
+- **Stable IDs** — every node has a deterministic id, so graphs are diffable and cacheable across builds.
+- **Evidence** — every query result cites the node ids, edge types, source spans, and the graph hash it came from.
+
+## What you can do with it
+
+- **Search** your codebase in natural language and resolve to real symbols.
+- **Trace** a request across controllers, services, jobs, and queues.
+- Compute **impact** (blast radius) before you change a symbol.
+- Mine **repository intelligence** — ownership, hotspots, stability, cochanges — from Git history.
+- Give AI agents an **evidence base** via MCP and 14 portable Agent Skills.
+
+## The pipeline
+
+```text
+Repository
+  → Compiler frontends (TypeScript, OpenAPI)
+  → Software Graph (typed nodes + edges, stable ids)
+  → Semantic Index (natural language → real symbols)
+  → History (ownership, churn, hotspots)
+  → Repository Intelligence (stability, cochanges)
+  → Evidence (bounded packs with provenance)
+  → Developer / AI Agent (CLI, MCP, Agent Skills)
+```
+
+## Next steps
+
+- [Installation](/docs/getting-started/installation) — add the CLI to your project.
+- [Quick Start](/docs/getting-started/quick-start) — build and query a graph in two minutes.
+- [What is Ontoly?](/docs/core-concepts/what-is-ontoly) — the deeper mental model.

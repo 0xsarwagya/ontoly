@@ -1,0 +1,30 @@
+import Link from "next/link";
+import { NAV, SITE } from "@/lib/site";
+import { ThemeToggle } from "@/components/theme-toggle";
+
+export function Nav() {
+  return (
+    <header className="nav">
+      <div className="wrap nav-inner">
+        <Link className="brand" href="/" aria-label="Ontoly home">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.svg" alt="Ontoly logo" width={26} height={26} />
+          Ontoly
+        </Link>
+        <nav className="nav-links" aria-label="Primary">
+          {NAV.map((n) => (
+            <Link key={n.href} href={n.href}>{n.label}</Link>
+          ))}
+        </nav>
+        <div className="nav-right">
+          <a className="ghlink" href={SITE.repo} target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.34c-2.23.49-2.7-1.07-2.7-1.07-.36-.93-.89-1.18-.89-1.18-.73-.5.05-.49.05-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z" /></svg>
+            GitHub
+          </a>
+          <ThemeToggle />
+          <Link className="btn btn-primary btn-sm" href="/docs">Get Started</Link>
+        </div>
+      </div>
+    </header>
+  );
+}
