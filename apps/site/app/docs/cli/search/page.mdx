@@ -1,0 +1,77 @@
+export const metadata = {
+  title: "ontoly search",
+  description: "Reference for ontoly search — natural-language search over the Software Graph that resolves to real symbols with confidence and evidence.",
+};
+
+# `ontoly search`
+
+Search the Software Graph in natural language and resolve to real symbols — with a confidence score and evidence, not string matches.
+
+## Description
+
+`search` uses the deterministic Semantic Index to map a query to candidate nodes, ranked by evidence signals (exact-name, token overlap, phrase match, repository locality). It never calls a language model.
+
+## Usage
+
+```bash
+ontoly search <query> [options]
+```
+
+## Arguments
+
+| Argument | Description |
+| --- | --- |
+| `query` | A natural-language description of what you're looking for. |
+
+## Options
+
+| Option | Description |
+| --- | --- |
+| `--category <kind>` | Restrict to a node kind (e.g. `Service`, `Function`). |
+| `--limit <n>` | Maximum candidates. Default `10`. |
+| `--json` | Machine-readable results. |
+| `--root <path>` | Repository root. |
+
+## Examples
+
+```bash
+ontoly search "Google authentication"
+```
+
+```bash
+ontoly search "sleep duration thresholds" --category Service --limit 5
+```
+
+## JSON output
+
+```json
+{
+  "query": "who owns authentication?",
+  "candidates": [
+    {
+      "id": "service:src/auth/auth.service.ts:AuthService",
+      "name": "AuthService",
+      "score": 2060.83,
+      "confidence": 0.94,
+      "evidence": ["exact-normalized-name", "phrase-match", "token-overlap"]
+    }
+  ],
+  "graphHash": "0eaau5s"
+}
+```
+
+<Callout type="tip" title="Search resolves, then hand off">
+Use the returned node id directly with <code>ontoly inspect</code>, <code>ontoly impact</code>, or <code>ontoly trace</code> to go from a fuzzy question to a precise, evidence-backed answer.
+</Callout>
+
+## Exit codes
+
+| Code | Meaning |
+| --- | --- |
+| `0` | Search completed (even with zero candidates). |
+| `1` | No graph found — run `ontoly build .` first. |
+
+## Related
+
+- [Features → Semantic Search](/docs/features/semantic-search)
+- [CLI → impact](/docs/cli/impact) · [CLI → trace](/docs/cli/trace)

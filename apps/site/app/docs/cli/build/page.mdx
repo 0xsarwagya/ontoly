@@ -1,0 +1,76 @@
+export const metadata = {
+  title: "ontoly build",
+  description: "Reference for the ontoly build command — compile a repository into a deterministic Software Graph, with arguments, options, JSON output, and exit codes.",
+};
+
+# `ontoly build`
+
+Compile a repository into a deterministic Software Graph and write the output bundle.
+
+## Description
+
+`build` runs the full compiler pipeline: discovery → frontends → graph construction → semantic index → history → serialization. It is deterministic — the same commit produces the same graph and hash.
+
+## Usage
+
+```bash
+ontoly build [root] [options]
+```
+
+## Arguments
+
+| Argument | Description | Default |
+| --- | --- | --- |
+| `root` | Repository root to build. | `.` (current directory) |
+
+## Options
+
+| Option | Description |
+| --- | --- |
+| `--root <path>` | Alternative to the positional `root`. |
+| `--output <dir>` | Output bundle directory. Default `ontoly-output`. |
+| `--remote <git_repo>` | Build from a remote repository. |
+| `--bundle` | Emit a single bundled artifact. |
+| `--json` | Machine-readable build summary. |
+
+## Examples
+
+```bash
+ontoly build .
+```
+
+```bash
+ontoly build ./packages/api --output .ontoly-api --json
+```
+
+## JSON output
+
+```json
+{
+  "nodeCount": 2888,
+  "edgeCount": 7853,
+  "hash": "0eaau5s",
+  "communities": 6,
+  "diagnostics": 0
+}
+```
+
+## Exit codes
+
+| Code | Meaning |
+| --- | --- |
+| `0` | Build succeeded. |
+| `1` | Build failed (see diagnostics). |
+
+## Performance
+
+Builds are incremental where possible and typically complete in a few seconds for repositories of a few thousand nodes. Graph construction is linear in files; discovery ignores `node_modules`, `dist`, and other generated directories.
+
+<Callout type="warning" title="History needs Git">
+`build` indexes Git history for repository intelligence. In a non-Git directory, history is skipped and reported in provenance — the rest of the graph is unaffected.
+</Callout>
+
+## Related
+
+- [First Software Graph](/docs/getting-started/first-software-graph) — read the output.
+- [CLI → search](/docs/cli/search) — query the graph you just built.

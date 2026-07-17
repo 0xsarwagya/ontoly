@@ -1,0 +1,58 @@
+export const metadata = {
+  title: "Software Graph",
+  description: "The Software Graph is Ontoly's core artifact — typed nodes and typed edges with stable ids and provenance, deterministic for identical input.",
+};
+
+# Software Graph
+
+The Software Graph is Ontoly's central artifact: a typed, directed graph of your repository with stable ids and provenance on every relationship.
+
+## Nodes
+
+Nodes are typed entities extracted from the repository. Common kinds:
+
+| Kind | Examples |
+| --- | --- |
+| `Function`, `Method` | functions, class methods |
+| `Class`, `Interface`, `TypeAlias` | type declarations |
+| `Module`, `Package`, `Workspace` | files and package topology |
+| `Controller`, `Service`, `Route`, `Provider` | framework concepts (e.g. NestJS) |
+| `Configuration`, `EnvironmentVariable` | config surface |
+| `Import`, `Export` | module boundaries |
+
+Every node has a **stable, repository-relative id**, e.g. `fn:packages/compiler/src/index.ts:buildSoftwareGraph`.
+
+## Edges
+
+Edges are typed relationships, each with a source span:
+
+| Edge | Meaning |
+| --- | --- |
+| `CALLS` | one function calls another |
+| `IMPORTS` / `EXPORTS` | module boundaries |
+| `INJECTS` | dependency injection |
+| `MOUNTS` | a route mounts a handler |
+| `DECORATES` | a decorator applies to a target |
+| `DEPENDS_ON` | package dependency |
+| `CONTAINS` | structural containment |
+
+<Callout type="tip" title="Typed edges are the point">
+Because edges are typed, a query like “what mounts this route?” or “what injects this service?” is answerable directly — not approximated with text search.
+</Callout>
+
+## Provenance & determinism
+
+Every relationship records where it came from and which compiler pass produced it. The whole graph reduces to a deterministic **hash**; identical input yields an identical graph. That is what makes the graph safe to cache, diff, and cite as evidence.
+
+## Inspect it
+
+```bash
+ontoly stats . --json
+ontoly inspect "AuthService"
+ontoly graph . --format mermaid
+```
+
+## Related
+
+- [Nodes](/docs/core-concepts/nodes) · [Edges](/docs/core-concepts/edges)
+- [Evidence](/docs/core-concepts/evidence) — how graph facts become bounded answers.
