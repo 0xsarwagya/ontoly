@@ -42,10 +42,10 @@
     "release:gates": "pnpm check-types && pnpm test && pnpm build && pnpm skills:validate && pnpm skills:validate-installed && pnpm docs:check-links && pnpm docs:lint && pnpm docs:check-site && pnpm license:check && pnpm validate:packages && pnpm validate:pack && pnpm validate:release-version && pnpm new-user:smoke && pnpm validate:ci && node validation/semantic/evaluators/run-semantic-evaluation.mjs --ci && node validation/tools/run-validation-lab.mjs gates --ci"
   },
   "devDependencies": {
-    "@types/node": "^22.15.3",
+    "@types/node": "^26.1.1",
     "tsup": "^8.3.5",
-    "typescript": "5.9.2",
-    "vitest": "^3.0.0"
+    "typescript": "7.0.2",
+    "vitest": "^4.1.10"
   },
   "packageManager": "pnpm@10.15.1",
   "keywords": [
