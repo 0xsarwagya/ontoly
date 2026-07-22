@@ -736,6 +736,15 @@ async function watchCommand(cli: ParsedCli): Promise<void> {
     passes: defaultCompilerPasses(),
     onBuild: (result) => {
       if (!result.graph) {
+        for (const diagnostic of result.diagnostics) {
+          const location = diagnostic.span?.file ? ` (${diagnostic.span.file})` : "";
+          const line = `[${diagnostic.code}] ${diagnostic.message}${location}`;
+          if (diagnostic.severity === "error") {
+            logger.error(line);
+          } else {
+            logger.warning(line);
+          }
+        }
         logger.error("Build failed before a validated Software Graph was produced");
         return;
       }
