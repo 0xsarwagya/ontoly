@@ -71,6 +71,23 @@ export interface OntolyConfig {
 }
 
 /**
+ * `OntolyConfig` with array and record fields resolved to their default
+ * values. Produced by `loadOntolyConfig` and stored on `CompilerContext`
+ * so downstream passes and callsites can read the fields without a
+ * per-callsite `?? []` fallback.
+ *
+ * This type is `OntolyConfig` narrowed — all `OntolyConfig` values are
+ * assignable to `ResolvedOntolyConfig` after normalization, and every
+ * `ResolvedOntolyConfig` is a valid `OntolyConfig`.
+ */
+export interface ResolvedOntolyConfig extends OntolyConfig {
+  readonly include: readonly string[];
+  readonly exclude: readonly string[];
+  readonly plugins: readonly string[];
+  readonly parsers: Record<string, boolean>;
+}
+
+/**
  * A map of repository-relative paths to file contents.
  *
  * Keys are POSIX-style relative paths (forward slashes, no leading `./`);
@@ -154,7 +171,7 @@ export interface CompilerExtensionRegistry {
 
 export interface CompilerContext {
   readonly invocation: CompilerInvocation;
-  readonly config: OntolyConfig;
+  readonly config: ResolvedOntolyConfig;
   readonly repository: SoftwareGraphRepository;
   readonly diagnostics: DiagnosticSink;
   readonly extensions: CompilerExtensionRegistry;

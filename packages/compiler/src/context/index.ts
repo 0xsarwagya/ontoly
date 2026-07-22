@@ -12,10 +12,46 @@ import type {
   CompilerStageId,
   GraphValidationHook,
   OntolyConfig,
+  ResolvedOntolyConfig,
 } from "../types";
 
+/**
+ * Type-inference helper for `ontoly.config.ts`. Returns the config
+ * verbatim; its only purpose is to give editors the correct completions
+ * and hover docs for `OntolyConfig` fields — in particular `exclude`,
+ * whose two matching modes are documented on the `OntolyConfig` type.
+ *
+ * Usage:
+ * ```ts
+ * import { defineOntolyConfig } from "@0xsarwagya/ontoly-cli";
+ *
+ * export default defineOntolyConfig({
+ *   outputDir: ".ontoly",
+ *   exclude: [
+ *     "Pods",                       // bare name — matches any `Pods/` segment
+ *     "apps/companion-app/ios",     // anchored prefix — that subtree only
+ *   ],
+ *   plugins: [],
+ * });
+ * ```
+ */
 export function defineOntolyConfig<T extends OntolyConfig>(config: T): T {
   return config;
+}
+
+/**
+ * Fills the array and record fields of an `OntolyConfig` with their
+ * default values so downstream callsites don't need per-read `?? []`
+ * fallbacks. Applied by `loadOntolyConfig` and `createCompilerContext`.
+ */
+export function resolveOntolyConfig(config: OntolyConfig): ResolvedOntolyConfig {
+  return {
+    ...config,
+    include: config.include ?? [],
+    exclude: config.exclude ?? [],
+    plugins: config.plugins ?? [],
+    parsers: config.parsers ?? {},
+  };
 }
 
 export async function createCompilerInvocation(
@@ -44,7 +80,9 @@ export async function createCompilerContext(input: {
   readonly passes?: readonly CompilerPass[] | undefined;
   readonly validationHooks?: readonly GraphValidationHook[] | undefined;
 }): Promise<CompilerContext> {
-  const config = input.config ?? (await loadOntolyConfig(input.invocation.root, input.invocation.configPath));
+  const config = input.config
+    ? resolveOntolyConfig(input.config)
+    : await loadOntolyConfig(input.invocation.root, input.invocation.configPath);
   const discovery = await discoverRepository(input.invocation.root, input.invocation.sourceProvider);
   const repository: SoftwareGraphRepository = withOptionalProperties(
     {
@@ -68,22 +106,25 @@ export async function createCompilerContext(input: {
   };
 }
 
-export async function loadOntolyConfig(rootInput: string, configPathInput?: string): Promise<OntolyConfig> {
+export async function loadOntolyConfig(
+  rootInput: string,
+  configPathInput?: string,
+): Promise<ResolvedOntolyConfig> {
   const root = resolve(rootInput);
   const configPath = configPathInput ? resolve(root, configPathInput) : undefined;
 
   if (!configPath) {
-    return {};
+    return resolveOntolyConfig({});
   }
 
   if (configPath.endsWith(".js") || configPath.endsWith(".mjs")) {
     const imported = (await import(pathToFileURL(configPath).href)) as {
       readonly default?: OntolyConfig;
     };
-    return imported.default ?? {};
+    return resolveOntolyConfig(imported.default ?? {});
   }
 
-  return { root };
+  return resolveOntolyConfig({ root });
 }
 
 export function createNoopPass(input: {
