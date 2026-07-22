@@ -92,7 +92,7 @@ export async function buildSoftwareGraphWithArtifacts(
     discovery: state.discovery ?? (await discoverRepository(
       invocation.root,
       invocation.sourceProvider,
-      context.config.exclude ?? [],
+      context.config.exclude,
     )),
     artifacts: state.artifacts,
     stages: state.stageTrace,
