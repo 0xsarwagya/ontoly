@@ -71,7 +71,7 @@ describe("repository intelligence pass", () => {
     );
   });
 
-  it("skips cross-file turbo dependsOn references (^task, pkg#task) instead of emitting dangling DEPENDS_ON edges", async () => {
+  it("emits external Task stubs for cross-file turbo dependsOn references and links DEPENDS_ON edges to them", async () => {
     const root = await mkdtemp(join(tmpdir(), "ontoly-turbo-crosspkg-"));
     await writeFile(
       join(root, "package.json"),
@@ -105,30 +105,74 @@ describe("repository intelligence pass", () => {
     expect(result.status).toBe("success");
 
     const graph = result.graph;
-    const dependsOnEdges = graph?.edges.filter((edge) => edge.type === "DEPENDS_ON") ?? [];
 
-    // Only same-file `typecheck → build` should produce a DEPENDS_ON edge.
-    // The three cross-file dependencies (^build, @example/shared#build, //#format)
-    // must not produce dangling edges to undeclared Task nodes.
-    const turboDependsOn = dependsOnEdges.filter((edge) => edge.from.startsWith("task:turbo.json:"));
-    expect(turboDependsOn).toHaveLength(1);
-    expect(turboDependsOn[0]).toMatchObject({
-      from: "task:turbo.json:turbo:typecheck",
-      to: "task:turbo.json:turbo:build",
-    });
-
-    // The raw dependsOn list is preserved on the Task node's metadata for
-    // downstream analysis, so the information is not lost.
-    const lintDriftTask = graph?.nodes.find((node) => node.id === "task:turbo.json:turbo:lint:drift");
-    expect(lintDriftTask?.metadata).toMatchObject({
-      dependsOn: ["@example/shared#build"],
-    });
-
-    // No missing-edge-target diagnostics should be emitted for the cross-file
-    // references — that's the specific failure mode being fixed.
+    // The build must succeed with no MISSING_EDGE_TARGET diagnostics —
+    // every DEPENDS_ON edge points at a declared Task node (real or stub).
     const missingTargets = graph?.diagnostics.filter((diag) =>
       diag.code === "GRAPH_VALIDATION_MISSING_EDGE_TARGET",
     ) ?? [];
     expect(missingTargets).toHaveLength(0);
+
+    const turboDependsOn = (graph?.edges ?? []).filter(
+      (edge) => edge.type === "DEPENDS_ON" && edge.from.startsWith("task:turbo.json:"),
+    );
+    // Four turbo tasks with dependsOn → four DEPENDS_ON edges.
+    expect(turboDependsOn).toHaveLength(4);
+
+    // Same-file reference: no external marker on the edge.
+    const typecheckEdge = turboDependsOn.find((edge) => edge.from === "task:turbo.json:turbo:typecheck");
+    expect(typecheckEdge).toMatchObject({
+      to: "task:turbo.json:turbo:build",
+      metadata: { dependency: "build" },
+    });
+    expect(typecheckEdge?.metadata).not.toHaveProperty("external");
+
+    // Upstream (`^task`) reference → stub Task with kind: 'upstream'.
+    const upstreamStub = graph?.nodes.find((node) => node.id === "task:turbo.json:turbo-external:^build");
+    expect(upstreamStub?.metadata).toMatchObject({
+      external: true,
+      kind: "upstream",
+      task: "build",
+    });
+    const upstreamEdge = turboDependsOn.find((edge) => edge.from === "task:turbo.json:turbo:build");
+    expect(upstreamEdge).toMatchObject({
+      to: "task:turbo.json:turbo-external:^build",
+      metadata: { dependency: "^build", external: true, kind: "upstream" },
+    });
+
+    // Cross-package (`pkg#task`) reference → stub with kind: 'cross-package' + package name.
+    const crossPkgStub = graph?.nodes.find(
+      (node) => node.id === "task:turbo.json:turbo-external:@example/shared#build",
+    );
+    expect(crossPkgStub?.metadata).toMatchObject({
+      external: true,
+      kind: "cross-package",
+      package: "@example/shared",
+      task: "build",
+    });
+    const crossPkgEdge = turboDependsOn.find((edge) => edge.from === "task:turbo.json:turbo:lint:drift");
+    expect(crossPkgEdge).toMatchObject({
+      to: "task:turbo.json:turbo-external:@example/shared#build",
+      metadata: { dependency: "@example/shared#build", external: true, kind: "cross-package" },
+    });
+
+    // Root (`//#task`) reference → stub with kind: 'root'.
+    const rootStub = graph?.nodes.find((node) => node.id === "task:turbo.json:turbo-external://#format");
+    expect(rootStub?.metadata).toMatchObject({
+      external: true,
+      kind: "root",
+      task: "format",
+    });
+    const rootEdge = turboDependsOn.find((edge) => edge.from === "task:turbo.json:turbo:rootcheck");
+    expect(rootEdge).toMatchObject({
+      to: "task:turbo.json:turbo-external://#format",
+      metadata: { dependency: "//#format", external: true, kind: "root" },
+    });
+
+    // The raw dependsOn list is still preserved on the source Task node.
+    const lintDriftTask = graph?.nodes.find((node) => node.id === "task:turbo.json:turbo:lint:drift");
+    expect(lintDriftTask?.metadata).toMatchObject({
+      dependsOn: ["@example/shared#build"],
+    });
   });
 });
