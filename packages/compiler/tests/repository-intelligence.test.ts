@@ -70,4 +70,65 @@ describe("repository intelligence pass", () => {
       ]),
     );
   });
+
+  it("skips cross-file turbo dependsOn references (^task, pkg#task) instead of emitting dangling DEPENDS_ON edges", async () => {
+    const root = await mkdtemp(join(tmpdir(), "ontoly-turbo-crosspkg-"));
+    await writeFile(
+      join(root, "package.json"),
+      JSON.stringify({
+        name: "@example/workspace",
+        private: true,
+        packageManager: "pnpm@10.15.1",
+        devDependencies: { turbo: "^2.0.0" },
+      }, null, 2),
+      "utf8",
+    );
+    await writeFile(
+      join(root, "turbo.json"),
+      JSON.stringify({
+        $schema: "https://turborepo.com/schema.json",
+        tasks: {
+          build: { dependsOn: ["^build"] },
+          "lint:drift": { dependsOn: ["@example/shared#build"] },
+          rootcheck: { dependsOn: ["//#format"] },
+          typecheck: { dependsOn: ["build"] },
+        },
+      }, null, 2),
+      "utf8",
+    );
+
+    const result = await buildSoftwareGraphWithArtifacts({
+      root,
+      passes: [createRepositoryIntelligencePass()],
+    });
+
+    expect(result.status).toBe("success");
+
+    const graph = result.graph;
+    const dependsOnEdges = graph?.edges.filter((edge) => edge.type === "DEPENDS_ON") ?? [];
+
+    // Only same-file `typecheck → build` should produce a DEPENDS_ON edge.
+    // The three cross-file dependencies (^build, @example/shared#build, //#format)
+    // must not produce dangling edges to undeclared Task nodes.
+    const turboDependsOn = dependsOnEdges.filter((edge) => edge.from.startsWith("task:turbo.json:"));
+    expect(turboDependsOn).toHaveLength(1);
+    expect(turboDependsOn[0]).toMatchObject({
+      from: "task:turbo.json:turbo:typecheck",
+      to: "task:turbo.json:turbo:build",
+    });
+
+    // The raw dependsOn list is preserved on the Task node's metadata for
+    // downstream analysis, so the information is not lost.
+    const lintDriftTask = graph?.nodes.find((node) => node.id === "task:turbo.json:turbo:lint:drift");
+    expect(lintDriftTask?.metadata).toMatchObject({
+      dependsOn: ["@example/shared#build"],
+    });
+
+    // No missing-edge-target diagnostics should be emitted for the cross-file
+    // references — that's the specific failure mode being fixed.
+    const missingTargets = graph?.diagnostics.filter((diag) =>
+      diag.code === "GRAPH_VALIDATION_MISSING_EDGE_TARGET",
+    ) ?? [];
+    expect(missingTargets).toHaveLength(0);
+  });
 });
