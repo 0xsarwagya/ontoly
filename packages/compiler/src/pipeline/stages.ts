@@ -57,7 +57,11 @@ function createDefaultStage(id: CompilerStageId): CompilerStage {
           });
 
         case "repository-discovery": {
-          const discovery = await discoverRepository(context.invocation.root, context.invocation.sourceProvider);
+          const discovery = await discoverRepository(
+            context.invocation.root,
+            context.invocation.sourceProvider,
+            context.config.exclude ?? [],
+          );
           return withPassRecords({
             discovery,
             output: {
@@ -70,7 +74,11 @@ function createDefaultStage(id: CompilerStageId): CompilerStage {
         }
 
         case "source-inventory": {
-          const sources = await createSourceInventory(context.invocation.root, context.invocation.sourceProvider);
+          const sources = await createSourceInventory(
+            context.invocation.root,
+            context.invocation.sourceProvider,
+            context.config.exclude ?? [],
+          );
           return withPassRecords({
             sources,
             output: {

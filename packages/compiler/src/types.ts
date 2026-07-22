@@ -54,6 +54,17 @@ export interface OntolyConfig {
   readonly root?: string | undefined;
   readonly outputDir?: string | undefined;
   readonly include?: readonly string[] | undefined;
+  /**
+   * Additional paths to skip during repository discovery, on top of the
+   * built-in defaults (node_modules, dist, .next, .turbo, etc.).
+   *
+   * Two matching modes:
+   * - Bare name (no `/`) — matches any path segment with that name, e.g.
+   *   `"Pods"` skips every `Pods/` directory anywhere in the tree.
+   * - Relative path (contains `/`) — anchored prefix match against the
+   *   repo-relative path, e.g. `"apps/companion-app/ios"` skips exactly
+   *   that subtree.
+   */
   readonly exclude?: readonly string[] | undefined;
   readonly plugins?: readonly string[] | undefined;
   readonly parsers?: Record<string, boolean> | undefined;
