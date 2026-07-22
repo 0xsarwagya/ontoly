@@ -305,27 +305,78 @@ async function collectTurboFacts(context: RepositoryFactContext, file: string): 
     addRelationship(context, "CONTAINS", pipelineId, taskId, file, "pipeline contains task");
 
     for (const dependencyName of readStringArray(taskRecord, "dependsOn")) {
-      if (isCrossFileTurboDependency(dependencyName)) {
-        continue;
+      const classification = classifyTurboDependency(dependencyName);
+      const dependencyTaskId = createNodeId({
+        type: "Task",
+        file,
+        name: classification.external ? `turbo-external:${dependencyName}` : `turbo:${dependencyName}`,
+      });
+
+      if (classification.external) {
+        // Emit an external Task stub so the DEPENDS_ON edge below points at a
+        // declared node (no MISSING_EDGE_TARGET). Multiple deps to the same
+        // external reference collide on the same id, so addSymbol is
+        // idempotent per (file, dep-syntax) pair.
+        addSymbol(context, {
+          id: dependencyTaskId,
+          kind: "Task",
+          name: dependencyName,
+          file,
+          metadata: {
+            source: "turbo.json",
+            external: true,
+            kind: classification.kind,
+            task: classification.task,
+            ...(classification.kind === "cross-package" ? { package: classification.package } : {}),
+          },
+        });
       }
-      const dependencyTaskId = createNodeId({ type: "Task", file, name: `turbo:${dependencyName}` });
+
       addRelationship(context, "DEPENDS_ON", taskId, dependencyTaskId, file, "turbo task depends on task", {
         dependency: dependencyName,
+        ...(classification.external ? { external: true, kind: classification.kind } : {}),
       });
     }
   }
 }
 
 // Turbo's `dependsOn` accepts references that resolve outside the current
-// turbo.json — these cannot be turned into a well-formed DEPENDS_ON edge in a
-// single-file collection pass because the referenced Task node lives in
-// another turbo.json (or spans all upstream packages). The raw list is still
-// preserved on each Task node's `metadata.dependsOn` for downstream analysis.
-//   `^task`   → the `task` task in each of this package's dependencies
-//   `pkg#task`→ the `task` task in a specific workspace package
-//   `//#task` → a root-workspace task
-function isCrossFileTurboDependency(dependencyName: string): boolean {
-  return dependencyName.startsWith("^") || dependencyName.includes("#");
+// turbo.json:
+//   `^task`   → the `task` task in each of this package's dependencies (upstream)
+//   `pkg#task`→ the `task` task in a specific workspace package (cross-package)
+//   `//#task` → a task in the root workspace (root)
+//   `task`    → a task in the same turbo.json (local)
+//
+// The first three cannot be resolved to a real Task node during single-file
+// fact collection because that node lives in another turbo.json (or spans all
+// upstream packages). collectTurboFacts emits an external Task stub for each,
+// marked with `metadata.external = true` plus a `kind` discriminant, so the
+// DEPENDS_ON edge is well-formed and downstream analytics can distinguish
+// resolved vs external references. A future workspace-level second pass can
+// rewire these edges to the real target Task node.
+type TurboDependencyClassification =
+  | { readonly external: false }
+  | { readonly external: true; readonly kind: "upstream"; readonly task: string }
+  | { readonly external: true; readonly kind: "cross-package"; readonly package: string; readonly task: string }
+  | { readonly external: true; readonly kind: "root"; readonly task: string };
+
+function classifyTurboDependency(dependencyName: string): TurboDependencyClassification {
+  if (dependencyName.startsWith("^")) {
+    return { external: true, kind: "upstream", task: dependencyName.slice(1) };
+  }
+  if (dependencyName.startsWith("//#")) {
+    return { external: true, kind: "root", task: dependencyName.slice(3) };
+  }
+  const hashIndex = dependencyName.indexOf("#");
+  if (hashIndex > 0) {
+    return {
+      external: true,
+      kind: "cross-package",
+      package: dependencyName.slice(0, hashIndex),
+      task: dependencyName.slice(hashIndex + 1),
+    };
+  }
+  return { external: false };
 }
 
 async function collectTsconfigFacts(context: RepositoryFactContext, file: string): Promise<void> {
