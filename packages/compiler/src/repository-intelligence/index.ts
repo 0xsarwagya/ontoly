@@ -103,6 +103,11 @@ export function createRepositoryIntelligencePass(options: {
         await collectRepositoryFileFacts(repositoryContext, file);
       }
 
+      // After per-file fact collection, rewire cross-file turbo `dependsOn`
+      // edges that were emitted as stubs (see collectTurboFacts) to point at
+      // the real Task node when we now have both sides indexed.
+      resolveExternalTurboReferences(repositoryContext);
+
       return {
         symbols: [...repositoryContext.symbols.values()].sort(compareSymbols),
         relationships: [...repositoryContext.relationships.values()].sort(compareRelationships),
@@ -133,7 +138,7 @@ async function collectRepositoryFileFacts(context: RepositoryFactContext, file: 
     return;
   }
 
-  if (normalizedFile === "turbo.json") {
+  if (normalizedFile === "turbo.json" || normalizedFile.endsWith("/turbo.json")) {
     await collectTurboFacts(context, normalizedFile);
     return;
   }
@@ -377,6 +382,128 @@ function classifyTurboDependency(dependencyName: string): TurboDependencyClassif
     };
   }
   return { external: false };
+}
+
+// Second-pass resolution for the external Task stubs emitted by
+// collectTurboFacts. After every turbo.json and package.json has been
+// collected, we have enough context to rewire cross-file DEPENDS_ON edges
+// to point at the actual Task node when the target lives inside this
+// workspace. Two of the three cross-file kinds are resolved here:
+//
+//   - `pkg#task`   — look up `pkg`'s package directory, then its turbo.json,
+//                    then the task named `task` there.
+//   - `//#task`    — look up the root workspace's turbo.json and its `task`.
+//
+// The third kind, `^task`, means "the `task` task in each of the current
+// package's dependencies" — one stub fans out to N real edges. Resolving
+// that requires enumerating the source package's dependency list (across
+// dependencies/devDependencies/peerDependencies) and cross-checking each
+// against the workspace Package index. Not implemented here; the stub +
+// stub-targeted edge remain in place, which is a correct fallback (option
+// B behavior from #16).
+//
+// When resolution succeeds, the DEPENDS_ON edge is rewritten to point at
+// the real Task node and its metadata carries:
+//   - `resolved: true`            — this edge was originally external
+//   - `kind: <upstream|cross-package|root>` — preserved for filtering
+//   - `stubId: <original stub id>` — so downstream can inspect the stub
+// The stub Task node itself is left in the graph as historical inventory
+// of what external references were seen.
+function resolveExternalTurboReferences(context: RepositoryFactContext): void {
+  const symbols = context.symbols;
+  const relationships = context.relationships;
+
+  // Index all real (non-external) Task nodes by their turbo.json file and
+  // task name, so a `pkg#task` / `//#task` lookup is O(1).
+  const tasksByFile = new Map<string, Map<string, string>>();
+  for (const symbol of symbols.values()) {
+    if (symbol.kind !== "Task") continue;
+    if (symbol.metadata?.external === true) continue;
+    if (!symbol.file) continue;
+    // Task nodes also come from package.json scripts (kind: 'Task', name:
+    // '<pkg>:<script>'). Turbo's `pkg#task` refers only to tasks in a
+    // turbo.json, not package.json scripts — narrow accordingly.
+    if (!symbol.file.endsWith("turbo.json")) continue;
+    let taskMap = tasksByFile.get(symbol.file);
+    if (!taskMap) {
+      taskMap = new Map();
+      tasksByFile.set(symbol.file, taskMap);
+    }
+    taskMap.set(symbol.name, symbol.id);
+  }
+
+  // Map each local Package to its turbo.json path (if the package has one).
+  const turboFileByPackageName = new Map<string, string>();
+  for (const symbol of symbols.values()) {
+    if (symbol.kind !== "Package") continue;
+    if (symbol.metadata?.local !== true) continue;
+    const rawPath = symbol.metadata?.path;
+    const packageDir = typeof rawPath === "string" && rawPath !== "." ? rawPath : "";
+    const turboPath = packageDir ? `${packageDir}/turbo.json` : "turbo.json";
+    if (tasksByFile.has(turboPath)) {
+      turboFileByPackageName.set(symbol.name, turboPath);
+    }
+  }
+
+  const rootTurboFile = tasksByFile.has("turbo.json") ? "turbo.json" : undefined;
+
+  // Walk existing DEPENDS_ON edges that point at external stubs and rewrite
+  // them where possible. Collect first, then mutate, so we don't invalidate
+  // the iterator.
+  const rewrites: Array<{ readonly oldId: string; readonly newEdgeId: string; readonly newEdge: CompilerRelationship }> = [];
+  for (const [edgeId, edge] of relationships) {
+    if (edge.type !== "DEPENDS_ON") continue;
+    if (edge.metadata?.external !== true) continue;
+    const stub = symbols.get(edge.to);
+    if (!stub || stub.metadata?.external !== true) continue;
+
+    const stubKind = stub.metadata.kind;
+    const stubTaskName = typeof stub.metadata.task === "string" ? stub.metadata.task : undefined;
+    if (!stubTaskName) continue;
+
+    let targetFile: string | undefined;
+    if (stubKind === "cross-package") {
+      const pkg = typeof stub.metadata.package === "string" ? stub.metadata.package : undefined;
+      if (pkg) {
+        targetFile = turboFileByPackageName.get(pkg);
+      }
+    } else if (stubKind === "root") {
+      targetFile = rootTurboFile;
+    }
+    // Upstream (`^task`) resolution is deliberately not attempted here;
+    // the stub-pointing edge stays as the option-B fallback.
+    if (!targetFile) continue;
+
+    const realTaskId = tasksByFile.get(targetFile)?.get(stubTaskName);
+    if (!realTaskId) continue;
+
+    const newEdgeId = createEdgeId("DEPENDS_ON", edge.from, realTaskId);
+    const oldMetadata = edge.metadata ?? {};
+    rewrites.push({
+      oldId: edgeId,
+      newEdgeId,
+      newEdge: {
+        ...edge,
+        id: newEdgeId,
+        to: realTaskId,
+        metadata: {
+          dependency: typeof oldMetadata.dependency === "string" ? oldMetadata.dependency : undefined,
+          kind: typeof oldMetadata.kind === "string" ? oldMetadata.kind : undefined,
+          resolved: true,
+          stubId: edge.to,
+        },
+      },
+    });
+  }
+
+  for (const { oldId, newEdgeId, newEdge } of rewrites) {
+    // If an identically-shaped resolved edge already exists (shouldn't in
+    // practice, but be defensive), let the existing one win.
+    if (!relationships.has(newEdgeId)) {
+      relationships.set(newEdgeId, newEdge);
+    }
+    relationships.delete(oldId);
+  }
 }
 
 async function collectTsconfigFacts(context: RepositoryFactContext, file: string): Promise<void> {
