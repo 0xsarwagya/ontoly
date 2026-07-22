@@ -2,6 +2,26 @@
 
 All notable Ontoly changes are tracked here.
 
+## Unreleased
+
+### Changed
+
+- Compiler: `CompilerContext.config` narrowed from `OntolyConfig` to the new
+  `ResolvedOntolyConfig` — array (`include`, `exclude`, `plugins`) and record
+  (`parsers`) fields are no longer possibly `undefined` after
+  `loadOntolyConfig` / `createCompilerContext`. `ResolvedOntolyConfig extends
+  OntolyConfig`, so any consumer typed against `OntolyConfig` remains
+  source-compatible; only readers that explicitly branched on
+  `config.exclude === undefined` see a difference (the branch is now
+  unreachable). User-facing `OntolyConfig` is unchanged — `ontoly.config.ts`
+  keeps its optional fields.
+
+### Added
+
+- Compiler: `resolveOntolyConfig(config)` helper exported from
+  `@0xsarwagya/ontoly-compiler` for callers that build compiler input by
+  hand and want the same normalization `loadOntolyConfig` applies.
+
 ## 1.0.0-rc.5
 
 ### Added

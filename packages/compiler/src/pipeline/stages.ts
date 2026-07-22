@@ -60,7 +60,7 @@ function createDefaultStage(id: CompilerStageId): CompilerStage {
           const discovery = await discoverRepository(
             context.invocation.root,
             context.invocation.sourceProvider,
-            context.config.exclude ?? [],
+            context.config.exclude,
           );
           return withPassRecords({
             discovery,
@@ -77,7 +77,7 @@ function createDefaultStage(id: CompilerStageId): CompilerStage {
           const sources = await createSourceInventory(
             context.invocation.root,
             context.invocation.sourceProvider,
-            context.config.exclude ?? [],
+            context.config.exclude,
           );
           return withPassRecords({
             sources,
