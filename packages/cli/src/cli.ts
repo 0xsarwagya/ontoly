@@ -468,12 +468,22 @@ async function buildCommand(cli: ParsedCli): Promise<void> {
           nodes: 0,
           edges: 0,
           diagnostics: result.diagnostics.length,
+          diagnosticEntries: result.diagnostics,
           artifacts,
         }, null, 2));
       } else {
         logger.info(`Indexed ${result.discovery.files.length} files`);
         logger.info("Built 0 nodes");
         logger.info("Generated 0 relationships");
+        for (const diagnostic of result.diagnostics) {
+          const location = diagnostic.span?.file ? ` (${diagnostic.span.file})` : "";
+          const line = `[${diagnostic.code}] ${diagnostic.message}${location}`;
+          if (diagnostic.severity === "error") {
+            logger.error(line);
+          } else {
+            logger.warning(line);
+          }
+        }
       }
       logger.error("Build failed before a validated Software Graph was produced");
       process.exitCode = 1;
