@@ -33,6 +33,7 @@ const IGNORED_PARTS = new Set([
 export async function discoverRepository(
   rootInput = process.cwd(),
   provider?: SourceProvider,
+  extraIgnored: readonly string[] = [],
 ): Promise<RepositoryDiscovery> {
   const root = resolve(rootInput);
 
@@ -42,7 +43,7 @@ export async function discoverRepository(
 
   const packageJsonPath = await findUp("package.json", root);
   const packageJson = packageJsonPath ? await readPackageJson(packageJsonPath) : undefined;
-  const files = await discoverFiles(root);
+  const files = await discoverFiles(root, extraIgnored);
   const packageName = typeof packageJson?.name === "string" ? packageJson.name : undefined;
   const packageManager = typeof packageJson?.packageManager === "string" ? packageJson.packageManager : undefined;
   const name = packageName ?? basename(root);
@@ -64,6 +65,7 @@ export async function discoverRepository(
 export async function createSourceInventory(
   root: string,
   provider?: SourceProvider,
+  extraIgnored: readonly string[] = [],
 ): Promise<SourceInventory> {
   if (provider) {
     const sources = provider.listFiles().map((file): SourceArtifact => {
@@ -81,7 +83,7 @@ export async function createSourceInventory(
     };
   }
 
-  const files = await discoverFiles(root);
+  const files = await discoverFiles(root, extraIgnored);
   const sources = await Promise.all(
     files.map(async (file): Promise<SourceArtifact> => {
       const contents = await readFile(join(root, file), "utf8");
@@ -163,8 +165,10 @@ export async function findUp(fileName: string, start: string): Promise<string | 
   }
 }
 
-async function discoverFiles(root: string): Promise<readonly string[]> {
+async function discoverFiles(root: string, extraIgnored: readonly string[] = []): Promise<readonly string[]> {
   const files: string[] = [];
+  const ignoredParts = buildIgnoredParts(extraIgnored);
+  const ignoredPrefixes = extraIgnored.filter((part) => part.includes("/")).map(normalizePath);
 
   const walk = async (directory: string): Promise<void> => {
     const entries = await readdir(directory, { withFileTypes: true });
@@ -173,7 +177,7 @@ async function discoverFiles(root: string): Promise<readonly string[]> {
       const absolute = join(directory, entry.name);
       const relativePath = normalizePath(relative(root, absolute));
 
-      if (shouldIgnorePath(relativePath)) {
+      if (shouldIgnorePath(relativePath, ignoredParts, ignoredPrefixes)) {
         continue;
       }
 
@@ -192,10 +196,34 @@ async function discoverFiles(root: string): Promise<readonly string[]> {
   return files.sort();
 }
 
-function shouldIgnorePath(path: string): boolean {
-  return normalizePath(path)
-    .split("/")
-    .some((part) => IGNORED_PARTS.has(part));
+function buildIgnoredParts(extraIgnored: readonly string[]): ReadonlySet<string> {
+  const merged = new Set<string>(IGNORED_PARTS);
+  for (const entry of extraIgnored) {
+    if (!entry.includes("/")) {
+      merged.add(entry);
+    }
+  }
+  return merged;
+}
+
+function shouldIgnorePath(
+  path: string,
+  ignoredParts: ReadonlySet<string> = IGNORED_PARTS,
+  ignoredPrefixes: readonly string[] = [],
+): boolean {
+  const normalized = normalizePath(path);
+
+  if (normalized.split("/").some((part) => ignoredParts.has(part))) {
+    return true;
+  }
+
+  for (const prefix of ignoredPrefixes) {
+    if (normalized === prefix || normalized.startsWith(`${prefix}/`)) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 function classifySource(path: string): SourceArtifact["kind"] {
