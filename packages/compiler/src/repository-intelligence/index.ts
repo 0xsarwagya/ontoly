@@ -305,12 +305,27 @@ async function collectTurboFacts(context: RepositoryFactContext, file: string): 
     addRelationship(context, "CONTAINS", pipelineId, taskId, file, "pipeline contains task");
 
     for (const dependencyName of readStringArray(taskRecord, "dependsOn")) {
-      const dependencyTaskId = createNodeId({ type: "Task", file, name: `turbo:${dependencyName.replace(/^\^/, "")}` });
+      if (isCrossFileTurboDependency(dependencyName)) {
+        continue;
+      }
+      const dependencyTaskId = createNodeId({ type: "Task", file, name: `turbo:${dependencyName}` });
       addRelationship(context, "DEPENDS_ON", taskId, dependencyTaskId, file, "turbo task depends on task", {
         dependency: dependencyName,
       });
     }
   }
+}
+
+// Turbo's `dependsOn` accepts references that resolve outside the current
+// turbo.json — these cannot be turned into a well-formed DEPENDS_ON edge in a
+// single-file collection pass because the referenced Task node lives in
+// another turbo.json (or spans all upstream packages). The raw list is still
+// preserved on each Task node's `metadata.dependsOn` for downstream analysis.
+//   `^task`   → the `task` task in each of this package's dependencies
+//   `pkg#task`→ the `task` task in a specific workspace package
+//   `//#task` → a root-workspace task
+function isCrossFileTurboDependency(dependencyName: string): boolean {
+  return dependencyName.startsWith("^") || dependencyName.includes("#");
 }
 
 async function collectTsconfigFacts(context: RepositoryFactContext, file: string): Promise<void> {
