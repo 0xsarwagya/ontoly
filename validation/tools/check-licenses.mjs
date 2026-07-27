@@ -4,7 +4,7 @@ import path from "node:path";
 
 const root = process.cwd();
 const rootLicense = fs.readFileSync(path.join(root, "LICENSE"), "utf8").trim();
-const expectedPackageLicense = "SEE LICENSE IN LICENSE";
+const expectedPackageLicense = "AGPL-3.0-only";
 const issues = [];
 
 function readJson(file) {

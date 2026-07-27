@@ -16,6 +16,7 @@ and release-gate evidence over feature velocity.
 - Release candidates require package validation, npm pack validation, skills
   validation, documentation checks, license checks, semantic evaluation, and
   validation-lab gates.
+- Licensing and trademark policy changes require maintainer approval.
 
 ## Maintainer Responsibilities
 
@@ -27,6 +28,7 @@ and release-gate evidence over feature velocity.
 
 ## Contribution License
 
-Contributions are accepted under the Ontoly Dual License and may be
-commercially licensed by the creator as part of Ontoly. A separate CLA is not
-required for regular contributions unless the governance model changes.
+Ontoly accepts contributions under the
+[Contributor License Agreement](CONTRIBUTOR_LICENSE_AGREEMENT.md). The CLA keeps
+the public project available under AGPL-3.0 and preserves the creator's ability
+to offer commercial licenses.

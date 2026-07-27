@@ -52,8 +52,10 @@ in the PR.
 
 ## Contribution License
 
-By submitting a contribution, you agree that it can be distributed under
-the Ontoly Dual License and commercially licensed by the creator as part of
-Ontoly. Ontoly does not require a separate CLA for regular contributions.
+By submitting a contribution, you agree to the
+[Contributor License Agreement](../CONTRIBUTOR_LICENSE_AGREEMENT.md). The CLA
+lets Ontoly remain available under AGPL-3.0 while allowing the creator to offer
+commercial licenses.
+
 Signed-off commits are welcome but not required unless the governance model
 changes.

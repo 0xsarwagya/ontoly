@@ -6,7 +6,7 @@
   "version": "1.0.0-rc.5",
   "description": "Ontoly has grown into a full deterministic software-intelligence ecosystem — Software Graph, MCP server, and 14 AI Agent Skills. Explore it at ontoly.sarwagya.wtf.",
   "status": "release-candidate",
-  "license": "Ontoly Dual License",
+  "license": "AGPL-3.0-only",
   "packageName": "@0xsarwagya/ontoly-cli",
   "repository": "https://github.com/0xsarwagya/ontoly",
   "homepage": "https://oss.sarwagya.wtf/ontoly",
