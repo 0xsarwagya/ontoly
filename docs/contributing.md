@@ -53,6 +53,7 @@ in the PR.
 ## Contribution License
 
 By submitting a contribution, you agree that it can be distributed under
-Ontoly's MIT license. Ontoly does not require a CLA for regular contributions.
+the Ontoly Dual License and commercially licensed by the creator as part of
+Ontoly. Ontoly does not require a separate CLA for regular contributions.
 Signed-off commits are welcome but not required unless the governance model
 changes.

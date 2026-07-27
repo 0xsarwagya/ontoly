@@ -3,7 +3,7 @@
   "version": "1.0.0-rc.5",
   "description": "Deterministic software engineering capabilities over the Ontoly Software Graph.",
   "type": "module",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/0xsarwagya/ontoly.git",

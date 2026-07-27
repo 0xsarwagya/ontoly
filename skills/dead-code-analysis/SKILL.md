@@ -1,7 +1,7 @@
 ---
 name: dead-code-analysis
 description: Find potentially unused functions, methods, services, routes, or features using Ontoly dead-code and entrypoint capabilities. Use when asked what code appears unreachable or safe to remove.
-license: MIT
+license: Ontoly Dual License
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
   ontoly.skill.version: "1.0.0-rc.5"

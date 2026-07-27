@@ -1,7 +1,7 @@
 ---
 name: performance-analysis
 description: Investigate performance-sensitive architecture using Ontoly call, dependency, and graph statistics evidence. Use when asked about hot paths, expensive flows, or performance investigation starting points.
-license: MIT
+license: Ontoly Dual License
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
   ontoly.skill.version: "1.0.0-rc.5"

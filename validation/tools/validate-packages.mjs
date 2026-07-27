@@ -3,6 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
+const expectedPackageLicense = "SEE LICENSE IN LICENSE";
 const requiredPackageFields = [
   "name",
   "version",
@@ -91,8 +92,8 @@ for (const file of packageFiles()) {
   if (!pkg.name?.startsWith("@0xsarwagya/ontoly-")) {
     fail(file, "package name must use @0xsarwagya/ontoly-*");
   }
-  if (pkg.license !== "MIT") {
-    fail(file, "license must be MIT");
+  if (pkg.license !== expectedPackageLicense) {
+    fail(file, `license must be ${expectedPackageLicense}`);
   }
   if (pkg.type !== "module") {
     fail(file, "type must be module");
