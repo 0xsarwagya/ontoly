@@ -1,7 +1,7 @@
 ---
 name: documentation
 description: Draft graph-backed documentation from Ontoly summaries and traces. Use when asked to document architecture, APIs, modules, packages, or request lifecycles without re-parsing source files.
-license: Ontoly Dual License
+license: AGPL-3.0-only
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
   ontoly.skill.version: "1.0.0-rc.5"

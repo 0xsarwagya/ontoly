@@ -1,7 +1,7 @@
 ---
 name: migration-analysis
 description: Plan migrations using Ontoly architecture, dependency, impact, and configuration evidence. Use when asked to migrate frameworks, packages, APIs, modules, or runtime configuration.
-license: Ontoly Dual License
+license: AGPL-3.0-only
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
   ontoly.skill.version: "1.0.0-rc.5"

@@ -2,7 +2,7 @@
 
 [![Validation Lab](https://github.com/0xsarwagya/ontoly/actions/workflows/semantic-evaluation.yml/badge.svg)](https://github.com/0xsarwagya/ontoly/actions/workflows/semantic-evaluation.yml)
 [![npm install](https://img.shields.io/npm/v/@0xsarwagya/ontoly-cli?label=npm%20install)](https://www.npmjs.com/package/@0xsarwagya/ontoly-cli)
-[![License: Dual Non-Commercial](https://img.shields.io/badge/license-Dual%20%7C%20Non--Commercial-blue)](LICENSE)
+[![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-blue)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
 Ontoly is a TypeScript-native software intelligence engine that turns source
@@ -676,8 +676,12 @@ Use GitHub issues for bugs and GitHub discussions for design questions. See
 
 ## License
 
-Ontoly uses a dual license. Non-commercial use is permitted under the repository
-license. Commercial use requires prior written consent from the creator.
+Ontoly is available under the GNU Affero General Public License v3.0.
+Commercial licenses are available for teams that need proprietary use,
+private modifications, commercial redistribution, hosted service use without
+AGPL obligations, or contractual terms.
 
-For commercial permission, contact [hello@sarwagya.wtf](mailto:hello@sarwagya.wtf).
-See [LICENSE](LICENSE).
+For commercial licensing, contact [hello@sarwagya.wtf](mailto:hello@sarwagya.wtf).
+See [LICENSE](LICENSE), [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md),
+[CONTRIBUTOR_LICENSE_AGREEMENT.md](CONTRIBUTOR_LICENSE_AGREEMENT.md), and
+[TRADEMARK_POLICY.md](TRADEMARK_POLICY.md).

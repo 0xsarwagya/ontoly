@@ -1,7 +1,7 @@
 ---
 name: framework-analysis
 description: Explain detected frameworks and framework-specific graph coverage using Ontoly framework reports. Use when asked whether a repository uses NestJS, Next.js, React, Turborepo, or other supported framework concepts.
-license: Ontoly Dual License
+license: AGPL-3.0-only
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
   ontoly.skill.version: "1.0.0-rc.5"

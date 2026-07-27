@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
-const expectedPackageLicense = "SEE LICENSE IN LICENSE";
+const expectedPackageLicense = "AGPL-3.0-only";
 const requiredPackageFields = [
   "name",
   "version",

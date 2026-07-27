@@ -3,7 +3,7 @@
   "version": "1.0.0-rc.5",
   "description": "Local graph artifact persistence for Ontoly.",
   "type": "module",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/0xsarwagya/ontoly.git",

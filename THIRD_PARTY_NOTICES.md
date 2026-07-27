@@ -1,8 +1,8 @@
 # Third-Party Notices
 
-Ontoly is distributed under the Ontoly Dual License. Non-commercial use is
-permitted under the repository license. Commercial use requires prior written
-consent from the creator.
+Ontoly is distributed under the GNU Affero General Public License version 3.0.
+Commercial licenses are available separately from the creator. See
+[COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md).
 
 The repository depends on open-source packages managed through `pnpm-lock.yaml`.
 Primary development dependencies include TypeScript, Vitest, tsup, and Node.js
@@ -19,10 +19,9 @@ pnpm validate:packages
 pnpm validate:pack
 ```
 
-Dependencies with permissive licenses such as MIT, ISC, BSD, and Apache-2.0
-remain subject to their own license terms. If a future dependency introduces a
-stronger copyleft license or a NOTICE requirement, maintainers must update this
-file before release.
+Dependencies remain subject to their own license terms. If a future dependency
+introduces a stronger copyleft license, an incompatible license, or a NOTICE
+requirement, maintainers must update this file before release.
 
 ## Generated Artifacts
 

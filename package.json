@@ -4,7 +4,7 @@
   "description": "TypeScript-native software intelligence engine that builds a deterministic Software Graph.",
   "private": true,
   "type": "module",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/0xsarwagya/ontoly.git"
