@@ -1,21 +1,81 @@
-MIT License
+Ontoly Dual License
 
 Copyright (c) 2026 Sarwagya
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This repository, including the Ontoly source code, packages, plugins, Agent
+Skills, documentation, examples, and associated files, is made available under
+the Ontoly Dual License.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+You may use Ontoly under one of the following license paths.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+1. Non-Commercial License
+
+Permission is granted, free of charge, to use, copy, modify, distribute, and
+publish copies of Ontoly for non-commercial purposes only, subject to the terms
+below.
+
+Non-commercial purposes include personal use, education, research, evaluation,
+experimentation, and internal non-revenue use that does not directly or
+indirectly support a commercial product, paid service, paid consulting
+engagement, production business workflow, or revenue-generating activity.
+
+Commercial use is not permitted under this non-commercial license.
+
+2. Commercial License
+
+Commercial use of Ontoly requires prior written consent from the creator.
+
+Commercial use includes, without limitation:
+
+- use by, for, or on behalf of a for-profit company;
+- use in a paid product, paid service, SaaS offering, consulting engagement,
+  enterprise workflow, internal business operation, or customer-facing system;
+- redistribution, resale, hosting, or integration of Ontoly as part of a
+  commercial offering;
+- use that directly or indirectly generates revenue, reduces commercial
+  operating costs, or supports commercial decision-making.
+
+To request commercial permission or a commercial license, contact:
+
+hello@sarwagya.wtf
+
+No commercial rights are granted unless the creator gives prior written
+permission.
+
+3. Conditions
+
+All copies or substantial portions of Ontoly must include:
+
+- this license notice;
+- the copyright notice above;
+- any applicable third-party notices.
+
+You may not remove or obscure attribution notices, license notices, provenance
+metadata, or authorship information.
+
+You may not use the Ontoly name, logos, project identity, creator identity, or
+associated marks to imply endorsement without prior written permission.
+
+4. Contributions
+
+By submitting a contribution to Ontoly, you grant the creator a perpetual,
+worldwide, non-exclusive, royalty-free license to use, reproduce, modify,
+distribute, sublicense, relicense, and commercially license your contribution as
+part of Ontoly.
+
+No separate contributor license agreement is required unless the governance
+model changes.
+
+5. Prior Versions
+
+Repository versions and package versions published before this license was added
+remain governed by the license terms that accompanied those versions.
+
+6. Warranty Disclaimer
+
+ONTOLY IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE, TITLE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS,
+COPYRIGHT HOLDERS, OR CREATOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM,
+OUT OF, OR IN CONNECTION WITH ONTOLY OR THE USE OR OTHER DEALINGS IN ONTOLY.

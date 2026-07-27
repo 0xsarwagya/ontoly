@@ -27,5 +27,6 @@ and release-gate evidence over feature velocity.
 
 ## Contribution License
 
-Contributions are accepted under the MIT license. A CLA is not required for
-regular contributions.
+Contributions are accepted under the Ontoly Dual License and may be
+commercially licensed by the creator as part of Ontoly. A separate CLA is not
+required for regular contributions unless the governance model changes.

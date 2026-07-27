@@ -1,6 +1,8 @@
 # Third-Party Notices
 
-Ontoly is distributed under the MIT license.
+Ontoly is distributed under the Ontoly Dual License. Non-commercial use is
+permitted under the repository license. Commercial use requires prior written
+consent from the creator.
 
 The repository depends on open-source packages managed through `pnpm-lock.yaml`.
 Primary development dependencies include TypeScript, Vitest, tsup, and Node.js
@@ -17,10 +19,10 @@ pnpm validate:packages
 pnpm validate:pack
 ```
 
-Dependencies with MIT, ISC, BSD, and Apache-2.0 licenses are compatible with
-Ontoly's MIT distribution model. If a future dependency introduces a stronger
-copyleft license or a NOTICE requirement, maintainers must update this file
-before release.
+Dependencies with permissive licenses such as MIT, ISC, BSD, and Apache-2.0
+remain subject to their own license terms. If a future dependency introduces a
+stronger copyleft license or a NOTICE requirement, maintainers must update this
+file before release.
 
 ## Generated Artifacts
 

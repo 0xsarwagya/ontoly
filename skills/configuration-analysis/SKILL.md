@@ -1,7 +1,7 @@
 ---
 name: configuration-analysis
 description: Audit configuration and environment variable usage through Ontoly configuration capabilities. Use when asked where env vars, build config, runtime config, or feature flags are read.
-license: MIT
+license: Ontoly Dual License
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
   ontoly.skill.version: "1.0.0-rc.5"

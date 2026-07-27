@@ -2,7 +2,7 @@
 
 [![Validation Lab](https://github.com/0xsarwagya/ontoly/actions/workflows/semantic-evaluation.yml/badge.svg)](https://github.com/0xsarwagya/ontoly/actions/workflows/semantic-evaluation.yml)
 [![npm install](https://img.shields.io/npm/v/@0xsarwagya/ontoly-cli?label=npm%20install)](https://www.npmjs.com/package/@0xsarwagya/ontoly-cli)
-[![License](https://img.shields.io/github/license/0xsarwagya/ontoly)](LICENSE)
+[![License: Dual Non-Commercial](https://img.shields.io/badge/license-Dual%20%7C%20Non--Commercial-blue)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
 Ontoly is a TypeScript-native software intelligence engine that turns source
@@ -676,4 +676,8 @@ Use GitHub issues for bugs and GitHub discussions for design questions. See
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+Ontoly uses a dual license. Non-commercial use is permitted under the repository
+license. Commercial use requires prior written consent from the creator.
+
+For commercial permission, contact [hello@sarwagya.wtf](mailto:hello@sarwagya.wtf).
+See [LICENSE](LICENSE).

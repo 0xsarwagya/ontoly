@@ -4,6 +4,7 @@ import path from "node:path";
 
 const root = process.cwd();
 const rootLicense = fs.readFileSync(path.join(root, "LICENSE"), "utf8").trim();
+const expectedPackageLicense = "SEE LICENSE IN LICENSE";
 const issues = [];
 
 function readJson(file) {
@@ -31,8 +32,8 @@ function findPackageFiles(directory) {
 
 for (const file of [path.join(root, "package.json"), ...packageFiles()]) {
   const pkg = readJson(file);
-  if (pkg.license !== "MIT") {
-    issues.push(`${path.relative(root, file)}: expected MIT license`);
+  if (pkg.license !== expectedPackageLicense) {
+    issues.push(`${path.relative(root, file)}: expected ${expectedPackageLicense} license metadata`);
   }
 }
 
