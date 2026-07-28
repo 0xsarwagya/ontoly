@@ -9,6 +9,7 @@ Ontoly uses RFCs for every change that affects public graph, compiler, query, pl
 | [0002](rfcs/0002-compiler-pipeline.md) | Accepted | Compiler Pipeline |
 | [0003](rfcs/0003-query-engine.md) | Accepted | Query Engine |
 | [0004](rfcs/0004-plugin-and-compiler-pass-system.md) | Accepted | Plugin and Compiler Pass System |
+| [0005](rfcs/0005-graph-diffing.md) | Draft | Graph Diffing |
 
 ## When to Write an RFC
 
