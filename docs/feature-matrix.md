@@ -1,9 +1,9 @@
 ---
 title: "Feature Matrix"
-description: "Supported, Release Candidate, and non-goal surfaces across Ontoly packages, validation, MCP, skills, and graph tooling."
+description: "Supported, experimental, and non-goal surfaces across Ontoly packages, validation, MCP, skills, and graph tooling."
 ---
 
-| Feature | Release Candidate Status | Evidence |
+| Feature | Status | Evidence |
 | ------- | ------------ | -------- |
 | Software Graph JSON | Supported | `@0xsarwagya/ontoly-core` |
 | JavaScript frontend | Supported | ESM, CommonJS, JSX, and `jsconfig.json` |

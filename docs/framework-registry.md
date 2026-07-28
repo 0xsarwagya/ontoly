@@ -37,7 +37,7 @@ It does not construct graph nodes and does not run compiler passes.
 
 ## Default Analyzers
 
-The Release Candidate registry includes:
+The default registry includes:
 
 - NestJS
 - Express
