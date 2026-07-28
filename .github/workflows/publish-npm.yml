@@ -64,9 +64,19 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm whoami --registry=https://registry.npmjs.org/
 
+      - name: Resolve npm dist-tag
+        run: |
+          if [ -n "${{ inputs.tag }}" ]; then
+            echo "NPM_DIST_TAG=${{ inputs.tag }}" >> "$GITHUB_ENV"
+          elif echo "$RELEASE_VERSION" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "NPM_DIST_TAG=latest" >> "$GITHUB_ENV"
+          else
+            echo "NPM_DIST_TAG=rc" >> "$GITHUB_ENV"
+          fi
+
       - name: Publish packages
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_PUBLISH_TAG: ${{ inputs.tag || 'rc' }}
+          NPM_PUBLISH_TAG: ${{ env.NPM_DIST_TAG }}
           NPM_PROVENANCE: "true"
         run: node scripts/publish-npm.mjs
