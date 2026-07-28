@@ -366,7 +366,7 @@ Common commands:
 | `pnpm ontoly evaluate` | Run semantic evaluation. |
 | `pnpm ontoly leaderboard` | Generate semantic leaderboard output. |
 | `pnpm ontoly benchmark performance` | Run performance benchmark reporting. |
-| `pnpm ontoly diff old.graph new.graph` | Compare two graph outputs. |
+| `pnpm ontoly diff base.graph head.graph` | Deterministic Software Graph diff per [RFC 0005](rfcs/0005-graph-diffing.md). |
 
 See [docs/cli.md](docs/cli.md) and [docs/reference/cli.mdx](docs/reference/cli.mdx).
 

@@ -1,0 +1,130 @@
+---
+title: "Graph Diffing"
+description: "Deterministic diffing between two Software Graphs, defined by RFC 0005."
+---
+
+# Graph Diffing
+
+Ontoly compares two Software Graphs and returns the exact set of node and
+edge changes between them. The operation is deterministic: identical
+input graphs produce identical output, and every entry is sorted by id.
+
+Graph diffing is the primitive that downstream products use to describe
+change over time — pull request review, release notes, agent
+verification, drift analysis — over deterministic graph facts rather
+than raw source text.
+
+The full contract is [RFC 0005](../rfcs/0005-graph-diffing.md).
+
+## Installation
+
+The diffing engine ships as a small consumer package that depends only
+on `@0xsarwagya/ontoly-core`.
+
+```bash
+pnpm add @0xsarwagya/ontoly-diff
+```
+
+## Programmatic API
+
+```ts
+import { diffSoftwareGraphs } from "@0xsarwagya/ontoly-diff";
+
+const diff = diffSoftwareGraphs(baseGraph, headGraph);
+
+console.log(diff.summary);
+// {
+//   addedNodeCount: 3,
+//   removedNodeCount: 1,
+//   modifiedNodeCount: 2,
+//   addedEdgeCount: 7,
+//   removedEdgeCount: 4,
+//   unchangedNodeCount: 421,
+//   unchangedEdgeCount: 1_812,
+// }
+
+for (const modified of diff.modifiedNodes) {
+  console.log(modified.id, modified.changedFields);
+}
+```
+
+## CLI
+
+```bash
+ontoly diff <base-graph.json> <head-graph.json> [--json]
+```
+
+Human output (default):
+
+```text
+Software Graph Diff
+Base hash: abc123
+Head hash: def456
+
+Nodes: +3 -1 ~2 (=421)
+Edges: +7 -4 (=1812)
+
+Added nodes:
+  + fn:src/routes.ts:createHandler
+  + method:src/service.ts:UserService.approve
+  + res:api:v2/subscriptions
+
+Modified nodes:
+  ~ fn:src/index.ts:main [metadata]
+  ~ method:src/auth.ts:AuthService.login [span]
+```
+
+`--json` returns the full `GraphDiff` document.
+
+## Identity
+
+Node identity is `node.id`. Two nodes with the same id across the two
+graphs are treated as the same entity. This works because node ids are
+deterministic in Ontoly:
+
+- `{typePrefix}:{file}:{name}` when the node has a file.
+- `{typePrefix}:{name}:{signatureHash}` when the node has no file but
+  has a signature.
+- `{typePrefix}:{name}` as fallback.
+
+Edge identity is `edge.id`, which is a deterministic hash of
+`(type, from, to)`. An edge whose triple changes gets a new id and is
+reported as one removed edge and one added edge.
+
+## Modified nodes
+
+A node is modified when both graphs contain a node with the same id and
+any of these fields differ:
+
+- `type`
+- `name`
+- `file`
+- `package`
+- `span`
+- `metadata`
+
+`changedFields` lists the fields that differ, ordered lexicographically.
+
+## Non-goals in this version
+
+- **Rename detection.** A symbol renamed within a file is reported as
+  one removed node and one added node.
+- **Move detection.** A symbol moved between files is reported as one
+  removed node and one added node.
+- **Diagnostic diffing.** Diagnostics may change across builds for
+  reasons unrelated to source changes and are excluded from diff
+  output.
+- **Semantic interpretation.** Diff output does not include natural
+  language explanations or business logic labels.
+
+Future RFCs may add rename and move detection as an opt-in layer over
+this primitive.
+
+## Determinism guarantees
+
+- Identical input graphs produce an empty diff.
+- Repeated invocations produce identical output.
+- All arrays are sorted by id, ascending.
+- `changedFields` is sorted lexicographically.
+- `generatedAt` is the only non-deterministic field and is excluded
+  from diff equality semantics.
