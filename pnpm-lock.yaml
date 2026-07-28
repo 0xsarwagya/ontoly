@@ -218,9 +218,6 @@ importers:
         specifier: workspace:*
         version: link:../diagnostics
     devDependencies:
-      '@0xsarwagya/ontoly-parser-typescript':
-        specifier: workspace:*
-        version: link:../parser-typescript
       '@types/node':
         specifier: ^22.15.3
         version: 22.20.1

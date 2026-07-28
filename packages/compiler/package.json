@@ -36,7 +36,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "@0xsarwagya/ontoly-parser-typescript": "workspace:*",
     "@types/node": "^22.15.3",
     "tsup": "^8.3.5",
     "typescript": "5.9.2",
