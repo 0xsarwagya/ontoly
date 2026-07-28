@@ -4,8 +4,8 @@ This is an official Ontoly Agent Skill. It is independently installable and teac
 
 ## Version
 
-- Skill version: 1.0.0-rc.5
-- Minimum Ontoly version: 1.0.0-rc.5
+- Skill version: 1.0.0-rc.20
+- Minimum Ontoly version: 1.0.0-rc.20
 - Required capabilities: `FindDeadCode`, `FindUnusedFeature`, `FindEntrypoints`, `FindDependents`, `EvidencePack`
 - Enhancement: LLM Enhancement
 - Deprecated: no

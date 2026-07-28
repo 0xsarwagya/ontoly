@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-parser-openapi",
-  "version": "1.0.0-rc.5",
+  "version": "1.0.0-rc.20",
   "description": "OpenAPI frontend for Ontoly Software Graph facts.",
   "type": "module",
   "license": "AGPL-3.0-only",

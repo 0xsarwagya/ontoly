@@ -39,8 +39,8 @@ Use Ontoly metadata keys:
 
 ```yaml
 metadata:
-  ontoly.skill.version: "1.0.0-rc.5"
-  ontoly.min.version: "1.0.0-rc.5"
+  ontoly.skill.version: "1.0.0-rc.20"
+  ontoly.min.version: "1.0.0-rc.20"
   ontoly.capabilities: "ExplainArchitecture, GraphStatistics"
   ontoly.category: "architecture"
   ontoly.enhancement: "LLM Enhancement"

@@ -2,6 +2,7 @@ import { access, readFile, readdir } from "node:fs/promises";
 import { basename, dirname, join, relative, resolve } from "node:path";
 import { normalizePath, stableHash } from "@0xsarwagya/ontoly-core";
 import type { RepositoryDiscovery, SourceArtifact, SourceInventory, SourceProvider } from "../types";
+import { runDeterministicTasks } from "../execution";
 
 const IGNORED_PARTS = new Set([
   ".artifacts",
@@ -66,6 +67,7 @@ export async function createSourceInventory(
   root: string,
   provider?: SourceProvider,
   extraIgnored: readonly string[] = [],
+  workers?: number,
 ): Promise<SourceInventory> {
   if (provider) {
     const sources = provider.listFiles().map((file): SourceArtifact => {
@@ -84,8 +86,9 @@ export async function createSourceInventory(
   }
 
   const files = await discoverFiles(root, extraIgnored);
-  const sources = await Promise.all(
-    files.map(async (file): Promise<SourceArtifact> => {
+  const sources = await runDeterministicTasks(
+    files,
+    async (file): Promise<SourceArtifact> => {
       const contents = await readFile(join(root, file), "utf8");
 
       return {
@@ -93,11 +96,12 @@ export async function createSourceInventory(
         kind: classifySource(file),
         digest: `sha256:${stableHash(contents)}`,
       };
-    }),
+    },
+    workers,
   );
 
   return {
-    sources: sources.sort((left, right) => left.path.localeCompare(right.path)),
+    sources: [...sources].sort((left, right) => left.path.localeCompare(right.path)),
   };
 }
 

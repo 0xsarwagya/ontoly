@@ -17,7 +17,9 @@ import type {
 } from "./types";
 
 export * from "./context";
+export * from "./cache";
 export * from "./diagnostics";
+export * from "./execution";
 export * from "./graph";
 export * from "./memory";
 export * from "./passes";
@@ -67,9 +69,10 @@ export async function buildSoftwareGraphWithArtifacts(
     invocation,
     passes: options.passes,
     validationHooks: options.validationHooks,
+    onProgress: options.onProgress,
   });
   const stages = createDefaultCompilerStages();
-  const { state } = await executeCompilerPipeline(context, stages);
+  const { state, profile } = await executeCompilerPipeline(context, stages);
   const diagnostics = context.diagnostics.list();
   const graph = state.graph;
   const status = state.fatal || !graph ? "failed" : "success";
@@ -96,6 +99,16 @@ export async function buildSoftwareGraphWithArtifacts(
     )),
     artifacts: state.artifacts,
     stages: state.stageTrace,
+    cache: state.cache ?? {
+      compatible: false,
+      hit: false,
+      reason: "disabled",
+      sourceFingerprint: "",
+      invalidation: { added: [], modified: [], removed: [] },
+      entries: new Map(),
+    },
+    profile,
+    products: state.products,
   };
 }
 

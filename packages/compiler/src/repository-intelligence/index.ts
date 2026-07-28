@@ -67,6 +67,7 @@ export function createRepositoryIntelligencePass(options: {
 
   return {
     id: passId,
+    version: REPOSITORY_INTELLIGENCE_VERSION,
     kind: "semantic",
     stage: "fact-normalization",
     semantic: true,
