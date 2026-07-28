@@ -262,6 +262,25 @@ importers:
         specifier: 5.9.2
         version: 5.9.2
 
+  packages/diff:
+    dependencies:
+      '@0xsarwagya/ontoly-core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      '@types/node':
+        specifier: ^22.15.3
+        version: 22.20.1
+      tsup:
+        specifier: ^8.3.5
+        version: 8.5.1(postcss@8.5.24)(typescript@5.9.2)
+      typescript:
+        specifier: 5.9.2
+        version: 5.9.2
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.7(@types/debug@4.1.13)(@types/node@22.20.1)
+
   packages/enhancer:
     dependencies:
       '@0xsarwagya/ontoly-core':
