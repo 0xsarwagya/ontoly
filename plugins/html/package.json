@@ -35,7 +35,8 @@
   "devDependencies": {
     "@types/node": "^22.15.3",
     "tsup": "^8.3.5",
-    "typescript": "5.9.2"
+    "typescript": "5.9.2",
+    "vitest": "^3.0.0"
   },
   "bugs": {
     "url": "https://github.com/0xsarwagya/ontoly/issues"
