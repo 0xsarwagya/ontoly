@@ -14,7 +14,7 @@ import {
 } from "@0xsarwagya/ontoly-core";
 import { createSemanticIndex } from "@0xsarwagya/ontoly-core";
 import { createInteractiveHtmlGraph } from "@0xsarwagya/ontoly-plugin-html";
-import { createQueryEngine } from "@0xsarwagya/ontoly-query";
+import { createQueryEngine, type QueryEngine } from "@0xsarwagya/ontoly-query";
 import { serializeTypeScriptProject, type TypeScriptProject } from "@0xsarwagya/ontoly-typescript";
 
 export interface OntolyOutputBundleOptions {
@@ -100,8 +100,9 @@ export async function createOntolyOutputBundle(
     files.push(path);
   };
 
-  await writeJson("SoftwareGraph.json", graph);
-  await writeJson("graph.json", graph);
+  const serializedGraph = `${JSON.stringify(graph, null, 2)}\n`;
+  await writeText("SoftwareGraph.json", serializedGraph);
+  await writeText("graph.json", serializedGraph);
   await writeJson("diagnostics.json", graph.diagnostics);
   await writeJson("metadata.json", graph.metadata);
   await writeJson("indexes.json", graph.indexes);
@@ -111,12 +112,12 @@ export async function createOntolyOutputBundle(
   await writeJson("quality.json", createQualityReport(coverage));
 
   if (options.semanticModel) {
-    await writeJson("semantic-model.json", JSON.parse(serializeTypeScriptProject(options.semanticModel)));
+    await writeText("semantic-model.json", serializeTypeScriptProject(options.semanticModel));
   }
 
-  await writeJson("reports/architecture.json", architectureReport(graph));
+  await writeJson("reports/architecture.json", architectureReport(graph, query));
   await writeJson("reports/api.json", apiReport(graph));
-  await writeJson("reports/dependencies.json", dependencyReport(graph));
+  await writeJson("reports/dependencies.json", dependencyReport(graph, query));
   await writeJson("reports/configuration.json", configurationReport(graph));
   await writeJson("reports/frameworks.json", frameworkReport(graph));
   await writeJson("reports/workspace.json", workspaceReport(graph));
@@ -239,11 +240,11 @@ function createQualityReport(report: SemanticCoverageReport): Record<string, unk
   };
 }
 
-function architectureReport(graph: SoftwareGraph): Record<string, unknown> {
+function architectureReport(graph: SoftwareGraph, query: QueryEngine): Record<string, unknown> {
   return {
     repository: graph.repository.name,
     graphHash: graph.metadata.deterministicHash,
-    statistics: createQueryEngine(graph).stats(),
+    statistics: query.stats(),
     frameworks: graph.nodes.filter((node) => node.type === "Framework"),
     packages: graph.nodes.filter((node) => node.type === "Package"),
     modules: graph.nodes.filter((node) => node.type === "Module"),
@@ -264,8 +265,7 @@ function apiReport(graph: SoftwareGraph): Record<string, unknown> {
   };
 }
 
-function dependencyReport(graph: SoftwareGraph): Record<string, unknown> {
-  const query = createQueryEngine(graph);
+function dependencyReport(graph: SoftwareGraph, query: QueryEngine): Record<string, unknown> {
   const relationshipTypes = new Set<RelationshipType>(["DEPENDS_ON", "IMPORTS", "USES", "INJECTS", "PROVIDES"]);
   return {
     packages: graph.nodes.filter((node) => node.type === "Package"),

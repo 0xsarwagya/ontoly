@@ -35,6 +35,7 @@ export function createOpenApiFrontendPass(options: {
 
   return {
     id: passId,
+    version: OPENAPI_FRONTEND_VERSION,
     kind: "parser",
     stage: "frontend-parsing",
     semantic: true,

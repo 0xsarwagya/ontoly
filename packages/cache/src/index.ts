@@ -1,4 +1,5 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
+import { randomUUID } from "node:crypto";
 import { isAbsolute, join } from "node:path";
 import type { SoftwareGraph } from "@0xsarwagya/ontoly-core";
 import {
@@ -18,6 +19,7 @@ export interface GraphArtifactPaths {
   readonly semanticIndex: string;
   readonly statistics: string;
   readonly cache: string;
+  readonly products: string;
 }
 
 export interface PersistGraphOptions {
@@ -40,6 +42,7 @@ export function getGraphArtifactPaths(options: PersistGraphOptions): GraphArtifa
     semanticIndex: join(directory, "index.json"),
     statistics: join(directory, "statistics.json"),
     cache: join(directory, "cache.json"),
+    products: join(directory, "products.json"),
   };
 }
 
@@ -49,11 +52,12 @@ export async function persistGraph(
 ): Promise<GraphArtifactPaths> {
   const paths = getGraphArtifactPaths(options);
   const semanticIndex = createSemanticIndex(graph);
+  const serializedGraph = serializeJson(graph);
   await mkdir(paths.directory, { recursive: true });
 
   await Promise.all([
-    writeJson(paths.graph, graph),
-    writeJson(paths.legacyGraph, graph),
+    writeFile(paths.graph, serializedGraph, "utf8"),
+    writeFile(paths.legacyGraph, serializedGraph, "utf8"),
     writeJson(paths.diagnostics, graph.diagnostics),
     writeJson(paths.metadata, graph.metadata),
     writeJson(paths.indexes, graph.indexes),
@@ -113,6 +117,39 @@ export async function persistCompilerCache(
   return paths;
 }
 
+/** Atomically commits the graph and manifest used by incremental compiler builds. */
+export async function persistCompilerSnapshot(
+  graph: SoftwareGraph,
+  options: PersistGraphOptions,
+  cache: unknown,
+  products: unknown = {},
+): Promise<GraphArtifactPaths> {
+  const paths = getGraphArtifactPaths(options);
+  await mkdir(paths.directory, { recursive: true });
+  await Promise.all([
+    writeJsonAtomic(paths.graph, graph),
+    writeJsonAtomic(paths.products, products),
+  ]);
+  // The manifest is the commit marker and must become visible last.
+  await writeJsonAtomic(paths.cache, cache);
+  return paths;
+}
+
+export async function loadCompilerProducts<T>(
+  options: PersistGraphOptions,
+  fallback: T,
+): Promise<T> {
+  const paths = getGraphArtifactPaths(options);
+  try {
+    return JSON.parse(await readFile(paths.products, "utf8")) as T;
+  } catch (error) {
+    if (isMissingFileError(error)) {
+      return fallback;
+    }
+    throw error;
+  }
+}
+
 export async function loadCompilerCache<T>(
   options: PersistGraphOptions,
   fallback: T,
@@ -132,7 +169,21 @@ export async function loadCompilerCache<T>(
 }
 
 async function writeJson(path: string, value: unknown): Promise<void> {
-  await writeFile(path, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+  await writeFile(path, serializeJson(value), "utf8");
+}
+
+function serializeJson(value: unknown): string {
+  return `${JSON.stringify(value, null, 2)}\n`;
+}
+
+async function writeJsonAtomic(path: string, value: unknown): Promise<void> {
+  const temporaryPath = `${path}.${process.pid}.${randomUUID()}.tmp`;
+  try {
+    await writeJson(temporaryPath, value);
+    await rename(temporaryPath, path);
+  } finally {
+    await rm(temporaryPath, { force: true });
+  }
 }
 
 async function readFirstExisting(paths: readonly string[]): Promise<string> {

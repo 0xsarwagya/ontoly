@@ -20,6 +20,8 @@ pnpm add @0xsarwagya/ontoly-cache
 - `persistGraph(graph, options)` writes canonical graph artifacts.
 - `loadGraph(options)` reads graph artifacts from disk.
 - `loadOrCreateSemanticIndex(options)` loads or derives the Semantic Index.
+- `persistCompilerSnapshot(graph, options, manifest, products)` atomically
+  commits the reusable graph and frontend products, publishing the manifest last.
 
 ## Example
 
@@ -31,7 +33,7 @@ const graph = await loadGraph({ root: process.cwd(), directory: ".ontoly" });
 
 ## Status
 
-Release Candidate package for Ontoly v1.0.0-rc.5. Public contracts are governed by the Software Graph specification and RFC process.
+Release Candidate package for Ontoly v1.0.0-rc.20. Public contracts are governed by the Software Graph specification and RFC process.
 
 ## Links
 

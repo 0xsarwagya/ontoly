@@ -20,19 +20,30 @@ pnpm add @0xsarwagya/ontoly-compiler
 
 - `buildSoftwareGraph(options)` compiles a repository to a Software Graph.
 - Compiler context, passes, pipeline stages, graph builder, and validation hooks.
+- Incremental graph and frontend-product snapshots with exact source invalidation.
+- Per-stage progress, timing, and bounded deterministic task execution.
+- TypeScript incremental-builder reuse for watch mode and resident runners.
 - `defaultCompilerPasses()` for the standard deterministic pipeline.
 
 ## Example
 
 ```ts
-import { buildSoftwareGraph } from "@0xsarwagya/ontoly-compiler";
+import { buildSoftwareGraphWithArtifacts } from "@0xsarwagya/ontoly-compiler";
 
-const graph = await buildSoftwareGraph({ root: process.cwd() });
+const result = await buildSoftwareGraphWithArtifacts({
+  root: process.cwd(),
+  mode: "incremental",
+  cache: true,
+  workers: 8,
+  onProgress: ({ stage, phase }) => console.log(stage, phase),
+});
+
+console.log(result.cache.hit, result.profile.durationMs);
 ```
 
 ## Status
 
-Release Candidate package for Ontoly v1.0.0-rc.5. Public contracts are governed by the Software Graph specification and RFC process.
+Release Candidate package for Ontoly v1.0.0-rc.20. Public contracts are governed by the Software Graph specification and RFC process.
 
 ## Links
 

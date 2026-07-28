@@ -29,6 +29,8 @@ export interface AnalyzeTypeScriptProjectInput {
    * `tsconfig.json` discovery is skipped. Used for zero-disk (in-memory) builds.
    */
   readonly host?: ts.CompilerHost | undefined;
+  /** Reuse TypeScript's incremental builder in long-lived filesystem processes. */
+  readonly incremental?: boolean | undefined;
 }
 
 export interface TypeScriptProject {
@@ -361,6 +363,8 @@ interface ExportRecord {
 }
 
 const TYPESCRIPT_EXTENSIONS = [".ts", ".tsx", ".mts", ".cts"] as const;
+const MAX_INCREMENTAL_PROGRAMS = 1;
+const incrementalPrograms = new Map<string, ts.EmitAndSemanticDiagnosticsBuilderProgram>();
 
 export async function analyze(rootOrInput: string | AnalyzeTypeScriptProjectInput): Promise<TypeScriptProject> {
   const input = typeof rootOrInput === "string" ? { root: rootOrInput } : rootOrInput;
@@ -442,9 +446,7 @@ export function analyzeTypeScriptProject(input: AnalyzeTypeScriptProjectInput): 
     // tsconfig discovery and honor only the explicit overrides.
     ...(input.host ? (input.compilerOptions ?? {}) : loadProjectCompilerOptions(root, input.compilerOptions)),
   };
-  const program = input.host
-    ? ts.createProgram(files, compilerOptions, input.host)
-    : ts.createProgram(files, compilerOptions);
+  const program = createAnalysisProgram(root, files, compilerOptions, input);
   const checker = program.getTypeChecker();
   const sourceFiles = program
     .getSourceFiles()
@@ -587,6 +589,52 @@ export function analyzeTypeScriptProject(input: AnalyzeTypeScriptProjectInput): 
       deterministicHash: stableHash(stableStringify({ ...project, metadata: undefined })),
     },
   };
+}
+
+/** Releases resident TypeScript builders, primarily for tests and constrained runners. */
+export function clearTypeScriptProgramCache(): void {
+  incrementalPrograms.clear();
+}
+
+function createAnalysisProgram(
+  root: string,
+  files: readonly string[],
+  compilerOptions: ts.CompilerOptions,
+  input: AnalyzeTypeScriptProjectInput,
+): ts.Program {
+  if (input.host || input.incremental === false) {
+    return input.host
+      ? ts.createProgram(files, compilerOptions, input.host)
+      : ts.createProgram(files, compilerOptions);
+  }
+
+  const key = stableHash(stableStringify({ root, files, compilerOptions }));
+  const oldProgram = incrementalPrograms.get(key);
+  const host = ts.createIncrementalCompilerHost(compilerOptions);
+  const builder = ts.createEmitAndSemanticDiagnosticsBuilderProgram(
+    files,
+    compilerOptions,
+    host,
+    oldProgram,
+  );
+  rememberIncrementalProgram(key, builder);
+  return builder.getProgram();
+}
+
+function rememberIncrementalProgram(
+  key: string,
+  program: ts.EmitAndSemanticDiagnosticsBuilderProgram,
+): void {
+  incrementalPrograms.delete(key);
+  incrementalPrograms.set(key, program);
+
+  while (incrementalPrograms.size > MAX_INCREMENTAL_PROGRAMS) {
+    const oldest = incrementalPrograms.keys().next().value as string | undefined;
+    if (oldest === undefined) {
+      break;
+    }
+    incrementalPrograms.delete(oldest);
+  }
 }
 
 export function serializeTypeScriptProject(project: TypeScriptProject): string {

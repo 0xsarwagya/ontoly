@@ -1,5 +1,9 @@
 import ts from "typescript";
-import type { SoftwareGraphDiagnostic } from "@0xsarwagya/ontoly-core";
+import {
+  stableHash,
+  stableStringify,
+  type SoftwareGraphDiagnostic,
+} from "@0xsarwagya/ontoly-core";
 import type {
   CompilerPass,
   CompilerRelationship,
@@ -22,6 +26,7 @@ import {
 export const TYPESCRIPT_FRONTEND_NAME = TYPESCRIPT_ANALYZER_NAME;
 export const TYPESCRIPT_FRONTEND_PASS_ID = "@0xsarwagya/ontoly-parser-typescript:frontend";
 export const TYPESCRIPT_FRONTEND_VERSION = TYPESCRIPT_ANALYZER_VERSION;
+export const TYPESCRIPT_FRONTEND_CACHE_VERSION = "1.0.0";
 
 export interface ParseTypeScriptFrontendInput {
   readonly root: string;
@@ -54,6 +59,13 @@ export function createTypeScriptFrontendPass(
 
   return {
     id: passId,
+    version: TYPESCRIPT_FRONTEND_VERSION,
+    cacheKey: stableHash(stableStringify({
+      version: TYPESCRIPT_FRONTEND_CACHE_VERSION,
+      analyzerVersion: TYPESCRIPT_FRONTEND_VERSION,
+      compilerOptions: options.compilerOptions,
+      files: options.files,
+    })),
     kind: "parser",
     stage: "frontend-parsing",
     semantic: true,
@@ -99,6 +111,9 @@ export function createTypeScriptFrontendPass(
           semanticModelVersion: result.semanticModel.version,
           frameworkDetections: result.frameworkDetections.filter((item) => item.detected).map((item) => item.framework),
           semanticFacts: result.semanticFacts.length,
+        },
+        products: {
+          "typescript-semantic-model": result.semanticModel,
         },
       };
     },

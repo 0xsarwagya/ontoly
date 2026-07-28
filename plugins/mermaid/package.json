@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-plugin-mermaid",
-  "version": "1.0.0-rc.5",
+  "version": "1.0.0-rc.20",
   "description": "Mermaid diagram plugin for Ontoly Software Graphs.",
   "type": "module",
   "license": "AGPL-3.0-only",

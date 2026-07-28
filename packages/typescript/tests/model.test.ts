@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   analyzeTypeScriptProject,
+  clearTypeScriptProgramCache,
   deserializeTypeScriptProject,
   serializeTypeScriptProject,
   validateTypeScriptSemanticModel,
@@ -72,6 +73,25 @@ describe("typescript semantic model", () => {
     const project = analyzeTypeScriptProject({ root });
 
     expect(project.files.map((file) => file.file)).toEqual(["src/service.ts", "src/types.ts"]);
+  });
+
+  it("reuses the incremental builder while observing changed source", async () => {
+    clearTypeScriptProgramCache();
+    const root = await createFixture();
+    const files = ["src/types.ts", "src/service.ts"];
+    const first = analyzeTypeScriptProject({ root, files });
+
+    await writeFile(
+      join(root, "src", "service.ts"),
+      "export class UpdatedService { status(): string { return 'ready'; } }\n",
+      "utf8",
+    );
+    const second = analyzeTypeScriptProject({ root, files });
+
+    expect(first.classes.map((item) => item.name)).toContain("UserService");
+    expect(second.classes.map((item) => item.name)).toContain("UpdatedService");
+    expect(second.classes.map((item) => item.name)).not.toContain("UserService");
+    clearTypeScriptProgramCache();
   });
 });
 

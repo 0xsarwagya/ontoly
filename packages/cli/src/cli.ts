@@ -31,6 +31,8 @@ import {
   initializeOntolyProject,
   watchSoftwareGraph,
   writeGraphArtifacts,
+  type CompilerCacheView,
+  type CompilerProgressListener,
 } from "@0xsarwagya/ontoly-compiler";
 import {
   createSoftwareGraph,
@@ -447,9 +449,15 @@ async function buildCommand(cli: ParsedCli): Promise<void> {
       root: repository.root,
       outputDir,
       write: repository.source.kind === "local" ? writeCompilerArtifacts : false,
+      mode: flagBoolean(cli, "no-cache") ? "clean" : "incremental",
+      cache: repository.source.kind === "local" && !flagBoolean(cli, "no-cache"),
+      cacheDir: join(repository.outputRoot, ".ontoly", "cache", "compiler"),
+      workers: cli.flags.has("workers") ? flagNumber(cli, "workers", 1) : undefined,
+      onProgress: createBuildProgressListener(cli),
       passes: defaultCompilerPasses(),
     });
     const graph = result.graph ? graphForRepositorySource(result.graph, repository.source) : undefined;
+    const semanticModel = semanticModelFromCompilerProducts(result.products, repository.source);
     let artifacts = result.artifacts;
 
     if (graph && result.status !== "failed" && writeCompilerArtifacts && repository.source.kind === "remote") {
@@ -470,6 +478,8 @@ async function buildCommand(cli: ParsedCli): Promise<void> {
           diagnostics: result.diagnostics.length,
           diagnosticEntries: result.diagnostics,
           artifacts,
+          cache: serializeCompilerCache(result.cache),
+          profile: result.profile,
         }, null, 2));
       } else {
         logger.info(`Indexed ${result.discovery.files.length} files`);
@@ -492,13 +502,13 @@ async function buildCommand(cli: ParsedCli): Promise<void> {
 
     if (shouldWriteOutputBundle(cli, outputDir)) {
       bundle = await writeOutputBundle({
-        sourceRoot: repository.root,
         outputRoot: repository.outputRoot,
         outputDir: outputDirectoryForRepository(
           repository,
           flagString(cli, "bundle-output", isOntolyOutputDirectory(outputDir) ? outputDir : "ontoly-output"),
         ),
         graph,
+        semanticModel,
         cli,
         source: repository.source,
       });
@@ -519,6 +529,8 @@ async function buildCommand(cli: ParsedCli): Promise<void> {
           files: bundle.files.length,
           communities: bundle.communities.length,
         } : undefined,
+        cache: serializeCompilerCache(result.cache),
+        profile: result.profile,
       }, null, 2));
       process.exitCode = result.status === "success" ? 0 : 1;
       return;
@@ -531,10 +543,11 @@ async function buildCommand(cli: ParsedCli): Promise<void> {
     logger.info(`Built ${graph.nodes.length} nodes${formatCounts(graph.nodes.map((node) => node.type))}`);
     logger.info(`Generated ${graph.edges.length} relationships${formatCounts(graph.edges.map((edge) => edge.type))}`);
 
-    const duration = graph.metadata.durationMs ?? 0;
+    const duration = result.profile.durationMs;
     logger.success("Built Software Graph");
     logger.info(`Diagnostics: ${graph.diagnostics.length}`);
     logger.info(`Hash: ${graph.metadata.deterministicHash}`);
+    logger.info(`Compiler cache: ${result.cache.hit ? "hit" : result.cache.reason}`);
     logger.success(`Build completed in ${(duration / 1000).toFixed(2)}s`);
 
     if (artifacts) {
@@ -567,9 +580,15 @@ async function outputCommand(cli: ParsedCli): Promise<void> {
       root: repository.root,
       outputDir,
       write: false,
+      mode: flagBoolean(cli, "no-cache") ? "clean" : "incremental",
+      cache: repository.source.kind === "local" && !flagBoolean(cli, "no-cache"),
+      cacheDir: join(repository.outputRoot, ".ontoly", "cache", "compiler"),
+      workers: cli.flags.has("workers") ? flagNumber(cli, "workers", 1) : undefined,
+      onProgress: createBuildProgressListener(cli),
       passes: defaultCompilerPasses(),
     });
     const graph = result.graph ? graphForRepositorySource(result.graph, repository.source) : undefined;
+    const semanticModel = semanticModelFromCompilerProducts(result.products, repository.source);
 
     if (!graph || result.status === "failed") {
       throw new OntolyCliError({
@@ -581,10 +600,10 @@ async function outputCommand(cli: ParsedCli): Promise<void> {
     }
 
     const bundle = await writeOutputBundle({
-      sourceRoot: repository.root,
       outputRoot: repository.outputRoot,
       outputDir,
       graph,
+      semanticModel,
       cli,
       source: repository.source,
     });
@@ -2268,26 +2287,44 @@ function isOntolyOutputDirectory(path: string): boolean {
 }
 
 async function writeOutputBundle(input: {
-  readonly sourceRoot: string;
   readonly outputRoot: string;
   readonly outputDir: string;
   readonly graph: SoftwareGraph;
+  readonly semanticModel?: TypeScriptProject | undefined;
   readonly cli: ParsedCli;
   readonly source: RepositorySource;
 }): Promise<OntolyOutputBundle> {
-  const semanticModel = flagBoolean(input.cli, "no-semantic")
-    ? undefined
-    : semanticModelForRepositorySource(analyzeTypeScriptProject({ root: input.sourceRoot }), input.source);
   return createOntolyOutputBundle({
     root: input.outputRoot,
     directory: input.outputDir,
     graph: input.graph,
-    semanticModel,
+    semanticModel: flagBoolean(input.cli, "no-semantic") ? undefined : input.semanticModel,
     source: sourceSummary(input.source) as { readonly kind: "local" | "remote"; readonly remote?: string | undefined },
     includeHtml: !flagBoolean(input.cli, "no-html"),
     maxHtmlNodes: flagNumber(input.cli, "max-nodes", 2500),
     maxHtmlEdges: flagNumber(input.cli, "max-edges", 5000),
   });
+}
+
+function semanticModelFromCompilerProducts(
+  products: ReadonlyMap<string, unknown>,
+  source: RepositorySource,
+): TypeScriptProject | undefined {
+  const product = products.get("typescript-semantic-model");
+  if (!isTypeScriptProject(product)) {
+    return undefined;
+  }
+  return semanticModelForRepositorySource(product, source);
+}
+
+function isTypeScriptProject(value: unknown): value is TypeScriptProject {
+  return typeof value === "object"
+    && value !== null
+    && "version" in value
+    && "files" in value
+    && Array.isArray((value as { readonly files?: unknown }).files)
+    && "symbols" in value
+    && Array.isArray((value as { readonly symbols?: unknown }).symbols);
 }
 
 
@@ -5025,6 +5062,31 @@ function flagBoolean(cli: ParsedCli, name: string): boolean {
   return cli.flags.get(name) === true;
 }
 
+function createBuildProgressListener(cli: ParsedCli): CompilerProgressListener | undefined {
+  if (!flagBoolean(cli, "progress") || flagBoolean(cli, "json")) {
+    return undefined;
+  }
+
+  return (event) => {
+    if (event.phase === "started") {
+      return;
+    }
+    const duration = event.durationMs === undefined ? "" : ` (${event.durationMs.toFixed(2)}ms)`;
+    logger.info(`[${event.completedStages}/${event.totalStages}] ${event.stage}: ${event.phase}${duration}`);
+  };
+}
+
+function serializeCompilerCache(cache: CompilerCacheView): Record<string, unknown> {
+  return {
+    compatible: cache.compatible,
+    hit: cache.hit,
+    reason: cache.reason,
+    sourceFingerprint: cache.sourceFingerprint,
+    previousGraphHash: cache.previousGraphHash,
+    invalidation: cache.invalidation,
+  };
+}
+
 function rootFromCli(
   cli: ParsedCli,
   options: { readonly positional?: boolean | undefined } = {},
@@ -5246,6 +5308,9 @@ function commandHelp(): Record<string, CommandHelp> {
         "--bundle             Also write a rich ontoly-output bundle when using another --output path.",
         "--bundle-output path Rich output directory. Default: ontoly-output.",
         "--no-html            Skip HTML files in the rich output bundle.",
+        "--no-cache           Disable the incremental compiler snapshot.",
+        "--progress           Print compiler stage progress.",
+        "--workers n          Bounded concurrency for independent compiler work.",
         "--no-prompt          Use the current directory when no root is provided.",
         "--yes                Accept prompt defaults for automation.",
         "--json               Print a machine-readable summary.",
@@ -5270,6 +5335,9 @@ function commandHelp(): Record<string, CommandHelp> {
         "--no-semantic   Skip semantic-model.json.",
         "--max-nodes n   Maximum nodes for HTML graph output. Default: 2500.",
         "--max-edges n   Maximum edges for HTML graph output. Default: 5000.",
+        "--no-cache      Disable the incremental compiler snapshot.",
+        "--progress      Print compiler stage progress.",
+        "--workers n     Bounded concurrency for independent compiler work.",
         "--no-prompt     Use the current directory when no root is provided.",
         "--yes           Accept prompt defaults for automation.",
         "--json          Print JSON summary.",

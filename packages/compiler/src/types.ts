@@ -14,7 +14,7 @@ import type { GraphArtifactPaths } from "@0xsarwagya/ontoly-cache";
 
 export type BuildMode = "clean" | "warm" | "watch" | "incremental" | "dry-run";
 
-export const COMPILER_PIPELINE_VERSION = "1.0.0";
+export const COMPILER_PIPELINE_VERSION = "1.1.0";
 
 export const COMPILER_STAGE_IDS = [
   "invocation",
@@ -68,6 +68,8 @@ export interface OntolyConfig {
   readonly exclude?: readonly string[] | undefined;
   readonly plugins?: readonly string[] | undefined;
   readonly parsers?: Record<string, boolean> | undefined;
+  /** Bounded concurrency for independent compiler work. */
+  readonly workers?: number | undefined;
 }
 
 /**
@@ -118,6 +120,9 @@ export interface CompilerInvocation {
   readonly configPath?: string | undefined;
   readonly outputDir: string;
   readonly write: boolean;
+  readonly cacheEnabled: boolean;
+  readonly cacheDir: string;
+  readonly workers: number;
   /**
    * When set, source is read from this provider instead of the filesystem,
    * enabling zero-disk builds. `root` is still used to root relative paths and
@@ -132,6 +137,13 @@ export interface BuildSoftwareGraphOptions {
   readonly outputDir?: string | undefined;
   readonly write?: boolean | undefined;
   readonly mode?: BuildMode | undefined;
+  /** Reuse a validated graph when every compiler input is unchanged. */
+  readonly cache?: boolean | undefined;
+  /** Internal compiler snapshot directory. Defaults to `.ontoly/cache/compiler`. */
+  readonly cacheDir?: string | undefined;
+  /** Receives deterministic lifecycle events suitable for CLIs and remote runners. */
+  readonly onProgress?: CompilerProgressListener | undefined;
+  readonly workers?: number | undefined;
   readonly passes?: readonly CompilerPass[] | undefined;
   readonly validationHooks?: readonly GraphValidationHook[] | undefined;
   /**
@@ -162,7 +174,58 @@ export interface SourceInventory {
 
 export interface CompilerCacheView {
   readonly compatible: boolean;
+  readonly hit: boolean;
+  readonly reason: CompilerCacheReason;
+  readonly sourceFingerprint: string;
+  readonly previousGraphHash?: string | undefined;
+  readonly invalidation: CompilerInvalidation;
   readonly entries: ReadonlyMap<string, unknown>;
+}
+
+export type CompilerCacheReason =
+  | "disabled"
+  | "missing"
+  | "incompatible"
+  | "sources-changed"
+  | "graph-missing"
+  | "graph-mismatch"
+  | "products-mismatch"
+  | "products-missing"
+  | "read-failed"
+  | "hit";
+
+export interface CompilerInvalidation {
+  readonly added: readonly string[];
+  readonly modified: readonly string[];
+  readonly removed: readonly string[];
+}
+
+export type CompilerProgressPhase = "started" | "completed" | "skipped";
+
+export interface CompilerProgressEvent {
+  readonly stage: CompilerStageId;
+  readonly phase: CompilerProgressPhase;
+  readonly completedStages: number;
+  readonly totalStages: number;
+  readonly durationMs?: number | undefined;
+  readonly cacheHit: boolean;
+}
+
+export type CompilerProgressListener = (
+  event: CompilerProgressEvent,
+) => void | Promise<void>;
+
+export interface CompilerStageProfile {
+  readonly stage: CompilerStageId;
+  readonly status: "completed" | "skipped";
+  readonly durationMs: number;
+  readonly heapUsedDeltaBytes: number;
+  readonly rssDeltaBytes: number;
+}
+
+export interface CompilerBuildProfile {
+  readonly durationMs: number;
+  readonly stages: readonly CompilerStageProfile[];
 }
 
 export interface CompilerExtensionRegistry {
@@ -177,12 +240,15 @@ export interface CompilerContext {
   readonly extensions: CompilerExtensionRegistry;
   readonly passManager: PassManager;
   readonly validationHooks: readonly GraphValidationHook[];
+  readonly onProgress?: CompilerProgressListener | undefined;
 }
 
 export interface CompilerPipelineState {
   readonly stageOutputs: ReadonlyMap<CompilerStageId, JsonObject>;
   readonly stageTrace: readonly CompilerStageId[];
   readonly passResults: readonly PassExecutionRecord[];
+  readonly stageProfiles: readonly CompilerStageProfile[];
+  readonly products: ReadonlyMap<string, unknown>;
   readonly discovery?: RepositoryDiscovery | undefined;
   readonly sources?: SourceInventory | undefined;
   readonly cache?: CompilerCacheView | undefined;
@@ -195,6 +261,7 @@ export interface CompilerPipelineState {
 export interface CompilerStageResult {
   readonly output?: JsonObject | undefined;
   readonly passResults?: readonly PassExecutionRecord[] | undefined;
+  readonly products?: ReadonlyMap<string, unknown> | undefined;
   readonly discovery?: RepositoryDiscovery | undefined;
   readonly sources?: SourceInventory | undefined;
   readonly cache?: CompilerCacheView | undefined;
@@ -214,6 +281,7 @@ export interface CompilerStage {
 
 export interface PipelineExecutorResult {
   readonly state: CompilerPipelineState;
+  readonly profile: CompilerBuildProfile;
 }
 
 export interface BuildSoftwareGraphResult {
@@ -224,6 +292,9 @@ export interface BuildSoftwareGraphResult {
   readonly discovery: RepositoryDiscovery;
   readonly artifacts?: GraphArtifactPaths | undefined;
   readonly stages: readonly CompilerStageId[];
+  readonly cache: CompilerCacheView;
+  readonly profile: CompilerBuildProfile;
+  readonly products: ReadonlyMap<string, unknown>;
 }
 
 export interface WatchSoftwareGraphOptions extends BuildSoftwareGraphOptions {
@@ -295,6 +366,9 @@ export interface GraphBuildInput {
 
 export interface CompilerPass {
   readonly id: string;
+  /** Version or stable cache key for invalidating compiler snapshots. */
+  readonly version?: string | undefined;
+  readonly cacheKey?: string | undefined;
   readonly kind: PassKind;
   readonly stage: CompilerStageId;
   readonly semantic: boolean;
@@ -317,6 +391,8 @@ export interface CompilerPassResult {
   readonly diagnostics?: readonly SoftwareGraphDiagnostic[] | undefined;
   readonly parserVersions?: Record<string, string> | undefined;
   readonly output?: JsonObject | undefined;
+  /** Immutable frontend or pass products reusable by emitters and caches. */
+  readonly products?: Readonly<Record<string, unknown>> | undefined;
 }
 
 export interface PassExecutionRecord {
@@ -347,6 +423,7 @@ export interface GraphValidationResult {
 
 export interface GraphValidationHook {
   readonly id: string;
+  readonly version?: string | undefined;
   readonly validate: (
     graph: SoftwareGraph,
     context: CompilerContext,

@@ -137,6 +137,26 @@ graph artifacts. Use `ontoly build . --output .ontoly --bundle` when you want
 both `.ontoly/` and `ontoly-output/`. Use `--no-html` to skip HTML files and
 `--no-semantic` to skip `semantic-model.json`.
 
+## Incremental Builds
+
+Local `build` and `output` commands keep an internal compiler snapshot in
+`.ontoly/cache/compiler`. Ontoly fingerprints source contents, configuration,
+pipeline version, compiler pass versions, and validation hooks. An unchanged
+build reuses the validated graph and frontend products without parsing the
+repository again.
+
+```sh
+ontoly build . --progress
+ontoly build . --workers 8
+ontoly build . --no-cache
+```
+
+`--workers` bounds independent work such as source hashing; it does not split a
+single TypeScript program across files. JSON output includes cache status,
+invalidation details, and per-stage timing. Changing a source reports exact
+added, modified, and removed paths before the graph is rebuilt. Long-lived
+watch and runner processes also reuse TypeScript's incremental builder.
+
 ## Remote Repositories
 
 `ontoly build` and `ontoly output` can compile a git repository without a local

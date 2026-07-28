@@ -4,8 +4,31 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+## 1.0.0-rc.20
+
+### Added
+
+- Added deterministic incremental compiler snapshots with exact source,
+  configuration, compiler-pass, and validation-hook invalidation.
+- Added bounded deterministic worker execution through the compiler API and
+  the CLI `--workers` option.
+- Added compiler progress events and stage profiles covering elapsed time and
+  memory deltas.
+- Added `--no-cache` and `--progress` CLI controls for local builds.
+- Added TypeScript incremental builder reuse for long-lived filesystem
+  processes while preserving isolated in-memory builds.
+- Compiler: `resolveOntolyConfig(config)` helper exported from
+  `@0xsarwagya/ontoly-compiler` for callers that build compiler input by
+  hand and want the same normalization `loadOntolyConfig` applies.
+
 ### Changed
 
+- The default local build now reuses validated compiler products and graph
+  snapshots when all deterministic fingerprints match.
+- TypeScript semantic models are emitted once as compiler products and reused
+  by bundle generation instead of reparsing the project.
+- Output generation reuses a single query engine and avoids duplicate graph
+  serialization.
 - Compiler: `CompilerContext.config` narrowed from `OntolyConfig` to the new
   `ResolvedOntolyConfig` — array (`include`, `exclude`, `plugins`) and record
   (`parsers`) fields are no longer possibly `undefined` after
@@ -16,11 +39,10 @@ All notable Ontoly changes are tracked here.
   unreachable). User-facing `OntolyConfig` is unchanged — `ontoly.config.ts`
   keeps its optional fields.
 
-### Added
+### Performance
 
-- Compiler: `resolveOntolyConfig(config)` helper exported from
-  `@0xsarwagya/ontoly-compiler` for callers that build compiler input by
-  hand and want the same normalization `loadOntolyConfig` applies.
+- A repeated unchanged smoke build completed in 14 ms versus 602 ms cold,
+  preserved the graph hash, and skipped eight semantic pipeline stages.
 
 ## 1.0.0-rc.5
 

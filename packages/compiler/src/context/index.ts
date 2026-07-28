@@ -4,6 +4,7 @@ import type { SoftwareGraphRepository } from "@0xsarwagya/ontoly-core";
 import { createDiagnosticSink } from "../diagnostics";
 import { createPassManager } from "../passes";
 import { discoverRepository } from "../repository";
+import { normalizeCompilerWorkerCount } from "../execution";
 import type {
   BuildSoftwareGraphOptions,
   CompilerContext,
@@ -66,6 +67,11 @@ export async function createCompilerInvocation(
       outputDir: options.outputDir ?? config.outputDir ?? ".ontoly",
       write: options.write ?? false,
       mode: options.mode ?? "clean",
+      cacheEnabled: options.cache ?? (
+        options.mode === "warm" || options.mode === "watch" || options.mode === "incremental"
+      ),
+      cacheDir: options.cacheDir ?? ".ontoly/cache/compiler",
+      workers: normalizeCompilerWorkerCount(options.workers ?? config.workers),
     },
     {
       configPath: options.configPath,
@@ -79,6 +85,7 @@ export async function createCompilerContext(input: {
   readonly config?: OntolyConfig | undefined;
   readonly passes?: readonly CompilerPass[] | undefined;
   readonly validationHooks?: readonly GraphValidationHook[] | undefined;
+  readonly onProgress?: BuildSoftwareGraphOptions["onProgress"];
 }): Promise<CompilerContext> {
   const config = input.config
     ? resolveOntolyConfig(input.config)
@@ -103,6 +110,7 @@ export async function createCompilerContext(input: {
     extensions: { namespaces: [] },
     passManager: createPassManager(input.passes ?? []),
     validationHooks: input.validationHooks ?? [],
+    onProgress: input.onProgress,
   };
 }
 
