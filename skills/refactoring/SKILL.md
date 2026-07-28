@@ -4,8 +4,8 @@ description: Plan refactors with Ontoly impact and dependency evidence. Use when
 license: AGPL-3.0-only
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "1.0.0-rc.22"
-  ontoly.min.version: "1.0.0-rc.22"
+  ontoly.skill.version: "1.0.0"
+  ontoly.min.version: "1.0.0"
   ontoly.capabilities: "ImpactAnalysis, FindDependencies, FindDependents, FindCycles, EvidencePack"
   ontoly.category: "refactoring"
   ontoly.enhancement: "LLM Enhancement"

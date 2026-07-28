@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-cache",
-  "version": "1.0.0-rc.22",
+  "version": "1.0.0",
   "description": "Local graph artifact persistence for Ontoly.",
   "type": "module",
   "license": "AGPL-3.0-only",
