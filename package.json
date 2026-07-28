@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-repository",
-  "version": "1.0.0-rc.22",
+  "version": "1.0.0",
   "description": "TypeScript-native software intelligence engine that builds a deterministic Software Graph.",
   "private": true,
   "type": "module",
@@ -14,7 +14,6 @@
     "build": "pnpm -r build",
     "check-types": "pnpm -r check-types",
     "test": "vitest run",
-    "test:unit": "vitest run",
     "evaluate": "node validation/semantic/evaluators/run-semantic-evaluation.mjs",
     "leaderboard": "node validation/semantic/evaluators/run-semantic-evaluation.mjs --leaderboard-only",
     "benchmark:semantic": "node validation/semantic/evaluators/run-semantic-evaluation.mjs --benchmark",
@@ -28,7 +27,6 @@
     "stress": "node validation/tools/run-validation-lab.mjs stress",
     "clean": "pnpm -r exec rm -rf dist && rm -rf .ontoly",
     "ontoly": "node packages/cli/dist/cli.js",
-    "benchmark": "node validation/tools/run-validation-lab.mjs benchmark performance",
     "publish:npm": "node scripts/publish-npm.mjs",
     "site:docs": "node scripts/build-site-docs.mjs",
     "docs:check-links": "node validation/tools/check-markdown-links.mjs",
@@ -66,5 +64,11 @@
   "engines": {
     "node": ">=20.0.0",
     "pnpm": ">=10.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "postcss": ">=8.5.18",
+      "sharp": ">=0.35.0"
+    }
   }
 }

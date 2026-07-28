@@ -19,9 +19,9 @@ generate embeddings, or make probabilistic guesses.
 
 ## Status
 
-Ontoly's current Release Candidate is `v1.0.0-rc.22`.
+Ontoly `v1.0.0` is the first stable release.
 
-The public contract is in Release Candidate freeze, and the repository includes:
+The public contract is frozen, and the repository includes:
 
 - a Software Graph specification
 - a deterministic compiler pipeline
@@ -48,7 +48,6 @@ The public contract is in Release Candidate freeze, and the repository includes:
 - RFC index: [RFC_INDEX.md](RFC_INDEX.md)
 - Governance: [GOVERNANCE.md](GOVERNANCE.md)
 - Third-party notices: [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
-- Release Candidate readiness audit: [RC_READINESS.md](RC_READINESS.md)
 - HOL Guard: [![HOL Guard](https://img.shields.io/endpoint?url=https%3A%2F%2Fhol.org%2Fapi%2Fregistry%2Fbadges%2Fguard%2Fhashgraph-online%2Fhol-guard-plugin)](https://hol.org/go/guard/sarwagyasingh69?dest=%2Fguard%2Fbilling%3Fpromo%3DGUARD20-SARWAGYASINGH69%23upgrade&link_id=8aab4f0e-d950-4ba5-89f1-5689b7c867c8&utm_source=insights_share&utm_medium=affiliate_cta&utm_campaign=share20)
 
 ## What Ontoly Is
@@ -112,7 +111,7 @@ ask whether Ontoly already knows.
 
 ## Quick Start From Source
 
-Use this path when evaluating the Release Candidate from GitHub.
+Use this path when building from source.
 
 ```sh
 git clone https://github.com/0xsarwagya/ontoly.git
@@ -158,10 +157,10 @@ pnpm release:gates
 
 The public package names are scoped under `@0xsarwagya`.
 
-Install the Release Candidate with:
+Install with:
 
 ```sh
-pnpm add -D @0xsarwagya/ontoly-cli@rc
+pnpm add -D @0xsarwagya/ontoly-cli
 pnpm exec ontoly build .
 ```
 
@@ -227,7 +226,7 @@ ontoly build . --output .ontoly
   statistics.json
 ```
 
-The JSON graph is the canonical Release Candidate serialization format. Binary formats are
+The JSON graph is the canonical serialization format. Binary formats are
 intentionally out of scope until the Software Graph specification is stable.
 
 Remote repositories can be compiled directly:
@@ -475,16 +474,13 @@ Validation outputs live under [validation](validation):
 Read [docs/validation-lab.md](docs/validation-lab.md) and
 [docs/semantic-evaluation-harness.md](docs/semantic-evaluation-harness.md).
 
-## Current Release Candidate Evidence
+## Release Evidence
 
-The release readiness reports are generated artifacts from the local validation
+The release evidence reports are generated artifacts from the local validation
 suite, not marketing claims.
 
 | Area | Evidence |
 | --- | --- |
-| Package health | [reports/publish-readiness.md](reports/publish-readiness.md) |
-| Release Candidate readiness | [RC_READINESS.md](RC_READINESS.md) |
-| Clean-room install | [reports/clean-room.md](reports/clean-room.md) |
 | Validation summary | [validation/lab-summary.md](validation/lab-summary.md) |
 | Semantic leaderboard | [validation/semantic/leaderboard.md](validation/semantic/leaderboard.md) |
 | Release gates | [validation/release-gates/report.md](validation/release-gates/report.md) |
@@ -637,13 +633,11 @@ pnpm release:gates
 
 ## Known Limitations
 
-Ontoly is Release Candidate software.
-
 - JavaScript and TypeScript are supported through one deterministic ECMAScript frontend.
 - Some framework analyzers are intentionally partial.
 - Binary graph formats are not implemented.
 - Hosted SaaS, vector search, and LLM reasoning are non-goals.
-- The Software Graph schema is in v1 Release Candidate freeze.
+- The Software Graph schema is stable as of v1.0.0.
 - MCP capabilities only answer from available graph evidence.
 - LLM-facing use requires LLM Enhancement; Ontoly itself remains AI-free.
 

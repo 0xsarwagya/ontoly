@@ -4,6 +4,20 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+## 1.0.0
+
+First stable release of the Ontoly Software Graph engine.
+
+### Changed
+
+- Removed stale alpha and release candidate readiness reports.
+- Removed orphaned `validate-agent-workflows.mjs` validation script.
+- Removed duplicate root `test:unit` and `benchmark` script aliases.
+- Updated Next.js from 16.2.10 to 16.2.12 (site).
+- Added pnpm overrides to resolve transitive sharp (<0.35.0) and postcss
+  (<8.5.18) vulnerabilities.
+- Cleaned up README references to deleted reports and RC-era language.
+
 ## 1.0.0-rc.22
 
 ### Security
