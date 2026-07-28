@@ -27,3 +27,4 @@ validation/ovok-core/
 validation/search/reports/
 validation/corpus/**/results/*
 !validation/corpus/**/results/.gitkeep
+validation/new-user-smoke-report.md

@@ -30,7 +30,7 @@ ontoly build .
 ontoly mcp --list
 ```
 
-Use `npx skills add 0xsarwagya/ontoly --skill <id>` after the RC is published.
+Use `npx skills add 0xsarwagya/ontoly --skill <id>` to install from npm.
 For source-checkout validation before publication, use
 `npx skills add /path/to/ontoly --skill <id> --copy`.
 

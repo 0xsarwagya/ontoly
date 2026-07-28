@@ -535,7 +535,6 @@ docs/
 rfcs/
 examples/
 validation/
-reports/
 site/
 ```
 
@@ -572,8 +571,8 @@ validation flow, then calls `0xsarwagya/internet/scripts/oss-sync.mjs` to copy
 `site/manifest.json`, `site/landing.mdx`, `site/docs/**`, and `site/assets/**`
 into the OSS site content snapshot for `https://oss.sarwagya.wtf/ontoly`.
 
-The dedicated `https://ontoly.sarwagya.wtf` domain is reserved for launch, but
-the RC documentation uses the live OSS route until that domain is attached.
+The dedicated site lives at `https://ontoly.sarwagya.wtf`, with the OSS docs
+mirrored at `https://oss.sarwagya.wtf/ontoly`.
 
 Start here:
 

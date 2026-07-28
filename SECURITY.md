@@ -2,13 +2,13 @@
 
 ## Supported Versions
 
-Security fixes are accepted for the current release-candidate line.
+Security fixes are accepted for the current stable release.
 
 | Version | Supported |
 | ------- | --------- |
-| 1.0.0-rc.x | Yes |
-| 0.1.x alpha | Security-only when the fix is low risk |
-| < 0.1.0-alpha | No |
+| 1.0.0 | Yes |
+| 1.0.0-rc.x | Security-only |
+| < 1.0.0-rc.1 | No |
 
 ## Reporting a Vulnerability
 
