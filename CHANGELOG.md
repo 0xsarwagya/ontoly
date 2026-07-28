@@ -4,6 +4,41 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+## 1.1.0-alpha.1
+
+First alpha of the 1.1 release train. Adds deterministic graph diffing
+as a first-class primitive.
+
+### Added
+
+- `@0xsarwagya/ontoly-diff` package with `diffSoftwareGraphs(base, head)`
+  returning added, removed, and modified nodes and added or removed
+  edges. Governed by RFC 0005.
+- `ontoly diff <base-graph.json> <head-graph.json> [--json]` CLI command.
+- RFC 0005 (Graph Diffing) in `rfcs/0005-graph-diffing.md`.
+- Documentation page `docs/graph-diffing.md`.
+
+### Changed
+
+- `ontoly diff` now performs deterministic graph-structure diffing per
+  RFC 0005 instead of the prior validation-lab regression check that
+  merged coverage, trust, and performance deltas from sibling files.
+  Users who relied on the metric-delta behavior should read those
+  values from validation-lab dashboards and regression reports
+  directly.
+
+### Removed
+
+- `validation/tools/graph-diff.mjs`, the validation-lab regression
+  script that previously backed `ontoly diff`. Deterministic diffing
+  now lives in `@0xsarwagya/ontoly-diff`.
+
+### Non-goals
+
+- Rename detection, move detection, and semantic interpretation are
+  intentionally out of scope for this alpha. A future RFC will add
+  them as an opt-in layer.
+
 ## 1.0.0
 
 First stable release of the Ontoly Software Graph engine.

@@ -15,7 +15,7 @@ export const SITE = {
   skillsSh: "https://www.skills.sh/?q=0xsarwagya/ontoly",
   releases: "https://github.com/0xsarwagya/ontoly/releases",
   sponsor: "https://github.com/sponsors/0xsarwagya",
-  version: "1.0.0",
+  version: "1.1.0-alpha.1",
   keywords: [
     "Ontoly",
     "Software Graph",
@@ -112,10 +112,10 @@ export const NAV = [
 
 export const NPM_PACKAGES = [
   "@0xsarwagya/ontoly-core", "@0xsarwagya/ontoly-cache", "@0xsarwagya/ontoly-diagnostics",
-  "@0xsarwagya/ontoly-query", "@0xsarwagya/ontoly-typescript", "@0xsarwagya/ontoly-analyzers",
-  "@0xsarwagya/ontoly-enhancer", "@0xsarwagya/ontoly-enhancer-history", "@0xsarwagya/ontoly-enhancer-semantics",
-  "@0xsarwagya/ontoly-intelligence", "@0xsarwagya/ontoly-capabilities", "@0xsarwagya/ontoly-compiler",
-  "@0xsarwagya/ontoly-mcp", "@0xsarwagya/ontoly-parser-openapi", "@0xsarwagya/ontoly-semantic",
-  "@0xsarwagya/ontoly-parser-typescript", "@0xsarwagya/ontoly-plugin-mermaid", "@0xsarwagya/ontoly-plugin-html",
-  "@0xsarwagya/ontoly-cli",
+  "@0xsarwagya/ontoly-diff", "@0xsarwagya/ontoly-query", "@0xsarwagya/ontoly-typescript",
+  "@0xsarwagya/ontoly-analyzers", "@0xsarwagya/ontoly-enhancer", "@0xsarwagya/ontoly-enhancer-history",
+  "@0xsarwagya/ontoly-enhancer-semantics", "@0xsarwagya/ontoly-intelligence", "@0xsarwagya/ontoly-capabilities",
+  "@0xsarwagya/ontoly-compiler", "@0xsarwagya/ontoly-mcp", "@0xsarwagya/ontoly-parser-openapi",
+  "@0xsarwagya/ontoly-semantic", "@0xsarwagya/ontoly-parser-typescript", "@0xsarwagya/ontoly-plugin-mermaid",
+  "@0xsarwagya/ontoly-plugin-html", "@0xsarwagya/ontoly-cli",
 ];
