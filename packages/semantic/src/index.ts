@@ -26,7 +26,10 @@ import type {
   TypeScriptProject,
   TypeScriptSymbol,
 } from "@0xsarwagya/ontoly-typescript";
-import { TYPESCRIPT_ANALYZER_VERSION } from "@0xsarwagya/ontoly-typescript";
+import {
+  sourceLanguageForPath,
+  TYPESCRIPT_ANALYZER_VERSION,
+} from "@0xsarwagya/ontoly-typescript";
 
 export const SEMANTIC_GENERATOR_VERSION = "1.0.0";
 
@@ -241,7 +244,7 @@ export function generateCompilerArtifacts(input: GenerateCompilerArtifactsInput)
 
   addTypeScriptSymbols(input.project, symbols);
   addTypeScriptRelationships(input.project, symbols, relationships);
-  addFrameworkDetections(detections, symbols);
+  addFrameworkDetections(input.project, detections, symbols);
   addSemanticFacts(input.project, facts, symbols, relationships);
 
   return {
@@ -442,7 +445,7 @@ function addTypeScriptRelationships(
       kind: "Decorator",
       name: decorator.name,
       span: decorator.span,
-      language: "typescript",
+      language: sourceLanguageForPath(decorator.file),
       metadata: {
         expression: decorator.expression,
       },
@@ -514,7 +517,7 @@ function addTypeScriptRelationships(
       kind: "EnvironmentVariable",
       name: access.name,
       span: access.span,
-      language: "typescript",
+      language: sourceLanguageForPath(access.file),
       metadata: {
         consumedIn: access.file,
       },
@@ -553,7 +556,7 @@ function addArchitecturalRoles(
       name: item.name,
       file: item.file,
       span: item.span,
-      language: "typescript",
+      language: sourceLanguageForPath(item.file),
       metadata: {
         classId: item.id,
         deterministicSignature: `class-name-suffix:${roleKind}`,
@@ -618,18 +621,24 @@ function addConstructorDependencyRelationships(
   }
 }
 
-function addFrameworkDetections(detections: readonly DetectionResult[], symbols: Map<string, CompilerSymbol>): void {
+function addFrameworkDetections(
+  project: TypeScriptProject,
+  detections: readonly DetectionResult[],
+  symbols: Map<string, CompilerSymbol>,
+): void {
   for (const detection of detections) {
     if (!detection.detected) {
       continue;
     }
 
     const frameworkId = createNodeId({ type: "Framework", name: detection.framework });
+    const evidenceFile = project.imports.find((item) => detection.evidence.includes(item.specifier))?.file
+      ?? project.files[0]?.file;
     addSymbol(symbols, {
       id: frameworkId,
       kind: "Framework",
       name: detection.framework,
-      language: "typescript",
+      language: sourceLanguageForPath(evidenceFile),
       metadata: {
         detectedBy: detection.analyzerId,
         analyzerVersion: detection.analyzerVersion,
@@ -660,7 +669,7 @@ function addSemanticFacts(
         name: fact.name,
         file: fact.file,
         span: fact.span,
-        language: "typescript",
+        language: sourceLanguageForPath(fact.file),
         metadata: {
           classId: fact.classId,
           framework: fact.framework,
@@ -688,7 +697,7 @@ function addSemanticFacts(
         name: fact.name,
         file: fact.file,
         span: fact.span,
-        language: "typescript",
+        language: sourceLanguageForPath(fact.file),
         metadata: withOptionalProperties<JsonObject, JsonObject>({
           method: fact.method,
           path: fact.path,
@@ -765,7 +774,7 @@ function addSemanticFacts(
         kind: "Application",
         name: `${fact.framework} Application`,
         span: fact.span,
-        language: "typescript",
+        language: sourceLanguageForPath(fact.file),
         metadata: { framework: fact.framework, semanticFact: "ApplicationDeclared" },
         provenance: provenance(fact.analyzerId),
       });
@@ -775,7 +784,7 @@ function addSemanticFacts(
         name: fact.name,
         file: fact.file,
         span: fact.span,
-        language: "typescript",
+        language: sourceLanguageForPath(fact.file),
         metadata: {
           framework: fact.framework,
           moduleKind: "nestjs",
@@ -890,7 +899,7 @@ function addSemanticFacts(
         name: fact.name,
         file: fact.file,
         span: fact.span,
-        language: "typescript",
+        language: sourceLanguageForPath(fact.file),
         metadata: {
           framework: fact.framework,
           classId: fact.classId,
@@ -980,7 +989,7 @@ function addSemanticFacts(
         name: fact.eventName,
         file: fact.file,
         span: fact.span,
-        language: "typescript",
+        language: sourceLanguageForPath(fact.file),
         metadata: withOptionalProperties<JsonObject, JsonObject>({
           framework: fact.framework,
           eventKind: fact.eventKind,
@@ -1062,7 +1071,7 @@ function addSemanticFacts(
         name: fact.name,
         file: fact.file,
         span: fact.span,
-        language: "typescript",
+        language: sourceLanguageForPath(fact.file),
         metadata: {
           targetId: fact.targetId,
           framework: fact.framework,
@@ -1086,7 +1095,7 @@ function addSemanticFacts(
         name: fact.name,
         file: fact.file,
         span: fact.span,
-        language: "typescript",
+        language: sourceLanguageForPath(fact.file),
         metadata: {
           framework: fact.framework,
           authorization: fact.authorization,
@@ -1934,7 +1943,7 @@ function compilerSymbolFromTypeScript(symbol: TypeScriptSymbol): CompilerSymbol 
     name: symbol.name,
     file: symbol.file,
     span: symbol.span,
-    language: "typescript",
+    language: sourceLanguageForPath(symbol.file),
     metadata: symbol.metadata,
     provenance: provenance(),
   };
@@ -1951,7 +1960,7 @@ function ensureImportTargetSymbol(symbols: Map<string, CompilerSymbol>, item: Ty
     name: item.targetName,
     file: item.targetKind === "Module" ? item.targetFile : undefined,
     span: item.span,
-    language: "typescript",
+    language: sourceLanguageForPath(item.file),
     metadata: withOptionalProperties<JsonObject, JsonObject>({
       external: item.targetKind === "Package",
     }, {
@@ -1972,7 +1981,7 @@ function ensureSemanticTargetSymbol(symbols: Map<string, CompilerSymbol>, target
     name: target.name,
     file: target.file,
     span: target.span,
-    language: "typescript",
+    language: sourceLanguageForPath(target.file),
     metadata: target.metadata,
     provenance: provenance(),
   });
@@ -2038,7 +2047,7 @@ function addExceptionSymbol(symbols: Map<string, CompilerSymbol>, exceptionName:
     kind: "Exception",
     name: exceptionName,
     span,
-    language: "typescript",
+    language: sourceLanguageForPath(span.file),
     metadata: {
       thrownConstructor: exceptionName,
     },

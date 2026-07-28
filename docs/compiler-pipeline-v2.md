@@ -1,11 +1,11 @@
 ---
 title: "Compiler Pipeline v2"
-description: "How Ontoly separates TypeScript analysis, framework analysis, semantic generation, graph construction, validation, and serialization."
+description: "How Ontoly separates JavaScript/TypeScript analysis, framework analysis, semantic generation, graph construction, validation, and serialization."
 ---
 
 Ontoly structures the compiler around a semantic platform.
 
-The TypeScript analyzer produces a language model. Framework analyzers produce
+The JavaScript/TypeScript analyzer produces a language model. Framework analyzers produce
 framework facts. The Semantic Generator creates compiler artifacts. The
 compiler remains responsible for graph construction, validation, indexing, and
 serialization.
@@ -16,10 +16,10 @@ serialization.
 Repository Discovery
   |
   v
-TypeScript Analysis
+JavaScript / TypeScript Analysis
   |
   v
-TypeScript Semantic Model
+JavaScript / TypeScript Semantic Model
   |
   v
 Framework Analysis
@@ -55,7 +55,7 @@ Failures: missing root, unreadable files, invalid package metadata.
 Extension hooks: discovery passes may add source inventories or repository
 metadata.
 
-### TypeScript Analysis
+### JavaScript / TypeScript Analysis
 
 Inputs: source inventory and compiler options.
 
@@ -63,7 +63,7 @@ Outputs: `TypeScriptProject`.
 
 Side effects: none.
 
-Failures: TypeScript diagnostics are normalized into model diagnostics when
+Failures: Compiler API diagnostics are normalized into model diagnostics when
 possible. Fatal filesystem failures abort the stage.
 
 Extension hooks: language packages may provide alternative model producers in
@@ -138,7 +138,7 @@ Extension hooks: emitters may write additional deterministic artifacts.
 
 ## Build Modes
 
-- `ontoly analyze` writes only the TypeScript Semantic Model.
+- `ontoly analyze` writes only the JavaScript/TypeScript Semantic Model.
 - `ontoly semantic` reads or creates the semantic model and prints it.
 - `ontoly frameworks` runs framework detection and reports coverage.
 - `ontoly build` produces the Software Graph and build artifacts.

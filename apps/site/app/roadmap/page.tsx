@@ -9,7 +9,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "Roadmap",
   description:
-    "The Ontoly roadmap — from TypeScript repository discovery and the deterministic Software Graph to a stable spec, plugin API, and community registry. Sourced from the repository.",
+    "The Ontoly roadmap — from JavaScript and TypeScript repository discovery and the deterministic Software Graph to a stable spec, plugin API, and community registry. Sourced from the repository.",
   alternates: { canonical: "/roadmap" },
   openGraph: {
     title: "Ontoly Roadmap",

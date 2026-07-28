@@ -7,6 +7,7 @@ import {
   clearTypeScriptProgramCache,
   deserializeTypeScriptProject,
   serializeTypeScriptProject,
+  sourceLanguageForPath,
   validateTypeScriptSemanticModel,
 } from "../src/index";
 
@@ -92,6 +93,83 @@ describe("typescript semantic model", () => {
     expect(second.classes.map((item) => item.name)).toContain("UpdatedService");
     expect(second.classes.map((item) => item.name)).not.toContain("UserService");
     clearTypeScriptProgramCache();
+  });
+
+  it("analyzes JavaScript, JSX, ESM, and CommonJS as one semantic project", async () => {
+    const root = await createJavaScriptFixture();
+    const project = analyzeTypeScriptProject({ root });
+    const calls = new Map(project.calls.map((call) => [`${call.ownerId}:${call.expression}`, call.targetId]));
+
+    expect(project.files.map((file) => file.file)).toEqual([
+      "src/app.jsx",
+      "src/consumer.cjs",
+      "src/facade.cjs",
+      "src/formatter.cjs",
+      "src/math.js",
+      "src/service.mjs",
+    ]);
+    expect(project.functions.map((item) => item.name)).toEqual(expect.arrayContaining([
+      "App",
+      "average",
+      "consume",
+      "format",
+      "loadFormatter",
+      "parse",
+      "summarize",
+    ]));
+    expect(project.imports.map((item) => [item.file, item.specifier])).toEqual(expect.arrayContaining([
+      ["src/app.jsx", "./service.mjs"],
+      ["src/app.jsx", "./formatter.cjs"],
+      ["src/consumer.cjs", "./facade"],
+      ["src/facade.cjs", "./math"],
+      ["src/service.mjs", "./formatter.cjs"],
+      ["src/service.mjs", "@lib/math.js"],
+    ]));
+    expect(project.exports.map((item) => [item.file, item.name, item.targetId])).toEqual(expect.arrayContaining([
+      ["src/math.js", "default", "fn:src/math.js:average"],
+      ["src/facade.cjs", "default", "fn:src/math.js:average"],
+      ["src/formatter.cjs", "format", "fn:src/formatter.cjs:format"],
+      ["src/formatter.cjs", "parse", "fn:src/formatter.cjs:parse"],
+    ]));
+    expect(calls.get("fn:src/service.mjs:summarize:average")).toBe("fn:src/math.js:average");
+    expect(calls.get("fn:src/service.mjs:summarize:format")).toBe("fn:src/formatter.cjs:format");
+    expect(calls.get("fn:src/formatter.cjs:parse:format")).toBe("fn:src/formatter.cjs:format");
+    expect(calls.get("fn:src/consumer.cjs:consume:calculate")).toBe("fn:src/math.js:average");
+    expect(sourceLanguageForPath("src/app.jsx")).toBe("javascript");
+    expect(sourceLanguageForPath("src/service.ts")).toBe("typescript");
+    expect(validateTypeScriptSemanticModel(project).ok).toBe(true);
+  });
+
+  it("allows callers to explicitly exclude JavaScript sources", async () => {
+    const root = await createJavaScriptFixture();
+    const project = analyzeTypeScriptProject({
+      root,
+      compilerOptions: { allowJs: false },
+    });
+
+    expect(project.files).toEqual([]);
+  });
+
+  it("resolves JavaScript class and instance method calls with compiler symbols", async () => {
+    const root = await mkdtemp(join(tmpdir(), "ontoly-javascript-methods-"));
+    await mkdir(join(root, "src"), { recursive: true });
+    await writeFile(
+      join(root, "src", "calculator.js"),
+      [
+        "module.exports = class Calculator {",
+        "  summarize(values) { return this.average(values); }",
+        "  average(values) { return values.length; }",
+        "};",
+        "",
+      ].join("\n"),
+      "utf8",
+    );
+
+    const project = analyzeTypeScriptProject({ root });
+    const call = project.calls.find((item) => item.expression === "this.average");
+
+    expect(call?.ownerId).toBe("method:src/calculator.js:Calculator.summarize");
+    expect(call?.targetId).toBe("method:src/calculator.js:Calculator.average");
   });
 });
 
@@ -192,6 +270,83 @@ async function createCallResolutionFixture(): Promise<string> {
       "    return this.repository.find();",
       "  }",
       "}",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+
+  return root;
+}
+
+async function createJavaScriptFixture(): Promise<string> {
+  const root = await mkdtemp(join(tmpdir(), "ontoly-javascript-model-"));
+  await mkdir(join(root, "src"), { recursive: true });
+  await writeFile(
+    join(root, "jsconfig.json"),
+    JSON.stringify({
+      compilerOptions: {
+        baseUrl: ".",
+        paths: {
+          "@lib/*": ["src/*"],
+        },
+      },
+    }),
+    "utf8",
+  );
+  await writeFile(
+    join(root, "src", "math.js"),
+    [
+      "function average(values) {",
+      "  return values.reduce((total, value) => total + value, 0) / values.length;",
+      "}",
+      "module.exports = average;",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+  await writeFile(
+    join(root, "src", "formatter.cjs"),
+    [
+      "function format(value) { return String(value); }",
+      "exports.format = format;",
+      "module.exports.parse = (value) => format(Number(value));",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+  await writeFile(
+    join(root, "src", "facade.cjs"),
+    "module.exports = require('./math');\n",
+    "utf8",
+  );
+  await writeFile(
+    join(root, "src", "consumer.cjs"),
+    [
+      "const calculate = require('./facade');",
+      "function consume(values) { return calculate(values); }",
+      "exports.consume = consume;",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+  await writeFile(
+    join(root, "src", "service.mjs"),
+    [
+      "import average from '@lib/math.js';",
+      "import { format } from './formatter.cjs';",
+      "export function summarize(values) {",
+      "  return format(average(values));",
+      "}",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+  await writeFile(
+    join(root, "src", "app.jsx"),
+    [
+      "import { summarize } from './service.mjs';",
+      "export const App = () => <output>{summarize([1, 2, 3])}</output>;",
+      "export const loadFormatter = () => import('./formatter.cjs');",
       "",
     ].join("\n"),
     "utf8",

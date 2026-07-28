@@ -21,6 +21,12 @@ const SOURCES: InMemorySources = {
     "",
   ].join("\n"),
   "src/util.ts": ["export const answer = 42;", ""].join("\n"),
+  "src/javascript.cjs": [
+    "exports.jsHandler = function jsHandler() {",
+    "  return 'ready';",
+    "};",
+    "",
+  ].join("\n"),
 };
 
 function functionNames(nodes: readonly { readonly type: string; readonly name: string }[]): string[] {
@@ -63,6 +69,7 @@ describe("buildSoftwareGraphFromMemory", () => {
     expect(result.graph).toBeDefined();
     expect(result.discovery.files).toContain("src/index.ts");
     expect(functionNames(result.graph?.nodes ?? [])).toContain("greet");
+    expect(functionNames(result.graph?.nodes ?? [])).toContain("jsHandler");
   });
 
   it("produces identical graph node identity across strategies", async () => {

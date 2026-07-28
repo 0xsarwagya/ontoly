@@ -1,10 +1,12 @@
 # Known Limitations
 
-Ontoly v1.0.0-rc.20 is intentionally conservative.
+Ontoly v1.0.0-rc.21 is intentionally conservative.
 
 ## Language Support
 
-- TypeScript is the primary supported language.
+- JavaScript and TypeScript are supported by the primary ECMAScript frontend.
+- Runtime-generated module names, computed CommonJS exports, and dynamically
+  constructed import specifiers cannot be resolved statically.
 - OpenAPI support is present as a Release Candidate frontend.
 - Prisma, GraphQL, SQL, and cross-language relationships remain roadmap work.
 

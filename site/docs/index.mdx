@@ -7,7 +7,7 @@ source: "docs/index.mdx"
 keywords: ["Ontoly", "Software Graph", "TypeScript", "static analysis", "MCP", "AI coding agents", "developer tools", "Introduction", "index"]
 ---
 
-Ontoly turns a TypeScript repository into a deterministic Software Graph.
+Ontoly turns a JavaScript or TypeScript repository into a deterministic Software Graph.
 
 Most developer tools keep rebuilding the same partial understanding of a
 codebase. Agents search files. Documentation tools parse declarations. SDK
@@ -35,7 +35,8 @@ builds indexes, and persists a graph that other tools can consume.
 - [Evidence Model](/docs/evidence-model) - understand how answers cite graph facts.
 - [Confidence Model](/docs/confidence-model) - see how confidence is derived from graph evidence.
 - [LLM Enhancement](/docs/llm-enhancement) - mandatory workflow rules when an LLM uses Ontoly.
-- [TypeScript Semantic Model](/docs/typescript-semantic-model) - inspect the pure language model.
+- [JavaScript Support](/docs/javascript-support) - inspect ESM, CommonJS, JSX, and configuration behavior.
+- [JavaScript and TypeScript Semantic Model](/docs/typescript-semantic-model) - inspect the pure language model.
 - [Framework Analyzer API](/docs/framework-analyzer-api) - add deterministic framework analyzers.
 - [Semantic Generator](/docs/semantic-generator) - understand how semantic facts become graph artifacts.
 - [Plugin system](/docs/concepts/plugin-system) - extend Ontoly without changing the compiler.
@@ -73,7 +74,7 @@ reports. The compiler remains deterministic and AI-free.
 
 ## Status
 
-Release Candidate. The TypeScript frontend, Software Graph, Query Engine,
+Release Candidate. The JavaScript/TypeScript frontend, Software Graph, Query Engine,
 MCP, Skills, validation lab, and benchmarks are in v1 freeze. Changes that
 affect the graph contract, public APIs, packages, or skill compatibility still
 require the RFC and release-gate process.

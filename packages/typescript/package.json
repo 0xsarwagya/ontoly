@@ -1,7 +1,7 @@
 {
   "name": "@0xsarwagya/ontoly-typescript",
-  "version": "1.0.0-rc.20",
-  "description": "Pure TypeScript semantic model analyzer for Ontoly.",
+  "version": "1.0.0-rc.21",
+  "description": "Pure JavaScript and TypeScript semantic model analyzer for Ontoly.",
   "type": "module",
   "license": "AGPL-3.0-only",
   "repository": {
@@ -55,6 +55,7 @@
   "keywords": [
     "ontoly",
     "software-graph",
+    "javascript",
     "typescript",
     "static-analysis",
     "developer-tools",

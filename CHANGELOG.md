@@ -4,6 +4,18 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+## 1.0.0-rc.21
+
+### Added
+
+- Added first-class JavaScript analysis for `.js`, `.jsx`, `.mjs`, and `.cjs`
+  alongside the existing TypeScript source extensions.
+- Added deterministic CommonJS `require()`, `module.exports`, `exports.*`, ESM,
+  dynamic `import()`, JSX, and `jsconfig.json` support to the semantic frontend.
+- JavaScript graph nodes now carry `language: "javascript"` while preserving the
+  same stable IDs, graph schema, framework analyzers, and query behavior as
+  TypeScript nodes.
+
 ## 1.0.0-rc.20
 
 ### Added

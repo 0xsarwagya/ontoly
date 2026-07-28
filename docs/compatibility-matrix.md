@@ -5,9 +5,10 @@ description: "Runtime, package, Software Graph, Agent Skill, MCP, CLI, and relea
 
 | Surface | Version | Status |
 | ------- | ------- | ------ |
-| Ontoly packages | 1.0.0-rc.20 | Release Candidate |
+| Ontoly packages | 1.0.0-rc.21 | Release Candidate |
 | Node.js | 20+ | Supported |
 | pnpm | 10+ | Supported |
+| JavaScript | ES2022, ESM, CommonJS, JSX | Supported |
 | TypeScript | 5.9 | Supported |
 | Package module format | ESM | Supported |
 | Software Graph Spec | 1.0 draft | Supported |

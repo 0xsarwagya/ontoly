@@ -4,8 +4,8 @@ description: Plan migrations using Ontoly architecture, dependency, impact, and 
 license: AGPL-3.0-only
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "1.0.0-rc.20"
-  ontoly.min.version: "1.0.0-rc.20"
+  ontoly.skill.version: "1.0.0-rc.21"
+  ontoly.min.version: "1.0.0-rc.21"
   ontoly.capabilities: "ExplainArchitecture, ImpactAnalysis, FindConfigurationUsage, FindDependencies, EvidencePack"
   ontoly.category: "migration"
   ontoly.enhancement: "LLM Enhancement"

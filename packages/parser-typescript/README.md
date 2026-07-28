@@ -2,10 +2,11 @@
 
 ## Responsibility
 
-`@0xsarwagya/ontoly-parser-typescript` is the TypeScript compiler frontend. It
-uses the TypeScript Compiler API to emit compiler symbols and TypeScript
-relationships. It does not own graph storage, query APIs, MCP transport, CLI
-commands, or generic framework policy.
+`@0xsarwagya/ontoly-parser-typescript` is Ontoly's JavaScript and TypeScript
+compiler frontend. It uses the TypeScript Compiler API to emit language-aware
+compiler symbols and relationships for ESM, CommonJS, JSX, and TypeScript. It
+does not own graph storage, query APIs, MCP transport, CLI commands, or generic
+framework policy.
 
 See the repository [architecture map](../../ARCHITECTURE.md) for package
 boundaries.
@@ -18,8 +19,9 @@ pnpm add @0xsarwagya/ontoly-parser-typescript
 
 ## API
 
-- TypeScript frontend pass factory.
-- Compiler-symbol emission and TypeScript relationship extraction through the TypeScript Compiler API.
+- JavaScript and TypeScript frontend pass factory.
+- Compiler-symbol emission and relationship extraction through the TypeScript Compiler API.
+- Static ESM, dynamic `import()`, `require()`, `module.exports`, and `exports.*` support.
 
 ## Example
 
@@ -31,7 +33,7 @@ const pass = createTypeScriptFrontendPass();
 
 ## Status
 
-Release Candidate package for Ontoly v1.0.0-rc.20. Public contracts are governed by the Software Graph specification and RFC process.
+Release Candidate package for Ontoly v1.0.0-rc.21. Public contracts are governed by the Software Graph specification and RFC process.
 
 ## Links
 

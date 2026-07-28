@@ -6,7 +6,8 @@ description: "Supported, Release Candidate, and non-goal surfaces across Ontoly 
 | Feature | Release Candidate Status | Evidence |
 | ------- | ------------ | -------- |
 | Software Graph JSON | Supported | `@0xsarwagya/ontoly-core` |
-| TypeScript frontend | Supported | `@0xsarwagya/ontoly-parser-typescript` |
+| JavaScript frontend | Supported | ESM, CommonJS, JSX, and `jsconfig.json` |
+| TypeScript frontend | Supported | TS, TSX, MTS, CTS, and `tsconfig.json` |
 | Query Engine | Supported | `@0xsarwagya/ontoly-query` |
 | MCP capabilities | Supported | `@0xsarwagya/ontoly-mcp` |
 | Agent Skills | Supported | `skills/` |

@@ -4,8 +4,8 @@ description: Find potentially unused functions, methods, services, routes, or fe
 license: AGPL-3.0-only
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "1.0.0-rc.20"
-  ontoly.min.version: "1.0.0-rc.20"
+  ontoly.skill.version: "1.0.0-rc.21"
+  ontoly.min.version: "1.0.0-rc.21"
   ontoly.capabilities: "FindDeadCode, FindUnusedFeature, FindEntrypoints, FindDependents, EvidencePack"
   ontoly.category: "static-analysis"
   ontoly.enhancement: "LLM Enhancement"

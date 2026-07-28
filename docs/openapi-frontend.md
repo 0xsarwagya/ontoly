@@ -1,6 +1,6 @@
 # OpenAPI Frontend
 
-The OpenAPI frontend begins Ontoly's non-TypeScript parser surface.
+The OpenAPI frontend begins Ontoly's non-ECMAScript parser surface.
 
 ```ts
 createOpenApiFrontendPass()

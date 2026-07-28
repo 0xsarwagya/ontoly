@@ -7,7 +7,7 @@ source: "docs/compatibility.mdx"
 keywords: ["Ontoly", "Software Graph", "TypeScript", "static analysis", "MCP", "AI coding agents", "developer tools", "Compatibility"]
 ---
 
-Ontoly is TypeScript-native and ESM-first.
+Ontoly analyzes JavaScript and TypeScript through the TypeScript Compiler API.
 
 Current targets:
 
@@ -18,10 +18,20 @@ Current targets:
 
 Current parser support:
 
+- `.js`
+- `.jsx`
+- `.mjs`
+- `.cjs`
 - `.ts`
 - `.tsx`
 - `.mts`
 - `.cts`
+
+Both ESM and CommonJS are supported. Ontoly extracts static `import` and
+`export` declarations, dynamic `import()` references, `require()` references,
+`module.exports`, and `exports.*`. It reads `tsconfig.json` or `jsconfig.json`
+for module-resolution options. Set `allowJs: false` explicitly to exclude
+JavaScript from a programmatic frontend invocation.
 
 Future parsers should preserve deterministic graph output for identical
 input.
