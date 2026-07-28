@@ -37,6 +37,18 @@ export interface BuildSoftwareGraphFromMemoryOptions
   readonly strategy?: InMemoryBuildStrategy | undefined;
 }
 
+export class InvalidInMemorySourcePathError extends Error {
+  readonly code = "INVALID_IN_MEMORY_SOURCE_PATH";
+
+  constructor(
+    readonly sourcePath: string,
+    reason: string,
+  ) {
+    super(`Invalid in-memory source path ${JSON.stringify(sourcePath)}: ${reason}.`);
+    this.name = "InvalidInMemorySourcePathError";
+  }
+}
+
 /**
  * Normalize an in-memory source map into a {@link SourceProvider}.
  *
@@ -47,16 +59,55 @@ export function createInMemorySourceProvider(files: InMemorySources): SourceProv
   const normalized = new Map<string, string>();
 
   for (const [rawPath, contents] of Object.entries(files)) {
-    normalized.set(normalizeSourcePath(rawPath), contents);
+    normalized.set(normalizeInMemorySourcePath(rawPath), contents);
   }
 
   const sortedPaths = [...normalized.keys()].sort();
 
   return {
     listFiles: () => sortedPaths,
-    readFile: (relativePath) => normalized.get(normalizeSourcePath(relativePath)),
-    hasFile: (relativePath) => normalized.has(normalizeSourcePath(relativePath)),
+    readFile: (relativePath) => {
+      const normalizedPath = normalizeSourceLookupPath(relativePath);
+      return normalizedPath ? normalized.get(normalizedPath) : undefined;
+    },
+    hasFile: (relativePath) => {
+      const normalizedPath = normalizeSourceLookupPath(relativePath);
+      return normalizedPath ? normalized.has(normalizedPath) : false;
+    },
   };
+}
+
+/** Validate and canonicalize a repository-relative in-memory source path. */
+export function normalizeInMemorySourcePath(rawPath: string): string {
+  if (rawPath.includes("\0")) {
+    throw new InvalidInMemorySourcePathError(rawPath, "NUL bytes are not allowed");
+  }
+
+  const normalized = normalizePath(rawPath);
+  if (normalized.startsWith("/") || /^[A-Za-z]:\//.test(normalized)) {
+    throw new InvalidInMemorySourcePathError(rawPath, "the path must be repository-relative");
+  }
+
+  const segments = normalized.split("/").filter((segment) => segment !== "" && segment !== ".");
+  if (segments.includes("..")) {
+    throw new InvalidInMemorySourcePathError(rawPath, "parent-directory traversal is not allowed");
+  }
+  if (segments.length === 0) {
+    throw new InvalidInMemorySourcePathError(rawPath, "the path must identify a file");
+  }
+
+  return segments.join("/");
+}
+
+function normalizeSourceLookupPath(rawPath: string): string | undefined {
+  try {
+    return normalizeInMemorySourcePath(rawPath);
+  } catch (error) {
+    if (error instanceof InvalidInMemorySourcePathError) {
+      return undefined;
+    }
+    throw error;
+  }
 }
 
 /**
@@ -91,9 +142,10 @@ async function buildInScratchDirectory(
   options: Omit<BuildSoftwareGraphOptions, "sourceProvider" | "write">,
 ): Promise<BuildSoftwareGraphResult> {
   const scratchRoot = await mkdtemp(join(tmpdir(), "ontoly-memory-"));
+  const sourceProvider = createInMemorySourceProvider(files);
 
   try {
-    await materializeSources(scratchRoot, files);
+    await materializeSources(scratchRoot, sourceProvider);
 
     return await buildSoftwareGraphWithArtifacts({
       ...options,
@@ -105,17 +157,16 @@ async function buildInScratchDirectory(
   }
 }
 
-async function materializeSources(root: string, files: InMemorySources): Promise<void> {
+async function materializeSources(root: string, sourceProvider: SourceProvider): Promise<void> {
   await Promise.all(
-    Object.entries(files).map(async ([rawPath, contents]) => {
-      const relativePath = normalizeSourcePath(rawPath);
+    sourceProvider.listFiles().map(async (relativePath) => {
+      const contents = sourceProvider.readFile(relativePath);
+      if (contents === undefined) {
+        throw new Error(`In-memory source provider did not return contents for ${relativePath}.`);
+      }
       const absolutePath = join(root, relativePath);
       await mkdir(dirname(absolutePath), { recursive: true });
       await writeFile(absolutePath, contents, "utf8");
     }),
   );
-}
-
-function normalizeSourcePath(rawPath: string): string {
-  return normalizePath(rawPath).replace(/^\.\//, "").replace(/^\/+/, "");
 }

@@ -4,6 +4,15 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+## 1.0.0-rc.22
+
+### Security
+
+- In-memory compiler inputs now reject absolute, drive-qualified, UNC, NUL,
+  empty, and parent-traversal source paths before zero-disk or materialized
+  analysis. Canonical path aliases are deduplicated deterministically before
+  scratch files are written.
+
 ## 1.0.0-rc.21
 
 ### Added

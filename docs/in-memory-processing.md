@@ -26,6 +26,12 @@ Keys are repository-relative POSIX paths; values are UTF-8 contents. Graph node
 ids are always repository-relative, so the identity of the resulting graph does
 not depend on where (or whether) the sources are materialized.
 
+Source paths are validated before analysis. Empty paths, absolute paths,
+Windows drive or UNC paths, NUL bytes, and `..` traversal segments throw an
+`InvalidInMemorySourcePathError` with code `INVALID_IN_MEMORY_SOURCE_PATH`.
+Harmless `.` segments are canonicalized, and later entries win when multiple
+input keys normalize to the same repository-relative path.
+
 ## Strategies
 
 `buildSoftwareGraphFromMemory` accepts a `strategy`:
