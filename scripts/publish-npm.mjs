@@ -63,7 +63,11 @@ if (isPrerelease(packageVersion) && publishTag === "latest") {
   throw new Error(`Refusing to publish prerelease ${packageVersion} with npm dist-tag latest.`);
 }
 
-if (releaseVersion) {
+const allPublished = publishableManifests.every(({ manifest }) =>
+  isPublished(manifest.name, manifest.version)
+);
+
+if (releaseVersion && !allPublished) {
   const expectedTag = `v${releaseVersion}`;
   const result = spawnSync("git", ["tag", "--points-at", "HEAD"], {
     cwd: root,
