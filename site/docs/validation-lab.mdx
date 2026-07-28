@@ -135,19 +135,17 @@ repositories, graph size, and framework support.
 ## Graph Diff
 
 ```sh
-ontoly diff old.graph new.graph
-ontoly diff old.graph new.graph --json
+ontoly diff base.graph head.graph
+ontoly diff base.graph head.graph --json
 ```
 
-The diff reports:
+The diff is deterministic and defined by [RFC 0005](https://github.com/0xsarwagya/ontoly/blob/main/rfcs/0005-graph-diffing.md).
+It reports added, removed, and modified nodes and added or removed
+edges. See [Graph Diffing](./graph-diffing) for the full contract.
 
-- added and removed nodes
-- changed nodes
-- added and removed relationships
-- changed relationship metadata
-- coverage delta
-- trust delta
-- performance delta when sibling `performance.json` exists
+Coverage, trust, and performance deltas from validation-lab runs live
+in the corpus dashboards and regression reports rather than the diff
+output.
 - semantic node and relationship count changes
 
 ## Badges

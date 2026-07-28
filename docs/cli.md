@@ -66,7 +66,7 @@ ontoly enhancer run semantic-index .
 - `ontoly validate [all|repository|framework]`
 - `ontoly evaluate [repository]`
 - `ontoly leaderboard`
-- `ontoly diff <old.graph> <new.graph>`
+- `ontoly diff <base.graph> <head.graph>` — deterministic graph diff per [RFC 0005](../rfcs/0005-graph-diffing.md). See [Graph Diffing](graph-diffing.md).
 - `ontoly benchmark semantic`
 - `ontoly benchmark performance`
 
@@ -447,7 +447,7 @@ ontoly validate ovok-core
 ontoly validate nextjs
 ontoly validate react
 ontoly benchmark performance
-ontoly diff old.graph new.graph
+ontoly diff base.graph head.graph
 ```
 
 Use `--ci` to fail on release-gate regressions. Use `--clone` to materialize all
