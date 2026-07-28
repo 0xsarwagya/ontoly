@@ -1,11 +1,14 @@
-# TypeScript Semantic Model
+# JavaScript and TypeScript Semantic Model
 
-The TypeScript Semantic Model is Ontoly's language layer.
+The TypeScript Semantic Model is Ontoly's JavaScript and TypeScript language
+layer. The historical API name is retained for package compatibility; the model
+accepts the complete JavaScript and TypeScript source-extension family.
 
 It is produced by `@0xsarwagya/ontoly-typescript` and contains deterministic
-facts about TypeScript source code. It does not know about frameworks. NestJS,
-Express, Hono, Fastify, Next.js, React, Prisma, GraphQL, and future ecosystem
-rules belong in framework analyzers that consume this model.
+facts about `.js`, `.jsx`, `.mjs`, `.cjs`, `.ts`, `.tsx`, `.mts`, and `.cts`
+source code. It does not know about frameworks. NestJS, Express, Hono, Fastify,
+Next.js, React, Prisma, GraphQL, and future ecosystem rules belong in framework
+analyzers that consume this model.
 
 ## Package
 
@@ -40,15 +43,19 @@ The public model exposes:
 
 ## Responsibilities
 
-The analyzer owns TypeScript language semantics:
+The analyzer owns JavaScript and TypeScript language semantics:
 
 - program construction
 - source file discovery
 - symbol discovery
 - source locations
-- imports and exports
+- ESM imports and exports
+- dynamic `import()` references
+- CommonJS `require()`, `module.exports`, and `exports.*`
 - module resolution
+- `tsconfig.json` and `jsconfig.json` resolution options
 - classes, interfaces, functions, methods, variables, enums, namespaces
+- JSX and TSX syntax
 - decorators as TypeScript syntax
 - heritage clauses
 - call expressions
@@ -56,7 +63,7 @@ The analyzer owns TypeScript language semantics:
 - generic type parameters
 - type references
 - environment variable syntax
-- TypeScript diagnostics normalized into graph-native diagnostics
+- Compiler API diagnostics normalized into graph-native diagnostics
 
 It does not infer application concepts such as controllers, routes, providers,
 modules, schemas, pages, or resolvers.
@@ -111,7 +118,9 @@ The language layer may expose decorator names and arguments because decorators
 are TypeScript syntax. It must not interpret those decorators as framework
 facts. For example, `@Controller("users")` appears as a decorator named
 `Controller`; only the NestJS analyzer may turn that into a controller or route
-fact.
+fact. The same boundary applies to JavaScript call patterns such as
+`app.get("/users", handler)`: the language model records calls and imports, and
+the Express analyzer owns the route interpretation.
 
 ## Flow
 
@@ -119,7 +128,7 @@ fact.
 Repository
   |
   v
-TypeScript Analyzer
+JavaScript / TypeScript Analyzer
   |
   v
 TypeScript Semantic Model

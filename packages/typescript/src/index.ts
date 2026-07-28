@@ -117,7 +117,7 @@ export interface TypeScriptFunction {
   readonly typeParameters: number;
   readonly exported: boolean;
   readonly default: boolean;
-  readonly declarationKind: "function" | "variable";
+  readonly declarationKind: "assignment" | "function" | "variable";
 }
 
 export interface TypeScriptMethod {
@@ -350,11 +350,13 @@ interface AnalyzerContext {
   readonly projectMethodsByQualifiedName: Map<string, string>;
   readonly importRecords: ImportRecord[];
   readonly exportRecords: ExportRecord[];
+  readonly commonJsFunctions: CommonJsFunctionRecord[];
+  readonly classExpressions: ClassExpressionRecord[];
 }
 
 interface ImportRecord {
-  readonly declaration: ts.ImportDeclaration;
   readonly model: TypeScriptImport;
+  readonly syntax: "commonjs" | "dynamic" | "esm";
 }
 
 interface ExportRecord {
@@ -362,9 +364,47 @@ interface ExportRecord {
   readonly model: TypeScriptExport;
 }
 
-const TYPESCRIPT_EXTENSIONS = [".ts", ".tsx", ".mts", ".cts"] as const;
+interface CommonJsFunctionRecord {
+  readonly declaration: ts.ArrowFunction | ts.FunctionExpression | ts.MethodDeclaration;
+  readonly ownerId: string;
+}
+
+interface ClassExpressionRecord {
+  readonly className: string;
+  readonly declaration: ts.ClassExpression;
+}
+
+type ImportDetails = Pick<
+  TypeScriptImport,
+  "defaultBinding" | "importKind" | "namedBindings" | "namespaceBinding" | "sideEffectOnly" | "specifier"
+>;
+
+interface CommonJsRequire {
+  readonly specifier: string;
+  readonly importedName?: string | undefined;
+}
+
+interface CommonJsExportTarget {
+  readonly name: string;
+  readonly exportKind: TypeScriptExport["exportKind"];
+}
+
+export const TYPESCRIPT_SOURCE_EXTENSIONS = [".ts", ".tsx", ".mts", ".cts"] as const;
+export const JAVASCRIPT_SOURCE_EXTENSIONS = [".js", ".jsx", ".mjs", ".cjs"] as const;
+export const ECMASCRIPT_SOURCE_EXTENSIONS = [
+  ...TYPESCRIPT_SOURCE_EXTENSIONS,
+  ...JAVASCRIPT_SOURCE_EXTENSIONS,
+] as const;
+export type SourceLanguage = "javascript" | "typescript";
 const MAX_INCREMENTAL_PROGRAMS = 1;
 const incrementalPrograms = new Map<string, ts.EmitAndSemanticDiagnosticsBuilderProgram>();
+
+export function sourceLanguageForPath(path: string | undefined): SourceLanguage {
+  const extension = path ? extname(path).toLowerCase() : "";
+  return JAVASCRIPT_SOURCE_EXTENSIONS.includes(extension as (typeof JAVASCRIPT_SOURCE_EXTENSIONS)[number])
+    ? "javascript"
+    : "typescript";
+}
 
 export async function analyze(rootOrInput: string | AnalyzeTypeScriptProjectInput): Promise<TypeScriptProject> {
   const input = typeof rootOrInput === "string" ? { root: rootOrInput } : rootOrInput;
@@ -430,21 +470,24 @@ export function createInMemoryCompilerHost(
 
 export function analyzeTypeScriptProject(input: AnalyzeTypeScriptProjectInput): TypeScriptProject {
   const root = resolve(input.root);
-  const files = (input.files ?? listTypeScriptFiles(root))
-    .filter(isTypeScriptSourcePath)
+  const configuredOptions = input.host
+    ? (input.compilerOptions ?? {})
+    : loadProjectCompilerOptions(root, input.compilerOptions);
+  const allowJavaScript = configuredOptions.allowJs !== false;
+  const files = (input.files ?? listSourceFiles(root, allowJavaScript))
+    .filter((file) => isSupportedSourcePath(file, allowJavaScript))
     .map((file) => resolve(root, file))
     .sort((left, right) => left.localeCompare(right));
   const fileSet = new Set(files.map((file) => normalizePath(resolve(file))));
-  const compilerOptions = {
+  const compilerOptions: ts.CompilerOptions = {
     target: ts.ScriptTarget.ES2022,
     module: ts.ModuleKind.ESNext,
     moduleResolution: ts.ModuleResolutionKind.Bundler,
     jsx: ts.JsxEmit.Preserve,
     skipLibCheck: true,
-    allowJs: false,
-    // A caller-provided host implies an in-memory build, so skip on-disk
-    // tsconfig discovery and honor only the explicit overrides.
-    ...(input.host ? (input.compilerOptions ?? {}) : loadProjectCompilerOptions(root, input.compilerOptions)),
+    ...configuredOptions,
+    allowJs: allowJavaScript,
+    checkJs: configuredOptions.checkJs ?? false,
   };
   const program = createAnalysisProgram(root, files, compilerOptions, input);
   const checker = program.getTypeChecker();
@@ -508,6 +551,8 @@ export function analyzeTypeScriptProject(input: AnalyzeTypeScriptProjectInput): 
       projectMethodsByQualifiedName,
       importRecords: [],
       exportRecords: [],
+      commonJsFunctions: [],
+      classExpressions: [],
     };
 
     addSymbol(context, {
@@ -528,6 +573,7 @@ export function analyzeTypeScriptProject(input: AnalyzeTypeScriptProjectInput): 
     for (const statement of context.sourceFile.statements) {
       collectTopLevelStatement(context, statement, relativeFiles);
     }
+    collectRuntimeModuleReferences(context, relativeFiles);
   }
 
   const contextsByFile = new Map(contexts.map((context) => [context.relativeFile, context] as const));
@@ -538,6 +584,13 @@ export function analyzeTypeScriptProject(input: AnalyzeTypeScriptProjectInput): 
 
   for (const context of contexts) {
     resolveExports(context, contextsByFile);
+  }
+
+  // CommonJS facades can re-export another module's callable default. Refresh
+  // bindings after export targets are known so downstream require() calls land
+  // on the stable declaration rather than stopping at the facade module.
+  for (const context of contexts) {
+    resolveImportedBindings(context, contextsByFile);
   }
 
   for (const context of contexts) {
@@ -822,8 +875,15 @@ function collectTopLevelStatement(
   }
 
   if (ts.isVariableStatement(statement)) {
+    addCommonJsVariableImports(context, statement, relativeFiles);
     addFunctionVariableSymbols(context, statement);
+    addClassVariableSymbols(context, statement);
     collectVariables(context, statement, context.moduleId);
+    return;
+  }
+
+  if (ts.isExpressionStatement(statement)) {
+    addCommonJsExpression(context, statement, relativeFiles);
   }
 }
 
@@ -859,7 +919,7 @@ function addDeclarationSymbol(
 
 function addClassMethodSymbols(
   context: AnalyzerContext,
-  declaration: ts.ClassDeclaration,
+  declaration: ts.ClassLikeDeclaration,
   className: string,
   classId: string,
 ): void {
@@ -935,14 +995,23 @@ function addImport(
   declaration: ts.ImportDeclaration,
   relativeFiles: ReadonlySet<string>,
 ): void {
-  const details = importDetails(declaration);
+  addImportModel(context, declaration, importDetails(declaration), relativeFiles, "esm");
+}
+
+function addImportModel(
+  context: AnalyzerContext,
+  node: ts.Node,
+  details: ImportDetails,
+  relativeFiles: ReadonlySet<string>,
+  syntax: ImportRecord["syntax"],
+): TypeScriptImport {
   const resolved = resolveImport(context, relativeFiles, details.specifier);
   const id = createNodeId({
     type: "Import",
     file: context.relativeFile,
     name: `${details.specifier}:${stableHash(importKey(details))}`,
   });
-  const span = sourceSpan(context.sourceFile, declaration, context.relativeFile);
+  const span = sourceSpan(context.sourceFile, node, context.relativeFile);
   const model: TypeScriptImport = withOptionalProperties({
     id,
     file: context.relativeFile,
@@ -962,8 +1031,14 @@ function addImport(
     unresolved: resolved.unresolved,
   });
 
+  const existing = context.imports.find((item) => item.id === id);
+
+  if (existing) {
+    return existing;
+  }
+
   context.imports.push(model);
-  context.importRecords.push({ declaration, model });
+  context.importRecords.push({ model, syntax });
   addSymbol(context, {
     id,
     kind: "Import",
@@ -978,6 +1053,7 @@ function addImport(
     }, {
       defaultBinding: details.defaultBinding,
       namespaceBinding: details.namespaceBinding,
+      syntax: syntax === "esm" ? undefined : syntax,
       targetFile: resolved.targetFile,
       unresolved: resolved.unresolved,
     }),
@@ -996,6 +1072,133 @@ function addImport(
       },
     }));
   }
+
+  return model;
+}
+
+function collectRuntimeModuleReferences(
+  context: AnalyzerContext,
+  relativeFiles: ReadonlySet<string>,
+): void {
+  const visit = (node: ts.Node): void => {
+    if (ts.isCallExpression(node)) {
+      const dynamicSpecifier = dynamicImportSpecifier(node);
+
+      if (dynamicSpecifier && !context.imports.some((item) => item.specifier === dynamicSpecifier)) {
+        addImportModel(context, node, {
+          specifier: dynamicSpecifier,
+          importKind: "value",
+          namedBindings: [],
+          sideEffectOnly: true,
+        }, relativeFiles, "dynamic");
+      }
+
+      const required = commonJsRequire(node);
+
+      if (required && !context.imports.some((item) => item.specifier === required.specifier)) {
+        addImportModel(context, node, {
+          specifier: required.specifier,
+          importKind: "value",
+          namedBindings: [],
+          sideEffectOnly: true,
+        }, relativeFiles, "commonjs");
+      }
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  visit(context.sourceFile);
+}
+
+function addCommonJsVariableImports(
+  context: AnalyzerContext,
+  statement: ts.VariableStatement,
+  relativeFiles: ReadonlySet<string>,
+): void {
+  for (const declaration of statement.declarationList.declarations) {
+    const required = declaration.initializer ? commonJsRequire(declaration.initializer) : undefined;
+
+    if (!required) {
+      continue;
+    }
+
+    const details = commonJsImportDetails(declaration.name, required);
+    addImportModel(context, declaration, details, relativeFiles, "commonjs");
+  }
+}
+
+function addCommonJsExpression(
+  context: AnalyzerContext,
+  statement: ts.ExpressionStatement,
+  relativeFiles: ReadonlySet<string>,
+): void {
+  const required = commonJsRequire(statement.expression)
+    ?? (ts.isBinaryExpression(statement.expression) ? commonJsRequire(statement.expression.right) : undefined);
+
+  if (required) {
+    addImportModel(context, statement, {
+      specifier: required.specifier,
+      importKind: "value",
+      namedBindings: [],
+      sideEffectOnly: true,
+    }, relativeFiles, "commonjs");
+  }
+
+  addCommonJsExports(context, statement.expression);
+}
+
+function commonJsImportDetails(
+  binding: ts.BindingName,
+  required: CommonJsRequire,
+): ImportDetails {
+  if (ts.isObjectBindingPattern(binding)) {
+    const namedBindings = binding.elements.flatMap((element): TypeScriptImportBinding[] => {
+      if (!ts.isIdentifier(element.name)) {
+        return [];
+      }
+
+      const importedName = element.propertyName
+        ? propertyNameToString(element.propertyName)
+        : element.name.text;
+      return importedName
+        ? [{ localName: element.name.text, importedName, typeOnly: false }]
+        : [];
+    }).sort(compareImportBindings);
+
+    return {
+      specifier: required.specifier,
+      importKind: "value",
+      namedBindings,
+      sideEffectOnly: false,
+    };
+  }
+
+  if (!ts.isIdentifier(binding)) {
+    return {
+      specifier: required.specifier,
+      importKind: "value",
+      namedBindings: [],
+      sideEffectOnly: false,
+    };
+  }
+
+  if (required.importedName) {
+    return {
+      specifier: required.specifier,
+      importKind: "value",
+      namedBindings: [{ localName: binding.text, importedName: required.importedName, typeOnly: false }],
+      sideEffectOnly: false,
+    };
+  }
+
+  return {
+    specifier: required.specifier,
+    importKind: "value",
+    namespaceBinding: binding.text,
+    namedBindings: [],
+    sideEffectOnly: false,
+  };
 }
 
 function addExportDeclaration(context: AnalyzerContext, declaration: ts.ExportDeclaration): void {
@@ -1108,6 +1311,186 @@ function addExportForDeclaration(
   });
 }
 
+function addCommonJsExports(context: AnalyzerContext, expression: ts.Expression): void {
+  if (!ts.isBinaryExpression(expression) || expression.operatorToken.kind !== ts.SyntaxKind.EqualsToken) {
+    return;
+  }
+
+  if (ts.isBinaryExpression(expression.right)) {
+    addCommonJsExports(context, expression.right);
+  }
+
+  const target = commonJsExportTarget(expression.left);
+
+  if (!target) {
+    return;
+  }
+
+  const required = commonJsRequire(expression.right);
+  const requiredImport = required
+    ? context.imports.find((item) => item.specifier === required.specifier)
+    : undefined;
+  const targetId = commonJsExportValueTarget(context, target, expression.right, requiredImport);
+  const localName = targetId
+    ? context.symbols.get(targetId)?.name
+    : required?.importedName ?? (required ? "default" : expressionDisplayName(context.sourceFile, expression.right));
+
+  addExport(context, expression, withOptionalProperties({
+    name: target.name,
+    exportKind: target.exportKind,
+    declarationKind: "commonjs",
+  }, {
+    localName,
+    specifier: required?.specifier,
+    reexport: required ? true : undefined,
+    targetId,
+  }));
+
+  if (target.name === "default" && targetId) {
+    context.localSymbols.set("default", targetId);
+  }
+
+  if (target.name === "default" && ts.isObjectLiteralExpression(expression.right)) {
+    addCommonJsObjectExports(context, expression.right);
+  }
+}
+
+function commonJsExportValueTarget(
+  context: AnalyzerContext,
+  target: CommonJsExportTarget,
+  expression: ts.Expression,
+  requiredImport: TypeScriptImport | undefined,
+): string | undefined {
+  if (isCommonJsFunction(expression)) {
+    return addCommonJsFunctionSymbol(
+      context,
+      expression,
+      commonJsFunctionName(target.name, expression),
+      target.name === "default",
+    );
+  }
+
+  if (ts.isClassExpression(expression)) {
+    return addClassExpressionSymbol(
+      context,
+      expression,
+      expression.name?.text ?? target.name,
+      true,
+      target.name === "default",
+    );
+  }
+
+  return requiredImport?.targetKind === "Package"
+    ? requiredImport.targetId
+    : resolveExpressionTarget(context, expression);
+}
+
+function addCommonJsObjectExports(context: AnalyzerContext, object: ts.ObjectLiteralExpression): void {
+  for (const property of object.properties) {
+    if (ts.isShorthandPropertyAssignment(property)) {
+      const targetId = context.localSymbols.get(property.name.text);
+      addExport(context, property, withOptionalProperties({
+        name: property.name.text,
+        exportKind: "value" as const,
+        localName: property.name.text,
+        declarationKind: "commonjs-object",
+      }, { targetId }));
+      continue;
+    }
+
+    if (ts.isPropertyAssignment(property)) {
+      const name = propertyNameToString(property.name);
+
+      if (!name) {
+        continue;
+      }
+
+      const targetId = isCommonJsFunction(property.initializer)
+        ? addCommonJsFunctionSymbol(context, property.initializer, name, false)
+        : resolveExpressionTarget(context, property.initializer);
+      addExport(context, property, withOptionalProperties({
+        name,
+        exportKind: "value" as const,
+        declarationKind: "commonjs-object",
+      }, {
+        localName: targetId ? context.symbols.get(targetId)?.name : expressionDisplayName(context.sourceFile, property.initializer),
+        targetId,
+      }));
+      continue;
+    }
+
+    if (ts.isMethodDeclaration(property) && property.body) {
+      const name = propertyNameToString(property.name);
+
+      if (!name) {
+        continue;
+      }
+
+      const targetId = addCommonJsFunctionSymbol(context, property, name, false);
+      addExport(context, property, {
+        name,
+        exportKind: "value",
+        localName: name,
+        declarationKind: "commonjs-object-method",
+        targetId,
+      });
+    }
+  }
+}
+
+function addCommonJsFunctionSymbol(
+  context: AnalyzerContext,
+  declaration: CommonJsFunctionRecord["declaration"],
+  name: string,
+  defaultExport: boolean,
+): string {
+  const existing = context.localSymbols.get(name);
+
+  if (existing) {
+    return existing;
+  }
+
+  const id = addDeclarationSymbol(context, "Function", name, declaration, {
+    async: hasModifier(declaration, ts.SyntaxKind.AsyncKeyword),
+    generator: "asteriskToken" in declaration ? Boolean(declaration.asteriskToken) : false,
+    exported: true,
+    default: defaultExport,
+    parameters: declaration.parameters.length,
+    typeParameters: declaration.typeParameters?.length ?? 0,
+    declarationKind: "assignment",
+  });
+  context.functions.push({
+    id,
+    name,
+    file: context.relativeFile,
+    span: sourceSpan(context.sourceFile, declaration, context.relativeFile),
+    async: hasModifier(declaration, ts.SyntaxKind.AsyncKeyword),
+    generator: "asteriskToken" in declaration ? Boolean(declaration.asteriskToken) : false,
+    parameters: declaration.parameters.length,
+    typeParameters: declaration.typeParameters?.length ?? 0,
+    exported: true,
+    default: defaultExport,
+    declarationKind: "assignment",
+  });
+  context.commonJsFunctions.push({ declaration, ownerId: id });
+  return id;
+}
+
+function commonJsFunctionName(
+  exportName: string,
+  declaration: CommonJsFunctionRecord["declaration"],
+): string {
+  if (ts.isFunctionExpression(declaration) && declaration.name) {
+    return declaration.name.text;
+  }
+
+  return exportName;
+}
+
+function isCommonJsFunction(expression: ts.Expression): expression is ts.ArrowFunction | ts.FunctionExpression {
+  return ts.isArrowFunction(expression) || ts.isFunctionExpression(expression);
+}
+
 function addFunctionVariableSymbols(context: AnalyzerContext, statement: ts.VariableStatement): void {
   for (const declaration of statement.declarationList.declarations) {
     if (!ts.isIdentifier(declaration.name) || !declaration.initializer || !isFunctionLikeInitializer(declaration.initializer)) {
@@ -1137,6 +1520,66 @@ function addFunctionVariableSymbols(context: AnalyzerContext, statement: ts.Vari
     });
     addExportForDeclaration(context, statement, name, "variable", id, symbolExportKind(statement, "value"));
   }
+}
+
+function addClassVariableSymbols(context: AnalyzerContext, statement: ts.VariableStatement): void {
+  for (const declaration of statement.declarationList.declarations) {
+    if (!ts.isIdentifier(declaration.name) || !declaration.initializer || !ts.isClassExpression(declaration.initializer)) {
+      continue;
+    }
+
+    const targetId = addClassExpressionSymbol(
+      context,
+      declaration.initializer,
+      declaration.name.text,
+      isExported(statement),
+      false,
+    );
+    addExportForDeclaration(
+      context,
+      statement,
+      declaration.name.text,
+      "class-variable",
+      targetId,
+      symbolExportKind(statement, "value"),
+    );
+  }
+}
+
+function addClassExpressionSymbol(
+  context: AnalyzerContext,
+  declaration: ts.ClassExpression,
+  name: string,
+  exported: boolean,
+  defaultExport: boolean,
+): string {
+  const existing = context.localSymbols.get(name);
+
+  if (existing) {
+    return existing;
+  }
+
+  const id = addDeclarationSymbol(context, "Class", name, declaration, {
+    ...classMetadata(declaration),
+    exported,
+    default: defaultExport,
+    declarationKind: "class-expression",
+  });
+  const decorators = addDecorators(context, declaration, id, "Class");
+  context.classes.push({
+    id,
+    name,
+    file: context.relativeFile,
+    span: sourceSpan(context.sourceFile, declaration, context.relativeFile),
+    decorators,
+    typeParameters: declaration.typeParameters?.length ?? 0,
+    abstract: hasModifier(declaration, ts.SyntaxKind.AbstractKeyword),
+    exported,
+    default: defaultExport,
+  });
+  addClassMethodSymbols(context, declaration, name, id);
+  context.classExpressions.push({ className: name, declaration });
+  return id;
 }
 
 function collectVariables(context: AnalyzerContext, node: ts.Node, ownerId: string): void {
@@ -1181,18 +1624,19 @@ function resolveImportedBindings(
 ): void {
   for (const record of context.importRecords) {
     const targetContext = record.model.targetFile ? contextsByFile.get(record.model.targetFile) : undefined;
-    const importClause = record.declaration.importClause;
 
-    if (!importClause) {
-      continue;
-    }
-
-    if (importClause.name) {
-      context.importedIdentifiers.set(importClause.name.text, targetContext?.localSymbols.get("default") ?? record.model.targetId);
+    if (record.model.defaultBinding) {
+      context.importedIdentifiers.set(
+        record.model.defaultBinding,
+        targetContext?.localSymbols.get("default") ?? record.model.targetId,
+      );
     }
 
     if (record.model.namespaceBinding) {
-      context.importedIdentifiers.set(record.model.namespaceBinding, record.model.targetId);
+      const targetId = record.syntax === "commonjs"
+        ? commonJsDefaultTarget(targetContext) ?? record.model.targetId
+        : record.model.targetId;
+      context.importedIdentifiers.set(record.model.namespaceBinding, targetId);
     }
 
     const bindings = record.model.namedBindings.map((binding): TypeScriptImportBinding => {
@@ -1238,7 +1682,19 @@ function resolveExportTarget(
     return targetContext.moduleId;
   }
 
-  return targetContext.localSymbols.get(model.localName ?? model.name);
+  const name = model.localName ?? model.name;
+  return targetContext.localSymbols.get(name)
+    ?? targetContext.importedIdentifiers.get(name)
+    ?? (model.exportKind === "exportEquals" && model.specifier ? targetContext.moduleId : undefined);
+}
+
+function commonJsDefaultTarget(context: AnalyzerContext | undefined): string | undefined {
+  if (!context) {
+    return undefined;
+  }
+
+  const defaultExport = context.exports.find((item) => item.name === "default" || item.exportKind === "exportEquals");
+  return defaultExport?.targetId ?? (defaultExport ? resolveExportTarget(defaultExport, context) : undefined);
 }
 
 function collectDeclarationSemantics(context: AnalyzerContext): void {
@@ -1300,18 +1756,36 @@ function collectCalls(context: AnalyzerContext): void {
     }
 
     if (ts.isClassDeclaration(statement) && statement.name) {
-      for (const member of statement.members) {
-        if (!ts.isMethodDeclaration(member) || !member.body || !member.name) {
-          continue;
-        }
+      collectClassMethodCalls(context, statement, statement.name.text);
+    }
+  }
 
-        const methodName = propertyNameToString(member.name);
-        const ownerId = methodName ? context.methodsByQualifiedName.get(`${statement.name.text}.${methodName}`) : undefined;
+  for (const record of context.commonJsFunctions) {
+    if (record.declaration.body) {
+      collectFunctionLikeFacts(context, record.ownerId, record.declaration, record.declaration.body);
+    }
+  }
 
-        if (ownerId) {
-          collectFunctionLikeFacts(context, ownerId, member, member.body);
-        }
-      }
+  for (const record of context.classExpressions) {
+    collectClassMethodCalls(context, record.declaration, record.className);
+  }
+}
+
+function collectClassMethodCalls(
+  context: AnalyzerContext,
+  declaration: ts.ClassLikeDeclaration,
+  className: string,
+): void {
+  for (const member of declaration.members) {
+    if (!ts.isMethodDeclaration(member) || !member.body || !member.name) {
+      continue;
+    }
+
+    const methodName = propertyNameToString(member.name);
+    const ownerId = methodName ? context.methodsByQualifiedName.get(`${className}.${methodName}`) : undefined;
+
+    if (ownerId) {
+      collectFunctionLikeFacts(context, ownerId, member, member.body);
     }
   }
 }
@@ -1798,7 +2272,7 @@ function isAssignmentOperator(kind: ts.SyntaxKind): boolean {
   return kind >= ts.SyntaxKind.FirstAssignment && kind <= ts.SyntaxKind.LastAssignment;
 }
 
-function importDetails(declaration: ts.ImportDeclaration): Pick<TypeScriptImport, "defaultBinding" | "importKind" | "namedBindings" | "namespaceBinding" | "sideEffectOnly" | "specifier"> {
+function importDetails(declaration: ts.ImportDeclaration): ImportDetails {
   const importClause = declaration.importClause;
   const namedBindings = importClause?.namedBindings;
   const specifier = moduleSpecifierText(declaration.moduleSpecifier) ?? declaration.moduleSpecifier.getText();
@@ -1823,7 +2297,7 @@ function importDetails(declaration: ts.ImportDeclaration): Pick<TypeScriptImport
   });
 }
 
-function importKey(details: Pick<TypeScriptImport, "defaultBinding" | "importKind" | "namedBindings" | "namespaceBinding" | "sideEffectOnly" | "specifier">): string {
+function importKey(details: ImportDetails): string {
   return [
     details.specifier,
     details.importKind,
@@ -1840,6 +2314,87 @@ function importBindingText(binding: TypeScriptImportBinding): string {
     : `${binding.importedName} as ${binding.localName}`;
 
   return binding.typeOnly ? `type ${base}` : base;
+}
+
+function commonJsRequire(expression: ts.Expression): CommonJsRequire | undefined {
+  if (ts.isParenthesizedExpression(expression)) {
+    return commonJsRequire(expression.expression);
+  }
+
+  if (ts.isCallExpression(expression)) {
+    const firstArgument = expression.arguments[0];
+
+    if (
+      ts.isIdentifier(expression.expression) &&
+      expression.expression.text === "require" &&
+      expression.arguments.length === 1 &&
+      firstArgument &&
+      ts.isStringLiteralLike(firstArgument)
+    ) {
+      return { specifier: firstArgument.text };
+    }
+
+    return commonJsRequire(expression.expression);
+  }
+
+  if (ts.isPropertyAccessExpression(expression)) {
+    const required = commonJsRequire(expression.expression);
+    return required ? { ...required, importedName: expression.name.text } : undefined;
+  }
+
+  if (ts.isElementAccessExpression(expression)) {
+    const required = commonJsRequire(expression.expression);
+    const argument = expression.argumentExpression;
+    return required && argument && ts.isStringLiteralLike(argument)
+      ? { ...required, importedName: argument.text }
+      : required;
+  }
+
+  return undefined;
+}
+
+function dynamicImportSpecifier(expression: ts.CallExpression): string | undefined {
+  const firstArgument = expression.arguments[0];
+  return expression.expression.kind === ts.SyntaxKind.ImportKeyword && firstArgument && ts.isStringLiteralLike(firstArgument)
+    ? firstArgument.text
+    : undefined;
+}
+
+function commonJsExportTarget(expression: ts.Expression): CommonJsExportTarget | undefined {
+  const path = expressionPath(expression);
+
+  if (path.length === 2 && path[0] === "module" && path[1] === "exports") {
+    return { name: "default", exportKind: "exportEquals" };
+  }
+
+  if (path.length === 2 && path[0] === "exports") {
+    return { name: path[1] ?? "default", exportKind: "value" };
+  }
+
+  if (path.length === 3 && path[0] === "module" && path[1] === "exports") {
+    return { name: path[2] ?? "default", exportKind: "value" };
+  }
+
+  return undefined;
+}
+
+function expressionPath(expression: ts.Expression): readonly string[] {
+  if (ts.isIdentifier(expression)) {
+    return [expression.text];
+  }
+
+  if (ts.isPropertyAccessExpression(expression)) {
+    return [...expressionPath(expression.expression), expression.name.text];
+  }
+
+  if (ts.isElementAccessExpression(expression)) {
+    const argument = expression.argumentExpression;
+    return argument && ts.isStringLiteralLike(argument)
+      ? [...expressionPath(expression.expression), argument.text]
+      : [];
+  }
+
+  return [];
 }
 
 function resolveImport(
@@ -1878,8 +2433,11 @@ function resolveImport(
   const base = normalizePath(relative(context.root, resolve(dirname(context.absoluteFile), specifier)));
   const candidates = [
     base,
-    ...TYPESCRIPT_EXTENSIONS.map((extension) => `${base}${extension}`),
-    ...TYPESCRIPT_EXTENSIONS.map((extension) => `${base}/index${extension}`),
+    ...ECMASCRIPT_SOURCE_EXTENSIONS.map((extension) => `${base}${extension}`),
+    ...ECMASCRIPT_SOURCE_EXTENSIONS.map((extension) => `${base}/index${extension}`),
+    ...(ECMASCRIPT_SOURCE_EXTENSIONS.some((extension) => base.endsWith(extension))
+      ? ECMASCRIPT_SOURCE_EXTENSIONS.map((extension) => `${base.slice(0, base.lastIndexOf("."))}${extension}`)
+      : []),
   ].map(normalizePath);
   const targetFile = candidates.find((candidate) => relativeFiles.has(candidate));
 
@@ -1913,7 +2471,7 @@ function functionMetadata(node: ts.FunctionDeclaration | ts.FunctionExpression |
   };
 }
 
-function classMetadata(node: ts.ClassDeclaration): JsonObject {
+function classMetadata(node: ts.ClassLikeDeclaration): JsonObject {
   return {
     abstract: hasModifier(node, ts.SyntaxKind.AbstractKeyword),
     exported: isExported(node),
@@ -2147,7 +2705,7 @@ function addSymbol(context: AnalyzerContext, symbol: TypeScriptSymbol): void {
   }
 }
 
-function listTypeScriptFiles(root: string): readonly string[] {
+function listSourceFiles(root: string, allowJavaScript: boolean): readonly string[] {
   const ignored = new Set([
     ".artifacts",
     ".cache",
@@ -2185,7 +2743,7 @@ function listTypeScriptFiles(root: string): readonly string[] {
 
       if (entry.isDirectory()) {
         visit(absolute);
-      } else if (entry.isFile() && isTypeScriptSourcePath(absolute)) {
+      } else if (entry.isFile() && isSupportedSourcePath(absolute, allowJavaScript)) {
         files.push(toRelativePath(root, absolute));
       }
     }
@@ -2199,7 +2757,8 @@ function listTypeScriptFiles(root: string): readonly string[] {
 }
 
 function loadProjectCompilerOptions(root: string, overrides?: ts.CompilerOptions | undefined): ts.CompilerOptions {
-  const configPath = ts.findConfigFile(root, ts.sys.fileExists, "tsconfig.json");
+  const configPath = ts.findConfigFile(root, ts.sys.fileExists, "tsconfig.json")
+    ?? ts.findConfigFile(root, ts.sys.fileExists, "jsconfig.json");
   const options = configPath ? readCompilerOptionsFromConfig(configPath) : {};
 
   return {
@@ -2242,14 +2801,18 @@ function moduleSpecifierText(node: ts.Expression | undefined): string | undefine
   return node && ts.isStringLiteral(node) ? node.text : undefined;
 }
 
-function isTypeScriptSourcePath(path: string): boolean {
-  const normalized = normalizePath(path);
+function isSupportedSourcePath(path: string, allowJavaScript: boolean): boolean {
+  const normalized = normalizePath(path).toLowerCase();
 
   if (normalized.endsWith(".d.ts") || normalized.endsWith(".d.mts") || normalized.endsWith(".d.cts")) {
     return false;
   }
 
-  return TYPESCRIPT_EXTENSIONS.some((extension) => normalized.endsWith(extension));
+  if (TYPESCRIPT_SOURCE_EXTENSIONS.some((extension) => normalized.endsWith(extension))) {
+    return true;
+  }
+
+  return allowJavaScript && JAVASCRIPT_SOURCE_EXTENSIONS.some((extension) => normalized.endsWith(extension));
 }
 
 function hasModifier(node: ts.Node, kind: ts.SyntaxKind): boolean {

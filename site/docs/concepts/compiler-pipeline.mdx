@@ -16,8 +16,9 @@ Ontoly's compiler pipeline has six stages:
 5. Diagnostics
 6. Optimization and persistence
 
-Version 1 focuses on TypeScript. OpenAPI, Prisma, GraphQL, and other
-frontends should enter as parsers that produce the same graph contract.
+Version 1 supports JavaScript and TypeScript through the TypeScript Compiler
+API. OpenAPI, Prisma, GraphQL, and other frontends should enter as parsers that
+produce the same graph contract.
 
 The compiler is deterministic. Plugins can transform or export the graph,
 but they do not mutate compiler internals.

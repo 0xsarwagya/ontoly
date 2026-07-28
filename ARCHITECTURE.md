@@ -21,9 +21,9 @@ Each package has one primary reason to change.
 | --- | --- | --- |
 | `@0xsarwagya/ontoly-core` | Software Graph schema, stable IDs, graph helpers, graph validation primitives, and shared graph/index data structures. | Repository discovery, parsing, compiler orchestration, transport, CLI behavior, or plugin rendering. |
 | `@0xsarwagya/ontoly-compiler` | Repository discovery, compiler context, pipeline execution, graph construction, build-time validation hooks, and watch-mode coordination. | Language-specific AST ownership, high-level capabilities, MCP transport, CLI UX, or rendered artifacts. |
-| `@0xsarwagya/ontoly-parser-typescript` | TypeScript frontend integration, compiler-symbol emission, and TypeScript relationship extraction. | Graph storage, query APIs, MCP transport, CLI commands, or generic framework policy. |
+| `@0xsarwagya/ontoly-parser-typescript` | JavaScript/TypeScript frontend integration, compiler-symbol emission, and ECMAScript relationship extraction. | Graph storage, query APIs, MCP transport, CLI commands, or generic framework policy. |
 | `@0xsarwagya/ontoly-parser-openapi` | OpenAPI frontend integration and OpenAPI graph facts. | TypeScript parsing, graph storage, query APIs, or rendered artifacts. |
-| `@0xsarwagya/ontoly-typescript` | Pure TypeScript Semantic Model analysis. | Graph construction, framework registry ownership, CLI behavior, or MCP transport. |
+| `@0xsarwagya/ontoly-typescript` | Pure JavaScript/TypeScript Semantic Model analysis. | Graph construction, framework registry ownership, CLI behavior, or MCP transport. |
 | `@0xsarwagya/ontoly-semantic` | Semantic generation and Framework Analyzer registry. | Compiler lifecycle, persistence, transport, or agent workflows. |
 | `@0xsarwagya/ontoly-query` | Deterministic Software Graph lookup, traversal, dependency, path, and statistics queries. | Natural-language capability workflows, MCP transport, persistence, or parsing. |
 | `@0xsarwagya/ontoly-capabilities` | Deterministic software-engineering capabilities over existing graph artifacts, including evidence packs and implementation planning. | Compiler logic, parser logic, transport, CLI UX, LLM calls, embeddings, vector search, or code generation. |

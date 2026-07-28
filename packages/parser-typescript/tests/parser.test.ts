@@ -323,6 +323,73 @@ describe("typescript frontend", () => {
     expect(ids).not.toContain("route:GET:/not-a-route");
   });
 
+  it("generates JavaScript graph nodes, CommonJS edges, and framework routes", async () => {
+    const root = await createJavaScriptFrameworkFixture();
+    const result = parseTypeScriptFrontend({
+      root,
+      files: ["src/api.cjs", "src/handlers.js"],
+    });
+    const relationships = result.relationships.map((relationship) => ({
+      type: relationship.type,
+      from: relationship.from,
+      to: relationship.to,
+    }));
+
+    expect(result.symbols).toEqual(expect.arrayContaining([
+      expect.objectContaining({ id: "mod:src/api.cjs", language: "javascript" }),
+      expect.objectContaining({ id: "fn:src/handlers.js:health", language: "javascript" }),
+      expect.objectContaining({ id: "route:GET:/health", language: "javascript" }),
+      expect.objectContaining({ id: "framework:Express", language: "javascript" }),
+    ]));
+    expect(relationships).toEqual(expect.arrayContaining([
+      {
+        type: "IMPORTS",
+        from: "mod:src/api.cjs",
+        to: "pkg:express",
+      },
+      {
+        type: "IMPORTS",
+        from: "mod:src/api.cjs",
+        to: "mod:src/handlers.js",
+      },
+      {
+        type: "EXPORTS",
+        from: "mod:src/handlers.js",
+        to: "fn:src/handlers.js:health",
+      },
+      {
+        type: "HANDLES",
+        from: "route:GET:/health",
+        to: "fn:src/handlers.js:health",
+      },
+    ]));
+  });
+
+  it("builds deterministic JavaScript graphs through the compiler pipeline", async () => {
+    const root = await createJavaScriptFrameworkFixture();
+    const options = {
+      root,
+      passes: [createTypeScriptFrontendPass()],
+      cache: false,
+    } as const;
+    const first = await buildSoftwareGraphWithArtifacts(options);
+    const second = await buildSoftwareGraphWithArtifacts(options);
+
+    expect(first.status).toBe("success");
+    expect(second.status).toBe("success");
+    expect(second.graph?.metadata.deterministicHash).toBe(first.graph?.metadata.deterministicHash);
+    expect(first.graph?.nodes).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        id: "fn:src/handlers.js:health",
+        metadata: expect.objectContaining({ language: "javascript" }),
+      }),
+      expect.objectContaining({
+        id: "route:GET:/health",
+        metadata: expect.objectContaining({ language: "javascript" }),
+      }),
+    ]));
+  });
+
   it("participates in the compiler pipeline and emits graph relationships", async () => {
     const root = await createFixture();
 
@@ -628,6 +695,35 @@ async function createNestFixture(): Promise<string> {
       "  exports: [UsersService],",
       "})",
       "export class UsersModule {}",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+
+  return root;
+}
+
+async function createJavaScriptFrameworkFixture(): Promise<string> {
+  const root = await mkdtemp(join(tmpdir(), "ontoly-parser-javascript-"));
+  await mkdir(join(root, "src"), { recursive: true });
+  await writeFile(
+    join(root, "src", "handlers.js"),
+    [
+      "exports.health = function health(_request, response) {",
+      "  return response.json({ ok: true });",
+      "};",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+  await writeFile(
+    join(root, "src", "api.cjs"),
+    [
+      "const express = require('express');",
+      "const { health } = require('./handlers');",
+      "const app = express();",
+      "app.get('/health', health);",
+      "module.exports = app;",
       "",
     ].join("\n"),
     "utf8",

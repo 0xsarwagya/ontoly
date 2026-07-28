@@ -26,7 +26,7 @@ import {
 export const TYPESCRIPT_FRONTEND_NAME = TYPESCRIPT_ANALYZER_NAME;
 export const TYPESCRIPT_FRONTEND_PASS_ID = "@0xsarwagya/ontoly-parser-typescript:frontend";
 export const TYPESCRIPT_FRONTEND_VERSION = TYPESCRIPT_ANALYZER_VERSION;
-export const TYPESCRIPT_FRONTEND_CACHE_VERSION = "1.0.0";
+export const TYPESCRIPT_FRONTEND_CACHE_VERSION = "1.1.0";
 
 export interface ParseTypeScriptFrontendInput {
   readonly root: string;

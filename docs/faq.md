@@ -13,8 +13,9 @@ graph through MCP or plugins, but every LLM-facing Ontoly workflow must use
 
 ## What languages are supported?
 
-The Release Candidate focuses on TypeScript and repository intelligence. OpenAPI support is
-available as a frontend. Other frontends are planned through RFCs and plugins.
+JavaScript and TypeScript are supported through one Compiler API frontend,
+including ESM, CommonJS, JSX, and TSX. OpenAPI is also available as a frontend.
+Other languages remain planned through RFCs and plugins.
 
 ## Where are artifacts written?
 

@@ -1,6 +1,6 @@
 # Migration Notes
 
-## 1.0.0-rc.20
+## 1.0.0-rc.21
 
 Projects upgrading from `1.0.0-rc.3` do not need a Software Graph schema
 migration. This release is additive: it introduces in-memory source processing
@@ -9,7 +9,7 @@ and `createInMemoryCompilerHost`) without changing existing on-disk behavior.
 
 Recommended upgrade steps:
 
-1. Upgrade Ontoly packages together to `1.0.0-rc.20`.
+1. Upgrade Ontoly packages together to `1.0.0-rc.21`.
 2. Rebuild the repository graph.
 3. Reinstall Agent Skills so installed artifacts match the rc.5 source.
 

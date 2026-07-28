@@ -5,8 +5,8 @@
 [![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-blue)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
-Ontoly is a TypeScript-native software intelligence engine that turns source
-code into a deterministic Software Graph.
+Ontoly is a JavaScript- and TypeScript-native software intelligence engine that
+turns source code into a deterministic Software Graph.
 
 Developer tools should not have to rediscover the same repository structure over
 and over. Ontoly builds one shared semantic representation that agents, MCP
@@ -19,13 +19,13 @@ generate embeddings, or make probabilistic guesses.
 
 ## Status
 
-Ontoly's current Release Candidate is `v1.0.0-rc.20`.
+Ontoly's current Release Candidate is `v1.0.0-rc.21`.
 
 The public contract is in Release Candidate freeze, and the repository includes:
 
 - a Software Graph specification
 - a deterministic compiler pipeline
-- a TypeScript semantic frontend
+- a JavaScript and TypeScript semantic frontend powered by the TypeScript Compiler API
 - a query engine
 - MCP capabilities
 - deterministic Enhancers for artifact generation
@@ -497,7 +497,7 @@ suite, not marketing claims.
 | `@0xsarwagya/ontoly-cli` | CLI and public convenience API. |
 | `@0xsarwagya/ontoly-core` | Software Graph schema, stable IDs, indexes, graph helpers, and Semantic Index APIs. |
 | `@0xsarwagya/ontoly-compiler` | Repository discovery, graph build pipeline, validation, and watch mode. |
-| `@0xsarwagya/ontoly-parser-typescript` | TypeScript frontend and relationship extraction. |
+| `@0xsarwagya/ontoly-parser-typescript` | JavaScript and TypeScript frontend and relationship extraction. |
 | `@0xsarwagya/ontoly-parser-openapi` | OpenAPI frontend for Software Graph facts. |
 | `@0xsarwagya/ontoly-typescript` | Pure TypeScript semantic model analyzer. |
 | `@0xsarwagya/ontoly-semantic` | Semantic generator and framework analyzer registry. |
@@ -639,7 +639,7 @@ pnpm release:gates
 
 Ontoly is Release Candidate software.
 
-- TypeScript support is the primary implemented frontend.
+- JavaScript and TypeScript are supported through one deterministic ECMAScript frontend.
 - Some framework analyzers are intentionally partial.
 - Binary graph formats are not implemented.
 - Hosted SaaS, vector search, and LLM reasoning are non-goals.

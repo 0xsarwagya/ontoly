@@ -1,7 +1,7 @@
 # Framework Analyzer API
 
-Framework analyzers turn a TypeScript Semantic Model into framework semantic
-facts.
+Framework analyzers turn the JavaScript/TypeScript Semantic Model into framework
+semantic facts.
 
 They never access the TypeScript Compiler API directly and never construct
 Software Graph nodes or relationships. This keeps framework knowledge isolated
@@ -102,9 +102,10 @@ The NestJS analyzer is the first complete analyzer. It supports:
 
 ## Placeholder Analyzers
 
-The default registry also includes deterministic detection for Express,
-Fastify, Hono, Next.js, React, and Prisma. Only NestJS performs complete
-semantic extraction in the current Release Candidate.
+The default registry also includes deterministic route extraction for Express,
+Fastify, and Hono plus detection for Next.js, React, and Prisma. Only NestJS
+performs complete framework-specific semantic extraction in the current
+Release Candidate.
 
 ## Flow
 

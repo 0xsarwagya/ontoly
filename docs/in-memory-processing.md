@@ -56,11 +56,11 @@ The two strategies produce identical graph node identity for the same input.
   `buildSoftwareGraph({ sourceProvider, passes })` for full control.
 - `createInMemoryCompilerHost(root, sources, options)` (from
   `@0xsarwagya/ontoly-typescript`) builds the in-memory `ts.CompilerHost` used
-  by the zero-disk TypeScript frontend.
+  by the zero-disk JavaScript/TypeScript frontend.
 
 ## Passes
 
 `buildSoftwareGraphFromMemory` is a low-level primitive and runs only the passes
 you supply. Use `defaultCompilerPasses()` from `@0xsarwagya/ontoly-cli` for the
-batteries-included set (repository intelligence, TypeScript frontend, OpenAPI
+batteries-included set (repository intelligence, JavaScript/TypeScript frontend, OpenAPI
 frontend).
