@@ -2,20 +2,20 @@
 
 | Component | Version |
 | --------- | ------- |
-| Ontoly core packages | 1.0.0 |
-| Query Engine | 1.0.0 |
-| TypeScript analyzer | 1.0.0 |
-| JavaScript/TypeScript parser frontend | 1.0.0 |
-| Semantic Index | exported by `@0xsarwagya/ontoly-core` 1.0.0 |
-| Semantic Capability Engine | 1.0.0 |
-| Enhancer API | 1.0.0 |
-| Semantics Enhancer | 1.0.0 |
-| Intelligence API | 1.0.0 |
-| MCP runtime | 1.0.0 |
-| Ontoly CLI | 1.0.0 |
-| HTML graph plugin | 1.0.0 |
+| Ontoly core packages | 1.1.0-alpha.1 |
+| Query Engine | 1.1.0-alpha.1 |
+| TypeScript analyzer | 1.1.0-alpha.1 |
+| JavaScript/TypeScript parser frontend | 1.1.0-alpha.1 |
+| Semantic Index | exported by `@0xsarwagya/ontoly-core` 1.1.0-alpha.1 |
+| Semantic Capability Engine | 1.1.0-alpha.1 |
+| Enhancer API | 1.1.0-alpha.1 |
+| Semantics Enhancer | 1.1.0-alpha.1 |
+| Intelligence API | 1.1.0-alpha.1 |
+| MCP runtime | 1.1.0-alpha.1 |
+| Ontoly CLI | 1.1.0-alpha.1 |
+| HTML graph plugin | 1.1.0-alpha.1 |
 | Software Graph Spec | 1.0 draft |
-| Agent Skills | 1.0.0 |
+| Agent Skills | 1.1.0-alpha.1 |
 | Node.js engine | 20+ |
 | pnpm engine | 10+ |
 | TypeScript | 5.9 |

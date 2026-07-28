@@ -13,6 +13,7 @@ const packageDirs = [
   "packages/core",
   "packages/cache",
   "packages/diagnostics",
+  "packages/diff",
   "packages/query",
   "packages/typescript",
   "packages/analyzers",
