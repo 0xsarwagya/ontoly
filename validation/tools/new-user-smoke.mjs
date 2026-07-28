@@ -5,7 +5,7 @@ import os from "node:os";
 import path from "node:path";
 
 const root = process.cwd();
-const reportPath = path.join(root, "NEW_USER_REPORT.md");
+const reportPath = path.join(root, "validation", "new-user-smoke-report.md");
 const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "ontoly-new-user-"));
 const exampleRoot = path.join(tempRoot, "basic");
 const cli = path.join(root, "packages", "cli", "dist", "cli.js");

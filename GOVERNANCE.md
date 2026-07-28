@@ -13,7 +13,7 @@ and release-gate evidence over feature velocity.
 - Changes to the Software Graph, compiler pipeline, query API, plugin API,
   public types, serialization, MCP behavior, or Agent Skill compatibility
   require an RFC before implementation.
-- Release candidates require package validation, npm pack validation, skills
+- Releases require package validation, npm pack validation, skills
   validation, documentation checks, license checks, semantic evaluation, and
   validation-lab gates.
 - Licensing and trademark policy changes require maintainer approval.
