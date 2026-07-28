@@ -47,6 +47,7 @@ import {
   type SoftwareGraphNode,
   type SourceSpan,
 } from "@0xsarwagya/ontoly-core";
+import { diffSoftwareGraphs, type GraphDiff } from "@0xsarwagya/ontoly-diff";
 import {
   ARTIFACT_DESCRIPTORS,
   artifactRequirement,
@@ -289,6 +290,10 @@ async function run(cli: ParsedCli): Promise<void> {
       await traceCommand(cli);
       return;
 
+    case "diff":
+      await diffCommand(cli);
+      return;
+
     case "stats":
       await statsCommand(cli);
       return;
@@ -397,10 +402,6 @@ async function run(cli: ParsedCli): Promise<void> {
 
     case "leaderboard":
       await leaderboardCommand(cli);
-      return;
-
-    case "diff":
-      await diffCommand(cli);
       return;
 
     case "benchmark":
@@ -865,6 +866,102 @@ async function traceCommand(cli: ParsedCli): Promise<void> {
   }
 
   logger.write(formatTrace(trace));
+}
+
+async function diffCommand(cli: ParsedCli): Promise<void> {
+  const [basePath, headPath] = cli.positional;
+
+  if (!basePath || !headPath) {
+    throw new OntolyCliError({
+      code: "ONTOLY1050",
+      message: "diff requires two Software Graph JSON files.",
+      suggestion: "Run ontoly diff <base-graph.json> <head-graph.json> [--json].",
+      docs: "docs/graph-diffing.md",
+    });
+  }
+
+  const base = await loadGraphFile(basePath);
+  const head = await loadGraphFile(headPath);
+  const diff = diffSoftwareGraphs(base, head);
+
+  if (flagBoolean(cli, "json")) {
+    logger.write(JSON.stringify(diff, null, 2));
+    return;
+  }
+
+  logger.write(formatDiffSummary(diff));
+}
+
+async function loadGraphFile(path: string): Promise<SoftwareGraph> {
+  const absolute = isAbsolute(path) ? path : resolve(process.cwd(), path);
+  let contents: string;
+  try {
+    contents = await readFile(absolute, "utf8");
+  } catch (error) {
+    throw new OntolyCliError({
+      code: "ONTOLY1051",
+      message: `Could not read graph file: ${path}`,
+      suggestion: "Verify the path exists and is a Software Graph JSON file produced by ontoly build.",
+      docs: "docs/graph-diffing.md",
+      cause: error,
+    });
+  }
+  try {
+    return JSON.parse(contents) as SoftwareGraph;
+  } catch (error) {
+    throw new OntolyCliError({
+      code: "ONTOLY1052",
+      message: `Graph file is not valid JSON: ${path}`,
+      suggestion: "Regenerate the artifact with ontoly build and try again.",
+      docs: "docs/graph-diffing.md",
+      cause: error,
+    });
+  }
+}
+
+function formatDiffSummary(diff: GraphDiff): string {
+  const lines: string[] = [];
+  lines.push("Software Graph Diff");
+  lines.push(`Base hash: ${diff.baseHash}`);
+  lines.push(`Head hash: ${diff.headHash}`);
+  lines.push("");
+  lines.push(`Nodes: +${diff.summary.addedNodeCount} -${diff.summary.removedNodeCount} ~${diff.summary.modifiedNodeCount} (=${diff.summary.unchangedNodeCount})`);
+  lines.push(`Edges: +${diff.summary.addedEdgeCount} -${diff.summary.removedEdgeCount} (=${diff.summary.unchangedEdgeCount})`);
+
+  if (diff.addedNodes.length > 0) {
+    lines.push("");
+    lines.push("Added nodes:");
+    for (const node of diff.addedNodes.slice(0, 20)) {
+      lines.push(`  + ${node.id}`);
+    }
+    if (diff.addedNodes.length > 20) {
+      lines.push(`  ... ${diff.addedNodes.length - 20} more`);
+    }
+  }
+
+  if (diff.removedNodes.length > 0) {
+    lines.push("");
+    lines.push("Removed nodes:");
+    for (const node of diff.removedNodes.slice(0, 20)) {
+      lines.push(`  - ${node.id}`);
+    }
+    if (diff.removedNodes.length > 20) {
+      lines.push(`  ... ${diff.removedNodes.length - 20} more`);
+    }
+  }
+
+  if (diff.modifiedNodes.length > 0) {
+    lines.push("");
+    lines.push("Modified nodes:");
+    for (const modified of diff.modifiedNodes.slice(0, 20)) {
+      lines.push(`  ~ ${modified.id} [${modified.changedFields.join(", ")}]`);
+    }
+    if (diff.modifiedNodes.length > 20) {
+      lines.push(`  ... ${diff.modifiedNodes.length - 20} more`);
+    }
+  }
+
+  return lines.join("\n");
 }
 
 async function statsCommand(cli: ParsedCli): Promise<void> {
@@ -1806,16 +1903,6 @@ async function leaderboardCommand(cli: ParsedCli): Promise<void> {
     "--leaderboard-only",
     ...semanticEvaluationFlags(cli),
   ]);
-}
-
-async function diffCommand(cli: ParsedCli): Promise<void> {
-  await runProjectScript(
-    join("validation", "tools", "graph-diff.mjs"),
-    [
-      ...cli.positional,
-      ...forwardedFlags(cli, ["json", "ci", "output"]),
-    ],
-  );
 }
 
 function semanticEvaluationFlags(cli: ParsedCli): string[] {
