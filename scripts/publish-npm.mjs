@@ -94,7 +94,8 @@ for (const directory of packageDirs) {
   }
 
   if (isPublished(manifest.name, manifest.version)) {
-    console.log(`Skipping ${manifest.name}@${manifest.version}; already published.`);
+    console.log(`Already published ${manifest.name}@${manifest.version}; ensuring dist-tag ${publishTag}.`);
+    run("npm", ["dist-tag", "add", `${manifest.name}@${manifest.version}`, publishTag], root);
     ensurePublicAccess(manifest.name, { required: manifest.name === "@0xsarwagya/ontoly-capabilities" });
     continue;
   }
