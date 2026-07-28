@@ -218,6 +218,9 @@ importers:
         specifier: workspace:*
         version: link:../diagnostics
     devDependencies:
+      '@0xsarwagya/ontoly-parser-typescript':
+        specifier: workspace:*
+        version: link:../parser-typescript
       '@types/node':
         specifier: ^22.15.3
         version: 22.20.1
@@ -509,6 +512,9 @@ importers:
       typescript:
         specifier: 5.9.2
         version: 5.9.2
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.7(@types/debug@4.1.13)(@types/node@22.20.1)
 
   plugins/mermaid:
     dependencies:
