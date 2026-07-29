@@ -4,6 +4,36 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+## 1.2.0-alpha.1
+
+Python language support — the first non-JS/TS language in Ontoly. Three new
+packages powered by tree-sitter for zero-runtime-dependency parsing, with
+Django and FastAPI framework analyzers.
+
+### Added
+
+- **`@0xsarwagya/ontoly-python`**: tree-sitter-based Python semantic model
+  analyzer. Extracts classes (with inheritance), functions (async, params,
+  return annotations), methods (static/classmethod/property), imports
+  (absolute and relative), decorators, calls, variables, and assignments
+  from `.py` source files.
+- **`@0xsarwagya/ontoly-semantic-python`**: Python semantic bridge converting
+  `PythonProject` into `CompilerSymbol[]` and `CompilerRelationship[]`. Maps
+  Python constructs to the same graph node/edge types used by TypeScript.
+  - **Django analyzer**: detects `django.*` imports, extracts models
+    (`models.Model`), class-based views, function-based views, middleware.
+  - **FastAPI analyzer**: detects `fastapi` imports, extracts route decorators
+    (`@app.get`/`@app.post`/etc), Pydantic models (`BaseModel`), dependency
+    injection (`Depends()`).
+- **`@0xsarwagya/ontoly-parser-python`**: CompilerPass wrapper
+  (`createPythonFrontendPass()`) that filters `.py` files from source
+  inventory and produces `language: "python"` symbols.
+- Python frontend pass registered in `defaultCompilerPasses()` — Python
+  files are now analyzed automatically alongside TypeScript.
+- 15 Python framework signatures added to `FRAMEWORK_SIGNATURES` (Django,
+  Django REST Framework, FastAPI, Flask, Starlette, Tornado, aiohttp, Sanic,
+  SQLAlchemy, Alembic, Tortoise ORM, Pydantic, Celery, pytest).
+
 ## 1.1.0-alpha.2
 
 Full framework support across 17 semantic analyzers covering all major
