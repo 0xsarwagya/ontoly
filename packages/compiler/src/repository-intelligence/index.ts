@@ -88,6 +88,20 @@ const FRAMEWORK_SIGNATURES: readonly FrameworkSignature[] = [
   { packageName: "jotai", frameworkName: "Jotai", category: "state" },
   { packageName: "recoil", frameworkName: "Recoil", category: "state" },
   { packageName: "mobx", frameworkName: "MobX", category: "state" },
+  { packageName: "django", frameworkName: "Django", category: "http" },
+  { packageName: "djangorestframework", frameworkName: "Django REST Framework", category: "http" },
+  { packageName: "fastapi", frameworkName: "FastAPI", category: "http" },
+  { packageName: "flask", frameworkName: "Flask", category: "http" },
+  { packageName: "starlette", frameworkName: "Starlette", category: "http" },
+  { packageName: "tornado", frameworkName: "Tornado", category: "http" },
+  { packageName: "aiohttp", frameworkName: "aiohttp", category: "http" },
+  { packageName: "sanic", frameworkName: "Sanic", category: "http" },
+  { packageName: "sqlalchemy", frameworkName: "SQLAlchemy", category: "database" },
+  { packageName: "alembic", frameworkName: "Alembic", category: "database" },
+  { packageName: "tortoise-orm", frameworkName: "Tortoise ORM", category: "database" },
+  { packageName: "pydantic", frameworkName: "Pydantic", category: "validation" },
+  { packageName: "celery", frameworkName: "Celery", category: "task-queue" },
+  { packageName: "pytest", frameworkName: "pytest", category: "testing" },
 ];
 
 export function createRepositoryIntelligencePass(options: {

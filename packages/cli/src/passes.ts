@@ -1,5 +1,6 @@
 import { createRepositoryIntelligencePass, type CompilerPass } from "@0xsarwagya/ontoly-compiler";
 import { createOpenApiFrontendPass } from "@0xsarwagya/ontoly-parser-openapi";
+import { createPythonFrontendPass } from "@0xsarwagya/ontoly-parser-python";
 import { createTypeScriptFrontendPass } from "@0xsarwagya/ontoly-parser-typescript";
 
 /**
@@ -21,5 +22,5 @@ import { createTypeScriptFrontendPass } from "@0xsarwagya/ontoly-parser-typescri
  * ```
  */
 export function defaultCompilerPasses(): CompilerPass[] {
-  return [createRepositoryIntelligencePass(), createTypeScriptFrontendPass(), createOpenApiFrontendPass()];
+  return [createRepositoryIntelligencePass(), createTypeScriptFrontendPass(), createPythonFrontendPass(), createOpenApiFrontendPass()];
 }

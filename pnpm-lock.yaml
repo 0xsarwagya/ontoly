@@ -180,6 +180,9 @@ importers:
       '@0xsarwagya/ontoly-parser-openapi':
         specifier: workspace:*
         version: link:../parser-openapi
+      '@0xsarwagya/ontoly-parser-python':
+        specifier: workspace:*
+        version: link:../parser-python
       '@0xsarwagya/ontoly-parser-typescript':
         specifier: workspace:*
         version: link:../parser-typescript

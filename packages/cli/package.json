@@ -53,6 +53,7 @@
     "@0xsarwagya/ontoly-intelligence": "workspace:*",
     "@0xsarwagya/ontoly-mcp": "workspace:*",
     "@0xsarwagya/ontoly-parser-openapi": "workspace:*",
+    "@0xsarwagya/ontoly-parser-python": "workspace:*",
     "@0xsarwagya/ontoly-parser-typescript": "workspace:*",
     "@0xsarwagya/ontoly-plugin-html": "workspace:*",
     "@0xsarwagya/ontoly-query": "workspace:*",
