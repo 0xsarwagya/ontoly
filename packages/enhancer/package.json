@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-enhancer",
-  "version": "1.2.0-alpha.1",
+  "version": "1.2.0-alpha.2",
   "description": "Deterministic Enhancer API for immutable Ontoly Software Graph artifact transformations.",
   "type": "module",
   "license": "AGPL-3.0-only",
