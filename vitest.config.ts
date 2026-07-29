@@ -30,6 +30,7 @@ export default defineConfig({
       "@0xsarwagya/ontoly-semantic": fromRoot("./packages/semantic/src/index.ts"),
       "@0xsarwagya/ontoly-typescript": fromRoot("./packages/typescript/src/index.ts"),
       "@0xsarwagya/ontoly-cli": fromRoot("./packages/cli/src/index.ts"),
+      "@0xsarwagya/ontoly-python": fromRoot("./packages/python/src/index.ts"),
     },
   },
 });
