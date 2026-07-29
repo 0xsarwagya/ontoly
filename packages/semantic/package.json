@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-semantic",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Semantic generator and framework analyzer registry for Ontoly.",
   "type": "module",
   "license": "AGPL-3.0-only",

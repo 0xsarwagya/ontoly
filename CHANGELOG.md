@@ -4,6 +4,44 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+## 1.2.0
+
+Go language support — the third language in Ontoly. Validated across 3 real-world
+Go repositories (gin-examples, fzf, gorm): 178 files, 3,789 symbols, 11,009
+relationships, 132 semantic facts, zero parse errors.
+
+### Added
+
+- **Go language support** via tree-sitter-go.
+  - **`@0xsarwagya/ontoly-go`**: tree-sitter-based Go semantic model analyzer.
+    Extracts packages, structs (with embedded types and struct tags), interfaces,
+    functions, methods (with value/pointer receivers), imports (aliased, side-effect,
+    dot), constants, variables, type aliases, call expressions (including goroutines),
+    and Go 1.18+ generics type parameters.
+  - **`@0xsarwagya/ontoly-semantic-go`**: Go semantic bridge converting
+    `GoProject` into `CompilerSymbol`/`CompilerRelationship` artifacts, plus
+    6 Go framework analyzers:
+    - **Gin** — route, handler, middleware, route-group detection
+    - **Echo** — route, handler, middleware, route-group detection
+    - **Fiber** — route, handler, middleware, route-group detection
+    - **Chi** — route, middleware, mount/route-group detection
+    - **gRPC** — service implementation, interceptor, server detection
+    - **GORM** — model (via embedded `gorm.Model` or `gorm:` tags), connection,
+      migration detection
+  - **`@0xsarwagya/ontoly-parser-go`**: `createGoFrontendPass()` CompilerPass
+    wiring `.go` files into the Ontoly compiler pipeline.
+- Go pass registered in `defaultCompilerPasses()` — `ontoly build` now
+  automatically analyzes `.go` files alongside TypeScript, Python, and OpenAPI.
+
+### Validation Results
+
+| Repository | Files | Structs | Interfaces | Functions | Methods | Calls | Symbols | Relationships | Time |
+|---|---|---|---|---|---|---|---|---|---|
+| gin-examples | 52 | 14 | 3 | 101 | 28 | 805 | 539 | 1,302 | 64ms |
+| fzf | 57 | 78 | 2 | 277 | 501 | 6,190 | 1,948 | 5,407 | 398ms |
+| gorm | 69 | 102 | 62 | 108 | 457 | 4,665 | 1,302 | 4,300 | 271ms |
+| **Total** | **178** | **194** | **67** | **486** | **986** | **11,660** | **3,789** | **11,009** | **733ms** |
+
 ## 1.1.0
 
 Stable release adding Python language support, AI/ML framework analyzers,

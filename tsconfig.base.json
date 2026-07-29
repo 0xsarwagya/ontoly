@@ -36,7 +36,10 @@
       "@0xsarwagya/ontoly-cli": ["packages/cli/src/index.ts"],
       "@0xsarwagya/ontoly-python": ["packages/python/src/index.ts"],
       "@0xsarwagya/ontoly-semantic-python": ["packages/semantic-python/src/index.ts"],
-      "@0xsarwagya/ontoly-parser-python": ["packages/parser-python/src/index.ts"]
+      "@0xsarwagya/ontoly-parser-python": ["packages/parser-python/src/index.ts"],
+      "@0xsarwagya/ontoly-go": ["packages/go/src/index.ts"],
+      "@0xsarwagya/ontoly-semantic-go": ["packages/semantic-go/src/index.ts"],
+      "@0xsarwagya/ontoly-parser-go": ["packages/parser-go/src/index.ts"]
     }
   }
 }

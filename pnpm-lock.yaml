@@ -177,6 +177,9 @@ importers:
       '@0xsarwagya/ontoly-mcp':
         specifier: workspace:*
         version: link:../mcp
+      '@0xsarwagya/ontoly-parser-go':
+        specifier: workspace:*
+        version: link:../parser-go
       '@0xsarwagya/ontoly-parser-openapi':
         specifier: workspace:*
         version: link:../parser-openapi
@@ -350,6 +353,28 @@ importers:
         specifier: ^3.0.0
         version: 3.2.7(@types/debug@4.1.13)(@types/node@22.20.1)
 
+  packages/go:
+    dependencies:
+      '@0xsarwagya/ontoly-core':
+        specifier: workspace:*
+        version: link:../core
+      tree-sitter:
+        specifier: ^0.25.1
+        version: 0.25.1
+      tree-sitter-go:
+        specifier: ^0.25.0
+        version: 0.25.0(tree-sitter@0.25.1)
+    devDependencies:
+      '@types/node':
+        specifier: ^22.15.3
+        version: 22.20.1
+      tsup:
+        specifier: ^8.3.5
+        version: 8.5.1(postcss@8.5.24)(typescript@5.9.2)
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.7(@types/debug@4.1.13)(@types/node@22.20.1)
+
   packages/intelligence:
     dependencies:
       '@0xsarwagya/ontoly-core':
@@ -402,6 +427,31 @@ importers:
       typescript:
         specifier: 5.9.2
         version: 5.9.2
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.7(@types/debug@4.1.13)(@types/node@22.20.1)
+
+  packages/parser-go:
+    dependencies:
+      '@0xsarwagya/ontoly-compiler':
+        specifier: workspace:*
+        version: link:../compiler
+      '@0xsarwagya/ontoly-core':
+        specifier: workspace:*
+        version: link:../core
+      '@0xsarwagya/ontoly-go':
+        specifier: workspace:*
+        version: link:../go
+      '@0xsarwagya/ontoly-semantic-go':
+        specifier: workspace:*
+        version: link:../semantic-go
+    devDependencies:
+      '@types/node':
+        specifier: ^22.15.3
+        version: 22.20.1
+      tsup:
+        specifier: ^8.3.5
+        version: 8.5.1(postcss@8.5.24)(typescript@5.9.2)
       vitest:
         specifier: ^3.0.0
         version: 3.2.7(@types/debug@4.1.13)(@types/node@22.20.1)
@@ -543,6 +593,31 @@ importers:
       typescript:
         specifier: 5.9.2
         version: 5.9.2
+      vitest:
+        specifier: ^3.0.0
+        version: 3.2.7(@types/debug@4.1.13)(@types/node@22.20.1)
+
+  packages/semantic-go:
+    dependencies:
+      '@0xsarwagya/ontoly-compiler':
+        specifier: workspace:*
+        version: link:../compiler
+      '@0xsarwagya/ontoly-core':
+        specifier: workspace:*
+        version: link:../core
+      '@0xsarwagya/ontoly-go':
+        specifier: workspace:*
+        version: link:../go
+      '@0xsarwagya/ontoly-semantic':
+        specifier: workspace:*
+        version: link:../semantic
+    devDependencies:
+      '@types/node':
+        specifier: ^22.15.3
+        version: 22.20.1
+      tsup:
+        specifier: ^8.3.5
+        version: 8.5.1(postcss@8.5.24)(typescript@5.9.2)
       vitest:
         specifier: ^3.0.0
         version: 3.2.7(@types/debug@4.1.13)(@types/node@22.20.1)
@@ -1991,6 +2066,14 @@ packages:
   tree-kill@1.2.2:
     resolution: {integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==}
     hasBin: true
+
+  tree-sitter-go@0.25.0:
+    resolution: {integrity: sha512-APBc/Dq3xz/e35Xpkhb1blu5UgW+2E3RyGWawZSCNcbGwa7jhSQPS8KsUupuzBla8PCo8+lz9W/JDJjmfRa2tw==}
+    peerDependencies:
+      tree-sitter: ^0.25.0
+    peerDependenciesMeta:
+      tree-sitter:
+        optional: true
 
   tree-sitter-python@0.25.0:
     resolution: {integrity: sha512-eCmJx6zQa35GxaCtQD+wXHOhYqBxEL+bp71W/s3fcDMu06MrtzkVXR437dRrCrbrDbyLuUDJpAgycs7ncngLXw==}
@@ -3576,6 +3659,13 @@ snapshots:
   tinyspy@4.0.4: {}
 
   tree-kill@1.2.2: {}
+
+  tree-sitter-go@0.25.0(tree-sitter@0.25.1):
+    dependencies:
+      node-addon-api: 8.9.0
+      node-gyp-build: 4.8.4
+    optionalDependencies:
+      tree-sitter: 0.25.1
 
   tree-sitter-python@0.25.0(tree-sitter@0.25.1):
     dependencies:

@@ -33,6 +33,9 @@ export default defineConfig({
       "@0xsarwagya/ontoly-python": fromRoot("./packages/python/src/index.ts"),
       "@0xsarwagya/ontoly-semantic-python": fromRoot("./packages/semantic-python/src/index.ts"),
       "@0xsarwagya/ontoly-parser-python": fromRoot("./packages/parser-python/src/index.ts"),
+      "@0xsarwagya/ontoly-go": fromRoot("./packages/go/src/index.ts"),
+      "@0xsarwagya/ontoly-semantic-go": fromRoot("./packages/semantic-go/src/index.ts"),
+      "@0xsarwagya/ontoly-parser-go": fromRoot("./packages/parser-go/src/index.ts"),
     },
   },
 });
