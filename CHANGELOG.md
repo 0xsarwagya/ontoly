@@ -4,6 +4,50 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+## 1.2.0-alpha.2
+
+AI/ML framework analyzers and multi-language validation. Extends the Python
+semantic bridge with PyTorch, TensorFlow, HuggingFace Transformers, and
+scikit-learn analyzers. Adds Python OSS repos to the validation system.
+
+### Added
+
+- **PyTorch analyzer**: detects `torch`/`torchvision`/`torchaudio` imports,
+  extracts `nn.Module` models, `Dataset` subclasses, `@torch.no_grad` /
+  `@torch.jit.script` decorated functions.
+- **TensorFlow / Keras analyzer**: detects `tensorflow`/`keras` imports,
+  extracts `Model` and `Sequential` subclasses, custom `Layer` subclasses,
+  `Callback` subclasses, `@tf.function` graph functions.
+- **HuggingFace Transformers analyzer**: detects `transformers`/`datasets`/
+  `diffusers`/`accelerate`/`peft`/`trl` imports, extracts `PreTrainedModel`
+  subclasses, `Trainer` subclasses (as controllers), `PreTrainedTokenizer`
+  subclasses, `pipeline()` calls.
+- **scikit-learn analyzer**: detects `sklearn.*` imports, extracts
+  `BaseEstimator`/`ClassifierMixin`/`RegressorMixin` subclasses,
+  `TransformerMixin` subclasses, `Pipeline`/`make_pipeline` calls.
+- 23 AI/ML framework signatures added to `FRAMEWORK_SIGNATURES` (PyTorch,
+  PyTorch Lightning, TensorFlow, Keras, HuggingFace Transformers/Datasets/
+  Diffusers/Accelerate/PEFT/TRL, scikit-learn, JAX, Flax, Optax, XGBoost,
+  LightGBM, ONNX, ONNX Runtime).
+- 6 Python OSS repos added to validation system: FastAPI, Flask, Django,
+  HuggingFace Transformers, scikit-learn, PyTorch.
+- Validation runner now auto-clones repos with `gitUrl` when missing locally.
+- Validation runner includes Python frontend pass for all builds.
+- Python-specific directories (`__pycache__`, `.venv`, `.tox`, `.mypy_cache`,
+  `.pytest_cache`, `.eggs`) added to repository discovery ignore list.
+- 23 new tests for AI/ML framework analyzers (241 total tests passing).
+
+### Validation results (Python repos)
+
+| Repository | Nodes | Edges | Classes | Functions | Methods |
+|---|---|---|---|---|---|
+| Flask | 1,700 | 2,079 | 91 | 519 | 311 |
+| FastAPI | 11,634 | 16,054 | — | — | — |
+| scikit-learn | 26,894 | 38,346 | 1,023 | 7,687 | 3,306 |
+| HuggingFace Transformers | 122,933 | 191,914 | 18,865 | 6,847 | 50,471 |
+
+All repos analyzed with zero diagnostics.
+
 ## 1.2.0-alpha.1
 
 Python language support — the first non-JS/TS language in Ontoly. Three new
