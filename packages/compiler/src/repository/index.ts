@@ -7,14 +7,20 @@ import { runDeterministicTasks } from "../execution";
 const IGNORED_PARTS = new Set([
   ".artifacts",
   ".cache",
+  ".eggs",
   ".expo",
   ".git",
+  ".mypy_cache",
   ".next",
   ".nuxt",
   ".svelte-kit",
   ".ontoly",
+  ".pytest_cache",
+  ".tox",
   ".turbo",
+  ".venv",
   ".vite",
+  "__pycache__",
   "artifacts",
   "build",
   "coverage",
@@ -28,6 +34,7 @@ const IGNORED_PARTS = new Set([
   "temp",
   "test-results",
   "tmp",
+  "venv",
   "work",
 ]);
 
