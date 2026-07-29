@@ -226,12 +226,22 @@ export function createFrameworkRegistry(analyzers: readonly FrameworkAnalyzer[] 
 export function createDefaultFrameworkRegistry(): FrameworkRegistry {
   return createFrameworkRegistry([
     createNestJsAnalyzer(),
+    createAngularAnalyzer(),
     createHttpCallAnalyzer("express", "Express", "express"),
     createHttpCallAnalyzer("fastify", "Fastify", "fastify"),
     createHttpCallAnalyzer("hono", "Hono", "hono"),
-    createPlaceholderAnalyzer("next", "Next.js", "frontend"),
-    createPlaceholderAnalyzer("react", "React", "frontend"),
-    createPlaceholderAnalyzer("@prisma/client", "Prisma", "database"),
+    createHttpCallAnalyzer("@koa/router", "Koa", "Router"),
+    createHttpCallAnalyzer("elysia", "Elysia", "Elysia"),
+    createNextJsAnalyzer(),
+    createRemixAnalyzer(),
+    createSvelteKitAnalyzer(),
+    createAstroAnalyzer(),
+    createNuxtAnalyzer(),
+    createReactAnalyzer(),
+    createVueAnalyzer(),
+    createTrpcAnalyzer(),
+    createPrismaAnalyzer(),
+    createDrizzleAnalyzer(),
   ]);
 }
 
@@ -329,33 +339,310 @@ function createHttpCallAnalyzer(packageName: string, frameworkName: string, fact
   };
 }
 
-function createPlaceholderAnalyzer(packageName: string, frameworkName: string, category: string): FrameworkAnalyzer {
-  const analyzerId = `@0xsarwagya/ontoly-semantic:${frameworkName.toLowerCase().replace(/\W+/g, "-")}`;
-
+function createNextJsAnalyzer(): FrameworkAnalyzer {
+  const analyzerId = "@0xsarwagya/ontoly-semantic:next-js";
   return {
     id: analyzerId,
-    name: frameworkName,
+    name: "Next.js",
     version: "1.0.0",
-    capabilities: ["framework-detection"],
+    capabilities: ["framework-detection", "file-based-routes", "api-routes", "middleware"],
     compatibleModelVersions: ["1.0.0"],
     detect: (project) => {
-      const evidence = project.imports
-        .filter((item) => packageNameFromSpecifier(item.specifier) === packageName)
-        .map((item) => item.specifier)
-        .sort();
-
+      const importEvidence = project.imports
+        .filter((item) => packageNameFromSpecifier(item.specifier) === "next")
+        .map((item) => item.specifier);
+      const fileEvidence = project.files.some((f) =>
+        /(?:^|\/)app\/.*page\.[jt]sx?$/.test(f.file) ||
+        /(?:^|\/)pages\/.*\.[jt]sx?$/.test(f.file),
+      ) ? ["file-based-routes"] : [];
+      const evidence = [...new Set([...importEvidence, ...fileEvidence])].sort();
       return {
-        framework: frameworkName,
+        framework: "Next.js",
         detected: evidence.length > 0,
-        confidence: "exact",
+        confidence: importEvidence.length > 0 ? "exact" as const : "inferred" as const,
         evidence,
         analyzerId,
         analyzerVersion: "1.0.0",
-        coverage: evidence.length > 0 ? 10 : 0,
-        metadata: { packageName, category, placeholder: true },
+        coverage: evidence.length > 0 ? 80 : 0,
       };
     },
-    analyze: () => [],
+    analyze: (project) => analyzeNextJsRoutes(project, analyzerId),
+  };
+}
+
+function createReactAnalyzer(): FrameworkAnalyzer {
+  const analyzerId = "@0xsarwagya/ontoly-semantic:react";
+  return {
+    id: analyzerId,
+    name: "React",
+    version: "1.0.0",
+    capabilities: ["framework-detection", "components", "hooks"],
+    compatibleModelVersions: ["1.0.0"],
+    detect: (project) => {
+      const evidence = project.imports
+        .filter((item) => packageNameFromSpecifier(item.specifier) === "react")
+        .map((item) => item.specifier)
+        .sort();
+      return {
+        framework: "React",
+        detected: evidence.length > 0,
+        confidence: "exact" as const,
+        evidence,
+        analyzerId,
+        analyzerVersion: "1.0.0",
+        coverage: evidence.length > 0 ? 50 : 0,
+      };
+    },
+    analyze: (project) => analyzeReactComponents(project, analyzerId),
+  };
+}
+
+function createAngularAnalyzer(): FrameworkAnalyzer {
+  const analyzerId = "@0xsarwagya/ontoly-semantic:angular";
+  return {
+    id: analyzerId,
+    name: "Angular",
+    version: "1.0.0",
+    capabilities: ["controllers", "modules", "providers", "dependency-injection", "guards"],
+    compatibleModelVersions: ["1.0.0"],
+    detect: (project) => {
+      const packageEvidence = project.imports
+        .filter((item) => ["@angular/core", "@angular/common", "@angular/router"].includes(packageNameFromSpecifier(item.specifier)))
+        .map((item) => item.specifier);
+      const decoratorEvidence = project.decorators
+        .filter((d) => ["Component", "NgModule", "Injectable", "Pipe", "Directive"].includes(d.name))
+        .map((d) => `@${d.name}`);
+      const evidence = [...new Set([...packageEvidence, ...decoratorEvidence])].sort();
+      return {
+        framework: "Angular",
+        detected: packageEvidence.length > 0,
+        confidence: packageEvidence.length > 0 ? "exact" as const : "inferred" as const,
+        evidence,
+        analyzerId,
+        analyzerVersion: "1.0.0",
+        coverage: evidence.length > 0 ? 80 : 0,
+      };
+    },
+    analyze: (project) => analyzeAngular(project, analyzerId),
+  };
+}
+
+function createVueAnalyzer(): FrameworkAnalyzer {
+  const analyzerId = "@0xsarwagya/ontoly-semantic:vue";
+  return {
+    id: analyzerId,
+    name: "Vue",
+    version: "1.0.0",
+    capabilities: ["framework-detection", "components", "composables"],
+    compatibleModelVersions: ["1.0.0"],
+    detect: (project) => {
+      const evidence = project.imports
+        .filter((item) => packageNameFromSpecifier(item.specifier) === "vue")
+        .map((item) => item.specifier)
+        .sort();
+      return {
+        framework: "Vue",
+        detected: evidence.length > 0,
+        confidence: "exact" as const,
+        evidence,
+        analyzerId,
+        analyzerVersion: "1.0.0",
+        coverage: evidence.length > 0 ? 40 : 0,
+      };
+    },
+    analyze: (project) => analyzeVue(project, analyzerId),
+  };
+}
+
+function createTrpcAnalyzer(): FrameworkAnalyzer {
+  const analyzerId = "@0xsarwagya/ontoly-semantic:trpc";
+  return {
+    id: analyzerId,
+    name: "tRPC",
+    version: "1.0.0",
+    capabilities: ["framework-detection", "rpc-routes"],
+    compatibleModelVersions: ["1.0.0"],
+    detect: (project) => {
+      const evidence = project.imports
+        .filter((item) => ["@trpc/server", "@trpc/client", "@trpc/react-query"].includes(packageNameFromSpecifier(item.specifier)))
+        .map((item) => item.specifier)
+        .sort();
+      return {
+        framework: "tRPC",
+        detected: evidence.length > 0,
+        confidence: "exact" as const,
+        evidence,
+        analyzerId,
+        analyzerVersion: "1.0.0",
+        coverage: evidence.length > 0 ? 60 : 0,
+      };
+    },
+    analyze: (project) => analyzeTrpc(project, analyzerId),
+  };
+}
+
+function createPrismaAnalyzer(): FrameworkAnalyzer {
+  const analyzerId = "@0xsarwagya/ontoly-semantic:prisma";
+  return {
+    id: analyzerId,
+    name: "Prisma",
+    version: "1.0.0",
+    capabilities: ["framework-detection", "model-detection"],
+    compatibleModelVersions: ["1.0.0"],
+    detect: (project) => {
+      const evidence = project.imports
+        .filter((item) => packageNameFromSpecifier(item.specifier) === "@prisma/client")
+        .map((item) => item.specifier)
+        .sort();
+      return {
+        framework: "Prisma",
+        detected: evidence.length > 0,
+        confidence: "exact" as const,
+        evidence,
+        analyzerId,
+        analyzerVersion: "1.0.0",
+        coverage: evidence.length > 0 ? 40 : 0,
+      };
+    },
+    analyze: (project) => analyzePrisma(project, analyzerId),
+  };
+}
+
+function createDrizzleAnalyzer(): FrameworkAnalyzer {
+  const analyzerId = "@0xsarwagya/ontoly-semantic:drizzle";
+  return {
+    id: analyzerId,
+    name: "Drizzle",
+    version: "1.0.0",
+    capabilities: ["framework-detection", "schema-detection"],
+    compatibleModelVersions: ["1.0.0"],
+    detect: (project) => {
+      const evidence = project.imports
+        .filter((item) => packageNameFromSpecifier(item.specifier) === "drizzle-orm")
+        .map((item) => item.specifier)
+        .sort();
+      return {
+        framework: "Drizzle",
+        detected: evidence.length > 0,
+        confidence: "exact" as const,
+        evidence,
+        analyzerId,
+        analyzerVersion: "1.0.0",
+        coverage: evidence.length > 0 ? 40 : 0,
+      };
+    },
+    analyze: (project) => analyzeDrizzle(project, analyzerId),
+  };
+}
+
+function createRemixAnalyzer(): FrameworkAnalyzer {
+  const analyzerId = "@0xsarwagya/ontoly-semantic:remix";
+  return {
+    id: analyzerId,
+    name: "Remix",
+    version: "1.0.0",
+    capabilities: ["framework-detection", "file-based-routes"],
+    compatibleModelVersions: ["1.0.0"],
+    detect: (project) => {
+      const importEvidence = project.imports
+        .filter((item) => packageNameFromSpecifier(item.specifier).startsWith("@remix-run"))
+        .map((item) => item.specifier);
+      const fileEvidence = project.files.some((f) => /^app\/routes\//.test(f.file)) ? ["file-based-routes"] : [];
+      const evidence = [...new Set([...importEvidence, ...fileEvidence])].sort();
+      return {
+        framework: "Remix",
+        detected: evidence.length > 0,
+        confidence: importEvidence.length > 0 ? "exact" as const : "inferred" as const,
+        evidence,
+        analyzerId,
+        analyzerVersion: "1.0.0",
+        coverage: evidence.length > 0 ? 70 : 0,
+      };
+    },
+    analyze: (project) => analyzeRemixRoutes(project, analyzerId),
+  };
+}
+
+function createSvelteKitAnalyzer(): FrameworkAnalyzer {
+  const analyzerId = "@0xsarwagya/ontoly-semantic:sveltekit";
+  return {
+    id: analyzerId,
+    name: "SvelteKit",
+    version: "1.0.0",
+    capabilities: ["framework-detection", "file-based-routes"],
+    compatibleModelVersions: ["1.0.0"],
+    detect: (project) => {
+      const importEvidence = project.imports
+        .filter((item) => ["@sveltejs/kit", "svelte"].includes(packageNameFromSpecifier(item.specifier)))
+        .map((item) => item.specifier);
+      const fileEvidence = project.files.some((f) => /src\/routes\/.*\+page/.test(f.file)) ? ["file-based-routes"] : [];
+      const evidence = [...new Set([...importEvidence, ...fileEvidence])].sort();
+      return {
+        framework: "SvelteKit",
+        detected: importEvidence.some((e) => packageNameFromSpecifier(e) === "@sveltejs/kit") || fileEvidence.length > 0,
+        confidence: importEvidence.length > 0 ? "exact" as const : "inferred" as const,
+        evidence,
+        analyzerId,
+        analyzerVersion: "1.0.0",
+        coverage: evidence.length > 0 ? 60 : 0,
+      };
+    },
+    analyze: (project) => analyzeSvelteKitRoutes(project, analyzerId),
+  };
+}
+
+function createAstroAnalyzer(): FrameworkAnalyzer {
+  const analyzerId = "@0xsarwagya/ontoly-semantic:astro";
+  return {
+    id: analyzerId,
+    name: "Astro",
+    version: "1.0.0",
+    capabilities: ["framework-detection", "file-based-routes"],
+    compatibleModelVersions: ["1.0.0"],
+    detect: (project) => {
+      const importEvidence = project.imports
+        .filter((item) => packageNameFromSpecifier(item.specifier) === "astro")
+        .map((item) => item.specifier);
+      const fileEvidence = project.files.some((f) => /^src\/pages\/.*\.[jt]sx?$/.test(f.file)) ? ["file-based-routes"] : [];
+      const evidence = [...new Set([...importEvidence, ...fileEvidence])].sort();
+      return {
+        framework: "Astro",
+        detected: evidence.length > 0,
+        confidence: importEvidence.length > 0 ? "exact" as const : "inferred" as const,
+        evidence,
+        analyzerId,
+        analyzerVersion: "1.0.0",
+        coverage: evidence.length > 0 ? 50 : 0,
+      };
+    },
+    analyze: (project) => analyzeAstroRoutes(project, analyzerId),
+  };
+}
+
+function createNuxtAnalyzer(): FrameworkAnalyzer {
+  const analyzerId = "@0xsarwagya/ontoly-semantic:nuxt";
+  return {
+    id: analyzerId,
+    name: "Nuxt",
+    version: "1.0.0",
+    capabilities: ["framework-detection", "file-based-routes", "api-routes", "middleware"],
+    compatibleModelVersions: ["1.0.0"],
+    detect: (project) => {
+      const importEvidence = project.imports
+        .filter((item) => ["nuxt", "#app", "#imports"].includes(packageNameFromSpecifier(item.specifier)))
+        .map((item) => item.specifier);
+      const evidence = [...new Set(importEvidence)].sort();
+      return {
+        framework: "Nuxt",
+        detected: importEvidence.some((e) => packageNameFromSpecifier(e) === "nuxt"),
+        confidence: importEvidence.some((e) => packageNameFromSpecifier(e) === "nuxt") ? "exact" as const : "inferred" as const,
+        evidence,
+        analyzerId,
+        analyzerVersion: "1.0.0",
+        coverage: evidence.length > 0 ? 60 : 0,
+      };
+    },
+    analyze: (project) => analyzeNuxtRoutes(project, analyzerId),
   };
 }
 
@@ -1403,6 +1690,816 @@ function analyzeHttpCallFramework(
   }
 
   return facts.sort(compareFacts);
+}
+
+function analyzeNextJsRoutes(project: TypeScriptProject, analyzerId: string): readonly SemanticFact[] {
+  const facts: SemanticFact[] = [];
+  const framework = "Next.js";
+
+  for (const file of project.files) {
+    const path = file.file;
+
+    const appPageMatch = path.match(/^(?:src\/)?app\/(.*?)page\.[jt]sx?$/);
+    if (appPageMatch) {
+      const routePath = fileRouteFromSegments(appPageMatch[1] ?? "");
+      const name = `GET:${routePath}`;
+      facts.push({
+        kind: "RouteDeclared",
+        analyzerId,
+        framework,
+        confidence: "exact",
+        span: file.span,
+        routeId: createNodeId({ type: "Route", name }),
+        name,
+        method: "GET",
+        path: routePath,
+        file: path,
+        mountedById: file.id,
+        metadata: { routerType: "app", semanticFact: "RouteDeclared" },
+      });
+      continue;
+    }
+
+    const appRouteMatch = path.match(/^(?:src\/)?app\/(.*?)route\.[jt]sx?$/);
+    if (appRouteMatch) {
+      const routePath = fileRouteFromSegments(appRouteMatch[1] ?? "");
+      const exportedMethods = project.exports
+        .filter((e) => e.file === path && HTTP_METHODS.has(e.name.toLowerCase()))
+        .map((e) => e.name.toUpperCase());
+      for (const method of exportedMethods.length > 0 ? exportedMethods : ["ALL"]) {
+        const routeName = `${method}:${routePath}`;
+        facts.push({
+          kind: "RouteDeclared",
+          analyzerId,
+          framework,
+          confidence: "exact",
+          span: file.span,
+          routeId: createNodeId({ type: "Route", name: routeName }),
+          name: routeName,
+          method,
+          path: routePath,
+          file: path,
+          mountedById: file.id,
+          metadata: { routerType: "app", apiRoute: true, semanticFact: "RouteDeclared" },
+        });
+      }
+      continue;
+    }
+
+    if (/^(?:src\/)?pages\/api\//.test(path)) {
+      const pagesApiMatch = path.match(/^(?:src\/)?pages\/api\/(.*)\.[jt]sx?$/);
+      if (pagesApiMatch) {
+        const routePath = `/api/${pagesSegmentToRoute(pagesApiMatch[1] ?? "")}`;
+        const name = `ALL:${routePath}`;
+        facts.push({
+          kind: "RouteDeclared",
+          analyzerId,
+          framework,
+          confidence: "exact",
+          span: file.span,
+          routeId: createNodeId({ type: "Route", name }),
+          name,
+          method: "ALL",
+          path: routePath,
+          file: path,
+          mountedById: file.id,
+          metadata: { routerType: "pages", apiRoute: true, semanticFact: "RouteDeclared" },
+        });
+      }
+      continue;
+    }
+
+    const pagesMatch = path.match(/^(?:src\/)?pages\/(.*)\.[jt]sx?$/);
+    if (pagesMatch && !path.includes("pages/_")) {
+      const segment = pagesMatch[1] ?? "";
+      const routePath = pagesFileToRoute(segment);
+      const name = `GET:${routePath}`;
+      facts.push({
+        kind: "RouteDeclared",
+        analyzerId,
+        framework,
+        confidence: "exact",
+        span: file.span,
+        routeId: createNodeId({ type: "Route", name }),
+        name,
+        method: "GET",
+        path: routePath,
+        file: path,
+        mountedById: file.id,
+        metadata: { routerType: "pages", semanticFact: "RouteDeclared" },
+      });
+      continue;
+    }
+
+    if (/^(?:src\/)?middleware\.[jt]sx?$/.test(path)) {
+      facts.push({
+        kind: "MiddlewareRegistered",
+        analyzerId,
+        framework,
+        confidence: "exact",
+        span: file.span,
+        middlewareId: createNodeId({ type: "Middleware", file: path, name: "NextMiddleware" }),
+        name: "NextMiddleware",
+        file: path,
+        routeId: createNodeId({ type: "Route", name: "ALL:/" }),
+        authorization: false,
+      });
+    }
+  }
+
+  return facts.sort(compareFacts);
+}
+
+function analyzeReactComponents(project: TypeScriptProject, analyzerId: string): readonly SemanticFact[] {
+  const facts: SemanticFact[] = [];
+  const framework = "React";
+  const jsxFiles = new Set(project.files.filter((f) => /\.[jt]sx$/.test(f.file)).map((f) => f.file));
+
+  for (const fn of project.functions) {
+    if (!fn.exported || !jsxFiles.has(fn.file) || !isPascalCase(fn.name)) {
+      continue;
+    }
+
+    facts.push({
+      kind: "ControllerDeclared",
+      analyzerId,
+      framework,
+      confidence: "inferred",
+      span: fn.span,
+      controllerId: createNodeId({ type: "Controller", file: fn.file, name: fn.name }),
+      classId: fn.id,
+      name: fn.name,
+      file: fn.file,
+      paths: [],
+      decorator: "FunctionComponent",
+      metadata: { componentType: "function" },
+    });
+  }
+
+  for (const cls of project.classes) {
+    if (!cls.exported || !isPascalCase(cls.name)) {
+      continue;
+    }
+
+    const extendsComponent = project.heritage.some(
+      (h) => h.from === cls.id && h.relationship === "EXTENDS" &&
+        (h.name === "Component" || h.name === "PureComponent" || h.name.endsWith(".Component") || h.name.endsWith(".PureComponent")),
+    );
+
+    if (!extendsComponent) {
+      continue;
+    }
+
+    facts.push({
+      kind: "ControllerDeclared",
+      analyzerId,
+      framework,
+      confidence: "exact",
+      span: cls.span,
+      controllerId: createNodeId({ type: "Controller", file: cls.file, name: cls.name }),
+      classId: cls.id,
+      name: cls.name,
+      file: cls.file,
+      paths: [],
+      decorator: "ClassComponent",
+      metadata: { componentType: "class" },
+    });
+  }
+
+  for (const fn of project.functions) {
+    if (!fn.exported || !fn.name.startsWith("use") || fn.name.length < 4) {
+      continue;
+    }
+
+    facts.push({
+      kind: "ProviderDeclared",
+      analyzerId,
+      framework,
+      confidence: "inferred",
+      span: fn.span,
+      providerId: createNodeId({ type: "Provider", file: fn.file, name: fn.name }),
+      name: fn.name,
+      file: fn.file,
+      classId: fn.id,
+      providerKind: "factory",
+      metadata: { hookName: fn.name, providerRole: "hook" },
+    });
+  }
+
+  return facts.sort(compareFacts);
+}
+
+function analyzeAngular(project: TypeScriptProject, analyzerId: string): readonly SemanticFact[] {
+  const facts: SemanticFact[] = [];
+  const framework = "Angular";
+
+  for (const item of project.classes) {
+    const componentDec = item.decorators.find((d) => d.name === "Component");
+    if (componentDec) {
+      const selector = extractDecoratorStringProperty(componentDec, "selector");
+      facts.push({
+        kind: "ControllerDeclared",
+        analyzerId,
+        framework,
+        confidence: "exact",
+        span: componentDec.span,
+        controllerId: createNodeId({ type: "Controller", file: item.file, name: item.name }),
+        classId: item.id,
+        name: item.name,
+        file: item.file,
+        paths: selector ? [selector] : [],
+        decorator: "Component",
+        metadata: { componentType: "angular", selector },
+      });
+      continue;
+    }
+
+    const moduleDec = item.decorators.find((d) => d.name === "NgModule");
+    if (moduleDec) {
+      const meta = angularModuleMetadata(moduleDec);
+      facts.push({
+        kind: "ModuleDeclared",
+        analyzerId,
+        framework,
+        confidence: "exact",
+        span: moduleDec.span,
+        moduleId: createNodeId({ type: "Module", file: item.file, name: item.name }),
+        classId: item.id,
+        name: item.name,
+        file: item.file,
+        imports: meta.imports.map((name) => ({ id: createNodeId({ type: "Module", name }), name, kind: "Module" as const })),
+        controllers: meta.declarations.map((name) => ({ id: createNodeId({ type: "Controller", name }), name, kind: "Controller" as const })),
+        providers: meta.providers.map((name) => ({ id: createNodeId({ type: "Provider", name }), name, kind: "Provider" as const })),
+        exports: meta.exports.map((name) => ({ id: createNodeId({ type: "Module", name }), name })),
+        global: false,
+      });
+      continue;
+    }
+
+    const injectableDec = item.decorators.find((d) => d.name === "Injectable");
+    if (injectableDec) {
+      facts.push({
+        kind: "ProviderDeclared",
+        analyzerId,
+        framework,
+        confidence: "exact",
+        span: injectableDec.span,
+        providerId: createNodeId({ type: "Provider", file: item.file, name: item.name }),
+        name: item.name,
+        file: item.file,
+        classId: item.id,
+        providerKind: "class",
+        metadata: { decorator: "Injectable" },
+      });
+      continue;
+    }
+
+    const pipeDec = item.decorators.find((d) => d.name === "Pipe");
+    if (pipeDec) {
+      facts.push({
+        kind: "ProviderDeclared",
+        analyzerId,
+        framework,
+        confidence: "exact",
+        span: pipeDec.span,
+        providerId: createNodeId({ type: "Provider", file: item.file, name: item.name }),
+        name: item.name,
+        file: item.file,
+        classId: item.id,
+        providerKind: "class",
+        metadata: { decorator: "Pipe", providerRole: "pipe" },
+      });
+      continue;
+    }
+
+    const directiveDec = item.decorators.find((d) => d.name === "Directive");
+    if (directiveDec) {
+      const selector = extractDecoratorStringProperty(directiveDec, "selector");
+      facts.push({
+        kind: "ProviderDeclared",
+        analyzerId,
+        framework,
+        confidence: "exact",
+        span: directiveDec.span,
+        providerId: createNodeId({ type: "Provider", file: item.file, name: item.name }),
+        name: item.name,
+        file: item.file,
+        classId: item.id,
+        providerKind: "class",
+        metadata: { decorator: "Directive", selector, providerRole: "directive" },
+      });
+    }
+  }
+
+  for (const item of project.classes) {
+    const canActivate = project.heritage.some(
+      (h) => h.from === item.id && h.relationship === "IMPLEMENTS" && h.name === "CanActivate",
+    );
+
+    if (canActivate) {
+      facts.push({
+        kind: "GuardRegistered",
+        analyzerId,
+        framework,
+        confidence: "exact",
+        span: item.span,
+        guardId: createNodeId({ type: "Guard", file: item.file, name: item.name }),
+        name: item.name,
+        file: item.file,
+        targetId: createNodeId({ type: "Route", name: `guard-target:${item.name}` }),
+      });
+    }
+  }
+
+  return facts.sort(compareFacts);
+}
+
+function analyzeVue(project: TypeScriptProject, analyzerId: string): readonly SemanticFact[] {
+  const facts: SemanticFact[] = [];
+  const framework = "Vue";
+
+  for (const variable of project.variables) {
+    const callee = variable.initializerCalleeName;
+    if (!callee || unqualifiedName(callee) !== "defineComponent") {
+      continue;
+    }
+
+    facts.push({
+      kind: "ControllerDeclared",
+      analyzerId,
+      framework,
+      confidence: "exact",
+      span: variable.span,
+      controllerId: createNodeId({ type: "Controller", file: variable.file, name: variable.name }),
+      classId: variable.id,
+      name: variable.name,
+      file: variable.file,
+      paths: [],
+      decorator: "defineComponent",
+      metadata: { componentType: "vue" },
+    });
+  }
+
+  for (const fn of project.functions) {
+    if (!fn.exported || !fn.name.startsWith("use") || fn.name.length < 4 || !fn.file.includes("composable")) {
+      continue;
+    }
+
+    facts.push({
+      kind: "ProviderDeclared",
+      analyzerId,
+      framework,
+      confidence: "inferred",
+      span: fn.span,
+      providerId: createNodeId({ type: "Provider", file: fn.file, name: fn.name }),
+      name: fn.name,
+      file: fn.file,
+      classId: fn.id,
+      providerKind: "factory",
+      metadata: { composableName: fn.name, providerRole: "composable" },
+    });
+  }
+
+  return facts.sort(compareFacts);
+}
+
+function analyzeTrpc(project: TypeScriptProject, analyzerId: string): readonly SemanticFact[] {
+  const facts: SemanticFact[] = [];
+  const framework = "tRPC";
+
+  for (const variable of project.variables) {
+    const callee = variable.initializerCalleeName;
+    if (!callee) {
+      continue;
+    }
+
+    const short = unqualifiedName(callee);
+    if (short !== "router" && short !== "createTRPCRouter" && short !== "createRouter") {
+      continue;
+    }
+
+    facts.push({
+      kind: "ControllerDeclared",
+      analyzerId,
+      framework,
+      confidence: "inferred",
+      span: variable.span,
+      controllerId: createNodeId({ type: "Controller", file: variable.file, name: variable.name }),
+      classId: variable.id,
+      name: variable.name,
+      file: variable.file,
+      paths: [`/trpc/${variable.name}`],
+      decorator: "router",
+      metadata: { routerType: "trpc" },
+    });
+  }
+
+  return facts.sort(compareFacts);
+}
+
+function analyzePrisma(project: TypeScriptProject, analyzerId: string): readonly SemanticFact[] {
+  const facts: SemanticFact[] = [];
+  const framework = "Prisma";
+  const modelNames = new Set<string>();
+
+  for (const call of project.calls) {
+    if (!call.receiverName || !call.methodName || !isPrismaOperation(call.methodName)) {
+      continue;
+    }
+
+    const parts = call.receiverName.split(".");
+    if (parts.length < 2) {
+      continue;
+    }
+
+    const modelName = parts[parts.length - 1];
+    if (!modelName || modelName.startsWith("$")) {
+      continue;
+    }
+
+    modelNames.add(modelName);
+  }
+
+  for (const modelName of [...modelNames].sort()) {
+    const capitalized = modelName.charAt(0).toUpperCase() + modelName.slice(1);
+    facts.push({
+      kind: "ProviderDeclared",
+      analyzerId,
+      framework,
+      confidence: "inferred",
+      providerId: createNodeId({ type: "Provider", name: `Prisma:${capitalized}` }),
+      name: capitalized,
+      providerKind: "class",
+      metadata: { modelName: capitalized, providerRole: "model", orm: "prisma" },
+    });
+  }
+
+  return facts.sort(compareFacts);
+}
+
+function analyzeDrizzle(project: TypeScriptProject, analyzerId: string): readonly SemanticFact[] {
+  const facts: SemanticFact[] = [];
+  const framework = "Drizzle";
+
+  for (const variable of project.variables) {
+    const callee = variable.initializerCalleeName;
+    if (!callee) {
+      continue;
+    }
+
+    const short = unqualifiedName(callee);
+    if (!["pgTable", "mysqlTable", "sqliteTable", "pgEnum", "mysqlEnum"].includes(short)) {
+      continue;
+    }
+
+    facts.push({
+      kind: "ProviderDeclared",
+      analyzerId,
+      framework,
+      confidence: "exact",
+      span: variable.span,
+      providerId: createNodeId({ type: "Provider", file: variable.file, name: variable.name }),
+      name: variable.name,
+      file: variable.file,
+      classId: variable.id,
+      providerKind: "class",
+      metadata: { tableName: variable.name, providerRole: "table", orm: "drizzle", definedBy: short },
+    });
+  }
+
+  return facts.sort(compareFacts);
+}
+
+function analyzeRemixRoutes(project: TypeScriptProject, analyzerId: string): readonly SemanticFact[] {
+  const facts: SemanticFact[] = [];
+  const framework = "Remix";
+
+  for (const file of project.files) {
+    const match = file.file.match(/^app\/routes\/(.*)\.[jt]sx?$/);
+    if (!match) {
+      continue;
+    }
+
+    const segment = match[1] ?? "";
+    const routePath = remixRouteFromFile(segment);
+    const hasAction = project.exports.some((e) => e.file === file.file && e.name === "action");
+    const name = `GET:${routePath}`;
+
+    facts.push({
+      kind: "RouteDeclared",
+      analyzerId,
+      framework,
+      confidence: "exact",
+      span: file.span,
+      routeId: createNodeId({ type: "Route", name }),
+      name,
+      method: "GET",
+      path: routePath,
+      file: file.file,
+      mountedById: file.id,
+      metadata: { hasAction, semanticFact: "RouteDeclared" },
+    });
+
+    if (hasAction) {
+      const actionName = `POST:${routePath}`;
+      facts.push({
+        kind: "RouteDeclared",
+        analyzerId,
+        framework,
+        confidence: "exact",
+        span: file.span,
+        routeId: createNodeId({ type: "Route", name: actionName }),
+        name: actionName,
+        method: "POST",
+        path: routePath,
+        file: file.file,
+        mountedById: file.id,
+        metadata: { semanticFact: "RouteDeclared" },
+      });
+    }
+  }
+
+  return facts.sort(compareFacts);
+}
+
+function analyzeSvelteKitRoutes(project: TypeScriptProject, analyzerId: string): readonly SemanticFact[] {
+  const facts: SemanticFact[] = [];
+  const framework = "SvelteKit";
+  const seenRoutes = new Set<string>();
+
+  for (const file of project.files) {
+    const pageMatch = file.file.match(/^src\/routes\/(.*?)\+page(?:\.server)?\.[jt]sx?$/);
+    if (pageMatch) {
+      const routePath = fileRouteFromSegments(pageMatch[1] ?? "");
+      const name = `GET:${routePath}`;
+      if (seenRoutes.has(name)) {
+        continue;
+      }
+
+      seenRoutes.add(name);
+      facts.push({
+        kind: "RouteDeclared",
+        analyzerId,
+        framework,
+        confidence: "exact",
+        span: file.span,
+        routeId: createNodeId({ type: "Route", name }),
+        name,
+        method: "GET",
+        path: routePath,
+        file: file.file,
+        mountedById: file.id,
+        metadata: { semanticFact: "RouteDeclared" },
+      });
+      continue;
+    }
+
+    const serverMatch = file.file.match(/^src\/routes\/(.*?)\+server\.[jt]sx?$/);
+    if (serverMatch) {
+      const routePath = fileRouteFromSegments(serverMatch[1] ?? "");
+      const exportedMethods = project.exports
+        .filter((e) => e.file === file.file && HTTP_METHODS.has(e.name.toLowerCase()))
+        .map((e) => e.name.toUpperCase());
+      for (const method of exportedMethods.length > 0 ? exportedMethods : ["ALL"]) {
+        const routeName = `${method}:${routePath}`;
+        facts.push({
+          kind: "RouteDeclared",
+          analyzerId,
+          framework,
+          confidence: "exact",
+          span: file.span,
+          routeId: createNodeId({ type: "Route", name: routeName }),
+          name: routeName,
+          method,
+          path: routePath,
+          file: file.file,
+          mountedById: file.id,
+          metadata: { apiRoute: true, semanticFact: "RouteDeclared" },
+        });
+      }
+    }
+  }
+
+  return facts.sort(compareFacts);
+}
+
+function analyzeAstroRoutes(project: TypeScriptProject, analyzerId: string): readonly SemanticFact[] {
+  const facts: SemanticFact[] = [];
+  const framework = "Astro";
+
+  for (const file of project.files) {
+    const match = file.file.match(/^src\/pages\/(.*)\.[jt]sx?$/);
+    if (!match) {
+      continue;
+    }
+
+    const segment = match[1] ?? "";
+    const routePath = pagesFileToRoute(segment);
+    const exportedMethods = project.exports
+      .filter((e) => e.file === file.file && HTTP_METHODS.has(e.name.toLowerCase()))
+      .map((e) => e.name.toUpperCase());
+
+    if (exportedMethods.length > 0) {
+      for (const method of exportedMethods) {
+        const name = `${method}:${routePath}`;
+        facts.push({
+          kind: "RouteDeclared",
+          analyzerId,
+          framework,
+          confidence: "exact",
+          span: file.span,
+          routeId: createNodeId({ type: "Route", name }),
+          name,
+          method,
+          path: routePath,
+          file: file.file,
+          mountedById: file.id,
+          metadata: { apiRoute: true, semanticFact: "RouteDeclared" },
+        });
+      }
+    } else {
+      const name = `GET:${routePath}`;
+      facts.push({
+        kind: "RouteDeclared",
+        analyzerId,
+        framework,
+        confidence: "exact",
+        span: file.span,
+        routeId: createNodeId({ type: "Route", name }),
+        name,
+        method: "GET",
+        path: routePath,
+        file: file.file,
+        mountedById: file.id,
+        metadata: { semanticFact: "RouteDeclared" },
+      });
+    }
+  }
+
+  return facts.sort(compareFacts);
+}
+
+function analyzeNuxtRoutes(project: TypeScriptProject, analyzerId: string): readonly SemanticFact[] {
+  const facts: SemanticFact[] = [];
+  const framework = "Nuxt";
+
+  for (const file of project.files) {
+    const pageMatch = file.file.match(/^pages\/(.*)\.[jt]sx?$/);
+    if (pageMatch) {
+      const routePath = pagesFileToRoute(pageMatch[1] ?? "");
+      const name = `GET:${routePath}`;
+      facts.push({
+        kind: "RouteDeclared",
+        analyzerId,
+        framework,
+        confidence: "exact",
+        span: file.span,
+        routeId: createNodeId({ type: "Route", name }),
+        name,
+        method: "GET",
+        path: routePath,
+        file: file.file,
+        mountedById: file.id,
+        metadata: { semanticFact: "RouteDeclared" },
+      });
+      continue;
+    }
+
+    const apiMatch = file.file.match(/^server\/api\/(.*)\.[jt]sx?$/);
+    if (apiMatch) {
+      const routePath = `/api/${pagesSegmentToRoute(apiMatch[1] ?? "")}`;
+      const name = `ALL:${routePath}`;
+      facts.push({
+        kind: "RouteDeclared",
+        analyzerId,
+        framework,
+        confidence: "exact",
+        span: file.span,
+        routeId: createNodeId({ type: "Route", name }),
+        name,
+        method: "ALL",
+        path: routePath,
+        file: file.file,
+        mountedById: file.id,
+        metadata: { apiRoute: true, semanticFact: "RouteDeclared" },
+      });
+      continue;
+    }
+
+    const serverRouteMatch = file.file.match(/^server\/routes\/(.*)\.[jt]sx?$/);
+    if (serverRouteMatch) {
+      const routePath = normalizeRoutePath(pagesSegmentToRoute(serverRouteMatch[1] ?? "")) ?? "/";
+      const name = `ALL:${routePath}`;
+      facts.push({
+        kind: "RouteDeclared",
+        analyzerId,
+        framework,
+        confidence: "exact",
+        span: file.span,
+        routeId: createNodeId({ type: "Route", name }),
+        name,
+        method: "ALL",
+        path: routePath,
+        file: file.file,
+        mountedById: file.id,
+        metadata: { serverRoute: true, semanticFact: "RouteDeclared" },
+      });
+      continue;
+    }
+
+    const middlewareMatch = file.file.match(/^server\/middleware\/(.*)\.[jt]sx?$/);
+    if (middlewareMatch) {
+      const middlewareName = (middlewareMatch[1] ?? "middleware").replace(/\//g, "-");
+      facts.push({
+        kind: "MiddlewareRegistered",
+        analyzerId,
+        framework,
+        confidence: "exact",
+        span: file.span,
+        middlewareId: createNodeId({ type: "Middleware", file: file.file, name: middlewareName }),
+        name: middlewareName,
+        file: file.file,
+        routeId: createNodeId({ type: "Route", name: "ALL:/" }),
+        authorization: isAuthorizationName(middlewareName),
+      });
+    }
+  }
+
+  return facts.sort(compareFacts);
+}
+
+function fileRouteFromSegments(segments: string): string {
+  if (!segments || segments === "/") {
+    return "/";
+  }
+
+  const cleaned = segments
+    .replace(/\/$/, "")
+    .replace(/\([^)]+\)\/?/g, "")
+    .replace(/\[\.\.\.(\w+)\]/g, ":$1*")
+    .replace(/\[(\w+)\]/g, ":$1");
+  return normalizeRoutePath(cleaned) ?? "/";
+}
+
+function pagesFileToRoute(segment: string): string {
+  if (segment === "index" || !segment) {
+    return "/";
+  }
+
+  return normalizeRoutePath(pagesSegmentToRoute(segment)) ?? "/";
+}
+
+function pagesSegmentToRoute(segment: string): string {
+  return segment
+    .replace(/\/index$/, "")
+    .replace(/\[\.\.\.(\w+)\]/g, ":$1*")
+    .replace(/\[(\w+)\]/g, ":$1");
+}
+
+function remixRouteFromFile(segment: string): string {
+  if (segment === "_index" || segment.endsWith("._index")) {
+    const prefix = segment.replace(/\.?_index$/, "").replace(/\./g, "/");
+    return normalizeRoutePath(prefix) ?? "/";
+  }
+
+  const withSlashes = segment.replace(/\./g, "/");
+  const withoutPathless = withSlashes.replace(/(^|\/)_[^/]+/g, "");
+  const withParams = withoutPathless
+    .replace(/\$\$/g, ":splat*")
+    .replace(/\$(\w+)/g, ":$1")
+    .replace(/\$/g, ":splat*");
+  return normalizeRoutePath(withParams) ?? "/";
+}
+
+function angularModuleMetadata(decorator: TypeScriptDecorator): {
+  readonly imports: readonly string[];
+  readonly declarations: readonly string[];
+  readonly providers: readonly string[];
+  readonly exports: readonly string[];
+} {
+  const text = decorator.arguments[0]?.text ?? "";
+  return {
+    imports: extractArrayProperty(text, "imports").map(unqualifiedName),
+    declarations: extractArrayProperty(text, "declarations").map(unqualifiedName),
+    providers: extractArrayProperty(text, "providers").map(unqualifiedName),
+    exports: extractArrayProperty(text, "exports").map(unqualifiedName),
+  };
+}
+
+function extractDecoratorStringProperty(decorator: TypeScriptDecorator, property: string): string | undefined {
+  const text = decorator.arguments[0]?.text ?? "";
+  const match = text.match(new RegExp(`\\b${property}\\s*:\\s*['"\`]([^'"\`]+)['"\`]`));
+  return match?.[1];
+}
+
+function isPascalCase(name: string): boolean {
+  return /^[A-Z][a-zA-Z0-9]*$/.test(name);
+}
+
+function isPrismaOperation(method: string): boolean {
+  return ["findMany", "findFirst", "findUnique", "findUniqueOrThrow", "findFirstOrThrow",
+    "create", "createMany", "update", "updateMany", "upsert", "delete", "deleteMany",
+    "count", "aggregate", "groupBy"].includes(method);
 }
 
 function semanticRoleIdsByClassId(
