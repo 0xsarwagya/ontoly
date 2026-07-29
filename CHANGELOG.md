@@ -4,6 +4,11 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+## 1.2.0-rc.3
+
+Release candidate — same content as 1.2.0-alpha.2, promoted for scale
+validation across all TypeScript and Python OSS repositories.
+
 ## 1.2.0-alpha.2
 
 AI/ML framework analyzers and multi-language validation. Extends the Python
