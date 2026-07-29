@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-semantic-python",
-  "version": "1.1.0-alpha.2",
+  "version": "1.2.0-alpha.1",
   "description": "Python semantic bridge and framework analyzers for Ontoly.",
   "type": "module",
   "license": "AGPL-3.0-only",
