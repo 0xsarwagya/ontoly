@@ -32,6 +32,7 @@ export default defineConfig({
       "@0xsarwagya/ontoly-cli": fromRoot("./packages/cli/src/index.ts"),
       "@0xsarwagya/ontoly-python": fromRoot("./packages/python/src/index.ts"),
       "@0xsarwagya/ontoly-semantic-python": fromRoot("./packages/semantic-python/src/index.ts"),
+      "@0xsarwagya/ontoly-parser-python": fromRoot("./packages/parser-python/src/index.ts"),
     },
   },
 });
