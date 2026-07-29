@@ -32,7 +32,7 @@ console.log(diff.summary);
 
 ## Status
 
-Alpha preview shipped in `1.1.0-alpha.1`. The API follows RFC 0005 and is
+Alpha preview shipped in `1.1.0-alpha.2`. The API follows RFC 0005 and is
 governed by the Software Graph specification and RFC process.
 
 ## Links

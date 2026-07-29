@@ -4,8 +4,8 @@ description: Onboard a developer to a repository using Ontoly graph summaries. U
 license: AGPL-3.0-only
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "1.1.0-alpha.1"
-  ontoly.min.version: "1.1.0-alpha.1"
+  ontoly.skill.version: "1.1.0-alpha.2"
+  ontoly.min.version: "1.1.0-alpha.2"
   ontoly.capabilities: "ExplainArchitecture, FindEntrypoints, GraphStatistics, FindFeatureOwner, EvidencePack"
   ontoly.category: "onboarding"
   ontoly.enhancement: "LLM Enhancement"

@@ -4,6 +4,45 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+## 1.1.0-alpha.2
+
+Full framework support across 17 semantic analyzers covering all major
+JS/TS frameworks. Upgrades placeholders to real analyzers and expands
+package-level detection to 48 framework signatures.
+
+### Added
+
+- **Next.js** analyzer: App Router pages & API routes, Pages Router,
+  middleware.ts detection — produces `Route` and `Middleware` graph nodes.
+- **React** analyzer: PascalCase function/class component detection,
+  custom hook detection as `Provider` nodes.
+- **Angular** analyzer: `@Component`, `@NgModule`, `@Injectable`,
+  `@Pipe`, `@Directive` decorators, `CanActivate` guard detection.
+- **Vue** analyzer: `defineComponent()` components, composable detection.
+- **Remix** analyzer: flat file routes (v2), loader/action exports.
+- **SvelteKit** analyzer: `+page.ts`, `+page.server.ts`, `+server.ts`
+  API endpoints.
+- **Astro** analyzer: `src/pages/` file-based routing with API endpoint
+  detection.
+- **Nuxt** analyzer: `pages/` routes, `server/api/`, `server/routes/`,
+  `server/middleware/`.
+- **tRPC** analyzer: `router()` / `createTRPCRouter()` controller
+  detection.
+- **Prisma** analyzer: model detection from PrismaClient usage patterns.
+- **Drizzle** analyzer: `pgTable`, `mysqlTable`, `sqliteTable` schema
+  detection.
+- **Koa** HTTP-call-style route analyzer via `@koa/router`.
+- **Elysia** HTTP-call-style route analyzer.
+- 31 new `FRAMEWORK_SIGNATURES` entries for package.json-level detection
+  (Angular, Vue, Nuxt, Svelte, SvelteKit, Remix, Astro, Solid, Gatsby,
+  Koa, Elysia, Sequelize, Knex, Pinia, Vuex, Redux Toolkit, Zustand,
+  Jotai, Recoil, MobX).
+
+### Removed
+
+- `createPlaceholderAnalyzer` — all formerly-placeholder frameworks now
+  have real semantic analyzers.
+
 ## 1.1.0-alpha.1
 
 First alpha of the 1.1 release train. Adds deterministic graph diffing

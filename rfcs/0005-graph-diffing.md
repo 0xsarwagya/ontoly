@@ -177,7 +177,7 @@ or behaviors change. Consumers that do not import the new package are
 unaffected.
 
 The new package ships at the same version as the rest of the workspace
-starting at `1.1.0-alpha.1`.
+starting at `1.1.0-alpha.2`.
 
 ## Alternatives
 
