@@ -1,0 +1,67 @@
+{
+  "name": "@0xsarwagya/ontoly-parser-go",
+  "version": "1.2.0",
+  "description": "Go parser and relationship extractor for Ontoly.",
+  "type": "module",
+  "license": "AGPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xsarwagya/ontoly.git",
+    "directory": "packages/parser-go"
+  },
+  "homepage": "https://oss.sarwagya.wtf/ontoly",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup && tsc -p tsconfig.build.json",
+    "check-types": "tsc --noEmit",
+    "test": "vitest run tests"
+  },
+  "dependencies": {
+    "@0xsarwagya/ontoly-compiler": "workspace:*",
+    "@0xsarwagya/ontoly-core": "workspace:*",
+    "@0xsarwagya/ontoly-go": "workspace:*",
+    "@0xsarwagya/ontoly-semantic-go": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "tsup": "^8.3.5",
+    "vitest": "^3.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/0xsarwagya/ontoly/issues"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/0xsarwagya"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "keywords": [
+    "ontoly",
+    "software-graph",
+    "go",
+    "golang",
+    "static-analysis",
+    "developer-tools",
+    "parser",
+    "frontend"
+  ]
+}
