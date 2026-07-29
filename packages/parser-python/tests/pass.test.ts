@@ -55,7 +55,7 @@ describe("createPythonFrontendPass", () => {
     const state = createMockState(["app.py", "main.ts", "utils.py"]);
 
     const result = await pass.run!(ctx as any, state as any);
-    expect(result.output.files).toBe(2);
+    expect(result.output!.files).toBe(2);
   });
 
   it("produces symbols with language=python", async () => {
@@ -74,8 +74,8 @@ def handler():
     const state = createMockState(["app.py"]);
 
     const result = await pass.run!(ctx as any, state as any);
-    expect(result.symbols.length).toBeGreaterThan(0);
-    for (const symbol of result.symbols) {
+    expect(result.symbols!.length).toBeGreaterThan(0);
+    for (const symbol of result.symbols!) {
       expect(symbol.language).toBe("python");
     }
   });
@@ -87,7 +87,7 @@ def handler():
     const state = createMockState(["x.py"]);
 
     const result = await pass.run!(ctx as any, state as any);
-    for (const symbol of result.symbols) {
+    for (const symbol of result.symbols!) {
       expect(symbol.provenance?.passId).toBe(PYTHON_FRONTEND_PASS_ID);
     }
   });
@@ -99,9 +99,9 @@ def handler():
     const state = createMockState(["index.ts"]);
 
     const result = await pass.run!(ctx as any, state as any);
-    expect(result.symbols).toHaveLength(0);
-    expect(result.relationships).toHaveLength(0);
-    expect(result.output.skipped).toBe(true);
+    expect(result.symbols!).toHaveLength(0);
+    expect(result.relationships!).toHaveLength(0);
+    expect(result.output!.skipped).toBe(true);
   });
 
   it("extracts relationships", async () => {
@@ -122,10 +122,10 @@ class User(Base):
     const state = createMockState(["models.py"]);
 
     const result = await pass.run!(ctx as any, state as any);
-    expect(result.relationships.length).toBeGreaterThan(0);
-    const extends_ = result.relationships.filter((r) => r.type === "EXTENDS");
+    expect(result.relationships!.length).toBeGreaterThan(0);
+    const extends_ = result.relationships!.filter((r) => r.type === "EXTENDS");
     expect(extends_.length).toBeGreaterThanOrEqual(1);
-    const contains = result.relationships.filter((r) => r.type === "CONTAINS");
+    const contains = result.relationships!.filter((r) => r.type === "CONTAINS");
     expect(contains.length).toBeGreaterThanOrEqual(1);
   });
 
