@@ -65,6 +65,10 @@ export function createDefaultPythonFrameworkRegistry(): PythonFrameworkRegistry 
   return createPythonFrameworkRegistry([
     createDjangoAnalyzer(),
     createFastApiAnalyzer(),
+    createPyTorchAnalyzer(),
+    createTensorFlowAnalyzer(),
+    createHuggingFaceAnalyzer(),
+    createScikitLearnAnalyzer(),
   ]);
 }
 
@@ -591,6 +595,487 @@ function analyzeFastApi(project: PythonProject): SemanticFact[] {
         providerKind: "class",
         span: cls.span,
         metadata: { fastapiKind: "pydantic-model" },
+      } as SemanticFact);
+    }
+  }
+
+  return facts;
+}
+
+// --- PyTorch analyzer ---
+
+const PYTORCH_MODULES = new Set([
+  "torch", "torch.nn", "torch.optim", "torch.utils", "torch.utils.data",
+  "torch.nn.functional", "torch.autograd", "torch.cuda", "torch.distributed",
+  "torch.jit", "torch.onnx", "torch.quantization", "torch.amp",
+  "torchvision", "torchvision.models", "torchvision.transforms", "torchvision.datasets",
+  "torchaudio", "torchtext",
+]);
+
+const PYTORCH_MODEL_BASES = new Set([
+  "nn.Module", "Module", "torch.nn.Module",
+  "LightningModule", "pl.LightningModule",
+  "LightningDataModule", "pl.LightningDataModule",
+]);
+
+const PYTORCH_DATASET_BASES = new Set([
+  "Dataset", "IterableDataset", "torch.utils.data.Dataset",
+  "torch.utils.data.IterableDataset", "data.Dataset",
+]);
+
+export function createPyTorchAnalyzer(): PythonFrameworkAnalyzer {
+  return {
+    id: "@0xsarwagya/ontoly-semantic-python:pytorch",
+    name: "PyTorch",
+    version: "1.0.0",
+    capabilities: ["models", "datasets", "layers"],
+    detect: (project) => {
+      const importEvidence = project.imports
+        .filter((i) => PYTORCH_MODULES.has(i.module) || i.module.startsWith("torch.") || i.module.startsWith("torchvision."))
+        .map((i) => i.module);
+      const ev = [...new Set(importEvidence)].sort();
+      return {
+        framework: "PyTorch",
+        detected: ev.length > 0,
+        confidence: ev.length > 0 ? "exact" : "low",
+        evidence: ev,
+        analyzerId: "@0xsarwagya/ontoly-semantic-python:pytorch",
+        analyzerVersion: "1.0.0",
+        coverage: ev.length > 0 ? 100 : 0,
+      };
+    },
+    analyze: (project) => analyzePyTorch(project),
+  };
+}
+
+function analyzePyTorch(project: PythonProject): SemanticFact[] {
+  const facts: SemanticFact[] = [];
+  const base: Pick<SemanticFact, "analyzerId" | "framework" | "confidence"> = {
+    analyzerId: "@0xsarwagya/ontoly-semantic-python:pytorch",
+    framework: "PyTorch",
+    confidence: "exact",
+  };
+
+  for (const cls of project.classes) {
+    const isModel = cls.bases.some((b) => PYTORCH_MODEL_BASES.has(b));
+    if (isModel) {
+      facts.push({
+        ...base,
+        kind: "ProviderDeclared",
+        providerId: cls.id,
+        name: cls.name,
+        file: cls.file,
+        classId: cls.id,
+        providerKind: "class",
+        span: cls.span,
+        metadata: { mlKind: "model", mlFramework: "pytorch" },
+      } as SemanticFact);
+    }
+
+    const isDataset = cls.bases.some((b) => PYTORCH_DATASET_BASES.has(b));
+    if (isDataset) {
+      facts.push({
+        ...base,
+        kind: "ProviderDeclared",
+        providerId: cls.id,
+        name: cls.name,
+        file: cls.file,
+        classId: cls.id,
+        providerKind: "class",
+        span: cls.span,
+        metadata: { mlKind: "dataset", mlFramework: "pytorch" },
+      } as SemanticFact);
+    }
+  }
+
+  for (const func of project.functions) {
+    const hasTorchDecorator = func.decorators.some((d) =>
+      d.name === "torch.no_grad" || d.name === "torch.jit.script"
+      || d.name === "torch.jit.export" || d.name === "torch.inference_mode",
+    );
+    if (hasTorchDecorator) {
+      facts.push({
+        ...base,
+        kind: "ProviderDeclared",
+        providerId: func.id,
+        name: func.name,
+        file: func.file,
+        classId: func.id,
+        providerKind: "factory",
+        span: func.span,
+        metadata: { mlKind: "optimized-function", mlFramework: "pytorch" },
+      } as SemanticFact);
+    }
+  }
+
+  return facts;
+}
+
+// --- TensorFlow / Keras analyzer ---
+
+const TENSORFLOW_MODULES = new Set([
+  "tensorflow", "tensorflow.keras", "tensorflow.data", "tensorflow.lite",
+  "tensorflow.saved_model", "tensorflow.distribute", "tensorflow.io",
+  "keras", "keras.layers", "keras.models", "keras.callbacks",
+  "keras.optimizers", "keras.losses", "keras.metrics",
+  "tf", "tf.keras",
+]);
+
+const TF_MODEL_BASES = new Set([
+  "Model", "keras.Model", "tf.keras.Model", "tensorflow.keras.Model",
+  "Sequential", "keras.Sequential", "tf.keras.Sequential",
+]);
+
+const TF_LAYER_BASES = new Set([
+  "Layer", "keras.layers.Layer", "tf.keras.layers.Layer",
+  "tensorflow.keras.layers.Layer",
+]);
+
+const TF_CALLBACK_BASES = new Set([
+  "Callback", "keras.callbacks.Callback", "tf.keras.callbacks.Callback",
+  "tensorflow.keras.callbacks.Callback",
+]);
+
+export function createTensorFlowAnalyzer(): PythonFrameworkAnalyzer {
+  return {
+    id: "@0xsarwagya/ontoly-semantic-python:tensorflow",
+    name: "TensorFlow",
+    version: "1.0.0",
+    capabilities: ["models", "layers", "callbacks"],
+    detect: (project) => {
+      const importEvidence = project.imports
+        .filter((i) =>
+          TENSORFLOW_MODULES.has(i.module)
+          || i.module.startsWith("tensorflow.")
+          || i.module.startsWith("keras.")
+          || (i.module === "tensorflow" || i.module === "keras"),
+        )
+        .map((i) => i.module);
+      const ev = [...new Set(importEvidence)].sort();
+      return {
+        framework: "TensorFlow",
+        detected: ev.length > 0,
+        confidence: ev.length > 0 ? "exact" : "low",
+        evidence: ev,
+        analyzerId: "@0xsarwagya/ontoly-semantic-python:tensorflow",
+        analyzerVersion: "1.0.0",
+        coverage: ev.length > 0 ? 100 : 0,
+      };
+    },
+    analyze: (project) => analyzeTensorFlow(project),
+  };
+}
+
+function analyzeTensorFlow(project: PythonProject): SemanticFact[] {
+  const facts: SemanticFact[] = [];
+  const base: Pick<SemanticFact, "analyzerId" | "framework" | "confidence"> = {
+    analyzerId: "@0xsarwagya/ontoly-semantic-python:tensorflow",
+    framework: "TensorFlow",
+    confidence: "exact",
+  };
+
+  for (const cls of project.classes) {
+    const isModel = cls.bases.some((b) => TF_MODEL_BASES.has(b));
+    if (isModel) {
+      facts.push({
+        ...base,
+        kind: "ProviderDeclared",
+        providerId: cls.id,
+        name: cls.name,
+        file: cls.file,
+        classId: cls.id,
+        providerKind: "class",
+        span: cls.span,
+        metadata: { mlKind: "model", mlFramework: "tensorflow" },
+      } as SemanticFact);
+    }
+
+    const isLayer = cls.bases.some((b) => TF_LAYER_BASES.has(b));
+    if (isLayer) {
+      facts.push({
+        ...base,
+        kind: "ProviderDeclared",
+        providerId: cls.id,
+        name: cls.name,
+        file: cls.file,
+        classId: cls.id,
+        providerKind: "class",
+        span: cls.span,
+        metadata: { mlKind: "layer", mlFramework: "tensorflow" },
+      } as SemanticFact);
+    }
+
+    const isCallback = cls.bases.some((b) => TF_CALLBACK_BASES.has(b));
+    if (isCallback) {
+      facts.push({
+        ...base,
+        kind: "ProviderDeclared",
+        providerId: cls.id,
+        name: cls.name,
+        file: cls.file,
+        classId: cls.id,
+        providerKind: "class",
+        span: cls.span,
+        metadata: { mlKind: "callback", mlFramework: "tensorflow" },
+      } as SemanticFact);
+    }
+  }
+
+  for (const func of project.functions) {
+    const hasTfFunction = func.decorators.some((d) =>
+      d.name === "tf.function" || d.name === "tensorflow.function",
+    );
+    if (hasTfFunction) {
+      facts.push({
+        ...base,
+        kind: "ProviderDeclared",
+        providerId: func.id,
+        name: func.name,
+        file: func.file,
+        classId: func.id,
+        providerKind: "factory",
+        span: func.span,
+        metadata: { mlKind: "graph-function", mlFramework: "tensorflow" },
+      } as SemanticFact);
+    }
+  }
+
+  return facts;
+}
+
+// --- HuggingFace Transformers analyzer ---
+
+const HUGGINGFACE_MODULES = new Set([
+  "transformers", "datasets", "tokenizers", "accelerate", "peft", "trl",
+  "diffusers", "safetensors", "huggingface_hub",
+  "transformers.modeling_utils", "transformers.configuration_utils",
+  "transformers.tokenization_utils", "transformers.training_args",
+]);
+
+const HF_MODEL_BASES = new Set([
+  "PreTrainedModel", "transformers.PreTrainedModel",
+  "PretrainedConfig", "transformers.PretrainedConfig",
+  "GenerationMixin",
+]);
+
+const HF_TRAINER_BASES = new Set([
+  "Trainer", "transformers.Trainer",
+  "Seq2SeqTrainer", "transformers.Seq2SeqTrainer",
+]);
+
+const HF_TOKENIZER_BASES = new Set([
+  "PreTrainedTokenizer", "transformers.PreTrainedTokenizer",
+  "PreTrainedTokenizerFast", "transformers.PreTrainedTokenizerFast",
+  "PreTrainedTokenizerBase", "transformers.PreTrainedTokenizerBase",
+]);
+
+export function createHuggingFaceAnalyzer(): PythonFrameworkAnalyzer {
+  return {
+    id: "@0xsarwagya/ontoly-semantic-python:huggingface",
+    name: "HuggingFace Transformers",
+    version: "1.0.0",
+    capabilities: ["models", "trainers", "tokenizers", "pipelines"],
+    detect: (project) => {
+      const importEvidence = project.imports
+        .filter((i) =>
+          HUGGINGFACE_MODULES.has(i.module)
+          || i.module.startsWith("transformers.")
+          || i.module.startsWith("datasets.")
+          || i.module.startsWith("diffusers.")
+          || i.module.startsWith("peft.")
+          || i.module.startsWith("trl."),
+        )
+        .map((i) => i.module);
+      const ev = [...new Set(importEvidence)].sort();
+      return {
+        framework: "HuggingFace Transformers",
+        detected: ev.length > 0,
+        confidence: ev.length > 0 ? "exact" : "low",
+        evidence: ev,
+        analyzerId: "@0xsarwagya/ontoly-semantic-python:huggingface",
+        analyzerVersion: "1.0.0",
+        coverage: ev.length > 0 ? 100 : 0,
+      };
+    },
+    analyze: (project) => analyzeHuggingFace(project),
+  };
+}
+
+function analyzeHuggingFace(project: PythonProject): SemanticFact[] {
+  const facts: SemanticFact[] = [];
+  const base: Pick<SemanticFact, "analyzerId" | "framework" | "confidence"> = {
+    analyzerId: "@0xsarwagya/ontoly-semantic-python:huggingface",
+    framework: "HuggingFace Transformers",
+    confidence: "exact",
+  };
+
+  for (const cls of project.classes) {
+    const isModel = cls.bases.some((b) => HF_MODEL_BASES.has(b));
+    if (isModel) {
+      facts.push({
+        ...base,
+        kind: "ProviderDeclared",
+        providerId: cls.id,
+        name: cls.name,
+        file: cls.file,
+        classId: cls.id,
+        providerKind: "class",
+        span: cls.span,
+        metadata: { mlKind: "model", mlFramework: "huggingface" },
+      } as SemanticFact);
+    }
+
+    const isTrainer = cls.bases.some((b) => HF_TRAINER_BASES.has(b));
+    if (isTrainer) {
+      facts.push({
+        ...base,
+        kind: "ControllerDeclared",
+        controllerId: cls.id,
+        classId: cls.id,
+        name: cls.name,
+        file: cls.file,
+        paths: [],
+        decorator: "",
+        span: cls.span,
+        metadata: { mlKind: "trainer", mlFramework: "huggingface" },
+      } as SemanticFact);
+    }
+
+    const isTokenizer = cls.bases.some((b) => HF_TOKENIZER_BASES.has(b));
+    if (isTokenizer) {
+      facts.push({
+        ...base,
+        kind: "ProviderDeclared",
+        providerId: cls.id,
+        name: cls.name,
+        file: cls.file,
+        classId: cls.id,
+        providerKind: "class",
+        span: cls.span,
+        metadata: { mlKind: "tokenizer", mlFramework: "huggingface" },
+      } as SemanticFact);
+    }
+  }
+
+  for (const call of project.calls) {
+    if (call.calleeName === "pipeline" || call.calleeName === "transformers.pipeline") {
+      facts.push({
+        ...base,
+        kind: "ProviderDeclared",
+        providerId: call.ownerId,
+        name: call.calleeName,
+        file: call.file,
+        classId: call.ownerId,
+        providerKind: "factory",
+        span: call.span,
+        metadata: { mlKind: "pipeline", mlFramework: "huggingface" },
+      } as SemanticFact);
+    }
+  }
+
+  return facts;
+}
+
+// --- scikit-learn analyzer ---
+
+const SKLEARN_MODULES = new Set([
+  "sklearn", "sklearn.base", "sklearn.pipeline", "sklearn.model_selection",
+  "sklearn.preprocessing", "sklearn.metrics", "sklearn.linear_model",
+  "sklearn.tree", "sklearn.ensemble", "sklearn.svm", "sklearn.neighbors",
+  "sklearn.cluster", "sklearn.decomposition", "sklearn.neural_network",
+  "sklearn.feature_extraction", "sklearn.feature_selection",
+  "sklearn.utils", "sklearn.datasets", "sklearn.compose",
+]);
+
+const SKLEARN_ESTIMATOR_BASES = new Set([
+  "BaseEstimator", "sklearn.base.BaseEstimator",
+  "ClassifierMixin", "sklearn.base.ClassifierMixin",
+  "RegressorMixin", "sklearn.base.RegressorMixin",
+  "ClusterMixin", "sklearn.base.ClusterMixin",
+]);
+
+const SKLEARN_TRANSFORMER_BASES = new Set([
+  "TransformerMixin", "sklearn.base.TransformerMixin",
+]);
+
+export function createScikitLearnAnalyzer(): PythonFrameworkAnalyzer {
+  return {
+    id: "@0xsarwagya/ontoly-semantic-python:sklearn",
+    name: "scikit-learn",
+    version: "1.0.0",
+    capabilities: ["estimators", "transformers", "pipelines"],
+    detect: (project) => {
+      const importEvidence = project.imports
+        .filter((i) => SKLEARN_MODULES.has(i.module) || i.module.startsWith("sklearn."))
+        .map((i) => i.module);
+      const ev = [...new Set(importEvidence)].sort();
+      return {
+        framework: "scikit-learn",
+        detected: ev.length > 0,
+        confidence: ev.length > 0 ? "exact" : "low",
+        evidence: ev,
+        analyzerId: "@0xsarwagya/ontoly-semantic-python:sklearn",
+        analyzerVersion: "1.0.0",
+        coverage: ev.length > 0 ? 100 : 0,
+      };
+    },
+    analyze: (project) => analyzeScikitLearn(project),
+  };
+}
+
+function analyzeScikitLearn(project: PythonProject): SemanticFact[] {
+  const facts: SemanticFact[] = [];
+  const base: Pick<SemanticFact, "analyzerId" | "framework" | "confidence"> = {
+    analyzerId: "@0xsarwagya/ontoly-semantic-python:sklearn",
+    framework: "scikit-learn",
+    confidence: "exact",
+  };
+
+  for (const cls of project.classes) {
+    const isEstimator = cls.bases.some((b) => SKLEARN_ESTIMATOR_BASES.has(b));
+    if (isEstimator) {
+      facts.push({
+        ...base,
+        kind: "ProviderDeclared",
+        providerId: cls.id,
+        name: cls.name,
+        file: cls.file,
+        classId: cls.id,
+        providerKind: "class",
+        span: cls.span,
+        metadata: { mlKind: "estimator", mlFramework: "sklearn" },
+      } as SemanticFact);
+    }
+
+    const isTransformer = cls.bases.some((b) => SKLEARN_TRANSFORMER_BASES.has(b));
+    if (isTransformer) {
+      facts.push({
+        ...base,
+        kind: "ProviderDeclared",
+        providerId: cls.id,
+        name: cls.name,
+        file: cls.file,
+        classId: cls.id,
+        providerKind: "class",
+        span: cls.span,
+        metadata: { mlKind: "transformer", mlFramework: "sklearn" },
+      } as SemanticFact);
+    }
+  }
+
+  for (const call of project.calls) {
+    if (call.calleeName === "Pipeline" || call.calleeName === "make_pipeline"
+      || call.calleeName === "sklearn.pipeline.Pipeline" || call.calleeName === "sklearn.pipeline.make_pipeline") {
+      facts.push({
+        ...base,
+        kind: "ProviderDeclared",
+        providerId: call.ownerId,
+        name: call.calleeName,
+        file: call.file,
+        classId: call.ownerId,
+        providerKind: "factory",
+        span: call.span,
+        metadata: { mlKind: "pipeline", mlFramework: "sklearn" },
       } as SemanticFact);
     }
   }

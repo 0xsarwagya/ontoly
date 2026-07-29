@@ -48,30 +48,89 @@ const REPOSITORIES = [
     name: "Ovok Core",
     requestedPath: "~/Desktop/work/ovok-core",
     fallbackPaths: [],
+    language: "typescript",
   },
   {
     slug: "0xsarwagya",
     name: "0xsarwagya",
     requestedPath: "~/Desktop/personal/0xsarwagya",
     fallbackPaths: [],
+    language: "typescript",
   },
   {
     slug: "innosphere",
     name: "Innosphere",
     requestedPath: "~/Desktop/work/innosphere",
     fallbackPaths: [],
+    language: "typescript",
   },
   {
     slug: "ghost",
     name: "Ghost",
     requestedPath: "~/Desktop/personal/ghost",
     fallbackPaths: [],
+    language: "typescript",
   },
   {
     slug: "durable-local",
     name: "durable-local",
     requestedPath: "~/Desktop/personal/durable-local",
     fallbackPaths: [],
+    language: "typescript",
+  },
+  {
+    slug: "fastapi",
+    name: "FastAPI",
+    requestedPath: "~/Desktop/validation-repos/fastapi",
+    fallbackPaths: [],
+    language: "python",
+    gitUrl: "https://github.com/fastapi/fastapi.git",
+    shallowClone: true,
+  },
+  {
+    slug: "flask",
+    name: "Flask",
+    requestedPath: "~/Desktop/validation-repos/flask",
+    fallbackPaths: [],
+    language: "python",
+    gitUrl: "https://github.com/pallets/flask.git",
+    shallowClone: true,
+  },
+  {
+    slug: "transformers",
+    name: "HuggingFace Transformers",
+    requestedPath: "~/Desktop/validation-repos/transformers",
+    fallbackPaths: [],
+    language: "python",
+    gitUrl: "https://github.com/huggingface/transformers.git",
+    shallowClone: true,
+  },
+  {
+    slug: "scikit-learn",
+    name: "scikit-learn",
+    requestedPath: "~/Desktop/validation-repos/scikit-learn",
+    fallbackPaths: [],
+    language: "python",
+    gitUrl: "https://github.com/scikit-learn/scikit-learn.git",
+    shallowClone: true,
+  },
+  {
+    slug: "django",
+    name: "Django",
+    requestedPath: "~/Desktop/validation-repos/django",
+    fallbackPaths: [],
+    language: "python",
+    gitUrl: "https://github.com/django/django.git",
+    shallowClone: true,
+  },
+  {
+    slug: "pytorch",
+    name: "PyTorch",
+    requestedPath: "~/Desktop/validation-repos/pytorch",
+    fallbackPaths: [],
+    language: "python",
+    gitUrl: "https://github.com/pytorch/pytorch.git",
+    shallowClone: true,
   },
 ];
 
@@ -128,6 +187,14 @@ const IGNORED_DIRECTORIES = new Set([
   "dist",
   "build",
   "coverage",
+  "__pycache__",
+  ".venv",
+  "venv",
+  ".tox",
+  ".mypy_cache",
+  ".pytest_cache",
+  ".eggs",
+  "*.egg-info",
 ]);
 
 const GRAPHIFY_CODE_EXTENSIONS = new Set([
@@ -163,13 +230,13 @@ const GRAPHIFY_CODE_FILENAMES = new Set([
 ]);
 
 if (process.argv[2] === "--ontoly-one") {
-  const [, , , slug, repoPath, outDir] = process.argv;
+  const [, , , slug, repoPath, outDir, language] = process.argv;
   if (!slug || !repoPath || !outDir) {
-    writeErr("Usage: run-validation.mjs --ontoly-one <slug> <repoPath> <outDir>");
+    writeErr("Usage: run-validation.mjs --ontoly-one <slug> <repoPath> <outDir> [language]");
     process.exit(1);
   }
 
-  runOntolyOne({ slug, repoPath, outDir }).catch((error) => {
+  runOntolyOne({ slug, repoPath, outDir, language: language || "typescript" }).catch((error) => {
     writeErr(error instanceof Error ? error.stack ?? error.message : String(error));
     process.exit(1);
   });
@@ -292,6 +359,31 @@ async function resolveRepository(definition) {
           : null,
       };
     }
+  }
+
+  if (definition.gitUrl) {
+    const targetPath = expandHome(definition.requestedPath);
+    writeOut(`cloning ${definition.gitUrl} → ${targetPath}`);
+    await mkdir(dirname(targetPath), { recursive: true });
+    const cloneArgs = definition.shallowClone
+      ? ["clone", "--depth", "1", definition.gitUrl, targetPath]
+      : ["clone", definition.gitUrl, targetPath];
+    const cloneResult = await runCommand("git", cloneArgs, {
+      cwd: dirname(targetPath),
+      stdoutPath: join(VALIDATION_ROOT, `clone-${definition.slug}.stdout.log`),
+      stderrPath: join(VALIDATION_ROOT, `clone-${definition.slug}.stderr.log`),
+    });
+
+    if (cloneResult.exitCode === 0 && await pathExists(targetPath)) {
+      return {
+        ...definition,
+        requestedPath: targetPath,
+        actualPath: targetPath,
+        exists: true,
+        pathSubstitution: { requestedPath: targetPath, actualPath: targetPath, reason: "Auto-cloned from gitUrl." },
+      };
+    }
+    writeErr(`clone failed for ${definition.slug} (exit ${cloneResult.exitCode})`);
   }
 
   return {
@@ -665,7 +757,7 @@ async function runOntoly(repo) {
   const stderrPath = join(outDir, "stderr.log");
   const command = {
     executable: process.execPath,
-    args: [SCRIPT_PATH, "--ontoly-one", repo.slug, repo.actualPath, outDir],
+    args: [SCRIPT_PATH, "--ontoly-one", repo.slug, repo.actualPath, outDir, repo.language ?? "typescript"],
     cwd: PROJECT_ROOT,
     note: "Runs Ontoly through its built package APIs with write:false so source repositories are not modified.",
   };
@@ -739,26 +831,30 @@ async function runOntoly(repo) {
   };
 }
 
-async function runOntolyOne({ slug, repoPath, outDir }) {
+async function runOntolyOne({ slug, repoPath, outDir, language }) {
   await mkdir(outDir, { recursive: true });
   const startedAt = new Date().toISOString();
   const start = performance.now();
   const modules = await loadOntolyModules();
 
+  const passes = [
+    modules.compiler.createRepositoryIntelligencePass(),
+    modules.parserTypescript.createTypeScriptFrontendPass(),
+    modules.parserPython.createPythonFrontendPass(),
+    modules.parserOpenApi.createOpenApiFrontendPass(),
+  ];
+
   const result = await modules.compiler.buildSoftwareGraphWithArtifacts({
     root: repoPath,
     write: false,
     mode: "clean",
-    passes: [
-      modules.compiler.createRepositoryIntelligencePass(),
-      modules.parserTypescript.createTypeScriptFrontendPass(),
-      modules.parserOpenApi.createOpenApiFrontendPass(),
-    ],
+    passes,
   });
 
   if (!result.graph) {
     await writeJson(join(outDir, "result.json"), {
       slug,
+      language,
       status: result.status,
       startedAt,
       completedAt: new Date().toISOString(),
@@ -770,13 +866,21 @@ async function runOntolyOne({ slug, repoPath, outDir }) {
   }
 
   const graph = result.graph;
-  const semanticModel = modules.typescript.analyzeTypeScriptProject({ root: repoPath });
-  const semanticModelValidation = modules.typescript.validateTypeScriptSemanticModel(semanticModel);
-  const registry = modules.semantic.createDefaultFrameworkRegistry();
-  const detections = registry.detect(semanticModel);
   const coverage = modules.analyzers.analyzeSemanticCoverage(graph);
   const graphValidation = modules.compiler.validateCoreGraph(graph);
   const statistics = softwareGraphStatistics(graph);
+
+  let semanticModel = null;
+  let semanticModelValidation = null;
+  let detections = [];
+
+  if (language !== "python") {
+    semanticModel = modules.typescript.analyzeTypeScriptProject({ root: repoPath });
+    semanticModelValidation = modules.typescript.validateTypeScriptSemanticModel(semanticModel);
+    const registry = modules.semantic.createDefaultFrameworkRegistry();
+    detections = registry.detect(semanticModel);
+  }
+
   const quality = {
     repository: graph.repository.name,
     graphHash: graph.metadata.deterministicHash,
@@ -794,28 +898,37 @@ async function runOntolyOne({ slug, repoPath, outDir }) {
     ]),
   );
 
-  await Promise.all([
+  const writeOps = [
     writeJson(join(outDir, "SoftwareGraph.json"), graph),
     writeJson(join(outDir, "diagnostics.json"), graph.diagnostics),
     writeJson(join(outDir, "metadata.json"), graph.metadata),
     writeJson(join(outDir, "indexes.json"), graph.indexes),
     writeJson(join(outDir, "statistics.json"), statistics),
-    writeFile(join(outDir, "semantic-model.json"), modules.typescript.serializeTypeScriptProject(semanticModel), "utf8"),
-    writeJson(join(outDir, "semantic-model-summary.json"), semanticModelSummary(semanticModel, semanticModelValidation)),
     writeJson(join(outDir, "coverage.json"), coverage),
     writeJson(join(outDir, "quality.json"), quality),
     writeJson(join(outDir, "frameworks.json"), {
       repository: graph.repository.name,
       graphHash: graph.metadata.deterministicHash,
+      language,
       detections,
       detected: detections.filter((detection) => detection.detected),
     }),
     writeJson(join(outDir, "semantic-entities.json"), semanticReports),
     writeJson(join(outDir, "graph-validation.json"), graphValidation),
-  ]);
+  ];
+
+  if (semanticModel) {
+    writeOps.push(
+      writeFile(join(outDir, "semantic-model.json"), modules.typescript.serializeTypeScriptProject(semanticModel), "utf8"),
+      writeJson(join(outDir, "semantic-model-summary.json"), semanticModelSummary(semanticModel, semanticModelValidation)),
+    );
+  }
+
+  await Promise.all(writeOps);
 
   await writeJson(join(outDir, "result.json"), {
     slug,
+    language,
     status: result.status,
     startedAt,
     completedAt: new Date().toISOString(),
@@ -830,6 +943,7 @@ async function runOntolyOne({ slug, repoPath, outDir }) {
 
   writeOut(JSON.stringify({
     slug,
+    language,
     status: result.status,
     files: result.discovery.files.length,
     nodes: graph.nodes.length,
@@ -846,6 +960,7 @@ async function loadOntolyModules() {
     compiler,
     parserTypescript,
     parserOpenApi,
+    parserPython,
     typescript,
     semantic,
     analyzers,
@@ -853,6 +968,7 @@ async function loadOntolyModules() {
     import(modulePath("compiler")),
     import(modulePath("parser-typescript")),
     import(modulePath("parser-openapi")),
+    import(modulePath("parser-python")),
     import(modulePath("typescript")),
     import(modulePath("semantic")),
     import(modulePath("analyzers")),
@@ -862,6 +978,7 @@ async function loadOntolyModules() {
     compiler,
     parserTypescript,
     parserOpenApi,
+    parserPython,
     typescript,
     semantic,
     analyzers,
