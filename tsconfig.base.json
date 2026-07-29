@@ -34,7 +34,8 @@
       "@0xsarwagya/ontoly-semantic": ["packages/semantic/src/index.ts"],
       "@0xsarwagya/ontoly-typescript": ["packages/typescript/src/index.ts"],
       "@0xsarwagya/ontoly-cli": ["packages/cli/src/index.ts"],
-      "@0xsarwagya/ontoly-python": ["packages/python/src/index.ts"]
+      "@0xsarwagya/ontoly-python": ["packages/python/src/index.ts"],
+      "@0xsarwagya/ontoly-semantic-python": ["packages/semantic-python/src/index.ts"]
     }
   }
 }
