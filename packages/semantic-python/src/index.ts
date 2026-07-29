@@ -62,7 +62,10 @@ export function createPythonFrameworkRegistry(
 }
 
 export function createDefaultPythonFrameworkRegistry(): PythonFrameworkRegistry {
-  return createPythonFrameworkRegistry([]);
+  return createPythonFrameworkRegistry([
+    createDjangoAnalyzer(),
+    createFastApiAnalyzer(),
+  ]);
 }
 
 export function generatePythonCompilerArtifacts(
@@ -365,6 +368,234 @@ function addPythonRelationships(
       });
     }
   }
+}
+
+const DJANGO_MODULES = new Set([
+  "django", "django.db", "django.db.models", "django.http", "django.urls",
+  "django.views", "django.conf", "django.contrib", "django.middleware",
+  "django.core", "django.forms", "django.template",
+]);
+
+const FASTAPI_MODULES = new Set([
+  "fastapi", "fastapi.routing", "fastapi.responses", "fastapi.middleware",
+  "fastapi.security", "fastapi.params",
+]);
+
+const HTTP_METHODS = new Set(["get", "post", "put", "delete", "patch", "head", "options"]);
+
+export function createDjangoAnalyzer(): PythonFrameworkAnalyzer {
+  return {
+    id: "@0xsarwagya/ontoly-semantic-python:django",
+    name: "Django",
+    version: "1.0.0",
+    capabilities: ["models", "views", "routes", "middleware"],
+    detect: (project) => {
+      const importEvidence = project.imports
+        .filter((i) => DJANGO_MODULES.has(i.module) || i.module.startsWith("django."))
+        .map((i) => i.module);
+      const evidence = [...new Set(importEvidence)].sort();
+      return {
+        framework: "Django",
+        detected: evidence.length > 0,
+        confidence: evidence.length > 0 ? "exact" : "low",
+        evidence,
+        analyzerId: "@0xsarwagya/ontoly-semantic-python:django",
+        analyzerVersion: "1.0.0",
+        coverage: evidence.length > 0 ? 100 : 0,
+      };
+    },
+    analyze: (project) => analyzeDjango(project),
+  };
+}
+
+function analyzeDjango(project: PythonProject): SemanticFact[] {
+  const facts: SemanticFact[] = [];
+  const base: Pick<SemanticFact, "analyzerId" | "framework" | "confidence"> = {
+    analyzerId: "@0xsarwagya/ontoly-semantic-python:django",
+    framework: "Django",
+    confidence: "exact",
+  };
+
+  for (const cls of project.classes) {
+    const isModel = cls.bases.some((b) =>
+      b === "models.Model" || b === "Model" || b.endsWith(".Model"),
+    );
+    if (isModel) {
+      facts.push({
+        ...base,
+        kind: "ProviderDeclared",
+        providerId: cls.id,
+        name: cls.name,
+        file: cls.file,
+        classId: cls.id,
+        providerKind: "class",
+        span: cls.span,
+        metadata: { djangoKind: "model" },
+      } as SemanticFact);
+    }
+
+    const isView = cls.bases.some((b) =>
+      b === "View" || b === "TemplateView" || b === "ListView" || b === "DetailView"
+      || b === "CreateView" || b === "UpdateView" || b === "DeleteView" || b === "FormView"
+      || b === "APIView" || b === "GenericAPIView" || b === "ModelViewSet" || b === "ViewSet"
+      || b.endsWith("View") || b.endsWith("ViewSet") || b.endsWith("Mixin"),
+    );
+    if (isView) {
+      facts.push({
+        ...base,
+        kind: "ControllerDeclared",
+        controllerId: cls.id,
+        classId: cls.id,
+        name: cls.name,
+        file: cls.file,
+        paths: [],
+        decorator: "",
+        span: cls.span,
+        metadata: { djangoKind: "class-based-view" },
+      } as SemanticFact);
+    }
+  }
+
+  for (const func of project.functions) {
+    const hasHttpResponse = project.imports.some((i) =>
+      i.module === "django.http" && i.names.some((n) =>
+        n.name === "HttpResponse" || n.name === "JsonResponse",
+      ),
+    );
+    const hasRequestParam = func.parameters.some((p) => p.name === "request");
+    if (hasRequestParam && hasHttpResponse) {
+      facts.push({
+        ...base,
+        kind: "ControllerDeclared",
+        controllerId: func.id,
+        classId: func.id,
+        name: func.name,
+        file: func.file,
+        paths: [],
+        decorator: "",
+        span: func.span,
+        metadata: { djangoKind: "function-based-view" },
+      } as SemanticFact);
+    }
+  }
+
+  for (const cls of project.classes) {
+    const isMiddleware = cls.bases.some((b) => b === "MiddlewareMixin" || b.endsWith("Middleware"));
+    if (isMiddleware) {
+      facts.push({
+        ...base,
+        kind: "MiddlewareRegistered",
+        middlewareId: cls.id,
+        name: cls.name,
+        file: cls.file,
+        routeId: "",
+        authorization: false,
+        span: cls.span,
+      } as SemanticFact);
+    }
+  }
+
+  return facts;
+}
+
+export function createFastApiAnalyzer(): PythonFrameworkAnalyzer {
+  return {
+    id: "@0xsarwagya/ontoly-semantic-python:fastapi",
+    name: "FastAPI",
+    version: "1.0.0",
+    capabilities: ["routes", "dependency-injection", "models"],
+    detect: (project) => {
+      const importEvidence = project.imports
+        .filter((i) => FASTAPI_MODULES.has(i.module) || i.module.startsWith("fastapi."))
+        .map((i) => i.module);
+      const decoratorEvidence = project.decorators
+        .filter((d) => HTTP_METHODS.has(d.name.split(".").pop() ?? ""))
+        .map((d) => `@${d.name}`);
+      const evidence = [...new Set([...importEvidence, ...decoratorEvidence])].sort();
+      return {
+        framework: "FastAPI",
+        detected: evidence.length > 0,
+        confidence: importEvidence.length > 0 ? "exact" : "inferred",
+        evidence,
+        analyzerId: "@0xsarwagya/ontoly-semantic-python:fastapi",
+        analyzerVersion: "1.0.0",
+        coverage: evidence.length > 0 ? 100 : 0,
+      };
+    },
+    analyze: (project) => analyzeFastApi(project),
+  };
+}
+
+function analyzeFastApi(project: PythonProject): SemanticFact[] {
+  const facts: SemanticFact[] = [];
+  const base: Pick<SemanticFact, "analyzerId" | "framework" | "confidence"> = {
+    analyzerId: "@0xsarwagya/ontoly-semantic-python:fastapi",
+    framework: "FastAPI",
+    confidence: "exact",
+  };
+
+  for (const func of project.functions) {
+    for (const dec of func.decorators) {
+      const parts = dec.name.split(".");
+      const method = parts.pop()?.toLowerCase() ?? "";
+      if (!HTTP_METHODS.has(method)) continue;
+
+      const path = dec.arguments[0]?.replace(/['"]/g, "") ?? "/";
+      const routeId = createNodeId({
+        type: "Route",
+        name: `${method.toUpperCase()} ${path}`,
+        file: func.file,
+      });
+
+      facts.push({
+        ...base,
+        kind: "RouteDeclared",
+        routeId,
+        name: func.name,
+        method: method.toUpperCase(),
+        path,
+        file: func.file,
+        handlerId: func.id,
+        mountedById: func.id,
+        decorator: dec.expression,
+        span: func.span,
+      } as SemanticFact);
+    }
+
+    for (const param of func.parameters) {
+      if (param.annotation === "Depends" || param.defaultValue?.startsWith("Depends(")) {
+        const dependencyExpr = param.defaultValue ?? param.annotation ?? "";
+        facts.push({
+          ...base,
+          kind: "DependencyInjected",
+          fromClassId: func.id,
+          toId: createNodeId({ type: "Function", name: dependencyExpr }),
+          parameter: param.name,
+          token: dependencyExpr,
+          span: func.span,
+        } as SemanticFact);
+      }
+    }
+  }
+
+  for (const cls of project.classes) {
+    const isBaseModel = cls.bases.some((b) => b === "BaseModel" || b === "pydantic.BaseModel");
+    if (isBaseModel) {
+      facts.push({
+        ...base,
+        kind: "ProviderDeclared",
+        providerId: cls.id,
+        name: cls.name,
+        file: cls.file,
+        classId: cls.id,
+        providerKind: "class",
+        span: cls.span,
+        metadata: { fastapiKind: "pydantic-model" },
+      } as SemanticFact);
+    }
+  }
+
+  return facts;
 }
 
 export type {
