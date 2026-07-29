@@ -4,84 +4,80 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
-## 1.2.0-rc.3
+## 1.1.0
 
-Release candidate — same content as 1.2.0-alpha.2, promoted for scale
-validation across all TypeScript and Python OSS repositories.
-
-## 1.2.0-alpha.2
-
-AI/ML framework analyzers and multi-language validation. Extends the Python
-semantic bridge with PyTorch, TensorFlow, HuggingFace Transformers, and
-scikit-learn analyzers. Adds Python OSS repos to the validation system.
+Stable release adding Python language support, AI/ML framework analyzers,
+full JS/TS framework coverage, and deterministic graph diffing. Validated
+at scale across 11 OSS repos (459K nodes, 699K edges).
 
 ### Added
 
-- **PyTorch analyzer**: detects `torch`/`torchvision`/`torchaudio` imports,
-  extracts `nn.Module` models, `Dataset` subclasses, `@torch.no_grad` /
-  `@torch.jit.script` decorated functions.
-- **TensorFlow / Keras analyzer**: detects `tensorflow`/`keras` imports,
-  extracts `Model` and `Sequential` subclasses, custom `Layer` subclasses,
-  `Callback` subclasses, `@tf.function` graph functions.
-- **HuggingFace Transformers analyzer**: detects `transformers`/`datasets`/
-  `diffusers`/`accelerate`/`peft`/`trl` imports, extracts `PreTrainedModel`
-  subclasses, `Trainer` subclasses (as controllers), `PreTrainedTokenizer`
-  subclasses, `pipeline()` calls.
-- **scikit-learn analyzer**: detects `sklearn.*` imports, extracts
-  `BaseEstimator`/`ClassifierMixin`/`RegressorMixin` subclasses,
-  `TransformerMixin` subclasses, `Pipeline`/`make_pipeline` calls.
-- 23 AI/ML framework signatures added to `FRAMEWORK_SIGNATURES` (PyTorch,
-  PyTorch Lightning, TensorFlow, Keras, HuggingFace Transformers/Datasets/
-  Diffusers/Accelerate/PEFT/TRL, scikit-learn, JAX, Flax, Optax, XGBoost,
-  LightGBM, ONNX, ONNX Runtime).
-- 6 Python OSS repos added to validation system: FastAPI, Flask, Django,
-  HuggingFace Transformers, scikit-learn, PyTorch.
-- Validation runner now auto-clones repos with `gitUrl` when missing locally.
-- Validation runner includes Python frontend pass for all builds.
+- **Python language support** — the first non-JS/TS language in Ontoly.
+  - **`@0xsarwagya/ontoly-python`**: tree-sitter-based Python semantic model
+    analyzer. Extracts classes (with inheritance), functions (async, params,
+    return annotations), methods (static/classmethod/property), imports
+    (absolute and relative), decorators, calls, variables, and assignments.
+  - **`@0xsarwagya/ontoly-semantic-python`**: Python semantic bridge converting
+    `PythonProject` into `CompilerSymbol[]` and `CompilerRelationship[]`.
+  - **`@0xsarwagya/ontoly-parser-python`**: CompilerPass wrapper
+    (`createPythonFrontendPass()`) that filters `.py` files from source
+    inventory and produces `language: "python"` symbols.
+  - Python frontend pass registered in `defaultCompilerPasses()` — Python
+    files are now analyzed automatically alongside TypeScript.
+- **Python framework analyzers** (6 total):
+  - **Django**: models (`models.Model`), class-based and function-based views,
+    middleware.
+  - **FastAPI**: route decorators, Pydantic models (`BaseModel`), dependency
+    injection (`Depends()`).
+  - **PyTorch**: `nn.Module` models, `Dataset` subclasses, `@torch.no_grad` /
+    `@torch.jit.script` decorated functions.
+  - **TensorFlow / Keras**: `Model` and `Sequential` subclasses, custom
+    `Layer` and `Callback` subclasses, `@tf.function` graph functions.
+  - **HuggingFace Transformers**: `PreTrainedModel` subclasses, `Trainer`
+    subclasses, `PreTrainedTokenizer` subclasses, `pipeline()` calls.
+  - **scikit-learn**: `BaseEstimator`/`ClassifierMixin`/`RegressorMixin`
+    subclasses, `TransformerMixin` subclasses, `Pipeline`/`make_pipeline`
+    calls.
+- **38 Python framework signatures** added to `FRAMEWORK_SIGNATURES` (Django,
+  FastAPI, Flask, Starlette, Tornado, aiohttp, Sanic, SQLAlchemy, Alembic,
+  Tortoise ORM, Pydantic, Celery, pytest, PyTorch, PyTorch Lightning,
+  TensorFlow, Keras, HuggingFace Transformers/Datasets/Diffusers/Accelerate/
+  PEFT/TRL, scikit-learn, JAX, Flax, Optax, XGBoost, LightGBM, ONNX,
+  ONNX Runtime).
+- **Full JS/TS framework coverage** (17 semantic analyzers):
+  - Next.js, React, Angular, Vue, Remix, SvelteKit, Astro, Nuxt, tRPC,
+    Prisma, Drizzle, Koa, Elysia, NestJS, Express, Hono, Fastify.
+  - 31 new `FRAMEWORK_SIGNATURES` for package.json-level detection.
+- **`@0xsarwagya/ontoly-diff`**: deterministic graph diffing with
+  `diffSoftwareGraphs(base, head)` returning added, removed, and modified
+  nodes and edges. `ontoly diff` CLI command. Governed by RFC 0005.
 - Python-specific directories (`__pycache__`, `.venv`, `.tox`, `.mypy_cache`,
   `.pytest_cache`, `.eggs`) added to repository discovery ignore list.
-- 23 new tests for AI/ML framework analyzers (241 total tests passing).
+- 6 Python OSS repos added to validation system: FastAPI, Flask, Django,
+  HuggingFace Transformers, scikit-learn, PyTorch.
+- Validation runner auto-clones repos with `gitUrl` when missing locally.
 
-### Validation results (Python repos)
+### Removed
 
-| Repository | Nodes | Edges | Classes | Functions | Methods |
-|---|---|---|---|---|---|
-| Flask | 1,700 | 2,079 | 91 | 519 | 311 |
-| FastAPI | 11,634 | 16,054 | — | — | — |
-| scikit-learn | 26,894 | 38,346 | 1,023 | 7,687 | 3,306 |
-| HuggingFace Transformers | 122,933 | 191,914 | 18,865 | 6,847 | 50,471 |
+- `createPlaceholderAnalyzer` — all formerly-placeholder frameworks now
+  have real semantic analyzers.
 
-All repos analyzed with zero diagnostics.
+### Validation results (full scale)
 
-## 1.2.0-alpha.1
+| Repository | Language | Nodes | Edges | Diagnostics |
+|---|---|---|---|---|
+| ovok-core | TypeScript | 39,476 | 82,359 | 31 |
+| innosphere | TypeScript | 17,103 | 32,091 | 130 |
+| ghost | TypeScript | 352 | 664 | 0 |
+| durable-local | TypeScript | 227 | 385 | 0 |
+| Flask | Python | 1,700 | 2,079 | 0 |
+| FastAPI | Python | 11,634 | 16,054 | 0 |
+| Django | Python | 57,895 | 77,851 | 202 |
+| scikit-learn | Python | 26,894 | 38,346 | 0 |
+| Transformers | Python | 122,933 | 191,914 | 0 |
+| PyTorch | Python | 173,719 | 250,746 | 0 |
 
-Python language support — the first non-JS/TS language in Ontoly. Three new
-packages powered by tree-sitter for zero-runtime-dependency parsing, with
-Django and FastAPI framework analyzers.
-
-### Added
-
-- **`@0xsarwagya/ontoly-python`**: tree-sitter-based Python semantic model
-  analyzer. Extracts classes (with inheritance), functions (async, params,
-  return annotations), methods (static/classmethod/property), imports
-  (absolute and relative), decorators, calls, variables, and assignments
-  from `.py` source files.
-- **`@0xsarwagya/ontoly-semantic-python`**: Python semantic bridge converting
-  `PythonProject` into `CompilerSymbol[]` and `CompilerRelationship[]`. Maps
-  Python constructs to the same graph node/edge types used by TypeScript.
-  - **Django analyzer**: detects `django.*` imports, extracts models
-    (`models.Model`), class-based views, function-based views, middleware.
-  - **FastAPI analyzer**: detects `fastapi` imports, extracts route decorators
-    (`@app.get`/`@app.post`/etc), Pydantic models (`BaseModel`), dependency
-    injection (`Depends()`).
-- **`@0xsarwagya/ontoly-parser-python`**: CompilerPass wrapper
-  (`createPythonFrontendPass()`) that filters `.py` files from source
-  inventory and produces `language: "python"` symbols.
-- Python frontend pass registered in `defaultCompilerPasses()` — Python
-  files are now analyzed automatically alongside TypeScript.
-- 15 Python framework signatures added to `FRAMEWORK_SIGNATURES` (Django,
-  Django REST Framework, FastAPI, Flask, Starlette, Tornado, aiohttp, Sanic,
-  SQLAlchemy, Alembic, Tortoise ORM, Pydantic, Celery, pytest).
+241 tests passing across 36 test files.
 
 ## 1.1.0-alpha.2
 
