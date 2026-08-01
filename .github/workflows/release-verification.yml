@@ -48,7 +48,6 @@ jobs:
         run: |
           pnpm docs:check-links
           pnpm docs:lint
-          pnpm docs:check-site
 
       - name: Package checks
         run: |

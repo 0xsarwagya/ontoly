@@ -27,7 +27,6 @@ For docs-only changes, run at least:
 ```sh
 pnpm docs:check-links
 pnpm docs:lint
-pnpm site:docs
 ```
 
 For package metadata changes, run:

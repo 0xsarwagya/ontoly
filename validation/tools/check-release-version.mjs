@@ -21,7 +21,6 @@ const releaseTextFiles = [
   "docs/compatibility-matrix.md",
   "skills/catalog.json",
   "skills/COMPATIBILITY_MATRIX.md",
-  "site/manifest.json",
 ];
 
 for (const file of releaseTextFiles) {

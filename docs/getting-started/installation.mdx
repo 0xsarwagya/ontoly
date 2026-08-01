@@ -9,12 +9,19 @@ order: 1
 Ontoly is repository-local. It should be installed beside the code it analyzes
 so graph generation is reproducible for every developer and CI run.
 
+## Requirements
+
+- Node.js **≥ 22** (Node 20 was dropped in v1.2.0)
+- pnpm ≥ 10 or any npm-compatible package manager
+- The languages you analyze do **not** need their runtimes installed —
+  Ontoly parses `.ts`, `.js`, `.py`, and `.go` source directly.
+
 ## Install
 
 Install the CLI as a development dependency:
 
 ```sh
-pnpm add -D @0xsarwagya/ontoly-cli@rc
+pnpm add -D @0xsarwagya/ontoly-cli
 ```
 
 Run commands through your package manager:
@@ -22,6 +29,12 @@ Run commands through your package manager:
 ```sh
 pnpm exec ontoly --help
 pnpm exec ontoly build .
+```
+
+You can also run against a target directory without a per-project install:
+
+```sh
+pnpm dlx @0xsarwagya/ontoly-cli build ./my-repo
 ```
 
 ## Initialize
@@ -39,7 +52,7 @@ This creates:
 ontoly.config.ts
 ```
 
-The config is intentionally small:
+The config is intentionally small — enable the frontends you need:
 
 ```ts
 import { defineOntolyConfig } from "@0xsarwagya/ontoly-cli";
@@ -47,12 +60,15 @@ import { defineOntolyConfig } from "@0xsarwagya/ontoly-cli";
 export default defineOntolyConfig({
   outputDir: ".ontoly",
   parsers: {
-    typescript: true,
+    typescript: true,   // JS + TS + JSX + TSX
+    python: true,       // .py
+    go: true,           // .go
   },
 });
 ```
 
-Ontoly keeps generated graph artifacts local to the repository.
+Ontoly keeps generated graph artifacts local to the repository. Both
+`ontoly-output/` and `.ontoly/` are safe to gitignore.
 
 ## Verify
 
@@ -60,3 +76,6 @@ Ontoly keeps generated graph artifacts local to the repository.
 pnpm exec ontoly --help
 pnpm exec ontoly doctor .
 ```
+
+`doctor` prints the resolved runtime, the enabled frontends, and any
+configuration problems it can spot. Next, [build your first graph](./build-a-graph).

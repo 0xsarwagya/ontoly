@@ -530,12 +530,13 @@ packages/
 plugins/
   mermaid/
   html/
+apps/
+  site/          # ontoly.xyz — the canonical site
 skills/
-docs/
+docs/            # Documentation source of truth (Markdown / MDX)
 rfcs/
 examples/
 validation/
-site/
 ```
 
 ## Examples
@@ -554,25 +555,9 @@ Runnable examples live in [examples](examples):
 
 ## Documentation Map
 
-The root `docs/` tree is the source of truth. The OSS website snapshot under
-`site/` is generated from it:
-
-```sh
-pnpm site:docs
-```
-
-That command rewrites Markdown links for the website, emits MDX into
-`site/docs/`, and adds page-level SEO frontmatter such as canonical URLs,
-keywords, and source provenance. The landing page and project-level SEO live in
-`site/landing.mdx` and `site/manifest.json`.
-
-On `main`, `.github/workflows/publish-site.yml` runs the same generation and
-validation flow, then calls `0xsarwagya/internet/scripts/oss-sync.mjs` to copy
-`site/manifest.json`, `site/landing.mdx`, `site/docs/**`, and `site/assets/**`
-into the OSS site content snapshot for `https://ontoly.xyz`.
-
-The dedicated site lives at `https://ontoly.xyz`, with the OSS docs
-mirrored at `https://ontoly.xyz`.
+The root `docs/` tree is the source of truth. The dedicated site
+[ontoly.xyz](https://ontoly.xyz) is served from `apps/site/` and renders those
+same docs — there is no separate mirror.
 
 Start here:
 

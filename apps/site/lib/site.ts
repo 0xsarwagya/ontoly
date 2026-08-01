@@ -3,9 +3,9 @@ export const SITE = {
   url: "https://ontoly.xyz",
   tagline: "Understand Any Codebase.",
   description:
-    "Ontoly builds a deterministic Software Graph of your repository so developers and AI agents can search, trace, understand and safely change large codebases. Not AI — deterministic, auditable, local-first, evidence-based.",
+    "Ontoly builds a deterministic Software Graph of your JavaScript, TypeScript, Python, or Go repository so developers and AI agents can search, trace, understand, and safely change large codebases. Not AI — deterministic, auditable, local-first, evidence-based.",
   shortDescription:
-    "Deterministic Software Graphs for developers and AI agents. Search, trace, and safely change large codebases with evidence.",
+    "Deterministic Software Graphs for JS, TS, Python, and Go. Search, trace, and safely change large codebases with evidence.",
   author: "Sarwagya Singh",
   authorUrl: "https://sarwagya.wtf",
   oss: "https://oss.sarwagya.wtf",
@@ -15,7 +15,7 @@ export const SITE = {
   skillsSh: "https://www.skills.sh/?q=0xsarwagya/ontoly",
   releases: "https://github.com/0xsarwagya/ontoly/releases",
   sponsor: "https://github.com/sponsors/0xsarwagya",
-  version: "1.1.0-alpha.2",
+  version: "1.2.0",
   keywords: [
     "Ontoly",
     "Software Graph",
@@ -25,6 +25,8 @@ export const SITE = {
     "MCP server",
     "Model Context Protocol",
     "TypeScript static analysis",
+    "Python static analysis",
+    "Go static analysis",
     "deterministic code analysis",
     "code intelligence",
     "codebase understanding",
@@ -89,7 +91,7 @@ export const SKILLS: Skill[] = [
     description: "Audit configuration and where it is consumed across the repository.",
     capabilities: ["FindConfiguration", "FindConfigurationUsage", "FindDependencies"] },
   { slug: "framework-analysis", name: "Framework Analysis", category: "Architecture",
-    description: "Understand framework topology — NestJS, Express, Next.js, React — from detected facts.",
+    description: "Understand framework topology — NestJS, Next.js, Django, FastAPI, Gin, gRPC, and 23 others — from detected facts.",
     capabilities: ["ExplainArchitecture", "GraphStatistics", "FindNode", "FindFeatureOwner"] },
   { slug: "codebase-onboarding", name: "Codebase Onboarding", category: "Understanding",
     description: "Onboard to an unfamiliar codebase fast: entrypoints, owners, and the shape of the system.",
@@ -113,9 +115,11 @@ export const NAV = [
 export const NPM_PACKAGES = [
   "@0xsarwagya/ontoly-core", "@0xsarwagya/ontoly-cache", "@0xsarwagya/ontoly-diagnostics",
   "@0xsarwagya/ontoly-diff", "@0xsarwagya/ontoly-query", "@0xsarwagya/ontoly-typescript",
+  "@0xsarwagya/ontoly-python", "@0xsarwagya/ontoly-go",
   "@0xsarwagya/ontoly-analyzers", "@0xsarwagya/ontoly-enhancer", "@0xsarwagya/ontoly-enhancer-history",
   "@0xsarwagya/ontoly-enhancer-semantics", "@0xsarwagya/ontoly-intelligence", "@0xsarwagya/ontoly-capabilities",
   "@0xsarwagya/ontoly-compiler", "@0xsarwagya/ontoly-mcp", "@0xsarwagya/ontoly-parser-openapi",
-  "@0xsarwagya/ontoly-semantic", "@0xsarwagya/ontoly-parser-typescript", "@0xsarwagya/ontoly-plugin-mermaid",
-  "@0xsarwagya/ontoly-plugin-html", "@0xsarwagya/ontoly-cli",
+  "@0xsarwagya/ontoly-semantic", "@0xsarwagya/ontoly-semantic-python", "@0xsarwagya/ontoly-semantic-go",
+  "@0xsarwagya/ontoly-parser-typescript", "@0xsarwagya/ontoly-parser-python", "@0xsarwagya/ontoly-parser-go",
+  "@0xsarwagya/ontoly-plugin-mermaid", "@0xsarwagya/ontoly-plugin-html", "@0xsarwagya/ontoly-cli",
 ];
