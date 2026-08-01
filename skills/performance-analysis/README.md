@@ -24,11 +24,11 @@ The agent should build or verify the Ontoly graph, use MCP capabilities, cite ev
 
 ## Public Docs
 
-- [Agent Skills](https://oss.sarwagya.wtf/ontoly/docs/agent-skills)
-- [Skills Overview](https://oss.sarwagya.wtf/ontoly/docs/skills-overview)
-- [MCP](https://oss.sarwagya.wtf/ontoly/docs/mcp)
-- [Capabilities](https://oss.sarwagya.wtf/ontoly/docs/capabilities)
-- [Skills Validation](https://oss.sarwagya.wtf/ontoly/docs/skills-validation)
+- [Agent Skills](https://ontoly.xyz/docs/agent-skills)
+- [Skills Overview](https://ontoly.xyz/docs/skills-overview)
+- [MCP](https://ontoly.xyz/docs/mcp)
+- [Capabilities](https://ontoly.xyz/docs/capabilities)
+- [Skills Validation](https://ontoly.xyz/docs/skills-validation)
 
 ## Shared References
 
@@ -36,7 +36,7 @@ This skill depends on the shared Ontoly workflow in [reference/workflow.md](refe
 
 ## Learn more
 
-- Documentation: https://ontoly.sarwagya.wtf/docs
-- This skill on the web: https://ontoly.sarwagya.wtf/skills#performance-analysis
-- All Ontoly Agent Skills: https://ontoly.sarwagya.wtf/skills
+- Documentation: https://ontoly.xyz/docs
+- This skill on the web: https://ontoly.xyz/skills#performance-analysis
+- All Ontoly Agent Skills: https://ontoly.xyz/skills
 - Install via skills.sh: https://www.skills.sh/?q=0xsarwagya/ontoly

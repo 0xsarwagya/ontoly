@@ -1,6 +1,6 @@
 # @0xsarwagya/ontoly-semantic-go
 
-Go semantic bridge and framework analyzers for [Ontoly](https://oss.sarwagya.wtf/ontoly).
+Go semantic bridge and framework analyzers for [Ontoly](https://ontoly.xyz).
 
 Converts a `GoProject` semantic model into `CompilerSymbol` and `CompilerRelationship` artifacts for the Ontoly Software Graph. Includes framework analyzers for Gin, Echo, Fiber, Chi, gRPC, and GORM.
 

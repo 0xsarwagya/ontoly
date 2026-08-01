@@ -67,7 +67,7 @@ jobs:
           SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
           BRANCH="publish/ontoly"
           git config user.name "oss-publisher"
-          git config user.email "hello@sarwagya.wtf"
+          git config user.email "hello@ontoly.xyz"
           git checkout -B "$BRANCH"
           git add apps/oss/content/projects/ontoly
           if git diff --cached --quiet; then

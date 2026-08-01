@@ -38,5 +38,5 @@ governed by the Software Graph specification and RFC process.
 ## Links
 
 - [Repository](https://github.com/0xsarwagya/ontoly)
-- [Documentation](https://oss.sarwagya.wtf/ontoly)
+- [Documentation](https://ontoly.xyz)
 - [Issues](https://github.com/0xsarwagya/ontoly/issues)

@@ -19,7 +19,7 @@ generate embeddings, or make probabilistic guesses.
 
 ## Status
 
-Ontoly `v1.0.0` is the first stable release. Current alpha: `v1.1.0-alpha.2`.
+Ontoly `v1.0.0` is the first stable release. Current release: `v1.2.0`.
 
 The public contract is frozen, and the repository includes:
 
@@ -37,10 +37,10 @@ The public contract is frozen, and the repository includes:
 
 ## Links
 
-- Website: [oss.sarwagya.wtf/ontoly](https://oss.sarwagya.wtf/ontoly)
-- Docs: [oss.sarwagya.wtf/ontoly/docs](https://oss.sarwagya.wtf/ontoly/docs)
-- Agent Skills Catalog: [oss.sarwagya.wtf/ontoly/docs/skills](https://oss.sarwagya.wtf/ontoly/docs/skills)
-- Enhancers: [oss.sarwagya.wtf/ontoly/docs/enhancers](https://oss.sarwagya.wtf/ontoly/docs/enhancers)
+- Website: [ontoly.xyz](https://ontoly.xyz)
+- Docs: [ontoly.xyz/docs](https://ontoly.xyz/docs)
+- Agent Skills Catalog: [ontoly.xyz/docs/skills](https://ontoly.xyz/docs/skills)
+- Enhancers: [ontoly.xyz/docs/enhancers](https://ontoly.xyz/docs/enhancers)
 - Repository: [github.com/0xsarwagya/ontoly](https://github.com/0xsarwagya/ontoly)
 - Changelog: [CHANGELOG.md](CHANGELOG.md)
 - Roadmap: [ROADMAP.md](ROADMAP.md)
@@ -444,7 +444,7 @@ pnpm skills:validate
 pnpm skills:validate-installed
 ```
 
-Read the public [Agent Skills Catalog](https://oss.sarwagya.wtf/ontoly/docs/skills),
+Read the public [Agent Skills Catalog](https://ontoly.xyz/docs/skills),
 [skills/SKILL_CATALOG.md](skills/SKILL_CATALOG.md), [docs/agent-skills.md](docs/agent-skills.md),
 and [docs/skills-validation.md](docs/skills-validation.md).
 
@@ -569,10 +569,10 @@ keywords, and source provenance. The landing page and project-level SEO live in
 On `main`, `.github/workflows/publish-site.yml` runs the same generation and
 validation flow, then calls `0xsarwagya/internet/scripts/oss-sync.mjs` to copy
 `site/manifest.json`, `site/landing.mdx`, `site/docs/**`, and `site/assets/**`
-into the OSS site content snapshot for `https://oss.sarwagya.wtf/ontoly`.
+into the OSS site content snapshot for `https://ontoly.xyz`.
 
-The dedicated site lives at `https://ontoly.sarwagya.wtf`, with the OSS docs
-mirrored at `https://oss.sarwagya.wtf/ontoly`.
+The dedicated site lives at `https://ontoly.xyz`, with the OSS docs
+mirrored at `https://ontoly.xyz`.
 
 Start here:
 
@@ -674,7 +674,7 @@ Commercial licenses are available for teams that need proprietary use,
 private modifications, commercial redistribution, hosted service use without
 AGPL obligations, or contractual terms.
 
-For commercial licensing, contact [hello@sarwagya.wtf](mailto:hello@sarwagya.wtf).
+For commercial licensing, contact [sales@ontoly.xyz](mailto:sales@ontoly.xyz).
 See [LICENSE](LICENSE), [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md),
 [CONTRIBUTOR_LICENSE_AGREEMENT.md](CONTRIBUTOR_LICENSE_AGREEMENT.md), and
 [TRADEMARK_POLICY.md](TRADEMARK_POLICY.md).

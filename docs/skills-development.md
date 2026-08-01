@@ -27,11 +27,11 @@ name must match the directory.
 Every skill `README.md` should link back to the canonical public docs with
 absolute URLs so installed skills stay self-contained:
 
-- `https://oss.sarwagya.wtf/ontoly/docs/agent-skills`
-- `https://oss.sarwagya.wtf/ontoly/docs/skills-overview`
-- `https://oss.sarwagya.wtf/ontoly/docs/mcp`
-- `https://oss.sarwagya.wtf/ontoly/docs/capabilities`
-- `https://oss.sarwagya.wtf/ontoly/docs/skills-validation`
+- `https://ontoly.xyz/docs/agent-skills`
+- `https://ontoly.xyz/docs/skills-overview`
+- `https://ontoly.xyz/docs/mcp`
+- `https://ontoly.xyz/docs/capabilities`
+- `https://ontoly.xyz/docs/skills-validation`
 
 ## Metadata
 

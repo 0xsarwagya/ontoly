@@ -19,7 +19,7 @@ Contact the creator if you need any of the following:
 
 ## Contact
 
-Email [hello@sarwagya.wtf](mailto:hello@sarwagya.wtf) to request commercial
+Email [sales@ontoly.xyz](mailto:sales@ontoly.xyz) to request commercial
 terms.
 
 Commercial rights are granted only through a separate written agreement signed

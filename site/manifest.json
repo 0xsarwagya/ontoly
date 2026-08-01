@@ -3,15 +3,15 @@
   "mdxVersion": 1,
   "slug": "ontoly",
   "name": "Ontoly",
-  "version": "1.1.0-alpha.2",
-  "description": "Ontoly has grown into a full deterministic software-intelligence ecosystem — Software Graph, MCP server, and 14 AI Agent Skills. Explore it at ontoly.sarwagya.wtf.",
+  "version": "1.2.0",
+  "description": "Ontoly has grown into a full deterministic software-intelligence ecosystem — Software Graph, MCP server, and 14 AI Agent Skills. Explore it at ontoly.xyz.",
   "status": "stable",
   "license": "AGPL-3.0-only",
   "packageName": "@0xsarwagya/ontoly-cli",
   "repository": "https://github.com/0xsarwagya/ontoly",
-  "homepage": "https://oss.sarwagya.wtf/ontoly",
+  "homepage": "https://ontoly.xyz",
   "alternateUrls": [
-    "https://ontoly.sarwagya.wtf"
+    "https://ontoly.xyz"
   ],
   "redirects": [],
   "landing": "site/landing.mdx",
@@ -19,8 +19,8 @@
   "assets": "site/assets",
   "seo": {
     "title": "Ontoly — Software Intelligence Ecosystem",
-    "canonical": "https://ontoly.sarwagya.wtf",
-    "image": "https://oss.sarwagya.wtf/ontoly/opengraph-image",
+    "canonical": "https://ontoly.xyz",
+    "image": "https://ontoly.xyz/opengraph-image",
     "keywords": [
       "Ontoly",
       "Software Graph",
@@ -34,10 +34,10 @@
     ]
   },
   "links": {
-    "website": "https://ontoly.sarwagya.wtf",
+    "website": "https://ontoly.xyz",
     "github": "https://github.com/0xsarwagya/ontoly",
-    "docs": "https://oss.sarwagya.wtf/ontoly/docs",
-    "skills": "https://ontoly.sarwagya.wtf/skills",
+    "docs": "https://ontoly.xyz/docs",
+    "skills": "https://ontoly.xyz/skills",
     "npm": "https://www.npmjs.com/package/@0xsarwagya/ontoly-cli"
   }
 }

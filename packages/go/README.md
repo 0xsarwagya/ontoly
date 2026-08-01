@@ -1,6 +1,6 @@
 # @0xsarwagya/ontoly-go
 
-Pure Go semantic model analyzer for [Ontoly](https://oss.sarwagya.wtf/ontoly), powered by tree-sitter.
+Pure Go semantic model analyzer for [Ontoly](https://ontoly.xyz), powered by tree-sitter.
 
 Parses Go source files and produces a typed semantic model (`GoProject`) covering packages, structs, interfaces, functions, methods, imports, constants, variables, type aliases, and call expressions.
 

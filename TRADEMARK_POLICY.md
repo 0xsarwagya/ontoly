@@ -46,7 +46,7 @@ relationship is accurate and not misleading.
 Commercial use of Ontoly marks requires prior written permission from the
 creator.
 
-For permission, contact [hello@sarwagya.wtf](mailto:hello@sarwagya.wtf).
+For permission, contact [sales@ontoly.xyz](mailto:sales@ontoly.xyz).
 
 ## Reservation Of Rights
 

@@ -20,7 +20,7 @@ Ontoly is a developer tooling project. We want the community to be direct, techn
 
 Maintainers may remove comments, close issues, restrict participation, or block accounts when behavior harms the project.
 
-Report conduct issues privately by emailing `hello@sarwagya.wtf` with the
+Report conduct issues privately by emailing `hello@ontoly.xyz` with the
 subject `Ontoly Code of Conduct`. Reports are handled by maintainers with the
 minimum disclosure needed to investigate and respond.
 
