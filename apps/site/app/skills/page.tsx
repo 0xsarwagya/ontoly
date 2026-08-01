@@ -86,7 +86,7 @@ export default function SkillsPage() {
             <div className="cli-grid reveal">
               <div className="cli-row"><code><span className="cx">npx</span> skills add 0xsarwagya/ontoly</code><span className="desc">all skills</span><CopyButton text="npx skills add 0xsarwagya/ontoly" /></div>
               <div className="cli-row"><code><span className="cx">npx</span> skills add 0xsarwagya/ontoly --skill impact-analysis</code><span className="desc">one skill</span><CopyButton text="npx skills add 0xsarwagya/ontoly --skill impact-analysis" /></div>
-              <div className="cli-row"><code><span className="cx">pnpm</span> add -D @0xsarwagya/ontoly-cli@rc</code><span className="desc">the CLI</span><CopyButton text="pnpm add -D @0xsarwagya/ontoly-cli@rc" /></div>
+              <div className="cli-row"><code><span className="cx">pnpm</span> add -D @0xsarwagya/ontoly-cli</code><span className="desc">the CLI</span><CopyButton text="pnpm add -D @0xsarwagya/ontoly-cli" /></div>
               <div className="cli-row"><code><span className="cx">ontoly</span> mcp</code><span className="desc">start MCP server</span><CopyButton text="ontoly mcp" /></div>
             </div>
           </div>

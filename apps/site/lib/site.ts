@@ -7,8 +7,7 @@ export const SITE = {
   shortDescription:
     "Deterministic Software Graphs for JS, TS, Python, and Go. Search, trace, and safely change large codebases with evidence.",
   author: "Sarwagya Singh",
-  authorUrl: "https://sarwagya.wtf",
-  oss: "https://oss.sarwagya.wtf",
+  authorUrl: "https://ontoly.xyz",
   ossProject: "https://ontoly.xyz",
   repo: "https://github.com/0xsarwagya/ontoly",
   npm: "https://www.npmjs.com/package/@0xsarwagya/ontoly-cli",

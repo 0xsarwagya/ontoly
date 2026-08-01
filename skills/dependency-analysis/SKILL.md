@@ -4,8 +4,8 @@ description: Analyze internal and package dependencies using Ontoly graph traver
 license: AGPL-3.0-only
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "1.1.0-alpha.2"
-  ontoly.min.version: "1.1.0-alpha.2"
+  ontoly.skill.version: "1.2.0"
+  ontoly.min.version: "1.2.0"
   ontoly.capabilities: "FindDependencies, FindDependents, FindCycles, GraphStatistics, EvidencePack"
   ontoly.category: "dependencies"
   ontoly.enhancement: "LLM Enhancement"

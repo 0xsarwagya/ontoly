@@ -14,9 +14,7 @@ export function Footer() {
             </Link>
             <p>A deterministic software intelligence platform. Understand any codebase — build the graph, query it, and change large systems with evidence.</p>
             <p style={{ marginTop: 10, fontSize: 13 }}>
-              Part of the open-source ecosystem by{" "}
-              <a href={SITE.authorUrl} target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent-2)" }}>Sarwagya Singh</a>{" · "}
-              <a href={SITE.oss} target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent-2)" }}>oss.sarwagya.wtf</a>
+              Created by <span style={{ color: "var(--text-strong)" }}>{SITE.author}</span>
             </p>
           </div>
           <div className="ft-col">

@@ -4,8 +4,8 @@ description: Plan SDK generation from Ontoly API, route, model, and operation ev
 license: AGPL-3.0-only
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "1.1.0-alpha.2"
-  ontoly.min.version: "1.1.0-alpha.2"
+  ontoly.skill.version: "1.2.0"
+  ontoly.min.version: "1.2.0"
   ontoly.capabilities: "ExplainArchitecture, TraceRequestLifecycle, FindResponsibleFunction, GraphStatistics, EvidencePack"
   ontoly.category: "sdk-planning"
   ontoly.enhancement: "LLM Enhancement"
