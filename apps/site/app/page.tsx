@@ -51,7 +51,7 @@ export default function Home() {
         </section>
 
         {/* Marquee */}
-        <Marquee items={["TypeScript", "NestJS", "Express", "Next.js", "React", "OpenAPI", "MCP", "Agent Skills", "CALLS", "IMPORTS", "INJECTS", "MOUNTS", "DECORATES", "Semantic Index", "Repository Intelligence", "Evidence Packs", "Deterministic", "Local-first"]} />
+        <Marquee items={["TypeScript", "JavaScript", "Python", "Go", "NestJS", "Next.js", "Django", "FastAPI", "Gin", "gRPC", "PyTorch", "GORM", "React", "Vue", "OpenAPI", "MCP", "Agent Skills", "CALLS", "IMPORTS", "INJECTS", "MOUNTS", "DECORATES", "Semantic Index", "Repository Intelligence", "Evidence Packs", "Deterministic", "Local-first"]} />
 
         {/* Features */}
         <section className="band" id="features">
@@ -69,7 +69,7 @@ export default function Home() {
               <Feature title="Repository Intelligence" icon="chart"><span className="flow"><span>Ownership · History</span><span>Hotspots · Stability</span><b>Cochanges</b></span></Feature>
               <Feature title="Evidence Packs" icon="doc"><span className="flow"><span>Every answer includes graph evidence.</span><b>No hallucinations.</b></span></Feature>
               <Feature title="Local First" icon="lock"><span className="flow"><span>Runs locally.</span><b>No source code leaves your machine.</b></span></Feature>
-              <Feature title="Framework Awareness" icon="code"><p>Deep TypeScript. NestJS, Express, Next.js, React — more coming.</p></Feature>
+              <Feature title="Framework Awareness" icon="code"><p>29 analyzers across JS, TS, Python, Go — NestJS, Next.js, Django, FastAPI, Gin, gRPC, and more.</p></Feature>
             </div>
           </div>
         </section>

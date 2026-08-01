@@ -1,32 +1,71 @@
 # Framework Registry
 
 The Framework Registry owns analyzer registration, deterministic ordering,
-detection, and fact collection.
+detection, and fact collection. Every language frontend ships its own registry
+with the same shape.
 
-It lives in `@0xsarwagya/ontoly-semantic`.
+## Registries
+
+| Package | Registry | Default builder |
+| ------- | -------- | --------------- |
+| `@0xsarwagya/ontoly-semantic` | JavaScript / TypeScript | `createDefaultFrameworkRegistry()` |
+| `@0xsarwagya/ontoly-semantic-python` | Python | `createDefaultPythonFrameworkRegistry()` |
+| `@0xsarwagya/ontoly-semantic-go` | Go | `createDefaultGoFrameworkRegistry()` |
 
 ## API
 
 ```ts
-const registry = createFrameworkRegistry()
-  .register(createNestJsAnalyzer());
+import {
+  createFrameworkRegistry,
+  createDefaultFrameworkRegistry,
+  createNestJsAnalyzer,
+} from "@0xsarwagya/ontoly-semantic";
 
+const registry = createFrameworkRegistry([createNestJsAnalyzer()]);
 const detections = registry.detect(project);
 const facts = registry.analyze(project);
+
+// or start from the defaults and add analyzers
+const withDefaults = createDefaultFrameworkRegistry();
 ```
 
-The default registry is created with:
+The Python and Go registries expose the same shape:
 
 ```ts
-createDefaultFrameworkRegistry();
+import {
+  createDefaultPythonFrameworkRegistry,
+} from "@0xsarwagya/ontoly-semantic-python";
+
+import {
+  createDefaultGoFrameworkRegistry,
+} from "@0xsarwagya/ontoly-semantic-go";
 ```
+
+## Default analyzers
+
+**JavaScript / TypeScript** (17 analyzers):
+
+- NestJS
+- Angular
+- Express, Fastify, Hono, Koa, Elysia (HTTP call analyzers)
+- Next.js, Remix, SvelteKit, Astro, Nuxt (meta-frameworks)
+- React, Vue (view layers)
+- tRPC
+- Prisma, Drizzle (data)
+
+**Python** (6 analyzers): Django, FastAPI, PyTorch, TensorFlow, Hugging Face, scikit-learn.
+
+**Go** (6 analyzers): Gin, Echo, Fiber, Chi, gRPC, GORM.
+
+The full list with facts and detection markers is in the
+[Framework Matrix](framework-matrix.md).
 
 ## Responsibilities
 
 The registry owns:
 
 - analyzer registration
-- analyzer ordering
+- analyzer ordering (deterministic, by analyzer `id`)
 - framework discovery
 - capability metadata
 - semantic model version compatibility
@@ -34,22 +73,6 @@ The registry owns:
 - deterministic semantic fact ordering
 
 It does not construct graph nodes and does not run compiler passes.
-
-## Default Analyzers
-
-The default registry includes:
-
-- NestJS
-- Express
-- Fastify
-- Hono
-- Next.js
-- React
-- Prisma
-
-NestJS performs complete semantic extraction. Express, Fastify, and Hono support
-deterministic detection and call-style route facts. Next.js, React, and Prisma
-are detection placeholders.
 
 ## Compatibility
 
@@ -60,15 +83,15 @@ Every analyzer declares:
 - `capabilities`
 - `compatibleModelVersions`
 
-Analyzers should reject unsupported TypeScript Semantic Model versions before
-emitting facts. Future Ontoly versions can use this metadata for plugin
-negotiation and compatibility diagnostics.
+Analyzers must reject unsupported semantic model versions before emitting
+facts. Ontoly uses this metadata for plugin negotiation and compatibility
+diagnostics.
 
 ## Determinism
 
-The registry sorts analyzers by ID and sorts detection results and facts before
-returning them. An analyzer must not depend on registration order, filesystem
-iteration order, random values, wall-clock time, or network state.
+The registry sorts analyzers by ID and sorts detection results and facts
+before returning them. An analyzer must not depend on registration order,
+filesystem iteration order, random values, wall-clock time, or network state.
 
 ## Flow
 
@@ -87,3 +110,8 @@ Fact collection
   v
 Semantic Generator
 ```
+
+## Adding an analyzer
+
+See [Framework Analyzer API](framework-analyzer-api.md) for the analyzer
+contract and language-specific base types.

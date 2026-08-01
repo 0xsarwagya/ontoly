@@ -1,7 +1,7 @@
 {
   "name": "@0xsarwagya/ontoly-repository",
   "version": "1.2.0",
-  "description": "TypeScript-native software intelligence engine that builds a deterministic Software Graph.",
+  "description": "Software intelligence engine that builds a deterministic Software Graph from JavaScript, TypeScript, Python, and Go repositories.",
   "private": true,
   "type": "module",
   "license": "AGPL-3.0-only",
@@ -28,16 +28,14 @@
     "clean": "pnpm -r exec rm -rf dist && rm -rf .ontoly",
     "ontoly": "node packages/cli/dist/cli.js",
     "publish:npm": "node scripts/publish-npm.mjs",
-    "site:docs": "node scripts/build-site-docs.mjs",
     "docs:check-links": "node validation/tools/check-markdown-links.mjs",
     "docs:lint": "node validation/tools/check-markdown-style.mjs",
-    "docs:check-site": "pnpm site:docs && git diff --exit-code -- site/docs",
     "license:check": "node validation/tools/check-licenses.mjs",
     "validate:packages": "node validation/tools/validate-packages.mjs",
     "validate:pack": "node validation/tools/check-npm-packs.mjs",
     "validate:release-version": "node validation/tools/check-release-version.mjs",
     "new-user:smoke": "node validation/tools/new-user-smoke.mjs",
-    "release:gates": "pnpm check-types && pnpm test && pnpm build && pnpm skills:validate && pnpm skills:validate-installed && pnpm docs:check-links && pnpm docs:lint && pnpm docs:check-site && pnpm license:check && pnpm validate:packages && pnpm validate:pack && pnpm validate:release-version && pnpm new-user:smoke && pnpm validate:ci && node validation/semantic/evaluators/run-semantic-evaluation.mjs --ci && node validation/tools/run-validation-lab.mjs gates --ci"
+    "release:gates": "pnpm check-types && pnpm test && pnpm build && pnpm skills:validate && pnpm skills:validate-installed && pnpm docs:check-links && pnpm docs:lint && pnpm license:check && pnpm validate:packages && pnpm validate:pack && pnpm validate:release-version && pnpm new-user:smoke && pnpm validate:ci && node validation/semantic/evaluators/run-semantic-evaluation.mjs --ci && node validation/tools/run-validation-lab.mjs gates --ci"
   },
   "devDependencies": {
     "@types/node": "^22.15.3",

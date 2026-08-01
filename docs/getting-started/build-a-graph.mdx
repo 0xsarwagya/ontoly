@@ -1,6 +1,6 @@
 ---
 title: "Build a Graph"
-description: "Compile a JavaScript or TypeScript repository into a deterministic Software Graph."
+description: "Compile a JavaScript, TypeScript, Python, or Go repository into a deterministic Software Graph."
 order: 2
 ---
 
@@ -11,7 +11,16 @@ query, validate, export, or expose it through MCP.
 
 ## Build
 
-Run:
+Run against any language repository — Ontoly detects `.ts`, `.js`, `.py`,
+and `.go` sources automatically:
+
+```sh
+ontoly build ./my-typescript-app
+ontoly build ./my-django-service
+ontoly build ./my-go-api
+```
+
+For a self-contained example:
 
 ```sh
 ontoly build examples/basic
@@ -19,12 +28,13 @@ ontoly build examples/basic
 
 The compiler:
 
-1. discovers package, JavaScript, and TypeScript files
-2. parses source
+1. discovers package manifests (`package.json`, `pyproject.toml`, `go.mod`) and language source files
+2. parses source with the appropriate language frontend
 3. extracts symbols
 4. extracts relationships
-5. builds indexes
-6. writes graph artifacts
+5. runs framework analyzers (29 across three languages — see the [Framework Matrix](../framework-matrix.md))
+6. builds indexes
+7. writes graph artifacts
 
 Artifacts are written to `ontoly-output/` by default:
 

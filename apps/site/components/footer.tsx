@@ -38,7 +38,7 @@ export function Footer() {
             <Link href="/roadmap">Roadmap</Link>
             <a href={SITE.skillsSh} target="_blank" rel="noopener noreferrer">skills.sh</a>
             <a href={SITE.sponsor} target="_blank" rel="noopener noreferrer">Sponsor</a>
-            <a href={`${SITE.repo}/blob/main/LICENSE`} target="_blank" rel="noopener noreferrer">License (MIT)</a>
+            <a href={`${SITE.repo}/blob/main/LICENSE`} target="_blank" rel="noopener noreferrer">License (AGPL-3.0)</a>
           </div>
           <div className="ft-col">
             <h4>Install</h4>
@@ -49,7 +49,7 @@ export function Footer() {
           </div>
         </div>
         <div className="ft-bottom">
-          <span>© {new Date().getFullYear()} Ontoly · MIT License</span>
+          <span>© {new Date().getFullYear()} Ontoly · AGPL-3.0</span>
           <span className="mono">Created by {SITE.author} · v{SITE.version}</span>
         </div>
       </div>

@@ -1,13 +1,20 @@
 # Framework Analyzer API
 
-Framework analyzers turn the JavaScript/TypeScript Semantic Model into framework
-semantic facts.
+Framework analyzers turn a language semantic model into framework semantic
+facts. Every language frontend ships its own analyzer contract with the same
+shape:
 
-They never access the TypeScript Compiler API directly and never construct
-Software Graph nodes or relationships. This keeps framework knowledge isolated
-from the language layer and keeps graph construction centralized.
+| Language | Analyzer type | Project type | Registry |
+| -------- | ------------- | ------------ | -------- |
+| JavaScript / TypeScript | `FrameworkAnalyzer` | `TypeScriptProject` | `@0xsarwagya/ontoly-semantic` |
+| Python | `PythonFrameworkAnalyzer` | `PythonProject` | `@0xsarwagya/ontoly-semantic-python` |
+| Go | `GoFrameworkAnalyzer` | `GoProject` | `@0xsarwagya/ontoly-semantic-go` |
 
-## Interface
+Analyzers never access compiler internals and never construct Software Graph
+nodes or relationships. Framework knowledge is isolated from the language
+layer; graph construction is centralized in the Semantic Generator.
+
+## Interface (JavaScript / TypeScript)
 
 ```ts
 interface FrameworkAnalyzer {
@@ -21,7 +28,35 @@ interface FrameworkAnalyzer {
 }
 ```
 
-## Detection Result
+## Interface (Python)
+
+```ts
+interface PythonFrameworkAnalyzer {
+  id: string;
+  name: string;
+  version: string;
+  capabilities: readonly string[];
+  compatibleModelVersions: readonly string[];
+  detect(project: PythonProject): DetectionResult;
+  analyze(project: PythonProject): readonly SemanticFact[];
+}
+```
+
+## Interface (Go)
+
+```ts
+interface GoFrameworkAnalyzer {
+  id: string;
+  name: string;
+  version: string;
+  capabilities: readonly string[];
+  compatibleModelVersions: readonly string[];
+  detect(project: GoProject): DetectionResult;
+  analyze(project: GoProject): readonly SemanticFact[];
+}
+```
+
+## Detection result
 
 ```ts
 interface DetectionResult {
@@ -36,11 +71,11 @@ interface DetectionResult {
 }
 ```
 
-Detection must be deterministic and evidence-backed. Package imports are exact
-evidence. Decorators, naming conventions, and call shapes are inferred evidence
-unless the analyzer can tie them to a known package or import.
+Detection must be deterministic and evidence-backed. Package imports are
+exact evidence. Decorators, naming conventions, and call shapes are inferred
+evidence unless the analyzer can tie them to a known import.
 
-## Semantic Facts
+## Semantic facts
 
 The Semantic Generator accepts these framework fact kinds:
 
@@ -51,6 +86,9 @@ The Semantic Generator accepts these framework fact kinds:
 - `DependencyInjected`
 - `GuardRegistered`
 - `MiddlewareRegistered`
+- `ModelDeclared` (Python, Go)
+- `MigrationDeclared` (Python — Django, Go — GORM)
+- `LayerDeclared` (Python — PyTorch, TensorFlow, HF)
 
 Each fact includes:
 
@@ -64,53 +102,34 @@ Each fact includes:
 Facts are intermediate compiler inputs. The Semantic Generator is responsible
 for converting them into graph nodes and edges.
 
-## Analyzer Rules
+## Rules
 
-A framework analyzer may:
+An analyzer may:
 
-- inspect `TypeScriptProject`
-- inspect imports, exports, classes, methods, decorators, calls, and types
+- inspect the language project (imports, exports, classes, methods, decorators, calls, types, structs, interfaces)
 - emit semantic facts
 - report deterministic detection evidence
 - declare capabilities and compatible semantic model versions
 
-A framework analyzer must not:
+An analyzer must not:
 
-- mutate the TypeScript Semantic Model
+- mutate the semantic model
 - access compiler internals
-- use the TypeScript Compiler API
+- use raw parser or Compiler APIs directly
 - construct `SoftwareGraph` nodes directly
 - depend on wall-clock time, random order, or external services
 
-## NestJS
+## Shipped analyzers
 
-The NestJS analyzer is the first complete analyzer. It supports:
-
-- `@Controller`
-- route decorators such as `@Get`, `@Post`, `@Patch`, and `@Delete`
-- `@Module`
-- `@Injectable`
-- `@Inject`
-- `@Global`
-- `@Catch`
-- `@UseGuards`
-- `@UseFilters`
-- `@UseInterceptors`
-- provider analysis
-- module analysis
-- constructor dependency injection
-
-## Placeholder Analyzers
-
-The default registry also includes deterministic route extraction for Express,
-Fastify, and Hono plus detection for Next.js, React, and Prisma. Only NestJS
-performs complete framework-specific semantic extraction in the current
-v1.0.0 release.
+The full list of shipped analyzers per language is in the
+[Framework Matrix](framework-matrix.md). Every listed analyzer performs
+complete framework-specific semantic extraction — the "placeholder analyzer"
+tier from earlier releases was removed in v1.1.0-alpha.2.
 
 ## Flow
 
 ```text
-TypeScript Semantic Model
+Language semantic model  (TypeScriptProject | PythonProject | GoProject)
   |
   v
 Framework Analyzer detect()
@@ -120,4 +139,20 @@ Framework Analyzer analyze()
   |
   v
 Semantic Facts
+  |
+  v
+Semantic Generator -> Software Graph
 ```
+
+## Writing a new analyzer
+
+1. Pick your language and depend on its semantic package.
+2. Implement the interface for that language. Give the analyzer a stable
+   `id` and semver `version`.
+3. In `detect()`, return exact evidence (usually an import specifier or a
+   `package.json` / `go.mod` / `pyproject.toml` entry).
+4. In `analyze()`, return facts sorted by `(kind, analyzerId, span?.start ?? 0)`
+   for determinism.
+5. Register the analyzer with `createFrameworkRegistry([yourAnalyzer])`
+   (or the Python / Go equivalent) and validate through the
+   [Validation Lab](validation-lab.md).

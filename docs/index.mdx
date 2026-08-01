@@ -4,7 +4,12 @@ description: "What Ontoly builds, what it refuses to be, and where to start."
 order: 1
 ---
 
-Ontoly turns a JavaScript or TypeScript repository into a deterministic Software Graph.
+Ontoly turns a repository into a deterministic Software Graph.
+
+It ships three first-class language frontends — JavaScript / TypeScript (via
+the TypeScript Compiler API), Python, and Go — and 29 framework analyzers
+across all three. Every frontend produces the same node kinds, relationship
+kinds, stable IDs, and query behavior over the same graph model.
 
 Most developer tools keep rebuilding the same partial understanding of a
 codebase. Agents search files. Documentation tools parse declarations. SDK
@@ -33,8 +38,10 @@ builds indexes, and persists a graph that other tools can consume.
 - [Confidence Model](/docs/confidence-model) - see how confidence is derived from graph evidence.
 - [LLM Enhancement](/docs/llm-enhancement) - mandatory workflow rules when an LLM uses Ontoly.
 - [JavaScript Support](/docs/javascript-support) - inspect ESM, CommonJS, JSX, and configuration behavior.
+- [Python Support](/docs/python-support) - inspect the Python frontend and its framework analyzers.
+- [Go Support](/docs/go-support) - inspect the Go frontend and its framework analyzers.
 - [JavaScript and TypeScript Semantic Model](/docs/typescript-semantic-model) - inspect the pure language model.
-- [Framework Analyzer API](/docs/framework-analyzer-api) - add deterministic framework analyzers.
+- [Framework Analyzer API](/docs/framework-analyzer-api) - add deterministic framework analyzers for any frontend.
 - [Semantic Generator](/docs/semantic-generator) - understand how semantic facts become graph artifacts.
 - [Plugin system](/docs/concepts/plugin-system) - extend Ontoly without changing the compiler.
 - [Semantic Coverage](/docs/semantic-coverage) - measure graph completeness, confidence, and trustworthiness.
@@ -42,7 +49,7 @@ builds indexes, and persists a graph that other tools can consume.
 - [Validation Lab](/docs/validation-lab) - continuously measure correctness, determinism, performance, and regression resistance.
 - [Agent Skills](/docs/agent-skills) - install workflow-only skills that teach agents to use Ontoly first.
 - [Skills Overview](/docs/skills-overview) - browse the official skill and capability matrix.
-- [Agent Skills Catalog](/docs/skills) - browse public docs pages for every installable Ontoly Skill.
+- [Agent Skills Catalog](/docs/skills-overview) - browse public docs pages for every installable Ontoly Skill.
 - [Skills Validation](/docs/skills-validation) - validate skill structure, references, examples, and agent behavior.
 - [FAQ](/docs/faq) - common first-time user questions.
 - [Troubleshooting](/docs/troubleshooting) - actionable fixes for common failures.
@@ -51,7 +58,7 @@ builds indexes, and persists a graph that other tools can consume.
 
 ## Release references
 
-- [Known Limitations](/docs/known-limitations) - what v1.0.0 intentionally does not cover.
+- [Known Limitations](/docs/known-limitations) - what Ontoly v1.2.0 intentionally does not cover.
 - [Compatibility Matrix](/docs/compatibility-matrix) - runtime, graph, skill, and MCP compatibility.
 - [Feature Matrix](/docs/feature-matrix) - supported, experimental, and non-goal surfaces.
 - [Framework Matrix](/docs/framework-matrix) - current framework validation status.
@@ -70,7 +77,12 @@ reports. The compiler remains deterministic and AI-free.
 
 ## Status
 
-Stable. The JavaScript/TypeScript frontend, Software Graph, Query Engine,
-MCP, Skills, validation lab, and benchmarks are in v1 freeze. Changes that
-affect the graph contract, public APIs, packages, or skill compatibility still
-require the RFC and release-gate process.
+Stable. The JavaScript / TypeScript, Python, and Go frontends, the Software
+Graph, Query Engine, MCP capabilities, Agent Skills, validation lab, and
+benchmarks are in v1 freeze. Changes that affect the graph contract, public
+APIs, packages, or skill compatibility still require the RFC and release-gate
+process.
+
+The current release is v1.2.0. See the [Version Matrix](/docs/version-matrix)
+for package versions and the [Compatibility Matrix](/docs/compatibility-matrix)
+for runtime and graph-spec compatibility.
