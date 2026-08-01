@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   doctorOntolySkills,
@@ -5,14 +8,19 @@ import {
   validateOntolySkills,
 } from "../src/skills";
 
+const __rootDir = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
+const CURRENT_VERSION = JSON.parse(
+  readFileSync(join(__rootDir, "package.json"), "utf8"),
+).version as string;
+
 describe("Ontoly Agent Skills", () => {
   it("lists installable skills with versions and capability requirements", async () => {
     const skills = await listOntolySkills(process.cwd());
     const architectureReview = skills.find((skill) => skill.id === "architecture-review");
 
     expect(skills.length).toBeGreaterThanOrEqual(14);
-    expect(architectureReview?.version).toBe("1.1.0-alpha.2");
-    expect(architectureReview?.minimumOntolyVersion).toBe("1.1.0-alpha.2");
+    expect(architectureReview?.version).toBe(CURRENT_VERSION);
+    expect(architectureReview?.minimumOntolyVersion).toBe(CURRENT_VERSION);
     expect(architectureReview?.enhancement).toBe("LLM Enhancement");
     expect(architectureReview?.capabilities).toContain("ExplainArchitecture");
     expect(architectureReview?.capabilities).toContain("EvidencePack");
