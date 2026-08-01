@@ -39,5 +39,5 @@ Stable v1.0.0 package. Public contracts are governed by the Software Graph speci
 ## Links
 
 - [Repository](https://github.com/0xsarwagya/ontoly)
-- [Documentation](https://oss.sarwagya.wtf/ontoly)
+- [Documentation](https://ontoly.xyz)
 - [Issues](https://github.com/0xsarwagya/ontoly/issues)

@@ -20,7 +20,7 @@ references that preserve evidence, confidence, and fallback rules.
 - [LLM Enhancement](llm-enhancement.md) - mandatory rules for LLM-facing Ontoly use.
 - [Skills Development](skills-development.md) - how to add or change a skill.
 - [Skills Validation](skills-validation.md) - source and installed-artifact validation.
-- [Agent Skills Catalog](https://oss.sarwagya.wtf/ontoly/docs/skills) - public installable skill pages.
+- [Agent Skills Catalog](https://ontoly.xyz/docs/skills) - public installable skill pages.
 
 Before installing a skill, build the repository graph and verify MCP capability
 discovery:
@@ -38,20 +38,20 @@ For source-checkout validation before publication, use
 
 | Skill | Category | Enhancement | Source | Install |
 | --- | --- | --- | --- | --- |
-| Architecture Review | architecture | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/architecture-review) | `npx skills add 0xsarwagya/ontoly --skill architecture-review` |
-| Impact Analysis | change-analysis | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/impact-analysis) | `npx skills add 0xsarwagya/ontoly --skill impact-analysis` |
-| Codebase Onboarding | onboarding | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/codebase-onboarding) | `npx skills add 0xsarwagya/ontoly --skill codebase-onboarding` |
-| Request Tracing | request-flow | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/request-tracing) | `npx skills add 0xsarwagya/ontoly --skill request-tracing` |
-| Dependency Analysis | dependencies | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/dependency-analysis) | `npx skills add 0xsarwagya/ontoly --skill dependency-analysis` |
-| Security Review | security | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/security-review) | `npx skills add 0xsarwagya/ontoly --skill security-review` |
-| Configuration Analysis | configuration | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/configuration-analysis) | `npx skills add 0xsarwagya/ontoly --skill configuration-analysis` |
-| Framework Analysis | frameworks | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/framework-analysis) | `npx skills add 0xsarwagya/ontoly --skill framework-analysis` |
-| Documentation | documentation | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/documentation) | `npx skills add 0xsarwagya/ontoly --skill documentation` |
-| Refactoring | refactoring | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/refactoring) | `npx skills add 0xsarwagya/ontoly --skill refactoring` |
-| Performance Analysis | performance | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/performance-analysis) | `npx skills add 0xsarwagya/ontoly --skill performance-analysis` |
-| Dead Code Analysis | static-analysis | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/dead-code-analysis) | `npx skills add 0xsarwagya/ontoly --skill dead-code-analysis` |
-| Migration Analysis | migration | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/migration-analysis) | `npx skills add 0xsarwagya/ontoly --skill migration-analysis` |
-| SDK Generation | sdk-planning | LLM Enhancement | [Docs](https://oss.sarwagya.wtf/ontoly/docs/skills/sdk-generation) | `npx skills add 0xsarwagya/ontoly --skill sdk-generation` |
+| Architecture Review | architecture | LLM Enhancement | [Docs](https://ontoly.xyz/docs/skills/architecture-review) | `npx skills add 0xsarwagya/ontoly --skill architecture-review` |
+| Impact Analysis | change-analysis | LLM Enhancement | [Docs](https://ontoly.xyz/docs/skills/impact-analysis) | `npx skills add 0xsarwagya/ontoly --skill impact-analysis` |
+| Codebase Onboarding | onboarding | LLM Enhancement | [Docs](https://ontoly.xyz/docs/skills/codebase-onboarding) | `npx skills add 0xsarwagya/ontoly --skill codebase-onboarding` |
+| Request Tracing | request-flow | LLM Enhancement | [Docs](https://ontoly.xyz/docs/skills/request-tracing) | `npx skills add 0xsarwagya/ontoly --skill request-tracing` |
+| Dependency Analysis | dependencies | LLM Enhancement | [Docs](https://ontoly.xyz/docs/skills/dependency-analysis) | `npx skills add 0xsarwagya/ontoly --skill dependency-analysis` |
+| Security Review | security | LLM Enhancement | [Docs](https://ontoly.xyz/docs/skills/security-review) | `npx skills add 0xsarwagya/ontoly --skill security-review` |
+| Configuration Analysis | configuration | LLM Enhancement | [Docs](https://ontoly.xyz/docs/skills/configuration-analysis) | `npx skills add 0xsarwagya/ontoly --skill configuration-analysis` |
+| Framework Analysis | frameworks | LLM Enhancement | [Docs](https://ontoly.xyz/docs/skills/framework-analysis) | `npx skills add 0xsarwagya/ontoly --skill framework-analysis` |
+| Documentation | documentation | LLM Enhancement | [Docs](https://ontoly.xyz/docs/skills/documentation) | `npx skills add 0xsarwagya/ontoly --skill documentation` |
+| Refactoring | refactoring | LLM Enhancement | [Docs](https://ontoly.xyz/docs/skills/refactoring) | `npx skills add 0xsarwagya/ontoly --skill refactoring` |
+| Performance Analysis | performance | LLM Enhancement | [Docs](https://ontoly.xyz/docs/skills/performance-analysis) | `npx skills add 0xsarwagya/ontoly --skill performance-analysis` |
+| Dead Code Analysis | static-analysis | LLM Enhancement | [Docs](https://ontoly.xyz/docs/skills/dead-code-analysis) | `npx skills add 0xsarwagya/ontoly --skill dead-code-analysis` |
+| Migration Analysis | migration | LLM Enhancement | [Docs](https://ontoly.xyz/docs/skills/migration-analysis) | `npx skills add 0xsarwagya/ontoly --skill migration-analysis` |
+| SDK Generation | sdk-planning | LLM Enhancement | [Docs](https://ontoly.xyz/docs/skills/sdk-generation) | `npx skills add 0xsarwagya/ontoly --skill sdk-generation` |
 
 ## Release Assets
 

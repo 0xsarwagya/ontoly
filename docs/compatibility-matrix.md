@@ -1,11 +1,11 @@
 ---
 title: "Compatibility Matrix"
-description: "Runtime, package, Software Graph, Agent Skill, MCP, CLI, and release compatibility for Ontoly v1.1.0-alpha.2."
+description: "Runtime, package, Software Graph, Agent Skill, MCP, CLI, and release compatibility for Ontoly v1.2.0."
 ---
 
 | Surface | Version | Status |
 | ------- | ------- | ------ |
-| Ontoly packages | 1.1.0-alpha.2 | Stable |
+| Ontoly packages | 1.2.0 | Stable |
 | Node.js | 20+ | Supported |
 | pnpm | 10+ | Supported |
 | JavaScript | ES2022, ESM, CommonJS, JSX | Supported |

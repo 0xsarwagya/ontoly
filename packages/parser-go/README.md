@@ -1,6 +1,6 @@
 # @0xsarwagya/ontoly-parser-go
 
-Go parser and relationship extractor for [Ontoly](https://oss.sarwagya.wtf/ontoly).
+Go parser and relationship extractor for [Ontoly](https://ontoly.xyz).
 
 Provides `createGoFrontendPass()`, a `CompilerPass` that analyzes `.go` files and emits typed symbols and relationships into the Ontoly compiler pipeline.
 

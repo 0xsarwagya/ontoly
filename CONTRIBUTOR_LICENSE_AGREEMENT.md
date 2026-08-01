@@ -58,4 +58,4 @@ in writing.
 ## Questions
 
 For questions about contributions or licensing, contact
-[hello@sarwagya.wtf](mailto:hello@sarwagya.wtf).
+[hello@ontoly.xyz](mailto:hello@ontoly.xyz).

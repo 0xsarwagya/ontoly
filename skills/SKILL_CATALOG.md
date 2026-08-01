@@ -2,9 +2,9 @@
 
 Public docs:
 
-- [Agent Skills](https://oss.sarwagya.wtf/ontoly/docs/agent-skills)
-- [Skills Overview](https://oss.sarwagya.wtf/ontoly/docs/skills-overview)
-- [Skills Validation](https://oss.sarwagya.wtf/ontoly/docs/skills-validation)
+- [Agent Skills](https://ontoly.xyz/docs/agent-skills)
+- [Skills Overview](https://ontoly.xyz/docs/skills-overview)
+- [Skills Validation](https://ontoly.xyz/docs/skills-validation)
 
 | Skill | Category | Enhancement | Version | Capabilities |
 | --- | --- | --- | --- | --- |

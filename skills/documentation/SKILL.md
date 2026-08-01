@@ -46,7 +46,7 @@ Do not implement compiler, query, MCP, SDK, or business logic in the skill. Do n
 
 ## Learn more
 
-- Documentation: https://ontoly.sarwagya.wtf/docs
-- This skill on the web: https://ontoly.sarwagya.wtf/skills#documentation
-- All Ontoly Agent Skills: https://ontoly.sarwagya.wtf/skills
+- Documentation: https://ontoly.xyz/docs
+- This skill on the web: https://ontoly.xyz/skills#documentation
+- All Ontoly Agent Skills: https://ontoly.xyz/skills
 - Install via skills.sh: https://www.skills.sh/?q=0xsarwagya/ontoly

@@ -9,7 +9,7 @@
     "type": "git",
     "url": "git+https://github.com/0xsarwagya/ontoly.git"
   },
-  "homepage": "https://oss.sarwagya.wtf/ontoly",
+  "homepage": "https://ontoly.xyz",
   "scripts": {
     "build": "pnpm -r build",
     "check-types": "pnpm -r check-types",

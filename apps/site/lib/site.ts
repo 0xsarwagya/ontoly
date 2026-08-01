@@ -1,6 +1,6 @@
 export const SITE = {
   name: "Ontoly",
-  url: "https://ontoly.sarwagya.wtf",
+  url: "https://ontoly.xyz",
   tagline: "Understand Any Codebase.",
   description:
     "Ontoly builds a deterministic Software Graph of your repository so developers and AI agents can search, trace, understand and safely change large codebases. Not AI — deterministic, auditable, local-first, evidence-based.",
@@ -9,7 +9,7 @@ export const SITE = {
   author: "Sarwagya Singh",
   authorUrl: "https://sarwagya.wtf",
   oss: "https://oss.sarwagya.wtf",
-  ossProject: "https://oss.sarwagya.wtf/ontoly",
+  ossProject: "https://ontoly.xyz",
   repo: "https://github.com/0xsarwagya/ontoly",
   npm: "https://www.npmjs.com/package/@0xsarwagya/ontoly-cli",
   skillsSh: "https://www.skills.sh/?q=0xsarwagya/ontoly",
