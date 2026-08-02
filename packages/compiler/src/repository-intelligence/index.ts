@@ -13,7 +13,7 @@ import { compilerDiagnostic } from "../diagnostics";
 import type { CompilerPass, CompilerRelationship, CompilerSymbol, SourceProvider } from "../types";
 
 export const REPOSITORY_INTELLIGENCE_PASS_ID = "@0xsarwagya/ontoly-compiler:repository-intelligence";
-export const REPOSITORY_INTELLIGENCE_VERSION = "1.0.0";
+export const REPOSITORY_INTELLIGENCE_VERSION = "1.1.0";
 
 type JsonRecord = Record<string, unknown>;
 
