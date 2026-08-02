@@ -135,6 +135,20 @@ export function validateCoreGraph(graph: SoftwareGraph): GraphValidationResult {
     issues.push(warning("DUPLICATE_CONTROLLER", `Multiple controllers share name ${duplicate}.`));
   }
 
+  for (const node of graph.nodes) {
+    const hasIn = incoming.has(node.id) && incoming.get(node.id)!.length > 0;
+    const hasOut = outgoing.has(node.id) && outgoing.get(node.id)!.length > 0;
+    if (!hasIn && !hasOut && node.type !== "Package") {
+      issues.push(warning("ORPHAN_NODE", `Node ${node.id} (${node.type}) has no relationships — it may be unreachable.`));
+    }
+  }
+
+  for (const node of graph.nodes) {
+    if (!node.span && !["Package", "ExternalModule"].includes(node.type)) {
+      issues.push(warning("MISSING_NODE_SPAN", `Node ${node.id} (${node.type}) has no source location span.`));
+    }
+  }
+
   if (graph.metadata.nodeCount !== graph.nodes.length) {
     issues.push(error("NODE_COUNT_MISMATCH", "Graph metadata node count does not match node array."));
   }
