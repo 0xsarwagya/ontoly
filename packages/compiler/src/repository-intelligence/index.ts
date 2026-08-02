@@ -207,11 +207,12 @@ export function createRepositoryIntelligencePass(options: {
         },
       });
 
-      for (const file of files.filter(isPackageManifest)) {
+      const manifests = files.filter((f) => isPackageManifest(f) || isMultiLanguageManifest(f));
+      for (const file of manifests) {
         await collectRepositoryFileFacts(repositoryContext, file);
       }
 
-      for (const file of files.filter((file) => !isPackageManifest(file))) {
+      for (const file of files.filter((f) => !isPackageManifest(f) && !isMultiLanguageManifest(f))) {
         await collectRepositoryFileFacts(repositoryContext, file);
       }
 
@@ -1493,4 +1494,18 @@ function parseTomlSection(contents: string, section: string): readonly string[] 
 
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function isMultiLanguageManifest(file: string): boolean {
+  const base = basename(file);
+  return (
+    base === "go.mod" ||
+    base === "Cargo.toml" ||
+    base === "pyproject.toml" ||
+    base === "requirements.txt" ||
+    base === "pom.xml" ||
+    base === "build.gradle" ||
+    base === "build.gradle.kts" ||
+    base === "Gemfile"
+  );
 }
