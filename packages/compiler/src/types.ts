@@ -348,12 +348,21 @@ export interface CompilerRelationship {
   readonly metadata?: JsonObject | undefined;
 }
 
+export interface GraphBuilderStats {
+  readonly nodeCount: number;
+  readonly edgeCount: number;
+  readonly diagnosticCount: number;
+  readonly nodeKinds: Record<string, number>;
+  readonly edgeKinds: Record<string, number>;
+}
+
 export interface CompilerGraphBuilder {
   readonly addNode: (node: SoftwareGraphNode) => void;
   readonly addSymbol: (symbol: CompilerSymbol) => void;
   readonly addEdge: (edge: SoftwareGraphEdge) => void;
   readonly addRelationship: (relationship: CompilerRelationship) => void;
   readonly addDiagnostic: (diagnostic: SoftwareGraphDiagnostic) => void;
+  readonly getStats: () => GraphBuilderStats;
   readonly build: (input: GraphBuildInput) => SoftwareGraph;
 }
 
