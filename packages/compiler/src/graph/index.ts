@@ -37,6 +37,13 @@ export function createCompilerGraphBuilder(): CompilerGraphBuilder {
     addDiagnostic: (diagnostic) => {
       diagnostics.set(diagnostic.id, diagnostic);
     },
+    getStats: () => ({
+      nodeCount: nodes.size,
+      edgeCount: edges.size,
+      diagnosticCount: diagnostics.size,
+      nodeKinds: countByKind(nodes),
+      edgeKinds: countByKind(edges),
+    }),
     build: (input) => buildGraph(input, nodes, edges, diagnostics),
   };
 }
@@ -113,6 +120,14 @@ function symbolMetadata(symbol: CompilerSymbol): JsonObject | undefined {
   };
 
   return Object.keys(merged).length > 0 ? merged : undefined;
+}
+
+function countByKind(map: ReadonlyMap<string, { readonly type: string }>): Record<string, number> {
+  const counts: Record<string, number> = {};
+  for (const item of map.values()) {
+    counts[item.type] = (counts[item.type] ?? 0) + 1;
+  }
+  return counts;
 }
 
 function withOptionalProperties<T extends object, O extends object>(target: T, optional: O): T & O {
