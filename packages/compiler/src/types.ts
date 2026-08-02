@@ -317,6 +317,11 @@ export interface DiagnosticSink {
   readonly add: (diagnostic: SoftwareGraphDiagnostic) => SoftwareGraphDiagnostic;
   readonly list: () => readonly SoftwareGraphDiagnostic[];
   readonly hasErrors: () => boolean;
+  readonly count: () => number;
+  readonly clear: () => void;
+  readonly filterBySeverity: (
+    severity: "info" | "warning" | "error",
+  ) => readonly SoftwareGraphDiagnostic[];
 }
 
 export type CompilerSymbolKind = NodeType;
