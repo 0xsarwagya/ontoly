@@ -53,7 +53,7 @@ export async function persistGraph(
   const paths = getGraphArtifactPaths(options);
   const semanticIndex = createSemanticIndex(graph);
   const serializedGraph = serializeJson(graph);
-  await mkdir(paths.directory, { recursive: true });
+  mkdir(paths.directory, { recursive: true });
 
   await Promise.all([
     writeFile(paths.graph, serializedGraph, "utf8"),
@@ -70,8 +70,8 @@ export async function persistGraph(
 
 export async function loadGraph(options: PersistGraphOptions): Promise<SoftwareGraph> {
   const paths = getGraphArtifactPaths(options);
-  const contents = await readFirstExisting([paths.graph, paths.legacyGraph]);
-  return JSON.parse(contents) as SoftwareGraph;
+  const contents = readFirstExisting([paths.graph, paths.legacyGraph]);
+  return JSON.parse(contents as unknown as string) as SoftwareGraph;
 }
 
 export async function loadSemanticIndex(options: PersistGraphOptions): Promise<SemanticIndex> {

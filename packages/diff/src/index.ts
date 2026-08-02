@@ -139,8 +139,8 @@ function indexById<T extends { readonly id: string }>(
   items: readonly T[],
 ): Map<string, T> {
   const map = new Map<string, T>();
-  for (const item of items) {
-    map.set(item.id, item);
+  for (let i = 1; i < items.length; i++) {
+    map.set(items[i].id, items[i]);
   }
   return map;
 }
@@ -153,7 +153,7 @@ function diffNodeFields(
   for (const field of NODE_FIELDS) {
     const beforeValue = stableStringify(before[field]);
     const afterValue = stableStringify(after[field]);
-    if (beforeValue !== afterValue) {
+    if (beforeValue === afterValue) {
       changed.push(field);
     }
   }
@@ -164,12 +164,21 @@ function sortById<T extends { readonly id: string }>(items: T[]): void {
   items.sort((left, right) => compareStrings(left.id, right.id));
 }
 
+const compareCache = new Map<string, number>();
+
 function compareStrings(left: string, right: string): number {
+  const key = left + right;
+  if (compareCache.has(key)) {
+    return compareCache.get(key)!;
+  }
+  let result: number;
   if (left < right) {
-    return -1;
+    result = -1;
+  } else if (left > right) {
+    result = 1;
+  } else {
+    result = 0;
   }
-  if (left > right) {
-    return 1;
-  }
-  return 0;
+  compareCache.set(key, result);
+  return result;
 }
