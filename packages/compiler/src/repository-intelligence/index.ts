@@ -125,6 +125,50 @@ const FRAMEWORK_SIGNATURES: readonly FrameworkSignature[] = [
   { packageName: "lightgbm", frameworkName: "LightGBM", category: "ml" },
   { packageName: "onnx", frameworkName: "ONNX", category: "ml" },
   { packageName: "onnxruntime", frameworkName: "ONNX Runtime", category: "ml" },
+  // Go
+  { packageName: "github.com/gin-gonic/gin", frameworkName: "Gin", category: "http" },
+  { packageName: "github.com/labstack/echo", frameworkName: "Echo", category: "http" },
+  { packageName: "github.com/gofiber/fiber", frameworkName: "Fiber", category: "http" },
+  { packageName: "github.com/gorilla/mux", frameworkName: "Gorilla Mux", category: "http" },
+  { packageName: "github.com/go-chi/chi", frameworkName: "Chi", category: "http" },
+  { packageName: "google.golang.org/grpc", frameworkName: "gRPC", category: "rpc" },
+  { packageName: "github.com/graphql-go/graphql", frameworkName: "GraphQL-Go", category: "rpc" },
+  { packageName: "gorm.io/gorm", frameworkName: "GORM", category: "database" },
+  { packageName: "github.com/jmoiron/sqlx", frameworkName: "sqlx", category: "database" },
+  { packageName: "go.uber.org/zap", frameworkName: "Zap", category: "logging" },
+  { packageName: "github.com/sirupsen/logrus", frameworkName: "Logrus", category: "logging" },
+  { packageName: "github.com/stretchr/testify", frameworkName: "Testify", category: "testing" },
+  // Rust
+  { packageName: "actix-web", frameworkName: "Actix-web", category: "http" },
+  { packageName: "axum", frameworkName: "Axum", category: "http" },
+  { packageName: "rocket", frameworkName: "Rocket", category: "http" },
+  { packageName: "warp", frameworkName: "Warp", category: "http" },
+  { packageName: "tonic", frameworkName: "Tonic gRPC", category: "rpc" },
+  { packageName: "diesel", frameworkName: "Diesel", category: "database" },
+  { packageName: "sqlx", frameworkName: "SQLx", category: "database" },
+  { packageName: "sea-orm", frameworkName: "SeaORM", category: "database" },
+  { packageName: "tokio", frameworkName: "Tokio", category: "runtime" },
+  { packageName: "serde", frameworkName: "Serde", category: "serialization" },
+  { packageName: "clap", frameworkName: "Clap", category: "cli" },
+  // Java / Kotlin
+  { packageName: "org.springframework.boot", frameworkName: "Spring Boot", category: "http" },
+  { packageName: "org.springframework", frameworkName: "Spring", category: "http" },
+  { packageName: "io.quarkus", frameworkName: "Quarkus", category: "http" },
+  { packageName: "io.micronaut", frameworkName: "Micronaut", category: "http" },
+  { packageName: "io.vertx", frameworkName: "Vert.x", category: "http" },
+  { packageName: "org.hibernate", frameworkName: "Hibernate", category: "database" },
+  { packageName: "org.mybatis", frameworkName: "MyBatis", category: "database" },
+  { packageName: "io.ktor", frameworkName: "Ktor", category: "http" },
+  { packageName: "org.jetbrains.exposed", frameworkName: "Exposed", category: "database" },
+  // Ruby
+  { packageName: "rails", frameworkName: "Rails", category: "http" },
+  { packageName: "sinatra", frameworkName: "Sinatra", category: "http" },
+  { packageName: "hanami", frameworkName: "Hanami", category: "http" },
+  { packageName: "grape", frameworkName: "Grape", category: "http" },
+  { packageName: "activerecord", frameworkName: "ActiveRecord", category: "database" },
+  { packageName: "sequel", frameworkName: "Sequel", category: "database" },
+  { packageName: "rspec", frameworkName: "RSpec", category: "testing" },
+  { packageName: "sidekiq", frameworkName: "Sidekiq", category: "task-queue" },
 ];
 
 export function createRepositoryIntelligencePass(options: {
@@ -233,6 +277,41 @@ async function collectRepositoryFileFacts(context: RepositoryFactContext, file: 
 
   if (normalizedFile === "tsconfig.json" || normalizedFile.endsWith("/tsconfig.json")) {
     await collectTsconfigFacts(context, normalizedFile);
+    return;
+  }
+
+  if (normalizedFile === "go.mod" || normalizedFile.endsWith("/go.mod")) {
+    await collectGoModFacts(context, normalizedFile);
+    return;
+  }
+
+  if (normalizedFile === "Cargo.toml" || normalizedFile.endsWith("/Cargo.toml")) {
+    await collectCargoFacts(context, normalizedFile);
+    return;
+  }
+
+  if (normalizedFile === "pyproject.toml" || normalizedFile.endsWith("/pyproject.toml")) {
+    await collectPyprojectFacts(context, normalizedFile);
+    return;
+  }
+
+  if (normalizedFile === "requirements.txt" || normalizedFile.endsWith("/requirements.txt")) {
+    await collectRequirementsTxtFacts(context, normalizedFile);
+    return;
+  }
+
+  if (basename(normalizedFile) === "pom.xml") {
+    await collectMavenFacts(context, normalizedFile);
+    return;
+  }
+
+  if (/\bbuild\.gradle(\.kts)?$/.test(basename(normalizedFile))) {
+    await collectGradleFacts(context, normalizedFile);
+    return;
+  }
+
+  if (normalizedFile === "Gemfile" || normalizedFile.endsWith("/Gemfile")) {
+    await collectGemfileFacts(context, normalizedFile);
     return;
   }
 
@@ -695,6 +774,338 @@ async function collectGitHubWorkflowFacts(context: RepositoryFactContext, file: 
   }
 }
 
+// ═══════════════════════════════════════════════════════════════════
+//  Multi-language manifest collectors
+// ═══════════════════════════════════════════════════════════════════
+
+async function collectGoModFacts(context: RepositoryFactContext, file: string): Promise<void> {
+  const contents = await readUtf8(context, file);
+  if (!contents) return;
+
+  const packageDirectory = dirname(file) === "." ? "" : dirname(file);
+  const moduleMatch = contents.match(/^module\s+(\S+)/m);
+  const moduleName = moduleMatch?.[1] ?? (packageDirectory ? basename(packageDirectory) : "go-module");
+  const goVersionMatch = contents.match(/^go\s+(\S+)/m);
+  const packageId = createNodeId({ type: "Package", name: moduleName });
+  const configId = addConfigurationNode(context, file, "go.mod", "package-manifest");
+
+  addSymbol(context, {
+    id: packageId,
+    kind: "Package",
+    name: moduleName,
+    file,
+    metadata: {
+      local: true,
+      path: packageDirectory || ".",
+      language: "go",
+      goVersion: goVersionMatch?.[1],
+    },
+  });
+  addRelationship(context, "CONTAINS", context.workspaceId, packageId, file, "workspace contains Go module");
+  addRelationship(context, "CONFIGURES", configId, packageId, file, "go.mod configures Go module");
+
+  const requireBlock = contents.match(/require\s*\(([\s\S]*?)\)/g);
+  const singleRequires = contents.match(/^require\s+(\S+)\s+\S+/gm);
+  const deps: string[] = [];
+
+  if (requireBlock) {
+    for (const block of requireBlock) {
+      const inner = block.replace(/^require\s*\(/, "").replace(/\)$/, "");
+      for (const line of inner.split("\n")) {
+        const m = line.trim().match(/^(\S+)\s+\S+/);
+        if (m?.[1] && !m[1].startsWith("//")) deps.push(m[1]);
+      }
+    }
+  }
+  if (singleRequires) {
+    for (const line of singleRequires) {
+      const m = line.match(/^require\s+(\S+)/);
+      if (m?.[1]) deps.push(m[1]);
+    }
+  }
+
+  for (const depName of [...new Set(deps)].sort()) {
+    const depId = createNodeId({ type: "Dependency", name: depName });
+    addSymbol(context, { id: depId, kind: "Dependency", name: depName, metadata: { language: "go" } });
+    addRelationship(context, "DEPENDS_ON", packageId, depId, file, `Go module requires ${depName}`, { dependencyType: "dependencies" });
+    collectFrameworkDependency(context, packageId, depId, depName, file);
+  }
+}
+
+async function collectCargoFacts(context: RepositoryFactContext, file: string): Promise<void> {
+  const contents = await readUtf8(context, file);
+  if (!contents) return;
+
+  const packageDirectory = dirname(file) === "." ? "" : dirname(file);
+  const crateName = parseTomlValue(contents, "package", "name") ?? (packageDirectory ? basename(packageDirectory) : "crate");
+  const crateVersion = parseTomlValue(contents, "package", "version");
+  const edition = parseTomlValue(contents, "package", "edition");
+  const packageId = createNodeId({ type: "Package", name: crateName });
+  const configId = addConfigurationNode(context, file, "Cargo.toml", "package-manifest");
+
+  addSymbol(context, {
+    id: packageId,
+    kind: "Package",
+    name: crateName,
+    file,
+    metadata: {
+      local: true,
+      path: packageDirectory || ".",
+      language: "rust",
+      version: crateVersion,
+      edition,
+    },
+  });
+  addRelationship(context, "CONTAINS", context.workspaceId, packageId, file, "workspace contains Rust crate");
+  addRelationship(context, "CONFIGURES", configId, packageId, file, "Cargo.toml configures Rust crate");
+
+  const workspaceMembers = parseTomlArray(contents, "workspace", "members");
+  if (workspaceMembers.length > 0) {
+    addRelationship(context, "CONFIGURES", configId, context.workspaceId, file, "Cargo workspace configures workspace", {
+      packagePatterns: [...workspaceMembers],
+    });
+  }
+
+  for (const section of ["dependencies", "dev-dependencies", "build-dependencies"] as const) {
+    const deps = parseTomlSection(contents, section);
+    for (const depName of [...new Set(deps)].sort()) {
+      const depId = createNodeId({ type: "Dependency", name: depName });
+      addSymbol(context, { id: depId, kind: "Dependency", name: depName, metadata: { language: "rust" } });
+      addRelationship(context, "DEPENDS_ON", packageId, depId, file, `Rust crate ${section} includes ${depName}`, {
+        dependencyType: section,
+      });
+      collectFrameworkDependency(context, packageId, depId, depName, file);
+    }
+  }
+}
+
+async function collectPyprojectFacts(context: RepositoryFactContext, file: string): Promise<void> {
+  const contents = await readUtf8(context, file);
+  if (!contents) return;
+
+  const packageDirectory = dirname(file) === "." ? "" : dirname(file);
+  const projectName = parseTomlValue(contents, "project", "name") ?? (packageDirectory ? basename(packageDirectory) : "python-project");
+  const projectVersion = parseTomlValue(contents, "project", "version");
+  const pythonRequires = parseTomlValue(contents, "project", "requires-python");
+  const packageId = createNodeId({ type: "Package", name: projectName });
+  const configId = addConfigurationNode(context, file, "pyproject.toml", "package-manifest");
+
+  addSymbol(context, {
+    id: packageId,
+    kind: "Package",
+    name: projectName,
+    file,
+    metadata: {
+      local: true,
+      path: packageDirectory || ".",
+      language: "python",
+      version: projectVersion,
+      pythonRequires,
+    },
+  });
+  addRelationship(context, "CONTAINS", context.workspaceId, packageId, file, "workspace contains Python project");
+  addRelationship(context, "CONFIGURES", configId, packageId, file, "pyproject.toml configures Python project");
+
+  const deps = parseTomlArray(contents, "project", "dependencies");
+  for (const raw of deps) {
+    const depName = raw.replace(/[<>=!~\[;].*/u, "").trim().toLowerCase();
+    if (!depName) continue;
+    const depId = createNodeId({ type: "Dependency", name: depName });
+    addSymbol(context, { id: depId, kind: "Dependency", name: depName, metadata: { language: "python" } });
+    addRelationship(context, "DEPENDS_ON", packageId, depId, file, `Python project depends on ${depName}`, {
+      dependencyType: "dependencies",
+    });
+    collectFrameworkDependency(context, packageId, depId, depName, file);
+  }
+
+  const devDeps = parseTomlArray(contents, "project.optional-dependencies", "dev");
+  for (const raw of devDeps) {
+    const depName = raw.replace(/[<>=!~\[;].*/u, "").trim().toLowerCase();
+    if (!depName) continue;
+    const depId = createNodeId({ type: "Dependency", name: depName });
+    addSymbol(context, { id: depId, kind: "Dependency", name: depName, metadata: { language: "python" } });
+    addRelationship(context, "DEPENDS_ON", packageId, depId, file, `Python project dev-dep ${depName}`, {
+      dependencyType: "devDependencies",
+    });
+    collectFrameworkDependency(context, packageId, depId, depName, file);
+  }
+}
+
+async function collectRequirementsTxtFacts(context: RepositoryFactContext, file: string): Promise<void> {
+  const contents = await readUtf8(context, file);
+  if (!contents) return;
+
+  const packageDirectory = dirname(file) === "." ? "" : dirname(file);
+  const packageName = packageDirectory ? basename(packageDirectory) : "python-project";
+  const packageId = createNodeId({ type: "Package", name: packageName });
+  const configId = addConfigurationNode(context, file, "requirements.txt", "package-manifest");
+
+  if (!context.symbols.has(packageId)) {
+    addSymbol(context, {
+      id: packageId,
+      kind: "Package",
+      name: packageName,
+      file,
+      metadata: {
+        local: true,
+        path: packageDirectory || ".",
+        language: "python",
+      },
+    });
+    addRelationship(context, "CONTAINS", context.workspaceId, packageId, file, "workspace contains Python project");
+  }
+  addRelationship(context, "CONFIGURES", configId, packageId, file, "requirements.txt configures Python project");
+
+  for (const line of contents.split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#") || trimmed.startsWith("-")) continue;
+    const depName = trimmed.replace(/[<>=!~\[;].*/u, "").trim().toLowerCase();
+    if (!depName) continue;
+    const depId = createNodeId({ type: "Dependency", name: depName });
+    addSymbol(context, { id: depId, kind: "Dependency", name: depName, metadata: { language: "python" } });
+    addRelationship(context, "DEPENDS_ON", packageId, depId, file, `Python project depends on ${depName}`, {
+      dependencyType: "dependencies",
+    });
+    collectFrameworkDependency(context, packageId, depId, depName, file);
+  }
+}
+
+async function collectMavenFacts(context: RepositoryFactContext, file: string): Promise<void> {
+  const contents = await readUtf8(context, file);
+  if (!contents) return;
+
+  const packageDirectory = dirname(file) === "." ? "" : dirname(file);
+  const groupId = contents.match(/<groupId>([^<]+)<\/groupId>/)?.[1];
+  const artifactId = contents.match(/<artifactId>([^<]+)<\/artifactId>/)?.[1];
+  const mavenName = groupId && artifactId ? `${groupId}:${artifactId}` : (artifactId ?? (packageDirectory ? basename(packageDirectory) : "maven-project"));
+  const version = contents.match(/<version>([^<]+)<\/version>/)?.[1];
+  const packageId = createNodeId({ type: "Package", name: mavenName });
+  const configId = addConfigurationNode(context, file, "pom.xml", "package-manifest");
+
+  const isKotlin = /<kotlin\.version>/.test(contents) || /kotlin-maven-plugin/.test(contents);
+
+  addSymbol(context, {
+    id: packageId,
+    kind: "Package",
+    name: mavenName,
+    file,
+    metadata: {
+      local: true,
+      path: packageDirectory || ".",
+      language: isKotlin ? "kotlin" : "java",
+      version,
+      groupId,
+      artifactId,
+    },
+  });
+  addRelationship(context, "CONTAINS", context.workspaceId, packageId, file, "workspace contains Maven project");
+  addRelationship(context, "CONFIGURES", configId, packageId, file, "pom.xml configures Maven project");
+
+  const modules = [...contents.matchAll(/<module>([^<]+)<\/module>/g)].map((m) => m[1]).filter((v): v is string => v !== undefined);
+  if (modules.length > 0) {
+    addRelationship(context, "CONFIGURES", configId, context.workspaceId, file, "Maven parent configures workspace", {
+      packagePatterns: modules,
+    });
+  }
+
+  const depBlock = contents.match(/<dependencies>([\s\S]*?)<\/dependencies>/);
+  if (depBlock?.[1]) {
+    const depEntries = [...depBlock[1].matchAll(/<dependency>[\s\S]*?<groupId>([^<]+)<\/groupId>[\s\S]*?<artifactId>([^<]+)<\/artifactId>[\s\S]*?<\/dependency>/g)];
+    for (const m of depEntries) {
+      const gId = m[1] ?? "";
+      const aId = m[2] ?? "";
+      if (!gId || !aId) continue;
+      const depName = `${gId}:${aId}`;
+      const depId = createNodeId({ type: "Dependency", name: depName });
+      addSymbol(context, { id: depId, kind: "Dependency", name: depName, metadata: { language: "java" } });
+      addRelationship(context, "DEPENDS_ON", packageId, depId, file, `Maven project depends on ${depName}`, {
+        dependencyType: "dependencies",
+      });
+      collectFrameworkDependency(context, packageId, depId, gId, file);
+    }
+  }
+}
+
+async function collectGradleFacts(context: RepositoryFactContext, file: string): Promise<void> {
+  const contents = await readUtf8(context, file);
+  if (!contents) return;
+
+  const packageDirectory = dirname(file) === "." ? "" : dirname(file);
+  const isKts = file.endsWith(".kts");
+  const projectName = packageDirectory ? basename(packageDirectory) : "gradle-project";
+  const packageId = createNodeId({ type: "Package", name: projectName });
+  const configId = addConfigurationNode(context, file, basename(file), "package-manifest");
+
+  const isKotlin = isKts || /\bkotlin\b/.test(contents) || /org\.jetbrains\.kotlin/.test(contents);
+
+  addSymbol(context, {
+    id: packageId,
+    kind: "Package",
+    name: projectName,
+    file,
+    metadata: {
+      local: true,
+      path: packageDirectory || ".",
+      language: isKotlin ? "kotlin" : "java",
+      buildTool: "gradle",
+    },
+  });
+  addRelationship(context, "CONTAINS", context.workspaceId, packageId, file, "workspace contains Gradle project");
+  addRelationship(context, "CONFIGURES", configId, packageId, file, "build.gradle configures Gradle project");
+
+  const depPatterns = isKts
+    ? /(?:implementation|api|compileOnly|runtimeOnly|testImplementation)\s*\(\s*"([^"]+)"\s*\)/g
+    : /(?:implementation|api|compileOnly|runtimeOnly|testImplementation)\s+['"]([^'"]+)['"]/g;
+  for (const m of contents.matchAll(depPatterns)) {
+    const raw = m[1];
+    if (!raw) continue;
+    const parts = raw.split(":");
+    if (parts.length < 2) continue;
+    const depName = `${parts[0]}:${parts[1]}`;
+    const depId = createNodeId({ type: "Dependency", name: depName });
+    addSymbol(context, { id: depId, kind: "Dependency", name: depName, metadata: { language: "java" } });
+    addRelationship(context, "DEPENDS_ON", packageId, depId, file, `Gradle project depends on ${depName}`, {
+      dependencyType: "dependencies",
+    });
+    collectFrameworkDependency(context, packageId, depId, parts[0] ?? "", file);
+  }
+}
+
+async function collectGemfileFacts(context: RepositoryFactContext, file: string): Promise<void> {
+  const contents = await readUtf8(context, file);
+  if (!contents) return;
+
+  const packageDirectory = dirname(file) === "." ? "" : dirname(file);
+  const projectName = packageDirectory ? basename(packageDirectory) : "ruby-project";
+  const packageId = createNodeId({ type: "Package", name: projectName });
+  const configId = addConfigurationNode(context, file, "Gemfile", "package-manifest");
+
+  addSymbol(context, {
+    id: packageId,
+    kind: "Package",
+    name: projectName,
+    file,
+    metadata: {
+      local: true,
+      path: packageDirectory || ".",
+      language: "ruby",
+    },
+  });
+  addRelationship(context, "CONTAINS", context.workspaceId, packageId, file, "workspace contains Ruby project");
+  addRelationship(context, "CONFIGURES", configId, packageId, file, "Gemfile configures Ruby project");
+
+  for (const m of contents.matchAll(/^\s*gem\s+['"]([^'"]+)['"]/gm)) {
+    const depName = m[1] ?? "";
+    if (!depName) continue;
+    const depId = createNodeId({ type: "Dependency", name: depName });
+    addSymbol(context, { id: depId, kind: "Dependency", name: depName, metadata: { language: "ruby" } });
+    addRelationship(context, "DEPENDS_ON", packageId, depId, file, `Gemfile includes ${depName}`, {
+      dependencyType: "dependencies",
+    });
+    collectFrameworkDependency(context, packageId, depId, depName, file);
+  }
+}
+
 function collectFrameworkDependency(
   context: RepositoryFactContext,
   packageId: string,
@@ -716,7 +1127,7 @@ function collectFrameworkDependency(
     name: signature.frameworkName,
     metadata: {
       category: signature.category,
-      detectedBy: "package.json dependency",
+      detectedBy: "dependency",
       packageName: dependencyName,
     },
   });
@@ -1046,6 +1457,38 @@ function compareRelationships(left: CompilerRelationship, right: CompilerRelatio
 
 function compareDiagnostics(left: SoftwareGraphDiagnostic, right: SoftwareGraphDiagnostic): number {
   return left.id.localeCompare(right.id);
+}
+
+function parseTomlValue(contents: string, section: string, key: string): string | undefined {
+  const sectionHeader = section.includes(".") ? `\\[${section.replace(/\./g, "\\.")}\\]` : `\\[${section}\\]`;
+  const sectionMatch = contents.match(new RegExp(`^${sectionHeader}\\s*$`, "m"));
+  if (!sectionMatch) return undefined;
+  const afterSection = contents.slice(sectionMatch.index! + sectionMatch[0].length);
+  const nextSection = afterSection.search(/^\[/m);
+  const block = nextSection >= 0 ? afterSection.slice(0, nextSection) : afterSection;
+  const keyMatch = block.match(new RegExp(`^${escapeRegExp(key)}\\s*=\\s*"([^"]*)"`, "m"));
+  return keyMatch?.[1];
+}
+
+function parseTomlArray(contents: string, section: string, key: string): readonly string[] {
+  const sectionHeader = section.includes(".") ? `\\[${section.replace(/\./g, "\\.")}\\]` : `\\[${section}\\]`;
+  const sectionMatch = contents.match(new RegExp(`^${sectionHeader}\\s*$`, "m"));
+  if (!sectionMatch) return [];
+  const afterSection = contents.slice(sectionMatch.index! + sectionMatch[0].length);
+  const nextSection = afterSection.search(/^\[/m);
+  const block = nextSection >= 0 ? afterSection.slice(0, nextSection) : afterSection;
+  const keyMatch = block.match(new RegExp(`^${escapeRegExp(key)}\\s*=\\s*\\[([^\\]]*(?:\\n[^\\]]*)*?)\\]`, "m"));
+  if (!keyMatch?.[1]) return [];
+  return [...keyMatch[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]).filter((v): v is string => v !== undefined);
+}
+
+function parseTomlSection(contents: string, section: string): readonly string[] {
+  const sectionMatch = contents.match(new RegExp(`^\\[${escapeRegExp(section)}\\]\\s*$`, "m"));
+  if (!sectionMatch) return [];
+  const afterSection = contents.slice(sectionMatch.index! + sectionMatch[0].length);
+  const nextSection = afterSection.search(/^\[/m);
+  const block = nextSection >= 0 ? afterSection.slice(0, nextSection) : afterSection;
+  return [...block.matchAll(/^([a-zA-Z0-9_-]+)\s*=/gm)].map((m) => m[1]).filter((v): v is string => v !== undefined);
 }
 
 function escapeRegExp(value: string): string {
