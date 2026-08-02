@@ -66,6 +66,54 @@ export function lowConfidenceDiagnostic(
   });
 }
 
+export function unusedExportDiagnostic(
+  file: string,
+  exportName: string,
+  nodeId?: string,
+  span?: SourceSpan,
+): SoftwareGraphDiagnostic {
+  return createDiagnostic({
+    code: "UNUSED_EXPORT",
+    severity: "warning",
+    message: `Export "${exportName}" in ${file} is not imported by any other module in the graph. Consider removing it or marking it as internal.`,
+    nodeId,
+    span,
+    metadata: { file, exportName },
+  });
+}
+
+export function largeModuleDiagnostic(
+  file: string,
+  lineCount: number,
+  threshold: number,
+  nodeId?: string,
+): SoftwareGraphDiagnostic {
+  return createDiagnostic({
+    code: "LARGE_MODULE",
+    severity: "info",
+    message: `Module ${file} has ${lineCount} lines (threshold: ${threshold}). Large modules increase cognitive load — consider splitting into smaller, focused modules.`,
+    nodeId,
+    metadata: { file, lineCount, threshold },
+  });
+}
+
+export function deepNestingDiagnostic(
+  file: string,
+  depth: number,
+  maxDepth: number,
+  nodeId?: string,
+  span?: SourceSpan,
+): SoftwareGraphDiagnostic {
+  return createDiagnostic({
+    code: "DEEP_NESTING",
+    severity: "warning",
+    message: `Detected nesting depth of ${depth} in ${file} (max recommended: ${maxDepth}). Consider extracting nested logic into separate functions.`,
+    nodeId,
+    span,
+    metadata: { file, depth, maxDepth },
+  });
+}
+
 function withOptionalDiagnosticProperties(
   target: SoftwareGraphDiagnostic,
   optional: Omit<SoftwareGraphDiagnostic, "id" | "code" | "severity" | "message">,
