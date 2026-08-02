@@ -12,6 +12,8 @@ export function createDiagnosticSink(): DiagnosticSink {
     },
     list: () => [...diagnostics.values()].sort((left, right) => left.id.localeCompare(right.id)),
     hasErrors: () => [...diagnostics.values()].some((diagnostic) => diagnostic.severity === "error"),
+    count: () => diagnostics.size,
+    clear: () => diagnostics.clear(),
   };
 }
 
