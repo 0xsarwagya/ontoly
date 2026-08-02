@@ -5,6 +5,7 @@ import {
   type SoftwareGraphNode,
 } from "@0xsarwagya/ontoly-core";
 
+// Performance-optimized graph diffing for large repositories
 export type ModifiedNodeField =
   | "type"
   | "name"
