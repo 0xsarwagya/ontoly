@@ -169,7 +169,7 @@ function ensurePublicAccess(name, options) {
   }
 
   const output = `${result.stderr}\n${result.stdout}`;
-  if (!options.required && /E404|not found|already public|not allowed/i.test(output)) {
+  if (!options.required && /E404|E403|not found|already public|not allowed|forbidden/i.test(output)) {
     return;
   }
 
