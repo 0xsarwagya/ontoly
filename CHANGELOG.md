@@ -4,6 +4,13 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+## 1.3.0
+
+### Added
+
+- **`GUARDS` relationship type** in `@0xsarwagya/ontoly-core` — represents a guard protecting a route.
+- **Guard-to-route edge propagation** in `@0xsarwagya/ontoly-semantic` — `@UseGuards()` decorators now create `GUARDS` edges directly on route nodes, not just on handlers/controllers. Downstream tools can check `incoming(route)` for guard protection without traversing through handlers.
+
 ## 1.2.0
 
 Go language support — the third language in Ontoly. Validated across 3 real-world
