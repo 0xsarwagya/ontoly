@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-typescript",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Pure JavaScript and TypeScript semantic model analyzer for Ontoly.",
   "type": "module",
   "license": "AGPL-3.0-only",
