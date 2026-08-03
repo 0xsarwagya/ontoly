@@ -1,6 +1,6 @@
 # Known Limitations
 
-Ontoly v1.2.0 is intentionally conservative. Deterministic graph facts beat
+Ontoly v1.3.0 is intentionally conservative. Deterministic graph facts beat
 speculative ones. This page enumerates what Ontoly does not do so you know
 where the graph ends.
 
@@ -12,7 +12,7 @@ where the graph ends.
 - **OpenAPI** ships as an experimental parser (`@0xsarwagya/ontoly-parser-openapi`)
   that emits schema-driven facts.
 - **Prisma, Drizzle, tRPC, GraphQL SDL, and SQL** — Prisma and Drizzle ship
-  in v1.2.0 as JS/TS analyzers. GraphQL SDL parsing and SQL schema parsing
+  in v1.3.0 as JS/TS analyzers. GraphQL SDL parsing and SQL schema parsing
   remain roadmap work.
 - Runtime-generated module names, computed CommonJS exports, dynamically
   constructed import specifiers, and metaprogrammed decorators are not

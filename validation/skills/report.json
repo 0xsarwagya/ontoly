@@ -1,7 +1,7 @@
 {
   "status": "PASS",
-  "generatedAt": "2026-08-01T12:44:40.965Z",
-  "skillsRoot": "/Users/shrey/Desktop/personal/ontoly/skills",
+  "generatedAt": "2026-08-03T23:25:55.402Z",
+  "skillsRoot": "/Users/shrey/Desktop/work/ontoly/skills",
   "totalSkills": 14,
   "validSkills": 14,
   "issues": [],
@@ -11,8 +11,8 @@
       "title": "Architecture Review",
       "category": "architecture",
       "enhancement": "LLM Enhancement",
-      "version": "1.2.0",
-      "minimumOntolyVersion": "1.2.0",
+      "version": "1.3.0",
+      "minimumOntolyVersion": "1.3.0",
       "capabilities": [
         "ExplainArchitecture",
         "GraphStatistics",
@@ -22,15 +22,15 @@
       ],
       "deprecated": false,
       "description": "Review repository architecture using Ontoly Software Graph and MCP capabilities. Use when asked to explain architecture, module boundaries, package topology, service ownership, or architectural risk.",
-      "path": "/Users/shrey/Desktop/personal/ontoly/skills/architecture-review"
+      "path": "/Users/shrey/Desktop/work/ontoly/skills/architecture-review"
     },
     {
       "id": "codebase-onboarding",
       "title": "Codebase Onboarding",
       "category": "onboarding",
       "enhancement": "LLM Enhancement",
-      "version": "1.2.0",
-      "minimumOntolyVersion": "1.2.0",
+      "version": "1.3.0",
+      "minimumOntolyVersion": "1.3.0",
       "capabilities": [
         "ExplainArchitecture",
         "FindEntrypoints",
@@ -40,15 +40,15 @@
       ],
       "deprecated": false,
       "description": "Onboard a developer to a repository using Ontoly graph summaries. Use when asked to explain a new codebase, identify entrypoints, map packages, or suggest first files to inspect.",
-      "path": "/Users/shrey/Desktop/personal/ontoly/skills/codebase-onboarding"
+      "path": "/Users/shrey/Desktop/work/ontoly/skills/codebase-onboarding"
     },
     {
       "id": "configuration-analysis",
       "title": "Configuration Analysis",
       "category": "configuration",
       "enhancement": "LLM Enhancement",
-      "version": "1.2.0",
-      "minimumOntolyVersion": "1.2.0",
+      "version": "1.3.0",
+      "minimumOntolyVersion": "1.3.0",
       "capabilities": [
         "FindConfiguration",
         "FindConfigurationUsage",
@@ -58,15 +58,15 @@
       ],
       "deprecated": false,
       "description": "Audit configuration and environment variable usage through Ontoly configuration capabilities. Use when asked where env vars, build config, runtime config, or feature flags are read.",
-      "path": "/Users/shrey/Desktop/personal/ontoly/skills/configuration-analysis"
+      "path": "/Users/shrey/Desktop/work/ontoly/skills/configuration-analysis"
     },
     {
       "id": "dead-code-analysis",
       "title": "Dead Code Analysis",
       "category": "static-analysis",
       "enhancement": "LLM Enhancement",
-      "version": "1.2.0",
-      "minimumOntolyVersion": "1.2.0",
+      "version": "1.3.0",
+      "minimumOntolyVersion": "1.3.0",
       "capabilities": [
         "FindDeadCode",
         "FindUnusedFeature",
@@ -76,15 +76,15 @@
       ],
       "deprecated": false,
       "description": "Find potentially unused functions, methods, services, routes, or features using Ontoly dead-code and entrypoint capabilities. Use when asked what code appears unreachable or safe to remove.",
-      "path": "/Users/shrey/Desktop/personal/ontoly/skills/dead-code-analysis"
+      "path": "/Users/shrey/Desktop/work/ontoly/skills/dead-code-analysis"
     },
     {
       "id": "dependency-analysis",
       "title": "Dependency Analysis",
       "category": "dependencies",
       "enhancement": "LLM Enhancement",
-      "version": "1.2.0",
-      "minimumOntolyVersion": "1.2.0",
+      "version": "1.3.0",
+      "minimumOntolyVersion": "1.3.0",
       "capabilities": [
         "FindDependencies",
         "FindDependents",
@@ -94,15 +94,15 @@
       ],
       "deprecated": false,
       "description": "Analyze internal and package dependencies using Ontoly graph traversal. Use when asked which modules, packages, services, or files depend on each other.",
-      "path": "/Users/shrey/Desktop/personal/ontoly/skills/dependency-analysis"
+      "path": "/Users/shrey/Desktop/work/ontoly/skills/dependency-analysis"
     },
     {
       "id": "documentation",
       "title": "Documentation",
       "category": "documentation",
       "enhancement": "LLM Enhancement",
-      "version": "1.2.0",
-      "minimumOntolyVersion": "1.2.0",
+      "version": "1.3.0",
+      "minimumOntolyVersion": "1.3.0",
       "capabilities": [
         "ExplainArchitecture",
         "TraceRequestLifecycle",
@@ -112,15 +112,15 @@
       ],
       "deprecated": false,
       "description": "Draft graph-backed documentation from Ontoly summaries and traces. Use when asked to document architecture, APIs, modules, packages, or request lifecycles without re-parsing source files.",
-      "path": "/Users/shrey/Desktop/personal/ontoly/skills/documentation"
+      "path": "/Users/shrey/Desktop/work/ontoly/skills/documentation"
     },
     {
       "id": "framework-analysis",
       "title": "Framework Analysis",
       "category": "frameworks",
       "enhancement": "LLM Enhancement",
-      "version": "1.2.0",
-      "minimumOntolyVersion": "1.2.0",
+      "version": "1.3.0",
+      "minimumOntolyVersion": "1.3.0",
       "capabilities": [
         "ExplainArchitecture",
         "GraphStatistics",
@@ -130,15 +130,15 @@
       ],
       "deprecated": false,
       "description": "Explain detected frameworks and framework-specific graph coverage using Ontoly framework reports. Use when asked whether a repository uses NestJS, Next.js, React, Turborepo, or other supported framework concepts.",
-      "path": "/Users/shrey/Desktop/personal/ontoly/skills/framework-analysis"
+      "path": "/Users/shrey/Desktop/work/ontoly/skills/framework-analysis"
     },
     {
       "id": "impact-analysis",
       "title": "Impact Analysis",
       "category": "change-analysis",
       "enhancement": "LLM Enhancement",
-      "version": "1.2.0",
-      "minimumOntolyVersion": "1.2.0",
+      "version": "1.3.0",
+      "minimumOntolyVersion": "1.3.0",
       "capabilities": [
         "ImpactAnalysis",
         "FindDependents",
@@ -148,15 +148,15 @@
       ],
       "deprecated": false,
       "description": "Analyze change impact using Ontoly dependency and dependent traversal. Use when asked what breaks if a symbol, service, route, package, or repository node changes or is removed.",
-      "path": "/Users/shrey/Desktop/personal/ontoly/skills/impact-analysis"
+      "path": "/Users/shrey/Desktop/work/ontoly/skills/impact-analysis"
     },
     {
       "id": "migration-analysis",
       "title": "Migration Analysis",
       "category": "migration",
       "enhancement": "LLM Enhancement",
-      "version": "1.2.0",
-      "minimumOntolyVersion": "1.2.0",
+      "version": "1.3.0",
+      "minimumOntolyVersion": "1.3.0",
       "capabilities": [
         "ExplainArchitecture",
         "ImpactAnalysis",
@@ -166,15 +166,15 @@
       ],
       "deprecated": false,
       "description": "Plan migrations using Ontoly architecture, dependency, impact, and configuration evidence. Use when asked to migrate frameworks, packages, APIs, modules, or runtime configuration.",
-      "path": "/Users/shrey/Desktop/personal/ontoly/skills/migration-analysis"
+      "path": "/Users/shrey/Desktop/work/ontoly/skills/migration-analysis"
     },
     {
       "id": "performance-analysis",
       "title": "Performance Analysis",
       "category": "performance",
       "enhancement": "LLM Enhancement",
-      "version": "1.2.0",
-      "minimumOntolyVersion": "1.2.0",
+      "version": "1.3.0",
+      "minimumOntolyVersion": "1.3.0",
       "capabilities": [
         "TraceExecution",
         "TraceRequestLifecycle",
@@ -184,15 +184,15 @@
       ],
       "deprecated": false,
       "description": "Investigate performance-sensitive architecture using Ontoly call, dependency, and graph statistics evidence. Use when asked about hot paths, expensive flows, or performance investigation starting points.",
-      "path": "/Users/shrey/Desktop/personal/ontoly/skills/performance-analysis"
+      "path": "/Users/shrey/Desktop/work/ontoly/skills/performance-analysis"
     },
     {
       "id": "refactoring",
       "title": "Refactoring",
       "category": "refactoring",
       "enhancement": "LLM Enhancement",
-      "version": "1.2.0",
-      "minimumOntolyVersion": "1.2.0",
+      "version": "1.3.0",
+      "minimumOntolyVersion": "1.3.0",
       "capabilities": [
         "ImpactAnalysis",
         "FindDependencies",
@@ -202,15 +202,15 @@
       ],
       "deprecated": false,
       "description": "Plan refactors with Ontoly impact and dependency evidence. Use when asked to move, rename, split, extract, or remove code while preserving behavior.",
-      "path": "/Users/shrey/Desktop/personal/ontoly/skills/refactoring"
+      "path": "/Users/shrey/Desktop/work/ontoly/skills/refactoring"
     },
     {
       "id": "request-tracing",
       "title": "Request Tracing",
       "category": "request-flow",
       "enhancement": "LLM Enhancement",
-      "version": "1.2.0",
-      "minimumOntolyVersion": "1.2.0",
+      "version": "1.3.0",
+      "minimumOntolyVersion": "1.3.0",
       "capabilities": [
         "TraceRequestLifecycle",
         "FindResponsibleFunction",
@@ -220,15 +220,15 @@
       ],
       "deprecated": false,
       "description": "Trace request lifecycle behavior through Ontoly route, handler, and call graph capabilities. Use when asked to trace login, API, controller, route, or request execution flow.",
-      "path": "/Users/shrey/Desktop/personal/ontoly/skills/request-tracing"
+      "path": "/Users/shrey/Desktop/work/ontoly/skills/request-tracing"
     },
     {
       "id": "sdk-generation",
       "title": "Sdk Generation",
       "category": "sdk-planning",
       "enhancement": "LLM Enhancement",
-      "version": "1.2.0",
-      "minimumOntolyVersion": "1.2.0",
+      "version": "1.3.0",
+      "minimumOntolyVersion": "1.3.0",
       "capabilities": [
         "ExplainArchitecture",
         "TraceRequestLifecycle",
@@ -238,15 +238,15 @@
       ],
       "deprecated": false,
       "description": "Plan SDK generation from Ontoly API, route, model, and operation evidence. Use when asked to design or scope SDK generation without implementing code generation in the skill layer.",
-      "path": "/Users/shrey/Desktop/personal/ontoly/skills/sdk-generation"
+      "path": "/Users/shrey/Desktop/work/ontoly/skills/sdk-generation"
     },
     {
       "id": "security-review",
       "title": "Security Review",
       "category": "security",
       "enhancement": "LLM Enhancement",
-      "version": "1.2.0",
-      "minimumOntolyVersion": "1.2.0",
+      "version": "1.3.0",
+      "minimumOntolyVersion": "1.3.0",
       "capabilities": [
         "FindAuthenticationFlow",
         "FindResponsibleFunction",
@@ -256,12 +256,12 @@
       ],
       "deprecated": false,
       "description": "Review authentication, authorization, and security-sensitive flows using Ontoly graph evidence. Use when asked about auth ownership, protected routes, permissions, guards, or security risk.",
-      "path": "/Users/shrey/Desktop/personal/ontoly/skills/security-review"
+      "path": "/Users/shrey/Desktop/work/ontoly/skills/security-review"
     }
   ],
   "agentEvaluation": {
     "status": "PASS",
-    "generatedAt": "2026-08-01T12:44:40.961Z",
+    "generatedAt": "2026-08-03T23:25:55.402Z",
     "totalSkills": 14,
     "passedSkills": 14,
     "aggregate": {

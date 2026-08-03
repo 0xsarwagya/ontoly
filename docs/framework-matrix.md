@@ -77,7 +77,7 @@ Shipped in `@0xsarwagya/ontoly-semantic-go` and registered by
 | Turborepo workspaces | Validated | Multi-workspace graph roll-up |
 | pnpm workspaces | Validated | Workspace resolution + package boundaries |
 | OpenAPI | Experimental | Schema-driven graph facts via `@0xsarwagya/ontoly-parser-openapi` |
-| GraphQL | Roadmap | Schema-driven graph facts, not shipped in v1.2.0 |
+| GraphQL | Roadmap | Schema-driven graph facts, not shipped in v1.3.0 |
 | SQL | Roadmap | Not shipped |
 
 ## Registry behavior

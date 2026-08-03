@@ -4,8 +4,8 @@ description: Trace request lifecycle behavior through Ontoly route, handler, and
 license: AGPL-3.0-only
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "1.2.0"
-  ontoly.min.version: "1.2.0"
+  ontoly.skill.version: "1.3.0"
+  ontoly.min.version: "1.3.0"
   ontoly.capabilities: "TraceRequestLifecycle, FindResponsibleFunction, TraceExecution, FindNode, EvidencePack"
   ontoly.category: "request-flow"
   ontoly.enhancement: "LLM Enhancement"

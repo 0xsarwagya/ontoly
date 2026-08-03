@@ -71,5 +71,5 @@ description: "Supported, experimental, and non-goal surfaces across Ontoly packa
 | Binary graph format | Roadmap | Waiting for Software Graph spec 1.0 stabilization |
 | Hosted service | Non-goal | Ontoly is a library, not a SaaS |
 | AI reasoning | Non-goal | LLM-facing usage goes through Skills + MCP, never inside the compiler |
-| GraphQL SDL parser | Roadmap | Not in v1.2.0 |
-| SQL schema parser | Roadmap | Not in v1.2.0 |
+| GraphQL SDL parser | Roadmap | Not in v1.3.0 |
+| SQL schema parser | Roadmap | Not in v1.3.0 |

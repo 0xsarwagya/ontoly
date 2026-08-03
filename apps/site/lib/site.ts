@@ -14,7 +14,7 @@ export const SITE = {
   skillsSh: "https://www.skills.sh/?q=0xsarwagya/ontoly",
   releases: "https://github.com/0xsarwagya/ontoly/releases",
   sponsor: "https://github.com/sponsors/0xsarwagya",
-  version: "1.2.0",
+  version: "1.3.0",
   keywords: [
     "Ontoly",
     "Software Graph",
