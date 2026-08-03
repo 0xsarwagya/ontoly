@@ -117,7 +117,7 @@ for (const directory of packageDirs) {
     publishArgs.push("--provenance");
   }
   run("pnpm", publishArgs, join(root, directory));
-  ensurePublicAccess(manifest.name, { required: true });
+  ensurePublicAccess(manifest.name, { required: false });
 }
 
 function isPublished(name, version) {
