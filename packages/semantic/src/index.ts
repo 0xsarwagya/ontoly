@@ -256,6 +256,7 @@ export function generateCompilerArtifacts(input: GenerateCompilerArtifactsInput)
   addTypeScriptRelationships(input.project, symbols, relationships);
   addFrameworkDetections(input.project, detections, symbols);
   addSemanticFacts(input.project, facts, symbols, relationships);
+  propagateGuardEdgesToRoutes(relationships);
 
   return {
     symbols: [...symbols.values()].sort(compareSymbols),
@@ -3489,6 +3490,45 @@ function groupBy<T>(items: readonly T[], getKey: (item: T) => string): ReadonlyM
 
 function isSemanticTarget(value: SemanticTarget | undefined): value is SemanticTarget {
   return Boolean(value);
+}
+
+function propagateGuardEdgesToRoutes(relationships: Map<string, CompilerRelationship>): void {
+  const authorizes: CompilerRelationship[] = [];
+  const belongsTo = new Map<string, string[]>();
+  const handles = new Map<string, string[]>();
+
+  for (const rel of relationships.values()) {
+    if (rel.type === "AUTHORIZES") {
+      authorizes.push(rel);
+    } else if (rel.type === "BELONGS_TO") {
+      const list = belongsTo.get(rel.to) ?? [];
+      list.push(rel.from);
+      belongsTo.set(rel.to, list);
+    } else if (rel.type === "HANDLES") {
+      const list = handles.get(rel.to) ?? [];
+      list.push(rel.from);
+      handles.set(rel.to, list);
+    }
+  }
+
+  for (const auth of authorizes) {
+    const routeIds = new Set<string>();
+    for (const routeId of belongsTo.get(auth.to) ?? []) routeIds.add(routeId);
+    for (const routeId of handles.get(auth.to) ?? []) routeIds.add(routeId);
+
+    for (const routeId of routeIds) {
+      const id = createEdgeId("GUARDS", auth.from, routeId);
+      if (!relationships.has(id)) {
+        relationships.set(id, {
+          id,
+          type: "GUARDS",
+          from: auth.from,
+          to: routeId,
+          evidence: [{ kind: "semantic", confidence: "inferred", description: "guard protects route via controller/handler" }],
+        });
+      }
+    }
+  }
 }
 
 function evidence(span: SourceSpan | undefined, description: string, confidence: EdgeEvidence["confidence"] = "exact"): readonly EdgeEvidence[] {
