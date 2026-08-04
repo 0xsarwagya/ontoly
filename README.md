@@ -19,7 +19,7 @@ generate embeddings, or make probabilistic guesses.
 
 ## Status
 
-Ontoly `v1.0.0` is the first stable release. Current release: `v1.3.0`.
+Ontoly `v1.0.0` is the first stable release. Current release: `v1.3.1`.
 
 The public contract is frozen, and the repository includes:
 

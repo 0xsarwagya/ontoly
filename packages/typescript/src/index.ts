@@ -2757,7 +2757,8 @@ function listSourceFiles(root: string, allowJavaScript: boolean): readonly strin
 }
 
 function loadProjectCompilerOptions(root: string, overrides?: ts.CompilerOptions | undefined): ts.CompilerOptions {
-  const configPath = ts.findConfigFile(root, ts.sys.fileExists, "tsconfig.json")
+  const configPath = ts.findConfigFile(root, ts.sys.fileExists, "tsconfig.build.json")
+    ?? ts.findConfigFile(root, ts.sys.fileExists, "tsconfig.json")
     ?? ts.findConfigFile(root, ts.sys.fileExists, "jsconfig.json");
   const options = configPath ? readCompilerOptionsFromConfig(configPath) : {};
 

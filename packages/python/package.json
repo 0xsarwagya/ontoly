@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-python",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Pure Python semantic model analyzer for Ontoly, powered by tree-sitter.",
   "type": "module",
   "license": "AGPL-3.0-only",

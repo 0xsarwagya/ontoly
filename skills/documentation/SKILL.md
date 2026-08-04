@@ -4,8 +4,8 @@ description: Draft graph-backed documentation from Ontoly summaries and traces. 
 license: AGPL-3.0-only
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "1.3.0"
-  ontoly.min.version: "1.3.0"
+  ontoly.skill.version: "1.3.1"
+  ontoly.min.version: "1.3.1"
   ontoly.capabilities: "ExplainArchitecture, TraceRequestLifecycle, InspectModule, GraphStatistics, EvidencePack"
   ontoly.category: "documentation"
   ontoly.enhancement: "LLM Enhancement"

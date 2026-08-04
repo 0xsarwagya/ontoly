@@ -1,6 +1,6 @@
 {
   "name": "@0xsarwagya/ontoly-repository",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Software intelligence engine that builds a deterministic Software Graph from JavaScript, TypeScript, Python, and Go repositories.",
   "private": true,
   "type": "module",

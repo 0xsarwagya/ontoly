@@ -4,6 +4,12 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+## 1.3.1
+
+### Fixed
+
+- **`TYPESCRIPT_BROKEN_IMPORT` false positives on NestJS projects** — `loadProjectCompilerOptions` now checks `tsconfig.build.json` first, then `tsconfig.json`, then `jsconfig.json`. Projects using NestJS conventions with path mappings in `tsconfig.build.json` no longer produce spurious broken-import findings.
+
 ## 1.3.0
 
 ### Added
