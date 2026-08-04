@@ -4,6 +4,13 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+## 1.3.3
+
+### Fixed
+
+- **False-positive `TYPESCRIPT_BROKEN_IMPORT` on non-source files** — `resolveImport()` now accepts imports that TypeScript resolves to real files on disk (`.json`, `.css`, `.scss`, `.svg`, `.wasm`, etc.) even when they are not in the analyzed source set. Previously, any import target not in `relativeFiles` was flagged as broken.
+- **Diagnostic tripling in capabilities** — `repositoryHealth` and `riskAnalysis` capabilities no longer re-emit all compiler diagnostics as their own findings. Diagnostics are now counted in statistics instead of duplicated.
+
 ## 1.3.2
 
 ### Fixed

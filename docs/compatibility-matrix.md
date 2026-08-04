@@ -1,20 +1,20 @@
 ---
 title: "Compatibility Matrix"
-description: "Runtime, package, Software Graph, Agent Skill, MCP, CLI, and release compatibility for Ontoly v1.3.2."
+description: "Runtime, package, Software Graph, Agent Skill, MCP, CLI, and release compatibility for Ontoly v1.3.3."
 ---
 
 ## Runtime
 
 | Surface | Version | Status |
 | ------- | ------- | ------ |
-| Ontoly packages | 1.3.2 | Stable |
+| Ontoly packages | 1.3.3 | Stable |
 | Node.js | ≥ 22 | Required |
 | pnpm | ≥ 10 | Required for source builds |
 | Package module format | ESM | Supported |
 | TypeScript (dev) | 5.9 | Supported |
 
 Ontoly requires Node.js 22 or newer. Node.js 20 was removed from the CI matrix
-in v1.3.2 and is not supported.
+in v1.3.3 and is not supported.
 
 ## Languages
 
@@ -50,7 +50,7 @@ Skills declare:
 See [skills/COMPATIBILITY_MATRIX.md](../skills/COMPATIBILITY_MATRIX.md) for
 the full skill-to-Ontoly compatibility table.
 
-## Deprecations in v1.3.2
+## Deprecations in v1.3.3
 
 - Node.js 20 was removed from CI and is no longer supported.
 - `createPlaceholderAnalyzer()` was removed — every framework analyzer now
