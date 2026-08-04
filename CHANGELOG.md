@@ -4,6 +4,12 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+## 1.3.2
+
+### Fixed
+
+- **Per-file tsconfig resolution for multi-project repos** — import resolution now finds the nearest `tsconfig.build.json` or `tsconfig.json` per source file directory instead of using only the root config. Monorepos with separate tsconfigs per app/lib (e.g. `apps/api/tsconfig.build.json` with different path mappings) no longer produce false-positive `TYPESCRIPT_BROKEN_IMPORT` findings.
+
 ## 1.3.1
 
 ### Fixed

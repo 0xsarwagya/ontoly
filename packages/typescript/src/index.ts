@@ -503,6 +503,7 @@ export function analyzeTypeScriptProject(input: AnalyzeTypeScriptProjectInput): 
   const declarationIds = new Map<ts.Node, string>();
   const contexts: AnalyzerContext[] = [];
   const filesModel: TypeScriptSourceFile[] = [];
+  const resolveTsConfig = input.host ? undefined : createTsConfigResolver(root, program.getCompilerOptions());
 
   for (const sourceFile of sourceFiles) {
     const relativeFile = toRelativePath(root, sourceFile.fileName);
@@ -516,13 +517,17 @@ export function analyzeTypeScriptProject(input: AnalyzeTypeScriptProjectInput): 
     };
     filesModel.push(sourceFileModel);
 
+    const fileCompilerOptions = resolveTsConfig
+      ? resolveTsConfig(dirname(resolve(sourceFile.fileName)))
+      : program.getCompilerOptions();
+
     const context: AnalyzerContext = {
       root,
       absoluteFile: sourceFileModel.absoluteFile,
       relativeFile,
       sourceFile,
       checker,
-      compilerOptions: program.getCompilerOptions(),
+      compilerOptions: fileCompilerOptions,
       moduleId,
       symbols,
       classes: [],
@@ -2777,6 +2782,41 @@ function readCompilerOptionsFromConfig(configPath: string): ts.CompilerOptions {
 
   const parsed = ts.parseJsonConfigFileContent(config.config, ts.sys, dirname(configPath));
   return parsed.options;
+}
+
+function createTsConfigResolver(root: string, globalOptions: ts.CompilerOptions): (fileDir: string) => ts.CompilerOptions {
+  const cache = new Map<string, ts.CompilerOptions>();
+  const resolvedRoot = resolve(root);
+
+  return (fileDir: string): ts.CompilerOptions => {
+    const cached = cache.get(fileDir);
+    if (cached) return cached;
+
+    let dir = resolve(fileDir);
+    while (dir.startsWith(resolvedRoot)) {
+      const dirCached = cache.get(dir);
+      if (dirCached) {
+        cache.set(fileDir, dirCached);
+        return dirCached;
+      }
+
+      const configPath = ts.findConfigFile(dir, ts.sys.fileExists, "tsconfig.build.json")
+        ?? ts.findConfigFile(dir, ts.sys.fileExists, "tsconfig.json");
+      if (configPath) {
+        const options = { ...readCompilerOptionsFromConfig(configPath) };
+        cache.set(fileDir, options);
+        cache.set(dir, options);
+        return options;
+      }
+
+      const parent = dirname(dir);
+      if (parent === dir) break;
+      dir = parent;
+    }
+
+    cache.set(fileDir, globalOptions);
+    return globalOptions;
+  };
 }
 
 function declarationName(name: ts.Identifier | undefined, node: ts.Node): string | undefined {
