@@ -961,18 +961,16 @@ function repositoryHealth(context: CapabilityContext): CapabilityResult {
   const stats = context.query.stats();
   const cycles = context.query.detectCycles(["IMPORTS", "DEPENDS_ON"]);
   const dead = deadCodeNodes(context);
-  const diagnostics = context.graph.diagnostics.map(serializeDiagnostic);
   const hotspots = mostConnected(context, ["Module", "Package", "Service", "Provider", "Route"], 10);
 
   return result(context, {
-    summary: `Repository health: ${diagnostics.length} diagnostic(s), ${cycles.length} import/dependency cycle(s), ${dead.length} potential dead node(s).`,
+    summary: `Repository health: ${context.graph.diagnostics.length} diagnostic(s), ${cycles.length} import/dependency cycle(s), ${dead.length} potential dead node(s).`,
     evidence: [
       statisticEvidence("Graph statistics and diagnostics define repository health.", stats),
       nodeEvidence("Potential dead code has no inbound semantic usage evidence.", dead),
     ],
     affectedNodes: groupNodes(dead),
-    statistics: { ...serializeStats(stats), cycles: cycles.map((cycle) => [...cycle]), hotspots },
-    diagnostics,
+    statistics: { ...serializeStats(stats), cycles: cycles.map((cycle) => [...cycle]), hotspots, diagnosticCount: context.graph.diagnostics.length },
     recommendations: repositoryRecommendations(context, stats),
   });
 }
@@ -1045,8 +1043,7 @@ function riskAnalysis(context: CapabilityContext): CapabilityResult {
       nodeEvidence("High-degree nodes are change-risk hotspots.", hotspotNodesResolved),
     ],
     affectedNodes: groupNodes(hotspotNodesResolved),
-    statistics: { cycles: cycles.map((cycle) => [...cycle]), diagnostics: context.graph.diagnostics.length, hotspots },
-    diagnostics: context.graph.diagnostics.map(serializeDiagnostic),
+    statistics: { cycles: cycles.map((cycle) => [...cycle]), diagnosticCount: context.graph.diagnostics.length, hotspots },
     recommendations: ["Prioritize high-degree services, modules, and packages for impact checks before release."],
   });
 }

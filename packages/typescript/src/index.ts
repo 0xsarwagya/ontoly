@@ -395,6 +395,7 @@ export const ECMASCRIPT_SOURCE_EXTENSIONS = [
   ...TYPESCRIPT_SOURCE_EXTENSIONS,
   ...JAVASCRIPT_SOURCE_EXTENSIONS,
 ] as const;
+const NON_SOURCE_EXTENSIONS = [".json", ".css", ".scss", ".less", ".svg", ".png", ".jpg", ".wasm"] as const;
 export type SourceLanguage = "javascript" | "typescript";
 const MAX_INCREMENTAL_PROGRAMS = 1;
 const incrementalPrograms = new Map<string, ts.EmitAndSemanticDiagnosticsBuilderProgram>();
@@ -2426,6 +2427,18 @@ function resolveImport(
     };
   }
 
+  // TypeScript resolved it to a real file that exists on disk but isn't in
+  // our analyzed source set (e.g. .json, .css, generated .d.ts).  This is a
+  // valid import — not broken.
+  if (resolvedFile && ts.sys.fileExists(resolve(context.root, resolvedFile))) {
+    return {
+      targetId: createNodeId({ type: "Module", name: resolvedFile }),
+      targetKind: "Module",
+      targetName: resolvedFile,
+      targetFile: resolvedFile,
+    };
+  }
+
   if (!specifier.startsWith(".")) {
     const packageName = packageNameFromSpecifier(specifier);
     return {
@@ -2440,6 +2453,8 @@ function resolveImport(
     base,
     ...ECMASCRIPT_SOURCE_EXTENSIONS.map((extension) => `${base}${extension}`),
     ...ECMASCRIPT_SOURCE_EXTENSIONS.map((extension) => `${base}/index${extension}`),
+    // JSON and other non-source imports (resolveJsonModule, css modules, etc.)
+    ...NON_SOURCE_EXTENSIONS.map((extension) => `${base}${extension}`),
     ...(ECMASCRIPT_SOURCE_EXTENSIONS.some((extension) => base.endsWith(extension))
       ? ECMASCRIPT_SOURCE_EXTENSIONS.map((extension) => `${base.slice(0, base.lastIndexOf("."))}${extension}`)
       : []),
@@ -2452,6 +2467,20 @@ function resolveImport(
       targetKind: "Module",
       targetName: targetFile,
       targetFile,
+    };
+  }
+
+  // Check if any candidate physically exists on disk even though it's not an
+  // analyzed source file (e.g. .json fixtures, .css modules, generated files).
+  const existsOnDisk = candidates.find((candidate) =>
+    ts.sys.fileExists(resolve(context.root, candidate)),
+  );
+  if (existsOnDisk) {
+    return {
+      targetId: createNodeId({ type: "Module", name: existsOnDisk }),
+      targetKind: "Module",
+      targetName: existsOnDisk,
+      targetFile: existsOnDisk,
     };
   }
 
