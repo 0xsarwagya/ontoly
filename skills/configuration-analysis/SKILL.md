@@ -4,8 +4,8 @@ description: Audit configuration and environment variable usage through Ontoly c
 license: AGPL-3.0-only
 compatibility: Portable Agent Skills format; requires Ontoly CLI and MCP-capable or CLI-capable coding agent.
 metadata:
-  ontoly.skill.version: "1.3.2"
-  ontoly.min.version: "1.3.2"
+  ontoly.skill.version: "1.3.3"
+  ontoly.min.version: "1.3.3"
   ontoly.capabilities: "FindConfiguration, FindConfigurationUsage, FindDependencies, GraphStatistics, EvidencePack"
   ontoly.category: "configuration"
   ontoly.enhancement: "LLM Enhancement"
