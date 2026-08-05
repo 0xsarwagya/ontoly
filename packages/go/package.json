@@ -36,9 +36,9 @@
     "access": "public"
   },
   "devDependencies": {
-    "@types/node": "^22.15.3",
+    "@types/node": "^26.1.2",
     "tsup": "^8.3.5",
-    "vitest": "^3.0.0"
+    "vitest": "^4.1.10"
   },
   "bugs": {
     "url": "https://github.com/0xsarwagya/ontoly/issues"
