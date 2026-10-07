@@ -4,6 +4,8 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+## 1.3.4
+
 ### Fixed
 
 - **File discovery honours `.gitignore`.** Inside a Git work tree, the compiler lists files the way Git does (`git ls-files --cached --others --exclude-standard`). Gitignored build output and generated code are no longer indexed, and nested repositories, such as submodules or worktrees checked out inside the tree, are skipped. The fixed skip list and `exclude` still apply on top. Outside Git, the directory walk is unchanged.
