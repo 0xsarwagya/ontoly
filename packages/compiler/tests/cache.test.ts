@@ -1,4 +1,4 @@
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createNodeId } from "@0xsarwagya/ontoly-core";
@@ -28,6 +28,7 @@ describe("incremental compiler cache", () => {
     };
 
     const cold = await buildSoftwareGraphWithArtifacts(options);
+    const committed = (await stat(join(cacheDir, "cache.json"))).mtimeMs;
     const warm = await buildSoftwareGraphWithArtifacts({
       ...options,
       onProgress: (event) => {
@@ -38,6 +39,9 @@ describe("incremental compiler cache", () => {
     expect(cold.status).toBe("success");
     expect(cold.cache).toMatchObject({ hit: false, reason: "missing" });
     expect(warm.cache).toMatchObject({ hit: true, reason: "hit" });
+    // A hit reuses the snapshot it verified instead of writing the same files again.
+    expect((await stat(join(cacheDir, "cache.json"))).mtimeMs).toBe(committed);
+    expect((await buildSoftwareGraphWithArtifacts(options)).cache).toMatchObject({ hit: true, reason: "hit" });
     expect(warm.graph?.metadata.deterministicHash).toBe(cold.graph?.metadata.deterministicHash);
     expect(warm.products.get("fixture-product")).toEqual({ version: "1.0.0" });
     expect(executions).toBe(1);

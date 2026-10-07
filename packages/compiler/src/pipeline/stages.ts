@@ -218,7 +218,8 @@ function createDefaultStage(id: CompilerStageId): CompilerStage {
           };
           const [artifacts] = await Promise.all([
             context.invocation.write ? persistGraph(state.graph, outputOptions) : undefined,
-            context.invocation.cacheEnabled
+            // A hit loaded and verified this exact snapshot. Writing it again only rehashed and rewrote ~130 MB.
+            context.invocation.cacheEnabled && !state.cache?.hit
               ? persistCompilerSnapshot(
                 state.graph,
                 compilerCacheOptions(context),

@@ -29,6 +29,12 @@ All notable Ontoly changes are tracked here.
   - `ontoly search`: 1.7 s → 0.4 s of ranking, 3.4 s → 1.8 s end to end;
   - MCP searches and capabilities: 0.3 to 0.5 s each.
 
+- **Warm builds are 27% faster, with byte-identical output.** On a 3,148-file repository, an unchanged `ontoly build .` went from 17.2 s to 12.5 s:
+  - a cache hit no longer rewrites and rehashes the compiler snapshot it has just verified, about 130 MB;
+  - splitting nodes and relationships by type copied each group once per element, a quadratic pass that took 0.9 s on 72,000 relationships;
+  - `stableStringify`, behind every graph and index hash, sorts each object shape's keys once;
+  - building the semantic index checks alias noise only until it has the 20 aliases it keeps, and stops sorting terms whose order can't matter: 7.2 s → 6.0 s.
+
 ### Changed
 
 - **Releases publish with npm trusted publishing.** The publish workflow authenticates to npm with the GitHub Actions OIDC token instead of a stored `NPM_TOKEN`, so there is no publish token to rotate or to expire mid-release. Packages are packed with pnpm, which resolves `workspace:` dependencies, and published with npm 11, which supports trusted publishing. `NPM_TOKEN` remains a fallback until every package trusts the workflow, and the redundant `npm access` step, which needs a token, is gone.

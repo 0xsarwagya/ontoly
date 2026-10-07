@@ -337,7 +337,12 @@ function architectureGraph(graph: SoftwareGraph): SoftwareGraph {
 function groupNodesByType(nodes: readonly SoftwareGraphNode[]): readonly (readonly [NodeType, readonly SoftwareGraphNode[]])[] {
   const groups = new Map<NodeType, SoftwareGraphNode[]>();
   for (const node of nodes) {
-    groups.set(node.type, [...(groups.get(node.type) ?? []), node]);
+    const group = groups.get(node.type);
+    if (group) {
+      group.push(node);
+    } else {
+      groups.set(node.type, [node]);
+    }
   }
   return [...groups.entries()]
     .map(([type, values]) => [type, values.sort(compareNodes)] as const)
@@ -347,7 +352,12 @@ function groupNodesByType(nodes: readonly SoftwareGraphNode[]): readonly (readon
 function groupEdgesByType(edges: readonly SoftwareGraphEdge[]): readonly (readonly [RelationshipType, readonly SoftwareGraphEdge[]])[] {
   const groups = new Map<RelationshipType, SoftwareGraphEdge[]>();
   for (const edge of edges) {
-    groups.set(edge.type, [...(groups.get(edge.type) ?? []), edge]);
+    const group = groups.get(edge.type);
+    if (group) {
+      group.push(edge);
+    } else {
+      groups.set(edge.type, [edge]);
+    }
   }
   return [...groups.entries()]
     .map(([type, values]) => [type, values.sort(compareEdges)] as const)
