@@ -2020,12 +2020,16 @@ function metadataTextValues(metadata: JsonObject | undefined): readonly string[]
   return values;
 }
 
+// Reads metadata as JSON would keep it, so the graph a build just compiled and the same graph read back from disk
+// give the same index. Before, a key with an undefined value, such as a tsconfig without `extends`, was indexed
+// only in cold builds.
 function collectMetadataText(value: unknown, values: string[], depth: number, seen: WeakSet<object>): void {
   if (
     depth > SEMANTIC_METADATA_DEPTH_LIMIT ||
     values.length >= SEMANTIC_METADATA_VALUES_LIMIT ||
     value === null ||
-    value === undefined
+    value === undefined ||
+    (typeof value === "number" && !Number.isFinite(value))
   ) {
     return;
   }
@@ -2052,6 +2056,7 @@ function collectMetadataText(value: unknown, values: string[], depth: number, se
     }
     seen.add(value);
     for (const [key, entry] of Object.entries(value as Record<string, unknown>)
+      .filter(([, entry]) => entry !== undefined && typeof entry !== "function" && typeof entry !== "symbol")
       .sort(([left], [right]) => left.localeCompare(right))
       .slice(0, SEMANTIC_METADATA_ENTRY_LIMIT)) {
       if (isNoisyMetadataKey(key)) {

@@ -34,6 +34,7 @@ All notable Ontoly changes are tracked here.
   - splitting nodes and relationships by type copied each group once per element, a quadratic pass that took 0.9 s on 72,000 relationships;
   - `stableStringify`, behind every graph and index hash, sorts each object shape's keys once;
   - building the semantic index checks alias noise only until it has the 20 aliases it keeps, and stops sorting terms whose order can't matter: 7.2 s → 6.0 s.
+- **Cold and warm builds produce the same semantic index.** A metadata key whose value is `undefined`, such as `extends` on a tsconfig without one, was indexed when the graph had just been compiled, but not when it came from the cache, which stores it as JSON and so drops the key. The index now reads metadata the way JSON keeps it. Warm builds are unchanged.
 
 ### Changed
 
