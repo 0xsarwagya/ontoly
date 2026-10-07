@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
@@ -106,18 +107,37 @@ for (const directory of packageDirs) {
 
   if (isPublished(manifest.name, manifest.version)) {
     console.log(`Already published ${manifest.name}@${manifest.version}; ensuring dist-tag ${publishTag}.`);
-    run("npm", ["dist-tag", "add", `${manifest.name}@${manifest.version}`, publishTag], root);
-    ensurePublicAccess(manifest.name, { required: false });
+    // A rerun only needs this; trusted publishing allows dist-tag only when the trust grants it, so warn.
+    if (!tryRun("npm", ["dist-tag", "add", `${manifest.name}@${manifest.version}`, publishTag], root)) {
+      console.warn(`Could not set dist-tag ${publishTag} on ${manifest.name}@${manifest.version}; set it by hand.`);
+    }
     continue;
   }
 
   console.log(`Publishing ${manifest.name}@${manifest.version} with dist-tag ${publishTag}...`);
-  const publishArgs = ["publish", "--access", "public", "--no-git-checks", "--tag", publishTag];
+  // pnpm packs, so workspace:* dependencies become real versions; npm publishes, because only the npm CLI
+  // authenticates with npm trusted publishing (OIDC). It tries OIDC first and falls back to NODE_AUTH_TOKEN.
+  const tarball = pack(join(root, directory));
+  const publishArgs = ["publish", tarball, "--access", "public", "--tag", publishTag];
   if (process.env.NPM_PROVENANCE === "true") {
     publishArgs.push("--provenance");
   }
-  run("pnpm", publishArgs, join(root, directory));
-  ensurePublicAccess(manifest.name, { required: false });
+  try {
+    run("npm", publishArgs, join(root, directory));
+  } finally {
+    rmSync(dirname(tarball), { recursive: true, force: true });
+  }
+}
+
+/** Packs the package with pnpm into a fresh directory and returns the tarball's path. */
+function pack(packageDirectory) {
+  const destination = mkdtempSync(join(tmpdir(), "ontoly-pack-"));
+  run("pnpm", ["pack", "--pack-destination", destination], packageDirectory);
+  const tarballs = readdirSync(destination).filter((file) => file.endsWith(".tgz"));
+  if (tarballs.length !== 1) {
+    throw new Error(`Expected one tarball from pnpm pack in ${packageDirectory}, found ${tarballs.length}`);
+  }
+  return join(destination, tarballs[0]);
 }
 
 function isPublished(name, version) {
@@ -138,6 +158,10 @@ function isPublished(name, version) {
   throw new Error(`Could not check npm version for ${name}@${version}:\n${result.stderr || result.stdout}`);
 }
 
+function tryRun(command, args, cwd) {
+  return spawnSync(command, args, { cwd, encoding: "utf8", stdio: "inherit", env: process.env }).status === 0;
+}
+
 function run(command, args, cwd) {
   const result = spawnSync(command, args, {
     cwd,
@@ -151,30 +175,6 @@ function run(command, args, cwd) {
   }
 }
 
-function ensurePublicAccess(name, options) {
-  if (!name.startsWith("@")) {
-    return;
-  }
-
-  const result = spawnSync("npm", ["access", "set", "status=public", name], {
-    cwd: root,
-    encoding: "utf8",
-    stdio: options.required ? "inherit" : ["ignore", "pipe", "pipe"],
-    env: process.env,
-  });
-
-  if (result.status === 0) {
-    console.log(`Confirmed public access for ${name}.`);
-    return;
-  }
-
-  const output = `${result.stderr}\n${result.stdout}`;
-  if (!options.required && /E404|E403|not found|already public|not allowed|forbidden/i.test(output)) {
-    return;
-  }
-
-  throw new Error(`Could not confirm public npm access for ${name}:\n${output}`);
-}
 
 function isPrerelease(version) {
   return /-\w/.test(version);

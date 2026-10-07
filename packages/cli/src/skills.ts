@@ -1,5 +1,6 @@
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
+import { homedir } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
 import { MCP_CAPABILITIES, type McpCapabilityName } from "@0xsarwagya/ontoly-mcp";
 
@@ -38,6 +39,13 @@ export interface SkillDoctorReport {
   readonly status: "PASS" | "WARN" | "FAIL";
   readonly validation: SkillValidationReport;
   readonly recommendations: readonly string[];
+}
+
+export interface SkillValidationOptions {
+  /** Directory for the reports and the regression baseline. Nothing is written when unset. */
+  readonly output?: string | undefined;
+  /** Running CLI version. Skills whose ontoly.min.version is newer are reported. */
+  readonly cliVersion?: string | undefined;
 }
 
 export interface SkillAgentEvaluationReport {
@@ -108,6 +116,11 @@ const REQUIRED_LOCAL_REFERENCES = [
 
 export async function listOntolySkills(root = process.cwd()): Promise<readonly SkillCatalogEntry[]> {
   const skillsRoot = resolveSkillsRoot(root);
+  return listSkillsIn(skillsRoot, skillsRoot !== join(root, "skills"));
+}
+
+// An installed skills directory is shared with other skills: only those with ontoly.* metadata count.
+async function listSkillsIn(skillsRoot: string, installed: boolean): Promise<readonly SkillCatalogEntry[]> {
   const skillDirs = await discoverSkillDirs(skillsRoot);
   const entries: SkillCatalogEntry[] = [];
 
@@ -116,6 +129,9 @@ export async function listOntolySkills(root = process.cwd()): Promise<readonly S
     const content = await readFile(skillPath, "utf8");
     const frontmatter = parseSkillFrontmatter(content);
     const metadata = frontmatter.metadata;
+    if (installed && ![...metadata.keys()].some((key) => key.startsWith("ontoly."))) {
+      continue;
+    }
     entries.push({
       id: frontmatter.name ?? basename(dir),
       title: titleFromSkillName(frontmatter.name ?? basename(dir)),
@@ -133,8 +149,43 @@ export async function listOntolySkills(root = process.cwd()): Promise<readonly S
   return entries.sort((left, right) => left.id.localeCompare(right.id));
 }
 
-export async function validateOntolySkills(root = process.cwd()): Promise<SkillValidationReport> {
+export async function validateOntolySkills(
+  root = process.cwd(),
+  options: SkillValidationOptions = {},
+): Promise<SkillValidationReport> {
   const skillsRoot = resolveSkillsRoot(root);
+  return validateSkillsIn(skillsRoot, skillsRoot !== join(root, "skills"), options);
+}
+
+/** One report per user-level skills directory that holds Ontoly skills. */
+export async function validateInstalledOntolySkills(
+  options: Pick<SkillValidationOptions, "cliVersion"> = {},
+): Promise<readonly SkillValidationReport[]> {
+  const reports: SkillValidationReport[] = [];
+  for (const skillsRoot of userSkillsRoots()) {
+    const report = await validateSkillsIn(skillsRoot, true, options);
+    if (report.totalSkills > 0) {
+      reports.push(report);
+    }
+  }
+  return reports;
+}
+
+/** Where `npx skills add -g` installs for Claude Code, the agents sharing ~/.agents/skills, and Codex. */
+export function userSkillsRoots(): readonly string[] {
+  const home = homedir();
+  return [
+    join(process.env.CLAUDE_CONFIG_DIR?.trim() || join(home, ".claude"), "skills"),
+    join(home, ".agents", "skills"),
+    join(process.env.CODEX_HOME?.trim() || join(home, ".codex"), "skills"),
+  ];
+}
+
+async function validateSkillsIn(
+  skillsRoot: string,
+  installed: boolean,
+  options: SkillValidationOptions,
+): Promise<SkillValidationReport> {
   const issues: SkillIssue[] = [];
 
   if (!existsSync(skillsRoot)) {
@@ -144,21 +195,26 @@ export async function validateOntolySkills(root = process.cwd()): Promise<SkillV
       skillsRoot,
       totalSkills: 0,
       validSkills: 0,
-      issues: [{ severity: "error", skill: "skills", message: "No skills directory found. Expected skills/ or .agents/skills/." }],
+      issues: [{ severity: "error", skill: "skills", message: "No skills directory found. Expected skills/ or .agents/skills/. For skills installed in your home directory, run ontoly skills validate --global." }],
       skills: [],
       agentEvaluation: emptyAgentEvaluation(),
     };
   }
 
-  await validateAuthoringSharedReferences(root, skillsRoot, issues);
+  if (!installed) {
+    await validateAuthoringSharedReferences(skillsRoot, issues);
+  }
 
-  const skills = await listOntolySkills(root);
+  const skills = await listSkillsIn(skillsRoot, installed);
+  if (skills.length === 0) {
+    issues.push({ severity: "error", skill: "skills", message: `No Ontoly skills found in ${skillsRoot}.` });
+  }
   for (const skill of skills) {
-    await validateSkill(skill, issues);
+    await validateSkill(skill, issues, options.cliVersion);
   }
 
   const errorSkills = new Set(issues.filter((issue) => issue.severity === "error").map((issue) => issue.skill));
-  const agentEvaluation = await evaluateSkillsForAgents(root, skills);
+  const agentEvaluation = await evaluateSkillsForAgents(options.output, skills);
   const report: SkillValidationReport = {
     status: issues.some((issue) => issue.severity === "error") || agentEvaluation.status === "FAIL" ? "FAIL" : "PASS",
     generatedAt: new Date().toISOString(),
@@ -170,12 +226,17 @@ export async function validateOntolySkills(root = process.cwd()): Promise<SkillV
     agentEvaluation,
   };
 
-  await writeSkillValidationArtifacts(root, report);
+  if (options.output) {
+    await writeSkillValidationArtifacts(options.output, report);
+  }
   return report;
 }
 
-export async function doctorOntolySkills(root = process.cwd()): Promise<SkillDoctorReport> {
-  const validation = await validateOntolySkills(root);
+export async function doctorOntolySkills(
+  root = process.cwd(),
+  options: SkillValidationOptions = {},
+): Promise<SkillDoctorReport> {
+  const validation = await validateOntolySkills(root, options);
   const recommendations: string[] = [];
 
   if (validation.totalSkills === 0) {
@@ -222,21 +283,17 @@ async function discoverSkillDirs(skillsRoot: string): Promise<readonly string[]>
 
   const entries = await readdir(skillsRoot, { withFileTypes: true });
   return entries
-    .filter((entry) => entry.isDirectory())
+    // skills.sh links agent directories to one installed copy, e.g. ~/.claude/skills/x -> ~/.agents/skills/x.
+    .filter((entry) => entry.isDirectory() || entry.isSymbolicLink())
     .map((entry) => join(skillsRoot, entry.name))
     .filter((dir) => basename(dir) !== "shared" && existsSync(join(dir, "SKILL.md")))
     .sort((left, right) => left.localeCompare(right));
 }
 
 async function validateAuthoringSharedReferences(
-  root: string,
   skillsRoot: string,
   issues: SkillIssue[],
 ): Promise<void> {
-  if (skillsRoot !== join(root, "skills")) {
-    return;
-  }
-
   for (const file of ["workflow.md", "graph.md", "mcp.md", "best-practices.md", "fallbacks.md"]) {
     const path = join(skillsRoot, "shared", file);
     if (!existsSync(path)) {
@@ -245,7 +302,11 @@ async function validateAuthoringSharedReferences(
   }
 }
 
-async function validateSkill(skill: SkillCatalogEntry, issues: SkillIssue[]): Promise<void> {
+async function validateSkill(
+  skill: SkillCatalogEntry,
+  issues: SkillIssue[],
+  cliVersion: string | undefined,
+): Promise<void> {
   const skillPath = join(skill.path, "SKILL.md");
   const skillContent = await readFile(skillPath, "utf8");
   const frontmatter = parseSkillFrontmatter(skillContent);
@@ -270,6 +331,15 @@ async function validateSkill(skill: SkillCatalogEntry, issues: SkillIssue[]): Pr
     if (!metadata.has(key)) {
       issues.push({ severity: "error", skill: skill.id, file: skillPath, message: `Missing metadata key ${key}.` });
     }
+  }
+
+  if (cliVersion && compareVersions(skill.minimumOntolyVersion, cliVersion) > 0) {
+    issues.push({
+      severity: "error",
+      skill: skill.id,
+      file: skillPath,
+      message: `Requires Ontoly ${skill.minimumOntolyVersion} or newer; this CLI is ${cliVersion}. Upgrade the Ontoly CLI.`,
+    });
   }
 
   if (metadata.get("ontoly.enhancement") && metadata.get("ontoly.enhancement") !== DEFAULT_SKILL_ENHANCEMENT) {
@@ -437,7 +507,7 @@ async function validateExamples(skill: SkillCatalogEntry, issues: SkillIssue[]):
 }
 
 async function evaluateSkillsForAgents(
-  root: string,
+  output: string | undefined,
   skills: readonly SkillCatalogEntry[],
 ): Promise<SkillAgentEvaluationReport> {
   const evaluations: SkillAgentEvaluation[] = [];
@@ -488,7 +558,9 @@ async function evaluateSkillsForAgents(
       ? Math.round(evaluations.reduce((sum, evaluation) => sum + evaluation.score, 0) / evaluations.length)
       : 0,
   };
-  const previous = await readJsonIfExists<SkillAgentEvaluationBaseline>(join(root, "validation", "skills", "regression-baseline.json"));
+  const previous = output
+    ? await readJsonIfExists<SkillAgentEvaluationBaseline>(join(output, "regression-baseline.json"))
+    : undefined;
   const changes = previous ? skillRegressionChanges(previous, current) : [];
 
   return {
@@ -522,8 +594,7 @@ async function skillReferenceContents(skillPath: string): Promise<readonly strin
   return contents;
 }
 
-async function writeSkillValidationArtifacts(root: string, report: SkillValidationReport): Promise<void> {
-  const validationRoot = join(root, "validation", "skills");
+async function writeSkillValidationArtifacts(validationRoot: string, report: SkillValidationReport): Promise<void> {
   await mkdir(validationRoot, { recursive: true });
   await writeJson(join(validationRoot, "report.json"), report);
   await writeFile(join(validationRoot, "report.md"), renderSkillValidationMarkdown(report), "utf8");
@@ -714,6 +785,22 @@ function emptyAgentEvaluation(): SkillAgentEvaluationReport {
       changes: [],
     },
   };
+}
+
+// Semver precedence for x.y.z[-prerelease]: numeric core first, then a release outranks its prereleases.
+function compareVersions(left: string, right: string): number {
+  const [leftCore = "", ...leftPre] = left.split("-");
+  const [rightCore = "", ...rightPre] = right.split("-");
+  const leftParts = leftCore.split(".").map(Number);
+  const rightParts = rightCore.split(".").map(Number);
+  for (let index = 0; index < 3; index += 1) {
+    const difference = (leftParts[index] ?? 0) - (rightParts[index] ?? 0);
+    if (difference) return difference;
+  }
+  const leftPrerelease = leftPre.join("-");
+  const rightPrerelease = rightPre.join("-");
+  if (!leftPrerelease || !rightPrerelease) return Number(!leftPrerelease) - Number(!rightPrerelease);
+  return leftPrerelease.localeCompare(rightPrerelease, "en", { numeric: true });
 }
 
 function unquote(value: string): string {

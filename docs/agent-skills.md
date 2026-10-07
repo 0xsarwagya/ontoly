@@ -76,10 +76,15 @@ Every official installed skill points to `reference/workflow.md`:
 ```bash
 ontoly skills list
 ontoly skills validate
+ontoly skills validate --global
 ontoly skills doctor
 ```
 
-`ontoly skills validate` writes:
+`ontoly skills validate --global` validates the skills installed in your home
+directory, such as `~/.claude/skills`. See [Skills Validation](skills-validation.md).
+
+`ontoly skills validate --output validation/skills`, which is what
+`pnpm skills:validate` runs, writes:
 
 ```text
 validation/skills/report.md

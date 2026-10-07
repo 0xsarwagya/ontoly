@@ -466,7 +466,8 @@ ontoly skills doctor
 
 `ontoly skills validate` checks `SKILL.md` metadata, shared references,
 templates, examples, capability requirements, and agent-evaluation expectations.
-It writes reports under `validation/skills/`.
+Use `--global` to validate the skills installed in your home directory, and
+`--output <dir>` to write the reports to a directory.
 
 ## Doctor
 

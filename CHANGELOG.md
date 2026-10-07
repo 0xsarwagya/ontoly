@@ -8,6 +8,10 @@ All notable Ontoly changes are tracked here.
 
 - **Queries read the graph `ontoly build` wrote.** `ontoly build` writes its artifacts to `ontoly-output` by default, but `search`, `query`, `impact`, `trace`, `explain`, `mcp`, `semantic` and `frameworks` looked in `.ontoly`. So every command silently rebuilt the whole graph and its semantic index in memory. They now read the directory holding the newest Software Graph, and `--output` still wins. On a 3,148-file NestJS repository, `ontoly search` went from 49.3 s and 2.5 GB to 3.3 s, and `stats` takes 1.0 s. When no graph is found, the command says so before building one in memory.
 - **`ontoly doctor` finds the graph in `ontoly-output`** and no longer recommends a build that already happened.
+- **`ontoly skills validate --global` validates the skills your agent loads.** Before, the command only looked in the project's `skills/` or `.agents/skills/` folder, so skills installed with `npx skills add -g` could not be validated. `--global` checks `~/.claude/skills`, `~/.agents/skills` and `~/.codex/skills`, follows linked skill folders, and prints one result per folder.
+  - Only skills with `ontoly.*` metadata are validated. Other skills in an installed folder, including a project's `.agents/skills/`, are ignored instead of failing validation.
+  - A skill whose `ontoly.min.version` is newer than the running CLI fails validation.
+- **`ontoly skills validate` and `ontoly skills doctor` no longer create `validation/skills/` in the current directory.** Reports are written only with `--output <dir>`. `pnpm skills:validate` passes `--output validation/skills`, so the repository's tracked reports are still refreshed.
 - **Artifacts no longer have to fit in one string.** Large JSON artifacts are now streamed to disk as compact JSON, member by member: the graph, semantic index, indexes, node, relationship and community files, reports, and the compiler cache. Before, each was built as one indented string first, which threw `Invalid string length` once it passed V8's maximum string length, about 512 MB. Output is byte-identical to `JSON.stringify`, and `manifest.json`, `metadata.json` and `statistics.json` stay indented.
   - `graph.json` is now a hard link to `SoftwareGraph.json` (a copy where links are unsupported), not a second copy.
   - Loading the semantic index reuses the graph the command already holds instead of parsing it again.
@@ -15,6 +19,10 @@ All notable Ontoly changes are tracked here.
   On the same 3,148-file repository:
   - full build: peak memory 4.24 GB → 2.98 GB, bundle 720 MB → 494 MB, 54.9 s → 50.5 s;
   - `ontoly search`: 1.59 GB → 0.85 GB.
+
+### Changed
+
+- **Releases publish with npm trusted publishing.** The publish workflow authenticates to npm with the GitHub Actions OIDC token instead of a stored `NPM_TOKEN`, so there is no publish token to rotate or to expire mid-release. Packages are packed with pnpm, which resolves `workspace:` dependencies, and published with npm 11, which supports trusted publishing. `NPM_TOKEN` remains a fallback until every package trusts the workflow, and the redundant `npm access` step, which needs a token, is gone.
 
 ### Security
 
