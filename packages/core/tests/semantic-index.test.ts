@@ -14,8 +14,10 @@ import {
   findRoute,
   findSymbol,
   normalizeIntent,
+  rememberSemanticIndex,
   resolveIntent,
   validateSemanticIndex,
+  type SemanticIndex,
 } from "../src/index";
 
 const SLEEP_DURATION_THRESHOLDS_QUERY = "sleep duration thresholds";
@@ -156,11 +158,22 @@ describe("semantic index", () => {
   it("hashes larger semantic indexes deterministically with chunked hashing", () => {
     const graph = largeGraph();
     const first = createSemanticIndex(graph);
-    const second = createSemanticIndex(graph);
+    const second = createSemanticIndex(largeGraph());
 
     expect(first.metadata.deterministicHash).toBe(second.metadata.deterministicHash);
     expect(first.entries).toHaveLength(600);
     expect(validateSemanticIndex(first, graph)).toEqual([]);
+  });
+
+  it("builds one index per graph and reuses an index remembered for a graph", () => {
+    const graph = exampleGraph();
+    expect(createSemanticIndex(graph)).toBe(createSemanticIndex(graph));
+
+    const loaded = JSON.parse(JSON.stringify(createSemanticIndex(graph))) as SemanticIndex;
+    const sameGraphLoadedAgain = exampleGraph();
+    rememberSemanticIndex(sameGraphLoadedAgain, loaded);
+    expect(createSemanticIndex(sameGraphLoadedAgain)).toBe(loaded);
+    expect(resolveIntent(loaded, "login authentication").candidates.map((candidate) => candidate.displayName)).toContain("AuthService");
   });
 });
 

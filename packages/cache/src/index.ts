@@ -4,6 +4,7 @@ import { isAbsolute, join } from "node:path";
 import type { SoftwareGraph } from "@0xsarwagya/ontoly-core";
 import {
   createSemanticIndex,
+  rememberSemanticIndex,
   validateSemanticIndex,
   type SemanticIndex,
 } from "@0xsarwagya/ontoly-core";
@@ -119,6 +120,7 @@ export async function loadOrCreateSemanticIndex(
       graphFor(),
     ]);
     if (validateSemanticIndex(semanticIndex, graph).length === 0) {
+      rememberSemanticIndex(graph, semanticIndex);
       return semanticIndex;
     }
     const rebuilt = createSemanticIndex(graph);

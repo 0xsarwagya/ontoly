@@ -92,7 +92,6 @@ import {
   findRepositoryConcept,
   findRoute as searchRoute,
   findSymbol,
-  validateSemanticIndex,
   type SearchCategory,
   type SemanticCandidate,
   type SemanticIndex,
@@ -1255,9 +1254,7 @@ async function searchCommand(cli: ParsedCli): Promise<void> {
   }
 
   const graph = await loadOrBuildGraph(cli, { positionalRoot: false });
-  const semanticIndex = await loadSemanticIndexForCli(cli, graph);
-  const issues = validateSemanticIndex(semanticIndex, graph);
-  const index = issues.length === 0 ? semanticIndex : createSemanticIndex(graph);
+  const index = await loadSemanticIndexForCli(cli, graph);
   const category = searchCategoryFromCli(cli);
   const limit = flagNumber(cli, "limit", 10);
   const result = executeSearch(index, queryText, category, limit, cli.command);
@@ -1342,6 +1339,10 @@ async function mcpCommand(cli: ParsedCli): Promise<void> {
     logger.write(JSON.stringify(runtime.capabilities, null, 2));
     return;
   }
+
+  // Searches and capabilities ask for the graph's semantic index on every request. Loading the persisted one
+  // makes them all reuse it; if it can't be loaded, the first request builds it once.
+  await loadOrCreateSemanticIndex({ root: resolve(root), directory: await artifactDirectoryForCli(cli, root) }, graph).catch(() => undefined);
 
   process.stderr.write("info    Ontoly MCP runtime started. Send one JSON request per line.\n");
   process.stdin.setEncoding("utf8");
@@ -2317,9 +2318,8 @@ async function loadSemanticIndexForCli(cli: ParsedCli, graph: SoftwareGraph): Pr
   const root = rootFromCli(cli, { positional: false });
   const outputDir = await artifactDirectoryForCli(cli, root);
   try {
-    const index = await loadOrCreateSemanticIndex({ root: resolve(root), directory: outputDir }, graph);
-    const issues = validateSemanticIndex(index, graph);
-    return issues.length === 0 ? index : createSemanticIndex(graph);
+    // Validated against the graph, or rebuilt from it.
+    return await loadOrCreateSemanticIndex({ root: resolve(root), directory: outputDir }, graph);
   } catch {
     return createSemanticIndex(graph);
   }

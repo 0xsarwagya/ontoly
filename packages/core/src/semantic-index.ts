@@ -410,7 +410,25 @@ const DEFINITION_KINDS = new Set<NodeType>(["Module", "Class", "Interface", "Typ
 
 const FRAMEWORK_PACKAGE_PATTERN = /@nestjs\/|@medplum\/|next\/dist|react\/|typescript\/lib|@types\/|@babel\/|@typescript-eslint\/|tslib|rxjs|zone\.js/i;
 
+// The index is a pure function of the graph, and graphs are never mutated. Without this, the build, every
+// capability engine and every MCP search rebuilt it from scratch: about 20 s on a 28,000-node graph.
+const semanticIndexByGraph = new WeakMap<SoftwareGraph, SemanticIndex>();
+
 export function createSemanticIndex(graph: SoftwareGraph): SemanticIndex {
+  let index = semanticIndexByGraph.get(graph);
+  if (!index) {
+    index = withTokenCache(() => buildSemanticIndex(graph));
+    semanticIndexByGraph.set(graph, index);
+  }
+  return index;
+}
+
+/** Makes createSemanticIndex(graph) return an index already built for this graph, such as one loaded from disk. */
+export function rememberSemanticIndex(graph: SoftwareGraph, index: SemanticIndex): void {
+  semanticIndexByGraph.set(graph, index);
+}
+
+function buildSemanticIndex(graph: SoftwareGraph): SemanticIndex {
   const nodeById = new Map(graph.nodes.map((node) => [node.id, node] as const));
   const incoming = groupEdges(graph.edges, "to");
   const outgoing = groupEdges(graph.edges, "from");
@@ -535,6 +553,10 @@ export function normalizeIntent(input: string): NormalizedIntent {
 }
 
 export function resolveIntent(index: SemanticIndex, query: string, options: SearchOptions = {}): SemanticSearchResult {
+  return withTokenCache(() => resolveIntentUncached(index, query, options));
+}
+
+function resolveIntentUncached(index: SemanticIndex, query: string, options: SearchOptions): SemanticSearchResult {
   const startedAt = performanceNow();
   const category = options.category ?? "concept";
   const intent = normalizeIntent(query);
@@ -1676,12 +1698,33 @@ function recommendCapability(
   return category === "repository" ? "ArchitectureSummary" : "FeatureTouchpoints";
 }
 
+// Set while an index is built or a query is ranked. tokenize() is pure, and both call it many times per string:
+// a build millions of times on far fewer strings, and ranking several times on each candidate's text.
+let tokenCache: Map<string, readonly string[]> | undefined;
+
+function withTokenCache<T>(run: () => T): T {
+  if (tokenCache) {
+    return run();
+  }
+  tokenCache = new Map();
+  try {
+    return run();
+  } finally {
+    tokenCache = undefined;
+  }
+}
+
 function tokenize(value: string): readonly string[] {
-  return uniqueStrings(splitIdentifier(value)
-    .map((part) => normalizeToken(part))
-    .filter((part) => part.length > 0)
-    .filter((part) => !STOP_WORDS.has(part))
-    .flatMap((part) => uniqueStrings([part, singularize(part)])));
+  let tokens = tokenCache?.get(value);
+  if (!tokens) {
+    tokens = uniqueStrings(splitIdentifier(value)
+      .map((part) => normalizeToken(part))
+      .filter((part) => part.length > 0)
+      .filter((part) => !STOP_WORDS.has(part))
+      .flatMap((part) => uniqueStrings([part, singularize(part)])));
+    tokenCache?.set(value, tokens);
+  }
+  return tokens;
 }
 
 function splitIdentifier(value: string): readonly string[] {
