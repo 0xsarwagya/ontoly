@@ -1,10 +1,11 @@
 import { mkdtemp, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
   createCompilerContext,
   createCompilerInvocation,
+  initializeOntolyProject,
   loadOntolyConfig,
   resolveOntolyConfig,
 } from "../src/index";
@@ -72,5 +73,53 @@ describe("compiler context", () => {
     expect(context.config.include).toEqual([]);
     expect(context.config.plugins).toEqual([]);
     expect(context.config.parsers).toEqual({});
+  });
+
+  it("loads ontoly.config.ts from the repository root when no path is given", async () => {
+    const root = await mkdtemp(join(tmpdir(), "ontoly-context-config-ts-"));
+    await writeFile(
+      join(root, "ontoly.config.ts"),
+      'const exclude: string[] = ["Pods", "apps/agent/.eve"];\nexport default { exclude };\n',
+      "utf8",
+    );
+
+    const config = await loadOntolyConfig(root);
+
+    expect(config.exclude).toEqual(["Pods", "apps/agent/.eve"]);
+  });
+
+  it("loads the config `ontoly init` writes, though the CLI is not installed in the repository", async () => {
+    const root = await mkdtemp(join(tmpdir(), "ontoly-context-config-init-"));
+    await initializeOntolyProject(root);
+
+    const config = await loadOntolyConfig(root);
+
+    expect(config.outputDir).toBe(".ontoly");
+    expect(config.exclude).toEqual([]);
+  });
+
+  it("warns and builds with the defaults when a config found in the root cannot be loaded", async () => {
+    const root = await mkdtemp(join(tmpdir(), "ontoly-context-config-broken-"));
+    await writeFile(join(root, "ontoly.config.mjs"), 'import "./missing.mjs";\nexport default { exclude: ["x"] };\n', "utf8");
+    const emitWarning = vi.spyOn(process, "emitWarning").mockImplementation(() => undefined);
+
+    try {
+      const config = await loadOntolyConfig(root);
+
+      expect(config.exclude).toEqual([]);
+      expect(emitWarning).toHaveBeenCalledWith(
+        expect.stringContaining("Could not load"),
+        expect.objectContaining({ code: "ONTOLY_CONFIG_NOT_LOADED" }),
+      );
+    } finally {
+      emitWarning.mockRestore();
+    }
+  });
+
+  it("throws when a config given by path cannot be loaded", async () => {
+    const root = await mkdtemp(join(tmpdir(), "ontoly-context-config-explicit-"));
+    await writeFile(join(root, "custom.config.mjs"), 'import "./missing.mjs";\nexport default {};\n', "utf8");
+
+    await expect(loadOntolyConfig(root, "custom.config.mjs")).rejects.toThrow("Could not load");
   });
 });
