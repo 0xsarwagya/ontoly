@@ -4,6 +4,15 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+### Fixed
+
+- **Commands that only read a graph start without the TypeScript compiler.** The CLI loaded `typescript` on every run, about 170 ms and 75 MB, though only building and analyzing sources need it. It now loads it in those commands only. On a 3,148-file repository:
+  - `ontoly --version`: 0.25 s and 132 MB → 0.06 s and 59 MB;
+  - `ontoly search`: 1.12 s and 559 MB → 0.91 s and 458 MB;
+  - `ontoly query callers`: 0.67 s and 517 MB → 0.50 s and 436 MB.
+
+  `defaultCompilerPasses()` in the library API is unchanged.
+
 ## 1.3.5
 
 ### Fixed

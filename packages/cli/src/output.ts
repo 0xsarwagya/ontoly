@@ -16,7 +16,7 @@ import { writeGraphAlias, writeJsonFile } from "@0xsarwagya/ontoly-cache";
 import { createSemanticIndex, encodeSemanticIndex } from "@0xsarwagya/ontoly-core";
 import { createInteractiveHtmlGraph } from "@0xsarwagya/ontoly-plugin-html";
 import { createQueryEngine, type QueryEngine } from "@0xsarwagya/ontoly-query";
-import { serializeTypeScriptProject, type TypeScriptProject } from "@0xsarwagya/ontoly-typescript";
+import type { TypeScriptProject } from "@0xsarwagya/ontoly-typescript";
 
 export interface OntolyOutputBundleOptions {
   readonly root: string;
@@ -116,6 +116,8 @@ export async function createOntolyOutputBundle(
   await writeJson("quality.json", createQualityReport(coverage));
 
   if (options.semanticModel) {
+    // Loaded here so that importing this module doesn't load the TypeScript compiler.
+    const { serializeTypeScriptProject } = await import("@0xsarwagya/ontoly-typescript");
     await writeText("semantic-model.json", serializeTypeScriptProject(options.semanticModel));
   }
 

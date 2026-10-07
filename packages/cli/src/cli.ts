@@ -38,6 +38,7 @@ import {
   watchSoftwareGraph,
   writeGraphArtifacts,
   type CompilerCacheView,
+  type CompilerPass,
   type CompilerProgressListener,
 } from "@0xsarwagya/ontoly-compiler";
 import {
@@ -104,17 +105,9 @@ import {
   type SemanticSearchResult,
 } from "@0xsarwagya/ontoly-core";
 import { createMcpRuntime, McpCapabilityError, type McpCapabilityName } from "@0xsarwagya/ontoly-mcp";
-import { defaultCompilerPasses } from "./passes";
 import { createInteractiveHtmlGraph } from "@0xsarwagya/ontoly-plugin-html";
 import { createQueryEngine, type GraphStatistics, type GraphTraversal } from "@0xsarwagya/ontoly-query";
-import { createDefaultFrameworkRegistry } from "@0xsarwagya/ontoly-semantic";
-import {
-  analyzeTypeScriptProject,
-  deserializeTypeScriptProject,
-  serializeTypeScriptProject,
-  validateTypeScriptSemanticModel,
-  type TypeScriptProject,
-} from "@0xsarwagya/ontoly-typescript";
+import type { TypeScriptProject } from "@0xsarwagya/ontoly-typescript";
 import {
   doctorOntolySkills,
   listOntolySkills,
@@ -462,7 +455,7 @@ async function buildCommand(cli: ParsedCli): Promise<void> {
       cacheDir: join(repository.outputRoot, ".ontoly", "cache", "compiler"),
       workers: cli.flags.has("workers") ? flagNumber(cli, "workers", 1) : undefined,
       onProgress: createBuildProgressListener(cli),
-      passes: defaultCompilerPasses(),
+      passes: await compilerPasses(),
     });
     const graph = result.graph ? graphForRepositorySource(result.graph, repository.source) : undefined;
     const semanticModel = semanticModelFromCompilerProducts(result.products, repository.source);
@@ -593,7 +586,7 @@ async function outputCommand(cli: ParsedCli): Promise<void> {
       cacheDir: join(repository.outputRoot, ".ontoly", "cache", "compiler"),
       workers: cli.flags.has("workers") ? flagNumber(cli, "workers", 1) : undefined,
       onProgress: createBuildProgressListener(cli),
-      passes: defaultCompilerPasses(),
+      passes: await compilerPasses(),
     });
     const graph = result.graph ? graphForRepositorySource(result.graph, repository.source) : undefined;
     const semanticModel = semanticModelFromCompilerProducts(result.products, repository.source);
@@ -645,6 +638,7 @@ async function analyzeCommand(cli: ParsedCli): Promise<void> {
   const root = rootFromCli(cli);
   const outputDir = flagString(cli, "output", ".ontoly");
   const project = await writeSemanticModelArtifact(root, outputDir);
+  const { validateTypeScriptSemanticModel } = await typeScriptSemantics();
   const validation = validateTypeScriptSemanticModel(project);
   const summary = semanticModelSummary(project);
 
@@ -682,6 +676,7 @@ async function semanticCommand(cli: ParsedCli): Promise<void> {
   const outputDir = await artifactDirectoryForCli(cli, root);
   const project = await loadOrAnalyzeSemanticModel(root, outputDir);
   const format = flagString(cli, "format", flagBoolean(cli, "json") ? "json" : "summary");
+  const { serializeTypeScriptProject, validateTypeScriptSemanticModel } = await typeScriptSemantics();
 
   if (format === "json") {
     logger.write(serializeTypeScriptProject(project).trimEnd());
@@ -712,6 +707,7 @@ async function frameworksCommand(cli: ParsedCli): Promise<void> {
   const root = rootFromCli(cli);
   const outputDir = await artifactDirectoryForCli(cli, root);
   const project = await loadOrAnalyzeSemanticModel(root, outputDir);
+  const { createDefaultFrameworkRegistry } = await import("@0xsarwagya/ontoly-semantic");
   const registry = createDefaultFrameworkRegistry();
   const detections = registry.detect(project).filter((detection) => detection.detected);
   const graph = await loadOrBuildGraph({ ...cli, positional: [root] });
@@ -760,7 +756,7 @@ async function watchCommand(cli: ParsedCli): Promise<void> {
   watchSoftwareGraph({
     root,
     write: true,
-    passes: defaultCompilerPasses(),
+    passes: await compilerPasses(),
     onBuild: (result) => {
       if (!result.graph) {
         for (const diagnostic of result.diagnostics) {
@@ -1900,7 +1896,7 @@ async function benchmarkCommand(cli: ParsedCli): Promise<void> {
   const durations: number[] = [];
 
   for (let index = 0; index < runs; index += 1) {
-    const graph = await buildSoftwareGraph({ root, passes: defaultCompilerPasses() });
+    const graph = await buildSoftwareGraph({ root, passes: await compilerPasses() });
     durations.push(graph.metadata.durationMs ?? 0);
   }
 
@@ -2318,7 +2314,7 @@ async function loadOrBuildGraph(
     logger.warning(
       `No usable Software Graph in ${outputDir}/; building one in memory for this command. Run ontoly build . to keep one.`,
     );
-    return buildSoftwareGraph({ root, passes: defaultCompilerPasses() });
+    return buildSoftwareGraph({ root, passes: await compilerPasses() });
   }
 }
 
@@ -2347,6 +2343,7 @@ async function createCapabilityEngineForCli(cli: ParsedCli, graph: SoftwareGraph
 async function writeSemanticModelArtifact(rootInput: string, outputDir: string): Promise<TypeScriptProject> {
   const root = resolve(rootInput);
   const directory = join(root, outputDir);
+  const { analyzeTypeScriptProject, serializeTypeScriptProject } = await typeScriptSemantics();
   const project = analyzeTypeScriptProject({ root });
   await mkdir(directory, { recursive: true });
   await writeFile(semanticModelPath(root, outputDir), serializeTypeScriptProject(project), "utf8");
@@ -2357,11 +2354,23 @@ async function loadOrAnalyzeSemanticModel(rootInput: string, outputDir: string):
   const root = resolve(rootInput);
   const path = semanticModelPath(root, outputDir);
 
+  const { deserializeTypeScriptProject } = await typeScriptSemantics();
   try {
     return deserializeTypeScriptProject(await readFile(path, "utf8"));
   } catch {
     return writeSemanticModelArtifact(root, outputDir);
   }
+}
+
+// The TypeScript compiler takes ~170 ms and ~75 MB to load. Only commands that build a graph or analyze sources
+// need it, so they load it on demand, and queries, search and MCP start without it.
+async function compilerPasses(): Promise<CompilerPass[]> {
+  const { defaultCompilerPasses } = await import("./passes");
+  return defaultCompilerPasses();
+}
+
+function typeScriptSemantics(): Promise<typeof import("@0xsarwagya/ontoly-typescript")> {
+  return import("@0xsarwagya/ontoly-typescript");
 }
 
 function semanticModelPath(rootInput: string, outputDir: string): string {
