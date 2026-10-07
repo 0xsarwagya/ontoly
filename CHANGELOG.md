@@ -8,6 +8,13 @@ All notable Ontoly changes are tracked here.
 
 - **Queries read the graph `ontoly build` wrote.** `ontoly build` writes its artifacts to `ontoly-output` by default, but `search`, `query`, `impact`, `trace`, `explain`, `mcp`, `semantic` and `frameworks` looked in `.ontoly`. So every command silently rebuilt the whole graph and its semantic index in memory. They now read the directory holding the newest Software Graph, and `--output` still wins. On a 3,148-file NestJS repository, `ontoly search` went from 49.3 s and 2.5 GB to 3.3 s, and `stats` takes 1.0 s. When no graph is found, the command says so before building one in memory.
 - **`ontoly doctor` finds the graph in `ontoly-output`** and no longer recommends a build that already happened.
+- **Artifacts no longer have to fit in one string.** Large JSON artifacts are now streamed to disk as compact JSON, member by member: the graph, semantic index, indexes, node, relationship and community files, reports, and the compiler cache. Before, each was built as one indented string first, which threw `Invalid string length` once it passed V8's maximum string length, about 512 MB. Output is byte-identical to `JSON.stringify`, and `manifest.json`, `metadata.json` and `statistics.json` stay indented.
+  - `graph.json` is now a hard link to `SoftwareGraph.json` (a copy where links are unsupported), not a second copy.
+  - Loading the semantic index reuses the graph the command already holds instead of parsing it again.
+
+  On the same 3,148-file repository:
+  - full build: peak memory 4.24 GB → 2.98 GB, bundle 720 MB → 494 MB, 54.9 s → 50.5 s;
+  - `ontoly search`: 1.59 GB → 0.85 GB.
 
 ### Security
 

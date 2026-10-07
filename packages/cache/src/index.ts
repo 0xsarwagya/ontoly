@@ -1,4 +1,4 @@
-import { mkdir, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
+import { copyFile, link, mkdir, open, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { isAbsolute, join } from "node:path";
 import type { SoftwareGraph } from "@0xsarwagya/ontoly-core";
@@ -76,16 +76,14 @@ export async function persistGraph(
 ): Promise<GraphArtifactPaths> {
   const paths = getGraphArtifactPaths(options);
   const semanticIndex = createSemanticIndex(graph);
-  const serializedGraph = serializeJson(graph);
   await mkdir(paths.directory, { recursive: true });
 
   await Promise.all([
-    writeFile(paths.graph, serializedGraph, "utf8"),
-    writeFile(paths.legacyGraph, serializedGraph, "utf8"),
-    writeJson(paths.diagnostics, graph.diagnostics),
+    writeJsonFile(paths.graph, graph).then(() => writeGraphAlias(paths.graph, paths.legacyGraph)),
+    writeJsonFile(paths.diagnostics, graph.diagnostics),
     writeJson(paths.metadata, graph.metadata),
-    writeJson(paths.indexes, graph.indexes),
-    writeJson(paths.semanticIndex, semanticIndex),
+    writeJsonFile(paths.indexes, graph.indexes),
+    writeJsonFile(paths.semanticIndex, semanticIndex),
     writeJson(paths.statistics, createGraphStatistics(graph)),
   ]);
 
@@ -104,29 +102,37 @@ export async function loadSemanticIndex(options: PersistGraphOptions): Promise<S
   return JSON.parse(contents) as SemanticIndex;
 }
 
-export async function loadOrCreateSemanticIndex(options: PersistGraphOptions): Promise<SemanticIndex> {
+/**
+ * The persisted semantic index when it matches the graph, else a rebuilt one, which is persisted. Pass the graph
+ * when the caller already holds it: reading it again doubled the memory and time of every search.
+ */
+export async function loadOrCreateSemanticIndex(
+  options: PersistGraphOptions,
+  knownGraph?: SoftwareGraph,
+): Promise<SemanticIndex> {
   const paths = getGraphArtifactPaths(options);
+  const graphFor = (): Promise<SoftwareGraph> => (knownGraph ? Promise.resolve(knownGraph) : loadGraph(options));
 
   try {
     const [semanticIndex, graph] = await Promise.all([
       loadSemanticIndex(options),
-      loadGraph(options),
+      graphFor(),
     ]);
     if (validateSemanticIndex(semanticIndex, graph).length === 0) {
       return semanticIndex;
     }
     const rebuilt = createSemanticIndex(graph);
     await mkdir(paths.directory, { recursive: true });
-    await writeJson(paths.semanticIndex, rebuilt);
+    await writeJsonFile(paths.semanticIndex, rebuilt);
     return rebuilt;
   } catch (error) {
     if (!isMissingFileError(error)) {
       throw error;
     }
-    const graph = await loadGraph(options);
+    const graph = await graphFor();
     const semanticIndex = createSemanticIndex(graph);
     await mkdir(paths.directory, { recursive: true });
-    await writeJson(paths.semanticIndex, semanticIndex);
+    await writeJsonFile(paths.semanticIndex, semanticIndex);
     return semanticIndex;
   }
 }
@@ -200,10 +206,83 @@ function serializeJson(value: unknown): string {
   return `${JSON.stringify(value, null, 2)}\n`;
 }
 
+/** Characters gathered before each write; large enough that writes are few, small next to any artifact. */
+const WRITE_BUFFER_CHARS = 1 << 20;
+/** Plain objects and arrays this shallow are written member by member; deeper values are small. */
+const STREAM_DEPTH = 2;
+
+/**
+ * Writes `value` as compact JSON plus a newline, byte for byte what `JSON.stringify(value)` gives, but without
+ * holding the whole document as one string. A graph larger than the longest string V8 allows (about 512 MB) then
+ * still writes, where `JSON.stringify` threw "Invalid string length"; compact output is also 20-30% smaller.
+ */
+export async function writeJsonFile(path: string, value: unknown): Promise<void> {
+  const handle = await open(path, "w");
+  try {
+    let buffer = "";
+    for (const chunk of jsonChunks(value, 0)) {
+      buffer += chunk;
+      if (buffer.length >= WRITE_BUFFER_CHARS) {
+        await handle.write(buffer);
+        buffer = "";
+      }
+    }
+    await handle.write(`${buffer}\n`);
+  } finally {
+    await handle.close();
+  }
+}
+
+function* jsonChunks(value: unknown, depth: number): Generator<string> {
+  if (Array.isArray(value) && depth < STREAM_DEPTH) {
+    yield "[";
+    for (let index = 0; index < value.length; index += 1) {
+      if (index > 0) yield ",";
+      const item: unknown = value[index];
+      // JSON.stringify writes null for these inside arrays.
+      if (item === undefined || typeof item === "function" || typeof item === "symbol") yield "null";
+      else yield* jsonChunks(item, depth + 1);
+    }
+    yield "]";
+    return;
+  }
+  if (isPlainObject(value) && depth < STREAM_DEPTH) {
+    yield "{";
+    let first = true;
+    for (const [key, member] of Object.entries(value)) {
+      // ...and omits these from objects.
+      if (member === undefined || typeof member === "function" || typeof member === "symbol") continue;
+      yield `${first ? "" : ","}${JSON.stringify(key)}:`;
+      first = false;
+      yield* jsonChunks(member, depth + 1);
+    }
+    yield "}";
+    return;
+  }
+  yield JSON.stringify(value) ?? "null";
+}
+
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  if (value === null || typeof value !== "object") return false;
+  if (typeof (value as { readonly toJSON?: unknown }).toJSON === "function") return false;
+  const prototype: unknown = Object.getPrototypeOf(value);
+  return prototype === Object.prototype || prototype === null;
+}
+
+/**
+ * `graph.json` is the compatibility name for `SoftwareGraph.json`. A hard link keeps the two identical at no disk
+ * cost; where links are unsupported it is a copy, as before. Removed first, so a graph renamed into place by an
+ * atomic write never leaves the alias pointing at the old file.
+ */
+export async function writeGraphAlias(graphPath: string, aliasPath: string): Promise<void> {
+  await rm(aliasPath, { force: true });
+  await link(graphPath, aliasPath).catch(() => copyFile(graphPath, aliasPath));
+}
+
 async function writeJsonAtomic(path: string, value: unknown): Promise<void> {
   const temporaryPath = `${path}.${process.pid}.${randomUUID()}.tmp`;
   try {
-    await writeJson(temporaryPath, value);
+    await writeJsonFile(temporaryPath, value);
     await rename(temporaryPath, path);
   } finally {
     await rm(temporaryPath, { force: true });
