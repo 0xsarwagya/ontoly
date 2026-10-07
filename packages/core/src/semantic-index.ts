@@ -891,7 +891,7 @@ function rankCandidates(
   options: SearchOptions & { readonly category: SearchCategory },
 ): readonly SemanticCandidate[] {
   const candidateIds = candidateIdsFor(index, intent);
-  const entryById = new Map(index.entries.map((entry) => [entry.stableId, entry] as const));
+  const entryById = entriesById(index);
   const kinds = options.kinds?.length ? new Set(options.kinds) : categoryTypeSet(options.category);
   const candidates = candidateIds
     .map((id) => entryById.get(id))
@@ -922,13 +922,21 @@ function candidateIdsFor(index: SemanticIndex, intent: NormalizedIntent): readon
     ids.add(id);
   }
 
-  const fuzzyIds = index.entries
-    .filter((entry) => fuzzyEntryMatch(entry, intent))
-    .map((entry) => entry.stableId)
-    .sort();
+  // Fuzzy matches are taken in id order, only the first 250 when other candidates exist, so the scan walks the
+  // entries in that order and stops there instead of testing all of them.
+  const fuzzyLimit = ids.size > 0 ? 250 : Infinity;
+  const fuzzyIds: string[] = [];
+  for (const entry of entriesInIdOrder(index)) {
+    if (fuzzyEntryMatch(entry, intent)) {
+      fuzzyIds.push(entry.stableId);
+      if (fuzzyIds.length === fuzzyLimit) {
+        break;
+      }
+    }
+  }
 
   if (ids.size > 0) {
-    for (const id of fuzzyIds.slice(0, 250)) {
+    for (const id of fuzzyIds) {
       ids.add(id);
     }
     return [...expandCandidateIds(index, intent, [...ids])].sort();
@@ -936,17 +944,48 @@ function candidateIdsFor(index: SemanticIndex, intent: NormalizedIntent): readon
   return [...expandCandidateIds(index, intent, fuzzyIds)].sort();
 }
 
+// Per-index lookups that every query needed and rebuilt from all entries.
+const entryByIdByIndex = new WeakMap<SemanticIndex, ReadonlyMap<string, SemanticIndexEntry>>();
+const entriesInIdOrderByIndex = new WeakMap<SemanticIndex, readonly SemanticIndexEntry[]>();
+
+function entriesById(index: SemanticIndex): ReadonlyMap<string, SemanticIndexEntry> {
+  let byId = entryByIdByIndex.get(index);
+  if (!byId) {
+    byId = new Map(index.entries.map((entry) => [entry.stableId, entry] as const));
+    entryByIdByIndex.set(index, byId);
+  }
+  return byId;
+}
+
+/** Entries by stable id in UTF-16 code unit order, the order of a default sort() of the ids. */
+function entriesInIdOrder(index: SemanticIndex): readonly SemanticIndexEntry[] {
+  let ordered = entriesInIdOrderByIndex.get(index);
+  if (!ordered) {
+    ordered = [...index.entries].sort((left, right) =>
+      left.stableId < right.stableId ? -1 : left.stableId > right.stableId ? 1 : 0);
+    entriesInIdOrderByIndex.set(index, ordered);
+  }
+  return ordered;
+}
+
+// normalizedName is tokenize(displayName).join(" "), and tokens hold no spaces, so this is tokenize(displayName)
+// without running the tokenizer over every entry on every query.
+function displayNameTokens(entry: SemanticIndexEntry): readonly string[] {
+  return entry.normalizedName ? entry.normalizedName.split(" ") : [];
+}
+
 function priorityFuzzyCandidateIds(index: SemanticIndex, intent: NormalizedIntent): readonly string[] {
   const queryTerms = new Set(intent.tokens.map(singularize).flatMap((term) => relatedLocationTerms(term)));
   const queryCompact = compactTokenString(intent.raw);
   return index.entries
     .filter((entry) => {
-      const nameTerms = tokenize(entry.displayName).map(singularize).filter((term) => term.length > 1);
+      const singularNameTokens = displayNameTokens(entry).map(singularize);
+      const nameTerms = singularNameTokens.filter((term) => term.length > 1);
       const meaningfulNameTerms = nameTerms.filter((term) => !["src", "ts"].includes(term));
       if (meaningfulNameTerms.length > 0 && meaningfulNameTerms.every((term) => queryTerms.has(term))) {
         return true;
       }
-      const compactName = compactTokenString(entry.displayName);
+      const compactName = singularNameTokens.join("");
       return compactName.length >= 6 && queryCompact.includes(compactName);
     })
     .map((entry) => entry.stableId)
@@ -978,7 +1017,7 @@ function repositoryVocabularyCandidateIds(index: SemanticIndex, terms: readonly 
 
 function expandCandidateIds(index: SemanticIndex, intent: NormalizedIntent, seedIds: readonly string[]): readonly string[] {
   const ids = new Set(seedIds);
-  const entryById = new Map(index.entries.map((entry) => [entry.stableId, entry] as const));
+  const entryById = entriesById(index);
   for (const id of seedIds.slice(0, 300)) {
     const entry = entryById.get(id);
     if (!entry || semanticFeatureAgreement(entry, intent) < 0.35) {
@@ -1018,7 +1057,7 @@ function scoreEntry(entry: SemanticIndexEntry, intent: NormalizedIntent, categor
     matchedTerms.add(intent.normalized);
   }
 
-  const nameTokens = tokenize(entry.displayName);
+  const nameTokens = displayNameTokens(entry);
   if (nameTokens.length > 0 && nameTokens.every((token) => intent.expandedTerms.includes(token))) {
     addScore(reasons, "complete-name-token-match", 260, nameTokens.join(", "));
     for (const token of nameTokens) {
@@ -1247,16 +1286,7 @@ function originalTokenCoverage(entry: SemanticIndexEntry, intent: NormalizedInte
     return 0;
   }
   const entryTerms = new Set([entry.normalizedName, ...entry.aliases, ...entry.keywords]);
-  const searchableText = [
-    entry.stableId,
-    entry.displayName,
-    entry.filePath ?? "",
-    entry.folderPath ?? "",
-    entry.parentChain.join(" "),
-    entry.relationships.neighborNames.join(" "),
-    entry.documentation ?? "",
-    entry.comments ?? "",
-  ].join(" ").toLowerCase();
+  const searchableText = featureTextOf(entry).lowerText;
   const matches = intent.tokens.filter((token) =>
     entryTerms.has(token) ||
     entryTerms.has(singularize(token)) ||
@@ -1274,16 +1304,7 @@ function originalQueryCoverage(
     return { matched: [], missing: [], ratio: 1 };
   }
   const entryTerms = new Set([entry.normalizedName, ...entry.aliases, ...entry.keywords].flatMap((term) => tokenize(term).map(singularize)));
-  const searchableTerms = new Set(tokenize([
-    entry.stableId,
-    entry.displayName,
-    entry.filePath ?? "",
-    entry.folderPath ?? "",
-    entry.parentChain.join(" "),
-    entry.relationships.neighborNames.join(" "),
-    entry.documentation ?? "",
-    entry.comments ?? "",
-  ].join(" ")).map(singularize));
+  const searchableTerms = featureTextOf(entry).tokenStems;
   const matched = required.filter((term) => entryTerms.has(term) || searchableTerms.has(term));
   const missing = required.filter((term) => !matched.includes(term));
   return { matched, missing, ratio: matched.length / required.length };
@@ -1293,17 +1314,7 @@ function semanticFeatureAgreement(entry: SemanticIndexEntry, intent: NormalizedI
   if (intent.tokens.length === 0) {
     return 0;
   }
-  const featureText = tokenize([
-    entry.stableId,
-    entry.displayName,
-    entry.filePath ?? "",
-    entry.folderPath ?? "",
-    entry.parentChain.join(" "),
-    entry.relationships.neighborNames.join(" "),
-    entry.documentation ?? "",
-    entry.comments ?? "",
-  ].join(" "));
-  const featureTerms = new Set(featureText);
+  const featureTerms = featureTextOf(entry).tokens;
   const original = intent.tokens.filter((token) => featureTerms.has(token) || featureTerms.has(singularize(token))).length / intent.tokens.length;
   const expanded = intent.expandedTerms.length === 0
     ? 0
@@ -1313,16 +1324,7 @@ function semanticFeatureAgreement(entry: SemanticIndexEntry, intent: NormalizedI
 
 function semanticFeaturePenalty(entry: SemanticIndexEntry, intent: NormalizedIntent): number {
   const required = new Set(intent.tokens.map(singularize));
-  const terms = new Set(tokenize([
-    entry.stableId,
-    entry.displayName,
-    entry.filePath ?? "",
-    entry.folderPath ?? "",
-    entry.parentChain.join(" "),
-    entry.relationships.neighborNames.join(" "),
-    entry.documentation ?? "",
-    entry.comments ?? "",
-  ].join(" ")).map(singularize));
+  const terms = featureTextOf(entry).tokenStems;
   let penalty = 0;
   if (required.has("threshold") && !terms.has("threshold")) {
     penalty += 130;
@@ -1754,6 +1756,7 @@ function recommendCapability(
 // a build millions of times on far fewer strings, and ranking several times on each candidate's text.
 let tokenCache: Map<string, readonly string[]> | undefined;
 let noisyAliasCache: Map<string, boolean> | undefined;
+let featureTextCache: Map<SemanticIndexEntry, FeatureText> | undefined;
 
 function withTokenCache<T>(run: () => T): T {
   if (tokenCache) {
@@ -1761,12 +1764,42 @@ function withTokenCache<T>(run: () => T): T {
   }
   tokenCache = new Map();
   noisyAliasCache = new Map();
+  featureTextCache = new Map();
   try {
     return run();
   } finally {
     tokenCache = undefined;
     noisyAliasCache = undefined;
+    featureTextCache = undefined;
   }
+}
+
+interface FeatureText {
+  readonly lowerText: string;
+  readonly tokens: ReadonlySet<string>;
+  readonly tokenStems: ReadonlySet<string>;
+}
+
+// An entry's id, name, paths, parents, neighbors and docs as one text. Four ranking functions each joined and
+// tokenized it again, several times per candidate; a query now does that once per entry.
+function featureTextOf(entry: SemanticIndexEntry): FeatureText {
+  let featureText = featureTextCache?.get(entry);
+  if (!featureText) {
+    const text = [
+      entry.stableId,
+      entry.displayName,
+      entry.filePath ?? "",
+      entry.folderPath ?? "",
+      entry.parentChain.join(" "),
+      entry.relationships.neighborNames.join(" "),
+      entry.documentation ?? "",
+      entry.comments ?? "",
+    ].join(" ");
+    const tokens = tokenize(text);
+    featureText = { lowerText: text.toLowerCase(), tokens: new Set(tokens), tokenStems: new Set(tokens.map(singularize)) };
+    featureTextCache?.set(entry, featureText);
+  }
+  return featureText;
 }
 
 function tokenize(value: string): readonly string[] {

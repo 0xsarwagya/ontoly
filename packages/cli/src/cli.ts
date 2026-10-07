@@ -13,7 +13,13 @@ import {
   type SemanticCoverageReport,
   type SemanticEntityReport,
 } from "@0xsarwagya/ontoly-analyzers";
-import { findGraphArtifactDirectory, getGraphArtifactPaths, loadGraph, loadOrCreateSemanticIndex } from "@0xsarwagya/ontoly-cache";
+import {
+  findGraphArtifactDirectory,
+  getGraphArtifactPaths,
+  loadCurrentSemanticIndex,
+  loadGraph,
+  loadOrCreateSemanticIndex,
+} from "@0xsarwagya/ontoly-cache";
 import {
   capabilityResultToJson,
   createCapabilityRegistry,
@@ -1253,8 +1259,10 @@ async function searchCommand(cli: ParsedCli): Promise<void> {
     });
   }
 
-  const graph = await loadOrBuildGraph(cli, { positionalRoot: false });
-  const index = await loadSemanticIndexForCli(cli, graph);
+  // Search needs only the index. Parsing the graph is for checking the index against it, or rebuilding it.
+  const root = rootFromCli(cli, { positional: false });
+  const index = await loadCurrentSemanticIndex({ root: resolve(root), directory: await artifactDirectoryForCli(cli, root) })
+    ?? await loadSemanticIndexForCli(cli, await loadOrBuildGraph(cli, { positionalRoot: false }));
   const category = searchCategoryFromCli(cli);
   const limit = flagNumber(cli, "limit", 10);
   const result = executeSearch(index, queryText, category, limit, cli.command);
