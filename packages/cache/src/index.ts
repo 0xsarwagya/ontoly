@@ -1,4 +1,4 @@
-import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { isAbsolute, join } from "node:path";
 import type { SoftwareGraph } from "@0xsarwagya/ontoly-core";
@@ -25,6 +25,30 @@ export interface GraphArtifactPaths {
 export interface PersistGraphOptions {
   readonly root: string;
   readonly directory?: string | undefined;
+}
+
+/** Where `ontoly build` writes its output bundle unless `--output` says otherwise. */
+export const DEFAULT_BUILD_OUTPUT_DIRECTORY = "ontoly-output";
+
+/**
+ * The directory holding the repository's newest Software Graph: the build bundle (`ontoly-output`) or the
+ * compiler's `.ontoly` (older builds, `ontoly analyze`). Readers default here, not to `.ontoly` alone, which
+ * a default build never writes the graph to. Undefined when neither holds a graph.
+ */
+export async function findGraphArtifactDirectory(root: string): Promise<string | undefined> {
+  let newest: { readonly directory: string; readonly modifiedMs: number } | undefined;
+  for (const directory of [DEFAULT_BUILD_OUTPUT_DIRECTORY, ".ontoly"]) {
+    const paths = getGraphArtifactPaths({ root, directory });
+    const modifiedMs = (await modifiedTime(paths.graph)) ?? (await modifiedTime(paths.legacyGraph));
+    if (modifiedMs !== undefined && (newest === undefined || modifiedMs > newest.modifiedMs)) {
+      newest = { directory, modifiedMs };
+    }
+  }
+  return newest?.directory;
+}
+
+async function modifiedTime(path: string): Promise<number | undefined> {
+  return stat(path).then((stats) => stats.mtimeMs, () => undefined);
 }
 
 export function getGraphArtifactPaths(options: PersistGraphOptions): GraphArtifactPaths {
