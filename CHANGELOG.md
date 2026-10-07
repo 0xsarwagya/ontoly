@@ -6,10 +6,17 @@ All notable Ontoly changes are tracked here.
 
 ### Fixed
 
+- **Queries read the graph `ontoly build` wrote.** `ontoly build` writes its artifacts to `ontoly-output` by default, but `search`, `query`, `impact`, `trace`, `explain`, `mcp`, `semantic` and `frameworks` looked in `.ontoly`. So every command silently rebuilt the whole graph and its semantic index in memory. They now read the directory holding the newest Software Graph, and `--output` still wins. On a 3,148-file NestJS repository, `ontoly search` went from 49.3 s and 2.5 GB to 3.3 s, and `stats` takes 1.0 s. When no graph is found, the command says so before building one in memory.
+- **`ontoly doctor` finds the graph in `ontoly-output`** and no longer recommends a build that already happened.
 - **`ontoly skills validate --global` validates the skills your agent loads.** Before, the command only looked in the project's `skills/` or `.agents/skills/` folder, so skills installed with `npx skills add -g` could not be validated. `--global` checks `~/.claude/skills`, `~/.agents/skills` and `~/.codex/skills`, follows linked skill folders, and prints one result per folder.
   - Only skills with `ontoly.*` metadata are validated. Other skills in an installed folder, including a project's `.agents/skills/`, are ignored instead of failing validation.
   - A skill whose `ontoly.min.version` is newer than the running CLI fails validation.
 - **`ontoly skills validate` and `ontoly skills doctor` no longer create `validation/skills/` in the current directory.** Reports are written only with `--output <dir>`. `pnpm skills:validate` passes `--output validation/skills`, so the repository's tracked reports are still refreshed.
+
+### Security
+
+- Updated Next.js from 16.2.12 to 16.3.8 and `@next/mdx` from 16.2.10 to 16.3.8 (site), fixing the critical Next.js advisories GHSA-p293-qw3h-jr36, GHSA-2xp9-vwfh-vxw4 and GHSA-vcvr-r3jv-pc5j.
+- Refreshed the site's transitive `sharp` (0.35.5), `nanoid` (3.3.20), `source-map-js` (1.2.2) and `baseline-browser-mapping` (2.11.27) to patched versions within their existing ranges.
 
 ## 1.3.4
 

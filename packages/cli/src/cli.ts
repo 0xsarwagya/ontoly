@@ -13,7 +13,7 @@ import {
   type SemanticCoverageReport,
   type SemanticEntityReport,
 } from "@0xsarwagya/ontoly-analyzers";
-import { getGraphArtifactPaths, loadGraph, loadOrCreateSemanticIndex } from "@0xsarwagya/ontoly-cache";
+import { findGraphArtifactDirectory, getGraphArtifactPaths, loadGraph, loadOrCreateSemanticIndex } from "@0xsarwagya/ontoly-cache";
 import {
   capabilityResultToJson,
   createCapabilityRegistry,
@@ -674,7 +674,7 @@ async function analyzeCommand(cli: ParsedCli): Promise<void> {
 
 async function semanticCommand(cli: ParsedCli): Promise<void> {
   const root = rootFromCli(cli);
-  const outputDir = flagString(cli, "output", ".ontoly");
+  const outputDir = await artifactDirectoryForCli(cli, root);
   const project = await loadOrAnalyzeSemanticModel(root, outputDir);
   const format = flagString(cli, "format", flagBoolean(cli, "json") ? "json" : "summary");
 
@@ -705,7 +705,7 @@ async function semanticCommand(cli: ParsedCli): Promise<void> {
 
 async function frameworksCommand(cli: ParsedCli): Promise<void> {
   const root = rootFromCli(cli);
-  const outputDir = flagString(cli, "output", ".ontoly");
+  const outputDir = await artifactDirectoryForCli(cli, root);
   const project = await loadOrAnalyzeSemanticModel(root, outputDir);
   const registry = createDefaultFrameworkRegistry();
   const detections = registry.detect(project).filter((detection) => detection.detected);
@@ -1335,8 +1335,7 @@ async function exportCommand(cli: ParsedCli): Promise<void> {
 async function mcpCommand(cli: ParsedCli): Promise<void> {
   const graph = await loadOrBuildGraph(cli);
   const root = rootFromCli(cli);
-  const outputDir = flagString(cli, "output", ".ontoly");
-  const history = await loadOptionalHistoryArtifactForCli(root, outputDir);
+  const history = await loadHistoryArtifactNearGraph(cli, root);
   const runtime = createMcpRuntime(graph, { history });
 
   if (flagBoolean(cli, "list")) {
@@ -2278,12 +2277,24 @@ function sourceSummary(source: RepositorySource): JsonObject {
   };
 }
 
+/**
+ * The directory a command reads build artifacts from: `--output` when given, else the one holding the newest
+ * Software Graph (`ontoly-output` after `ontoly build`, `.ontoly` after `ontoly analyze`), else `.ontoly`.
+ */
+export async function artifactDirectoryForCli(cli: ParsedCli, root: string): Promise<string> {
+  const explicit = flagString(cli, "output", "");
+  if (explicit) {
+    return explicit;
+  }
+  return (await findGraphArtifactDirectory(resolve(root))) ?? ".ontoly";
+}
+
 async function loadOrBuildGraph(
   cli: ParsedCli,
   options: { readonly positionalRoot?: boolean | undefined } = {},
 ): Promise<Awaited<ReturnType<typeof buildSoftwareGraph>>> {
   const root = rootFromCli(cli, { positional: options.positionalRoot ?? true });
-  const outputDir = flagString(cli, "output", ".ontoly");
+  const outputDir = await artifactDirectoryForCli(cli, root);
   const paths = getGraphArtifactPaths({ root: resolve(root), directory: outputDir });
 
   try {
@@ -2294,13 +2305,17 @@ async function loadOrBuildGraph(
     }
     return await loadGraph({ root, directory: outputDir });
   } catch {
+    // Silent, this rebuilt the whole graph on every query and hid that `ontoly build` output was not found.
+    logger.warning(
+      `No usable Software Graph in ${outputDir}/; building one in memory for this command. Run ontoly build . to keep one.`,
+    );
     return buildSoftwareGraph({ root, passes: defaultCompilerPasses() });
   }
 }
 
 async function loadSemanticIndexForCli(cli: ParsedCli, graph: SoftwareGraph): Promise<SemanticIndex> {
   const root = rootFromCli(cli, { positional: false });
-  const outputDir = flagString(cli, "output", ".ontoly");
+  const outputDir = await artifactDirectoryForCli(cli, root);
   try {
     const index = await loadOrCreateSemanticIndex({ root: resolve(root), directory: outputDir });
     const issues = validateSemanticIndex(index, graph);
@@ -2313,7 +2328,7 @@ async function loadSemanticIndexForCli(cli: ParsedCli, graph: SoftwareGraph): Pr
 async function createCapabilityEngineForCli(cli: ParsedCli, graph: SoftwareGraph): Promise<CapabilityEngine> {
   const semanticIndex = await loadSemanticIndexForCli(cli, graph);
   const query = createQueryEngine(graph);
-  const history = await loadOptionalHistoryArtifactForCli(rootFromCli(cli, { positional: false }), flagString(cli, "output", ".ontoly"));
+  const history = await loadHistoryArtifactNearGraph(cli, rootFromCli(cli, { positional: false }));
   const registry = createCapabilityRegistry({ graph, query, semanticIndex, history }, defaultCapabilities());
   return {
     registry,
@@ -3516,6 +3531,15 @@ async function loadOrCreateHistoryArtifactForCli(
   } catch {
     return createHistoryArtifact(graph, { repositoryRoot: resolve(rootInput) });
   }
+}
+
+/** `ontoly history build` writes to `.ontoly`, which is not where `ontoly build` leaves the graph; look in both. */
+async function loadHistoryArtifactNearGraph(cli: ParsedCli, root: string): Promise<HistoryArtifact | undefined> {
+  const outputDir = await artifactDirectoryForCli(cli, root);
+  return (
+    (await loadOptionalHistoryArtifactForCli(root, outputDir)) ??
+    (outputDir === ".ontoly" ? undefined : await loadOptionalHistoryArtifactForCli(root, ".ontoly"))
+  );
 }
 
 async function loadOptionalHistoryArtifactForCli(rootInput: string, outputDir: string): Promise<HistoryArtifact | undefined> {
@@ -5230,7 +5254,7 @@ function doctorRecommendations(
   }
 
   if (byName.get("graph artifacts")?.ok === false) {
-    recommendations.push("Run ontoly build . to generate .ontoly/SoftwareGraph.json.");
+    recommendations.push("Run ontoly build . to generate ontoly-output/SoftwareGraph.json.");
   }
 
   if (recommendations.length === 0) {

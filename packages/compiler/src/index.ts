@@ -1,7 +1,14 @@
 import { watch, type FSWatcher } from "node:fs";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import { persistCompilerCache, persistGraph, type GraphArtifactPaths, getGraphArtifactPaths } from "@0xsarwagya/ontoly-cache";
+import {
+  DEFAULT_BUILD_OUTPUT_DIRECTORY,
+  findGraphArtifactDirectory,
+  getGraphArtifactPaths,
+  type GraphArtifactPaths,
+  persistCompilerCache,
+  persistGraph,
+} from "@0xsarwagya/ontoly-cache";
 import type { SoftwareGraph } from "@0xsarwagya/ontoly-core";
 import { createCompilerContext, createCompilerInvocation, defineOntolyConfig } from "./context";
 import { compilerDiagnostic } from "./diagnostics";
@@ -129,7 +136,11 @@ export async function writeGraphArtifacts(
 
 export async function doctorRepository(rootInput = process.cwd()): Promise<readonly DoctorCheck[]> {
   const discovery = await discoverRepository(rootInput);
-  const graphPaths = getGraphArtifactPaths({ root: discovery.root });
+  const graphDirectory = await findGraphArtifactDirectory(discovery.root);
+  const graphPaths = getGraphArtifactPaths({
+    root: discovery.root,
+    directory: graphDirectory ?? DEFAULT_BUILD_OUTPUT_DIRECTORY,
+  });
 
   return [
     {
@@ -144,7 +155,7 @@ export async function doctorRepository(rootInput = process.cwd()): Promise<reado
     },
     {
       name: "graph artifacts",
-      ok: await pathExists(graphPaths.graph),
+      ok: graphDirectory !== undefined,
       message: graphPaths.graph,
     },
   ];
