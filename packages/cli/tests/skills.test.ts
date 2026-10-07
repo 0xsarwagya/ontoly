@@ -1,10 +1,12 @@
-import { readFileSync } from "node:fs";
+import { cpSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   doctorOntolySkills,
   listOntolySkills,
+  validateInstalledOntolySkills,
   validateOntolySkills,
 } from "../src/skills";
 
@@ -71,6 +73,98 @@ describe("Ontoly Agent Skills", () => {
     }
   });
 });
+
+describe("installed Ontoly Agent Skills", () => {
+  let sandbox: string;
+  let home: string;
+
+  beforeEach(() => {
+    sandbox = mkdtempSync(join(tmpdir(), "ontoly-skills-"));
+    home = join(sandbox, "home");
+    vi.stubEnv("HOME", home);
+    vi.stubEnv("USERPROFILE", home);
+    vi.stubEnv("CLAUDE_CONFIG_DIR", "");
+    vi.stubEnv("CODEX_HOME", "");
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+    rmSync(sandbox, { recursive: true, force: true });
+  });
+
+  it("validates Ontoly skills in the user-level agent directories and ignores other skills", async () => {
+    const claudeSkills = join(home, ".claude", "skills");
+    const agentsSkills = join(home, ".agents", "skills");
+    installSkill(claudeSkills, "architecture-review");
+    installSkill(agentsSkills, "impact-analysis");
+    symlinkSync(join(agentsSkills, "impact-analysis"), join(claudeSkills, "impact-analysis"), "junction");
+    mkdirSync(join(claudeSkills, "unrelated"));
+    writeFileSync(join(claudeSkills, "unrelated", "SKILL.md"), "---\nname: unrelated\ndescription: Not an Ontoly skill.\n---\n");
+
+    const reports = await validateInstalledOntolySkills({ cliVersion: CURRENT_VERSION });
+
+    expect(reports.map((report) => report.skillsRoot)).toEqual([claudeSkills, agentsSkills]);
+    expect(reports.map((report) => report.skills.map((skill) => skill.id))).toEqual([
+      ["architecture-review", "impact-analysis"],
+      ["impact-analysis"],
+    ]);
+    expect(reports.map((report) => report.status)).toEqual(["PASS", "PASS"]);
+    expect(reports.flatMap((report) => report.issues)).toEqual([]);
+  });
+
+  it("reports installed skills that need a newer CLI", async () => {
+    installSkill(join(home, ".claude", "skills"), "architecture-review", "99.0.0");
+    installSkill(join(home, ".claude", "skills"), "impact-analysis", "1.0.0-rc.5");
+
+    for (const cliVersion of [CURRENT_VERSION, "99.0.0-rc.1"]) {
+      const [report] = await validateInstalledOntolySkills({ cliVersion });
+
+      expect(report?.status).toBe("FAIL");
+      expect(report?.validSkills).toBe(1);
+      expect(report?.issues).toEqual([
+        expect.objectContaining({
+          skill: "architecture-review",
+          message: `Requires Ontoly 99.0.0 or newer; this CLI is ${cliVersion}. Upgrade the Ontoly CLI.`,
+        }),
+      ]);
+    }
+  });
+
+  it("writes reports only to an explicit output directory", async () => {
+    const project = join(sandbox, "project");
+    installSkill(join(project, ".agents", "skills"), "architecture-review");
+    const cwd = process.cwd();
+    process.chdir(project);
+    try {
+      expect((await validateOntolySkills()).status).toBe("PASS");
+      expect(await validateInstalledOntolySkills()).toEqual([]);
+    } finally {
+      process.chdir(cwd);
+    }
+    expect(readdirSync(project)).toEqual([".agents"]);
+
+    const output = join(sandbox, "reports");
+    await validateOntolySkills(project, { output });
+    expect(readdirSync(output).sort()).toEqual([
+      "agent-evaluation.json",
+      "agent-evaluation.md",
+      "regression-baseline.json",
+      "report.json",
+      "report.md",
+    ]);
+  });
+});
+
+function installSkill(skillsRoot: string, name: string, minimumOntolyVersion?: string): void {
+  const target = join(skillsRoot, name);
+  mkdirSync(skillsRoot, { recursive: true });
+  cpSync(join(__rootDir, "skills", name), target, { recursive: true });
+  if (minimumOntolyVersion) {
+    const skillPath = join(target, "SKILL.md");
+    const content = readFileSync(skillPath, "utf8");
+    writeFileSync(skillPath, content.replace(/ontoly\.min\.version: "[^"]*"/, `ontoly.min.version: "${minimumOntolyVersion}"`));
+  }
+}
 
 function boundedPartialCapabilityOutput() {
   return {

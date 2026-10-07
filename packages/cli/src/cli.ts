@@ -113,6 +113,8 @@ import {
 import {
   doctorOntolySkills,
   listOntolySkills,
+  userSkillsRoots,
+  validateInstalledOntolySkills,
   validateOntolySkills,
   type SkillValidationReport,
 } from "./skills";
@@ -1397,20 +1399,38 @@ async function skillsCommand(cli: ParsedCli): Promise<void> {
     }
 
     case "validate": {
-      const report = await validateOntolySkills(process.cwd());
-      if (flagBoolean(cli, "json")) {
-        logger.write(JSON.stringify(report, null, 2));
-      } else {
-        logger.write(formatSkillValidation(report));
+      const global = flagBoolean(cli, "global");
+      const output = flagString(cli, "output", "") || undefined;
+      if (global && output) {
+        throw new OntolyCliError({
+          code: "ONTOLY3002",
+          message: "--output cannot be combined with --global.",
+          suggestion: "Drop --output; --global prints one result per skills directory.",
+          docs: "docs/skills-validation.md",
+        });
       }
-      if ((flagBoolean(cli, "ci") || flagBoolean(cli, "strict")) && report.status === "FAIL") {
+
+      const reports = global
+        ? await validateInstalledOntolySkills({ cliVersion: cliVersion() })
+        : [await validateOntolySkills(process.cwd(), { output, cliVersion: cliVersion() })];
+      if (flagBoolean(cli, "json")) {
+        logger.write(JSON.stringify(global ? reports : reports[0], null, 2));
+      } else if (reports.length === 0) {
+        logger.write(`No Ontoly skills installed in ${userSkillsRoots().join(", ")}.`);
+      } else {
+        logger.write(reports.map((report) => formatSkillValidation(report, output)).join("\n\n"));
+      }
+      if (
+        (flagBoolean(cli, "ci") || flagBoolean(cli, "strict")) &&
+        (reports.length === 0 || reports.some((report) => report.status === "FAIL"))
+      ) {
         process.exitCode = 1;
       }
       return;
     }
 
     case "doctor": {
-      const report = await doctorOntolySkills(process.cwd());
+      const report = await doctorOntolySkills(process.cwd(), { cliVersion: cliVersion() });
       if (flagBoolean(cli, "json")) {
         logger.write(JSON.stringify(report, null, 2));
         return;
@@ -4698,7 +4718,7 @@ function formatInspection(inspection: JsonObject): string {
   ].join("\n");
 }
 
-function formatSkillValidation(report: SkillValidationReport): string {
+function formatSkillValidation(report: SkillValidationReport, output: string | undefined): string {
   const issueLines = report.issues
     .slice(0, 20)
     .map((issue) => `  ${issue.severity.toUpperCase()} ${issue.skill}: ${issue.message}`);
@@ -4706,6 +4726,7 @@ function formatSkillValidation(report: SkillValidationReport): string {
   return [
     "Ontoly Skills Validation",
     "",
+    `Skills root: ${report.skillsRoot}`,
     `Status: ${report.status}`,
     `Skills: ${report.validSkills}/${report.totalSkills}`,
     `Agent evaluation: ${report.agentEvaluation.status}`,
@@ -4717,10 +4738,7 @@ function formatSkillValidation(report: SkillValidationReport): string {
     "Issues:",
     ...(issueLines.length ? issueLines : ["  none"]),
     ...(report.issues.length > issueLines.length ? [`  ... ${report.issues.length - issueLines.length} more`] : []),
-    "",
-    "Reports:",
-    "  validation/skills/report.md",
-    "  validation/skills/agent-evaluation.md",
+    ...(output ? ["", "Reports:", `  ${join(output, "report.md")}`, `  ${join(output, "agent-evaluation.md")}`] : []),
   ].join("\n");
 }
 
@@ -5767,9 +5785,18 @@ function commandHelp(): Record<string, CommandHelp> {
     skills: {
       title: "ontoly skills",
       description: "List, validate, and diagnose portable Ontoly Agent Skills.",
-      usage: ["ontoly skills list [--json]", "ontoly skills validate [--json] [--ci]", "ontoly skills doctor [--json] [--ci]"],
-      options: ["--json         Print JSON.", "--ci           Fail on validation failure."],
-      examples: ["ontoly skills list", "ontoly skills validate", "ontoly skills doctor --json"],
+      usage: [
+        "ontoly skills list [--json]",
+        "ontoly skills validate [--json] [--ci] [--global | --output path]",
+        "ontoly skills doctor [--json] [--ci]",
+      ],
+      options: [
+        "--json         Print JSON.",
+        "--ci           Fail on validation failure.",
+        "--global       Validate skills installed in ~/.claude/skills, ~/.agents/skills, and ~/.codex/skills.",
+        "--output path  Write validation reports to path. Default: no reports.",
+      ],
+      examples: ["ontoly skills list", "ontoly skills validate", "ontoly skills validate --global", "ontoly skills doctor --json"],
     },
     enhancer: {
       title: "ontoly enhancer",
@@ -5919,6 +5946,7 @@ Examples:
   ontoly query callers UserService.load
   ontoly skills list
   ontoly skills validate
+  ontoly skills validate --global
   ontoly skills doctor
   ontoly enhancer list
   ontoly enhancer graph --format mermaid

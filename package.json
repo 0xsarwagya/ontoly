@@ -20,7 +20,7 @@
     "validate": "node validation/tools/run-validation-lab.mjs validate all",
     "validate:ci": "node validation/tools/run-validation-lab.mjs validate all --ci",
     "skills:list": "node packages/cli/dist/cli.js skills list",
-    "skills:validate": "node packages/cli/dist/cli.js skills validate",
+    "skills:validate": "node packages/cli/dist/cli.js skills validate --output validation/skills",
     "skills:validate-installed": "node validation/tools/validate-installed-skills.mjs",
     "skills:doctor": "node packages/cli/dist/cli.js skills doctor",
     "benchmark:performance": "node validation/tools/run-validation-lab.mjs benchmark performance",
