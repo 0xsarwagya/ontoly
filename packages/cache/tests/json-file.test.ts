@@ -3,7 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createSoftwareGraph } from "@0xsarwagya/ontoly-core";
 import { describe, expect, it } from "vitest";
-import { loadOrCreateSemanticIndex, writeGraphAlias, writeJsonFile } from "../src/index";
+import { loadCurrentSemanticIndex, loadOrCreateSemanticIndex, writeGraphAlias, writeJsonFile } from "../src/index";
 
 class Point {
   constructor(
@@ -79,5 +79,25 @@ describe("loadOrCreateSemanticIndex", () => {
 
     expect(index.graphHash).toBe(graph.metadata.deterministicHash);
     expect(JSON.parse(await readFile(join(root, ".ontoly", "index.json"), "utf8")).graphHash).toBe(index.graphHash);
+  });
+
+  it("reads the index without the graph only while metadata.json names the graph it was built from", async () => {
+    const root = await mkdtemp(join(tmpdir(), "ontoly-semantic-current-"));
+    const graph = createSoftwareGraph({
+      repository: { root, name: "fixture" },
+      nodes: [{ id: "service:src/a.ts:AuthService", type: "Service", name: "AuthService", file: "src/a.ts" }],
+      edges: [],
+      fileCount: 1,
+    });
+    const index = await loadOrCreateSemanticIndex({ root }, graph);
+    const metadataPath = join(root, ".ontoly", "metadata.json");
+
+    expect(await loadCurrentSemanticIndex({ root })).toBeUndefined();
+
+    await writeFile(metadataPath, JSON.stringify(graph.metadata));
+    expect((await loadCurrentSemanticIndex({ root }))?.entries).toEqual(index.entries);
+
+    await writeFile(metadataPath, JSON.stringify({ ...graph.metadata, deterministicHash: "newer" }));
+    expect(await loadCurrentSemanticIndex({ root })).toBeUndefined();
   });
 });

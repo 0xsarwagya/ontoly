@@ -106,6 +106,24 @@ export async function loadSemanticIndex(options: PersistGraphOptions): Promise<S
 }
 
 /**
+ * The persisted semantic index, if it was built from the graph beside it, read without parsing that graph: the
+ * graph's hash comes from metadata.json, written with it. Undefined when a file is missing or unreadable, the hashes
+ * differ or the index is invalid, so the caller falls back to loading the graph.
+ */
+export async function loadCurrentSemanticIndex(options: PersistGraphOptions): Promise<SemanticIndex | undefined> {
+  const paths = getGraphArtifactPaths(options);
+  try {
+    const [metadata, index] = await Promise.all([
+      readFile(paths.metadata, "utf8").then((contents) => JSON.parse(contents) as Partial<SoftwareGraph["metadata"]>),
+      loadSemanticIndex(options),
+    ]);
+    return index.graphHash === metadata.deterministicHash && validateSemanticIndex(index).length === 0 ? index : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+/**
  * The persisted semantic index when it matches the graph, else a rebuilt one, which is persisted. Pass the graph
  * when the caller already holds it: reading it again doubled the memory and time of every search.
  */
