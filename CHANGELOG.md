@@ -39,10 +39,10 @@ All notable Ontoly changes are tracked here.
 
 - **Releases publish with npm trusted publishing.** The publish workflow authenticates to npm with the GitHub Actions OIDC token instead of a stored `NPM_TOKEN`, so there is no publish token to rotate or to expire mid-release. Packages are packed with pnpm, which resolves `workspace:` dependencies, and published with npm 11, which supports trusted publishing. `NPM_TOKEN` remains a fallback until every package trusts the workflow, and the redundant `npm access` step, which needs a token, is gone.
 - **`index.json` refers to entries by offset.** In the semantic index file, postings, vocabulary node ids and neighbor ids now hold positions in `entryIds` instead of repeating each stable id, which averaged 70 characters. On a 3,148-file repository the file shrinks from 138.6 MB to 70.7 MB and reads in half the time, and `ontoly search` peaks at 0.73 GB instead of 1.21 GB. Ontoly reads both forms, so existing bundles keep working. Tools that read `index.json` directly should map numbers through `entryIds`.
-
 - **The compiler cache checks products by the sha256 of their file.** A warm build verified `products.json` by serializing the parsed products again and hashing the result. The manifest now records the sha256 of the bytes written, and loading hashes the bytes it already read for parsing. On a 3,148-file repository the cache-loading stage went from 1.9 s and 1,051 MB of heap to 0.9 s and 570 MB.
   - The compiler cache version is now 2.0.0, so the first build after upgrading rebuilds the cache once.
   - `persistCompilerSnapshot(graph, options, manifest, products)` now takes `manifest` as a function of the products digest, and the new `loadCompilerProductsWithDigest` reads the products back with it.
+
 ### Security
 
 - Updated Next.js from 16.2.12 to 16.3.8 and `@next/mdx` from 16.2.10 to 16.3.8 (site), fixing the critical Next.js advisories GHSA-p293-qw3h-jr36, GHSA-2xp9-vwfh-vxw4 and GHSA-vcvr-r3jv-pc5j.
