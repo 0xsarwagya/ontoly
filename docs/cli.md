@@ -112,7 +112,9 @@ ontoly output . --json
 The bundle includes canonical graph JSON, diagnostics, indexes, statistics,
 semantic coverage, quality, semantic model, report JSONs, node files split by
 type, relationship files split by type, graph community files, and offline HTML
-explorers:
+explorers. Every node and relationship appears once in `SoftwareGraph.json`;
+community files list the ids of theirs (`nodeIds`, `edgeIds`), so look the
+records up there:
 
 ```text
 ontoly-output/

@@ -195,10 +195,8 @@ ontoly-output/
     frameworks.json
     workspace.json
   nodes/
-    all.json
     by-type/
   relationships/
-    all.json
     by-type/
   communities/
     communities.json
