@@ -157,6 +157,28 @@ describe("semantic index", () => {
     expect(index.metadata.deterministicHash).toEqual(expect.any(String));
   });
 
+  it("indexes a compiled graph the same as that graph read back from JSON", () => {
+    const compiled = createSoftwareGraph({
+      repository: { root: "/repo", name: "example" },
+      nodes: [
+        // What the compiler emits for a tsconfig without `extends`, plus values JSON can't keep.
+        node("BuildTarget", "typescript", "tsconfig.json", {
+          tool: "typescript",
+          extends: undefined,
+          ratio: Number.NaN,
+          module: "commonjs",
+        } as unknown as SoftwareGraphNode["metadata"]),
+      ],
+      edges: [],
+      fileCount: 1,
+    });
+    const reloaded = JSON.parse(JSON.stringify(compiled)) as SoftwareGraph;
+
+    const entry = createSemanticIndex(compiled).entries[0];
+    expect(entry?.keywords).not.toContain("extends");
+    expect(createSemanticIndex(compiled).entries).toEqual(createSemanticIndex(reloaded).entries);
+  });
+
   it("hashes larger semantic indexes deterministically with chunked hashing", () => {
     const graph = largeGraph();
     const first = createSemanticIndex(graph);
