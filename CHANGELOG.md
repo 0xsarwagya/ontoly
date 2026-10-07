@@ -9,6 +9,10 @@ All notable Ontoly changes are tracked here.
 - **Queries read the graph `ontoly build` wrote.** `ontoly build` writes its artifacts to `ontoly-output` by default, but `search`, `query`, `impact`, `trace`, `explain`, `mcp`, `semantic` and `frameworks` looked in `.ontoly`. So every command silently rebuilt the whole graph and its semantic index in memory. They now read the directory holding the newest Software Graph, and `--output` still wins. On a 3,148-file NestJS repository, `ontoly search` went from 49.3 s and 2.5 GB to 3.3 s, and `stats` takes 1.0 s. When no graph is found, the command says so before building one in memory.
 - **`ontoly doctor` finds the graph in `ontoly-output`** and no longer recommends a build that already happened.
 
+### Changed
+
+- **Releases publish with npm trusted publishing.** The publish workflow authenticates to npm with the GitHub Actions OIDC token instead of a stored `NPM_TOKEN`, so there is no publish token to rotate or to expire mid-release. Packages are packed with pnpm, which resolves `workspace:` dependencies, and published with npm 11, which supports trusted publishing. `NPM_TOKEN` remains a fallback until every package trusts the workflow, and the redundant `npm access` step, which needs a token, is gone.
+
 ### Security
 
 - Updated Next.js from 16.2.12 to 16.3.8 and `@next/mdx` from 16.2.10 to 16.3.8 (site), fixing the critical Next.js advisories GHSA-p293-qw3h-jr36, GHSA-2xp9-vwfh-vxw4 and GHSA-vcvr-r3jv-pc5j.
