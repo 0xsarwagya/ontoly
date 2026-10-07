@@ -12,6 +12,13 @@ All notable Ontoly changes are tracked here.
   - Only skills with `ontoly.*` metadata are validated. Other skills in an installed folder, including a project's `.agents/skills/`, are ignored instead of failing validation.
   - A skill whose `ontoly.min.version` is newer than the running CLI fails validation.
 - **`ontoly skills validate` and `ontoly skills doctor` no longer create `validation/skills/` in the current directory.** Reports are written only with `--output <dir>`. `pnpm skills:validate` passes `--output validation/skills`, so the repository's tracked reports are still refreshed.
+- **Artifacts no longer have to fit in one string.** Large JSON artifacts are now streamed to disk as compact JSON, member by member: the graph, semantic index, indexes, node, relationship and community files, reports, and the compiler cache. Before, each was built as one indented string first, which threw `Invalid string length` once it passed V8's maximum string length, about 512 MB. Output is byte-identical to `JSON.stringify`, and `manifest.json`, `metadata.json` and `statistics.json` stay indented.
+  - `graph.json` is now a hard link to `SoftwareGraph.json` (a copy where links are unsupported), not a second copy.
+  - Loading the semantic index reuses the graph the command already holds instead of parsing it again.
+
+  On the same 3,148-file repository:
+  - full build: peak memory 4.24 GB → 2.98 GB, bundle 720 MB → 494 MB, 54.9 s → 50.5 s;
+  - `ontoly search`: 1.59 GB → 0.85 GB.
 
 ### Changed
 

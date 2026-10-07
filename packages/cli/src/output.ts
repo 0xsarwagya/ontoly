@@ -12,6 +12,7 @@ import {
   type SoftwareGraphEdge,
   type SoftwareGraphNode,
 } from "@0xsarwagya/ontoly-core";
+import { writeGraphAlias, writeJsonFile } from "@0xsarwagya/ontoly-cache";
 import { createSemanticIndex } from "@0xsarwagya/ontoly-core";
 import { createInteractiveHtmlGraph } from "@0xsarwagya/ontoly-plugin-html";
 import { createQueryEngine, type QueryEngine } from "@0xsarwagya/ontoly-query";
@@ -91,8 +92,11 @@ export async function createOntolyOutputBundle(
   const communities = communityDetails.map(({ nodes: _nodes, edges: _edges, ...summary }) => summary);
   const files: string[] = [];
 
+  // Streamed and compact: no artifact is ever held as one string, so none can outgrow a JavaScript string.
   const writeJson = async (path: string, value: unknown): Promise<void> => {
-    await writeBundleFile(directory, path, `${JSON.stringify(value, null, 2)}\n`);
+    const target = join(directory, path);
+    await mkdir(dirname(target), { recursive: true });
+    await writeJsonFile(target, value);
     files.push(path);
   };
   const writeText = async (path: string, value: string): Promise<void> => {
@@ -100,9 +104,9 @@ export async function createOntolyOutputBundle(
     files.push(path);
   };
 
-  const serializedGraph = `${JSON.stringify(graph, null, 2)}\n`;
-  await writeText("SoftwareGraph.json", serializedGraph);
-  await writeText("graph.json", serializedGraph);
+  await writeJson("SoftwareGraph.json", graph);
+  await writeGraphAlias(join(directory, "SoftwareGraph.json"), join(directory, "graph.json"));
+  files.push("graph.json");
   await writeJson("diagnostics.json", graph.diagnostics);
   await writeJson("metadata.json", graph.metadata);
   await writeJson("indexes.json", graph.indexes);
@@ -163,7 +167,9 @@ export async function createOntolyOutputBundle(
   }
 
   const manifest = createManifest(graph, files, options.source);
-  await writeJson("manifest.json", manifest);
+  // Small and read by people, so kept indented.
+  await writeBundleFile(directory, "manifest.json", `${JSON.stringify(manifest, null, 2)}\n`);
+  files.push("manifest.json");
 
   return {
     directory,

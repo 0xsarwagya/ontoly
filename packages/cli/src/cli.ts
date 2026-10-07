@@ -2317,7 +2317,7 @@ async function loadSemanticIndexForCli(cli: ParsedCli, graph: SoftwareGraph): Pr
   const root = rootFromCli(cli, { positional: false });
   const outputDir = await artifactDirectoryForCli(cli, root);
   try {
-    const index = await loadOrCreateSemanticIndex({ root: resolve(root), directory: outputDir });
+    const index = await loadOrCreateSemanticIndex({ root: resolve(root), directory: outputDir }, graph);
     const issues = validateSemanticIndex(index, graph);
     return issues.length === 0 ? index : createSemanticIndex(graph);
   } catch {
