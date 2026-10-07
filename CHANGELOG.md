@@ -4,6 +4,11 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+### Security
+
+- Updated Next.js from 16.2.12 to 16.3.8 and `@next/mdx` from 16.2.10 to 16.3.8 (site), fixing the critical Next.js advisories GHSA-p293-qw3h-jr36, GHSA-2xp9-vwfh-vxw4 and GHSA-vcvr-r3jv-pc5j.
+- Refreshed the site's transitive `sharp` (0.35.5), `nanoid` (3.3.20), `source-map-js` (1.2.2) and `baseline-browser-mapping` (2.11.27) to patched versions within their existing ranges.
+
 ## 1.3.4
 
 ### Fixed
