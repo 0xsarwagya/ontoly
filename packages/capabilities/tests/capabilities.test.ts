@@ -35,6 +35,11 @@ const CAREHUB_SLEEP_THRESHOLD_SEED_IDS = [
 ] as const;
 const PARTIAL_PLAN_DIAGNOSTIC = expect.objectContaining({ code: "CAPABILITY_PARTIAL_PLAN" });
 const AMBIGUOUS_TARGET_DIAGNOSTIC = expect.objectContaining({ code: "CAPABILITY_AMBIGUOUS_TARGET" });
+const BACKFILL_LAST_NIGHT = "method:src/sleepiz-backfill/sleepiz-backfill.service.ts:SleepizBackfillService.backfillLastNight";
+const PROCESS_IN_SCOPE_IDS = [
+  "method:src/job/billing.processor.ts:BillingProcessor.processInScope",
+  "method:src/sleepiz-backfill/sleepiz-backfill.processor.ts:SleepizBackfillProcessor.processInScope",
+] as const;
 
 interface CapabilityProfileStage {
   readonly name: string;
@@ -534,6 +539,34 @@ describe("semantic capability engine", () => {
     expect(planPack?.stableIds?.some(isCarehubSleepThresholdSeed)).toBe(true);
     expect(planPack?.stableIds?.slice(0, 5).some((id) => id.includes("@medplum/fhirtypes") || id.includes("node_modules"))).toBe(false);
   });
+
+  it("resolves a bare method name before free-text matches", () => {
+    const result = createCapabilityEngine(resolutionGraph()).execute("CallHierarchy", { id: "backfillLastNight" });
+
+    expect(result.statistics.target).toMatchObject({ id: BACKFILL_LAST_NIGHT });
+  });
+
+  it("traces a route given as METHOD /path, METHOD:/path, or /path", () => {
+    const engine = createCapabilityEngine(resolutionGraph());
+
+    for (const query of ["POST /sleepiz/backfill", "POST:/sleepiz/backfill", "/sleepiz/backfill", "route:POST:/sleepiz/backfill"]) {
+      const result = engine.execute("RequestTrace", { query });
+
+      expect(result.statistics.route, query).toMatchObject({ id: "route:POST:/sleepiz/backfill" });
+      expect(result.diagnostics, query).toEqual([]);
+    }
+  });
+
+  it("lists the candidates when a route or symbol is ambiguous", () => {
+    const engine = createCapabilityEngine(resolutionGraph());
+
+    expect(engine.execute("RequestTrace", { query: "/sleepiz/status" }).diagnostics).toEqual([
+      expect.objectContaining({ code: "CAPABILITY_AMBIGUOUS_TARGET", message: expect.stringContaining("route:GET:/sleepiz/status, route:POST:/sleepiz/status") }),
+    ]);
+    expect(engine.execute("ImpactAnalysis", { id: "processInScope" }).diagnostics).toEqual([
+      expect.objectContaining({ code: "CAPABILITY_AMBIGUOUS_TARGET", message: expect.stringContaining(PROCESS_IN_SCOPE_IDS.join(", ")) }),
+    ]);
+  });
 });
 
 function expectPlanStages(profile: readonly { readonly name: string }[]): void {
@@ -762,6 +795,46 @@ function densePlannerGraph(): SoftwareGraph {
     nodes,
     edges,
     fileCount: workers.length + 2,
+  });
+}
+
+// A QA harness whose path and helpers match "backfillLastNight" as free text
+// but never call it, beside the service method that the processor calls.
+function resolutionGraph(): SoftwareGraph {
+  const harness = "qa/harness/sleepiz-daily-backfill/run.mjs";
+  const controller = "src/sleepiz-backfill/sleepiz-backfill.controller.ts";
+  const handler = `method:${controller}:SleepizBackfillController.backfill`;
+  const route = (method: string, path: string): SoftwareGraphNode => ({
+    id: `route:${method}:${path}`,
+    type: "Route",
+    name: `${method}:${path}`,
+    file: controller,
+    metadata: { method, path },
+  });
+
+  return createSoftwareGraph({
+    repository: { root: "/repo", name: "resolution" },
+    nodes: [
+      { id: `mod:${harness}`, type: "Module", name: harness, file: harness },
+      { id: `fn:${harness}:main`, type: "Function", name: "main", file: harness },
+      { id: `fn:${harness}:lastNight`, type: "Function", name: "lastNight", file: harness },
+      { id: `import:${harness}:../lib.mjs:0huihvt`, type: "Import", name: "../lib.mjs", file: harness, metadata: { namedBindings: ["post"] } },
+      { id: BACKFILL_LAST_NIGHT, type: "Method", name: "SleepizBackfillService.backfillLastNight", file: "src/sleepiz-backfill/sleepiz-backfill.service.ts" },
+      { id: PROCESS_IN_SCOPE_IDS[0], type: "Method", name: "BillingProcessor.processInScope", file: "src/job/billing.processor.ts" },
+      { id: PROCESS_IN_SCOPE_IDS[1], type: "Method", name: "SleepizBackfillProcessor.processInScope", file: "src/sleepiz-backfill/sleepiz-backfill.processor.ts" },
+      { id: handler, type: "Method", name: "SleepizBackfillController.backfill", file: controller },
+      route("POST", "/sleepiz/backfill"),
+      route("GET", "/sleepiz/status"),
+      route("POST", "/sleepiz/status"),
+    ],
+    edges: [
+      edge("CALLS", `mod:${harness}`, `fn:${harness}:main`),
+      edge("CALLS", `fn:${harness}:main`, `fn:${harness}:lastNight`),
+      edge("CALLS", PROCESS_IN_SCOPE_IDS[1], BACKFILL_LAST_NIGHT),
+      edge("HANDLES", "route:POST:/sleepiz/backfill", handler),
+      edge("CALLS", handler, BACKFILL_LAST_NIGHT),
+    ],
+    fileCount: 5,
   });
 }
 

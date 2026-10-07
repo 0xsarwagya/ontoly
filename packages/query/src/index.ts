@@ -52,6 +52,11 @@ export interface DependencyTree {
   readonly dependencies: readonly DependencyTree[];
 }
 
+export interface ResolveOptions {
+  readonly types?: readonly NodeType[] | undefined;
+  readonly fuzzy?: boolean | undefined;
+}
+
 export interface QueryCacheStats {
   readonly graphHash: string;
   readonly hits: number;
@@ -114,6 +119,7 @@ export interface QueryEngine {
   readonly find: (options?: string | FindOptions) => readonly SoftwareGraphNode[];
   readonly findNode: (idOrQuery: string | FindOptions) => SoftwareGraphNode | undefined;
   readonly findNodes: (options?: string | FindOptions) => readonly SoftwareGraphNode[];
+  readonly resolve: (target: string, options?: ResolveOptions) => readonly SoftwareGraphNode[];
   readonly findFunction: (nameOrId: string) => SoftwareGraphNode | undefined;
   readonly findClass: (nameOrId: string) => SoftwareGraphNode | undefined;
   readonly findModule: (nameOrId: string) => SoftwareGraphNode | undefined;
@@ -165,6 +171,7 @@ export const QUERY_COMPLEXITIES: Record<keyof Omit<QueryEngine, "graph" | "index
   find: "O(1) for exact id/name/file/kind lookups, O(n) for free-text query merging index candidates.",
   findNode: "O(1) for exact id, otherwise O(k) for matching indexed candidates.",
   findNodes: "O(1) for exact id/name/file/kind lookups, O(n) for free-text query merging index candidates.",
+  resolve: "O(1) for exact id, otherwise O(n) for exact names and O(n) again for free text.",
   findFunction: "O(k) where k is the number of nodes with matching name or id candidates.",
   findClass: "O(k) where k is the number of nodes with matching name or id candidates.",
   findModule: "O(k) where k is the number of nodes with matching name or id candidates.",
@@ -195,6 +202,8 @@ export const QUERY_COMPLEXITIES: Record<keyof Omit<QueryEngine, "graph" | "index
   stats: "O(V + E) on first call, O(1) cached afterward.",
 };
 
+const ROUTE_SIGNATURE = /^([a-z]+)[\s:]+(\/.*)$/i;
+
 const DEPENDENCY_RELATIONSHIPS: readonly RelationshipType[] = [
   "DEPENDS_ON",
   "IMPORTS",
@@ -223,6 +232,7 @@ export function createQueryEngine(graph: SoftwareGraph): QueryEngine {
     find: (options) => findNodes(indexes, options),
     findNode: (idOrQuery) => findNode(indexes, idOrQuery),
     findNodes: (options) => findNodes(indexes, options),
+    resolve: (target, options) => resolveNodes(indexes, target, options),
     findFunction: (nameOrId) => findNodeByType(indexes, "Function", nameOrId),
     findClass: (nameOrId) => findNodeByType(indexes, "Class", nameOrId),
     findModule: (nameOrId) => findNodeByType(indexes, "Module", nameOrId),
@@ -452,6 +462,78 @@ function findService(indexes: QueryIndexes, nameOrId: string): SoftwareGraphNode
   }
 
   return findNodes(indexes, nameOrId).find((node) => node.type === "Service" || node.name.endsWith("Service"));
+}
+
+// Returns the nodes of the first tier that matches: the exact id; an exact
+// name, qualified (`Class.method`, a file path, `POST /path`) or bare (a
+// function, the method in `Class.method`, a route path); then free text. Bare
+// names share one tier, so `load` is ambiguous between `load()` and
+// `UserService.load` instead of quietly preferring one.
+function resolveNodes(
+  indexes: QueryIndexes,
+  target: string,
+  options: ResolveOptions = {},
+): readonly SoftwareGraphNode[] {
+  if (!target) {
+    return [];
+  }
+
+  const types = options.types ?? [];
+  const allowed = (node: SoftwareGraphNode) => types.length === 0 || types.includes(node.type);
+  const exact = indexes.nodeById.get(target);
+
+  if (exact && allowed(exact)) {
+    return [exact];
+  }
+
+  const nodes = [...indexes.nodeById.values()].filter(allowed);
+  const named = bestCandidates(nodes.filter((node) =>
+    node.name === target || memberName(node) === target || matchesRoute(node, target),
+  ));
+
+  // An explicit `GET /path` never falls back to free text, which could match
+  // the same path under another method.
+  if (named.length > 0 || options.fuzzy === false || ROUTE_SIGNATURE.test(target)) {
+    return named;
+  }
+
+  return bestCandidates(nodes.filter((node) => matchesQuery(node, target)));
+}
+
+function memberName(node: SoftwareGraphNode): string | undefined {
+  return node.type === "Method" || node.type === "Field"
+    ? node.name.slice(node.name.lastIndexOf(".") + 1)
+    : undefined;
+}
+
+function matchesRoute(node: SoftwareGraphNode, value: string): boolean {
+  const path = node.metadata?.path;
+
+  if (node.type !== "Route" || typeof path !== "string") {
+    return false;
+  }
+
+  const signature = ROUTE_SIGNATURE.exec(value);
+
+  if (!signature) {
+    return value === path;
+  }
+
+  return signature[2] === path && signature[1]?.toUpperCase() === String(node.metadata?.method ?? "").toUpperCase();
+}
+
+// Import/Export statements restate a declaration, so they only count when
+// nothing else matched. Facets of one declaration (Class, Service, Provider)
+// share its name and file but differ in type; they collapse to the first id.
+function bestCandidates(nodes: readonly SoftwareGraphNode[]): readonly SoftwareGraphNode[] {
+  const declarations = nodes.filter((node) => node.type !== "Import" && node.type !== "Export");
+  const candidates = sortedNodes(declarations.length > 0 ? declarations : nodes);
+  const [first] = candidates;
+  const facets = first !== undefined &&
+    candidates.every((node) => node.name === first.name && node.file === first.file) &&
+    new Set(candidates.map((node) => node.type)).size === candidates.length;
+
+  return facets ? [first] : candidates;
 }
 
 function filterEdges(
