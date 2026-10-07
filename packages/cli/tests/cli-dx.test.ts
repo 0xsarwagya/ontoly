@@ -9,8 +9,12 @@ import {
   type SoftwareGraphNode,
   type SourceSpan,
 } from "@0xsarwagya/ontoly-core";
+import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import {
   OntolyCliError,
+  artifactDirectoryForCli,
   commandHelp,
   createBoundedEvidencePack,
   formatCliError,
@@ -22,6 +26,23 @@ import {
 
 const ONTOLY_REMOTE_REPOSITORY = "https://github.com/0xsarwagya/ontoly.git";
 const INTERACTIVE_TTY = { stdinIsTTY: true, stdoutIsTTY: true };
+
+describe("artifact directory for reading commands", () => {
+  it("reads where ontoly build wrote, unless --output names a directory", async () => {
+    const root = await mkdtemp(join(tmpdir(), "ontoly-cli-artifacts-"));
+    await mkdir(join(root, "ontoly-output"), { recursive: true });
+    await writeFile(join(root, "ontoly-output", "SoftwareGraph.json"), "{}", "utf8");
+
+    expect(await artifactDirectoryForCli(parseCli(["search", "auth"]), root)).toBe("ontoly-output");
+    expect(await artifactDirectoryForCli(parseCli(["search", "auth", "--output", "custom"]), root)).toBe("custom");
+  });
+
+  it("falls back to .ontoly when nothing has been built", async () => {
+    const root = await mkdtemp(join(tmpdir(), "ontoly-cli-artifacts-none-"));
+
+    expect(await artifactDirectoryForCli(parseCli(["search", "auth"]), root)).toBe(".ontoly");
+  });
+});
 
 describe("cli developer experience helpers", () => {
   it("parses positional arguments and boolean/string flags deterministically", () => {
