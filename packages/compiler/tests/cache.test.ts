@@ -1,4 +1,5 @@
-import { mkdir, mkdtemp, rm, stat, writeFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
+import { mkdir, mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createNodeId } from "@0xsarwagya/ontoly-core";
@@ -122,6 +123,37 @@ describe("incremental compiler cache", () => {
 
     expect(rebuilt.cache).toMatchObject({ hit: false, reason: "products-missing" });
     expect(executions).toBe(2);
+  });
+
+  it("checks products against the sha256 of the file the manifest committed", async () => {
+    const root = await createFixture();
+    const cacheDir = join(root, ".ontoly", "cache", "compiler");
+    let executions = 0;
+    const pass = fixturePass("1.0.0", () => {
+      executions += 1;
+    });
+    const options = {
+      root,
+      cacheDir,
+      cache: true,
+      mode: "incremental" as const,
+      write: false,
+      passes: [pass],
+    };
+
+    await buildSoftwareGraphWithArtifacts(options);
+    const productsPath = join(cacheDir, "products.json");
+    const products = await readFile(productsPath, "utf8");
+    const manifest = JSON.parse(await readFile(join(cacheDir, "cache.json"), "utf8")) as { readonly productsFingerprint: string };
+    expect(manifest.productsFingerprint).toBe(createHash("sha256").update(products).digest("hex"));
+
+    // Same products, different bytes: the file is no longer the one that was committed.
+    await writeFile(productsPath, JSON.stringify(JSON.parse(products), null, 2), "utf8");
+    const rebuilt = await buildSoftwareGraphWithArtifacts(options);
+
+    expect(rebuilt.cache).toMatchObject({ hit: false, reason: "products-mismatch" });
+    expect(executions).toBe(2);
+    expect((await buildSoftwareGraphWithArtifacts(options)).cache).toMatchObject({ hit: true, reason: "hit" });
   });
 });
 

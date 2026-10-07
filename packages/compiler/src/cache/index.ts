@@ -1,6 +1,6 @@
 import {
   loadCompilerCache,
-  loadCompilerProducts,
+  loadCompilerProductsWithDigest,
   loadGraph,
   type PersistGraphOptions,
 } from "@0xsarwagya/ontoly-cache";
@@ -15,7 +15,8 @@ import {
   type SourceArtifact,
 } from "../types";
 
-export const COMPILER_CACHE_VERSION = "1.0.0";
+// 2.0.0: productsFingerprint became the sha256 of products.json, not a stableHash of the parsed products.
+export const COMPILER_CACHE_VERSION = "2.0.0";
 
 export interface CompilerCacheManifest {
   readonly version: typeof COMPILER_CACHE_VERSION;
@@ -24,6 +25,7 @@ export interface CompilerCacheManifest {
   readonly sourceFingerprint: string;
   readonly configurationFingerprint: string;
   readonly passFingerprint: string;
+  /** sha256 of products.json as written. */
   readonly productsFingerprint: string;
   readonly sources: readonly SourceArtifact[];
 }
@@ -106,11 +108,14 @@ export async function loadCompilerBuildCache(
 
     let graph: SoftwareGraph;
     let products: Record<string, unknown> | null;
+    let productsDigest: string | undefined;
     try {
-      [graph, products] = await Promise.all([
+      let loaded: { readonly products: Record<string, unknown> | null; readonly digest: string | undefined };
+      [graph, loaded] = await Promise.all([
         loadGraph(options),
-        loadCompilerProducts<Record<string, unknown> | null>(options, null),
+        loadCompilerProductsWithDigest<Record<string, unknown> | null>(options, null),
       ]);
+      ({ products, digest: productsDigest } = loaded);
     } catch (error) {
       return {
         view: createCacheView({
@@ -153,7 +158,7 @@ export async function loadCompilerBuildCache(
       };
     }
 
-    if (stableHash(stableStringify(products)) !== manifest.productsFingerprint) {
+    if (productsDigest !== manifest.productsFingerprint) {
       return {
         view: createCacheView({
           compatible: true,
@@ -197,6 +202,7 @@ export function createCompilerCacheManifest(
   context: CompilerContext,
   state: CompilerPipelineState,
   graph: SoftwareGraph,
+  productsDigest: string,
 ): CompilerCacheManifest {
   return {
     version: COMPILER_CACHE_VERSION,
@@ -205,9 +211,7 @@ export function createCompilerCacheManifest(
     sourceFingerprint: createSourceFingerprint(state.sources?.sources ?? []),
     configurationFingerprint: createConfigurationFingerprint(context),
     passFingerprint: createPassFingerprint(context),
-    productsFingerprint: stableHash(stableStringify(
-      Object.fromEntries([...state.products.entries()].sort(([left], [right]) => left.localeCompare(right))),
-    )),
+    productsFingerprint: productsDigest,
     sources: [...(state.sources?.sources ?? [])]
       .map((source) => ({ ...source }))
       .sort((left, right) => left.path.localeCompare(right.path)),

@@ -21,7 +21,9 @@ pnpm add @0xsarwagya/ontoly-cache
 - `loadGraph(options)` reads graph artifacts from disk.
 - `loadOrCreateSemanticIndex(options)` loads or derives the Semantic Index.
 - `persistCompilerSnapshot(graph, options, manifest, products)` atomically
-  commits the reusable graph and frontend products, publishing the manifest last.
+  commits the reusable graph and frontend products, then the manifest that
+  `manifest(productsDigest)` returns, last. `loadCompilerProductsWithDigest`
+  reads the products back with the sha256 of their file.
 
 ## Example
 

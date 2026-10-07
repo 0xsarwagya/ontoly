@@ -44,6 +44,9 @@ All notable Ontoly changes are tracked here.
   - `nodes/all.json` and `relationships/all.json` are gone. They repeated `SoftwareGraph.json`, whose `nodes` and `edges` are the same lists; `nodes/by-type/` and `relationships/by-type/` remain.
   - Community files list their members as `nodeIds` and `edgeIds` instead of embedding every node and edge; look the records up in `SoftwareGraph.json`. The largest one went from 47.8 MB to 3.7 MB. Counts, types and representative nodes are unchanged.
   - Splitting the graph into communities filtered the whole graph once per community. It now buckets nodes and relationships in one pass, so graphs with many disconnected parts no longer take quadratic time.
+- **The compiler cache checks products by the sha256 of their file.** A warm build verified `products.json` by serializing the parsed products again and hashing the result. The manifest now records the sha256 of the bytes written, and loading hashes the bytes it already read for parsing. On a 3,148-file repository the cache-loading stage went from 1.9 s and 1,051 MB of heap to 0.9 s and 570 MB.
+  - The compiler cache version is now 2.0.0, so the first build after upgrading rebuilds the cache once.
+  - `persistCompilerSnapshot(graph, options, manifest, products)` now takes `manifest` as a function of the products digest, and the new `loadCompilerProductsWithDigest` reads the products back with it.
 
 ### Security
 

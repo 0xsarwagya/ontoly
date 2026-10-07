@@ -1,5 +1,5 @@
 import { copyFile, link, mkdir, open, readFile, rename, rm, stat, writeFile } from "node:fs/promises";
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID, type Hash } from "node:crypto";
 import { isAbsolute, join } from "node:path";
 import type { SoftwareGraph } from "@0xsarwagya/ontoly-core";
 import {
@@ -152,21 +152,47 @@ export async function persistCompilerCache(
 }
 
 /** Atomically commits the graph and manifest used by incremental compiler builds. */
+/**
+ * Commits the graph and products, then the manifest that `manifest` builds from the products file's sha256. The
+ * manifest is the commit marker, so it becomes visible last.
+ */
 export async function persistCompilerSnapshot(
   graph: SoftwareGraph,
   options: PersistGraphOptions,
-  cache: unknown,
+  manifest: (productsDigest: string) => unknown,
   products: unknown = {},
 ): Promise<GraphArtifactPaths> {
   const paths = getGraphArtifactPaths(options);
   await mkdir(paths.directory, { recursive: true });
+  const productsDigest = createHash("sha256");
   await Promise.all([
     writeJsonAtomic(paths.graph, graph),
-    writeJsonAtomic(paths.products, products),
+    writeJsonAtomic(paths.products, products, productsDigest),
   ]);
-  // The manifest is the commit marker and must become visible last.
-  await writeJsonAtomic(paths.cache, cache);
+  await writeJsonAtomic(paths.cache, manifest(productsDigest.digest("hex")));
   return paths;
+}
+
+/**
+ * The products and the sha256 of the file they were read from, which persistCompilerSnapshot recorded in the
+ * manifest: checking it costs one pass over bytes already read, not a second serialization. No digest when the
+ * file is missing and `fallback` is returned.
+ */
+export async function loadCompilerProductsWithDigest<T>(
+  options: PersistGraphOptions,
+  fallback: T,
+): Promise<{ readonly products: T; readonly digest: string | undefined }> {
+  const paths = getGraphArtifactPaths(options);
+  let contents: string;
+  try {
+    contents = await readFile(paths.products, "utf8");
+  } catch (error) {
+    if (isMissingFileError(error)) {
+      return { products: fallback, digest: undefined };
+    }
+    throw error;
+  }
+  return { products: JSON.parse(contents) as T, digest: createHash("sha256").update(contents).digest("hex") };
 }
 
 export async function loadCompilerProducts<T>(
@@ -220,7 +246,8 @@ const STREAM_DEPTH = 2;
  * holding the whole document as one string. A graph larger than the longest string V8 allows (about 512 MB) then
  * still writes, where `JSON.stringify` threw "Invalid string length"; compact output is also 20-30% smaller.
  */
-export async function writeJsonFile(path: string, value: unknown): Promise<void> {
+/** Streams `value` to `path` as compact JSON. A `digest`, if given, is fed exactly the bytes written. */
+export async function writeJsonFile(path: string, value: unknown, digest?: Hash): Promise<void> {
   const handle = await open(path, "w");
   try {
     let buffer = "";
@@ -228,10 +255,13 @@ export async function writeJsonFile(path: string, value: unknown): Promise<void>
       buffer += chunk;
       if (buffer.length >= WRITE_BUFFER_CHARS) {
         await handle.write(buffer);
+        digest?.update(buffer);
         buffer = "";
       }
     }
-    await handle.write(`${buffer}\n`);
+    buffer += "\n";
+    await handle.write(buffer);
+    digest?.update(buffer);
   } finally {
     await handle.close();
   }
@@ -283,10 +313,10 @@ export async function writeGraphAlias(graphPath: string, aliasPath: string): Pro
   await link(graphPath, aliasPath).catch(() => copyFile(graphPath, aliasPath));
 }
 
-async function writeJsonAtomic(path: string, value: unknown): Promise<void> {
+async function writeJsonAtomic(path: string, value: unknown, digest?: Hash): Promise<void> {
   const temporaryPath = `${path}.${process.pid}.${randomUUID()}.tmp`;
   try {
-    await writeJsonFile(temporaryPath, value);
+    await writeJsonFile(temporaryPath, value, digest);
     await rename(temporaryPath, path);
   } finally {
     await rm(temporaryPath, { force: true });
