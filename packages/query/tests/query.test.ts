@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { createEdgeId, createSoftwareGraph, type SoftwareGraph } from "@0xsarwagya/ontoly-core";
+import { createEdgeId, createSoftwareGraph, type SoftwareGraph, type SoftwareGraphNode } from "@0xsarwagya/ontoly-core";
 import { createQueryEngine, exportGraph } from "../src/index";
+
+const HARNESS = "qa/harness/sleepiz-daily-backfill/run.mjs";
+const SERVICE = "src/sleepiz-backfill/sleepiz-backfill.service.ts";
+const BACKFILL_LAST_NIGHT = `method:${SERVICE}:SleepizBackfillService.backfillLastNight`;
+const CONTROLLER_BACKFILL = "method:src/sleepiz-backfill/sleepiz-backfill.controller.ts:SleepizBackfillController.backfill";
 
 describe("query engine", () => {
   it("uses indexes for deterministic node lookup", () => {
@@ -124,7 +129,85 @@ describe("query engine", () => {
       "Function fn:src/index.ts:main",
     );
   });
+
+  it("resolves exact ids and names before free text", () => {
+    const query = createQueryEngine(resolutionGraph());
+
+    expect(ids(query.findNodes("backfillLastNight"))).toEqual([`fn:${HARNESS}:lastNight`, BACKFILL_LAST_NIGHT]);
+    expect(ids(query.resolve("backfillLastNight"))).toEqual([BACKFILL_LAST_NIGHT]);
+    expect(ids(query.resolve("SleepizBackfillService.backfillLastNight"))).toEqual([BACKFILL_LAST_NIGHT]);
+    expect(ids(query.resolve(BACKFILL_LAST_NIGHT))).toEqual([BACKFILL_LAST_NIGHT]);
+    expect(ids(query.resolve(HARNESS))).toEqual([`mod:${HARNESS}`]);
+  });
+
+  it("returns every node that matches at the best tier", () => {
+    const query = createQueryEngine(resolutionGraph());
+
+    expect(ids(query.resolve("processInScope"))).toEqual([
+      "method:src/job/billing.processor.ts:BillingProcessor.processInScope",
+      "method:src/sleepiz-backfill/sleepiz-backfill.processor.ts:SleepizBackfillProcessor.processInScope",
+    ]);
+    expect(ids(query.resolve("backfill"))).toEqual([`fn:${HARNESS}:backfill`, CONTROLLER_BACKFILL]);
+    expect(ids(query.resolve("backfill last night"))).toEqual([`fn:${HARNESS}:lastNight`, BACKFILL_LAST_NIGHT]);
+    expect(query.resolve("backfill last night", { fuzzy: false })).toEqual([]);
+  });
+
+  it("prefers a declaration over its export statement and role facets", () => {
+    const query = createQueryEngine(resolutionGraph());
+
+    expect(ids(query.resolve("SleepizBackfillService"))).toEqual([`class:${SERVICE}:SleepizBackfillService`]);
+  });
+
+  it("resolves routes from METHOD /path, METHOD:/path, or /path", () => {
+    const query = createQueryEngine(resolutionGraph());
+
+    for (const target of ["POST /sleepiz/backfill", "POST:/sleepiz/backfill", "post /sleepiz/backfill", "/sleepiz/backfill"]) {
+      expect(ids(query.resolve(target, { types: ["Route"] })), target).toEqual(["route:POST:/sleepiz/backfill"]);
+    }
+    expect(ids(query.resolve("/sleepiz/status"))).toEqual(["route:GET:/sleepiz/status", "route:POST:/sleepiz/status"]);
+    expect(query.resolve("GET /sleepiz/backfill")).toEqual([]);
+  });
 });
+
+function ids(nodes: readonly SoftwareGraphNode[]): readonly string[] {
+  return nodes.map((node) => node.id);
+}
+
+// A QA harness whose path and helpers match "backfillLastNight" as free text
+// but never call it, beside the service method of that name.
+function resolutionGraph(): SoftwareGraph {
+  const route = (method: string, path: string): SoftwareGraphNode => ({
+    id: `route:${method}:${path}`,
+    type: "Route",
+    name: `${method}:${path}`,
+    metadata: { method, path },
+  });
+
+  return createSoftwareGraph({
+    repository: { root: "/repo", name: "repo" },
+    nodes: [
+      { id: `mod:${HARNESS}`, type: "Module", name: HARNESS, file: HARNESS },
+      { id: `fn:${HARNESS}:lastNight`, type: "Function", name: "lastNight", file: HARNESS },
+      { id: `fn:${HARNESS}:backfill`, type: "Function", name: "backfill", file: HARNESS },
+      { id: `class:${SERVICE}:SleepizBackfillService`, type: "Class", name: "SleepizBackfillService", file: SERVICE },
+      { id: `service:${SERVICE}:SleepizBackfillService`, type: "Service", name: "SleepizBackfillService", file: SERVICE },
+      { id: `export:${SERVICE}:SleepizBackfillService`, type: "Export", name: "SleepizBackfillService", file: SERVICE },
+      { id: BACKFILL_LAST_NIGHT, type: "Method", name: "SleepizBackfillService.backfillLastNight", file: SERVICE },
+      { id: CONTROLLER_BACKFILL, type: "Method", name: "SleepizBackfillController.backfill" },
+      { id: "method:src/job/billing.processor.ts:BillingProcessor.processInScope", type: "Method", name: "BillingProcessor.processInScope" },
+      {
+        id: "method:src/sleepiz-backfill/sleepiz-backfill.processor.ts:SleepizBackfillProcessor.processInScope",
+        type: "Method",
+        name: "SleepizBackfillProcessor.processInScope",
+      },
+      route("POST", "/sleepiz/backfill"),
+      route("GET", "/sleepiz/status"),
+      route("POST", "/sleepiz/status"),
+    ],
+    edges: [],
+    fileCount: 2,
+  });
+}
 
 function fixtureGraph(): SoftwareGraph {
   return createSoftwareGraph({

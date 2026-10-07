@@ -4453,13 +4453,7 @@ function resolveNode(
   query: ReturnType<typeof createQueryEngine>,
   value: string,
 ): SoftwareGraphNode {
-  const node = query.findNode(value);
-
-  if (node) {
-    return node;
-  }
-
-  const matches = query.findNodes(value);
+  const matches = query.resolve(value);
 
   if (matches.length === 1 && matches[0]) {
     return matches[0];
