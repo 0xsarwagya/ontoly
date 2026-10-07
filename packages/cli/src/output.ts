@@ -42,7 +42,7 @@ export interface OntolyOutputBundle {
 }
 
 export interface OutputBundleManifest {
-  readonly version: "1.0.0";
+  readonly version: "2.0.0";
   readonly repository: {
     readonly name: string;
     readonly root: string;
