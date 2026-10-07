@@ -19,6 +19,10 @@ All notable Ontoly changes are tracked here.
   On the same 3,148-file repository:
   - full build: peak memory 4.24 GB → 2.98 GB, bundle 720 MB → 494 MB, 54.9 s → 50.5 s;
   - `ontoly search`: 1.59 GB → 0.85 GB.
+- **Query targets match exact names before free text.** `ontoly query`, `trace`, `inspect`, `impact` and `request-trace` now resolve a target in tiers: the exact node id, then an exact name, then free text (`impact` and the other capabilities use semantic ranking at that last step). An exact name is qualified (`Class.method`, a file path, `POST /path`) or bare (a function, the method in `Class.method`, a route path). Before, a bare method name such as `backfillLastNight` never matched its `Class.method` node, so the first free-text match won, even a function in another file that never mentions the method.
+  - When several nodes match at the best tier, the CLI fails with `ONTOLY1003` and capabilities report `CAPABILITY_AMBIGUOUS_TARGET`, both listing the candidate ids. Before, the CLI used the first match, and `impact` could pick an unrelated node by semantic rank.
+  - An Import or Export statement no longer wins over the declaration it names, so `ontoly query callers` on an exported function reports the function's callers instead of nothing. The Class, Service and Provider nodes of one declaration still resolve to one node.
+- **`ontoly request-trace` accepts `POST /path`, `POST:/path` and `/path`.** The method is case-insensitive, and `/path` resolves when one route has that path. A path shared by several routes lists them, and `GET /path` no longer falls back to free text, which could match a route with another method.
 
 ### Changed
 
