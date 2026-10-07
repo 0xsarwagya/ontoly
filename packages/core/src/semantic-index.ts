@@ -790,10 +790,17 @@ function generateAliases(values: readonly string[], node: SoftwareGraphNode): re
     aliases.add("feature module");
   }
 
-  return uniqueStrings([...aliases]
-    .filter((alias) => alias.length > 1)
-    .filter((alias) => !isNoisySemanticAlias(alias)))
-    .slice(0, SEMANTIC_ALIAS_LIMIT);
+  // Sorted before the noise check, which can then stop at the limit: it was most of this function's time.
+  const kept: string[] = [];
+  for (const alias of uniqueStrings([...aliases].filter((alias) => alias.length > 1))) {
+    if (!isNoisySemanticAlias(alias)) {
+      kept.push(alias);
+      if (kept.length === SEMANTIC_ALIAS_LIMIT) {
+        break;
+      }
+    }
+  }
+  return kept;
 }
 
 function generateKeywords(values: readonly string[], node: SoftwareGraphNode): readonly string[] {
@@ -832,7 +839,8 @@ function generateKeywords(values: readonly string[], node: SoftwareGraphNode): r
 function buildInvertedIndex(entries: readonly SemanticIndexEntry[]): Record<string, readonly string[]> {
   const inverted = new Map<string, Set<string>>();
   for (const entry of entries) {
-    for (const term of uniqueStrings([entry.normalizedName, ...entry.aliases, ...entry.keywords])) {
+    // Terms are already trimmed, and their order can't change a bucket: each entry only adds its own id.
+    for (const term of new Set([entry.normalizedName, ...entry.aliases, ...entry.keywords])) {
       addInverted(inverted, term, entry.stableId);
       for (const token of tokenize(term)) {
         addInverted(inverted, token, entry.stableId);
@@ -850,7 +858,7 @@ function buildInvertedIndex(entries: readonly SemanticIndexEntry[]): Record<stri
 function buildVocabulary(entries: readonly SemanticIndexEntry[]): readonly RepositoryVocabularyTerm[] {
   const terms = new Map<string, { count: number; nodeIds: Set<string>; kinds: Set<NodeType> }>();
   for (const entry of entries) {
-    for (const term of uniqueStrings([...entry.keywords, ...entry.aliases.filter((alias) => !alias.includes(" "))])) {
+    for (const term of new Set([...entry.keywords, ...entry.aliases.filter((alias) => !alias.includes(" "))])) {
       if (term.length < 2 || STOP_WORDS.has(term)) {
         continue;
       }
@@ -1745,16 +1753,19 @@ function recommendCapability(
 // Set while an index is built or a query is ranked. tokenize() is pure, and both call it many times per string:
 // a build millions of times on far fewer strings, and ranking several times on each candidate's text.
 let tokenCache: Map<string, readonly string[]> | undefined;
+let noisyAliasCache: Map<string, boolean> | undefined;
 
 function withTokenCache<T>(run: () => T): T {
   if (tokenCache) {
     return run();
   }
   tokenCache = new Map();
+  noisyAliasCache = new Map();
   try {
     return run();
   } finally {
     tokenCache = undefined;
+    noisyAliasCache = undefined;
   }
 }
 
@@ -2187,14 +2198,13 @@ function isSemanticNoiseTerm(term: string): boolean {
 }
 
 function isNoisySemanticAlias(alias: string): boolean {
-  const tokens = tokenize(alias);
-  if (tokens.length === 0) {
-    return true;
+  let noisy = noisyAliasCache?.get(alias);
+  if (noisy === undefined) {
+    const tokens = tokenize(alias);
+    noisy = tokens.length === 0 || tokens.length > 14 || tokens.every(isSemanticNoiseTerm);
+    noisyAliasCache?.set(alias, noisy);
   }
-  if (tokens.length > 14) {
-    return true;
-  }
-  return tokens.every(isSemanticNoiseTerm);
+  return noisy;
 }
 
 function sum(values: readonly number[]): number {

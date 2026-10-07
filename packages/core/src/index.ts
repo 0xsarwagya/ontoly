@@ -256,16 +256,40 @@ export function stableStringify(value: unknown): string {
   }
 
   if (Array.isArray(value)) {
-    return `[${value.map((item) => stableStringify(item)).join(",")}]`;
+    let output = "[";
+    for (let index = 0; index < value.length; index += 1) {
+      // `?? ""` keeps what join() did for items JSON can't represent, such as undefined.
+      output += `${index > 0 ? "," : ""}${stableStringify(value[index]) ?? ""}`;
+    }
+    return `${output}]`;
   }
 
-  const entries = Object.entries(value as Record<string, unknown>)
-    .filter(([, entryValue]) => entryValue !== undefined)
-    .sort(([left], [right]) => left.localeCompare(right));
+  const record = value as Record<string, unknown>;
+  let output = "{";
+  for (const key of sortedKeys(record)) {
+    const entryValue = record[key];
+    if (entryValue !== undefined) {
+      output += `${output.length > 1 ? "," : ""}${JSON.stringify(key)}:${stableStringify(entryValue)}`;
+    }
+  }
+  return `${output}}`;
+}
 
-  return `{${entries
-    .map(([key, entryValue]) => `${JSON.stringify(key)}:${stableStringify(entryValue)}`)
-    .join(",")}}`;
+// Objects of one shape share a key order, so each shape is sorted once. ponytail: capped at 4,096 shapes;
+// objects keyed by data, like counts per type, mostly miss and sort as before.
+const sortedKeysByShape = new Map<string, readonly string[]>();
+
+function sortedKeys(record: Record<string, unknown>): readonly string[] {
+  const keys = Object.keys(record);
+  const shape = JSON.stringify(keys);
+  let sorted = sortedKeysByShape.get(shape);
+  if (!sorted) {
+    sorted = keys.sort((left, right) => left.localeCompare(right));
+    if (sortedKeysByShape.size < 4096) {
+      sortedKeysByShape.set(shape, sorted);
+    }
+  }
+  return sorted;
 }
 
 export function stableHash(input: string): string {
