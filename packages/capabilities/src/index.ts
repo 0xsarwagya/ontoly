@@ -710,12 +710,15 @@ function implementationPlan(context: CapabilityContext, input: CapabilityInput):
 
 function requestTrace(context: CapabilityContext, input: CapabilityInput): CapabilityResult {
   const value = readText(input, "query") || readText(input, "id");
-  const route = findRoute(context, value);
+  const routes = context.query.resolve(value, { types: ["Route"] });
+  const route = routes.length === 1 ? routes[0] : undefined;
   if (!route) {
     return notFoundResult(context, "RequestTrace", {
       query: value,
-      matches: [],
-      diagnostics: [diagnostic("CAPABILITY_ROUTE_NOT_FOUND", "warning", `No route matched "${value}".`)],
+      matches: routes,
+      diagnostics: [routes.length > 1
+        ? ambiguousTargetDiagnostic(value, routes)
+        : diagnostic("CAPABILITY_ROUTE_NOT_FOUND", "warning", `No route matched "${value}".`)],
     });
   }
 
@@ -1286,9 +1289,9 @@ function resolveTarget(
     };
   }
 
-  const direct = context.query.findNode(value);
-  if (direct?.id === value) {
-    return { query: value, node: direct, matches: [direct], diagnostics: [] };
+  const exact = resolveExactTarget(context, value);
+  if (exact) {
+    return exact;
   }
 
   const intent = resolveIntent(context.semanticIndex, value, { limit: 10 });
@@ -1309,7 +1312,7 @@ function resolveTarget(
     return {
       query: value,
       matches,
-      diagnostics: [diagnostic("CAPABILITY_AMBIGUOUS_TARGET", "warning", `"${value}" matched ${matches.length} graph nodes; retry with a stable node id.`)],
+      diagnostics: [ambiguousTargetDiagnostic(value, matches)],
     };
   }
 
@@ -1338,12 +1341,24 @@ function resolveImpactTarget(
     };
   }
 
-  const direct = context.query.findNode(value);
-  if (direct?.id === value) {
-    return { query: value, node: direct, matches: [direct], diagnostics: [] };
+  return resolveExactTarget(context, value) ?? resolveStableSemanticTarget(context, value, "ImpactAnalysis");
+}
+
+// Exact ids and names win over semantic ranking; several exact matches are
+// reported as ambiguous rather than ranked.
+function resolveExactTarget(context: CapabilityContext, value: string): ReturnType<typeof resolveTarget> | undefined {
+  const nodes = context.query.resolve(value, { fuzzy: false });
+  if (nodes.length === 0) {
+    return undefined;
   }
 
-  return resolveStableSemanticTarget(context, value, "ImpactAnalysis");
+  return nodes.length === 1
+    ? { query: value, node: nodes[0], matches: nodes, diagnostics: [] }
+    : { query: value, matches: nodes, diagnostics: [ambiguousTargetDiagnostic(value, nodes)] };
+}
+
+function ambiguousTargetDiagnostic(value: string, nodes: readonly SoftwareGraphNode[]): CapabilityDiagnostic {
+  return diagnostic("CAPABILITY_AMBIGUOUS_TARGET", "warning", `"${value}" matched ${nodes.length} graph nodes; retry with one of these stable node ids: ${nodes.map((node) => node.id).join(", ")}.`);
 }
 
 function resolveStableSemanticTarget(
@@ -2373,19 +2388,6 @@ function hotspotNodes(context: CapabilityContext, nodes: readonly SoftwareGraphN
     }))
     .sort((left, right) => Number(right.degree) - Number(left.degree) || String(left.nodeId).localeCompare(String(right.nodeId)))
     .slice(0, limit);
-}
-
-function findRoute(context: CapabilityContext, value: string): SoftwareGraphNode | undefined {
-  const direct = context.query.findNode(value);
-  if (direct?.type === "Route") {
-    return direct;
-  }
-  const normalized = value.toLowerCase();
-  return context.query.routes().find((route) =>
-    route.id.toLowerCase().includes(normalized) ||
-    route.name.toLowerCase().includes(normalized) ||
-    `${route.metadata?.method ?? ""}:${route.metadata?.path ?? ""}`.toLowerCase().includes(normalized),
-  );
 }
 
 function nodeEvidence(description: string, nodes: readonly SoftwareGraphNode[], confidence = 1): CapabilityEvidence {

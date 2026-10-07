@@ -16,6 +16,7 @@ const trace = main ? query.trace(main.id) : undefined;
 
 - `findNode(idOrQuery)`
 - `findNodes(options)`
+- `resolve(target, options)`
 - `findFunction(nameOrId)`
 - `findClass(nameOrId)`
 - `findModule(nameOrId)`
@@ -31,6 +32,14 @@ as `Plan Definition Resource` can match graph facts named `PlanDefinition`,
 `plan-definition`, `planDefinition`, or metadata that contains the same concept.
 Callers should issue one lookup and handle Ontoly's deterministic matches,
 ambiguity, or not-found result instead of trying spelling variants manually.
+
+`resolve(target)` turns a user's target into nodes the way the CLI does. It
+returns the nodes of the first tier that matches: the exact node ID, then an
+exact name, then free text. An exact name is qualified (`UserService.load`,
+`src/service.ts`, `POST /login`) or bare (`main`, the `load` in
+`UserService.load`, `/login`). More than one node means the target is
+ambiguous. Pass `{ types: ["Route"] }` to limit the node kinds, or
+`{ fuzzy: false }` to stop before free text.
 
 ## Traversal
 
