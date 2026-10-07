@@ -194,14 +194,21 @@ export function watchSoftwareGraph(options: WatchSoftwareGraphOptions = {}): Wat
   };
 }
 
+/**
+ * Imports types only, so the config loads without the CLI installed in the repository (a global
+ * install cannot be resolved from it).
+ */
 function defaultConfigContents(): string {
   return [
-    'import { defineOntolyConfig } from "@0xsarwagya/ontoly-cli";',
+    'import type { OntolyConfig } from "@0xsarwagya/ontoly-cli";',
     "",
-    "export default defineOntolyConfig({",
+    "// Files Git ignores are never indexed. `exclude` skips more: a bare name skips every",
+    "// directory of that name, a path skips that subtree.",
+    "export default {",
     '  outputDir: ".ontoly",',
+    "  exclude: [],",
     "  plugins: [],",
-    "} satisfies Parameters<typeof defineOntolyConfig>[0]);",
+    "} satisfies OntolyConfig;",
     "",
   ].join("\n");
 }

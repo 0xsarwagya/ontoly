@@ -55,17 +55,26 @@ ontoly.config.ts
 The config is intentionally small — enable the frontends you need:
 
 ```ts
-import { defineOntolyConfig } from "@0xsarwagya/ontoly-cli";
+import type { OntolyConfig } from "@0xsarwagya/ontoly-cli";
 
-export default defineOntolyConfig({
+export default {
   outputDir: ".ontoly",
+  exclude: ["Pods", "apps/agent/.eve"],
   parsers: {
     typescript: true,   // JS + TS + JSX + TSX
     python: true,       // .py
     go: true,           // .go
   },
-});
+} satisfies OntolyConfig;
 ```
+
+Ontoly loads `ontoly.config.ts` (or `.mts`, `.mjs`, `.js`) from the repository root. The type-only
+import keeps it loadable when the CLI is installed globally, and a TypeScript config needs Node.js
+22.18 or later.
+
+Inside a Git work tree, Ontoly indexes what Git does: tracked files, plus untracked files that are
+not ignored. Nested repositories, such as worktrees checked out inside the tree, are skipped.
+`exclude` skips more: a bare name skips every directory of that name, a path skips that subtree.
 
 Ontoly keeps generated graph artifacts local to the repository. Both
 `ontoly-output/` and `.ontoly/` are safe to gitignore.

@@ -1,5 +1,6 @@
+import { access } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
-import { resolve } from "node:path";
+import { join, resolve } from "node:path";
 import type { SoftwareGraphRepository } from "@0xsarwagya/ontoly-core";
 import { createDiagnosticSink } from "../diagnostics";
 import { createPassManager } from "../passes";
@@ -90,7 +91,11 @@ export async function createCompilerContext(input: {
   const config = input.config
     ? resolveOntolyConfig(input.config)
     : await loadOntolyConfig(input.invocation.root, input.invocation.configPath);
-  const discovery = await discoverRepository(input.invocation.root, input.invocation.sourceProvider);
+  const discovery = await discoverRepository(
+    input.invocation.root,
+    input.invocation.sourceProvider,
+    config.exclude,
+  );
   const repository: SoftwareGraphRepository = withOptionalProperties(
     {
       root: discovery.root,
@@ -114,25 +119,54 @@ export async function createCompilerContext(input: {
   };
 }
 
+/** Looked for in the repository root, in this order, when no config path is given. */
+export const ONTOLY_CONFIG_FILES = [
+  "ontoly.config.ts",
+  "ontoly.config.mts",
+  "ontoly.config.mjs",
+  "ontoly.config.js",
+] as const;
+
+/**
+ * The config at `configPathInput`, else the first of `ONTOLY_CONFIG_FILES` in the root, else the
+ * defaults. A TypeScript config is imported as is, so it needs a Node.js that strips types
+ * (22.18 or later). A config given by path that cannot be loaded throws; one found in the root
+ * warns and falls back to the defaults, as the build always did before configs were read.
+ */
 export async function loadOntolyConfig(
   rootInput: string,
   configPathInput?: string,
 ): Promise<ResolvedOntolyConfig> {
   const root = resolve(rootInput);
-  const configPath = configPathInput ? resolve(root, configPathInput) : undefined;
+  const configPath = configPathInput ? resolve(root, configPathInput) : await findConfigFile(root);
 
   if (!configPath) {
     return resolveOntolyConfig({});
   }
 
-  if (configPath.endsWith(".js") || configPath.endsWith(".mjs")) {
+  try {
     const imported = (await import(pathToFileURL(configPath).href)) as {
       readonly default?: OntolyConfig;
     };
     return resolveOntolyConfig(imported.default ?? {});
+  } catch (error) {
+    const reason = `Could not load ${configPath}: ${error instanceof Error ? error.message : String(error)}`;
+    if (configPathInput) {
+      throw new Error(reason, { cause: error });
+    }
+    process.emitWarning(`${reason}. Building with the default config.`, { code: "ONTOLY_CONFIG_NOT_LOADED" });
+    return resolveOntolyConfig({});
   }
+}
 
-  return resolveOntolyConfig({ root });
+async function findConfigFile(root: string): Promise<string | undefined> {
+  for (const name of ONTOLY_CONFIG_FILES) {
+    const path = join(root, name);
+    if (await access(path).then(() => true, () => false)) {
+      return path;
+    }
+  }
+  return undefined;
 }
 
 export function createNoopPass(input: {

@@ -1,4 +1,5 @@
-import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
+import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -59,6 +60,50 @@ describe("repository discovery", () => {
     expect(inventory.sources.map((source) => source.path)).toEqual(discovery.files);
   });
 });
+
+describe("repository discovery in a Git work tree", () => {
+  it("honours .gitignore and skips nested repositories, such as worktrees checked out inside", async () => {
+    const root = await mkdtemp(join(tmpdir(), "ontoly-repository-discovery-git-"));
+    git(root, "init", "-q");
+    await writeFile(join(root, "package.json"), JSON.stringify({ name: "fixture" }), "utf8");
+    await writeFile(join(root, ".gitignore"), "lib/\n*.generated.ts\n", "utf8");
+    await writeSource(root, "src/service.ts", "export const service = true;\n");
+    await writeSource(root, "src/client.generated.ts", "export const generated = true;\n");
+    await writeSource(root, "lib/service.js", "module.exports = {};\n");
+    await writeSource(root, ".claude/worktrees/copy/src/service.ts", "export const copy = true;\n");
+    git(join(root, ".claude/worktrees/copy"), "init", "-q");
+    // Tracked, then deleted: the index still lists it, the disk does not have it.
+    await writeSource(root, "src/removed.ts", "export const removed = true;\n");
+    git(root, "add", "src/removed.ts");
+    await rm(join(root, "src/removed.ts"));
+    // The fixed skip list and `exclude` still apply on top of Git's view.
+    await writeSource(root, "dist/index.js", "module.exports = {};\n");
+    await writeSource(root, "vendor/kept-by-git.ts", "export const vendor = true;\n");
+
+    const discovery = await discoverRepository(root, undefined, ["vendor"]);
+    const inventory = await createSourceInventory(root, undefined, ["vendor"]);
+
+    expect(discovery.files).toEqual([".gitignore", "package.json", "src/service.ts"]);
+    expect(inventory.sources.map((source) => source.path)).toEqual(discovery.files);
+  });
+
+  it("lists only the subtree, relative to it, when the root is a directory inside the work tree", async () => {
+    const repository = await mkdtemp(join(tmpdir(), "ontoly-repository-discovery-git-sub-"));
+    git(repository, "init", "-q");
+    await writeFile(join(repository, ".gitignore"), "*.log\n", "utf8");
+    await writeSource(repository, "apps/api/src/main.ts", "export const api = true;\n");
+    await writeSource(repository, "apps/api/debug.log", "noise\n");
+    await writeSource(repository, "apps/web/src/main.ts", "export const web = true;\n");
+
+    const discovery = await discoverRepository(join(repository, "apps/api"));
+
+    expect(discovery.files).toEqual(["src/main.ts"]);
+  });
+});
+
+function git(cwd: string, ...args: string[]): void {
+  execFileSync("git", args, { cwd, stdio: "ignore" });
+}
 
 async function writeSource(root: string, relativePath: string, contents: string): Promise<void> {
   const absolute = join(root, relativePath);

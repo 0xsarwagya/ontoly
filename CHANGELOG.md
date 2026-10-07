@@ -4,6 +4,14 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+### Fixed
+
+- **File discovery honours `.gitignore`.** Inside a Git work tree, the compiler lists files the way Git does (`git ls-files --cached --others --exclude-standard`). Gitignored build output and generated code are no longer indexed, and nested repositories, such as submodules or worktrees checked out inside the tree, are skipped. The fixed skip list and `exclude` still apply on top. Outside Git, the directory walk is unchanged.
+- **`ontoly.config.*` is loaded.** With no config path given, the compiler now looks for `ontoly.config.ts`, `.mts`, `.mjs` or `.js` in the repository root, so `exclude`, `parsers` and the other fields take effect in `ontoly build`. Before, no config was read unless a path was passed, and a `.ts` config never was. A TypeScript config needs Node.js 22.18 or later.
+  - A config found in the root that cannot be loaded warns (`ONTOLY_CONFIG_NOT_LOADED`) and the build uses the defaults.
+  - A config given by path that cannot be loaded throws.
+- **`ontoly init` writes a config that loads without a local install.** The generated `ontoly.config.ts` imports `OntolyConfig` as a type only, so a globally installed CLI can load it.
+
 ## 1.3.3
 
 ### Fixed

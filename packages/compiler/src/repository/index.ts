@@ -1,8 +1,12 @@
-import { access, readFile, readdir } from "node:fs/promises";
+import { execFile } from "node:child_process";
+import { access, lstat, readFile, readdir } from "node:fs/promises";
 import { basename, dirname, join, relative, resolve } from "node:path";
+import { promisify } from "node:util";
 import { normalizePath, stableHash } from "@0xsarwagya/ontoly-core";
 import type { RepositoryDiscovery, SourceArtifact, SourceInventory, SourceProvider } from "../types";
 import { runDeterministicTasks } from "../execution";
+
+const execFileAsync = promisify(execFile);
 
 const IGNORED_PARTS = new Set([
   ".artifacts",
@@ -181,6 +185,11 @@ async function discoverFiles(root: string, extraIgnored: readonly string[] = [])
   const ignoredParts = buildIgnoredParts(extraIgnored);
   const ignoredPrefixes = extraIgnored.filter((part) => part.includes("/")).map(normalizePath);
 
+  const listed = await listGitWorkTreeFiles(root);
+  if (listed) {
+    return listed.filter((path) => !shouldIgnorePath(path, ignoredParts, ignoredPrefixes)).sort();
+  }
+
   const walk = async (directory: string): Promise<void> => {
     const entries = await readdir(directory, { withFileTypes: true });
 
@@ -205,6 +214,34 @@ async function discoverFiles(root: string, extraIgnored: readonly string[] = [])
 
   await walk(root);
   return files.sort();
+}
+
+/**
+ * The files Git counts as part of the work tree under `root`: tracked, plus untracked and not
+ * ignored. `.gitignore`, `.git/info/exclude` and the global excludes all apply, and Git does not
+ * descend into nested repositories, such as submodules or worktrees checked out inside the tree.
+ * Undefined when `root` is not inside a Git work tree, or Git is unavailable; the caller then
+ * walks the directory instead.
+ */
+async function listGitWorkTreeFiles(root: string): Promise<string[] | undefined> {
+  let stdout: string;
+  try {
+    ({ stdout } = await execFileAsync(
+      "git",
+      ["ls-files", "--cached", "--others", "--exclude-standard", "-z"],
+      { cwd: root, maxBuffer: 512 * 1024 * 1024 },
+    ));
+  } catch {
+    return undefined;
+  }
+
+  const paths = [...new Set(stdout.split("\0").filter((path) => path.length > 0))];
+  // The index still lists a tracked file deleted from disk, and lists a submodule as one entry;
+  // keep regular files only, as the directory walk does.
+  const regular = await Promise.all(
+    paths.map(async (path) => ((await lstat(join(root, path)).catch(() => undefined))?.isFile() ? path : undefined)),
+  );
+  return regular.filter((path): path is string => path !== undefined).map(normalizePath);
 }
 
 function buildIgnoredParts(extraIgnored: readonly string[]): ReadonlySet<string> {
