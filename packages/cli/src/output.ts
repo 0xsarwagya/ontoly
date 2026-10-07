@@ -42,7 +42,7 @@ export interface OntolyOutputBundle {
 }
 
 export interface OutputBundleManifest {
-  readonly version: "1.0.0";
+  readonly version: "2.0.0";
   readonly repository: {
     readonly name: string;
     readonly root: string;
@@ -126,12 +126,11 @@ export async function createOntolyOutputBundle(
   await writeJson("reports/frameworks.json", frameworkReport(graph));
   await writeJson("reports/workspace.json", workspaceReport(graph));
 
-  await writeJson("nodes/all.json", graph.nodes);
+  // Every node and relationship is in SoftwareGraph.json; these split views don't repeat it as all.json.
   for (const [type, nodes] of groupNodesByType(graph.nodes)) {
     await writeJson(`nodes/by-type/${kebabCase(type)}.json`, nodes);
   }
 
-  await writeJson("relationships/all.json", graph.edges);
   for (const [type, edges] of groupEdgesByType(graph.edges)) {
     await writeJson(`relationships/by-type/${kebabCase(type)}.json`, edges);
   }
@@ -147,8 +146,9 @@ export async function createOntolyOutputBundle(
       relationshipTypes: community.relationshipTypes,
       representativeNodes: community.representativeNodes,
       representativeNodeIds: community.representativeNodes.map((node) => node.id).sort(),
-      nodes: community.nodes,
-      edges: community.edges,
+      // Ids, not copies: the nodes and relationships are in SoftwareGraph.json.
+      nodeIds: community.nodes.map((node) => node.id),
+      edgeIds: community.edges.map((edge) => edge.id),
     });
   }
 
@@ -196,7 +196,8 @@ function createManifest(
 ): OutputBundleManifest {
   const allFiles = [...files, "manifest.json"].sort();
   return {
-    version: "1.0.0",
+    // 2.0.0: no nodes/all.json or relationships/all.json, and community files hold ids instead of nodes and edges.
+    version: "2.0.0",
     repository: {
       name: graph.repository.name,
       root: graph.repository.root,
@@ -385,7 +386,8 @@ function detectGraphCommunities(graph: SoftwareGraph): readonly GraphCommunityDe
   }
 
   const visited = new Set<string>();
-  const components: { readonly nodes: readonly SoftwareGraphNode[]; readonly edges: readonly SoftwareGraphEdge[] }[] = [];
+  const componentOf = new Map<string, number>();
+  const components: { readonly nodes: SoftwareGraphNode[]; readonly edges: SoftwareGraphEdge[] }[] = [];
 
   for (const start of graph.nodes.map((node) => node.id).sort()) {
     if (visited.has(start)) {
@@ -411,9 +413,24 @@ function detectGraphCommunities(graph: SoftwareGraph): readonly GraphCommunityDe
       }
     }
 
-    const componentNodes = graph.nodes.filter((node) => nodeIds.has(node.id));
-    const componentEdges = graph.edges.filter((edge) => nodeIds.has(edge.from) && nodeIds.has(edge.to));
-    components.push({ nodes: componentNodes, edges: componentEdges });
+    for (const id of nodeIds) {
+      componentOf.set(id, components.length);
+    }
+    components.push({ nodes: [], edges: [] });
+  }
+
+  // One pass each, in graph order: filtering the whole graph once per component was quadratic in components.
+  for (const node of graph.nodes) {
+    const component = componentOf.get(node.id);
+    if (component !== undefined) {
+      components[component]?.nodes.push(node);
+    }
+  }
+  for (const edge of graph.edges) {
+    const component = componentOf.get(edge.from);
+    if (component !== undefined && component === componentOf.get(edge.to)) {
+      components[component]?.edges.push(edge);
+    }
   }
 
   return components

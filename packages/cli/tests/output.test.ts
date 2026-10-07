@@ -67,13 +67,17 @@ describe("ontoly output bundle", () => {
     expect(bundle.files).toContain("communities/community-000.json");
     expect(bundle.files).toContain("html/graph.html");
     expect(bundle.files).toContain("html/architecture.html");
+    expect(bundle.files).not.toContain("nodes/all.json");
+    expect(bundle.files).not.toContain("relationships/all.json");
     expect(bundle.communities).toHaveLength(2);
 
     const manifest = JSON.parse(await readFile(join(bundle.directory, "manifest.json"), "utf8")) as {
+      readonly version: string;
       readonly repository: { readonly source: string; readonly remote?: string };
       readonly graph: { readonly hash: string };
       readonly artifacts: { readonly html: readonly string[]; readonly communities: readonly string[] };
     };
+    expect(manifest.version).toBe("2.0.0");
     expect(manifest.repository.source).toBe("remote");
     expect(manifest.repository.remote).toBe("https://github.com/example/bundle-fixture.git");
     expect(manifest.graph.hash).toBe(graph.metadata.deterministicHash);
@@ -82,11 +86,15 @@ describe("ontoly output bundle", () => {
 
     const community = JSON.parse(await readFile(join(bundle.directory, "communities/community-000.json"), "utf8")) as {
       readonly nodeCount: number;
-      readonly nodes: readonly unknown[];
-      readonly edges: readonly unknown[];
+      readonly nodeIds: readonly string[];
+      readonly edgeIds: readonly string[];
+      readonly nodes?: unknown;
     };
     expect(community.nodeCount).toBe(3);
-    expect(community.nodes).toHaveLength(3);
-    expect(community.edges).toHaveLength(2);
+    expect(community.nodeIds).toHaveLength(3);
+    expect(community.edgeIds).toHaveLength(2);
+    expect(community.nodes).toBeUndefined();
+    const graphNodeIds = new Set(graph.nodes.map((node) => node.id));
+    expect(community.nodeIds.every((id) => graphNodeIds.has(id))).toBe(true);
   });
 });
