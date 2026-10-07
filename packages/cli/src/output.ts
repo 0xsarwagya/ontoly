@@ -13,7 +13,7 @@ import {
   type SoftwareGraphNode,
 } from "@0xsarwagya/ontoly-core";
 import { writeGraphAlias, writeJsonFile } from "@0xsarwagya/ontoly-cache";
-import { createSemanticIndex } from "@0xsarwagya/ontoly-core";
+import { createSemanticIndex, encodeSemanticIndex } from "@0xsarwagya/ontoly-core";
 import { createInteractiveHtmlGraph } from "@0xsarwagya/ontoly-plugin-html";
 import { createQueryEngine, type QueryEngine } from "@0xsarwagya/ontoly-query";
 import { serializeTypeScriptProject, type TypeScriptProject } from "@0xsarwagya/ontoly-typescript";
@@ -110,7 +110,7 @@ export async function createOntolyOutputBundle(
   await writeJson("diagnostics.json", graph.diagnostics);
   await writeJson("metadata.json", graph.metadata);
   await writeJson("indexes.json", graph.indexes);
-  await writeJson("index.json", semanticIndex);
+  await writeJson("index.json", encodeSemanticIndex(semanticIndex));
   await writeJson("statistics.json", query.stats());
   await writeJson("coverage.json", coverage);
   await writeJson("quality.json", createQualityReport(coverage));

@@ -9,6 +9,8 @@ import {
 } from "@0xsarwagya/ontoly-core";
 import {
   createSemanticIndex,
+  decodeSemanticIndex,
+  encodeSemanticIndex,
   findConfiguration,
   findFeature,
   findRoute,
@@ -174,6 +176,23 @@ describe("semantic index", () => {
     rememberSemanticIndex(sameGraphLoadedAgain, loaded);
     expect(createSemanticIndex(sameGraphLoadedAgain)).toBe(loaded);
     expect(resolveIntent(loaded, "login authentication").candidates.map((candidate) => candidate.displayName)).toContain("AuthService");
+  });
+
+  it("stores entry references as offsets and reads both the stored and the older form back unchanged", () => {
+    const graph = largeGraph();
+    const index = createSemanticIndex(graph);
+    const plain = JSON.stringify(index);
+    const stored = JSON.stringify(encodeSemanticIndex(index));
+
+    expect(stored.length).toBeLessThan(plain.length);
+    expect(JSON.parse(stored).invertedIndex[Object.keys(index.invertedIndex)[0] ?? ""][0]).toEqual(expect.any(Number));
+    expect(decodeSemanticIndex(JSON.parse(stored))).toEqual(index);
+    expect(decodeSemanticIndex(JSON.parse(plain))).toEqual(index);
+
+    const corrupt = JSON.parse(stored) as { invertedIndex: Record<string, unknown[]> };
+    const [term] = Object.keys(corrupt.invertedIndex);
+    corrupt.invertedIndex[term ?? ""] = [index.entries.length];
+    expect(validateSemanticIndex(decodeSemanticIndex(corrupt), graph)).not.toEqual([]);
   });
 });
 

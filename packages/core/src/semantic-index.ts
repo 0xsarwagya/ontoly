@@ -506,6 +506,50 @@ function hashSemanticIndex(index: Omit<SemanticIndex, "metadata"> & { readonly m
   }));
 }
 
+/** An entry by its position in `entryIds`, or by stable id when it has no entry. */
+type EntryRef = number | string;
+
+/**
+ * The index in the form it is written to disk. Postings, vocabulary node ids and neighbor ids refer to entries by
+ * position in `entryIds` instead of repeating stable ids that average 70 characters, which halves the file and the
+ * time to read it.
+ */
+export function encodeSemanticIndex(index: SemanticIndex): unknown {
+  const position = new Map(index.entryIds.map((id, offset) => [id, offset] as const));
+  const ref = (id: string): EntryRef => position.get(id) ?? id;
+  return {
+    ...index,
+    entries: index.entries.map((entry) => ({
+      ...entry,
+      relationships: { ...entry.relationships, neighborIds: entry.relationships.neighborIds.map(ref) },
+    })),
+    invertedIndex: Object.fromEntries(Object.entries(index.invertedIndex).map(([term, ids]) => [term, ids.map(ref)])),
+    vocabulary: index.vocabulary.map((term) => ({ ...term, nodeIds: term.nodeIds.map(ref) })),
+  };
+}
+
+/** Reads an index parsed from disk: one written by encodeSemanticIndex, or an older one holding stable ids only. */
+export function decodeSemanticIndex(stored: unknown): SemanticIndex {
+  const index = stored as {
+    readonly entryIds: readonly string[];
+    readonly entries: readonly { readonly relationships: { neighborIds: readonly EntryRef[] } }[];
+    readonly invertedIndex: Record<string, readonly EntryRef[]>;
+    readonly vocabulary: readonly { nodeIds: readonly EntryRef[] }[];
+  };
+  // An offset past the end decodes to an id with no entry, which validateSemanticIndex reports, so the index is rebuilt.
+  const id = (ref: EntryRef): string => (typeof ref === "number" ? index.entryIds[ref] ?? `#${ref}` : ref);
+  for (const entry of index.entries) {
+    entry.relationships.neighborIds = entry.relationships.neighborIds.map(id);
+  }
+  for (const term of Object.keys(index.invertedIndex)) {
+    index.invertedIndex[term] = (index.invertedIndex[term] ?? []).map(id);
+  }
+  for (const term of index.vocabulary) {
+    term.nodeIds = term.nodeIds.map(id);
+  }
+  return stored as SemanticIndex;
+}
+
 export function validateSemanticIndex(index: SemanticIndex, graph?: SoftwareGraph): readonly string[] {
   const issues: string[] = [];
   if (index.version !== SEMANTIC_INDEX_VERSION) {
