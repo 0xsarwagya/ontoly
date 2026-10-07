@@ -4,6 +4,8 @@ All notable Ontoly changes are tracked here.
 
 ## Unreleased
 
+## 1.3.5
+
 ### Fixed
 
 - **Queries read the graph `ontoly build` wrote.** `ontoly build` writes its artifacts to `ontoly-output` by default, but `search`, `query`, `impact`, `trace`, `explain`, `mcp`, `semantic` and `frameworks` looked in `.ontoly`. So every command silently rebuilt the whole graph and its semantic index in memory. They now read the directory holding the newest Software Graph, and `--output` still wins. On a 3,148-file NestJS repository, `ontoly search` went from 49.3 s and 2.5 GB to 3.3 s, and `stats` takes 1.0 s. When no graph is found, the command says so before building one in memory.

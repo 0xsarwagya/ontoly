@@ -1,48 +1,48 @@
 # Version Matrix
 
-Current release: **v1.3.4**.
+Current release: **v1.3.5**.
 
 ## Ontoly packages
 
 | Component | Package | Version |
 | --------- | ------- | ------- |
-| Core | `@0xsarwagya/ontoly-core` | 1.3.4 |
-| Compiler | `@0xsarwagya/ontoly-compiler` | 1.3.4 |
-| CLI | `@0xsarwagya/ontoly-cli` | 1.3.4 |
-| Query Engine | `@0xsarwagya/ontoly-query` | 1.3.4 |
-| Capabilities | `@0xsarwagya/ontoly-capabilities` | 1.3.4 |
-| Intelligence | `@0xsarwagya/ontoly-intelligence` | 1.3.4 |
-| Cache | `@0xsarwagya/ontoly-cache` | 1.3.4 |
-| Diff | `@0xsarwagya/ontoly-diff` | 1.3.4 |
-| Diagnostics | `@0xsarwagya/ontoly-diagnostics` | 1.3.4 |
-| Analyzers | `@0xsarwagya/ontoly-analyzers` | 1.3.4 |
-| MCP runtime | `@0xsarwagya/ontoly-mcp` | 1.3.4 |
-| Enhancer API | `@0xsarwagya/ontoly-enhancer` | 1.3.4 |
-| Semantics enhancer | `@0xsarwagya/ontoly-enhancer-semantics` | 1.3.4 |
-| History enhancer | `@0xsarwagya/ontoly-enhancer-history` | 1.3.4 |
+| Core | `@0xsarwagya/ontoly-core` | 1.3.5 |
+| Compiler | `@0xsarwagya/ontoly-compiler` | 1.3.5 |
+| CLI | `@0xsarwagya/ontoly-cli` | 1.3.5 |
+| Query Engine | `@0xsarwagya/ontoly-query` | 1.3.5 |
+| Capabilities | `@0xsarwagya/ontoly-capabilities` | 1.3.5 |
+| Intelligence | `@0xsarwagya/ontoly-intelligence` | 1.3.5 |
+| Cache | `@0xsarwagya/ontoly-cache` | 1.3.5 |
+| Diff | `@0xsarwagya/ontoly-diff` | 1.3.5 |
+| Diagnostics | `@0xsarwagya/ontoly-diagnostics` | 1.3.5 |
+| Analyzers | `@0xsarwagya/ontoly-analyzers` | 1.3.5 |
+| MCP runtime | `@0xsarwagya/ontoly-mcp` | 1.3.5 |
+| Enhancer API | `@0xsarwagya/ontoly-enhancer` | 1.3.5 |
+| Semantics enhancer | `@0xsarwagya/ontoly-enhancer-semantics` | 1.3.5 |
+| History enhancer | `@0xsarwagya/ontoly-enhancer-history` | 1.3.5 |
 
 ## Language frontends
 
 | Language | Parser package | Semantic package | Framework analyzers |
 | -------- | -------------- | ---------------- | ------------------- |
-| TypeScript | `@0xsarwagya/ontoly-parser-typescript` 1.3.4 | `@0xsarwagya/ontoly-typescript` 1.3.4, `@0xsarwagya/ontoly-semantic` 1.3.4 | 17 |
-| Python | `@0xsarwagya/ontoly-parser-python` 1.3.4 | `@0xsarwagya/ontoly-python` 1.3.4, `@0xsarwagya/ontoly-semantic-python` 1.3.4 | 6 |
-| Go | `@0xsarwagya/ontoly-parser-go` 1.3.4 | `@0xsarwagya/ontoly-go` 1.3.4, `@0xsarwagya/ontoly-semantic-go` 1.3.4 | 6 |
-| OpenAPI (experimental) | `@0xsarwagya/ontoly-parser-openapi` 1.3.4 | — | — |
+| TypeScript | `@0xsarwagya/ontoly-parser-typescript` 1.3.5 | `@0xsarwagya/ontoly-typescript` 1.3.5, `@0xsarwagya/ontoly-semantic` 1.3.5 | 17 |
+| Python | `@0xsarwagya/ontoly-parser-python` 1.3.5 | `@0xsarwagya/ontoly-python` 1.3.5, `@0xsarwagya/ontoly-semantic-python` 1.3.5 | 6 |
+| Go | `@0xsarwagya/ontoly-parser-go` 1.3.5 | `@0xsarwagya/ontoly-go` 1.3.5, `@0xsarwagya/ontoly-semantic-go` 1.3.5 | 6 |
+| OpenAPI (experimental) | `@0xsarwagya/ontoly-parser-openapi` 1.3.5 | — | — |
 
 ## Plugins
 
 | Plugin | Package | Version |
 | ------ | ------- | ------- |
-| HTML graph | `@0xsarwagya/ontoly-plugin-html` | 1.3.4 |
-| Mermaid | `@0xsarwagya/ontoly-plugin-mermaid` | 1.3.4 |
+| HTML graph | `@0xsarwagya/ontoly-plugin-html` | 1.3.5 |
+| Mermaid | `@0xsarwagya/ontoly-plugin-mermaid` | 1.3.5 |
 
 ## Specs and runtimes
 
 | Component | Version |
 | --------- | ------- |
 | Software Graph Spec | 1.0 draft |
-| Agent Skills catalog | 1.3.4 |
+| Agent Skills catalog | 1.3.5 |
 | Node.js engine | ≥ 22 |
 | pnpm engine | ≥ 10 |
 | TypeScript (dev) | 5.9 |
