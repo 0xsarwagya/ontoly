@@ -34,7 +34,7 @@ All notable Ontoly changes are tracked here.
   - splitting nodes and relationships by type copied each group once per element, a quadratic pass that took 0.9 s on 72,000 relationships;
   - `stableStringify`, behind every graph and index hash, sorts each object shape's keys once;
   - building the semantic index checks alias noise only until it has the 20 aliases it keeps, and stops sorting terms whose order can't matter: 7.2 s → 6.0 s.
-- **Searches are about 25% faster end to end and use a third less memory, with the same results.** On a 3,148-file repository, `ontoly search` went from 1.5–1.6 s and 725–850 MB to 1.1–1.2 s and 535–590 MB. Ranking a query is 1.8 times faster: no result changed across 2,000 searches compared with the previous ranking.
+- **Searches are about 25% faster end to end and use 20–37% less memory, with the same results.** On a 3,148-file repository, `ontoly search` went from 1.5–1.6 s and 725–850 MB to 1.1–1.2 s and 535–590 MB. Ranking is 1.8 times faster, and 500 searches across five categories returned exactly what the previous ranking did.
   - When other candidates exist, the fuzzy scan stops at the 250 matches it keeps instead of testing every entry.
   - Display names are no longer tokenized again on every query, and each entry's searchable text is built once per query instead of in four scoring functions.
   - `ontoly search` and `ontoly find` check the semantic index against the graph hash in `metadata.json` instead of parsing the whole graph, and fall back to the graph when they don't match.
