@@ -32,6 +32,7 @@ All notable Ontoly changes are tracked here.
 ### Changed
 
 - **Releases publish with npm trusted publishing.** The publish workflow authenticates to npm with the GitHub Actions OIDC token instead of a stored `NPM_TOKEN`, so there is no publish token to rotate or to expire mid-release. Packages are packed with pnpm, which resolves `workspace:` dependencies, and published with npm 11, which supports trusted publishing. `NPM_TOKEN` remains a fallback until every package trusts the workflow, and the redundant `npm access` step, which needs a token, is gone.
+- **`index.json` refers to entries by offset.** In the semantic index file, postings, vocabulary node ids and neighbor ids now hold positions in `entryIds` instead of repeating each stable id, which averaged 70 characters. On a 3,148-file repository the file shrinks from 138.6 MB to 70.7 MB and reads in half the time, and `ontoly search` peaks at 0.73 GB instead of 1.21 GB. Ontoly reads both forms, so existing bundles keep working. Tools that read `index.json` directly should map numbers through `entryIds`.
 
 ### Security
 

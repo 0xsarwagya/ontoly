@@ -4,6 +4,8 @@ import { isAbsolute, join } from "node:path";
 import type { SoftwareGraph } from "@0xsarwagya/ontoly-core";
 import {
   createSemanticIndex,
+  decodeSemanticIndex,
+  encodeSemanticIndex,
   rememberSemanticIndex,
   validateSemanticIndex,
   type SemanticIndex,
@@ -84,7 +86,7 @@ export async function persistGraph(
     writeJsonFile(paths.diagnostics, graph.diagnostics),
     writeJson(paths.metadata, graph.metadata),
     writeJsonFile(paths.indexes, graph.indexes),
-    writeJsonFile(paths.semanticIndex, semanticIndex),
+    writeJsonFile(paths.semanticIndex, encodeSemanticIndex(semanticIndex)),
     writeJson(paths.statistics, createGraphStatistics(graph)),
   ]);
 
@@ -100,7 +102,7 @@ export async function loadGraph(options: PersistGraphOptions): Promise<SoftwareG
 export async function loadSemanticIndex(options: PersistGraphOptions): Promise<SemanticIndex> {
   const paths = getGraphArtifactPaths(options);
   const contents = await readFile(paths.semanticIndex, "utf8");
-  return JSON.parse(contents) as SemanticIndex;
+  return decodeSemanticIndex(JSON.parse(contents));
 }
 
 /**
@@ -125,7 +127,7 @@ export async function loadOrCreateSemanticIndex(
     }
     const rebuilt = createSemanticIndex(graph);
     await mkdir(paths.directory, { recursive: true });
-    await writeJsonFile(paths.semanticIndex, rebuilt);
+    await writeJsonFile(paths.semanticIndex, encodeSemanticIndex(rebuilt));
     return rebuilt;
   } catch (error) {
     if (!isMissingFileError(error)) {
@@ -134,7 +136,7 @@ export async function loadOrCreateSemanticIndex(
     const graph = await graphFor();
     const semanticIndex = createSemanticIndex(graph);
     await mkdir(paths.directory, { recursive: true });
-    await writeJsonFile(paths.semanticIndex, semanticIndex);
+    await writeJsonFile(paths.semanticIndex, encodeSemanticIndex(semanticIndex));
     return semanticIndex;
   }
 }
