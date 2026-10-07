@@ -20,6 +20,11 @@ All notable Ontoly changes are tracked here.
   - full build: peak memory 4.24 GB → 2.98 GB, bundle 720 MB → 494 MB, 54.9 s → 50.5 s;
   - `ontoly search`: 1.59 GB → 0.85 GB.
 
+- **The semantic index is built once per graph, and 3.6 times faster.** `ontoly mcp` rebuilt it from scratch on every search and capability request, and so did every capability engine: about 22 s per request on a 3,148-file repository. Each graph now builds or loads its index once and reuses it, and `ontoly mcp` loads the persisted index when it starts. Tokenizing is cached while an index is built or a query is ranked, so on the same repository:
+  - building the index: 26.2 s → 7.2 s, with byte-identical output;
+  - `ontoly search`: 1.7 s → 0.4 s of ranking, 3.4 s → 1.8 s end to end;
+  - MCP searches and capabilities: 0.3 to 0.5 s each.
+
 ### Changed
 
 - **Releases publish with npm trusted publishing.** The publish workflow authenticates to npm with the GitHub Actions OIDC token instead of a stored `NPM_TOKEN`, so there is no publish token to rotate or to expire mid-release. Packages are packed with pnpm, which resolves `workspace:` dependencies, and published with npm 11, which supports trusted publishing. `NPM_TOKEN` remains a fallback until every package trusts the workflow, and the redundant `npm access` step, which needs a token, is gone.
