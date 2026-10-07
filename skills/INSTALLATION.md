@@ -18,6 +18,13 @@ npx skills add 0xsarwagya/ontoly --skill architecture-review
 
 Use this after the GitHub repository is public.
 
+To install for all projects, add `-g`. Then validate the skills your agent loads:
+
+```bash
+npx skills add 0xsarwagya/ontoly -g -a claude-code -s '*'
+ontoly skills validate --global
+```
+
 ## Local Release Test
 
 ```bash
