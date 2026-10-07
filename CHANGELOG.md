@@ -13,6 +13,10 @@ All notable Ontoly changes are tracked here.
   - A skill whose `ontoly.min.version` is newer than the running CLI fails validation.
 - **`ontoly skills validate` and `ontoly skills doctor` no longer create `validation/skills/` in the current directory.** Reports are written only with `--output <dir>`. `pnpm skills:validate` passes `--output validation/skills`, so the repository's tracked reports are still refreshed.
 
+### Changed
+
+- **Releases publish with npm trusted publishing.** The publish workflow authenticates to npm with the GitHub Actions OIDC token instead of a stored `NPM_TOKEN`, so there is no publish token to rotate or to expire mid-release. Packages are packed with pnpm, which resolves `workspace:` dependencies, and published with npm 11, which supports trusted publishing. `NPM_TOKEN` remains a fallback until every package trusts the workflow, and the redundant `npm access` step, which needs a token, is gone.
+
 ### Security
 
 - Updated Next.js from 16.2.12 to 16.3.8 and `@next/mdx` from 16.2.10 to 16.3.8 (site), fixing the critical Next.js advisories GHSA-p293-qw3h-jr36, GHSA-2xp9-vwfh-vxw4 and GHSA-vcvr-r3jv-pc5j.

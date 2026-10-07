@@ -59,10 +59,19 @@ jobs:
           pnpm validate:pack
           pnpm validate:release-version
 
-      - name: Verify npm token
+      # npm trusted publishing (OIDC): no token is stored or rotated. Each package trusts this workflow once:
+      #   npm trust github <package> --file publish-npm.yml --repo 0xsarwagya/ontoly --env npm-publish
+      # The npm CLI tries OIDC first and falls back to NPM_TOKEN, so the secret can be deleted once a
+      # release has published over OIDC.
+      - name: Use an npm that supports trusted publishing
+        run: |
+          npm install --global npm@^11.5.1
+          npm --version
+
+      - name: Check npm token (fallback only)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm whoami --registry=https://registry.npmjs.org/
+        run: npm whoami --registry=https://registry.npmjs.org/ || echo "No usable NPM_TOKEN; publishing relies on trusted publishing (OIDC)."
 
       - name: Resolve npm dist-tag
         run: |
