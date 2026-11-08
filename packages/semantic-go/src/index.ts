@@ -1,3 +1,4 @@
+import { posix } from "node:path";
 import type {
   CompilerRelationship,
   CompilerSymbol,
@@ -12,7 +13,11 @@ import {
   type SourceSpan,
 } from "@0xsarwagya/ontoly-core";
 import type {
+  GoCall,
+  GoImport,
+  GoMethod,
   GoProject,
+  GoSourceFile,
 } from "@0xsarwagya/ontoly-go";
 import { GO_ANALYZER_VERSION } from "@0xsarwagya/ontoly-go";
 import type {
@@ -368,14 +373,17 @@ function addGoRelationships(
     }
   }
 
+  const declarations = indexGoDeclarations(project);
+
   for (const method of project.methods) {
-    const structId = createNodeId({ type: "Class", name: method.receiverType, file: method.file });
+    const owner = methodOwner(method, declarations, fileById);
+    if (!owner) continue;
     addRelationship(relationships, {
       type: "CONTAINS",
-      from: structId,
+      from: owner.id,
       to: method.id,
-      evidence: evidence(method.span, "struct contains method"),
-      metadata: { ownerKind: "Struct" },
+      evidence: evidence(method.span, `${owner.kind.toLowerCase()} contains method`),
+      metadata: { ownerKind: owner.kind },
     });
   }
 
@@ -410,10 +418,8 @@ function addGoRelationships(
   }
 
   for (const call of project.calls) {
-    if (!call.calleeName) continue;
-    const targetId = call.receiverName && call.methodName
-      ? createNodeId({ type: "Method", name: `${call.receiverName}.${call.methodName}` })
-      : createNodeId({ type: "Function", name: call.calleeName });
+    const targetId = resolveCallTarget(call, declarations);
+    if (!targetId) continue;
     addRelationship(relationships, {
       type: "CALLS",
       from: call.ownerId,
@@ -457,6 +463,73 @@ function addGoRelationships(
       });
     }
   }
+}
+
+interface GoDeclarationIndex {
+  readonly functionIds: ReadonlyMap<string, string>;
+  readonly methodIds: ReadonlyMap<string, string>;
+  readonly structIds: ReadonlyMap<string, string>;
+  readonly importedPackageNames: ReadonlySet<string>;
+}
+
+interface MethodOwner {
+  readonly id: string;
+  readonly kind: "Struct" | "File";
+}
+
+// A Go package is a directory, so declarations are keyed by directory plus name.
+function packageKey(file: string, name: string): string {
+  return `${posix.dirname(file)}\0${name}`;
+}
+
+function indexGoDeclarations(project: GoProject): GoDeclarationIndex {
+  return {
+    functionIds: uniqueIds(project.functions.map((func) => [packageKey(func.file, func.name), func.id])),
+    methodIds: uniqueIds(project.methods.map((method) => [packageKey(method.file, methodName(method)), method.id])),
+    structIds: uniqueIds(project.structs.map((struct) => [packageKey(struct.file, struct.name), struct.id])),
+    importedPackageNames: new Set(project.imports.map((imp) => `${imp.file}\0${importedPackageName(imp)}`)),
+  };
+}
+
+// Keys declared more than once are dropped: an ambiguous target gets no edge rather than a guessed one.
+function uniqueIds(entries: readonly (readonly [string, string])[]): ReadonlyMap<string, string> {
+  const ids = new Map<string, string>();
+  const ambiguous = new Set<string>();
+  for (const [key, id] of entries) {
+    if (ids.has(key)) ambiguous.add(key);
+    ids.set(key, id);
+  }
+  for (const key of ambiguous) ids.delete(key);
+  return ids;
+}
+
+function methodName(method: GoMethod): string {
+  return method.name.slice(method.name.lastIndexOf(".") + 1);
+}
+
+function importedPackageName(imp: GoImport): string {
+  const lastSegment = imp.path.slice(imp.path.lastIndexOf("/") + 1);
+  return imp.alias ?? lastSegment.replace(/\.v\d+$/, "");
+}
+
+function methodOwner(
+  method: GoMethod,
+  declarations: GoDeclarationIndex,
+  fileById: ReadonlyMap<string, GoSourceFile>,
+): MethodOwner | undefined {
+  const structId = declarations.structIds.get(packageKey(method.file, method.receiverType));
+  if (structId) return { id: structId, kind: "Struct" };
+  const fileId = fileById.get(method.file)?.id;
+  return fileId ? { id: fileId, kind: "File" } : undefined;
+}
+
+// Calls into other packages (fmt.Println, pkg.Func) are left out until import paths resolve to files.
+function resolveCallTarget(call: GoCall, declarations: GoDeclarationIndex): string | undefined {
+  if (call.receiverName && call.methodName) {
+    const callsImportedPackage = declarations.importedPackageNames.has(`${call.file}\0${call.receiverName}`);
+    return callsImportedPackage ? undefined : declarations.methodIds.get(packageKey(call.file, call.methodName));
+  }
+  return call.calleeName ? declarations.functionIds.get(packageKey(call.file, call.calleeName)) : undefined;
 }
 
 // --- Gin framework analyzer ---
