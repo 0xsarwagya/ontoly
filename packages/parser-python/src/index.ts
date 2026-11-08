@@ -21,7 +21,7 @@ import {
 export const PYTHON_FRONTEND_NAME = PYTHON_ANALYZER_NAME;
 export const PYTHON_FRONTEND_PASS_ID = "@0xsarwagya/ontoly-parser-python:frontend";
 export const PYTHON_FRONTEND_VERSION = PYTHON_ANALYZER_VERSION;
-export const PYTHON_FRONTEND_CACHE_VERSION = "1.0.0";
+export const PYTHON_FRONTEND_CACHE_VERSION = "1.1.0";
 
 export interface PythonFrontendResult {
   readonly symbols: GeneratePythonCompilerArtifactsResult["symbols"];

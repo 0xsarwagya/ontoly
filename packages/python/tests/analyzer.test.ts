@@ -144,6 +144,13 @@ from ...core import Base
     expect(project.imports[2]!.relativeLevel).toBe(3);
   });
 
+  it("keeps the names of a bare relative import out of its module", () => {
+    const project = analyzeSource("from . import utils, models as m\n");
+    expect(project.imports.map(({ module, names }) => ({ module, names }))).toEqual([
+      { module: "", names: [{ name: "utils" }, { name: "models", alias: "m" }] },
+    ]);
+  });
+
   it("extracts decorators on functions", () => {
     const project = analyzeSource(`
 @app.route('/api', methods=['GET'])

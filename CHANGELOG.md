@@ -6,6 +6,10 @@ All notable Ontoly changes are tracked here.
 
 ### Fixed
 
+- **Python graphs have a call graph and file-to-file imports.** Every Python call was dropped, so a Python repository's graph had no `CALLS` edges. Every import pointed at a global package node, so `from .models import User` merged with any third-party `models`. Imports now point at the imported file when it is in the repository, including relative imports and `src/` layouts; package nodes are kept for third-party modules. Calls resolve to functions and methods in the same file, through `self` and `cls`, and through imported names and modules. A call that cannot be resolved gets no edge.
+  - Imports and definitions inside `try`, `if` (such as `if TYPE_CHECKING:`), `with` and other blocks, and imports inside function bodies, are no longer dropped.
+  - `EXTENDS` points at the base class declared in the repository instead of a name-only class node.
+  - `from . import x` records `x` as an imported name instead of as the module.
 - **Commands that only read a graph start without the TypeScript compiler.** The CLI loaded `typescript` on every run, about 170 ms and 75 MB, though only building and analyzing sources need it. It now loads it in those commands only. On a 3,148-file repository:
   - `ontoly --version`: 0.25 s and 132 MB → 0.06 s and 59 MB;
   - `ontoly search`: 1.12 s and 559 MB → 0.91 s and 458 MB;

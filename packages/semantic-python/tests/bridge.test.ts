@@ -180,6 +180,7 @@ describe("generatePythonCompilerArtifacts", () => {
       imports: [{
         id: "import:main.py:os",
         file: "main.py",
+        form: "import",
         module: "os",
         names: [{ name: "os" }],
         relative: false,

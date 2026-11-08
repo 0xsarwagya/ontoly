@@ -19,6 +19,7 @@ import type {
   DetectionResult,
   SemanticFact,
 } from "@0xsarwagya/ontoly-semantic";
+import { PythonNameResolver } from "./resolution";
 
 export interface PythonFrameworkAnalyzer {
   readonly id: string;
@@ -277,22 +278,23 @@ function addPythonRelationships(
     });
   }
 
+  const resolver = new PythonNameResolver(project);
+
   for (const imp of project.imports) {
     const sourceFile = fileById.get(imp.file);
-    if (sourceFile) {
-      const targetId = createNodeId({ type: "Package", name: imp.module || "." });
-      addSymbol(symbols, {
-        id: targetId,
-        kind: "Package",
-        name: imp.module || ".",
-        language: "python",
-        provenance: provenance(),
-      });
+    if (!sourceFile) continue;
+    const importedFileIds = resolver.importedFileIds(imp);
+    const isThirdParty = importedFileIds.length === 0 && !imp.relative;
+    const targetIds = isThirdParty
+      ? [addPackageSymbol(symbols, imp.module)]
+      : importedFileIds.filter((id) => id !== sourceFile.id);
+    const moduleLabel = `${".".repeat(imp.relativeLevel)}${imp.module}`;
+    for (const targetId of targetIds) {
       addRelationship(relationships, {
         type: "IMPORTS",
         from: sourceFile.id,
         to: targetId,
-        evidence: evidence(imp.span, `imports ${imp.module}`),
+        evidence: evidence(imp.span, `imports ${moduleLabel}`),
         metadata: {
           importNodeId: imp.id,
           module: imp.module,
@@ -323,14 +325,7 @@ function addPythonRelationships(
 
   for (const cls of project.classes) {
     for (const base of cls.bases) {
-      const baseId = createNodeId({ type: "Class", name: base });
-      addSymbol(symbols, {
-        id: baseId,
-        kind: "Class",
-        name: base,
-        language: "python",
-        provenance: provenance(),
-      });
+      const baseId = resolver.baseClassId(cls, base) ?? addExternalClassSymbol(symbols, base);
       addRelationship(relationships, {
         type: "EXTENDS",
         from: cls.id,
@@ -341,11 +336,12 @@ function addPythonRelationships(
   }
 
   for (const call of project.calls) {
-    if (!call.targetId) continue;
+    const targetId = resolver.callTargetId(call);
+    if (!targetId) continue;
     addRelationship(relationships, {
       type: "CALLS",
       from: call.ownerId,
-      to: call.targetId,
+      to: targetId,
       evidence: evidence(call.span, "calls target"),
     });
   }
@@ -372,6 +368,18 @@ function addPythonRelationships(
       });
     }
   }
+}
+
+function addPackageSymbol(symbols: Map<string, CompilerSymbol>, module: string): string {
+  const id = createNodeId({ type: "Package", name: module });
+  addSymbol(symbols, { id, kind: "Package", name: module, language: "python", provenance: provenance() });
+  return id;
+}
+
+function addExternalClassSymbol(symbols: Map<string, CompilerSymbol>, name: string): string {
+  const id = createNodeId({ type: "Class", name });
+  addSymbol(symbols, { id, kind: "Class", name, language: "python", provenance: provenance() });
+  return id;
 }
 
 const DJANGO_MODULES = new Set([
