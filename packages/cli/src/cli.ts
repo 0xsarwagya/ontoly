@@ -104,7 +104,7 @@ import {
   type SemanticIndex,
   type SemanticSearchResult,
 } from "@0xsarwagya/ontoly-core";
-import { createMcpRuntime, McpCapabilityError, type McpCapabilityName } from "@0xsarwagya/ontoly-mcp";
+import { createMcpRuntime, McpCapabilityError, type McpCapabilityName, type McpRuntime } from "@0xsarwagya/ontoly-mcp";
 import { createInteractiveHtmlGraph } from "@0xsarwagya/ontoly-plugin-html";
 import { createQueryEngine, type GraphStatistics, type GraphTraversal } from "@0xsarwagya/ontoly-query";
 import type { TypeScriptProject } from "@0xsarwagya/ontoly-typescript";
@@ -193,6 +193,12 @@ class OntolyCliError extends Error {
     this.exitCode = input.exitCode ?? 1;
   }
 }
+
+// Flags read with flagBoolean never take a value, so `--json auth` keeps `auth` as a positional argument.
+const BOOLEAN_FLAGS: ReadonlySet<string> = new Set([
+  "bundle", "ci", "debug", "global", "help", "json", "list", "log-json", "no-cache", "no-color", "no-html",
+  "no-parallel", "no-prompt", "progress", "strict", "trace", "verbose", "with-graph", "yes",
+]);
 
 const parsed = parseCli(process.argv.slice(2));
 const logger = createCliLogger(parsed);
@@ -1349,36 +1355,27 @@ async function mcpCommand(cli: ParsedCli): Promise<void> {
   await loadOrCreateSemanticIndex({ root: resolve(root), directory: await artifactDirectoryForCli(cli, root) }, graph).catch(() => undefined);
 
   process.stderr.write("info    Ontoly MCP runtime started. Send one JSON request per line.\n");
-  process.stdin.setEncoding("utf8");
 
-  let buffer = "";
-  process.stdin.on("data", (chunk) => {
-    buffer += chunk;
-    const lines = buffer.split("\n");
-    buffer = lines.pop() ?? "";
-
-    for (const line of lines) {
-      if (!line.trim()) {
-        continue;
-      }
-
-      try {
-        const request = JSON.parse(line) as {
-          readonly capability: McpCapabilityName;
-          readonly input?: unknown;
-        };
-        const response = runtime.execute({
-          capability: request.capability,
-          input: toJsonObject(request.input),
-        });
-        process.stdout.write(`${JSON.stringify(response)}\n`);
-      } catch (error) {
-        process.stdout.write(
-          `${JSON.stringify(serializeMcpError(error))}\n`,
-        );
-      }
+  for await (const line of createInterface({ input: process.stdin, crlfDelay: Infinity })) {
+    if (line.trim()) {
+      process.stdout.write(`${JSON.stringify(executeMcpRequestLine(runtime, line))}\n`);
     }
-  });
+  }
+}
+
+function executeMcpRequestLine(runtime: McpRuntime, line: string): unknown {
+  try {
+    const request = JSON.parse(line) as {
+      readonly capability: McpCapabilityName;
+      readonly input?: unknown;
+    };
+    return runtime.execute({
+      capability: request.capability,
+      input: toJsonObject(request.input),
+    });
+  } catch (error) {
+    return serializeMcpError(error);
+  }
 }
 
 async function skillsCommand(cli: ParsedCli): Promise<void> {
@@ -5173,7 +5170,7 @@ function parseCli(args: readonly string[]): ParsedCli {
     const key = arg.slice(2);
     const next = rest[index + 1];
 
-    if (next && !next.startsWith("--")) {
+    if (next && !next.startsWith("--") && !BOOLEAN_FLAGS.has(key)) {
       flags.set(key, next);
       index += 1;
     } else {
