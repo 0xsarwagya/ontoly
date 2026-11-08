@@ -9,7 +9,7 @@ import {
   type SourceSpan,
 } from "@0xsarwagya/ontoly-core";
 
-export const PYTHON_SEMANTIC_MODEL_VERSION = "1.0.0";
+export const PYTHON_SEMANTIC_MODEL_VERSION = "1.1.0";
 export const PYTHON_ANALYZER_NAME = "python";
 export const PYTHON_ANALYZER_VERSION = "0.1.0";
 
@@ -96,6 +96,7 @@ export interface PythonParameter {
 export interface PythonImport {
   readonly id: string;
   readonly file: string;
+  readonly form: "import" | "from";
   readonly module: string;
   readonly names: readonly PythonImportName[];
   readonly relative: boolean;
@@ -136,7 +137,6 @@ export interface PythonCall {
   readonly receiverName?: string | undefined;
   readonly methodName?: string | undefined;
   readonly argumentCount: number;
-  readonly targetId?: string | undefined;
   readonly span: SourceSpan;
 }
 
@@ -286,9 +286,24 @@ function nodeSpan(file: string, node: SyntaxNode): SourceSpan {
   };
 }
 
+// Statements whose bodies still run at module level, e.g. `if TYPE_CHECKING:` or `try: import ujson`.
+const MODULE_LEVEL_BLOCK_TYPES = new Set([
+  "block",
+  "if_statement",
+  "elif_clause",
+  "else_clause",
+  "try_statement",
+  "except_clause",
+  "finally_clause",
+  "with_statement",
+  "for_statement",
+  "while_statement",
+  "match_statement",
+  "case_clause",
+]);
+
 function walkModule(ctx: FileContext, moduleNode: SyntaxNode, ownerId: string): void {
-  for (let i = 0; i < moduleNode.namedChildCount; i++) {
-    const child = moduleNode.namedChild(i)!;
+  for (const child of moduleNode.namedChildren) {
     processTopLevelNode(ctx, child, ownerId);
   }
 }
@@ -312,41 +327,28 @@ function processTopLevelNode(ctx: FileContext, node: SyntaxNode, ownerId: string
       break;
     case "expression_statement": {
       const expr = node.namedChild(0);
-      if (expr?.type === "assignment") {
+      if (!expr) break;
+      if (expr.type === "assignment") {
         processAssignment(ctx, expr, ownerId);
-      } else if (expr?.type === "call") {
-        processCall(ctx, expr, ownerId);
       }
+      collectCallsAndImports(ctx, expr, ownerId);
       break;
     }
+    default:
+      if (MODULE_LEVEL_BLOCK_TYPES.has(node.type)) {
+        walkModule(ctx, node, ownerId);
+      }
   }
 }
 
 function processImportStatement(ctx: FileContext, node: SyntaxNode): void {
-  const names: PythonImportName[] = [];
-  for (let i = 0; i < node.namedChildCount; i++) {
-    const child = node.namedChild(i)!;
-    if (child.type === "dotted_name") {
-      names.push({ name: child.text });
-    } else if (child.type === "aliased_import") {
-      const nameNode = child.namedChild(0);
-      const aliasNode = child.namedChild(1);
-      if (nameNode) {
-        names.push({
-          name: nameNode.text,
-          alias: aliasNode?.text,
-        });
-      }
-    }
-  }
-
-  for (const n of names) {
-    const id = createNodeId({ type: "Import", name: `${ctx.file}:${n.name}`, file: ctx.file });
+  for (const name of node.childrenForFieldName("name").map(importedName)) {
     ctx.imports.push({
-      id,
+      id: createNodeId({ type: "Import", name: `${ctx.file}:${name.name}`, file: ctx.file }),
       file: ctx.file,
-      module: n.name,
-      names: [{ name: n.name, alias: n.alias }],
+      form: "import",
+      module: name.name,
+      names: [name],
       relative: false,
       relativeLevel: 0,
       span: nodeSpan(ctx.file, node),
@@ -355,54 +357,40 @@ function processImportStatement(ctx: FileContext, node: SyntaxNode): void {
 }
 
 function processImportFromStatement(ctx: FileContext, node: SyntaxNode): void {
-  let moduleName = "";
-  let relativeLevel = 0;
-  let isRelative = false;
-  const names: PythonImportName[] = [];
-
-  for (let i = 0; i < node.namedChildCount; i++) {
-    const child = node.namedChild(i)!;
-    if (child.type === "relative_import") {
-      isRelative = true;
-      const prefix = child.childForFieldName("module_name")
-        ?? child.namedChildren.find(c => c.type === "import_prefix");
-      if (prefix?.type === "import_prefix") {
-        relativeLevel = prefix.text.length;
-      }
-      const dottedName = child.namedChildren.find(c => c.type === "dotted_name");
-      if (dottedName) {
-        moduleName = dottedName.text;
-      }
-    } else if (child.type === "dotted_name" && !moduleName) {
-      moduleName = child.text;
-    } else if (child.type === "dotted_name" && moduleName) {
-      names.push({ name: child.text });
-    } else if (child.type === "aliased_import") {
-      const nameNode = child.namedChild(0);
-      const aliasNode = child.namedChild(1);
-      if (nameNode) {
-        names.push({ name: nameNode.text, alias: aliasNode?.text });
-      }
-    } else if (child.type === "wildcard_import") {
-      names.push({ name: "*" });
-    }
+  const moduleNode = node.childForFieldName("module_name");
+  const relativeImport = moduleNode?.type === "relative_import" ? moduleNode : undefined;
+  const relativeLevel = relativeImport?.namedChildren.find(c => c.type === "import_prefix")?.text.length ?? 0;
+  const moduleName = relativeImport
+    ? relativeImport.namedChildren.find(c => c.type === "dotted_name")?.text ?? ""
+    : moduleNode?.text ?? "";
+  const names = node.childrenForFieldName("name").map(importedName);
+  if (node.namedChildren.some(c => c.type === "wildcard_import")) {
+    names.push({ name: "*" });
   }
-
-  const id = createNodeId({
-    type: "Import",
-    name: `${ctx.file}:${isRelative ? ".".repeat(relativeLevel) : ""}${moduleName}`,
-    file: ctx.file,
-  });
+  const importedLabel = moduleName || names.map(n => n.name).join(",");
 
   ctx.imports.push({
-    id,
+    id: createNodeId({
+      type: "Import",
+      name: `${ctx.file}:${".".repeat(relativeLevel)}${importedLabel}`,
+      file: ctx.file,
+    }),
     file: ctx.file,
+    form: "from",
     module: moduleName,
     names,
-    relative: isRelative,
+    relative: relativeImport !== undefined,
     relativeLevel,
     span: nodeSpan(ctx.file, node),
   });
+}
+
+function importedName(node: SyntaxNode): PythonImportName {
+  if (node.type !== "aliased_import") return { name: node.text };
+  return {
+    name: node.childForFieldName("name")?.text ?? node.text,
+    alias: node.childForFieldName("alias")?.text,
+  };
 }
 
 function processClassDefinition(
@@ -503,7 +491,7 @@ function processMethodDefinition(
 
   const block = node.namedChildren.find(c => c.type === "block");
   if (block) {
-    walkFunctionBody(ctx, block, methodId);
+    collectCallsAndImports(ctx, block, methodId);
   }
 }
 
@@ -539,7 +527,7 @@ function processFunctionDefinition(
 
   const block = node.namedChildren.find(c => c.type === "block");
   if (block) {
-    walkFunctionBody(ctx, block, funcId);
+    collectCallsAndImports(ctx, block, funcId);
   }
 }
 
@@ -719,58 +707,24 @@ function processCall(ctx: FileContext, node: SyntaxNode, ownerId: string): void 
     receiverName,
     methodName,
     argumentCount,
-    targetId: undefined,
     span: nodeSpan(ctx.file, node),
   });
 }
 
-function walkFunctionBody(ctx: FileContext, block: SyntaxNode, ownerId: string): void {
-  for (let i = 0; i < block.namedChildCount; i++) {
-    const child = block.namedChild(i)!;
-    walkForCalls(ctx, child, ownerId);
-  }
-}
-
-function walkForCalls(ctx: FileContext, node: SyntaxNode, ownerId: string): void {
-  if (node.type === "call") {
-    processCall(ctx, node, ownerId);
-    return;
-  }
-
-  if (node.type === "expression_statement") {
-    const expr = node.namedChild(0);
-    if (expr?.type === "call") {
-      processCall(ctx, expr, ownerId);
+function collectCallsAndImports(ctx: FileContext, node: SyntaxNode, ownerId: string): void {
+  switch (node.type) {
+    case "call":
+      processCall(ctx, node, ownerId);
+      break;
+    case "import_statement":
+      processImportStatement(ctx, node);
       return;
-    }
-    if (expr?.type === "assignment") {
-      const valueNode = expr.namedChildren.find(
-        c => c.type !== "type" && c !== expr.namedChild(0),
-      );
-      if (valueNode) walkForCalls(ctx, valueNode, ownerId);
+    case "import_from_statement":
+      processImportFromStatement(ctx, node);
       return;
-    }
   }
-
-  if (node.type === "assignment") {
-    const children = node.namedChildren;
-    for (const c of children) {
-      if (c.type === "call") {
-        processCall(ctx, c, ownerId);
-      }
-    }
-    return;
-  }
-
-  if (node.type === "return_statement" || node.type === "yield") {
-    for (let i = 0; i < node.namedChildCount; i++) {
-      walkForCalls(ctx, node.namedChild(i)!, ownerId);
-    }
-    return;
-  }
-
-  for (let i = 0; i < node.namedChildCount; i++) {
-    walkForCalls(ctx, node.namedChild(i)!, ownerId);
+  for (const child of node.namedChildren) {
+    collectCallsAndImports(ctx, child, ownerId);
   }
 }
 
