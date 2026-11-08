@@ -1,6 +1,6 @@
 # Ontoly
 
-[![Validation Lab](https://github.com/0xsarwagya/ontoly/actions/workflows/semantic-evaluation.yml/badge.svg)](https://github.com/0xsarwagya/ontoly/actions/workflows/semantic-evaluation.yml)
+[![Release Verification](https://github.com/0xsarwagya/ontoly/actions/workflows/release-verification.yml/badge.svg)](https://github.com/0xsarwagya/ontoly/actions/workflows/release-verification.yml)
 [![npm install](https://img.shields.io/npm/v/@0xsarwagya/ontoly-cli?label=npm%20install)](https://www.npmjs.com/package/@0xsarwagya/ontoly-cli)
 [![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-blue)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
