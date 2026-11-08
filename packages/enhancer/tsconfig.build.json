@@ -7,7 +7,6 @@
     "noEmit": false,
     "declarationMap": true,
     "rootDir": "src",
-    "baseUrl": ".",
     "paths": {}
   },
   "include": ["src"]
