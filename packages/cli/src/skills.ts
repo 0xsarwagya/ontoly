@@ -1,7 +1,7 @@
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { homedir } from "node:os";
-import { basename, dirname, join, relative, resolve } from "node:path";
+import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { MCP_CAPABILITIES, type McpCapabilityName } from "@0xsarwagya/ontoly-mcp";
 
 export interface SkillCatalogEntry {
@@ -596,7 +596,7 @@ async function skillReferenceContents(skillPath: string): Promise<readonly strin
 
 async function writeSkillValidationArtifacts(validationRoot: string, report: SkillValidationReport): Promise<void> {
   await mkdir(validationRoot, { recursive: true });
-  await writeJson(join(validationRoot, "report.json"), withRelativePaths(report));
+  await writeJson(join(validationRoot, "report.json"), withPathsRelativeTo(validationRoot, report));
   await writeFile(join(validationRoot, "report.md"), renderSkillValidationMarkdown(report), "utf8");
   await writeJson(join(validationRoot, "agent-evaluation.json"), report.agentEvaluation);
   await writeFile(join(validationRoot, "agent-evaluation.md"), renderAgentEvaluationMarkdown(report.agentEvaluation), "utf8");
@@ -607,14 +607,14 @@ async function writeSkillValidationArtifacts(validationRoot: string, report: Ski
   }
 }
 
-// Committed reports must not carry the author's absolute filesystem paths.
-function withRelativePaths(report: SkillValidationReport): SkillValidationReport {
-  const fromCwd = (path: string): string => relative(process.cwd(), path);
+// Committed reports must not carry machine paths, so paths are POSIX-style and relative to the report.
+function withPathsRelativeTo(reportDir: string, report: SkillValidationReport): SkillValidationReport {
+  const fromReport = (path: string): string => relative(reportDir, path).split(sep).join("/");
   return {
     ...report,
-    skillsRoot: fromCwd(report.skillsRoot),
-    skills: report.skills.map((skill) => ({ ...skill, path: fromCwd(skill.path) })),
-    issues: report.issues.map((issue) => (issue.file ? { ...issue, file: fromCwd(issue.file) } : issue)),
+    skillsRoot: fromReport(report.skillsRoot),
+    skills: report.skills.map((skill) => ({ ...skill, path: fromReport(skill.path) })),
+    issues: report.issues.map((issue) => (issue.file ? { ...issue, file: fromReport(issue.file) } : issue)),
   };
 }
 

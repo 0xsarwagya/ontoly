@@ -1,7 +1,7 @@
 {
   "status": "PASS",
-  "generatedAt": "2026-11-08T13:42:31.609Z",
-  "skillsRoot": "skills",
+  "generatedAt": "2026-11-08T15:05:47.453Z",
+  "skillsRoot": "../../skills",
   "totalSkills": 14,
   "validSkills": 14,
   "issues": [],
@@ -22,7 +22,7 @@
       ],
       "deprecated": false,
       "description": "Review repository architecture using Ontoly Software Graph and MCP capabilities. Use when asked to explain architecture, module boundaries, package topology, service ownership, or architectural risk.",
-      "path": "skills/architecture-review"
+      "path": "../../skills/architecture-review"
     },
     {
       "id": "codebase-onboarding",
@@ -40,7 +40,7 @@
       ],
       "deprecated": false,
       "description": "Onboard a developer to a repository using Ontoly graph summaries. Use when asked to explain a new codebase, identify entrypoints, map packages, or suggest first files to inspect.",
-      "path": "skills/codebase-onboarding"
+      "path": "../../skills/codebase-onboarding"
     },
     {
       "id": "configuration-analysis",
@@ -58,7 +58,7 @@
       ],
       "deprecated": false,
       "description": "Audit configuration and environment variable usage through Ontoly configuration capabilities. Use when asked where env vars, build config, runtime config, or feature flags are read.",
-      "path": "skills/configuration-analysis"
+      "path": "../../skills/configuration-analysis"
     },
     {
       "id": "dead-code-analysis",
@@ -76,7 +76,7 @@
       ],
       "deprecated": false,
       "description": "Find potentially unused functions, methods, services, routes, or features using Ontoly dead-code and entrypoint capabilities. Use when asked what code appears unreachable or safe to remove.",
-      "path": "skills/dead-code-analysis"
+      "path": "../../skills/dead-code-analysis"
     },
     {
       "id": "dependency-analysis",
@@ -94,7 +94,7 @@
       ],
       "deprecated": false,
       "description": "Analyze internal and package dependencies using Ontoly graph traversal. Use when asked which modules, packages, services, or files depend on each other.",
-      "path": "skills/dependency-analysis"
+      "path": "../../skills/dependency-analysis"
     },
     {
       "id": "documentation",
@@ -112,7 +112,7 @@
       ],
       "deprecated": false,
       "description": "Draft graph-backed documentation from Ontoly summaries and traces. Use when asked to document architecture, APIs, modules, packages, or request lifecycles without re-parsing source files.",
-      "path": "skills/documentation"
+      "path": "../../skills/documentation"
     },
     {
       "id": "framework-analysis",
@@ -130,7 +130,7 @@
       ],
       "deprecated": false,
       "description": "Explain detected frameworks and framework-specific graph coverage using Ontoly framework reports. Use when asked whether a repository uses NestJS, Next.js, React, Turborepo, or other supported framework concepts.",
-      "path": "skills/framework-analysis"
+      "path": "../../skills/framework-analysis"
     },
     {
       "id": "impact-analysis",
@@ -148,7 +148,7 @@
       ],
       "deprecated": false,
       "description": "Analyze change impact using Ontoly dependency and dependent traversal. Use when asked what breaks if a symbol, service, route, package, or repository node changes or is removed.",
-      "path": "skills/impact-analysis"
+      "path": "../../skills/impact-analysis"
     },
     {
       "id": "migration-analysis",
@@ -166,7 +166,7 @@
       ],
       "deprecated": false,
       "description": "Plan migrations using Ontoly architecture, dependency, impact, and configuration evidence. Use when asked to migrate frameworks, packages, APIs, modules, or runtime configuration.",
-      "path": "skills/migration-analysis"
+      "path": "../../skills/migration-analysis"
     },
     {
       "id": "performance-analysis",
@@ -184,7 +184,7 @@
       ],
       "deprecated": false,
       "description": "Investigate performance-sensitive architecture using Ontoly call, dependency, and graph statistics evidence. Use when asked about hot paths, expensive flows, or performance investigation starting points.",
-      "path": "skills/performance-analysis"
+      "path": "../../skills/performance-analysis"
     },
     {
       "id": "refactoring",
@@ -202,7 +202,7 @@
       ],
       "deprecated": false,
       "description": "Plan refactors with Ontoly impact and dependency evidence. Use when asked to move, rename, split, extract, or remove code while preserving behavior.",
-      "path": "skills/refactoring"
+      "path": "../../skills/refactoring"
     },
     {
       "id": "request-tracing",
@@ -220,7 +220,7 @@
       ],
       "deprecated": false,
       "description": "Trace request lifecycle behavior through Ontoly route, handler, and call graph capabilities. Use when asked to trace login, API, controller, route, or request execution flow.",
-      "path": "skills/request-tracing"
+      "path": "../../skills/request-tracing"
     },
     {
       "id": "sdk-generation",
@@ -238,7 +238,7 @@
       ],
       "deprecated": false,
       "description": "Plan SDK generation from Ontoly API, route, model, and operation evidence. Use when asked to design or scope SDK generation without implementing code generation in the skill layer.",
-      "path": "skills/sdk-generation"
+      "path": "../../skills/sdk-generation"
     },
     {
       "id": "security-review",
@@ -256,12 +256,12 @@
       ],
       "deprecated": false,
       "description": "Review authentication, authorization, and security-sensitive flows using Ontoly graph evidence. Use when asked about auth ownership, protected routes, permissions, guards, or security risk.",
-      "path": "skills/security-review"
+      "path": "../../skills/security-review"
     }
   ],
   "agentEvaluation": {
     "status": "PASS",
-    "generatedAt": "2026-11-08T13:42:31.607Z",
+    "generatedAt": "2026-11-08T15:05:47.452Z",
     "totalSkills": 14,
     "passedSkills": 14,
     "aggregate": {
