@@ -98,7 +98,32 @@ import "net/http"
     expect(pkgSym).toBeDefined();
   });
 
-  it("generates CALLS relationships", () => {
+  it("links calls to the functions and methods declared in the package", () => {
+    const project = analyzeSource(`
+package main
+
+type Server struct{}
+
+func (s *Server) handle() string { return helper() }
+
+func helper() string { return "ok" }
+
+func main() {
+	s := &Server{}
+	s.handle()
+}
+`);
+    const result = generateGoCompilerArtifacts({ project });
+    const nameById = new Map(result.symbols.map((s) => [s.id, s.name]));
+
+    const calls = result.relationships
+      .filter((r) => r.type === "CALLS")
+      .map((r) => `${nameById.get(r.from)} -> ${nameById.get(r.to)}`)
+      .sort();
+    expect(calls).toEqual(["Server.handle -> helper", "main -> Server.handle"]);
+  });
+
+  it("leaves calls into imported packages unlinked", () => {
     const project = analyzeSource(`
 package main
 
@@ -110,8 +135,24 @@ func main() {
 `);
     const result = generateGoCompilerArtifacts({ project });
 
-    const calls = result.relationships.filter((r) => r.type === "CALLS");
-    expect(calls.length).toBeGreaterThanOrEqual(1);
+    expect(result.relationships.filter((r) => r.type === "CALLS")).toEqual([]);
+  });
+
+  it("puts a method in its struct when they are declared in different files", () => {
+    const sources: Record<string, string> = {
+      "server.go": "package main\n\ntype Server struct{}\n",
+      "handlers.go": "package main\n\nfunc (s *Server) Handle() {}\n",
+    };
+    const project = analyzeGoProject({
+      root: "/test",
+      files: Object.keys(sources),
+      sourceProvider: (file) => sources[file],
+    });
+    const result = generateGoCompilerArtifacts({ project });
+    const nameById = new Map(result.symbols.map((s) => [s.id, s.name]));
+
+    const owner = result.relationships.find((r) => r.type === "CONTAINS" && nameById.get(r.to) === "Server.Handle");
+    expect(nameById.get(owner?.from ?? "")).toBe("Server");
   });
 
   it("generates method symbols with receiver metadata", () => {

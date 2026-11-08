@@ -27,22 +27,24 @@ jobs:
     runs-on: ubuntu-latest
     environment: npm-publish
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           version: 10.15.1
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
           registry-url: "https://registry.npmjs.org"
 
       - name: Resolve release version
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
         run: |
-          if [ -n "${{ inputs.version }}" ]; then
-            echo "RELEASE_VERSION=${{ inputs.version }}" >> "$GITHUB_ENV"
+          if [ -n "$INPUT_VERSION" ]; then
+            echo "RELEASE_VERSION=$INPUT_VERSION" >> "$GITHUB_ENV"
           else
             echo "RELEASE_VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_ENV"
           fi
@@ -74,9 +76,11 @@ jobs:
         run: npm whoami --registry=https://registry.npmjs.org/ || echo "No usable NPM_TOKEN; publishing relies on trusted publishing (OIDC)."
 
       - name: Resolve npm dist-tag
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
         run: |
-          if [ -n "${{ inputs.tag }}" ]; then
-            echo "NPM_DIST_TAG=${{ inputs.tag }}" >> "$GITHUB_ENV"
+          if [ -n "$INPUT_TAG" ]; then
+            echo "NPM_DIST_TAG=$INPUT_TAG" >> "$GITHUB_ENV"
           elif echo "$RELEASE_VERSION" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
             echo "NPM_DIST_TAG=latest" >> "$GITHUB_ENV"
           else
