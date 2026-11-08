@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import {
+  compareCodeUnits,
   createEdgeId,
   createNodeId,
   createSyntaxEvidence,
@@ -149,7 +150,7 @@ function collectSchemas(context: OpenApiContext, document: JsonRecord): Readonly
   const schemas = isRecord(components.schemas) ? components.schemas : {};
   const schemaIds = new Map<string, string>();
 
-  for (const [schemaName, schemaValue] of Object.entries(schemas).sort(([left], [right]) => left.localeCompare(right))) {
+  for (const [schemaName, schemaValue] of Object.entries(schemas).sort(([left], [right]) => compareCodeUnits(left, right))) {
     const modelId = createNodeId({ type: "Model", name: schemaName });
     const schema = isRecord(schemaValue) ? schemaValue : {};
     schemaIds.set(schemaName, modelId);
@@ -166,7 +167,7 @@ function collectSchemas(context: OpenApiContext, document: JsonRecord): Readonly
 
     const properties = isRecord(schema.properties) ? schema.properties : {};
 
-    for (const [fieldName, fieldSchema] of Object.entries(properties).sort(([left], [right]) => left.localeCompare(right))) {
+    for (const [fieldName, fieldSchema] of Object.entries(properties).sort(([left], [right]) => compareCodeUnits(left, right))) {
       const fieldId = createNodeId({ type: "Field", file: context.file, name: `${schemaName}.${fieldName}` });
       const field = isRecord(fieldSchema) ? fieldSchema : {};
 
@@ -197,7 +198,7 @@ function collectPaths(
 ): void {
   const paths = isRecord(document.paths) ? document.paths : {};
 
-  for (const [path, pathItem] of Object.entries(paths).sort(([left], [right]) => left.localeCompare(right))) {
+  for (const [path, pathItem] of Object.entries(paths).sort(([left], [right]) => compareCodeUnits(left, right))) {
     if (!isRecord(pathItem)) {
       continue;
     }
@@ -441,15 +442,15 @@ function fileSpan(file: string): SourceSpan {
 }
 
 function compareSymbols(left: CompilerSymbol, right: CompilerSymbol): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareRelationships(left: CompilerRelationship, right: CompilerRelationship): number {
   const leftId = left.id ?? createEdgeId(left.type, left.from, left.to);
   const rightId = right.id ?? createEdgeId(right.type, right.from, right.to);
-  return leftId.localeCompare(rightId);
+  return compareCodeUnits(leftId, rightId);
 }
 
 function compareDiagnostics(left: SoftwareGraphDiagnostic, right: SoftwareGraphDiagnostic): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }

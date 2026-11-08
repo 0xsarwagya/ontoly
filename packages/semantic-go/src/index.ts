@@ -4,6 +4,7 @@ import type {
   CompilerSymbol,
 } from "@0xsarwagya/ontoly-compiler";
 import {
+  compareCodeUnits,
   createEdgeId,
   createNodeId,
   createSyntaxEvidence,
@@ -56,11 +57,11 @@ export interface GenerateGoCompilerArtifactsResult {
 export function createGoFrameworkRegistry(
   analyzers: readonly GoFrameworkAnalyzer[] = [],
 ): GoFrameworkRegistry {
-  const sorted = [...analyzers].sort((a, b) => a.id.localeCompare(b.id));
+  const sorted = [...analyzers].sort((a, b) => compareCodeUnits(a.id, b.id));
   return {
     analyzers: sorted,
     detect: (project) =>
-      sorted.map((a) => a.detect(project)).sort((a, b) => a.framework.localeCompare(b.framework)),
+      sorted.map((a) => a.detect(project)).sort((a, b) => compareCodeUnits(a.framework, b.framework)),
     analyze: (project) =>
       sorted.flatMap((a) => (a.detect(project).detected ? a.analyze(project) : [])),
   };
@@ -90,11 +91,11 @@ export function generateGoCompilerArtifacts(
   addGoRelationships(input.project, symbols, relationships);
 
   return {
-    symbols: [...symbols.values()].sort((a, b) => a.id.localeCompare(b.id)),
+    symbols: [...symbols.values()].sort((a, b) => compareCodeUnits(a.id, b.id)),
     relationships: [...relationships.values()].sort((a, b) => {
       const aId = a.id ?? createEdgeId(a.type, a.from, a.to);
       const bId = b.id ?? createEdgeId(b.type, b.from, b.to);
-      return aId.localeCompare(bId);
+      return compareCodeUnits(aId, bId);
     }),
     diagnostics: input.project.diagnostics.map((d) => ({
       id: `diag:${d.code}:${d.file}`,

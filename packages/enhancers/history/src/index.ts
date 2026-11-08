@@ -1,6 +1,8 @@
 import { spawnSync } from "node:child_process";
 import {
+  compareCodeUnits,
   SOFTWARE_GRAPH_VERSION,
+  repositoryIdentity,
   stableHash,
   stableStringify,
   type JsonObject,
@@ -456,7 +458,10 @@ export function createHistoryArtifact(
 
   return {
     ...historyWithoutHash,
-    deterministicHash: stableHash(stableStringify(historyWithoutHash)),
+    deterministicHash: stableHash(stableStringify({
+      ...historyWithoutHash,
+      repository: repositoryIdentity(historyWithoutHash.repository),
+    })),
   };
 }
 
@@ -689,8 +694,8 @@ function normalizeCommits(commits: readonly GitHistoryCommit[]): readonly GitHis
       changes: uniqueChanges(commit.changes),
     }))
     .sort((left, right) =>
-      left.authoredAt.localeCompare(right.authoredAt) ||
-      left.hash.localeCompare(right.hash),
+      compareCodeUnits(left.authoredAt, right.authoredAt) ||
+      compareCodeUnits(left.hash, right.hash),
     );
 }
 
@@ -705,7 +710,7 @@ function uniqueChanges(changes: readonly GitHistoryChange[]): readonly GitHistor
       deletions: (current?.deletions ?? 0) + Math.max(0, change.deletions),
     });
   }
-  return [...byFile.values()].sort((left, right) => left.file.localeCompare(right.file));
+  return [...byFile.values()].sort((left, right) => compareCodeUnits(left.file, right.file));
 }
 
 function accumulateFiles(commits: readonly GitHistoryCommit[]): readonly FileAccumulator[] {
@@ -725,7 +730,7 @@ function accumulateFiles(commits: readonly GitHistoryCommit[]): readonly FileAcc
       byFile.set(file, current);
     }
   }
-  return [...byFile.values()].sort((left, right) => left.file.localeCompare(right.file));
+  return [...byFile.values()].sort((left, right) => compareCodeUnits(left.file, right.file));
 }
 
 function createFileHistories(accumulators: readonly FileAccumulator[]): readonly FileHistory[] {
@@ -843,8 +848,8 @@ function accumulateCochanges(commits: readonly GitHistoryCommit[]): {
   return {
     pairs: [...pairs.values()].sort((left, right) =>
       right.count - left.count ||
-      left.leftFile.localeCompare(right.leftFile) ||
-      left.rightFile.localeCompare(right.rightFile),
+      compareCodeUnits(left.leftFile, right.leftFile) ||
+      compareCodeUnits(left.rightFile, right.rightFile),
     ),
     omittedLargeCommitPairs,
   };
@@ -886,13 +891,13 @@ function createOwnershipArtifact(
       ownership: node.ownership,
       ownershipConfidence: node.ownershipConfidence,
     }))
-    .sort((left, right) => right.ownershipConfidence - left.ownershipConfidence || left.nodeId.localeCompare(right.nodeId));
+    .sort((left, right) => right.ownershipConfidence - left.ownershipConfidence || compareCodeUnits(left.nodeId, right.nodeId));
   const ownershipFiles = files
     .map((file) => ({
       file: file.file,
       ownership: file.ownership,
     }))
-    .sort((left, right) => (right.ownership.confidence ?? 0) - (left.ownership.confidence ?? 0) || left.file.localeCompare(right.file));
+    .sort((left, right) => (right.ownership.confidence ?? 0) - (left.ownership.confidence ?? 0) || compareCodeUnits(left.file, right.file));
   const artifact = {
     version: HISTORY_ARTIFACT_VERSION,
     graphHash: graph.metadata.deterministicHash,
@@ -1013,7 +1018,7 @@ function createDriftArtifact(
     const files = [...feature.files].sort();
     const nodeIds = [...feature.nodeIds].sort();
     const timeline = [...feature.years.entries()]
-      .sort(([left], [right]) => left.localeCompare(right))
+      .sort(([left], [right]) => compareCodeUnits(left, right))
       .map(([year, item]) => ({
         year,
         commits: item.commits.size,
@@ -1117,7 +1122,7 @@ function contributorStats(
     .sort((left, right) =>
       right.commits - left.commits ||
       right.churn - left.churn ||
-      left.name.localeCompare(right.name),
+      compareCodeUnits(left.name, right.name),
     );
 }
 
@@ -1175,7 +1180,7 @@ function groupNodesByFile(nodes: readonly SoftwareGraphNode[]): ReadonlyMap<stri
     current.push(node);
     byFile.set(file, current);
   }
-  return new Map([...byFile.entries()].map(([file, fileNodes]) => [file, fileNodes.sort((left, right) => left.id.localeCompare(right.id))]));
+  return new Map([...byFile.entries()].map(([file, fileNodes]) => [file, fileNodes.sort((left, right) => compareCodeUnits(left.id, right.id))]));
 }
 
 function graphEdgeDegrees(graph: SoftwareGraph): ReadonlyMap<string, number> {
@@ -1275,34 +1280,34 @@ function titleCase(value: string): string {
 }
 
 function compareCommitReferences(left: CommitReference, right: CommitReference): number {
-  return left.authoredAt.localeCompare(right.authoredAt) || left.hash.localeCompare(right.hash);
+  return compareCodeUnits(left.authoredAt, right.authoredAt) || compareCodeUnits(left.hash, right.hash);
 }
 
 function compareNodeHistory(left: NodeHistory, right: NodeHistory): number {
-  return left.nodeId.localeCompare(right.nodeId);
+  return compareCodeUnits(left.nodeId, right.nodeId);
 }
 
 function compareFileHistory(left: FileHistory, right: FileHistory): number {
-  return left.file.localeCompare(right.file);
+  return compareCodeUnits(left.file, right.file);
 }
 
 function compareHotspotNodes(left: NodeHistory, right: NodeHistory): number {
   return right.hotspotScore - left.hotspotScore ||
     right.modificationCount - left.modificationCount ||
-    left.nodeId.localeCompare(right.nodeId);
+    compareCodeUnits(left.nodeId, right.nodeId);
 }
 
 function compareHotspotFiles(left: FileHistory, right: FileHistory): number {
   return right.stability.hotspotScore - left.stability.hotspotScore ||
     right.modificationCount - left.modificationCount ||
-    left.file.localeCompare(right.file);
+    compareCodeUnits(left.file, right.file);
 }
 
 function compareCochangeRelationship(left: CoChangeRelationship, right: CoChangeRelationship): number {
   return right.count - left.count ||
     right.score - left.score ||
-    left.leftFile.localeCompare(right.leftFile) ||
-    left.rightFile.localeCompare(right.rightFile);
+    compareCodeUnits(left.leftFile, right.leftFile) ||
+    compareCodeUnits(left.rightFile, right.rightFile);
 }
 
 function compareFeatureDrift(left: FeatureDrift, right: FeatureDrift): number {
@@ -1310,9 +1315,9 @@ function compareFeatureDrift(left: FeatureDrift, right: FeatureDrift): number {
   const rightWarning = right.warning ? 1 : 0;
   return rightWarning - leftWarning ||
     right.currentCoupling - left.currentCoupling ||
-    left.id.localeCompare(right.id);
+    compareCodeUnits(left.id, right.id);
 }
 
 function compareIssues(left: EnhancerValidationIssue, right: EnhancerValidationIssue): number {
-  return left.code.localeCompare(right.code) || left.message.localeCompare(right.message);
+  return compareCodeUnits(left.code, right.code) || compareCodeUnits(left.message, right.message);
 }

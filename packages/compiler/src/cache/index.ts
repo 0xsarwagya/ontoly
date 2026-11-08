@@ -4,7 +4,7 @@ import {
   loadGraph,
   type PersistGraphOptions,
 } from "@0xsarwagya/ontoly-cache";
-import { stableHash, stableStringify, type SoftwareGraph } from "@0xsarwagya/ontoly-core";
+import { compareCodeUnits, stableHash, stableStringify, type SoftwareGraph } from "@0xsarwagya/ontoly-core";
 import {
   COMPILER_PIPELINE_VERSION,
   COMPILER_STAGE_IDS,
@@ -16,7 +16,8 @@ import {
 } from "../types";
 
 // 2.0.0: productsFingerprint became the sha256 of products.json, not a stableHash of the parsed products.
-export const COMPILER_CACHE_VERSION = "2.0.0";
+// 3.0.0: 64-bit stable ids and hashes, code-unit ordering, and real sha256 source digests.
+export const COMPILER_CACHE_VERSION = "3.0.0";
 
 export interface CompilerCacheManifest {
   readonly version: typeof COMPILER_CACHE_VERSION;
@@ -174,7 +175,7 @@ export async function loadCompilerBuildCache(
 
     return {
       graph,
-      products: new Map(Object.entries(products).sort(([left], [right]) => left.localeCompare(right))),
+      products: new Map(Object.entries(products).sort(([left], [right]) => compareCodeUnits(left, right))),
       view: createCacheView({
         compatible: true,
         hit: true,
@@ -214,7 +215,7 @@ export function createCompilerCacheManifest(
     productsFingerprint: productsDigest,
     sources: [...(state.sources?.sources ?? [])]
       .map((source) => ({ ...source }))
-      .sort((left, right) => left.path.localeCompare(right.path)),
+      .sort((left, right) => compareCodeUnits(left.path, right.path)),
   };
 }
 
@@ -226,7 +227,7 @@ export function createSourceFingerprint(sources: readonly SourceArtifact[]): str
   return stableHash(stableStringify(
     [...sources]
       .map(({ path, kind, digest }) => ({ path, kind, digest }))
-      .sort((left, right) => left.path.localeCompare(right.path)),
+      .sort((left, right) => compareCodeUnits(left.path, right.path)),
   ));
 }
 

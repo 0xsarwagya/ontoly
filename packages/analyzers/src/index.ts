@@ -1,4 +1,5 @@
 import {
+  compareCodeUnits,
   createDiagnosticId,
   type JsonObject,
   type NodeType,
@@ -680,7 +681,7 @@ function countBy(values: readonly string[]): Record<string, number> {
     counts.set(value, (counts.get(value) ?? 0) + 1);
   }
 
-  return Object.fromEntries([...counts.entries()].sort(([left], [right]) => left.localeCompare(right)));
+  return Object.fromEntries([...counts.entries()].sort(([left], [right]) => compareCodeUnits(left, right)));
 }
 
 function duplicateValues(values: readonly string[]): readonly string[] {
@@ -714,15 +715,15 @@ function sortMapValues<K, V>(
 }
 
 function compareNodes(left: SoftwareGraphNode, right: SoftwareGraphNode): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareEdges(left: SoftwareGraphEdge, right: SoftwareGraphEdge): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareDiagnostics(left: SoftwareGraphDiagnostic, right: SoftwareGraphDiagnostic): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function withOptionalProperties<T extends object, O extends object>(target: T, optional: O): T & O {

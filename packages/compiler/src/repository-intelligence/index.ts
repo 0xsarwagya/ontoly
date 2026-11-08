@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import {
+  compareCodeUnits,
   createEdgeId,
   createNodeId,
   normalizePath,
@@ -201,7 +202,6 @@ export function createRepositoryIntelligencePass(options: {
         kind: "Workspace",
         name: context.repository.name,
         metadata: {
-          root: context.repository.root,
           packageName: context.repository.packageName,
           packageManager: context.repository.packageManager,
         },
@@ -357,7 +357,7 @@ async function collectPackageJsonFacts(context: RepositoryFactContext, file: str
 
   const scripts = readRecord(json, "scripts");
 
-  for (const [scriptName, command] of Object.entries(scripts).sort(([left], [right]) => left.localeCompare(right))) {
+  for (const [scriptName, command] of Object.entries(scripts).sort(([left], [right]) => compareCodeUnits(left, right))) {
     if (typeof command !== "string") {
       continue;
     }
@@ -386,7 +386,7 @@ async function collectPackageJsonFacts(context: RepositoryFactContext, file: str
   for (const group of DEPENDENCY_GROUPS) {
     const dependencies = readRecord(json, group);
 
-    for (const [dependencyName, versionRange] of Object.entries(dependencies).sort(([left], [right]) => left.localeCompare(right))) {
+    for (const [dependencyName, versionRange] of Object.entries(dependencies).sort(([left], [right]) => compareCodeUnits(left, right))) {
       if (typeof versionRange !== "string") {
         continue;
       }
@@ -439,7 +439,7 @@ async function collectTurboFacts(context: RepositoryFactContext, file: string): 
   const legacyPipeline = readRecord(json ?? {}, "pipeline");
   const taskEntries = Object.keys(tasks).length > 0 ? tasks : legacyPipeline;
 
-  for (const [taskName, taskConfig] of Object.entries(taskEntries).sort(([left], [right]) => left.localeCompare(right))) {
+  for (const [taskName, taskConfig] of Object.entries(taskEntries).sort(([left], [right]) => compareCodeUnits(left, right))) {
     const taskId = createNodeId({ type: "Task", file, name: `turbo:${taskName}` });
     const taskRecord = isRecord(taskConfig) ? taskConfig : {};
 
@@ -1366,7 +1366,7 @@ function findOwningPackageId(context: RepositoryFactContext, file: string): stri
     .filter((symbol) => symbol.path === "." || directory === symbol.path || directory.startsWith(`${symbol.path}/`))
     .sort((left, right) => {
       const depth = right.path.length - left.path.length;
-      return depth === 0 ? left.id.localeCompare(right.id) : depth;
+      return depth === 0 ? compareCodeUnits(left.id, right.id) : depth;
     });
 
   return candidates[0]?.id;
@@ -1446,17 +1446,17 @@ function fileSpan(file: string): SourceSpan {
 }
 
 function compareSymbols(left: CompilerSymbol, right: CompilerSymbol): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareRelationships(left: CompilerRelationship, right: CompilerRelationship): number {
   const leftId = left.id ?? createEdgeId(left.type, left.from, left.to);
   const rightId = right.id ?? createEdgeId(right.type, right.from, right.to);
-  return leftId.localeCompare(rightId);
+  return compareCodeUnits(leftId, rightId);
 }
 
 function compareDiagnostics(left: SoftwareGraphDiagnostic, right: SoftwareGraphDiagnostic): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function parseTomlValue(contents: string, section: string, key: string): string | undefined {

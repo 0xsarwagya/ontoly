@@ -1,5 +1,7 @@
 import {
+  compareCodeUnits,
   createSemanticIndex,
+  repositoryIdentity,
   stableHash,
   stableStringify,
   type JsonObject,
@@ -364,7 +366,7 @@ export function createSemanticsArtifact(graph: SoftwareGraph, semanticIndex: Sem
 
   return {
     ...withoutHash,
-    deterministicHash: stableHash(stableStringify(withoutHash)),
+    deterministicHash: stableHash(stableStringify({ ...withoutHash, repository: repositoryIdentity(withoutHash.repository) })),
   };
 }
 
@@ -422,7 +424,7 @@ function buildFeatureBuckets(contexts: readonly EntryContext[]): readonly Featur
       terms: termsById.get(id) ?? [],
       entries: entries.sort(compareEntryContexts),
     }))
-    .sort((left, right) => right.entries.length - left.entries.length || left.id.localeCompare(right.id))
+    .sort((left, right) => right.entries.length - left.entries.length || compareCodeUnits(left.id, right.id))
     .slice(0, MAX_FEATURES)
     .sort(compareFeatureBuckets);
 }
@@ -482,7 +484,7 @@ function buildDomainVocabulary(
         confidence: round(Math.min(1, 0.35 + Math.log10(term.frequency + 1) / 2)),
       };
     })
-    .sort((left, right) => right.nodeIds.length - left.nodeIds.length || left.term.localeCompare(right.term))
+    .sort((left, right) => right.nodeIds.length - left.nodeIds.length || compareCodeUnits(left.term, right.term))
     .slice(0, MAX_DOMAIN_TERMS);
 }
 
@@ -525,7 +527,7 @@ function buildIntentVocabulary(
         confidence: round(Math.min(1, 0.3 + Math.log10(nodeSet.size + 1) / 2)),
       };
     })
-    .sort((left, right) => right.nodeIds.length - left.nodeIds.length || left.intent.localeCompare(right.intent))
+    .sort((left, right) => right.nodeIds.length - left.nodeIds.length || compareCodeUnits(left.intent, right.intent))
     .slice(0, MAX_INTENT_TERMS);
 }
 
@@ -952,45 +954,45 @@ function isEntryContext(value: EntryContext | undefined): value is EntryContext 
 }
 
 function compareEntryContexts(left: EntryContext, right: EntryContext): number {
-  return left.node.id.localeCompare(right.node.id);
+  return compareCodeUnits(left.node.id, right.node.id);
 }
 
 function compareFeatureBuckets(left: FeatureBucket, right: FeatureBucket): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareFeatureOwnership(left: FeatureOwnership, right: FeatureOwnership): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareDomainVocabulary(left: DomainVocabulary, right: DomainVocabulary): number {
-  return left.term.localeCompare(right.term);
+  return compareCodeUnits(left.term, right.term);
 }
 
 function compareIntentVocabulary(left: IntentVocabulary, right: IntentVocabulary): number {
-  return left.intent.localeCompare(right.intent);
+  return compareCodeUnits(left.intent, right.intent);
 }
 
 function compareNeighborhoods(left: SemanticNeighborhood, right: SemanticNeighborhood): number {
-  return left.nodeId.localeCompare(right.nodeId);
+  return compareCodeUnits(left.nodeId, right.nodeId);
 }
 
 function compareRelatedNodes(left: RelatedNode, right: RelatedNode): number {
-  return right.score - left.score || left.nodeId.localeCompare(right.nodeId);
+  return right.score - left.score || compareCodeUnits(left.nodeId, right.nodeId);
 }
 
 function compareEdges(left: SoftwareGraphEdge, right: SoftwareGraphEdge): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareSemanticGraphNodes(left: SemanticGraphNode, right: SemanticGraphNode): number {
-  return left.kind.localeCompare(right.kind) || left.id.localeCompare(right.id);
+  return compareCodeUnits(left.kind, right.kind) || compareCodeUnits(left.id, right.id);
 }
 
 function compareSemanticGraphLinks(left: SemanticGraphLink, right: SemanticGraphLink): number {
-  return left.type.localeCompare(right.type) || left.from.localeCompare(right.from) || left.to.localeCompare(right.to);
+  return compareCodeUnits(left.type, right.type) || compareCodeUnits(left.from, right.from) || compareCodeUnits(left.to, right.to);
 }
 
 function compareValidationIssues(left: EnhancerValidationIssue, right: EnhancerValidationIssue): number {
-  return left.severity.localeCompare(right.severity) || left.code.localeCompare(right.code) || left.message.localeCompare(right.message);
+  return compareCodeUnits(left.severity, right.severity) || compareCodeUnits(left.code, right.code) || compareCodeUnits(left.message, right.message);
 }

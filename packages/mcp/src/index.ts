@@ -16,6 +16,7 @@ import {
   type CapabilityName,
 } from "@0xsarwagya/ontoly-capabilities";
 import {
+  compareCodeUnits,
   createSemanticIndex,
   findConfiguration as searchConfiguration,
   findFeature as searchFeature,
@@ -1124,15 +1125,15 @@ function publicCapability(capability: RegisteredCapability): McpCapability {
 }
 
 function compareCapabilities(left: McpCapability, right: McpCapability): number {
-  return left.name.localeCompare(right.name);
+  return compareCodeUnits(left.name, right.name);
 }
 
 function compareNodes(left: SoftwareGraphNode, right: SoftwareGraphNode): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareEdges(left: SoftwareGraphEdge, right: SoftwareGraphEdge): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function isNode(value: SoftwareGraphNode | undefined): value is SoftwareGraphNode {

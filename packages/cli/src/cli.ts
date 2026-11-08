@@ -42,6 +42,7 @@ import {
   type CompilerProgressListener,
 } from "@0xsarwagya/ontoly-compiler";
 import {
+  compareCodeUnits,
   createSoftwareGraph,
   stableHash,
   stableStringify,
@@ -2939,7 +2940,7 @@ function lexicalEvidenceNodes(graph: SoftwareGraph, query: string, limit: number
     })
     .sort((left, right) =>
       lexicalEvidenceScore(right, terms) - lexicalEvidenceScore(left, terms) ||
-      left.id.localeCompare(right.id),
+      compareCodeUnits(left.id, right.id),
     )
     .slice(0, limit);
 }
@@ -2960,7 +2961,7 @@ function repositoryOverviewEvidenceNodes(graph: SoftwareGraph): readonly Softwar
     .sort((left, right) =>
       evidenceDegree(graph, right.id) - evidenceDegree(graph, left.id) ||
       evidenceTypeWeight(right) - evidenceTypeWeight(left) ||
-      left.id.localeCompare(right.id),
+      compareCodeUnits(left.id, right.id),
     )
     .slice(0, EVIDENCE_PACK_NODE_LIMIT);
 }
@@ -2999,7 +3000,7 @@ function rankBoundedEvidenceNodes(
   return [...nodes].sort((left, right) =>
     boundedEvidenceNodeScore(graph, right, terms, seedIds, semanticScores) -
       boundedEvidenceNodeScore(graph, left, terms, seedIds, semanticScores) ||
-    left.id.localeCompare(right.id),
+    compareCodeUnits(left.id, right.id),
   );
 }
 
@@ -3060,7 +3061,7 @@ function rankBoundedEvidenceEdges(
     .filter((edge) => nodeIds.has(edge.from) || nodeIds.has(edge.to))
     .sort((left, right) =>
       boundedEvidenceEdgeScore(right, nodeIds, seedIds) - boundedEvidenceEdgeScore(left, nodeIds, seedIds) ||
-      left.id.localeCompare(right.id),
+      compareCodeUnits(left.id, right.id),
     );
 }
 
@@ -3291,7 +3292,7 @@ function countEvidenceEdges(edges: readonly SoftwareGraphEdge[]): JsonObject {
   for (const edge of edges) {
     counts[edge.type] = (counts[edge.type] ?? 0) + 1;
   }
-  return Object.fromEntries(Object.entries(counts).sort(([left], [right]) => left.localeCompare(right)));
+  return Object.fromEntries(Object.entries(counts).sort(([left], [right]) => compareCodeUnits(left, right)));
 }
 
 function evidenceDegree(graph: SoftwareGraph, nodeId: string): number {
@@ -3411,7 +3412,7 @@ function isSoftwareGraphEdge(value: SoftwareGraphEdge | undefined): value is Sof
 }
 
 function compareEvidenceEdges(left: SoftwareGraphEdge, right: SoftwareGraphEdge): number {
-  return `${left.type}:${left.from}:${left.to}:${left.id}`.localeCompare(`${right.type}:${right.from}:${right.to}:${right.id}`);
+  return compareCodeUnits(`${left.type}:${left.from}:${left.to}:${left.id}`, `${right.type}:${right.from}:${right.to}:${right.id}`);
 }
 
 function uniqueStrings(values: readonly string[]): readonly string[] {
@@ -3819,7 +3820,7 @@ function historyFeaturesForQuery(artifact: HistoryArtifact, query: string, limit
       };
     })
     .filter((item) => terms.size === 0 || item.score > 0)
-    .sort((left, right) => right.score - left.score || left.feature.name.localeCompare(right.feature.name))
+    .sort((left, right) => right.score - left.score || compareCodeUnits(left.feature.name, right.feature.name))
     .slice(0, limit)
     .map(({ feature }) => serializeJsonObject({
       id: feature.id,
@@ -3874,7 +3875,7 @@ function enhancerManifestById(
 }
 
 function selectEnhancersForRun(enhancers: readonly Enhancer[], target: string): readonly Enhancer[] {
-  const sorted = [...enhancers].sort((left, right) => left.id.localeCompare(right.id));
+  const sorted = [...enhancers].sort((left, right) => compareCodeUnits(left.id, right.id));
   if (target === "all") {
     return sorted;
   }
@@ -3921,7 +3922,7 @@ function selectEnhancersForRun(enhancers: readonly Enhancer[], target: string): 
   };
 
   visit(root);
-  return [...selected.values()].sort((left, right) => left.id.localeCompare(right.id));
+  return [...selected.values()].sort((left, right) => compareCodeUnits(left.id, right.id));
 }
 
 async function createFileEnhancerCache(root: string, outputDir: string): Promise<EnhancerCache> {
@@ -4104,7 +4105,7 @@ function* stableJsonChunks(value: unknown, seen: WeakSet<object> = new WeakSet<o
 
   const entries = Object.entries(value as Record<string, unknown>)
     .filter(([, entry]) => entry !== undefined)
-    .sort(([left], [right]) => left.localeCompare(right));
+    .sort(([left], [right]) => compareCodeUnits(left, right));
   yield "{";
   for (let index = 0; index < entries.length; index += 1) {
     const [key, entry] = entries[index]!;
@@ -4124,8 +4125,7 @@ function optionalArtifact<T extends JsonValue>(artifact: OntolyArtifact<T> | und
 }
 
 function compareEnhancerIssuesForCli(left: EnhancerValidationIssue, right: EnhancerValidationIssue): number {
-  return `${left.severity}:${left.code}:${left.enhancerId ?? ""}:${left.artifactId ?? ""}:${left.message}`
-    .localeCompare(`${right.severity}:${right.code}:${right.enhancerId ?? ""}:${right.artifactId ?? ""}:${right.message}`);
+  return compareCodeUnits(`${left.severity}:${left.code}:${left.enhancerId ?? ""}:${left.artifactId ?? ""}:${left.message}`, `${right.severity}:${right.code}:${right.enhancerId ?? ""}:${right.artifactId ?? ""}:${right.message}`);
 }
 
 function kebabCaseCli(value: string): string {
@@ -4456,11 +4456,11 @@ function uniqueNodes(nodes: readonly SoftwareGraphNode[]): readonly SoftwareGrap
 
 function uniqueEdges(edges: readonly SoftwareGraphEdge[]): readonly SoftwareGraphEdge[] {
   return [...new Map(edges.map((edge) => [edge.id, edge] as const)).values()]
-    .sort((left, right) => left.id.localeCompare(right.id));
+    .sort((left, right) => compareCodeUnits(left.id, right.id));
 }
 
 function compareNodesById(left: SoftwareGraphNode, right: SoftwareGraphNode): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function resolveNode(
@@ -4834,7 +4834,7 @@ function formatCapabilityResult(capability: CapabilityName, result: CapabilityRe
 
   const groups = Object.entries(result.affectedNodes)
     .filter(([, nodes]) => nodes.length > 0)
-    .sort(([left], [right]) => left.localeCompare(right));
+    .sort(([left], [right]) => compareCodeUnits(left, right));
 
   if (groups.length > 0) {
     lines.push("", "## Affected Graph");
@@ -4927,7 +4927,7 @@ function formatSerializedNodeList(nodes: readonly SerializedNode[]): string {
 function formatReport(report: JsonObject): string {
   const lines = [`# ${report.title ?? "Ontoly Report"}`, ""];
 
-  for (const [key, value] of Object.entries(report).sort(([left], [right]) => left.localeCompare(right))) {
+  for (const [key, value] of Object.entries(report).sort(([left], [right]) => compareCodeUnits(left, right))) {
     if (key === "title") {
       continue;
     }
@@ -4951,7 +4951,7 @@ function formatReportValue(value: unknown): string {
 
   if (typeof value === "object" && value !== null) {
     return Object.entries(value as Record<string, unknown>)
-      .sort(([left], [right]) => left.localeCompare(right))
+      .sort(([left], [right]) => compareCodeUnits(left, right))
       .map(([key, entry]) => `- ${key}: ${formatReportScalar(entry)}`)
       .join("\n");
   }
@@ -5127,7 +5127,7 @@ function exportGraphML(graph: SoftwareGraph): string {
 
 function formatCountRecord(record: Record<string, number>): string {
   const summary = Object.entries(record)
-    .sort(([left], [right]) => left.localeCompare(right))
+    .sort(([left], [right]) => compareCodeUnits(left, right))
     .map(([key, value]) => `${key} ${value}`)
     .join(", ");
 
@@ -5240,7 +5240,7 @@ function formatCounts(values: readonly string[]): string {
   }
 
   const summary = [...counts.entries()]
-    .sort(([left], [right]) => left.localeCompare(right))
+    .sort(([left], [right]) => compareCodeUnits(left, right))
     .map(([value, count]) => `${value} ${count}`)
     .join(", ");
 

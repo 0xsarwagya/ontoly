@@ -3,6 +3,7 @@ import { createHash, randomUUID, type Hash } from "node:crypto";
 import { isAbsolute, join } from "node:path";
 import type { SoftwareGraph } from "@0xsarwagya/ontoly-core";
 import {
+  compareCodeUnits,
   createSemanticIndex,
   decodeSemanticIndex,
   encodeSemanticIndex,
@@ -373,7 +374,7 @@ function countBy(values: readonly string[]): Record<string, number> {
     [...values.reduce((counts, value) => {
       counts.set(value, (counts.get(value) ?? 0) + 1);
       return counts;
-    }, new Map<string, number>()).entries()].sort(([left], [right]) => left.localeCompare(right)),
+    }, new Map<string, number>()).entries()].sort(([left], [right]) => compareCodeUnits(left, right)),
   );
 }
 
