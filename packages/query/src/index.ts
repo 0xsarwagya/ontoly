@@ -639,8 +639,10 @@ function performWalk(
 
     const nextEdges = adjacentEdges(indexes, node.id, options.direction, options.relationships)
       .filter((edge) => !relationshipSet || relationshipSet.has(edge.type));
+    // The stack pops from the end, so depth-first pushes in reverse to visit children in sorted order.
+    const pushOrder = options.strategy === "depth-first" ? [...nextEdges].reverse() : nextEdges;
 
-    for (const edge of nextEdges) {
+    for (const edge of pushOrder) {
       visitedEdges.add(edge.id);
 
       for (const nextId of nextNodeIds(edge, node.id, options.direction)) {
@@ -648,12 +650,6 @@ function performWalk(
           queue.push({ nodeId: nextId, depth: item.depth + 1, via: edge });
         }
       }
-    }
-
-    if (options.strategy === "depth-first") {
-      queue.sort((left, right) => right.nodeId.localeCompare(left.nodeId));
-    } else {
-      queue.sort((left, right) => left.nodeId.localeCompare(right.nodeId));
     }
   }
 
@@ -715,8 +711,6 @@ function performShortestPath(
         queue.push(nextId);
       }
     }
-
-    queue.sort();
   }
 
   return undefined;
@@ -1206,8 +1200,6 @@ function shortestDistances(indexes: QueryIndexes, startId: string): ReadonlyMap<
         }
       }
     }
-
-    queue.sort();
   }
 
   return distances;

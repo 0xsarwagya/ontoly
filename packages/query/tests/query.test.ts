@@ -60,6 +60,19 @@ describe("query engine", () => {
     ]);
   });
 
+  it("walks breadth-first by hop count, not by node id", () => {
+    const query = createQueryEngine(diamondGraph());
+    const hops: Record<string, number> = { "mod:s": 0, "mod:a": 1, "mod:m": 1, "mod:c": 2, "mod:t": 2, "mod:x": 2, "mod:y": 3 };
+
+    expect(query.dependencies("mod:s", 3).order.map((id) => hops[id])).toEqual([0, 1, 1, 2, 2, 2, 3]);
+  });
+
+  it("finds the path with the fewest hops", () => {
+    const query = createQueryEngine(diamondGraph());
+
+    expect(query.shortestPath("mod:s", "mod:t")?.nodes.map((node) => node.id)).toEqual(["mod:s", "mod:m", "mod:t"]);
+  });
+
   it("walks with traversal constraints and computes shortest paths", () => {
     const query = createQueryEngine(fixtureGraph());
     const depthFirst = query.walk("fn:src/index.ts:main", {
@@ -266,6 +279,20 @@ function cyclicGraph(): SoftwareGraph {
       edge("IMPORTS", "mod:b.ts", "mod:a.ts"),
     ],
     fileCount: 2,
+  });
+}
+
+// s reaches y in 3 hops only through m; the id-smaller branch through a and c is longer.
+function diamondGraph(): SoftwareGraph {
+  const ids = ["a", "c", "m", "s", "t", "x", "y"];
+  const imports: ReadonlyArray<readonly [string, string]> = [
+    ["s", "a"], ["s", "m"], ["a", "c"], ["c", "x"], ["c", "t"], ["m", "x"], ["m", "t"], ["x", "y"],
+  ];
+  return createSoftwareGraph({
+    repository: { root: "/repo", name: "repo" },
+    nodes: ids.map((id) => ({ id: `mod:${id}`, type: "Module" as const, name: id, file: `${id}.ts` })),
+    edges: imports.map(([from, to]) => edge("IMPORTS", `mod:${from}`, `mod:${to}`)),
+    fileCount: ids.length,
   });
 }
 
