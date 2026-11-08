@@ -9,5 +9,5 @@
   "language": "typescript",
   "repositoryType": "framework",
   "expectedAnalyzer": "hono",
-  "default": false
+  "default": true
 }

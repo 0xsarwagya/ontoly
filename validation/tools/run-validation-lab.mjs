@@ -205,7 +205,7 @@ async function validateRepository(repository, options) {
       ...base,
       status: "SKIPPED",
       reason: resolved.reason,
-      source: resolved,
+      source: recordedSource(resolved),
       install: { status: "SKIPPED", reason: "Repository was not available." },
       performance: null,
       graph: null,
@@ -229,7 +229,7 @@ async function validateRepository(repository, options) {
     const result = {
       ...base,
       status: "PASS",
-      source: resolved,
+      source: recordedSource(resolved),
       install,
       ...measured,
       completedAt: new Date().toISOString(),
@@ -242,7 +242,7 @@ async function validateRepository(repository, options) {
     const failed = {
       ...base,
       status: "FAIL",
-      source: resolved,
+      source: recordedSource(resolved),
       install,
       error: error instanceof Error ? error.stack ?? error.message : String(error),
       performance: null,
@@ -468,6 +468,10 @@ async function installDependencies(repository, resolved, options) {
     stdout: result.stdout?.slice(-4000) ?? "",
     stderr: result.stderr?.slice(-4000) ?? "",
   };
+}
+
+function recordedSource(resolved) {
+  return { ...resolved, path: resolved.path && relative(PROJECT_ROOT, resolved.path) };
 }
 
 async function resolveRepository(repository, options) {
@@ -785,7 +789,6 @@ function benchmarkEnvironment() {
   return {
     node: process.version,
     v8: process.versions.v8,
-    execPath: process.execPath,
     platform: platform(),
     arch: arch(),
     osRelease: release(),
@@ -884,7 +887,7 @@ function dashboardModel(results, registry, performance, releaseGates) {
     releaseGate: releaseGates.status,
     history: {
       current: performance.summary,
-      baselinePath: LAB_BASELINE_PATH,
+      baselinePath: relative(PROJECT_ROOT, LAB_BASELINE_PATH),
     },
     repositoryCards: results.map((result) => ({
       id: result.id,

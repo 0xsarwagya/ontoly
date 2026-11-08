@@ -1,93 +1,71 @@
 # Performance Lab
 
-Generated: 2026-07-15T12:55:58.700Z
+Generated: 2026-11-08T13:52:05.203Z
 
 | Repository | Time | Memory | Agent Workflow | Agent Memory | Graph Size | Nodes | Edges | Coverage | Trust |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Ovok Core | 31289.391ms | 2.4 GB | 16071.456ms | 1.7 GB | 64.4 MB | 21727 | 52483 | 99 | 98 |
-| 0xsarwagya | 2734.227ms | 2.1 GB | 769.287ms | 2.1 GB | 2.5 MB | 1191 | 2087 | 95 | 96 |
-| Innosphere | 18658.525ms | 2.7 GB | 4080.784ms | 2.4 GB | 16.1 MB | 6742 | 12510 | 100 | 100 |
-| Ghost | 1015.523ms | 2.7 GB | 238.04ms | 2.7 GB | 769.3 KB | 350 | 661 | 100 | 100 |
-| durable-local | 934.918ms | 2.7 GB | 130.711ms | 2 GB | 459.2 KB | 226 | 384 | 100 | 100 |
+| NestJS | 40263.739ms | 2.2 GB | 8233.328ms | 1.9 GB | 61.6 MB | 22636 | 47391 | 92 | 93 |
+| Express | 5396.324ms | 2.5 GB | 206.217ms | 2.5 GB | 1.5 MB | 861 | 1220 | 100 | 100 |
+| Hono | 9346.198ms | 2.8 GB | 2225.508ms | 2.6 GB | 9.8 MB | 4504 | 8220 | 86 | 90 |
 
 # Performance Rankings
 
 ## Top Fastest Repositories
 
-1. durable-local: 934.918ms
-2. Ghost: 1015.523ms
-3. 0xsarwagya: 2734.227ms
-4. Innosphere: 18658.525ms
-5. Ovok Core: 31289.391ms
+1. Express: 5396.324ms
+2. Hono: 9346.198ms
+3. NestJS: 40263.739ms
 
 ## Largest Graphs
 
-1. Ovok Core: 64.4 MB
-2. Innosphere: 16.1 MB
-3. 0xsarwagya: 2.5 MB
-4. Ghost: 769.3 KB
-5. durable-local: 459.2 KB
+1. NestJS: 61.6 MB
+2. Hono: 9.8 MB
+3. Express: 1.5 MB
 
 ## Most Relationships
 
-1. Ovok Core: 52483
-2. Innosphere: 12510
-3. 0xsarwagya: 2087
-4. Ghost: 661
-5. durable-local: 384
+1. NestJS: 47391
+2. Hono: 8220
+3. Express: 1220
 
 ## Most Packages
 
-1. Ovok Core: 121
-2. Innosphere: 117
-3. 0xsarwagya: 27
-4. durable-local: 8
-5. Ghost: 7
+1. NestJS: 186
+2. Hono: 68
+3. Express: 54
 
 ## Largest Workspace
 
-1. Ovok Core: 16557 files
-2. Innosphere: 1082 files
-3. 0xsarwagya: 555 files
-4. durable-local: 90 files
-5. Ghost: 86 files
+1. NestJS: 2750 files
+2. Hono: 576 files
+3. Express: 212 files
 
 ## Highest Semantic Coverage
 
-1. Innosphere: 100
-2. Ghost: 100
-3. durable-local: 100
-4. Ovok Core: 99
-5. 0xsarwagya: 95
+1. Express: 100
+2. NestJS: 92
+3. Hono: 86
 
 ## Lowest Semantic Coverage
 
-1. 0xsarwagya: 95
-2. Ovok Core: 99
-3. Innosphere: 100
-4. Ghost: 100
-5. durable-local: 100
+1. Hono: 86
+2. NestJS: 92
+3. Express: 100
 
 ## Largest Memory Usage
 
-1. Ghost: 2.7 GB
-2. Innosphere: 2.7 GB
-3. durable-local: 2.7 GB
-4. Ovok Core: 2.4 GB
-5. 0xsarwagya: 2.1 GB
+1. Hono: 2.8 GB
+2. Express: 2.5 GB
+3. NestJS: 2.2 GB
 
 ## Fastest Agent Workflows
 
-1. durable-local: 130.711ms
-2. Ghost: 238.04ms
-3. 0xsarwagya: 769.287ms
-4. Innosphere: 4080.784ms
-5. Ovok Core: 16071.456ms
+1. Express: 206.217ms
+2. Hono: 2225.508ms
+3. NestJS: 8233.328ms
 
 ## Agent Workflow Memory
 
-1. Ghost: 2.7 GB
-2. Innosphere: 2.4 GB
-3. 0xsarwagya: 2.1 GB
-4. durable-local: 2 GB
-5. Ovok Core: 1.7 GB
+1. Hono: 2.6 GB
+2. Express: 2.5 GB
+3. NestJS: 1.9 GB

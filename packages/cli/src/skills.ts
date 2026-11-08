@@ -1,7 +1,7 @@
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { homedir } from "node:os";
-import { basename, dirname, join, resolve } from "node:path";
+import { basename, dirname, join, relative, resolve } from "node:path";
 import { MCP_CAPABILITIES, type McpCapabilityName } from "@0xsarwagya/ontoly-mcp";
 
 export interface SkillCatalogEntry {
@@ -104,7 +104,7 @@ export type SkillEnhancement = "LLM Enhancement";
 
 export const DEFAULT_SKILL_ENHANCEMENT: SkillEnhancement = "LLM Enhancement";
 const SKILL_NAME_PATTERN = /^[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$/;
-const REQUIRED_REPOSITORY_EXAMPLES = ["Ovok Core", "Ghost", "durable-local", "0xsarwagya", "Innosphere"] as const;
+const REQUIRED_REPOSITORY_EXAMPLES = ["NestJS", "Express", "Hono", "Turborepo", "Next.js"] as const;
 const REQUIRED_EXAMPLE_FIELDS = ["Questions", "Expected workflow", "Capabilities invoked", "Expected evidence", "Expected answer"] as const;
 const REQUIRED_LOCAL_REFERENCES = [
   "reference/workflow.md",
@@ -596,7 +596,7 @@ async function skillReferenceContents(skillPath: string): Promise<readonly strin
 
 async function writeSkillValidationArtifacts(validationRoot: string, report: SkillValidationReport): Promise<void> {
   await mkdir(validationRoot, { recursive: true });
-  await writeJson(join(validationRoot, "report.json"), report);
+  await writeJson(join(validationRoot, "report.json"), withRelativePaths(report));
   await writeFile(join(validationRoot, "report.md"), renderSkillValidationMarkdown(report), "utf8");
   await writeJson(join(validationRoot, "agent-evaluation.json"), report.agentEvaluation);
   await writeFile(join(validationRoot, "agent-evaluation.md"), renderAgentEvaluationMarkdown(report.agentEvaluation), "utf8");
@@ -605,6 +605,17 @@ async function writeSkillValidationArtifacts(validationRoot: string, report: Ski
   if (!existsSync(baseline)) {
     await writeJson(baseline, report.agentEvaluation.regression.current);
   }
+}
+
+// Committed reports must not carry the author's absolute filesystem paths.
+function withRelativePaths(report: SkillValidationReport): SkillValidationReport {
+  const fromCwd = (path: string): string => relative(process.cwd(), path);
+  return {
+    ...report,
+    skillsRoot: fromCwd(report.skillsRoot),
+    skills: report.skills.map((skill) => ({ ...skill, path: fromCwd(skill.path) })),
+    issues: report.issues.map((issue) => (issue.file ? { ...issue, file: fromCwd(issue.file) } : issue)),
+  };
 }
 
 function renderSkillValidationMarkdown(report: SkillValidationReport): string {

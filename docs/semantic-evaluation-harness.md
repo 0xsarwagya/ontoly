@@ -36,7 +36,6 @@ Generated artifacts include:
 
 ```sh
 ontoly evaluate
-ontoly evaluate ovok-core
 ontoly evaluate --ci
 ontoly leaderboard
 ontoly benchmark semantic
@@ -57,7 +56,7 @@ Questions live in `validation/semantic/questions/<repository>.yaml`.
 
 ```yaml
 - id: auth-controller
-  repository: ovok-core
+  repository: my-api
   category: Controllers
   evaluator: FindController
   question: Which controller handles authentication?
@@ -163,14 +162,15 @@ passed, with partial answers counting as half credit.
 ## Fixtures
 
 Repository fixtures live in `validation/semantic/fixtures/<repository>.yaml`.
+The repository ships no fixtures; add one for a codebase you can analyze locally.
 
 ```yaml
-repository: ovok-core
-name: Ovok Core
-path: /Users/shrey/Desktop/work/ovok-core
+repository: my-api
+name: My API
+path: /path/to/my-api
 frameworks:
   - NestJS
-questions: questions/ovok-core.yaml
+questions: questions/my-api.yaml
 expectedGraph:
   minNodes: 20000
   minEdges: 45000

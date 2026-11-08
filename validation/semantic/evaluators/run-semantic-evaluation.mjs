@@ -67,7 +67,7 @@ async function main() {
     ? fixtures.filter((fixture) => fixture.repository === args.repository)
     : fixtures;
 
-  if (selectedFixtures.length === 0) {
+  if (args.repository && selectedFixtures.length === 0) {
     throw new Error(`No semantic fixture found for ${args.repository}.`);
   }
 

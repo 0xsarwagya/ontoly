@@ -5716,14 +5716,14 @@ function commandHelp(): Record<string, CommandHelp> {
       description: "Run deterministic semantic evaluation questions against validation artifacts.",
       usage: ["ontoly evaluate [repository] [--json] [--ci] [--refresh]"],
       options: ["--ci          Fail on semantic regression.", "--refresh     Rebuild validation artifacts before scoring.", "--json        Print JSON."],
-      examples: ["ontoly evaluate", "ontoly evaluate ovok-core", "ontoly evaluate --ci"],
+      examples: ["ontoly evaluate", "ontoly evaluate --ci"],
     },
     validate: {
       title: "ontoly validate",
       description: "Run the permanent validation lab and release gates.",
       usage: ["ontoly validate [all|repository|framework] [--json] [--ci] [--clone] [--install]"],
       options: ["--ci          Fail on release-gate failure.", "--clone       Clone remote corpus entries.", "--install     Install dependencies for validation-owned clones.", "--json        Print JSON."],
-      examples: ["ontoly validate all", "ontoly validate ovok-core", "ontoly validate nextjs --clone"],
+      examples: ["ontoly validate all", "ontoly validate express", "ontoly validate nextjs --clone"],
     },
     coverage: {
       title: "ontoly coverage",
@@ -5987,11 +5987,10 @@ Examples:
   ontoly enhancer graph --format mermaid
   ontoly enhancer run semantic-index .
   ontoly validate all
-  ontoly validate ovok-core
+  ontoly validate express
   ontoly validate nextjs
   ontoly validate react
   ontoly evaluate
-  ontoly evaluate ovok-core
   ontoly leaderboard
   ontoly diff old.graph new.graph
   ontoly benchmark semantic

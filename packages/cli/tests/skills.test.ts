@@ -1,7 +1,7 @@
 import { cpSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
+import { dirname, isAbsolute, join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   doctorOntolySkills,
@@ -152,6 +152,15 @@ describe("installed Ontoly Agent Skills", () => {
       "report.json",
       "report.md",
     ]);
+  });
+
+  it("writes report.json without absolute skill paths", async () => {
+    const project = join(sandbox, "project");
+    installSkill(join(project, ".agents", "skills"), "architecture-review");
+    const output = join(sandbox, "reports");
+    await validateOntolySkills(project, { output });
+    const report = JSON.parse(readFileSync(join(output, "report.json"), "utf8")) as { skillsRoot: string };
+    expect(isAbsolute(report.skillsRoot)).toBe(false);
   });
 });
 

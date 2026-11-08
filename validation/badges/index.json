@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-15T12:55:53.882Z",
+  "generatedAt": "2026-11-08T13:52:04.808Z",
   "items": [
     {
       "id": "validation",
@@ -14,123 +14,75 @@
       "color": "2ea44f"
     },
     {
-      "id": "ovok-core-coverage",
-      "label": "ovok-core coverage",
-      "message": "99%",
-      "color": "2ea44f"
+      "id": "nestjs-coverage",
+      "label": "nestjs coverage",
+      "message": "92%",
+      "color": "bf8700"
     },
     {
-      "id": "ovok-core-trust",
-      "label": "ovok-core trust",
-      "message": "98%",
-      "color": "2ea44f"
+      "id": "nestjs-trust",
+      "label": "nestjs trust",
+      "message": "93%",
+      "color": "bf8700"
     },
     {
-      "id": "ovok-core-performance",
-      "label": "ovok-core perf",
-      "message": "31289.39ms",
+      "id": "nestjs-performance",
+      "label": "nestjs perf",
+      "message": "40263.74ms",
       "color": "0969da"
     },
     {
-      "id": "ovok-core-framework",
-      "label": "ovok-core frameworks",
-      "message": "nestjs,express",
+      "id": "nestjs-framework",
+      "label": "nestjs frameworks",
+      "message": "nestjs,express,fastify",
       "color": "8250df"
     },
     {
-      "id": "0xsarwagya-coverage",
-      "label": "0xsarwagya coverage",
-      "message": "95%",
+      "id": "express-coverage",
+      "label": "express coverage",
+      "message": "100%",
       "color": "2ea44f"
     },
     {
-      "id": "0xsarwagya-trust",
-      "label": "0xsarwagya trust",
-      "message": "96%",
+      "id": "express-trust",
+      "label": "express trust",
+      "message": "100%",
       "color": "2ea44f"
     },
     {
-      "id": "0xsarwagya-performance",
-      "label": "0xsarwagya perf",
-      "message": "2734.23ms",
+      "id": "express-performance",
+      "label": "express perf",
+      "message": "5396.32ms",
       "color": "0969da"
     },
     {
-      "id": "0xsarwagya-framework",
-      "label": "0xsarwagya frameworks",
-      "message": "nextjs,react,turborepo",
+      "id": "express-framework",
+      "label": "express frameworks",
+      "message": "express",
       "color": "8250df"
     },
     {
-      "id": "innosphere-coverage",
-      "label": "innosphere coverage",
-      "message": "100%",
-      "color": "2ea44f"
+      "id": "hono-coverage",
+      "label": "hono coverage",
+      "message": "86%",
+      "color": "bf8700"
     },
     {
-      "id": "innosphere-trust",
-      "label": "innosphere trust",
-      "message": "100%",
-      "color": "2ea44f"
+      "id": "hono-trust",
+      "label": "hono trust",
+      "message": "90%",
+      "color": "bf8700"
     },
     {
-      "id": "innosphere-performance",
-      "label": "innosphere perf",
-      "message": "18658.53ms",
+      "id": "hono-performance",
+      "label": "hono perf",
+      "message": "9346.2ms",
       "color": "0969da"
     },
     {
-      "id": "innosphere-framework",
-      "label": "innosphere frameworks",
-      "message": "nestjs,react,turborepo,vite",
-      "color": "8250df"
-    },
-    {
-      "id": "ghost-coverage",
-      "label": "ghost coverage",
-      "message": "100%",
-      "color": "2ea44f"
-    },
-    {
-      "id": "ghost-trust",
-      "label": "ghost trust",
-      "message": "100%",
-      "color": "2ea44f"
-    },
-    {
-      "id": "ghost-performance",
-      "label": "ghost perf",
-      "message": "1015.52ms",
-      "color": "0969da"
-    },
-    {
-      "id": "ghost-framework",
-      "label": "ghost frameworks",
-      "message": "react,vite",
-      "color": "8250df"
-    },
-    {
-      "id": "durable-local-coverage",
-      "label": "durable-local coverage",
-      "message": "100%",
-      "color": "2ea44f"
-    },
-    {
-      "id": "durable-local-trust",
-      "label": "durable-local trust",
-      "message": "100%",
-      "color": "2ea44f"
-    },
-    {
-      "id": "durable-local-performance",
-      "label": "durable-local perf",
-      "message": "934.92ms",
-      "color": "0969da"
-    },
-    {
-      "id": "durable-local-framework",
-      "label": "durable-local frameworks",
-      "message": "react,vite",
+      "id": "hono-framework",
+      "label": "hono frameworks",
+      "message": "hono",
       "color": "8250df"
     }
   ]

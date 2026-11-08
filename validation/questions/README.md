@@ -8,7 +8,8 @@ small or large.
 
 ## Files
 
-- `questions.json` is the current deterministic alpha corpus.
+- `questions.json` holds the corpus. It is not committed yet: add questions against
+  public repositories from `validation/repositories.json`.
 
 ## Question Shape
 
