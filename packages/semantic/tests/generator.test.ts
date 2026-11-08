@@ -225,7 +225,43 @@ describe("semantic generator", () => {
       },
     ]));
   });
+
+  it("derives Next.js app routes only from whole page segments", async () => {
+    const routes = await declaredRoutes({
+      "app/page.tsx": "export default function Home() { return null; }\n",
+      "app/components/homepage.tsx": "export function HomePage() { return null; }\n",
+      "app/docs/[[...slug]]/page.tsx": "export default function Docs() { return null; }\n",
+    });
+
+    expect(routes).toEqual(["GET:/", "GET:/docs/:slug*"]);
+  });
+
+  it("does not take an Express setting read for a route", async () => {
+    const routes = await declaredRoutes({
+      "src/server.ts": [
+        "import express from 'express';",
+        "const app = express();",
+        "app.get('port');",
+        "app.get('/health', (_request, response) => response.send('ok'));",
+      ].join("\n"),
+    });
+
+    expect(routes).toEqual(["GET:/health"]);
+  });
 });
+
+async function declaredRoutes(files: Readonly<Record<string, string>>): Promise<readonly string[]> {
+  const root = await mkdtemp(join(tmpdir(), "ontoly-semantic-routes-"));
+  for (const [file, source] of Object.entries(files)) {
+    await mkdir(join(root, file, ".."), { recursive: true });
+    await writeFile(join(root, file), source, "utf8");
+  }
+  const project = analyzeTypeScriptProject({ root, files: Object.keys(files) });
+  return generateCompilerArtifacts({ project }).facts
+    .filter((fact) => fact.kind === "RouteDeclared")
+    .map((fact) => fact.name)
+    .sort();
+}
 
 async function createNestFixture(): Promise<string> {
   const root = await mkdtemp(join(tmpdir(), "ontoly-semantic-nest-"));

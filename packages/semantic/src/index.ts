@@ -1642,7 +1642,9 @@ function analyzeHttpCallFramework(
       continue;
     }
 
-    const path = normalizeRoutePath(call.arguments[0]?.literal);
+    // A route takes a path and at least one handler; Express `app.get("port")` reads a setting instead.
+    const hasHandler = call.arguments.length >= 2;
+    const path = hasHandler ? normalizeRoutePath(call.arguments[0]?.literal) : undefined;
 
     if (!path) {
       continue;
@@ -1700,7 +1702,7 @@ function analyzeNextJsRoutes(project: TypeScriptProject, analyzerId: string): re
   for (const file of project.files) {
     const path = file.file;
 
-    const appPageMatch = path.match(/^(?:src\/)?app\/(.*?)page\.[jt]sx?$/);
+    const appPageMatch = path.match(/^(?:src\/)?app\/(?:(.*)\/)?page\.[jt]sx?$/);
     if (appPageMatch) {
       const routePath = fileRouteFromSegments(appPageMatch[1] ?? "");
       const name = `GET:${routePath}`;
@@ -1721,7 +1723,7 @@ function analyzeNextJsRoutes(project: TypeScriptProject, analyzerId: string): re
       continue;
     }
 
-    const appRouteMatch = path.match(/^(?:src\/)?app\/(.*?)route\.[jt]sx?$/);
+    const appRouteMatch = path.match(/^(?:src\/)?app\/(?:(.*)\/)?route\.[jt]sx?$/);
     if (appRouteMatch) {
       const routePath = fileRouteFromSegments(appRouteMatch[1] ?? "");
       const exportedMethods = project.exports
@@ -2437,8 +2439,10 @@ function fileRouteFromSegments(segments: string): string {
   const cleaned = segments
     .replace(/\/$/, "")
     .replace(/\([^)]+\)\/?/g, "")
-    .replace(/\[\.\.\.(\w+)\]/g, ":$1*")
-    .replace(/\[(\w+)\]/g, ":$1");
+    .replace(/(^|\/)@[^/]+/g, "")
+    .replace(/\[\[\.\.\.([\w-]+)\]\]/g, ":$1*")
+    .replace(/\[\.\.\.([\w-]+)\]/g, ":$1*")
+    .replace(/\[([\w-]+)\]/g, ":$1");
   return normalizeRoutePath(cleaned) ?? "/";
 }
 
