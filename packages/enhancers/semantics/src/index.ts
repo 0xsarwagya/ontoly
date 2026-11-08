@@ -1,7 +1,6 @@
 import {
   compareCodeUnits,
   createSemanticIndex,
-  repositoryIdentity,
   stableHash,
   stableStringify,
   type JsonObject,
@@ -122,7 +121,6 @@ export interface SemanticsArtifact {
   readonly graphHash: string;
   readonly repository: {
     readonly name: string;
-    readonly root: string;
     readonly packageName?: string | undefined;
   };
   readonly featureOwnership: readonly FeatureOwnership[];
@@ -366,7 +364,7 @@ export function createSemanticsArtifact(graph: SoftwareGraph, semanticIndex: Sem
 
   return {
     ...withoutHash,
-    deterministicHash: stableHash(stableStringify({ ...withoutHash, repository: repositoryIdentity(withoutHash.repository) })),
+    deterministicHash: stableHash(stableStringify(withoutHash)),
   };
 }
 
@@ -877,7 +875,6 @@ function edgeConfidenceScore(edge: SoftwareGraphEdge): number {
 function repositoryReference(graph: SoftwareGraph): SemanticsArtifact["repository"] {
   return {
     name: graph.repository.name,
-    root: graph.repository.root,
     ...(graph.repository.packageName ? { packageName: graph.repository.packageName } : {}),
   };
 }

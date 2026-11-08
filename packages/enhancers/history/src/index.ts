@@ -2,7 +2,6 @@ import { spawnSync } from "node:child_process";
 import {
   compareCodeUnits,
   SOFTWARE_GRAPH_VERSION,
-  repositoryIdentity,
   stableHash,
   stableStringify,
   type JsonObject,
@@ -202,7 +201,6 @@ export interface HistoryArtifact {
   readonly historyStatus: HistoryIndexStatus;
   readonly repository: {
     readonly name: string;
-    readonly root: string;
     readonly packageName?: string | undefined;
   };
   readonly commits: {
@@ -430,7 +428,6 @@ export function createHistoryArtifact(
     historyStatus,
     repository: {
       name: graph.repository.name,
-      root: graph.repository.root,
       ...(graph.repository.packageName ? { packageName: graph.repository.packageName } : {}),
     },
     commits: {
@@ -458,10 +455,7 @@ export function createHistoryArtifact(
 
   return {
     ...historyWithoutHash,
-    deterministicHash: stableHash(stableStringify({
-      ...historyWithoutHash,
-      repository: repositoryIdentity(historyWithoutHash.repository),
-    })),
+    deterministicHash: stableHash(stableStringify(historyWithoutHash)),
   };
 }
 

@@ -2,6 +2,7 @@ import { readdir, readFile, stat } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import {
   compareCodeUnits,
+  repositoryIdentity,
   SOFTWARE_GRAPH_VERSION,
   StableHasher,
   stableHash,
@@ -1099,7 +1100,7 @@ function graphArtifactReference(graph: SoftwareGraph): JsonObject {
   return {
     artifact: "SoftwareGraph",
     version: graph.version,
-    repository: graph.repository as unknown as JsonValue,
+    repository: repositoryIdentity(graph.repository) as unknown as JsonValue,
     graphHash: graph.metadata.deterministicHash,
     generatedAt: graph.metadata.generatedAt,
     statistics: graphStatistics(graph),
@@ -1111,7 +1112,7 @@ function semanticIndexArtifactReference(index: SemanticIndex): JsonObject {
     artifact: "SemanticIndex",
     version: index.version,
     graphHash: index.graphHash,
-    repository: index.repository as unknown as JsonValue,
+    repository: repositoryIdentity(index.repository) as unknown as JsonValue,
     deterministicHash: index.metadata.deterministicHash,
     statistics: index.metadata.statistics as unknown as JsonValue,
   };
