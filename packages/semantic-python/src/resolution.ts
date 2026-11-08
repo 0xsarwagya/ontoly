@@ -1,4 +1,5 @@
 import { posix } from "node:path";
+import { compareCodeUnits } from "@0xsarwagya/ontoly-core";
 import type {
   PythonCall,
   PythonClass,
@@ -143,7 +144,7 @@ function sourceRoots(files: ReadonlySet<string>): readonly string[] {
     const parent = posix.dirname(posix.dirname(file));
     if (!files.has(posix.join(parent, "__init__.py"))) roots.add(parent);
   }
-  return [...roots].sort((a, b) => depth(b) - depth(a) || a.localeCompare(b));
+  return [...roots].sort((a, b) => depth(b) - depth(a) || compareCodeUnits(a, b));
 }
 
 function depth(directory: string): number {
