@@ -23,7 +23,7 @@ be cloned explicitly.
 
 ```sh
 ontoly validate all
-ontoly validate ovok-core
+ontoly validate express
 ontoly validate nextjs
 ontoly validate react
 ```

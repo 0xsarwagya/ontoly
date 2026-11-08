@@ -11,5 +11,5 @@
   "language": "typescript",
   "repositoryType": "framework",
   "expectedAnalyzer": "nestjs",
-  "default": false
+  "default": true
 }

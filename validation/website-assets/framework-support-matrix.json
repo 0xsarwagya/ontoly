@@ -1,5 +1,16 @@
 [
   {
+    "framework": "django",
+    "repositories": [
+      {
+        "id": "django",
+        "default": false,
+        "expectedAnalyzer": "python",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
     "framework": "drizzle",
     "repositories": [
       {
@@ -14,22 +25,16 @@
     "framework": "express",
     "repositories": [
       {
-        "id": "ovok-core",
+        "id": "nestjs",
         "default": true,
         "expectedAnalyzer": "nestjs",
         "latestStatus": "PASS"
       },
       {
-        "id": "nestjs",
-        "default": false,
-        "expectedAnalyzer": "nestjs",
-        "latestStatus": "not-run"
-      },
-      {
         "id": "express",
-        "default": false,
+        "default": true,
         "expectedAnalyzer": "express",
-        "latestStatus": "not-run"
+        "latestStatus": "PASS"
       },
       {
         "id": "medusa",
@@ -46,18 +51,40 @@
     ]
   },
   {
+    "framework": "fastapi",
+    "repositories": [
+      {
+        "id": "fastapi",
+        "default": false,
+        "expectedAnalyzer": "python",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
     "framework": "fastify",
     "repositories": [
       {
         "id": "nestjs",
-        "default": false,
+        "default": true,
         "expectedAnalyzer": "nestjs",
-        "latestStatus": "not-run"
+        "latestStatus": "PASS"
       },
       {
         "id": "fastify",
         "default": false,
         "expectedAnalyzer": "fastify",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "flask",
+    "repositories": [
+      {
+        "id": "flask",
+        "default": false,
+        "expectedAnalyzer": "python",
         "latestStatus": "not-run"
       }
     ]
@@ -78,9 +105,9 @@
     "repositories": [
       {
         "id": "hono",
-        "default": false,
+        "default": true,
         "expectedAnalyzer": "hono",
-        "latestStatus": "not-run"
+        "latestStatus": "PASS"
       }
     ]
   },
@@ -88,22 +115,10 @@
     "framework": "nestjs",
     "repositories": [
       {
-        "id": "ovok-core",
-        "default": true,
-        "expectedAnalyzer": "nestjs",
-        "latestStatus": "PASS"
-      },
-      {
-        "id": "innosphere",
-        "default": true,
-        "expectedAnalyzer": "nestjs",
-        "latestStatus": "PASS"
-      },
-      {
         "id": "nestjs",
-        "default": false,
+        "default": true,
         "expectedAnalyzer": "nestjs",
-        "latestStatus": "not-run"
+        "latestStatus": "PASS"
       },
       {
         "id": "nx",
@@ -122,12 +137,6 @@
   {
     "framework": "nextjs",
     "repositories": [
-      {
-        "id": "0xsarwagya",
-        "default": true,
-        "expectedAnalyzer": "workspace",
-        "latestStatus": "PASS"
-      },
       {
         "id": "nextjs",
         "default": false,
@@ -165,32 +174,36 @@
     ]
   },
   {
-    "framework": "react",
+    "framework": "pydantic",
     "repositories": [
       {
-        "id": "0xsarwagya",
-        "default": true,
-        "expectedAnalyzer": "workspace",
-        "latestStatus": "PASS"
+        "id": "fastapi",
+        "default": false,
+        "expectedAnalyzer": "python",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "pytorch",
+    "repositories": [
+      {
+        "id": "transformers",
+        "default": false,
+        "expectedAnalyzer": "python",
+        "latestStatus": "not-run"
       },
       {
-        "id": "innosphere",
-        "default": true,
-        "expectedAnalyzer": "nestjs",
-        "latestStatus": "PASS"
-      },
-      {
-        "id": "ghost",
-        "default": true,
-        "expectedAnalyzer": "typescript",
-        "latestStatus": "PASS"
-      },
-      {
-        "id": "durable-local",
-        "default": true,
-        "expectedAnalyzer": "typescript",
-        "latestStatus": "PASS"
-      },
+        "id": "pytorch",
+        "default": false,
+        "expectedAnalyzer": "python",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "react",
+    "repositories": [
       {
         "id": "nextjs",
         "default": false,
@@ -224,12 +237,56 @@
     ]
   },
   {
+    "framework": "scikit-learn",
+    "repositories": [
+      {
+        "id": "scikit-learn",
+        "default": false,
+        "expectedAnalyzer": "python",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "starlette",
+    "repositories": [
+      {
+        "id": "fastapi",
+        "default": false,
+        "expectedAnalyzer": "python",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
     "framework": "tanstack-query",
     "repositories": [
       {
         "id": "tanstack-query",
         "default": false,
         "expectedAnalyzer": "typescript",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "tensorflow",
+    "repositories": [
+      {
+        "id": "transformers",
+        "default": false,
+        "expectedAnalyzer": "python",
+        "latestStatus": "not-run"
+      }
+    ]
+  },
+  {
+    "framework": "transformers",
+    "repositories": [
+      {
+        "id": "transformers",
+        "default": false,
+        "expectedAnalyzer": "python",
         "latestStatus": "not-run"
       }
     ]
@@ -242,23 +299,6 @@
         "default": false,
         "expectedAnalyzer": "typescript",
         "latestStatus": "not-run"
-      }
-    ]
-  },
-  {
-    "framework": "turborepo",
-    "repositories": [
-      {
-        "id": "0xsarwagya",
-        "default": true,
-        "expectedAnalyzer": "workspace",
-        "latestStatus": "PASS"
-      },
-      {
-        "id": "innosphere",
-        "default": true,
-        "expectedAnalyzer": "nestjs",
-        "latestStatus": "PASS"
       }
     ]
   },
@@ -282,29 +322,6 @@
         "default": false,
         "expectedAnalyzer": "typescript",
         "latestStatus": "not-run"
-      }
-    ]
-  },
-  {
-    "framework": "vite",
-    "repositories": [
-      {
-        "id": "innosphere",
-        "default": true,
-        "expectedAnalyzer": "nestjs",
-        "latestStatus": "PASS"
-      },
-      {
-        "id": "ghost",
-        "default": true,
-        "expectedAnalyzer": "typescript",
-        "latestStatus": "PASS"
-      },
-      {
-        "id": "durable-local",
-        "default": true,
-        "expectedAnalyzer": "typescript",
-        "latestStatus": "PASS"
       }
     ]
   },

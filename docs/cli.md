@@ -428,7 +428,6 @@ leaderboards, performance data, and semantic regression results under
 
 ```sh
 ontoly evaluate
-ontoly evaluate ovok-core
 ontoly evaluate --ci
 ontoly leaderboard
 ontoly benchmark semantic
@@ -445,7 +444,7 @@ and generates dashboards, badges, performance reports, and release-gate results.
 
 ```sh
 ontoly validate all
-ontoly validate ovok-core
+ontoly validate express
 ontoly validate nextjs
 ontoly validate react
 ontoly benchmark performance

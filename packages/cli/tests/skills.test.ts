@@ -153,6 +153,15 @@ describe("installed Ontoly Agent Skills", () => {
       "report.md",
     ]);
   });
+
+  it("writes report.json paths relative to the report", async () => {
+    const project = join(sandbox, "project");
+    installSkill(join(project, ".agents", "skills"), "architecture-review");
+    const output = join(sandbox, "reports");
+    await validateOntolySkills(project, { output });
+    const report = JSON.parse(readFileSync(join(output, "report.json"), "utf8")) as { skillsRoot: string };
+    expect(report.skillsRoot).toBe("../project/.agents/skills");
+  });
 });
 
 function installSkill(skillsRoot: string, name: string, minimumOntolyVersion?: string): void {

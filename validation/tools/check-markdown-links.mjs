@@ -4,7 +4,7 @@ import path from "node:path";
 
 const root = process.cwd();
 const includeExtensions = new Set([".md", ".mdx"]);
-const excludedDirs = new Set([".git", "node_modules", "dist", ".ontoly", ".agents", "apps", ".next"]);
+const excludedDirs = new Set([".git", "node_modules", "dist", ".ontoly", ".agents", "apps", ".next", "repository"]);
 const issues = [];
 
 function walk(dir) {

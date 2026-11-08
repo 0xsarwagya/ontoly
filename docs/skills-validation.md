@@ -44,7 +44,7 @@ The validator checks:
 - local Markdown links resolve
 - local installed-artifact references are used
 - templates include repository, question, capabilities, evidence, and confidence
-- examples cover Ovok Core, Ghost, durable-local, 0xsarwagya, and Innosphere
+- examples cover NestJS, Express, Hono, Turborepo, and Next.js
 - agent evaluation passes
 
 Agent evaluation verifies that each skill:

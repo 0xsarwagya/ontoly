@@ -1,15 +1,16 @@
 {
   "status": "PASS",
-  "baseline": "compared",
+  "baseline": "initialized",
   "failures": [],
-  "warnings": [],
+  "warnings": [
+    "No previous validation lab baseline existed."
+  ],
   "improvements": [],
   "current": {
-    "generatedAt": "2026-07-15T12:55:53.882Z",
+    "generatedAt": "2026-11-08T13:52:04.808Z",
     "environment": {
       "node": "v24.16.0",
       "v8": "13.6.233.17-node.49",
-      "execPath": "/Users/shrey/.nvm/versions/node/v24.16.0/bin/node",
       "platform": "darwin",
       "arch": "arm64",
       "osRelease": "25.4.0",
@@ -18,221 +19,116 @@
       "pnpm": "10.15.1",
       "packageManager": "pnpm@10.15.1",
       "engines": {
-        "node": ">=20.0.0",
+        "node": ">=22.0.0",
         "pnpm": ">=10.0.0"
       },
       "typescript": "5.9.2"
     },
     "repositories": [
       {
-        "id": "ovok-core",
+        "id": "nestjs",
         "status": "PASS",
-        "graphHash": "1gmclp5",
-        "coverage": 99,
-        "trust": 98,
+        "graphHash": "0mf0304",
+        "coverage": 92,
+        "trust": 93,
         "diagnostics": {
-          "compiler": 102,
-          "graph": 18,
-          "validationIssues": 84,
-          "coverageWarnings": 16
+          "compiler": 254,
+          "graph": 32,
+          "validationIssues": 222,
+          "coverageWarnings": 188
         },
         "performance": {
-          "totalDurationMs": 31289.391,
-          "analysisDurationMs": 8843.021,
-          "peakMemoryBytes": 2564521984,
-          "queryLatencyMs": 1.9736,
-          "searchLatencyMs": 2326.4497,
-          "impactLatencyMs": 1.0576,
-          "evidencePackLatencyMs": 2484.3388,
-          "implementationPlanLatencyMs": 2520.1869,
-          "agentWorkflowMemoryBytes": 1780776960
+          "totalDurationMs": 40263.739,
+          "analysisDurationMs": 32029.954,
+          "peakMemoryBytes": 2410151936,
+          "queryLatencyMs": 8.7392,
+          "searchLatencyMs": 613.6667,
+          "impactLatencyMs": 3.405,
+          "evidencePackLatencyMs": 670.3412,
+          "implementationPlanLatencyMs": 245.061,
+          "agentWorkflowMemoryBytes": 2019065856
         },
         "graph": {
-          "nodes": 21727,
-          "edges": 52483,
-          "graphSizeBytes": 67487363
+          "nodes": 22636,
+          "edges": 47391,
+          "graphSizeBytes": 64642382
         },
-        "deterministic": {
-          "status": "UNSTABLE_INPUT",
-          "firstHash": "1gmclp5",
-          "secondHash": "1gmclp5",
-          "inputStable": false,
-          "inputHashBefore": "85a6058ca9bcf57248e485269197d18c5ed2dcc8ececaa0bda34e933e5ca5b56",
-          "inputHashAfter": "05ae6e30aec0faf9430d34647e33c8fd4839a036ca45a98a7d246f86e9645b8d",
-          "rebuildMs": 4644.211,
-          "inputCheckMs": 1722.613
-        }
+        "deterministic": null
       },
       {
-        "id": "0xsarwagya",
+        "id": "express",
         "status": "PASS",
-        "graphHash": "0k3l2hs",
-        "coverage": 95,
-        "trust": 96,
+        "graphHash": "1q0kzce",
+        "coverage": 100,
+        "trust": 100,
+        "diagnostics": {
+          "compiler": 0,
+          "graph": 0,
+          "validationIssues": 0,
+          "coverageWarnings": 0
+        },
+        "performance": {
+          "totalDurationMs": 5396.324,
+          "analysisDurationMs": 5189.879,
+          "peakMemoryBytes": 2720235520,
+          "queryLatencyMs": 0.1554,
+          "searchLatencyMs": 7.105,
+          "impactLatencyMs": 0.3074,
+          "evidencePackLatencyMs": 10.8363,
+          "implementationPlanLatencyMs": 11.7007,
+          "agentWorkflowMemoryBytes": 2718629888
+        },
+        "graph": {
+          "nodes": 861,
+          "edges": 1220,
+          "graphSizeBytes": 1596706
+        },
+        "deterministic": null
+      },
+      {
+        "id": "hono",
+        "status": "PASS",
+        "graphHash": "0ao4oow",
+        "coverage": 86,
+        "trust": 90,
         "diagnostics": {
           "compiler": 8,
-          "graph": 5,
-          "validationIssues": 3,
-          "coverageWarnings": 5
+          "graph": 1,
+          "validationIssues": 7,
+          "coverageWarnings": 7
         },
         "performance": {
-          "totalDurationMs": 2734.227,
-          "analysisDurationMs": 1300.24,
-          "peakMemoryBytes": 2233745408,
-          "queryLatencyMs": 0.0842,
-          "searchLatencyMs": 95.7966,
-          "impactLatencyMs": 0.2784,
-          "evidencePackLatencyMs": 114.1835,
-          "implementationPlanLatencyMs": 104.9164,
-          "agentWorkflowMemoryBytes": 2204942336
+          "totalDurationMs": 9346.198,
+          "analysisDurationMs": 7120.529,
+          "peakMemoryBytes": 2985377792,
+          "queryLatencyMs": 1.1426,
+          "searchLatencyMs": 114.6232,
+          "impactLatencyMs": 0.6812,
+          "evidencePackLatencyMs": 272.4936,
+          "implementationPlanLatencyMs": 144.7975,
+          "agentWorkflowMemoryBytes": 2755428352
         },
         "graph": {
-          "nodes": 1191,
-          "edges": 2087,
-          "graphSizeBytes": 2656559
+          "nodes": 4504,
+          "edges": 8220,
+          "graphSizeBytes": 10284760
         },
-        "deterministic": {
-          "status": "PASS",
-          "firstHash": "0k3l2hs",
-          "secondHash": "0k3l2hs",
-          "inputStable": true,
-          "inputHashBefore": "f339b7c2cc3faae5efb1985b033e052e9dd81bc25c02304911a8ea012d7e28cb",
-          "inputHashAfter": "f339b7c2cc3faae5efb1985b033e052e9dd81bc25c02304911a8ea012d7e28cb",
-          "rebuildMs": 542.605,
-          "inputCheckMs": 121.624
-        }
-      },
-      {
-        "id": "innosphere",
-        "status": "PASS",
-        "graphHash": "1hdfa3y",
-        "coverage": 100,
-        "trust": 100,
-        "diagnostics": {
-          "compiler": 14,
-          "graph": 12,
-          "validationIssues": 2,
-          "coverageWarnings": 0
-        },
-        "performance": {
-          "totalDurationMs": 18658.525,
-          "analysisDurationMs": 6481.582,
-          "peakMemoryBytes": 2900803584,
-          "queryLatencyMs": 0.5958,
-          "searchLatencyMs": 412.1469,
-          "impactLatencyMs": 0.3227,
-          "evidencePackLatencyMs": 440.3492,
-          "implementationPlanLatencyMs": 362.5062,
-          "agentWorkflowMemoryBytes": 2574729216
-        },
-        "graph": {
-          "nodes": 6742,
-          "edges": 12510,
-          "graphSizeBytes": 16848584
-        },
-        "deterministic": {
-          "status": "PASS",
-          "firstHash": "1hdfa3y",
-          "secondHash": "1hdfa3y",
-          "inputStable": true,
-          "inputHashBefore": "8bf26fbf5b7130e7e51a54650e53dd0b787ba5fc0d2f0054a63f885c8a88c24e",
-          "inputHashAfter": "8bf26fbf5b7130e7e51a54650e53dd0b787ba5fc0d2f0054a63f885c8a88c24e",
-          "rebuildMs": 3798.355,
-          "inputCheckMs": 4296.884
-        }
-      },
-      {
-        "id": "ghost",
-        "status": "PASS",
-        "graphHash": "0qqdyqg",
-        "coverage": 100,
-        "trust": 100,
-        "diagnostics": {
-          "compiler": 0,
-          "graph": 0,
-          "validationIssues": 0,
-          "coverageWarnings": 0
-        },
-        "performance": {
-          "totalDurationMs": 1015.523,
-          "analysisDurationMs": 532.591,
-          "peakMemoryBytes": 2934505472,
-          "queryLatencyMs": 0.0232,
-          "searchLatencyMs": 34.8031,
-          "impactLatencyMs": 0.2872,
-          "evidencePackLatencyMs": 45.623,
-          "implementationPlanLatencyMs": 34.4738,
-          "agentWorkflowMemoryBytes": 2880454656
-        },
-        "graph": {
-          "nodes": 350,
-          "edges": 661,
-          "graphSizeBytes": 787713
-        },
-        "deterministic": {
-          "status": "PASS",
-          "firstHash": "0qqdyqg",
-          "secondHash": "0qqdyqg",
-          "inputStable": true,
-          "inputHashBefore": "d427d5216c4fad653f6dd47f2382b3312ff850dbcd52995dd3c89e9cbeab3d22",
-          "inputHashAfter": "d427d5216c4fad653f6dd47f2382b3312ff850dbcd52995dd3c89e9cbeab3d22",
-          "rebuildMs": 238.323,
-          "inputCheckMs": 6.412
-        }
-      },
-      {
-        "id": "durable-local",
-        "status": "PASS",
-        "graphHash": "1xd5unc",
-        "coverage": 100,
-        "trust": 100,
-        "diagnostics": {
-          "compiler": 0,
-          "graph": 0,
-          "validationIssues": 0,
-          "coverageWarnings": 0
-        },
-        "performance": {
-          "totalDurationMs": 934.918,
-          "analysisDurationMs": 574.894,
-          "peakMemoryBytes": 2897821696,
-          "queryLatencyMs": 0.027,
-          "searchLatencyMs": 15.7123,
-          "impactLatencyMs": 0.4128,
-          "evidencePackLatencyMs": 21.0866,
-          "implementationPlanLatencyMs": 16.1112,
-          "agentWorkflowMemoryBytes": 2114994176
-        },
-        "graph": {
-          "nodes": 226,
-          "edges": 384,
-          "graphSizeBytes": 470178
-        },
-        "deterministic": {
-          "status": "PASS",
-          "firstHash": "1xd5unc",
-          "secondHash": "1xd5unc",
-          "inputStable": true,
-          "inputHashBefore": "f362a33acfb06542552412e6467bb7a8f8275b7623254e4d2faf5f2758e5a7af",
-          "inputHashAfter": "f362a33acfb06542552412e6467bb7a8f8275b7623254e4d2faf5f2758e5a7af",
-          "rebuildMs": 219.078,
-          "inputCheckMs": 10.058
-        }
+        "deterministic": null
       }
     ],
     "aggregate": {
       "performance": {
-        "repositories": 5,
-        "measured": 5,
+        "repositories": 3,
+        "measured": 3,
         "skipped": 0,
         "failed": 0,
-        "averageDurationMs": 10926.52,
-        "averageCoverage": 98.8,
-        "averageTrust": 98.8,
-        "totalNodes": 30236,
-        "totalEdges": 68125,
-        "totalGraphSizeBytes": 88250397,
-        "maxMemoryBytes": 2934505472
+        "averageDurationMs": 18335.42,
+        "averageCoverage": 92.67,
+        "averageTrust": 94.33,
+        "totalNodes": 28001,
+        "totalEdges": 56831,
+        "totalGraphSizeBytes": 76523848,
+        "maxMemoryBytes": 2985377792
       }
     }
   }

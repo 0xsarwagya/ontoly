@@ -27,7 +27,7 @@ subjective scoring.
 
 ## Categories
 
-The initial corpus covers:
+Questions should cover:
 
 - architecture
 - request lifecycle

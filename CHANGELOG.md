@@ -208,10 +208,6 @@ at scale across 11 OSS repos (459K nodes, 699K edges).
 
 | Repository | Language | Nodes | Edges | Diagnostics |
 |---|---|---|---|---|
-| ovok-core | TypeScript | 39,476 | 82,359 | 31 |
-| innosphere | TypeScript | 17,103 | 32,091 | 130 |
-| ghost | TypeScript | 352 | 664 | 0 |
-| durable-local | TypeScript | 227 | 385 | 0 |
 | Flask | Python | 1,700 | 2,079 | 0 |
 | FastAPI | Python | 11,634 | 16,054 | 0 |
 | Django | Python | 57,895 | 77,851 | 202 |
@@ -497,11 +493,11 @@ First stable release of the Ontoly Software Graph engine.
 ### Validation
 
 - Verified `pnpm check-types`, `pnpm test`, `pnpm build`, documentation checks,
-  package validation, semantic evaluation, validation lab, and Ovok retrieval
+  package validation, semantic evaluation, validation lab, and private-repository retrieval
   benchmark.
-- Fresh Ovok graph build produced 21,686 nodes, 52,548 edges, and 5,823 `CALLS`
+- Fresh private-repository graph build produced 21,686 nodes, 52,548 edges, and 5,823 `CALLS`
   edges.
-- Preserved and improved the Ovok retrieval target: 40 PASS, 0 PARTIAL, 0 FAIL,
+- Preserved and improved the private-repository retrieval target: 40 PASS, 0 PARTIAL, 0 FAIL,
   39 Top-1, 40 Top-K, and 0 errors.
 
 ## 0.1.0-alpha.17
@@ -521,7 +517,7 @@ First stable release of the Ontoly Software Graph engine.
 - Verified `pnpm check-types`, `pnpm test`, `pnpm build`, documentation checks,
   package validation, skills validation, semantic evaluation, validation lab,
   and performance benchmark.
-- Preserved the alpha.16 Ovok retrieval target: 40 PASS, 0 PARTIAL, 0 FAIL,
+- Preserved the alpha.16 private-repository retrieval target: 40 PASS, 0 PARTIAL, 0 FAIL,
   38 Top-1, 40 Top-K, and 0 errors.
 
 ## 0.1.0-alpha.16
@@ -534,7 +530,7 @@ First stable release of the Ontoly Software Graph engine.
 - Added a bounded executable-action ranking signal so method/function candidates
   can outrank owner classes when the user is explicitly asking for code that
   performs an action.
-- Preserved the alpha.15 enhancer fixes while improving the Ovok 40-question
+- Preserved the alpha.15 enhancer fixes while improving the private-repository 40-question
   Ontoly benchmark to 40 PASS, 0 PARTIAL, 0 FAIL, and 38 Top-1 results.
 
 ### Validation

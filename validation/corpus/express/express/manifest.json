@@ -9,5 +9,5 @@
   "language": "javascript",
   "repositoryType": "framework",
   "expectedAnalyzer": "express",
-  "default": false
+  "default": true
 }

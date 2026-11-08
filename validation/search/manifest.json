@@ -16,11 +16,6 @@
     "falsePositives"
   ],
   "repositories": [
-    "ovok-core",
-    "ghost",
-    "durable-local",
-    "innosphere",
-    "0xsarwagya",
     "nextjs",
     "nestjs",
     "typescript"
