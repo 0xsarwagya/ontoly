@@ -158,7 +158,13 @@ describe("installed Ontoly Agent Skills", () => {
     const project = join(sandbox, "project");
     installSkill(join(project, ".agents", "skills"), "architecture-review");
     const output = join(sandbox, "reports");
-    await validateOntolySkills(project, { output });
+    const cwd = process.cwd();
+    process.chdir(sandbox);
+    try {
+      await validateOntolySkills(project, { output });
+    } finally {
+      process.chdir(cwd);
+    }
     const report = JSON.parse(readFileSync(join(output, "report.json"), "utf8")) as { skillsRoot: string };
     expect(isAbsolute(report.skillsRoot)).toBe(false);
   });
