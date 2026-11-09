@@ -1,4 +1,5 @@
 import {
+  compareCodeUnits,
   createSemanticIndex,
   resolveIntent,
   type JsonObject,
@@ -375,7 +376,7 @@ export function createIntelligence(
       .sort((left, right) =>
         right.churnScore - left.churnScore ||
         right.modificationCount - left.modificationCount ||
-        left.nodeId.localeCompare(right.nodeId),
+        compareCodeUnits(left.nodeId, right.nodeId),
       )
       .slice(0, limit);
   }
@@ -392,7 +393,7 @@ export function createIntelligence(
         relationship.rightNodeIds.includes(node.id) ||
         Boolean(node.file && (relationship.leftFile === node.file || relationship.rightFile === node.file)),
       )
-      .sort((left, right) => right.score - left.score || right.count - left.count || left.id.localeCompare(right.id))
+      .sort((left, right) => right.score - left.score || right.count - left.count || compareCodeUnits(left.id, right.id))
       .slice(0, limit);
   }
 
@@ -655,11 +656,11 @@ function compareNodeHistoryByRisk(left: NodeHistory, right: NodeHistory): number
   return right.hotspotScore - left.hotspotScore ||
     right.churnScore - left.churnScore ||
     right.modificationCount - left.modificationCount ||
-    left.nodeId.localeCompare(right.nodeId);
+    compareCodeUnits(left.nodeId, right.nodeId);
 }
 
 function compareCandidates(left: IntelligenceCandidate, right: IntelligenceCandidate): number {
-  return right.score - left.score || right.confidence - left.confidence || left.nodeId.localeCompare(right.nodeId);
+  return right.score - left.score || right.confidence - left.confidence || compareCodeUnits(left.nodeId, right.nodeId);
 }
 
 function compareEvidenceNodes(left: IntelligenceEvidenceNode, right: IntelligenceEvidenceNode): number {
@@ -667,13 +668,13 @@ function compareEvidenceNodes(left: IntelligenceEvidenceNode, right: Intelligenc
 }
 
 function compareFeatureMatches(left: FeatureMatch, right: FeatureMatch): number {
-  return right.score - left.score || right.confidence - left.confidence || left.id.localeCompare(right.id);
+  return right.score - left.score || right.confidence - left.confidence || compareCodeUnits(left.id, right.id);
 }
 
 function compareIntentMatches(left: IntentMatch, right: IntentMatch): number {
-  return right.score - left.score || right.confidence - left.confidence || left.intent.localeCompare(right.intent);
+  return right.score - left.score || right.confidence - left.confidence || compareCodeUnits(left.intent, right.intent);
 }
 
 function compareSemanticGraphLinks(left: SemanticGraphLink, right: SemanticGraphLink): number {
-  return left.type.localeCompare(right.type) || left.from.localeCompare(right.from) || left.to.localeCompare(right.to);
+  return compareCodeUnits(left.type, right.type) || compareCodeUnits(left.from, right.from) || compareCodeUnits(left.to, right.to);
 }

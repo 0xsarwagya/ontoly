@@ -1,5 +1,7 @@
 import {
+  compareCodeUnits,
   normalizePath,
+  repositoryIdentity,
   stableHash,
   stableStringify,
   type JsonObject,
@@ -475,7 +477,7 @@ function buildSemanticIndex(graph: SoftwareGraph): SemanticIndex {
 function hashSemanticIndex(index: Omit<SemanticIndex, "metadata"> & { readonly metadata: SemanticIndex["metadata"] }): string {
   const entryHashes = index.entries.map((entry) => stableHash(stableStringify(entry))).sort();
   const invertedHashes = Object.entries(index.invertedIndex)
-    .sort(([left], [right]) => left.localeCompare(right))
+    .sort(([left], [right]) => compareCodeUnits(left, right))
     .map(([term, ids]) => stableHash(stableStringify({ term, ids })));
   const vocabularyHashes = index.vocabulary
     .map((term) => stableHash(stableStringify(term)))
@@ -485,7 +487,7 @@ function hashSemanticIndex(index: Omit<SemanticIndex, "metadata"> & { readonly m
     version: index.version,
     graphVersion: index.graphVersion,
     graphHash: index.graphHash,
-    repository: index.repository,
+    repository: repositoryIdentity(index.repository),
     entryIds: index.entryIds,
     entries: {
       count: entryHashes.length,
@@ -850,7 +852,7 @@ function buildInvertedIndex(entries: readonly SemanticIndexEntry[]): Record<stri
 
   return Object.fromEntries(
     [...inverted.entries()]
-      .sort(([left], [right]) => left.localeCompare(right))
+      .sort(([left], [right]) => compareCodeUnits(left, right))
       .map(([term, ids]) => [term, [...ids].sort()] as const),
   );
 }
@@ -882,7 +884,7 @@ function buildVocabulary(entries: readonly SemanticIndexEntry[]): readonly Repos
       nodeIds: [...value.nodeIds].sort(),
       kinds: [...value.kinds].sort(),
     }))
-    .sort((left, right) => right.frequency - left.frequency || left.term.localeCompare(right.term));
+    .sort((left, right) => right.frequency - left.frequency || compareCodeUnits(left.term, right.term));
 }
 
 function rankCandidates(
@@ -1738,7 +1740,7 @@ function recommendCapability(
       capability: item.capability,
       score: item.terms.filter((term) => terms.has(term)).length,
     }))
-    .sort((left, right) => right.score - left.score || left.capability.localeCompare(right.capability))[0];
+    .sort((left, right) => right.score - left.score || compareCodeUnits(left.capability, right.capability))[0];
   if (matched && matched.score > 0) {
     return matched.capability;
   }
@@ -2090,7 +2092,7 @@ function collectMetadataText(value: unknown, values: string[], depth: number, se
     seen.add(value);
     for (const [key, entry] of Object.entries(value as Record<string, unknown>)
       .filter(([, entry]) => entry !== undefined && typeof entry !== "function" && typeof entry !== "symbol")
-      .sort(([left], [right]) => left.localeCompare(right))
+      .sort(([left], [right]) => compareCodeUnits(left, right))
       .slice(0, SEMANTIC_METADATA_ENTRY_LIMIT)) {
       if (isNoisyMetadataKey(key)) {
         continue;
@@ -2179,7 +2181,7 @@ function countEdgesByType(edges: readonly SoftwareGraphEdge[]): Record<string, n
   for (const edge of edges) {
     counts.set(edge.type, (counts.get(edge.type) ?? 0) + 1);
   }
-  return Object.fromEntries([...counts.entries()].sort(([left], [right]) => left.localeCompare(right)));
+  return Object.fromEntries([...counts.entries()].sort(([left], [right]) => compareCodeUnits(left, right)));
 }
 
 function groupEdges(edges: readonly SoftwareGraphEdge[], side: "from" | "to"): ReadonlyMap<string, readonly SoftwareGraphEdge[]> {
@@ -2212,23 +2214,23 @@ function addScore(reasons: ScoreReason[], factor: string, score: number, evidenc
 }
 
 function compareCandidates(left: SemanticCandidate, right: SemanticCandidate): number {
-  return right.score - left.score || left.kind.localeCompare(right.kind) || left.stableId.localeCompare(right.stableId);
+  return right.score - left.score || compareCodeUnits(left.kind, right.kind) || compareCodeUnits(left.stableId, right.stableId);
 }
 
 function compareReasons(left: ScoreReason, right: ScoreReason): number {
-  return right.score - left.score || left.factor.localeCompare(right.factor);
+  return right.score - left.score || compareCodeUnits(left.factor, right.factor);
 }
 
 function compareEntries(left: SemanticIndexEntry, right: SemanticIndexEntry): number {
-  return left.stableId.localeCompare(right.stableId);
+  return compareCodeUnits(left.stableId, right.stableId);
 }
 
 function compareEdges(left: SoftwareGraphEdge, right: SoftwareGraphEdge): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function uniqueStrings(values: readonly string[]): readonly string[] {
-  return [...new Set(values.map((value) => value.trim()).filter(Boolean))].sort((left, right) => left.localeCompare(right));
+  return [...new Set(values.map((value) => value.trim()).filter(Boolean))].sort(compareCodeUnits);
 }
 
 function isSemanticNoiseTerm(term: string): boolean {

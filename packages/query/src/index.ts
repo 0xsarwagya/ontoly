@@ -5,6 +5,7 @@ import type {
   SoftwareGraphEdge,
   SoftwareGraphNode,
 } from "@0xsarwagya/ontoly-core";
+import { compareCodeUnits } from "@0xsarwagya/ontoly-core";
 
 export type TraversalDirection = "inbound" | "outbound" | "both";
 export type TraversalStrategy = "breadth-first" | "depth-first";
@@ -944,7 +945,7 @@ export function graphStatistics(graphOrIndexes: SoftwareGraph | QueryIndexes): G
   }
 
   const maximumDegree = [...degreeByNode.entries()]
-    .sort(([leftId, left], [rightId, right]) => right - left || leftId.localeCompare(rightId))[0];
+    .sort(([leftId, left], [rightId, right]) => right - left || compareCodeUnits(leftId, rightId))[0];
   const mostImportedModule = mostTargeted(indexes, "IMPORTS", (node) => node.type === "Module");
   const mostDependedUponService = mostTargeted(indexes, "DEPENDS_ON", (node) =>
     node.type === "Service" || node.name.endsWith("Service"),
@@ -1104,7 +1105,7 @@ function mostTargeted(
     }
   }
 
-  const top = [...counts.entries()].sort(([leftId, left], [rightId, right]) => right - left || leftId.localeCompare(rightId))[0];
+  const top = [...counts.entries()].sort(([leftId, left], [rightId, right]) => right - left || compareCodeUnits(leftId, rightId))[0];
   return { nodeId: top?.[0] ?? null, count: top?.[1] ?? 0 };
 }
 
@@ -1145,7 +1146,7 @@ function longestCallChain(indexes: QueryIndexes): readonly string[] {
 
   return sortedNodes([...indexes.nodeById.values()])
     .map((node) => visit(node.id, new Set()))
-    .sort((left, right) => right.length - left.length || left.join("\0").localeCompare(right.join("\0")))[0] ?? [];
+    .sort((left, right) => right.length - left.length || compareCodeUnits(left.join("\0"), right.join("\0")))[0] ?? [];
 }
 
 function averagePathLength(
@@ -1355,7 +1356,7 @@ function canonicalCycleKey(cycle: readonly string[]): string {
 }
 
 function compareIdArrays(left: readonly string[], right: readonly string[]): number {
-  return left.join("\0").localeCompare(right.join("\0"));
+  return compareCodeUnits(left.join("\0"), right.join("\0"));
 }
 
 function countValues(values: readonly string[]): Record<string, number> {
@@ -1365,7 +1366,7 @@ function countValues(values: readonly string[]): Record<string, number> {
     counts.set(value, (counts.get(value) ?? 0) + 1);
   }
 
-  return Object.fromEntries([...counts.entries()].sort(([left], [right]) => left.localeCompare(right)));
+  return Object.fromEntries([...counts.entries()].sort(([left], [right]) => compareCodeUnits(left, right)));
 }
 
 function push<K, V>(map: Map<K, V[]>, key: K, value: V): void {
@@ -1396,11 +1397,11 @@ function sortedNodes(nodes: readonly SoftwareGraphNode[]): readonly SoftwareGrap
 }
 
 function compareNodes(left: SoftwareGraphNode, right: SoftwareGraphNode): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareEdges(left: SoftwareGraphEdge, right: SoftwareGraphEdge): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function isNode(node: SoftwareGraphNode | undefined): node is SoftwareGraphNode {

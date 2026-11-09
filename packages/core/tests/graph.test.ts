@@ -1,5 +1,17 @@
 import { describe, expect, it } from "vitest";
-import { createEdgeId, createNodeId, createSoftwareGraph, stableStringify } from "../src/index";
+import {
+  compareCodeUnits,
+  createEdgeId,
+  createNodeId,
+  createSoftwareGraph,
+  stableHash,
+  stableStringify,
+} from "../src/index";
+
+const EDGES_THAT_COLLIDED_IN_32_BITS = [
+  { type: "CALLS", from: "fn:src/caller547101.ts:run", to: "fn:src/target.ts:handle" },
+  { type: "CALLS", from: "fn:src/caller1001400.ts:run", to: "fn:src/target.ts:handle" },
+] as const;
 
 describe("software graph core", () => {
   it("creates stable IDs and deterministic graph hashes", () => {
@@ -49,7 +61,7 @@ describe("software graph core", () => {
       }
       const entries = Object.entries(value as Record<string, unknown>)
         .filter(([, entryValue]) => entryValue !== undefined)
-        .sort(([left], [right]) => left.localeCompare(right));
+        .sort(([left], [right]) => compareCodeUnits(left, right));
       return `{${entries.map(([key, entryValue]) => `${JSON.stringify(key)}:${previous(entryValue)}`).join(",")}}`;
     };
     const sparse: unknown[] = [1];
@@ -65,5 +77,19 @@ describe("software graph core", () => {
       expect(stableStringify(sample)).toBe(previous(sample));
       expect(stableStringify(sample)).toBe(previous(sample));
     }
+  });
+
+  it("hashes with FNV-1a 64", () => {
+    expect([stableHash(""), stableHash("a"), stableHash("foobar")]).toEqual([
+      "cbf29ce484222325",
+      "af63dc4c8601ec8c",
+      "85944171f73967e8",
+    ]);
+  });
+
+  it("gives distinct ids to edges whose 32-bit ids collided", () => {
+    const ids = EDGES_THAT_COLLIDED_IN_32_BITS.map((edge) => createEdgeId(edge.type, edge.from, edge.to));
+
+    expect(new Set(ids).size).toBe(2);
   });
 });

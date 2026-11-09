@@ -1,4 +1,4 @@
-import type { JsonObject, SoftwareGraphDiagnostic, SourceSpan } from "@0xsarwagya/ontoly-core";
+import { compareCodeUnits, type JsonObject, type SoftwareGraphDiagnostic, type SourceSpan } from "@0xsarwagya/ontoly-core";
 import { createDiagnostic } from "@0xsarwagya/ontoly-diagnostics";
 import type { DiagnosticSink } from "../types";
 
@@ -10,7 +10,7 @@ export function createDiagnosticSink(): DiagnosticSink {
       diagnostics.set(diagnostic.id, diagnostic);
       return diagnostic;
     },
-    list: () => [...diagnostics.values()].sort((left, right) => left.id.localeCompare(right.id)),
+    list: () => [...diagnostics.values()].sort((left, right) => compareCodeUnits(left.id, right.id)),
     hasErrors: () => [...diagnostics.values()].some((diagnostic) => diagnostic.severity === "error"),
   };
 }

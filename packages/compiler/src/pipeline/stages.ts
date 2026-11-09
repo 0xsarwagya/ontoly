@@ -1,4 +1,5 @@
 import { persistCompilerSnapshot, persistGraph } from "@0xsarwagya/ontoly-cache";
+import { compareCodeUnits } from "@0xsarwagya/ontoly-core";
 import { compilerDiagnostic } from "../diagnostics";
 import { createCompilerGraphBuilder } from "../graph";
 import { discoverRepository, createSourceInventory } from "../repository";
@@ -225,7 +226,7 @@ function createDefaultStage(id: CompilerStageId): CompilerStage {
                 graph,
                 compilerCacheOptions(context),
                 (productsDigest) => createCompilerCacheManifest(context, state, graph, productsDigest),
-                Object.fromEntries([...state.products.entries()].sort(([left], [right]) => left.localeCompare(right))),
+                Object.fromEntries([...state.products.entries()].sort(([left], [right]) => compareCodeUnits(left, right))),
               )
               : undefined,
           ]);

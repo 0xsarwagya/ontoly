@@ -74,4 +74,15 @@ describe("compiler graph builder", () => {
     ]);
     expect(graph.metadata.parserVersions.typescript).toBe("test");
   });
+
+  it("keeps edges whose 32-bit ids collided", () => {
+    const builder = createCompilerGraphBuilder();
+    for (const from of ["fn:src/caller547101.ts:run", "fn:src/caller1001400.ts:run"]) {
+      builder.addRelationship({ type: "CALLS", from, to: "fn:src/target.ts:handle" });
+    }
+
+    const graph = builder.build({ repository: { root: "/repo", name: "repo" }, fileCount: 1 });
+
+    expect(graph.edges).toHaveLength(2);
+  });
 });

@@ -163,7 +163,7 @@ Every portable enhancer ships an `enhancer.json`.
     }
   ],
   "dependencies": [],
-  "supportedGraphVersion": "1.0.0",
+  "supportedGraphVersion": "2.0.0",
   "supportsIncremental": true
 }
 ```

@@ -1,3 +1,4 @@
+import { compareCodeUnits } from "@0xsarwagya/ontoly-core";
 import { COMPILER_STAGE_IDS, type CompilerPass, type CompilerStageId, type PassExecutionRecord, type PassManager } from "../types";
 
 export function createPassManager(passes: readonly CompilerPass[]): PassManager {
@@ -155,5 +156,5 @@ function comparePassIds(
     return leftStageRank - rightStageRank;
   }
 
-  return left.localeCompare(right);
+  return compareCodeUnits(left, right);
 }

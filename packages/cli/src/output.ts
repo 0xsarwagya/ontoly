@@ -5,6 +5,7 @@ import {
   type SemanticCoverageReport,
 } from "@0xsarwagya/ontoly-analyzers";
 import {
+  compareCodeUnits,
   stableHash,
   type NodeType,
   type RelationshipType,
@@ -349,7 +350,7 @@ function groupNodesByType(nodes: readonly SoftwareGraphNode[]): readonly (readon
   }
   return [...groups.entries()]
     .map(([type, values]) => [type, values.sort(compareNodes)] as const)
-    .sort(([left], [right]) => left.localeCompare(right));
+    .sort(([left], [right]) => compareCodeUnits(left, right));
 }
 
 function groupEdgesByType(edges: readonly SoftwareGraphEdge[]): readonly (readonly [RelationshipType, readonly SoftwareGraphEdge[]])[] {
@@ -364,7 +365,7 @@ function groupEdgesByType(edges: readonly SoftwareGraphEdge[]): readonly (readon
   }
   return [...groups.entries()]
     .map(([type, values]) => [type, values.sort(compareEdges)] as const)
-    .sort(([left], [right]) => left.localeCompare(right));
+    .sort(([left], [right]) => compareCodeUnits(left, right));
 }
 
 function detectGraphCommunities(graph: SoftwareGraph): readonly GraphCommunityDetail[] {
@@ -436,11 +437,11 @@ function detectGraphCommunities(graph: SoftwareGraph): readonly GraphCommunityDe
   }
 
   return components
-    .sort((left, right) => right.nodes.length - left.nodes.length || left.nodes[0]?.id.localeCompare(right.nodes[0]?.id ?? "") || 0)
+    .sort((left, right) => right.nodes.length - left.nodes.length || compareCodeUnits(left.nodes[0]?.id ?? "", right.nodes[0]?.id ?? ""))
     .map((component, index): GraphCommunityDetail => {
       const nodeIds = component.nodes.map((node) => node.id).sort();
       const representativeNodes = [...component.nodes]
-        .sort((left, right) => (degree.get(right.id) ?? 0) - (degree.get(left.id) ?? 0) || left.id.localeCompare(right.id))
+        .sort((left, right) => (degree.get(right.id) ?? 0) - (degree.get(left.id) ?? 0) || compareCodeUnits(left.id, right.id))
         .slice(0, 10)
         .map((node) => ({
           id: node.id,
@@ -468,7 +469,7 @@ function countBy(values: readonly string[]): Record<string, number> {
   for (const value of values) {
     counts.set(value, (counts.get(value) ?? 0) + 1);
   }
-  return Object.fromEntries([...counts.entries()].sort(([left], [right]) => left.localeCompare(right)));
+  return Object.fromEntries([...counts.entries()].sort(([left], [right]) => compareCodeUnits(left, right)));
 }
 
 function kebabCase(value: string): string {
@@ -479,9 +480,9 @@ function kebabCase(value: string): string {
 }
 
 function compareNodes(left: SoftwareGraphNode, right: SoftwareGraphNode): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareEdges(left: SoftwareGraphEdge, right: SoftwareGraphEdge): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }

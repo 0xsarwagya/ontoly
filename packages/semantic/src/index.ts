@@ -1,4 +1,5 @@
 import {
+  compareCodeUnits,
   createEdgeId,
   createNodeId,
   createSyntaxEvidence,
@@ -3563,29 +3564,29 @@ function addRelationship(relationships: Map<string, CompilerRelationship>, relat
 }
 
 function compareAnalyzers(left: FrameworkAnalyzer, right: FrameworkAnalyzer): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareDetections(left: DetectionResult, right: DetectionResult): number {
-  return left.framework.localeCompare(right.framework);
+  return compareCodeUnits(left.framework, right.framework);
 }
 
 function compareFacts(left: SemanticFact, right: SemanticFact): number {
-  return stableString(left).localeCompare(stableString(right));
+  return compareCodeUnits(stableString(left), stableString(right));
 }
 
 function compareSymbols(left: CompilerSymbol, right: CompilerSymbol): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareRelationships(left: CompilerRelationship, right: CompilerRelationship): number {
   const leftId = left.id ?? createEdgeId(left.type, left.from, left.to);
   const rightId = right.id ?? createEdgeId(right.type, right.from, right.to);
-  return leftId.localeCompare(rightId);
+  return compareCodeUnits(leftId, rightId);
 }
 
 function compareByStableJson<T>(left: T, right: T): number {
-  return stableString(left).localeCompare(stableString(right));
+  return compareCodeUnits(stableString(left), stableString(right));
 }
 
 function stableString(value: unknown): string {

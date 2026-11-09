@@ -11,26 +11,6 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
           "description": "calls target",
           "kind": "syntax",
           "span": {
-            "endColumn": 67,
-            "endLine": 6,
-            "file": "src/index.ts",
-            "startColumn": 10,
-            "startLine": 6,
-          },
-        },
-      ],
-      "from": "fn:src/index.ts:main",
-      "id": "edge:calls:0to27tf",
-      "to": "method:src/service.ts:UserService.load",
-      "type": "CALLS",
-    },
-    {
-      "evidence": [
-        {
-          "confidence": "exact",
-          "description": "calls target",
-          "kind": "syntax",
-          "span": {
             "endColumn": 36,
             "endLine": 5,
             "file": "src/service.ts",
@@ -40,8 +20,28 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
         },
       ],
       "from": "method:src/service.ts:UserService.load",
-      "id": "edge:calls:1c8riig",
+      "id": "edge:calls:ddfddf10b460b8b8",
       "to": "fn:src/auth.ts:requireUser",
+      "type": "CALLS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "calls target",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 67,
+            "endLine": 6,
+            "file": "src/index.ts",
+            "startColumn": 10,
+            "startLine": 6,
+          },
+        },
+      ],
+      "from": "fn:src/index.ts:main",
+      "id": "edge:calls:ed6f0d47e2726633",
+      "to": "method:src/service.ts:UserService.load",
       "type": "CALLS",
     },
     {
@@ -52,66 +52,6 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
           "kind": "syntax",
           "span": {
             "endColumn": 2,
-            "endLine": 4,
-            "file": "src/auth.ts",
-            "startColumn": 1,
-            "startLine": 1,
-          },
-        },
-      ],
-      "from": "mod:src/auth.ts",
-      "id": "edge:contains:05rl8cb",
-      "to": "export:src/auth.ts:User",
-      "type": "CONTAINS",
-    },
-    {
-      "evidence": [
-        {
-          "confidence": "exact",
-          "description": "module contains import",
-          "kind": "syntax",
-          "span": {
-            "endColumn": 49,
-            "endLine": 1,
-            "file": "src/service.ts",
-            "startColumn": 1,
-            "startLine": 1,
-          },
-        },
-      ],
-      "from": "mod:src/service.ts",
-      "id": "edge:contains:06w1zak",
-      "to": "import:src/service.ts:./auth:0gnx4yh",
-      "type": "CONTAINS",
-    },
-    {
-      "evidence": [
-        {
-          "confidence": "exact",
-          "description": "module contains import",
-          "kind": "syntax",
-          "span": {
-            "endColumn": 41,
-            "endLine": 1,
-            "file": "src/index.ts",
-            "startColumn": 1,
-            "startLine": 1,
-          },
-        },
-      ],
-      "from": "mod:src/index.ts",
-      "id": "edge:contains:07hmxxw",
-      "to": "import:src/index.ts:./service:04s3y31",
-      "type": "CONTAINS",
-    },
-    {
-      "evidence": [
-        {
-          "confidence": "exact",
-          "description": "module contains Function",
-          "kind": "syntax",
-          "span": {
-            "endColumn": 2,
             "endLine": 12,
             "file": "src/auth.ts",
             "startColumn": 1,
@@ -120,96 +60,7 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
         },
       ],
       "from": "mod:src/auth.ts",
-      "id": "edge:contains:0i3rfju",
-      "metadata": {
-        "ownerKind": "Module",
-      },
-      "to": "fn:src/auth.ts:requireUser",
-      "type": "CONTAINS",
-    },
-    {
-      "evidence": [
-        {
-          "confidence": "exact",
-          "description": "module contains export",
-          "kind": "syntax",
-          "span": {
-            "endColumn": 2,
-            "endLine": 7,
-            "file": "src/service.ts",
-            "startColumn": 1,
-            "startLine": 3,
-          },
-        },
-      ],
-      "from": "mod:src/service.ts",
-      "id": "edge:contains:0n0xh9m",
-      "to": "export:src/service.ts:UserService",
-      "type": "CONTAINS",
-    },
-    {
-      "evidence": [
-        {
-          "confidence": "exact",
-          "description": "module contains Class",
-          "kind": "syntax",
-          "span": {
-            "endColumn": 2,
-            "endLine": 7,
-            "file": "src/service.ts",
-            "startColumn": 1,
-            "startLine": 3,
-          },
-        },
-      ],
-      "from": "mod:src/service.ts",
-      "id": "edge:contains:0n618au",
-      "metadata": {
-        "ownerKind": "Module",
-      },
-      "to": "class:src/service.ts:UserService",
-      "type": "CONTAINS",
-    },
-    {
-      "evidence": [
-        {
-          "confidence": "exact",
-          "description": "module contains Function",
-          "kind": "syntax",
-          "span": {
-            "endColumn": 2,
-            "endLine": 7,
-            "file": "src/index.ts",
-            "startColumn": 1,
-            "startLine": 5,
-          },
-        },
-      ],
-      "from": "mod:src/index.ts",
-      "id": "edge:contains:0xvcjrv",
-      "metadata": {
-        "ownerKind": "Module",
-      },
-      "to": "fn:src/index.ts:main",
-      "type": "CONTAINS",
-    },
-    {
-      "evidence": [
-        {
-          "confidence": "exact",
-          "description": "module contains export",
-          "kind": "syntax",
-          "span": {
-            "endColumn": 2,
-            "endLine": 12,
-            "file": "src/auth.ts",
-            "startColumn": 1,
-            "startLine": 6,
-          },
-        },
-      ],
-      "from": "mod:src/auth.ts",
-      "id": "edge:contains:146rmxo",
+      "id": "edge:contains:0d94362fe4a0a5dc",
       "to": "export:src/auth.ts:requireUser",
       "type": "CONTAINS",
     },
@@ -221,26 +72,6 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
           "kind": "syntax",
           "span": {
             "endColumn": 2,
-            "endLine": 7,
-            "file": "src/index.ts",
-            "startColumn": 1,
-            "startLine": 5,
-          },
-        },
-      ],
-      "from": "mod:src/index.ts",
-      "id": "edge:contains:1rcks5p",
-      "to": "export:src/index.ts:main",
-      "type": "CONTAINS",
-    },
-    {
-      "evidence": [
-        {
-          "confidence": "exact",
-          "description": "module contains Interface",
-          "kind": "syntax",
-          "span": {
-            "endColumn": 2,
             "endLine": 4,
             "file": "src/auth.ts",
             "startColumn": 1,
@@ -249,11 +80,8 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
         },
       ],
       "from": "mod:src/auth.ts",
-      "id": "edge:contains:1vdf5tv",
-      "metadata": {
-        "ownerKind": "Module",
-      },
-      "to": "iface:src/auth.ts:User",
+      "id": "edge:contains:1f2efa2ee0011a5b",
+      "to": "export:src/auth.ts:User",
       "type": "CONTAINS",
     },
     {
@@ -272,11 +100,183 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
         },
       ],
       "from": "class:src/service.ts:UserService",
-      "id": "edge:contains:1y9mzvf",
+      "id": "edge:contains:52344aef10f280fb",
       "metadata": {
         "ownerKind": "Class",
       },
       "to": "method:src/service.ts:UserService.load",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "module contains export",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 7,
+            "file": "src/service.ts",
+            "startColumn": 1,
+            "startLine": 3,
+          },
+        },
+      ],
+      "from": "mod:src/service.ts",
+      "id": "edge:contains:6eccb2c3ef849a0a",
+      "to": "export:src/service.ts:UserService",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "module contains import",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 49,
+            "endLine": 1,
+            "file": "src/service.ts",
+            "startColumn": 1,
+            "startLine": 1,
+          },
+        },
+      ],
+      "from": "mod:src/service.ts",
+      "id": "edge:contains:6f67b5856723fd36",
+      "to": "import:src/service.ts:./auth:b00d2cde7a43d599",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "module contains Interface",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 4,
+            "file": "src/auth.ts",
+            "startColumn": 1,
+            "startLine": 1,
+          },
+        },
+      ],
+      "from": "mod:src/auth.ts",
+      "id": "edge:contains:b33edbe41ebc99a3",
+      "metadata": {
+        "ownerKind": "Module",
+      },
+      "to": "iface:src/auth.ts:User",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "module contains Function",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 12,
+            "file": "src/auth.ts",
+            "startColumn": 1,
+            "startLine": 6,
+          },
+        },
+      ],
+      "from": "mod:src/auth.ts",
+      "id": "edge:contains:b597e037d49dffda",
+      "metadata": {
+        "ownerKind": "Module",
+      },
+      "to": "fn:src/auth.ts:requireUser",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "module contains export",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 7,
+            "file": "src/index.ts",
+            "startColumn": 1,
+            "startLine": 5,
+          },
+        },
+      ],
+      "from": "mod:src/index.ts",
+      "id": "edge:contains:d8aba77d48a00ded",
+      "to": "export:src/index.ts:main",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "module contains Function",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 7,
+            "file": "src/index.ts",
+            "startColumn": 1,
+            "startLine": 5,
+          },
+        },
+      ],
+      "from": "mod:src/index.ts",
+      "id": "edge:contains:e54e61dcf459d31b",
+      "metadata": {
+        "ownerKind": "Module",
+      },
+      "to": "fn:src/index.ts:main",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "module contains Class",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 7,
+            "file": "src/service.ts",
+            "startColumn": 1,
+            "startLine": 3,
+          },
+        },
+      ],
+      "from": "mod:src/service.ts",
+      "id": "edge:contains:efe64445005fc486",
+      "metadata": {
+        "ownerKind": "Module",
+      },
+      "to": "class:src/service.ts:UserService",
+      "type": "CONTAINS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "module contains import",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 41,
+            "endLine": 1,
+            "file": "src/index.ts",
+            "startColumn": 1,
+            "startLine": 1,
+          },
+        },
+      ],
+      "from": "mod:src/index.ts",
+      "id": "edge:contains:fcc4b108d64e8bf7",
+      "to": "import:src/index.ts:./service:8d2044af1bf5cd8d",
       "type": "CONTAINS",
     },
     {
@@ -295,9 +295,57 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
         },
       ],
       "from": "mod:src/index.ts",
-      "id": "edge:creates:0gw89jf",
+      "id": "edge:creates:ad0514e08f156bab",
       "to": "class:src/service.ts:UserService",
       "type": "CREATES",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "exports UserService",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 7,
+            "file": "src/service.ts",
+            "startColumn": 1,
+            "startLine": 3,
+          },
+        },
+      ],
+      "from": "mod:src/service.ts",
+      "id": "edge:exports:1eb166bf977a5c5e",
+      "metadata": {
+        "exportNodeId": "export:src/service.ts:UserService",
+        "name": "UserService",
+      },
+      "to": "class:src/service.ts:UserService",
+      "type": "EXPORTS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "exports requireUser",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 2,
+            "endLine": 12,
+            "file": "src/auth.ts",
+            "startColumn": 1,
+            "startLine": 6,
+          },
+        },
+      ],
+      "from": "mod:src/auth.ts",
+      "id": "edge:exports:54f77d85e4e85162",
+      "metadata": {
+        "exportNodeId": "export:src/auth.ts:requireUser",
+        "name": "requireUser",
+      },
+      "to": "fn:src/auth.ts:requireUser",
+      "type": "EXPORTS",
     },
     {
       "evidence": [
@@ -315,7 +363,7 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
         },
       ],
       "from": "mod:src/auth.ts",
-      "id": "edge:exports:020gsd7",
+      "id": "edge:exports:9061decb76c5e27b",
       "metadata": {
         "exportNodeId": "export:src/auth.ts:User",
         "name": "User",
@@ -339,85 +387,13 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
         },
       ],
       "from": "mod:src/index.ts",
-      "id": "edge:exports:035i92r",
+      "id": "edge:exports:a8dfc60c530e95f3",
       "metadata": {
         "exportNodeId": "export:src/index.ts:main",
         "name": "main",
       },
       "to": "fn:src/index.ts:main",
       "type": "EXPORTS",
-    },
-    {
-      "evidence": [
-        {
-          "confidence": "exact",
-          "description": "exports requireUser",
-          "kind": "syntax",
-          "span": {
-            "endColumn": 2,
-            "endLine": 12,
-            "file": "src/auth.ts",
-            "startColumn": 1,
-            "startLine": 6,
-          },
-        },
-      ],
-      "from": "mod:src/auth.ts",
-      "id": "edge:exports:09b5jlu",
-      "metadata": {
-        "exportNodeId": "export:src/auth.ts:requireUser",
-        "name": "requireUser",
-      },
-      "to": "fn:src/auth.ts:requireUser",
-      "type": "EXPORTS",
-    },
-    {
-      "evidence": [
-        {
-          "confidence": "exact",
-          "description": "exports UserService",
-          "kind": "syntax",
-          "span": {
-            "endColumn": 2,
-            "endLine": 7,
-            "file": "src/service.ts",
-            "startColumn": 1,
-            "startLine": 3,
-          },
-        },
-      ],
-      "from": "mod:src/service.ts",
-      "id": "edge:exports:0bfgavy",
-      "metadata": {
-        "exportNodeId": "export:src/service.ts:UserService",
-        "name": "UserService",
-      },
-      "to": "class:src/service.ts:UserService",
-      "type": "EXPORTS",
-    },
-    {
-      "evidence": [
-        {
-          "confidence": "exact",
-          "description": "imports ./service",
-          "kind": "syntax",
-          "span": {
-            "endColumn": 41,
-            "endLine": 1,
-            "file": "src/index.ts",
-            "startColumn": 1,
-            "startLine": 1,
-          },
-        },
-      ],
-      "from": "mod:src/index.ts",
-      "id": "edge:imports:01cxmtc",
-      "metadata": {
-        "importNodeId": "import:src/index.ts:./service:04s3y31",
-        "specifier": "./service",
-      },
-      "to": "mod:src/service.ts",
-      "type": "IMPORTS",
     },
     {
       "evidence": [
@@ -435,12 +411,36 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
         },
       ],
       "from": "mod:src/service.ts",
-      "id": "edge:imports:17139sq",
+      "id": "edge:imports:908e701e9dad67fa",
       "metadata": {
-        "importNodeId": "import:src/service.ts:./auth:0gnx4yh",
+        "importNodeId": "import:src/service.ts:./auth:b00d2cde7a43d599",
         "specifier": "./auth",
       },
       "to": "mod:src/auth.ts",
+      "type": "IMPORTS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "imports ./service",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 41,
+            "endLine": 1,
+            "file": "src/index.ts",
+            "startColumn": 1,
+            "startLine": 1,
+          },
+        },
+      ],
+      "from": "mod:src/index.ts",
+      "id": "edge:imports:d44b7ed195039060",
+      "metadata": {
+        "importNodeId": "import:src/index.ts:./service:8d2044af1bf5cd8d",
+        "specifier": "./service",
+      },
+      "to": "mod:src/service.ts",
       "type": "IMPORTS",
     },
     {
@@ -459,7 +459,7 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
         },
       ],
       "from": "mod:src/service.ts",
-      "id": "edge:provides:1tgbk38",
+      "id": "edge:provides:55361163b5dec914",
       "metadata": {
         "roleKind": "Service",
       },
@@ -482,35 +482,12 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
         },
       ],
       "from": "service:src/service.ts:UserService",
-      "id": "edge:references:136pqlu",
+      "id": "edge:references:fe5ac686c752d012",
       "metadata": {
         "roleKind": "Service",
       },
       "to": "class:src/service.ts:UserService",
       "type": "REFERENCES",
-    },
-    {
-      "evidence": [
-        {
-          "confidence": "exact",
-          "description": "return-type references type",
-          "kind": "syntax",
-          "span": {
-            "endColumn": 44,
-            "endLine": 4,
-            "file": "src/service.ts",
-            "startColumn": 40,
-            "startLine": 4,
-          },
-        },
-      ],
-      "from": "method:src/service.ts:UserService.load",
-      "id": "edge:returns:0kq59oj",
-      "metadata": {
-        "usage": "return-type",
-      },
-      "to": "iface:src/auth.ts:User",
-      "type": "RETURNS",
     },
     {
       "evidence": [
@@ -528,7 +505,30 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
         },
       ],
       "from": "fn:src/auth.ts:requireUser",
-      "id": "edge:returns:15frxyl",
+      "id": "edge:returns:7333cb53f52b1a8d",
+      "metadata": {
+        "usage": "return-type",
+      },
+      "to": "iface:src/auth.ts:User",
+      "type": "RETURNS",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "return-type references type",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 44,
+            "endLine": 4,
+            "file": "src/service.ts",
+            "startColumn": 40,
+            "startLine": 4,
+          },
+        },
+      ],
+      "from": "method:src/service.ts:UserService.load",
+      "id": "edge:returns:e10919be5f9b02a3",
       "metadata": {
         "usage": "return-type",
       },
@@ -551,32 +551,9 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
         },
       ],
       "from": "fn:src/auth.ts:requireUser",
-      "id": "edge:throws:1e4nfl9",
+      "id": "edge:throws:197706d489b5304d",
       "to": "exception:Error",
       "type": "THROWS",
-    },
-    {
-      "evidence": [
-        {
-          "confidence": "exact",
-          "description": "parameter-type references type",
-          "kind": "syntax",
-          "span": {
-            "endColumn": 39,
-            "endLine": 6,
-            "file": "src/auth.ts",
-            "startColumn": 35,
-            "startLine": 6,
-          },
-        },
-      ],
-      "from": "fn:src/auth.ts:requireUser",
-      "id": "edge:uses:056jt5w",
-      "metadata": {
-        "usage": "parameter-type",
-      },
-      "to": "iface:src/auth.ts:User",
-      "type": "USES",
     },
     {
       "evidence": [
@@ -594,7 +571,30 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
         },
       ],
       "from": "method:src/service.ts:UserService.load",
-      "id": "edge:uses:06s6fpu",
+      "id": "edge:uses:41b5289c6b4508b2",
+      "metadata": {
+        "usage": "parameter-type",
+      },
+      "to": "iface:src/auth.ts:User",
+      "type": "USES",
+    },
+    {
+      "evidence": [
+        {
+          "confidence": "exact",
+          "description": "parameter-type references type",
+          "kind": "syntax",
+          "span": {
+            "endColumn": 39,
+            "endLine": 6,
+            "file": "src/auth.ts",
+            "startColumn": 35,
+            "startLine": 6,
+          },
+        },
+      ],
+      "from": "fn:src/auth.ts:requireUser",
+      "id": "edge:uses:7d1666909913e7c4",
       "metadata": {
         "usage": "parameter-type",
       },
@@ -605,177 +605,177 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
   "indexes": {
     "edgeIdsBySourceAndType": {
       "class:src/service.ts:UserService:CONTAINS": [
-        "edge:contains:1y9mzvf",
+        "edge:contains:52344aef10f280fb",
       ],
       "fn:src/auth.ts:requireUser:RETURNS": [
-        "edge:returns:15frxyl",
+        "edge:returns:7333cb53f52b1a8d",
       ],
       "fn:src/auth.ts:requireUser:THROWS": [
-        "edge:throws:1e4nfl9",
+        "edge:throws:197706d489b5304d",
       ],
       "fn:src/auth.ts:requireUser:USES": [
-        "edge:uses:056jt5w",
+        "edge:uses:7d1666909913e7c4",
       ],
       "fn:src/index.ts:main:CALLS": [
-        "edge:calls:0to27tf",
+        "edge:calls:ed6f0d47e2726633",
       ],
       "method:src/service.ts:UserService.load:CALLS": [
-        "edge:calls:1c8riig",
+        "edge:calls:ddfddf10b460b8b8",
       ],
       "method:src/service.ts:UserService.load:RETURNS": [
-        "edge:returns:0kq59oj",
+        "edge:returns:e10919be5f9b02a3",
       ],
       "method:src/service.ts:UserService.load:USES": [
-        "edge:uses:06s6fpu",
+        "edge:uses:41b5289c6b4508b2",
       ],
       "mod:src/auth.ts:CONTAINS": [
-        "edge:contains:05rl8cb",
-        "edge:contains:0i3rfju",
-        "edge:contains:146rmxo",
-        "edge:contains:1vdf5tv",
+        "edge:contains:0d94362fe4a0a5dc",
+        "edge:contains:1f2efa2ee0011a5b",
+        "edge:contains:b33edbe41ebc99a3",
+        "edge:contains:b597e037d49dffda",
       ],
       "mod:src/auth.ts:EXPORTS": [
-        "edge:exports:020gsd7",
-        "edge:exports:09b5jlu",
+        "edge:exports:54f77d85e4e85162",
+        "edge:exports:9061decb76c5e27b",
       ],
       "mod:src/index.ts:CONTAINS": [
-        "edge:contains:07hmxxw",
-        "edge:contains:0xvcjrv",
-        "edge:contains:1rcks5p",
+        "edge:contains:d8aba77d48a00ded",
+        "edge:contains:e54e61dcf459d31b",
+        "edge:contains:fcc4b108d64e8bf7",
       ],
       "mod:src/index.ts:CREATES": [
-        "edge:creates:0gw89jf",
+        "edge:creates:ad0514e08f156bab",
       ],
       "mod:src/index.ts:EXPORTS": [
-        "edge:exports:035i92r",
+        "edge:exports:a8dfc60c530e95f3",
       ],
       "mod:src/index.ts:IMPORTS": [
-        "edge:imports:01cxmtc",
+        "edge:imports:d44b7ed195039060",
       ],
       "mod:src/service.ts:CONTAINS": [
-        "edge:contains:06w1zak",
-        "edge:contains:0n0xh9m",
-        "edge:contains:0n618au",
+        "edge:contains:6eccb2c3ef849a0a",
+        "edge:contains:6f67b5856723fd36",
+        "edge:contains:efe64445005fc486",
       ],
       "mod:src/service.ts:EXPORTS": [
-        "edge:exports:0bfgavy",
+        "edge:exports:1eb166bf977a5c5e",
       ],
       "mod:src/service.ts:IMPORTS": [
-        "edge:imports:17139sq",
+        "edge:imports:908e701e9dad67fa",
       ],
       "mod:src/service.ts:PROVIDES": [
-        "edge:provides:1tgbk38",
+        "edge:provides:55361163b5dec914",
       ],
       "service:src/service.ts:UserService:REFERENCES": [
-        "edge:references:136pqlu",
+        "edge:references:fe5ac686c752d012",
       ],
     },
     "edgeIdsByType": {
       "CALLS": [
-        "edge:calls:0to27tf",
-        "edge:calls:1c8riig",
+        "edge:calls:ddfddf10b460b8b8",
+        "edge:calls:ed6f0d47e2726633",
       ],
       "CONTAINS": [
-        "edge:contains:05rl8cb",
-        "edge:contains:06w1zak",
-        "edge:contains:07hmxxw",
-        "edge:contains:0i3rfju",
-        "edge:contains:0n0xh9m",
-        "edge:contains:0n618au",
-        "edge:contains:0xvcjrv",
-        "edge:contains:146rmxo",
-        "edge:contains:1rcks5p",
-        "edge:contains:1vdf5tv",
-        "edge:contains:1y9mzvf",
+        "edge:contains:0d94362fe4a0a5dc",
+        "edge:contains:1f2efa2ee0011a5b",
+        "edge:contains:52344aef10f280fb",
+        "edge:contains:6eccb2c3ef849a0a",
+        "edge:contains:6f67b5856723fd36",
+        "edge:contains:b33edbe41ebc99a3",
+        "edge:contains:b597e037d49dffda",
+        "edge:contains:d8aba77d48a00ded",
+        "edge:contains:e54e61dcf459d31b",
+        "edge:contains:efe64445005fc486",
+        "edge:contains:fcc4b108d64e8bf7",
       ],
       "CREATES": [
-        "edge:creates:0gw89jf",
+        "edge:creates:ad0514e08f156bab",
       ],
       "EXPORTS": [
-        "edge:exports:020gsd7",
-        "edge:exports:035i92r",
-        "edge:exports:09b5jlu",
-        "edge:exports:0bfgavy",
+        "edge:exports:1eb166bf977a5c5e",
+        "edge:exports:54f77d85e4e85162",
+        "edge:exports:9061decb76c5e27b",
+        "edge:exports:a8dfc60c530e95f3",
       ],
       "IMPORTS": [
-        "edge:imports:01cxmtc",
-        "edge:imports:17139sq",
+        "edge:imports:908e701e9dad67fa",
+        "edge:imports:d44b7ed195039060",
       ],
       "PROVIDES": [
-        "edge:provides:1tgbk38",
+        "edge:provides:55361163b5dec914",
       ],
       "REFERENCES": [
-        "edge:references:136pqlu",
+        "edge:references:fe5ac686c752d012",
       ],
       "RETURNS": [
-        "edge:returns:0kq59oj",
-        "edge:returns:15frxyl",
+        "edge:returns:7333cb53f52b1a8d",
+        "edge:returns:e10919be5f9b02a3",
       ],
       "THROWS": [
-        "edge:throws:1e4nfl9",
+        "edge:throws:197706d489b5304d",
       ],
       "USES": [
-        "edge:uses:056jt5w",
-        "edge:uses:06s6fpu",
+        "edge:uses:41b5289c6b4508b2",
+        "edge:uses:7d1666909913e7c4",
       ],
     },
     "inboundEdgeIdsByNodeId": {
       "class:src/service.ts:UserService": [
-        "edge:contains:0n618au",
-        "edge:creates:0gw89jf",
-        "edge:exports:0bfgavy",
-        "edge:references:136pqlu",
+        "edge:contains:efe64445005fc486",
+        "edge:creates:ad0514e08f156bab",
+        "edge:exports:1eb166bf977a5c5e",
+        "edge:references:fe5ac686c752d012",
       ],
       "exception:Error": [
-        "edge:throws:1e4nfl9",
+        "edge:throws:197706d489b5304d",
       ],
       "export:src/auth.ts:User": [
-        "edge:contains:05rl8cb",
+        "edge:contains:1f2efa2ee0011a5b",
       ],
       "export:src/auth.ts:requireUser": [
-        "edge:contains:146rmxo",
+        "edge:contains:0d94362fe4a0a5dc",
       ],
       "export:src/index.ts:main": [
-        "edge:contains:1rcks5p",
+        "edge:contains:d8aba77d48a00ded",
       ],
       "export:src/service.ts:UserService": [
-        "edge:contains:0n0xh9m",
+        "edge:contains:6eccb2c3ef849a0a",
       ],
       "fn:src/auth.ts:requireUser": [
-        "edge:calls:1c8riig",
-        "edge:contains:0i3rfju",
-        "edge:exports:09b5jlu",
+        "edge:calls:ddfddf10b460b8b8",
+        "edge:contains:b597e037d49dffda",
+        "edge:exports:54f77d85e4e85162",
       ],
       "fn:src/index.ts:main": [
-        "edge:contains:0xvcjrv",
-        "edge:exports:035i92r",
+        "edge:contains:e54e61dcf459d31b",
+        "edge:exports:a8dfc60c530e95f3",
       ],
       "iface:src/auth.ts:User": [
-        "edge:contains:1vdf5tv",
-        "edge:exports:020gsd7",
-        "edge:returns:0kq59oj",
-        "edge:returns:15frxyl",
-        "edge:uses:056jt5w",
-        "edge:uses:06s6fpu",
+        "edge:contains:b33edbe41ebc99a3",
+        "edge:exports:9061decb76c5e27b",
+        "edge:returns:7333cb53f52b1a8d",
+        "edge:returns:e10919be5f9b02a3",
+        "edge:uses:41b5289c6b4508b2",
+        "edge:uses:7d1666909913e7c4",
       ],
-      "import:src/index.ts:./service:04s3y31": [
-        "edge:contains:07hmxxw",
+      "import:src/index.ts:./service:8d2044af1bf5cd8d": [
+        "edge:contains:fcc4b108d64e8bf7",
       ],
-      "import:src/service.ts:./auth:0gnx4yh": [
-        "edge:contains:06w1zak",
+      "import:src/service.ts:./auth:b00d2cde7a43d599": [
+        "edge:contains:6f67b5856723fd36",
       ],
       "method:src/service.ts:UserService.load": [
-        "edge:calls:0to27tf",
-        "edge:contains:1y9mzvf",
+        "edge:calls:ed6f0d47e2726633",
+        "edge:contains:52344aef10f280fb",
       ],
       "mod:src/auth.ts": [
-        "edge:imports:17139sq",
+        "edge:imports:908e701e9dad67fa",
       ],
       "mod:src/service.ts": [
-        "edge:imports:01cxmtc",
+        "edge:imports:d44b7ed195039060",
       ],
       "service:src/service.ts:UserService": [
-        "edge:provides:1tgbk38",
+        "edge:provides:55361163b5dec914",
       ],
     },
     "nodeIdsByType": {
@@ -796,8 +796,8 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
         "fn:src/index.ts:main",
       ],
       "Import": [
-        "import:src/index.ts:./service:04s3y31",
-        "import:src/service.ts:./auth:0gnx4yh",
+        "import:src/index.ts:./service:8d2044af1bf5cd8d",
+        "import:src/service.ts:./auth:b00d2cde7a43d599",
       ],
       "Interface": [
         "iface:src/auth.ts:User",
@@ -816,47 +816,47 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
     },
     "outboundEdgeIdsByNodeId": {
       "class:src/service.ts:UserService": [
-        "edge:contains:1y9mzvf",
+        "edge:contains:52344aef10f280fb",
       ],
       "fn:src/auth.ts:requireUser": [
-        "edge:returns:15frxyl",
-        "edge:throws:1e4nfl9",
-        "edge:uses:056jt5w",
+        "edge:returns:7333cb53f52b1a8d",
+        "edge:throws:197706d489b5304d",
+        "edge:uses:7d1666909913e7c4",
       ],
       "fn:src/index.ts:main": [
-        "edge:calls:0to27tf",
+        "edge:calls:ed6f0d47e2726633",
       ],
       "method:src/service.ts:UserService.load": [
-        "edge:calls:1c8riig",
-        "edge:returns:0kq59oj",
-        "edge:uses:06s6fpu",
+        "edge:calls:ddfddf10b460b8b8",
+        "edge:returns:e10919be5f9b02a3",
+        "edge:uses:41b5289c6b4508b2",
       ],
       "mod:src/auth.ts": [
-        "edge:contains:05rl8cb",
-        "edge:contains:0i3rfju",
-        "edge:contains:146rmxo",
-        "edge:contains:1vdf5tv",
-        "edge:exports:020gsd7",
-        "edge:exports:09b5jlu",
+        "edge:contains:0d94362fe4a0a5dc",
+        "edge:contains:1f2efa2ee0011a5b",
+        "edge:contains:b33edbe41ebc99a3",
+        "edge:contains:b597e037d49dffda",
+        "edge:exports:54f77d85e4e85162",
+        "edge:exports:9061decb76c5e27b",
       ],
       "mod:src/index.ts": [
-        "edge:contains:07hmxxw",
-        "edge:contains:0xvcjrv",
-        "edge:contains:1rcks5p",
-        "edge:creates:0gw89jf",
-        "edge:exports:035i92r",
-        "edge:imports:01cxmtc",
+        "edge:contains:d8aba77d48a00ded",
+        "edge:contains:e54e61dcf459d31b",
+        "edge:contains:fcc4b108d64e8bf7",
+        "edge:creates:ad0514e08f156bab",
+        "edge:exports:a8dfc60c530e95f3",
+        "edge:imports:d44b7ed195039060",
       ],
       "mod:src/service.ts": [
-        "edge:contains:06w1zak",
-        "edge:contains:0n0xh9m",
-        "edge:contains:0n618au",
-        "edge:exports:0bfgavy",
-        "edge:imports:17139sq",
-        "edge:provides:1tgbk38",
+        "edge:contains:6eccb2c3ef849a0a",
+        "edge:contains:6f67b5856723fd36",
+        "edge:contains:efe64445005fc486",
+        "edge:exports:1eb166bf977a5c5e",
+        "edge:imports:908e701e9dad67fa",
+        "edge:provides:55361163b5dec914",
       ],
       "service:src/service.ts:UserService": [
-        "edge:references:136pqlu",
+        "edge:references:fe5ac686c752d012",
       ],
     },
   },
@@ -922,31 +922,6 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
     },
     {
       "file": "src/auth.ts",
-      "id": "export:src/auth.ts:requireUser",
-      "metadata": {
-        "declarationKind": "function",
-        "exportKind": "value",
-        "language": "typescript",
-        "localName": "requireUser",
-        "provenance": {
-          "parser": "typescript",
-          "parserVersion": "5.9.2",
-          "passId": "@0xsarwagya/ontoly-parser-typescript:frontend",
-          "source": "typescript",
-        },
-      },
-      "name": "requireUser",
-      "span": {
-        "endColumn": 2,
-        "endLine": 12,
-        "file": "src/auth.ts",
-        "startColumn": 1,
-        "startLine": 6,
-      },
-      "type": "Export",
-    },
-    {
-      "file": "src/auth.ts",
       "id": "export:src/auth.ts:User",
       "metadata": {
         "declarationKind": "interface",
@@ -967,6 +942,31 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
         "file": "src/auth.ts",
         "startColumn": 1,
         "startLine": 1,
+      },
+      "type": "Export",
+    },
+    {
+      "file": "src/auth.ts",
+      "id": "export:src/auth.ts:requireUser",
+      "metadata": {
+        "declarationKind": "function",
+        "exportKind": "value",
+        "language": "typescript",
+        "localName": "requireUser",
+        "provenance": {
+          "parser": "typescript",
+          "parserVersion": "5.9.2",
+          "passId": "@0xsarwagya/ontoly-parser-typescript:frontend",
+          "source": "typescript",
+        },
+      },
+      "name": "requireUser",
+      "span": {
+        "endColumn": 2,
+        "endLine": 12,
+        "file": "src/auth.ts",
+        "startColumn": 1,
+        "startLine": 6,
       },
       "type": "Export",
     },
@@ -1106,7 +1106,7 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
     },
     {
       "file": "src/index.ts",
-      "id": "import:src/index.ts:./service:04s3y31",
+      "id": "import:src/index.ts:./service:8d2044af1bf5cd8d",
       "metadata": {
         "importKind": "value",
         "language": "typescript",
@@ -1135,7 +1135,7 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
     },
     {
       "file": "src/service.ts",
-      "id": "import:src/service.ts:./auth:0gnx4yh",
+      "id": "import:src/service.ts:./auth:b00d2cde7a43d599",
       "metadata": {
         "importKind": "value",
         "language": "typescript",
@@ -1290,6 +1290,6 @@ exports[`software graph snapshots > produces a deterministic graph for the basic
     "packageName": "@0xsarwagya/ontoly-example-basic",
     "root": "<root>",
   },
-  "version": "1.0.0",
+  "version": "2.0.0",
 }
 `;

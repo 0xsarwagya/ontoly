@@ -11,6 +11,7 @@ import type {
   SourceSpan,
 } from "@0xsarwagya/ontoly-core";
 import {
+  compareCodeUnits,
   createSemanticIndex,
   findFeature,
   resolveIntent,
@@ -361,7 +362,7 @@ export function createCapabilityRegistry(
   const capabilities = new Map<CapabilityName, Capability>();
 
   const registry: CapabilityRegistry = {
-    capabilities: () => [...capabilities.values()].sort((left, right) => left.name.localeCompare(right.name)),
+    capabilities: () => [...capabilities.values()].sort((left, right) => compareCodeUnits(left.name, right.name)),
     get: (name) => capabilities.get(name),
     register: (capability) => {
       if (!CAPABILITY_NAMES.includes(capability.name)) {
@@ -2079,7 +2080,7 @@ function rankEvidenceNodes(
   const seedIds = new Set(seeds.map((node) => node.id));
   return [...nodes].sort((left, right) =>
     evidenceNodeScore(context, right, terms, seedIds, semanticScores) - evidenceNodeScore(context, left, terms, seedIds, semanticScores) ||
-    left.id.localeCompare(right.id),
+    compareCodeUnits(left.id, right.id),
   );
 }
 
@@ -2127,7 +2128,7 @@ function rankSeedNodes(
 ): readonly SoftwareGraphNode[] {
   return [...nodes].sort((left, right) =>
     seedResolutionScore(context, query, right, semanticScores) - seedResolutionScore(context, query, left, semanticScores) ||
-    left.id.localeCompare(right.id),
+    compareCodeUnits(left.id, right.id),
   );
 }
 
@@ -2374,7 +2375,7 @@ function mostConnected(context: CapabilityContext, types: readonly NodeType[], l
       type: node.type,
       degree: context.query.incoming(node.id).length + context.query.outgoing(node.id).length,
     }))
-    .sort((left, right) => Number(right.degree) - Number(left.degree) || String(left.nodeId).localeCompare(String(right.nodeId)))
+    .sort((left, right) => Number(right.degree) - Number(left.degree) || compareCodeUnits(String(left.nodeId), String(right.nodeId)))
     .slice(0, limit);
 }
 
@@ -2386,7 +2387,7 @@ function hotspotNodes(context: CapabilityContext, nodes: readonly SoftwareGraphN
       type: node.type,
       degree: context.query.incoming(node.id).length + context.query.outgoing(node.id).length,
     }))
-    .sort((left, right) => Number(right.degree) - Number(left.degree) || String(left.nodeId).localeCompare(String(right.nodeId)))
+    .sort((left, right) => Number(right.degree) - Number(left.degree) || compareCodeUnits(String(left.nodeId), String(right.nodeId)))
     .slice(0, limit);
 }
 
@@ -2556,7 +2557,7 @@ function compactJsonValue(value: unknown, depth: number, seen: WeakSet<object>):
     return Object.fromEntries(
       Object.entries(value as Record<string, unknown>)
         .filter(([, entry]) => entry !== undefined)
-        .sort(([left], [right]) => left.localeCompare(right))
+        .sort(([left], [right]) => compareCodeUnits(left, right))
         .slice(0, SERIALIZED_METADATA_ENTRY_LIMIT)
         .map(([key, entry]) => [key, compactJsonValue(entry, depth + 1, seen)])
         .filter(([, entry]) => entry !== undefined),
@@ -2604,7 +2605,7 @@ function countEdges(edges: readonly SoftwareGraphEdge[]): JsonObject {
   for (const edge of edges) {
     counts.set(edge.type, (counts.get(edge.type) ?? 0) + 1);
   }
-  return Object.fromEntries([...counts.entries()].sort(([left], [right]) => left.localeCompare(right)));
+  return Object.fromEntries([...counts.entries()].sort(([left], [right]) => compareCodeUnits(left, right)));
 }
 
 function uniqueNodes(nodes: readonly SoftwareGraphNode[]): readonly SoftwareGraphNode[] {
@@ -2624,11 +2625,11 @@ function uniqueEdges(edges: readonly SoftwareGraphEdge[]): readonly SoftwareGrap
 }
 
 function compareNodes(left: SoftwareGraphNode, right: SoftwareGraphNode): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareEdges(left: SoftwareGraphEdge, right: SoftwareGraphEdge): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function diagnostic(code: string, severity: DiagnosticSeverity, message: string): CapabilityDiagnostic {

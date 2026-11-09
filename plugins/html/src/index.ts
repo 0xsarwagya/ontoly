@@ -7,6 +7,7 @@ import type {
   SoftwareGraph,
   SourceSpan,
 } from "@0xsarwagya/ontoly-core";
+import { compareCodeUnits } from "@0xsarwagya/ontoly-core";
 
 export interface InteractiveHtmlGraphOptions {
   readonly title?: string | undefined;
@@ -1731,7 +1732,7 @@ function countBy(values: readonly string[]): Record<string, number> {
     counts[value] = (counts[value] ?? 0) + 1;
   }
 
-  return Object.fromEntries(Object.entries(counts).sort(([left], [right]) => left.localeCompare(right)));
+  return Object.fromEntries(Object.entries(counts).sort(([left], [right]) => compareCodeUnits(left, right)));
 }
 
 function escapeHtml(value: string): string {

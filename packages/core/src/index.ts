@@ -1,4 +1,4 @@
-export const SOFTWARE_GRAPH_VERSION = "1.0.0";
+export const SOFTWARE_GRAPH_VERSION = "2.0.0";
 
 export type JsonPrimitive = string | number | boolean | null;
 export type JsonValue = JsonPrimitive | JsonObject | JsonValue[];
@@ -275,8 +275,7 @@ export function stableStringify(value: unknown): string {
   return `${output}}`;
 }
 
-// Objects of one shape share a key order, so each shape is sorted once. ponytail: capped at 4,096 shapes;
-// objects keyed by data, like counts per type, mostly miss and sort as before.
+// Objects of one shape share a key order, so each of the first 4,096 shapes is sorted once.
 const sortedKeysByShape = new Map<string, readonly string[]>();
 
 function sortedKeys(record: Record<string, unknown>): readonly string[] {
@@ -284,7 +283,7 @@ function sortedKeys(record: Record<string, unknown>): readonly string[] {
   const shape = JSON.stringify(keys);
   let sorted = sortedKeysByShape.get(shape);
   if (!sorted) {
-    sorted = keys.sort((left, right) => left.localeCompare(right));
+    sorted = keys.sort(compareCodeUnits);
     if (sortedKeysByShape.size < 4096) {
       sortedKeysByShape.set(shape, sorted);
     }
@@ -292,15 +291,61 @@ function sortedKeys(record: Record<string, unknown>): readonly string[] {
   return sorted;
 }
 
-export function stableHash(input: string): string {
-  let hash = 0x811c9dc5;
+// Orders by UTF-16 code unit, like the default sort; localeCompare depends on the machine's locale.
+export function compareCodeUnits(left: string, right: string): number {
+  if (left < right) {
+    return -1;
+  }
+  return left > right ? 1 : 0;
+}
 
-  for (let index = 0; index < input.length; index += 1) {
-    hash ^= input.charCodeAt(index);
-    hash = Math.imul(hash, 0x01000193);
+const FNV64_OFFSET_HIGH = 0xcbf29ce4;
+const FNV64_OFFSET_LOW = 0x84222325;
+const FNV64_PRIME_LOW = 0x1b3;
+const HALF_WORD_BITS = 16;
+const HALF_WORD_MASK = 0xffff;
+
+// FNV-1a 64 over UTF-16 code units, as two 32-bit halves; update() calls concatenate.
+export class StableHasher {
+  #high = FNV64_OFFSET_HIGH;
+  #low = FNV64_OFFSET_LOW;
+
+  update(input: string): this {
+    let high = this.#high;
+    let low = this.#low;
+
+    for (let index = 0; index < input.length; index += 1) {
+      low ^= input.charCodeAt(index);
+      // Multiplies low in 16-bit halves so every product stays an exact integer.
+      const bottomProduct = (low & HALF_WORD_MASK) * FNV64_PRIME_LOW;
+      const topProduct = (low >>> HALF_WORD_BITS) * FNV64_PRIME_LOW + (bottomProduct >>> HALF_WORD_BITS);
+      // The prime is 2^40 + 0x1b3: its 2^40 term adds low, shifted 8 bits, to the high half.
+      high = (Math.imul(high, FNV64_PRIME_LOW) + (topProduct >>> HALF_WORD_BITS) + (low << 8)) | 0;
+      low = (topProduct << HALF_WORD_BITS) | (bottomProduct & HALF_WORD_MASK);
+    }
+
+    this.#high = high;
+    this.#low = low;
+    return this;
   }
 
-  return (hash >>> 0).toString(36).padStart(7, "0");
+  digest(): string {
+    return toHexWord(this.#high) + toHexWord(this.#low);
+  }
+}
+
+export function stableHash(input: string): string {
+  return new StableHasher().update(input).digest();
+}
+
+function toHexWord(word: number): string {
+  return (word >>> 0).toString(16).padStart(8, "0");
+}
+
+// The checkout path says where a graph was built, not what it is, so identity hashes leave it out.
+export function repositoryIdentity<T extends { readonly root: string }>(repository: T): Omit<T, "root"> {
+  const { root: _root, ...identity } = repository;
+  return identity;
 }
 
 export function createNodeId(input: CreateNodeIdInput): string {
@@ -444,7 +489,7 @@ export function createSoftwareGraph(input: CreateSoftwareGraphInput): SoftwareGr
   const indexes = buildIndexes(nodes, edges);
   const deterministicHash = stableHash(
     stableStringify({
-      repository: input.repository,
+      repository: repositoryIdentity(input.repository),
       nodes,
       edges,
       diagnostics,
@@ -620,7 +665,7 @@ function dedupeEvidence(evidence: readonly EdgeEvidence[]): readonly EdgeEvidenc
     }
   }
 
-  return deduped.sort((left, right) => stableStringify(left).localeCompare(stableStringify(right)));
+  return deduped.sort((left, right) => compareCodeUnits(stableStringify(left), stableStringify(right)));
 }
 
 function pushIndexValue<T extends string>(
@@ -644,7 +689,7 @@ function sortIndex<T extends string>(
 ): Partial<Record<T, readonly string[]>> {
   const sortedEntries = Object.entries(index)
     .map(([key, values]) => [key, [...(values as string[])].sort()] as const)
-    .sort(([left], [right]) => left.localeCompare(right));
+    .sort(([left], [right]) => compareCodeUnits(left, right));
 
   return Object.fromEntries(sortedEntries) as unknown as Partial<Record<T, readonly string[]>>;
 }
@@ -653,7 +698,7 @@ function sortRecord(index: Record<string, string[]>): Record<string, readonly st
   return Object.fromEntries(
     Object.entries(index)
       .map(([key, values]) => [key, [...values].sort()] as const)
-      .sort(([left], [right]) => left.localeCompare(right)),
+      .sort(([left], [right]) => compareCodeUnits(left, right)),
   );
 }
 
@@ -665,24 +710,24 @@ function summarizeCounts(values: readonly string[]): string {
   }
 
   return [...counts.entries()]
-    .sort(([left], [right]) => left.localeCompare(right))
+    .sort(([left], [right]) => compareCodeUnits(left, right))
     .map(([value, count]) => `${value} ${count}`)
     .join(", ");
 }
 
 function compareNodes(left: SoftwareGraphNode, right: SoftwareGraphNode): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareEdges(left: SoftwareGraphEdge, right: SoftwareGraphEdge): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareDiagnostics(
   left: SoftwareGraphDiagnostic,
   right: SoftwareGraphDiagnostic,
 ): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function withOptionalProperties<T extends object, O extends object>(target: T, optional: O): T & O {

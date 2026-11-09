@@ -1,4 +1,5 @@
 import {
+  compareCodeUnits,
   NODE_TYPES,
   RELATIONSHIP_TYPES,
   SOFTWARE_GRAPH_VERSION,
@@ -237,11 +238,11 @@ function duplicateValues(values: readonly string[]): readonly string[] {
 }
 
 function compareIssues(left: GraphValidationIssue, right: GraphValidationIssue): number {
-  const codeComparison = left.code.localeCompare(right.code);
+  const codeComparison = compareCodeUnits(left.code, right.code);
 
   if (codeComparison !== 0) {
     return codeComparison;
   }
 
-  return left.message.localeCompare(right.message);
+  return compareCodeUnits(left.message, right.message);
 }

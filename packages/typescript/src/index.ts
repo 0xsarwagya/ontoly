@@ -2,6 +2,7 @@ import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, extname, isAbsolute, join, relative, resolve } from "node:path";
 import ts from "typescript";
 import {
+  compareCodeUnits,
   createDiagnosticId,
   createNodeId,
   normalizePath,
@@ -478,7 +479,7 @@ export function analyzeTypeScriptProject(input: AnalyzeTypeScriptProjectInput): 
   const files = (input.files ?? listSourceFiles(root, allowJavaScript))
     .filter((file) => isSupportedSourcePath(file, allowJavaScript))
     .map((file) => resolve(root, file))
-    .sort((left, right) => left.localeCompare(right));
+    .sort(compareCodeUnits);
   const fileSet = new Set(files.map((file) => normalizePath(resolve(file))));
   const compilerOptions: ts.CompilerOptions = {
     target: ts.ScriptTarget.ES2022,
@@ -496,7 +497,7 @@ export function analyzeTypeScriptProject(input: AnalyzeTypeScriptProjectInput): 
     .getSourceFiles()
     .filter((sourceFile) => !sourceFile.isDeclarationFile)
     .filter((sourceFile) => fileSet.has(normalizePath(resolve(sourceFile.fileName))))
-    .sort((left, right) => toRelativePath(root, left.fileName).localeCompare(toRelativePath(root, right.fileName)));
+    .sort((left, right) => compareCodeUnits(toRelativePath(root, left.fileName), toRelativePath(root, right.fileName)));
   const relativeFiles = new Set(sourceFiles.map((sourceFile) => toRelativePath(root, sourceFile.fileName)));
   const symbols = new Map<string, TypeScriptSymbol>();
   const diagnostics: SoftwareGraphDiagnostic[] = [];
@@ -754,7 +755,7 @@ export function validateTypeScriptSemanticModel(project: TypeScriptProject): Typ
 
   return {
     ok: issues.every((issue) => issue.severity !== "error"),
-    issues: issues.sort((left, right) => left.code.localeCompare(right.code) || left.message.localeCompare(right.message)),
+    issues: issues.sort((left, right) => compareCodeUnits(left.code, right.code) || compareCodeUnits(left.message, right.message)),
   };
 }
 
@@ -2729,7 +2730,7 @@ function normalizeProject(project: TypeScriptProject): TypeScriptProject {
     creates: [...project.creates].sort(compareById),
     throws: [...project.throws].sort(compareById),
     environmentAccesses: [...project.environmentAccesses].sort(compareById),
-    diagnostics: [...project.diagnostics].sort((left, right) => left.id.localeCompare(right.id)),
+    diagnostics: [...project.diagnostics].sort((left, right) => compareCodeUnits(left.id, right.id)),
   };
 }
 
@@ -2768,7 +2769,7 @@ function listSourceFiles(root: string, allowJavaScript: boolean): readonly strin
   ]);
   const files: string[] = [];
   const visit = (directory: string): void => {
-    for (const entry of readdirSync(directory, { withFileTypes: true }).sort((left, right) => left.name.localeCompare(right.name))) {
+    for (const entry of readdirSync(directory, { withFileTypes: true }).sort((left, right) => compareCodeUnits(left.name, right.name))) {
       if (ignored.has(entry.name)) {
         continue;
       }
@@ -2951,19 +2952,19 @@ function dedupeDiagnostics(diagnostics: readonly SoftwareGraphDiagnostic[]): rea
 }
 
 function compareSourceFiles(left: TypeScriptSourceFile, right: TypeScriptSourceFile): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareSymbols(left: TypeScriptSymbol, right: TypeScriptSymbol): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareById(left: { readonly id: string }, right: { readonly id: string }): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareImportBindings(left: TypeScriptImportBinding, right: TypeScriptImportBinding): number {
-  return importBindingText(left).localeCompare(importBindingText(right));
+  return compareCodeUnits(importBindingText(left), importBindingText(right));
 }
 
 function withOptionalProperties<T extends object, O extends object>(target: T, optional: O): T & O {

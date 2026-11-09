@@ -1,7 +1,10 @@
 import { readdir, readFile, stat } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import {
+  compareCodeUnits,
+  repositoryIdentity,
   SOFTWARE_GRAPH_VERSION,
+  StableHasher,
   stableHash,
   stableStringify,
   type GraphIndexes,
@@ -414,7 +417,7 @@ export function createArtifact<T extends JsonValue>(input: {
   const inputArtifactHashes = Object.fromEntries(
     [...(input.dependencies ?? [])]
       .map((artifact) => [artifact.descriptor.id, artifact.hash] as const)
-      .sort(([left], [right]) => left.localeCompare(right)),
+      .sort(([left], [right]) => compareCodeUnits(left, right)),
   );
   const dependencies = Object.keys(inputArtifactHashes).sort();
   const provenance: ArtifactProvenance = {
@@ -834,7 +837,7 @@ export function defaultEnhancerCacheKey(enhancer: Enhancer, context: EnhancerCon
     .map((requirement) => context.artifacts.get(requirement.artifact))
     .filter(isArtifact)
     .map((artifact) => [artifact.descriptor.id, artifact.hash] as const)
-    .sort(([left], [right]) => left.localeCompare(right));
+    .sort(([left], [right]) => compareCodeUnits(left, right));
 
   return stableHash(stableStringify({
     api: ENHANCER_API_VERSION,
@@ -924,7 +927,7 @@ export async function discoverEnhancerManifests(options: DiscoverEnhancerOptions
     }
   }
 
-  return discovered.sort((left, right) => left.path.localeCompare(right.path));
+  return discovered.sort((left, right) => compareCodeUnits(left.path, right.path));
 }
 
 export async function readEnhancerManifest(path: string): Promise<EnhancerManifest> {
@@ -1097,7 +1100,7 @@ function graphArtifactReference(graph: SoftwareGraph): JsonObject {
   return {
     artifact: "SoftwareGraph",
     version: graph.version,
-    repository: graph.repository as unknown as JsonValue,
+    repository: repositoryIdentity(graph.repository) as unknown as JsonValue,
     graphHash: graph.metadata.deterministicHash,
     generatedAt: graph.metadata.generatedAt,
     statistics: graphStatistics(graph),
@@ -1109,7 +1112,7 @@ function semanticIndexArtifactReference(index: SemanticIndex): JsonObject {
     artifact: "SemanticIndex",
     version: index.version,
     graphHash: index.graphHash,
-    repository: index.repository as unknown as JsonValue,
+    repository: repositoryIdentity(index.repository) as unknown as JsonValue,
     deterministicHash: index.metadata.deterministicHash,
     statistics: index.metadata.statistics as unknown as JsonValue,
   };
@@ -1175,57 +1178,56 @@ function escapeMermaid(value: string): string {
 }
 
 function compareEnhancers(left: Enhancer, right: Enhancer): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareDescriptors(left: ArtifactDescriptor, right: ArtifactDescriptor): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareArtifacts(left: OntolyArtifact, right: OntolyArtifact): number {
-  return left.descriptor.id.localeCompare(right.descriptor.id);
+  return compareCodeUnits(left.descriptor.id, right.descriptor.id);
 }
 
 function compareRequirements(left: EnhancerRequirement, right: EnhancerRequirement): number {
-  return left.artifact.localeCompare(right.artifact);
+  return compareCodeUnits(left.artifact, right.artifact);
 }
 
 function compareEdges(left: EnhancerDependencyEdge, right: EnhancerDependencyEdge): number {
-  return `${left.from}:${left.to}:${left.reason}`.localeCompare(`${right.from}:${right.to}:${right.reason}`);
+  return compareCodeUnits(`${left.from}:${left.to}:${left.reason}`, `${right.from}:${right.to}:${right.reason}`);
 }
 
 function compareIssues(left: EnhancerValidationIssue, right: EnhancerValidationIssue): number {
-  return `${left.severity}:${left.code}:${left.enhancerId ?? ""}:${left.artifactId ?? ""}:${left.message}`
-    .localeCompare(`${right.severity}:${right.code}:${right.enhancerId ?? ""}:${right.artifactId ?? ""}:${right.message}`);
+  return compareCodeUnits(`${left.severity}:${left.code}:${left.enhancerId ?? ""}:${left.artifactId ?? ""}:${left.message}`, `${right.severity}:${right.code}:${right.enhancerId ?? ""}:${right.artifactId ?? ""}:${right.message}`);
 }
 
 function compareDiagnostics(left: SoftwareGraphDiagnostic, right: SoftwareGraphDiagnostic): number {
-  return left.id.localeCompare(right.id);
+  return compareCodeUnits(left.id, right.id);
 }
 
 function compareExecutions(left: EnhancerExecution, right: EnhancerExecution): number {
-  return left.enhancerId.localeCompare(right.enhancerId);
+  return compareCodeUnits(left.enhancerId, right.enhancerId);
 }
 
 function isArtifact(value: OntolyArtifact | undefined): value is OntolyArtifact {
   return Boolean(value);
 }
 
-const FNV_OFFSET_BASIS = 0x811c9dc5;
-const FNV_PRIME = 0x01000193;
-
 function stableJsonHash(value: unknown): string {
-  return formatStableHash(updateStableJsonHash(FNV_OFFSET_BASIS, value, new WeakSet<object>(), "$"));
+  const hasher = new StableHasher();
+  updateStableJsonHash(hasher, value, new WeakSet<object>(), "$");
+  return hasher.digest();
 }
 
 function updateStableJsonHash(
-  hash: number,
+  hasher: StableHasher,
   value: unknown,
   seen: WeakSet<object>,
   path: string,
-): number {
+): void {
   if (value === null || typeof value !== "object") {
-    return updateStableHashString(hash, JSON.stringify(value) ?? "null");
+    hasher.update(JSON.stringify(value) ?? "null");
+    return;
   }
 
   if (seen.has(value)) {
@@ -1234,44 +1236,32 @@ function updateStableJsonHash(
   seen.add(value);
 
   if (Array.isArray(value)) {
-    let nextHash = updateStableHashString(hash, "[");
+    hasher.update("[");
     for (let index = 0; index < value.length; index += 1) {
       if (index > 0) {
-        nextHash = updateStableHashString(nextHash, ",");
+        hasher.update(",");
       }
-      nextHash = updateStableJsonHash(nextHash, value[index], seen, `${path}[${index}]`);
+      updateStableJsonHash(hasher, value[index], seen, `${path}[${index}]`);
     }
     seen.delete(value);
-    return updateStableHashString(nextHash, "]");
+    hasher.update("]");
+    return;
   }
 
   const entries = Object.entries(value as Record<string, unknown>)
     .filter(([, entryValue]) => entryValue !== undefined)
-    .sort(([left], [right]) => left.localeCompare(right));
-  let nextHash = updateStableHashString(hash, "{");
+    .sort(([left], [right]) => compareCodeUnits(left, right));
+  hasher.update("{");
   for (let index = 0; index < entries.length; index += 1) {
     const [key, entryValue] = entries[index]!;
     if (index > 0) {
-      nextHash = updateStableHashString(nextHash, ",");
+      hasher.update(",");
     }
-    nextHash = updateStableHashString(nextHash, `${JSON.stringify(key)}:`);
-    nextHash = updateStableJsonHash(nextHash, entryValue, seen, `${path}.${key}`);
+    hasher.update(`${JSON.stringify(key)}:`);
+    updateStableJsonHash(hasher, entryValue, seen, `${path}.${key}`);
   }
   seen.delete(value);
-  return updateStableHashString(nextHash, "}");
-}
-
-function updateStableHashString(hash: number, value: string): number {
-  let nextHash = hash;
-  for (let index = 0; index < value.length; index += 1) {
-    nextHash ^= value.charCodeAt(index);
-    nextHash = Math.imul(nextHash, FNV_PRIME);
-  }
-  return nextHash;
-}
-
-function formatStableHash(hash: number): string {
-  return (hash >>> 0).toString(36).padStart(7, "0");
+  hasher.update("}");
 }
 
 function deepFreeze<T>(value: T): T {

@@ -1,8 +1,9 @@
 import { execFile } from "node:child_process";
+import { createHash } from "node:crypto";
 import { access, lstat, readFile, readdir } from "node:fs/promises";
 import { basename, dirname, join, relative, resolve } from "node:path";
 import { promisify } from "node:util";
-import { normalizePath, stableHash } from "@0xsarwagya/ontoly-core";
+import { compareCodeUnits, normalizePath } from "@0xsarwagya/ontoly-core";
 import type { RepositoryDiscovery, SourceArtifact, SourceInventory, SourceProvider } from "../types";
 import { runDeterministicTasks } from "../execution";
 
@@ -82,17 +83,15 @@ export async function createSourceInventory(
 ): Promise<SourceInventory> {
   if (provider) {
     const sources = provider.listFiles().map((file): SourceArtifact => {
-      const contents = provider.readFile(file) ?? "";
-
       return {
         path: file,
         kind: classifySource(file),
-        digest: `sha256:${stableHash(contents)}`,
+        digest: sha256Digest(provider.readFile(file) ?? ""),
       };
     });
 
     return {
-      sources: sources.sort((left, right) => left.path.localeCompare(right.path)),
+      sources: sources.sort((left, right) => compareCodeUnits(left.path, right.path)),
     };
   }
 
@@ -100,20 +99,22 @@ export async function createSourceInventory(
   const sources = await runDeterministicTasks(
     files,
     async (file): Promise<SourceArtifact> => {
-      const contents = await readFile(join(root, file), "utf8");
-
       return {
         path: file,
         kind: classifySource(file),
-        digest: `sha256:${stableHash(contents)}`,
+        digest: sha256Digest(await readFile(join(root, file))),
       };
     },
     workers,
   );
 
   return {
-    sources: [...sources].sort((left, right) => left.path.localeCompare(right.path)),
+    sources: [...sources].sort((left, right) => compareCodeUnits(left.path, right.path)),
   };
+}
+
+function sha256Digest(contents: string | Buffer): string {
+  return `sha256:${createHash("sha256").update(contents).digest("hex")}`;
 }
 
 function discoverFromProvider(root: string, provider: SourceProvider): RepositoryDiscovery {
@@ -193,7 +194,7 @@ async function discoverFiles(root: string, extraIgnored: readonly string[] = [])
   const walk = async (directory: string): Promise<void> => {
     const entries = await readdir(directory, { withFileTypes: true });
 
-    for (const entry of entries.sort((left, right) => left.name.localeCompare(right.name))) {
+    for (const entry of entries.sort((left, right) => compareCodeUnits(left.name, right.name))) {
       const absolute = join(directory, entry.name);
       const relativePath = normalizePath(relative(root, absolute));
 
