@@ -1,13 +1,13 @@
 ---
 title: "Compatibility Matrix"
-description: "Runtime, package, Software Graph, Agent Skill, MCP, CLI, and release compatibility for Ontoly v1.3.5."
+description: "Runtime, package, Software Graph, Agent Skill, MCP, CLI, and release compatibility for Ontoly v1.3.6."
 ---
 
 ## Runtime
 
 | Surface | Version | Status |
 | ------- | ------- | ------ |
-| Ontoly packages | 1.3.5 | Stable |
+| Ontoly packages | 1.3.6 | Stable |
 | Node.js | ≥ 22 | Required |
 | pnpm | ≥ 10 | Required for source builds |
 | Package module format | ESM | Supported |

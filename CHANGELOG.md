@@ -2,7 +2,7 @@
 
 All notable Ontoly changes are tracked here.
 
-## Unreleased
+## 1.3.6
 
 ### Fixed
 
